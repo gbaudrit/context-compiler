@@ -1,0 +1,22 @@
+{
+  "personas": {
+    "active": [
+      "dev_architect",
+      "security_reviewer"
+    ],
+    "mode": "append",
+    "params": {
+      "dev_architect": {
+        "language": "en",
+        "tone": "direct",
+        "output": {
+          "format": "markdown",
+          "includeExamples": true
+        }
+      },
+      "security_reviewer": {
+        "severityBias": "high"
+      }
+    }
+  }
+}

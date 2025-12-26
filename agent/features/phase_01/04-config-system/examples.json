@@ -1,0 +1,83 @@
+{
+  "context": {
+    "enabled": true,
+    "project": {
+      "name": "Context Compiler",
+      "summary": "Pre-LLM deterministic context compiler.",
+      "domain": "context-engineering",
+      "audience": [
+        "dev",
+        "tech-lead",
+        "security"
+      ]
+    },
+    "objectives": [
+      "Compile heterogeneous inputs into governed reasoning context.",
+      "Preserve traceability via Evidence IDs (EK/ER)."
+    ],
+    "constraints": {
+      "must": [
+        "Preserve Evidence IDs verbatim."
+      ],
+      "mustNot": [
+        "Invent facts or identifiers."
+      ]
+    }
+  },
+  "personas": {
+    "active": [
+      "dev_architect"
+    ],
+    "mode": "append",
+    "params": {
+      "dev_architect": {
+        "language": "en",
+        "style": "direct"
+      }
+    }
+  },
+  "excel": {
+    "defaults": {
+      "maxRows": 2000,
+      "trimCells": true,
+      "emptyRowPolicy": "skip",
+      "header": {
+        "mode": "firstRow",
+        "normalize": true
+      }
+    },
+    "files": [
+      {
+        "match": "**/Reporting/*.xlsx",
+        "extracts": [
+          {
+            "id": "kpi_fr",
+            "sheet": "KPI",
+            "table": "tbl_kpi",
+            "select": [
+              "Date",
+              "Region",
+              "Revenue",
+              "Margin"
+            ],
+            "where": [
+              {
+                "col": "Region",
+                "op": "eq",
+                "value": "FR"
+              }
+            ],
+            "rename": {
+              "Revenue": "rev",
+              "Margin": "mrg"
+            },
+            "fragmenting": {
+              "mode": "chunks",
+              "maxRows": 200
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

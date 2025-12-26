@@ -6,6 +6,9 @@ using ContextCompiler.Core.Pipelines;
 using ContextCompiler.Infrastructure.FileSystem;
 using ContextCompiler.Infrastructure.Hashing;
 using ContextCompiler.Infrastructure.PluginLoading;
+using ContextCompiler.Host.Cli;
+using ContextCompiler.Host.Cli.Handlers;
+using ContextCompiler.Infrastructure.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -18,34 +21,35 @@ static ServiceProvider BuildServices()
         typeof(ContextCompiler.Plugins.BuiltIn.BuiltInMetadata).Assembly
     };
 
-    var registry = PluginRegistryBuilder.FromAssemblies(assemblies);
-
-    return new ServiceCollection()
+    var services = new ServiceCollection()
         .AddLogging(b => b.AddSimpleConsole(o => o.SingleLine = true))
         .AddSingleton<IFileSystem, PhysicalFileSystem>()
         .AddSingleton<IHasher, DefaultHasher>()
-        .AddSingleton<IPluginRegistry>(registry)
+        .AddSingleton<ContextCompiler.Abstractions.Configuration.ICtxcConfigProvider, JsonCtxcConfigProvider>()
+        .AddSingleton<ContextCompiler.Abstractions.Configuration.IConfigLocator, DefaultConfigLocator>()
         .AddSingleton<ICompilerEngine, CompilerEngine>()
-        .BuildServiceProvider();
+        // CLI handlers
+        .AddSingleton<ICtxcCompileHandler, CtxcCompileHandler>()
+        .AddSingleton<ICtxcDiffHandler, CtxcDiffHandler>()
+        .AddSingleton<ICtxcExplainHandler, CtxcExplainHandler>()
+        .AddSingleton<ICtxcHealthHandler, CtxcHealthHandler>()
+        .AddSingleton<ICtxcViewsListHandler, CtxcViewsListHandler>()
+        .AddSingleton<ICtxcViewsRenderHandler, CtxcViewsRenderHandler>()
+        .AddSingleton<ICtxcGuardsReportHandler, CtxcGuardsReportHandler>()
+        .AddSingleton<ICtxcPluginsListHandler, CtxcPluginsListHandler>()
+        .AddSingleton<ICtxcPluginsAddHandler, CtxcPluginsAddHandler>()
+        .AddSingleton<ICtxcPluginsRemoveHandler, CtxcPluginsRemoveHandler>()
+        .AddSingleton<ICtxcGraphExportHandler, CtxcGraphExportHandler>();
+
+    // Register plugin types as transient services
+    PluginRegistryBuilder.RegisterPluginServices(services, assemblies);
+
+    // Register registry that resolves plugins on demand from the shared ServiceProvider
+    services.AddSingleton<IPluginRegistry>(sp => new PluginRegistry(sp));
+
+    return services.BuildServiceProvider();
 }
 
-var root = new RootCommand("Context Compiler CLI (ctxc)");
-
-var compile = new Command("compile", "Compile context into reasoning artifacts");
-var inputOpt = new Option<string>("--input") { IsRequired = true };
-var outputOpt = new Option<string>("--output") { IsRequired = true };
-var maxChars = new Option<int>("--max-chars", () => 120_000, "Maximum characters in prompt.context.md");
-compile.AddOption(inputOpt);
-compile.AddOption(outputOpt);
-compile.AddOption(maxChars);
-
-compile.SetHandler(async (input, output, max) =>
-{
-    using var sp = BuildServices();
-    var engine = sp.GetRequiredService<ICompilerEngine>();
-    var rc = await engine.CompileAsync(new CompileRequest(input, output, new CompileOptions(MaxCharacters: max)), CancellationToken.None);
-    Environment.ExitCode = rc;
-}, inputOpt, outputOpt, maxChars);
-
-root.AddCommand(compile);
+var sp = BuildServices();
+var root = ContextCompiler.Host.Cli.CliCommandFactory.Create(sp);
 return await root.InvokeAsync(args);

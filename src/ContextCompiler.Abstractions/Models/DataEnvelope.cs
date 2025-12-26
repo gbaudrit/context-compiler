@@ -5,7 +5,8 @@ public enum DataShape
     Linear,
     Tabular,
     Hierarchical,
-    KeyBased
+    KeyBased,
+    Composite
 }
 
 public sealed record DataEnvelope(

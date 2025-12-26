@@ -12,4 +12,5 @@ public interface IPluginRegistry
     IReadOnlyList<IViewPlugin> Views { get; }
     IReadOnlyList<ITemplatePlugin> Templates { get; }
     IReadOnlyList<IGraphExporterPlugin> GraphExporters { get; }
+    IReadOnlyList<IPersonaPlugin> Personas { get; }
 }

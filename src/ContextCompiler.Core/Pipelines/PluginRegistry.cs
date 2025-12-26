@@ -1,15 +1,24 @@
 using ContextCompiler.Abstractions.Plugins;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace ContextCompiler.Core.Pipelines;
 
 public sealed class PluginRegistry : IPluginRegistry
 {
-    public IReadOnlyList<IFileReaderPlugin> FileReaders { get; init; } = Array.Empty<IFileReaderPlugin>();
-    public IReadOnlyList<IDataReaderPlugin> DataReaders { get; init; } = Array.Empty<IDataReaderPlugin>();
-    public IReadOnlyList<IEngineeringModulePlugin> EngineeringModules { get; init; } = Array.Empty<IEngineeringModulePlugin>();
-    public IReadOnlyList<ITranscoderPlugin> Transcoders { get; init; } = Array.Empty<ITranscoderPlugin>();
-    public IReadOnlyList<IGuardPlugin> Guards { get; init; } = Array.Empty<IGuardPlugin>();
-    public IReadOnlyList<IViewPlugin> Views { get; init; } = Array.Empty<IViewPlugin>();
-    public IReadOnlyList<ITemplatePlugin> Templates { get; init; } = Array.Empty<ITemplatePlugin>();
-    public IReadOnlyList<IGraphExporterPlugin> GraphExporters { get; init; } = Array.Empty<IGraphExporterPlugin>();
+    private readonly IServiceProvider _services;
+
+    public PluginRegistry(IServiceProvider services)
+    {
+        _services = services;
+    }
+
+    public IReadOnlyList<IFileReaderPlugin> FileReaders => _services.GetServices<IFileReaderPlugin>().ToList();
+    public IReadOnlyList<IDataReaderPlugin> DataReaders => _services.GetServices<IDataReaderPlugin>().ToList();
+    public IReadOnlyList<IEngineeringModulePlugin> EngineeringModules => _services.GetServices<IEngineeringModulePlugin>().ToList();
+    public IReadOnlyList<ITranscoderPlugin> Transcoders => _services.GetServices<ITranscoderPlugin>().ToList();
+    public IReadOnlyList<IGuardPlugin> Guards => _services.GetServices<IGuardPlugin>().ToList();
+    public IReadOnlyList<IViewPlugin> Views => _services.GetServices<IViewPlugin>().ToList();
+    public IReadOnlyList<ITemplatePlugin> Templates => _services.GetServices<ITemplatePlugin>().ToList();
+    public IReadOnlyList<IGraphExporterPlugin> GraphExporters => _services.GetServices<IGraphExporterPlugin>().ToList();
+    public IReadOnlyList<IPersonaPlugin> Personas => _services.GetServices<IPersonaPlugin>().ToList();
 }

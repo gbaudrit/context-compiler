@@ -36,6 +36,41 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{99A3087A-DCE3-4F65-BA47-5E52B5DFED6A}"
+	ProjectSection(SolutionItems) = preProject
+		docs\AGENT-CODEGEN.md = docs\AGENT-CODEGEN.md
+		docs\AGENT-RULES.md = docs\AGENT-RULES.md
+		docs\ARCHITECTURE.md = docs\ARCHITECTURE.md
+		docs\CLI.md = docs\CLI.md
+		docs\CONTEXT.md = docs\CONTEXT.md
+		docs\EVIDENCE-SYSTEM.md = docs\EVIDENCE-SYSTEM.md
+		docs\GLOSSARY.md = docs\GLOSSARY.md
+		docs\GUARDS.md = docs\GUARDS.md
+		docs\MCP-INTEGRATION.md = docs\MCP-INTEGRATION.md
+		docs\OUTPUTS.md = docs\OUTPUTS.md
+		docs\PIPELINES.md = docs\PIPELINES.md
+		docs\PLUGINS.md = docs\PLUGINS.md
+		docs\REASONING-IR.md = docs\REASONING-IR.md
+		docs\ROADMAP.md = docs\ROADMAP.md
+		docs\VIEWS-TEMPLATES.md = docs\VIEWS-TEMPLATES.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "agent", "agent", "{40B7B163-BD2A-4365-A009-0BFCD8802A54}"
+	ProjectSection(SolutionItems) = preProject
+		agent\03-DESIGN-TECHNIQUE.md = agent\03-DESIGN-TECHNIQUE.md
+		agent\04-IMPLEMENTATION-EXCEL.md = agent\04-IMPLEMENTATION-EXCEL.md
+		agent\05-TRANSCODING-FRAGMENTING.md = agent\05-TRANSCODING-FRAGMENTING.md
+		agent\06-TESTS-DOCS-MADR.md = agent\06-TESTS-DOCS-MADR.md
+		agent\PERSONA-PLUGIN-AGENT-STEPS.md = agent\PERSONA-PLUGIN-AGENT-STEPS.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "global_context", "global_context", "{E5102BC6-39EA-4171-9AE4-26D22C838678}"
+	ProjectSection(SolutionItems) = preProject
+		agent\global_context\ctxc.config.example.json = agent\global_context\ctxc.config.example.json
+		agent\global_context\ctxc.config.schema.json = agent\global_context\ctxc.config.schema.json
+		agent\global_context\GLOBAL-CONTEXT.md = agent\global_context\GLOBAL-CONTEXT.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -89,6 +124,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{99A3087A-DCE3-4F65-BA47-5E52B5DFED6A} = {A5065593-A2C0-4970-A3C6-0EC3C6464EA9}
+		{40B7B163-BD2A-4365-A009-0BFCD8802A54} = {A5065593-A2C0-4970-A3C6-0EC3C6464EA9}
+		{E5102BC6-39EA-4171-9AE4-26D22C838678} = {40B7B163-BD2A-4365-A009-0BFCD8802A54}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E59B7756-7651-4176-ABF1-8E66BF843C28}
