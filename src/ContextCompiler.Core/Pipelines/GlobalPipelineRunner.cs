@@ -1,10 +1,13 @@
+using System.Globalization;
 using System.Text.Json;
+
+using ContextCompiler.Abstractions.Configuration;
 using ContextCompiler.Abstractions.Diagnostics;
 using ContextCompiler.Abstractions.Models;
 using ContextCompiler.Abstractions.Plugins;
 using ContextCompiler.Abstractions.Ports;
 using ContextCompiler.Core.ReasoningIR;
-using ContextCompiler.Abstractions.Configuration;
+
 using Microsoft.Extensions.Logging;
 
 namespace ContextCompiler.Core.Pipelines;
@@ -22,6 +25,8 @@ public sealed class GlobalPipelineRunner(
     IPluginRegistry plugins,
     CtxcConfig cfg)
 {
+    private static readonly JsonSerializerOptions s_jsonIndentedOptions = new() { WriteIndented = true };
+
     public async Task<GlobalCompileOutputs> RunAsync(
         string rootPath,
         string outputPath,
@@ -58,12 +63,13 @@ public sealed class GlobalPipelineRunner(
         var personasMeta = new List<object>();
         if (cfg.Personas is not null && cfg.Personas.Active.Count > 0)
         {
+            personaFraming = "# Persona (roles)";
             foreach (var id in cfg.Personas.Active)
             {
                 var plugin = plugins.Personas.FirstOrDefault(p => string.Equals(p.PersonaId, id, StringComparison.Ordinal));
                 if (plugin is null)
                 {
-                    logger.LogWarning("Persona not found: {id}", id);
+                    logger.LogWarning("Persona not found: {Id}", id);
                     continue;
                 }
                 IReadOnlyDictionary<string, object>? inputs = null;
@@ -138,9 +144,9 @@ public sealed class GlobalPipelineRunner(
             source = new { path = f.Source.Path, locator = f.Source.Locator },
             tags = f.Tags
         }).ToList();
-        WriteArtifact("evidence.index.json", JsonSerializer.Serialize(evidenceIndex, new JsonSerializerOptions { WriteIndented = true }));
+        WriteArtifact("evidence.index.json", JsonSerializer.Serialize(evidenceIndex, s_jsonIndentedOptions));
 
-        WriteArtifact("reasoning.graph.json", JsonSerializer.Serialize(graph, new JsonSerializerOptions { WriteIndented = true }));
+        WriteArtifact("reasoning.graph.json", JsonSerializer.Serialize(graph, s_jsonIndentedOptions));
 
         var secMd = "# Security Report\n\n" + (findings.Count == 0 ? "No findings." :
             string.Join("\n", findings.Select(f => $"- **{f.Severity}** `{f.GuardId}` ({f.Action}): {f.Message} — `{f.Source.Path}`")));
@@ -153,7 +159,7 @@ public sealed class GlobalPipelineRunner(
             views = views.Count,
             score = Math.Max(0, 100 - findings.Count * 5)
         };
-        WriteArtifact("context.health.json", JsonSerializer.Serialize(health, new JsonSerializerOptions{WriteIndented=true}));
+        WriteArtifact("context.health.json", JsonSerializer.Serialize(health, s_jsonIndentedOptions));
 
         foreach (var exp in plugins.GraphExporters.OrderBy(e => e.Metadata.Priority))
         {
@@ -167,7 +173,7 @@ public sealed class GlobalPipelineRunner(
         if (!string.IsNullOrEmpty(personaFraming))
         {
             WriteArtifact("persona.framing.md", personaFraming);
-            WriteArtifact("personas.active.json", JsonSerializer.Serialize(new { active = cfg.Personas!.Active, mode = cfg.Personas.Mode, results = personasMeta }, new JsonSerializerOptions { WriteIndented = true }));
+            WriteArtifact("personas.active.json", JsonSerializer.Serialize(new { active = cfg.Personas!.Active, mode = cfg.Personas.Mode, results = personasMeta }, s_jsonIndentedOptions));
         }
 
         // Preflight
@@ -191,9 +197,9 @@ public sealed class GlobalPipelineRunner(
         if (ctx.Project is not null)
         {
             sb.AppendLine("# Project");
-            if (!string.IsNullOrWhiteSpace(ctx.Project.Name)) sb.AppendLine($"- Name: {ctx.Project.Name}");
-            if (!string.IsNullOrWhiteSpace(ctx.Project.Summary)) sb.AppendLine($"- Summary: {ctx.Project.Summary}");
-            if (!string.IsNullOrWhiteSpace(ctx.Project.Domain)) sb.AppendLine($"- Domain: {ctx.Project.Domain}");
+            if (!string.IsNullOrWhiteSpace(ctx.Project.Name)) sb.AppendLine(CultureInfo.InvariantCulture, $"- Name: {ctx.Project.Name}");
+            if (!string.IsNullOrWhiteSpace(ctx.Project.Summary)) sb.AppendLine(CultureInfo.InvariantCulture, $"- Summary: {ctx.Project.Summary}");
+            if (!string.IsNullOrWhiteSpace(ctx.Project.Domain)) sb.AppendLine(CultureInfo.InvariantCulture, $"- Domain: {ctx.Project.Domain}");
             if (ctx.Project.Audience is not null && ctx.Project.Audience.Count > 0)
                 sb.AppendLine("- Audience: " + string.Join(", ", ctx.Project.Audience));
             sb.AppendLine();
@@ -228,19 +234,19 @@ public sealed class GlobalPipelineRunner(
         if (ctx.Glossary is not null && ctx.Glossary.Count > 0)
         {
             sb.AppendLine("# Glossary");
-            foreach (var kv in ctx.Glossary) sb.AppendLine($"- {kv.Key}: {kv.Value}");
+            foreach (var kv in ctx.Glossary) sb.AppendLine(CultureInfo.InvariantCulture, $"- {kv.Key}: {kv.Value}");
             sb.AppendLine();
         }
         if (ctx.OutputContract is not null)
         {
             sb.AppendLine("# Output Contract");
-            if (!string.IsNullOrWhiteSpace(ctx.OutputContract.Format)) sb.AppendLine($"- Format: {ctx.OutputContract.Format}");
+            if (!string.IsNullOrWhiteSpace(ctx.OutputContract.Format)) sb.AppendLine(CultureInfo.InvariantCulture, $"- Format: {ctx.OutputContract.Format}");
             if (ctx.OutputContract.Sections is not null && ctx.OutputContract.Sections.Count > 0)
                 sb.AppendLine("- Sections: " + string.Join(", ", ctx.OutputContract.Sections));
             if (ctx.OutputContract.Style is not null)
             {
-                if (!string.IsNullOrWhiteSpace(ctx.OutputContract.Style.Tone)) sb.AppendLine($"- Tone: {ctx.OutputContract.Style.Tone}");
-                if (!string.IsNullOrWhiteSpace(ctx.OutputContract.Style.Language)) sb.AppendLine($"- Language: {ctx.OutputContract.Style.Language}");
+                if (!string.IsNullOrWhiteSpace(ctx.OutputContract.Style.Tone)) sb.AppendLine(CultureInfo.InvariantCulture, $"- Tone: {ctx.OutputContract.Style.Tone}");
+                if (!string.IsNullOrWhiteSpace(ctx.OutputContract.Style.Language)) sb.AppendLine(CultureInfo.InvariantCulture, $"- Language: {ctx.OutputContract.Style.Language}");
             }
             sb.AppendLine();
         }

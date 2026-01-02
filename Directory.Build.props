@@ -11,7 +11,7 @@
     <LangVersion>preview</LangVersion>
 
     <!-- Analyzers -->
-    <AnalysisLevel>latest</AnalysisLevel>
+	<AnalysisLevel>latest-recommended</AnalysisLevel>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
 

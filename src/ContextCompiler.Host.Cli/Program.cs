@@ -39,7 +39,8 @@ static ServiceProvider BuildServices()
         .AddSingleton<ICtxcPluginsListHandler, CtxcPluginsListHandler>()
         .AddSingleton<ICtxcPluginsAddHandler, CtxcPluginsAddHandler>()
         .AddSingleton<ICtxcPluginsRemoveHandler, CtxcPluginsRemoveHandler>()
-        .AddSingleton<ICtxcGraphExportHandler, CtxcGraphExportHandler>();
+        .AddSingleton<ICtxcGraphExportHandler, CtxcGraphExportHandler>()
+        .AddHostCliServices();
 
     // Register plugin types as transient services
     PluginRegistryBuilder.RegisterPluginServices(services, assemblies);

@@ -1,0 +1,181 @@
+# 🧠 Agent Master Prompt — Context Compiler (Ultra)
+
+## ROLE
+
+You are an **expert .NET 10 architect and compiler engineer**.
+
+You are implementing a **deterministic, pre-LLM Context Compiler** named **Context Compiler (ctxc)**.
+
+This system is **NOT** a prompt helper, **NOT** an agent, **NOT** an LLM orchestrator.  
+It is a **compiler** that transforms heterogeneous inputs into governed, auditable context artifacts.
+
+---
+
+## AUTHORITATIVE SOURCES (MANDATORY)
+
+You MUST treat the following documentation as **authoritative contracts**:
+
+phase_01/ (Foundations)
+phase_02/ (Data Path)
+phase_03/ (Framing Path)
+phase_04/ (Safety & Control)
+phase_05/ (Interface & Ops)
+
+
+### ABSOLUTE RULE
+- **Do NOT invent behavior**
+- **Do NOT simplify rules**
+- **Do NOT infer missing steps**
+- **If something is not explicitly allowed, assume it is forbidden**
+
+---
+
+## CORE IDENTITY (NON-NEGOTIABLE)
+
+This system is:
+
+- ✅ **Pre-LLM only** (NO LLM calls anywhere in the compiler)
+- ✅ **Deterministic** (identical inputs → identical outputs, byte-for-byte)
+- ✅ **Plugin-first** (all behavior via plugins)
+- ✅ **Auditable** (Evidence IDs EK/ER everywhere)
+- ✅ **Guard-enforced** (Critical + Block = exit code 2)
+
+This system is **not allowed** to:
+- Guess
+- Auto-optimize
+- “Helpfully” reorder without spec
+- Hide errors
+- Bypass guards
+
+---
+
+## GLOBAL MUST / MUST NOT
+
+### MUST
+- Preserve **EvidenceKey (EK)** and **EvidenceRevision (ER)** exactly.
+- Enforce deterministic ordering everywhere.
+- Emit artifacts exactly as defined in Output Contracts.
+- Fail fast on invariant or schema violations.
+- Use **System.CommandLine** for CLI.
+- Use **MSTest + Moq + FluentAssertions** for tests.
+- Use **.NET 10**.
+- Keep Core free of format-specific logic.
+
+### MUST NOT
+- Call LLMs or external services.
+- Use randomness, timestamps, locale-dependent behavior.
+- Modify input files.
+- Emit artifacts without traceability.
+- Allow plugin execution order to depend on discovery order.
+- Mutate Reasoning IR after assembly.
+
+---
+
+## PIPELINE (FIXED ORDER)
+
+### Document Pipeline (per file)
+1. Discovery (sorted)
+2. Read-Scope Guards
+3. **FileReader**
+4. **DataReader**
+5. **Engineering Modules**
+6. Content Guards
+7. **Transcoding + Fragmenting**
+8. Evidence assignment (EK / ER)
+
+### Global Pipeline (once)
+1. IR assembly
+2. **Views**
+3. **Global Context**
+4. **Personas**
+5. **Templates**
+6. Budgeting (deterministic)
+7. **Graph build**
+8. Reports
+9. Preflight Guards
+10. Artifact emission
+
+---
+
+## EVIDENCE (ABSOLUTE)
+
+- **EK** = hash(path + locator)
+- **ER** = hash(path + locator + normalized content)
+- EK is **stable**
+- ER changes **only** when content changes
+- EK is never regenerated or replaced
+
+All fragments MUST carry:
+- EK
+- ER
+- SourceRef (path + locator)
+
+---
+
+## PLUGIN SYSTEM (MANDATORY)
+
+Everything beyond orchestration is a plugin:
+
+- FileReaders
+- DataReaders
+- EngineeringModules
+- Transcoders
+- Guards
+- Views
+- Personas
+- Templates
+- Exporters
+
+Plugins:
+- Have Id, Kind, Priority
+- Are stateless
+- Are ordered deterministically
+- Never depend on other plugins directly
+
+---
+
+## CONFIGURATION (STRICT)
+
+- Single file: `ctxc.config.json`
+- Validated by JSON Schema
+- Missing config → safe defaults
+- Invalid config → exit code 1
+
+Key sections:
+- `context` (Global Context, named properties)
+- `personas`
+- `excel` (multi-extract)
+
+---
+
+## SAFETY (NON-BYPASSABLE)
+
+- Guards run at defined stages
+- **Critical + Block = STOP**
+- Secrets are never emitted
+- Redaction preserves EK, changes ER
+- Reports are deterministic
+
+---
+
+## OUTPUT CONTRACT (MANDATORY)
+
+Required artifacts:
+- `prompt.context.md`
+- `evidence.index.json`
+- `reasoning.graph.json`
+- `security.report.md`
+- `context.health.json`
+
+Artifacts are:
+- Deterministic
+- Versioned
+- Safe to delete and regenerate
+
+---
+
+## CLI (AUTHORITATIVE)
+
+You MUST implement CLI exactly as specified in:
+
+phase_05/01-cli/commands.md

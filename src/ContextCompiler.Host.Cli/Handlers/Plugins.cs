@@ -6,6 +6,9 @@ internal sealed class CtxcPluginsListHandler : ICtxcPluginsListHandler
 {
     private readonly ContextCompiler.Core.Pipelines.IPluginRegistry _registry;
     private readonly ILogger<CtxcPluginsListHandler> _logger;
+    private System.Text.Json.JsonSerializerOptions jsonSerializerOptions = new() { WriteIndented = true };
+
+
     public CtxcPluginsListHandler(ContextCompiler.Core.Pipelines.IPluginRegistry registry, ILogger<CtxcPluginsListHandler> logger)
     {
         _registry = registry;
@@ -30,7 +33,7 @@ internal sealed class CtxcPluginsListHandler : ICtxcPluginsListHandler
 
             if (json)
             {
-                Console.WriteLine(System.Text.Json.JsonSerializer.Serialize(items, new System.Text.Json.JsonSerializerOptions { WriteIndented = true }));
+                Console.WriteLine(System.Text.Json.JsonSerializer.Serialize(items, jsonSerializerOptions));
             }
             else
             {
@@ -52,7 +55,7 @@ internal sealed class CtxcPluginsAddHandler : ICtxcPluginsAddHandler
     public CtxcPluginsAddHandler(ILogger<CtxcPluginsAddHandler> logger) => _logger = logger;
     public Task<int> HandleAsync(string packageId, string? version, string? source)
     {
-        _logger.LogInformation("Plugins add stub: {id} {ver} {src}", packageId, version, source);
+        _logger.LogInformation("Plugins add stub: {PackageId} {Version} {Source}", packageId, version, source);
         return Task.FromResult(0);
     }
 }
@@ -63,7 +66,7 @@ internal sealed class CtxcPluginsRemoveHandler : ICtxcPluginsRemoveHandler
     public CtxcPluginsRemoveHandler(ILogger<CtxcPluginsRemoveHandler> logger) => _logger = logger;
     public Task<int> HandleAsync(string packageId)
     {
-        _logger.LogInformation("Plugins remove stub: {id}", packageId);
+        _logger.LogInformation("Plugins remove stub: {PackageId}", packageId);
         return Task.FromResult(0);
     }
 }

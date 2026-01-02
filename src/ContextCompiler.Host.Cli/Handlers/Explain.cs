@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Text;
 using System.Text.Json;
 using Microsoft.Extensions.Logging;
@@ -7,6 +8,8 @@ namespace ContextCompiler.Host.Cli.Handlers;
 internal sealed class CtxcExplainHandler : ICtxcExplainHandler
 {
     private readonly ILogger<CtxcExplainHandler> _logger;
+    JsonSerializerOptions jsonSerializerOptions = new() { WriteIndented = true };
+
     public CtxcExplainHandler(ILogger<CtxcExplainHandler> logger) => _logger = logger;
 
     public async Task<int> HandleAsync(string input, string? outFile, string format)
@@ -41,7 +44,7 @@ internal sealed class CtxcExplainHandler : ICtxcExplainHandler
             if (format.Equals("json", StringComparison.OrdinalIgnoreCase))
             {
                 var payload = new { fragments = fragmentCount, views = viewCount, artifacts = existing, securitySummary };
-                var text = JsonSerializer.Serialize(payload, new JsonSerializerOptions { WriteIndented = true });
+                var text = JsonSerializer.Serialize(payload, jsonSerializerOptions);
                 if (outFile is not null) await File.WriteAllTextAsync(outFile, text);
                 else Console.WriteLine(text);
             }
@@ -49,8 +52,8 @@ internal sealed class CtxcExplainHandler : ICtxcExplainHandler
             {
                 var sb = new StringBuilder();
                 sb.AppendLine("# Context Explain");
-                sb.AppendLine($"Fragments: {fragmentCount}");
-                sb.AppendLine($"Views: {viewCount}");
+                sb.AppendLine(CultureInfo.InvariantCulture, $"Fragments: {fragmentCount}");
+                sb.AppendLine(CultureInfo.InvariantCulture, $"Views: {viewCount}");
                 sb.AppendLine("Artifacts:");
                 foreach (var a in existing.OrderBy(s => s, StringComparer.Ordinal)) sb.AppendLine("- " + a);
                 if (!string.IsNullOrEmpty(securitySummary))

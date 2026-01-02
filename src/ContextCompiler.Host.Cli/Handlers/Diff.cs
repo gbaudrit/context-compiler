@@ -7,6 +7,8 @@ namespace ContextCompiler.Host.Cli.Handlers;
 internal sealed class CtxcDiffHandler : ICtxcDiffHandler
 {
     private readonly ILogger<CtxcDiffHandler> _logger;
+    private JsonSerializerOptions jsonSerializerOptions = new() { WriteIndented = true };
+
     public CtxcDiffHandler(ILogger<CtxcDiffHandler> logger) => _logger = logger;
 
     public async Task<int> HandleAsync(string left, string right, string format, string? outFile)
@@ -63,8 +65,8 @@ internal sealed class CtxcDiffHandler : ICtxcDiffHandler
 
             foreach (var ek in rightMap.Keys)
             {
-                if (!leftMap.ContainsKey(ek)) added.Add(ek);
-                else if (leftMap[ek] != rightMap[ek]) changed.Add(ek);
+                if (!leftMap.TryGetValue(ek, out string? value)) added.Add(ek);
+                else if (value != rightMap[ek]) changed.Add(ek);
             }
             foreach (var ek in leftMap.Keys)
             {
@@ -74,7 +76,7 @@ internal sealed class CtxcDiffHandler : ICtxcDiffHandler
             if (format.Equals("json", StringComparison.OrdinalIgnoreCase))
             {
                 var payload = new { added, removed, changed };
-                var text = JsonSerializer.Serialize(payload, new JsonSerializerOptions { WriteIndented = true });
+                var text = JsonSerializer.Serialize(payload, jsonSerializerOptions);
                 if (outFile is not null) await File.WriteAllTextAsync(outFile, text);
                 else Console.WriteLine(text);
             }

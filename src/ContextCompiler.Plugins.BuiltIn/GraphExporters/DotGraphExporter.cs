@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Text;
 using ContextCompiler.Abstractions.Models;
 using ContextCompiler.Abstractions.Plugins;
@@ -16,9 +17,9 @@ public sealed class DotGraphExporter : IGraphExporterPlugin
         var sb = new StringBuilder();
         sb.AppendLine("digraph reasoning {");
         foreach (var n in g.Nodes)
-            sb.AppendLine($"  \"{n.Id}\" [label=\"{Escape(n.Label)}\"];");
+            sb.AppendLine(CultureInfo.InvariantCulture, $"  \"{n.Id}\" [label=\"{Escape(n.Label)}\"];");
         foreach (var e in g.Edges)
-            sb.AppendLine($"  \"{e.FromId}\" -> \"{e.ToId}\" [label=\"{Escape(e.Kind)}\"];");
+            sb.AppendLine(CultureInfo.InvariantCulture, $"  \"{e.FromId}\" -> \"{e.ToId}\" [label=\"{Escape(e.Kind)}\"];");
         sb.AppendLine("}");
         return sb.ToString();
     }

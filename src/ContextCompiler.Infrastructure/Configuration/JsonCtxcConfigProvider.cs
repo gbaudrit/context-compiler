@@ -10,6 +10,12 @@ public sealed class JsonCtxcConfigProvider : ICtxcConfigProvider
     private readonly object _lock = new();
     private CtxcConfig? _cached;
     private string? _cachedPath;
+    private static readonly JsonSerializerOptions JsonOptions = new()
+    {
+        PropertyNameCaseInsensitive = true,
+        ReadCommentHandling = JsonCommentHandling.Skip,
+        AllowTrailingCommas = true
+    };
 
     public JsonCtxcConfigProvider(ILogger<JsonCtxcConfigProvider> logger)
     {
@@ -38,36 +44,8 @@ public sealed class JsonCtxcConfigProvider : ICtxcConfigProvider
             try
             {
                 var json = File.ReadAllText(path);
-                var cfg = JsonSerializer.Deserialize<CtxcConfig>(json, new JsonSerializerOptions
-                {
-                    PropertyNameCaseInsensitive = true,
-                    ReadCommentHandling = JsonCommentHandling.Skip,
-                    AllowTrailingCommas = true
-                }) ?? new CtxcConfig();
-                if (cfg.Excel?.Files is not null)
-                {
-                    cfg.Excel.Files = cfg.Excel.Files
-                        .OrderBy(f => f.Match, StringComparer.Ordinal)
-                        .ToList();
-                    foreach (var f in cfg.Excel.Files)
-                    {
-                        f.Extracts = f.Extracts
-                            .OrderBy(e => e.Id, StringComparer.Ordinal)
-                            .ToList();
-                        foreach (var e in f.Extracts)
-                        {
-                            if (e.Select is not null)
-                                e.Select = e.Select.OrderBy(c => c, StringComparer.Ordinal).ToList();
-                            if (e.Exclude is not null)
-                                e.Exclude = e.Exclude.OrderBy(c => c, StringComparer.Ordinal).ToList();
-                            if (e.Rename is not null)
-                                e.Rename = e.Rename.OrderBy(kv => kv.Key, StringComparer.Ordinal).ToDictionary(kv => kv.Key, kv => kv.Value);
-                            if (e.Where is not null)
-                                e.Where = e.Where.OrderBy(w => w.Column, StringComparer.Ordinal).ToList();
-                        }
-                    }
-                }
-                // context: no reordering; keep as provided
+                var cfg = JsonSerializer.Deserialize<CtxcConfig>(json, JsonOptions) ?? new CtxcConfig();
+
                 _cached = cfg;
                 _cachedPath = path;
                 return _cached;

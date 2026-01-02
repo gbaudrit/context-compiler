@@ -15,7 +15,7 @@ internal sealed class CtxcGraphExportHandler : ICtxcGraphExportHandler
             var jsonPath = Path.Combine(input, "reasoning.graph.json");
             if (!File.Exists(jsonPath))
             {
-                _logger.LogError("reasoning.graph.json not found in {input}", input);
+                _logger.LogError("reasoning.graph.json not found in {Input}", input);
                 return 1;
             }
             var json = await File.ReadAllTextAsync(jsonPath);
@@ -43,7 +43,7 @@ internal sealed class CtxcGraphExportHandler : ICtxcGraphExportHandler
                 return 0;
             }
 
-            _logger.LogError("Unsupported format: {format}", format);
+            _logger.LogError("Unsupported format: {Format}", format);
             return 1;
         }
         catch (Exception ex)

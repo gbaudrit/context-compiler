@@ -34,7 +34,9 @@ public sealed class ExcelExtractConfig
 
 public enum FragmentationStrategy
 {
+#pragma warning disable CA1720 // Identifier contains type name
     Single,
+#pragma warning restore CA1720 // Identifier contains type name
     Chunks,
     GroupBy
 }

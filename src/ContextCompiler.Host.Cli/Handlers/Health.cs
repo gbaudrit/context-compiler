@@ -6,6 +6,12 @@ namespace ContextCompiler.Host.Cli.Handlers;
 internal sealed class CtxcHealthHandler : ICtxcHealthHandler
 {
     private readonly ILogger<CtxcHealthHandler> _logger;
+    private static readonly JsonSerializerOptions jsonSerializerOptions = new()
+    {
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+        WriteIndented = false
+    };
+
     public CtxcHealthHandler(ILogger<CtxcHealthHandler> logger) => _logger = logger;
 
     public async Task<int> HandleAsync(string input, string format, int? failBelow)
@@ -27,14 +33,14 @@ internal sealed class CtxcHealthHandler : ICtxcHealthHandler
             var sec = Path.Combine(input, "security.report.md");
             if (File.Exists(sec))
             {
-                findings = (await File.ReadAllLinesAsync(sec)).Count(l => l.StartsWith("- "));
+                findings = (await File.ReadAllLinesAsync(sec)).Count(l => l.StartsWith("- ", StringComparison.Ordinal));
             }
             int score = Math.Max(0, 100 - findings * 5);
 
             if (format.Equals("json", StringComparison.OrdinalIgnoreCase))
             {
                 var payload = new { fragments, findings, score };
-                Console.WriteLine(JsonSerializer.Serialize(payload, new JsonSerializerOptions { WriteIndented = true }));
+                Console.WriteLine(JsonSerializer.Serialize(payload, jsonSerializerOptions));
             }
             else
             {

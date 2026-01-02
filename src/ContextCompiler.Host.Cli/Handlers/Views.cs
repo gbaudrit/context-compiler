@@ -5,6 +5,7 @@ namespace ContextCompiler.Host.Cli.Handlers;
 
 internal sealed class CtxcViewsListHandler : ICtxcViewsListHandler
 {
+    private JsonSerializerOptions jsonSerializerOptions = new() { WriteIndented = true };    
     private readonly ILogger<CtxcViewsListHandler> _logger;
     public CtxcViewsListHandler(ILogger<CtxcViewsListHandler> logger) => _logger = logger;
 
@@ -21,7 +22,7 @@ internal sealed class CtxcViewsListHandler : ICtxcViewsListHandler
                            .ToArray();
             if (json)
             {
-                Console.WriteLine(JsonSerializer.Serialize(ids, new JsonSerializerOptions { WriteIndented = true }));
+                Console.WriteLine(JsonSerializer.Serialize(ids, jsonSerializerOptions));
             }
             else
             {

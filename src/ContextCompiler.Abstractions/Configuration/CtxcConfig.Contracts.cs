@@ -9,15 +9,22 @@ public interface ICtxcConfigProvider
 
 public sealed class CtxcConfig
 {
-    [JsonPropertyName("excel")] public ExcelConfig? Excel { get; set; }
+    [JsonPropertyName("files")] public List<FileConfig> Files { get; set; } = new();
     [JsonPropertyName("personas")] public PersonasConfig? Personas { get; set; }
     [JsonPropertyName("context")] public ContextConfig? Context { get; set; }
 }
 
-public sealed class ExcelConfig
+public sealed class FileConfig
+{
+    [JsonPropertyName("match")] public string Match { get; set; } = string.Empty;
+    [JsonPropertyName("excel")] public ExcelFileSection? Excel { get; set; }
+    // future: add other types e.g., json, yaml, markdown
+}
+
+public sealed class ExcelFileSection
 {
     [JsonPropertyName("defaults")] public ExcelDefaults? Defaults { get; set; }
-    [JsonPropertyName("files")] public List<ExcelFileConfig> Files { get; set; } = new();
+    [JsonPropertyName("extracts")] public List<ExcelExtractConfig> Extracts { get; set; } = new();
 }
 
 public sealed class ExcelDefaults
@@ -32,12 +39,6 @@ public sealed class HeaderDefaults
 {
     [JsonPropertyName("mode")] public string? Mode { get; set; } // firstRow|explicit
     [JsonPropertyName("normalize")] public bool? Normalize { get; set; }
-}
-
-public sealed class ExcelFileConfig
-{
-    [JsonPropertyName("match")] public string Match { get; set; } = string.Empty; // glob
-    [JsonPropertyName("extracts")] public List<ExcelExtractConfig> Extracts { get; set; } = new();
 }
 
 public sealed class ExcelExtractConfig

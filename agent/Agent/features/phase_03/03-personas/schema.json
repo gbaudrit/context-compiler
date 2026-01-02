@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "personas": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "active": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "default": []
+        },
+        "mode": {
+          "type": "string",
+          "enum": [
+            "append",
+            "prepend",
+            "replace"
+          ],
+          "default": "append"
+        },
+        "params": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "default": {}
+        }
+      },
+      "required": [
+        "active"
+      ]
+    }
+  }
+}

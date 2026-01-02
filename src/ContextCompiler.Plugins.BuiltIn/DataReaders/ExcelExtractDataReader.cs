@@ -15,37 +15,24 @@ public sealed class ExcelExtractDataReader(ICtxcConfigProvider cfgProvider) : ID
     {
         ct.ThrowIfCancellationRequested();
         var cfg = cfgProvider.GetConfigOrDefault(null);
-        if (cfg.Excel is null || cfg.Excel.Files.Count == 0)
+
+        var fileExtracts = new List<(string match, ExcelDefaults? defaults, List<ExcelExtractConfig> extracts)>();
+        foreach (var f in cfg.Files)
         {
-            using var ms = new MemoryStream(doc.Bytes);
-            using var wb = new XLWorkbook(ms);
-            var sheets = new List<object>();
-            foreach (var ws in wb.Worksheets)
-            {
-                var used = ws.RangeUsed();
-                if (used is null) continue;
-                var rows = new List<List<string>>();
-                foreach (var row in used.Rows())
-                {
-                    var r = new List<string>();
-                    foreach (var cell in row.Cells()) r.Add(cell.GetFormattedString());
-                    rows.Add(r);
-                }
-                sheets.Add(new { name = ws.Name, rows });
-            }
-            return Task.FromResult(new DataEnvelope(DataShape.Tabular, new { sheets }, new Dictionary<string,string>{{"mediaType",doc.MediaType}}));
+            if (f.Excel is null) continue;
+            fileExtracts.Add((f.Match, f.Excel.Defaults, f.Excel.Extracts));
         }
 
         using var ms2 = new MemoryStream(doc.Bytes);
         using var wb2 = new XLWorkbook(ms2);
         var parts = new List<DataPart>();
+        var sourcePath = doc.Path ?? string.Empty;
 
-        foreach (var f in cfg.Excel.Files)
+        foreach (var (match, defaults, extracts) in fileExtracts)
         {
-            var sourcePath = doc.Path ?? string.Empty;
-            if (!GlobMatch(sourcePath, f.Match)) continue;
+            if (!GlobMatch(sourcePath, match)) continue;
 
-            foreach (var x in f.Extracts.OrderBy(e => e.Id, StringComparer.Ordinal))
+            foreach (var x in extracts.OrderBy(e => e.Id, StringComparer.Ordinal))
             {
                 var sheet = wb2.Worksheets.FirstOrDefault(ws => string.Equals(ws.Name, x.Sheet, StringComparison.Ordinal));
                 if (sheet is null) continue;
@@ -75,7 +62,6 @@ public sealed class ExcelExtractDataReader(ICtxcConfigProvider cfgProvider) : ID
                 var header = rows[Math.Min(headerRowIndex, rows.Count - 1)].ToArray();
                 var body = rows.Skip(Math.Min(headerRowIndex + 1, rows.Count)).ToList();
 
-                // apply where filters
                 if (x.Where is not null && x.Where.Count > 0)
                 {
                     foreach (var w in x.Where)
@@ -86,12 +72,10 @@ public sealed class ExcelExtractDataReader(ICtxcConfigProvider cfgProvider) : ID
                     }
                 }
 
-                // apply select projection
                 if (x.Select is not null && x.Select.Count > 0)
                 {
                     var desired = x.Select.OrderBy(s => s, StringComparer.Ordinal).ToArray();
                     var idxMap = desired.Select(col => Array.FindIndex(header, h => string.Equals(h, col, StringComparison.Ordinal))).ToArray();
-                    // remove columns not found (index -1)
                     var valid = idxMap.Select((idx, i) => (idx, i)).Where(t => t.idx >= 0).ToArray();
                     var projHeader = valid.Select(t => desired[t.i]).ToList();
                     var projBody = body.Select(row => valid.Select(t => row[t.idx]).ToList()).ToList();

@@ -16,7 +16,7 @@ public sealed class DefaultHasher : IHasher
 
     public ulong SimHash64(string normalizedText)
     {
-        var tokens = normalizedText.Split(new[]{' ','\n','\r','\t'}, StringSplitOptions.RemoveEmptyEntries);
+        var tokens = normalizedText.Split([' ', '\n', '\r', '\t'], StringSplitOptions.RemoveEmptyEntries);
         var v = new int[64];
         foreach (var t in tokens)
         {

@@ -7,7 +7,7 @@ namespace ContextCompiler.EndToEnd.Tests;
 public sealed class CompileE2ETests
 {
     [TestMethod]
-    public void Placeholder_ShouldPass()
+    public void PlaceholderShouldPass()
     {
         true.Should().BeTrue();
     }

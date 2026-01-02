@@ -4,7 +4,7 @@ using ContextCompiler.Abstractions.Models;
 
 namespace ContextCompiler.Plugins.BuiltIn.Guards;
 
-public sealed class InjectionGuard
+public sealed class InjectionGuard : IInjectionGuard
 {
     // TODO: move to IGuardPlugin + stage hooks
     private static readonly Regex HardIgnore = new(@"(?i)\bignore\b.{0,40}\b(previous|all|any)\b.{0,20}\b(instructions|rules)\b",

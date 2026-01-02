@@ -1,4 +1,7 @@
 using System.CommandLine;
+
+using ContextCompiler.Host.Cli.Services;
+
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ContextCompiler.Host.Cli;
@@ -12,7 +15,7 @@ public static class CliCommandFactory
         // compile
         var compile = new Command("compile", "Compile context into reasoning artifacts");
         var inputOpt = new Option<string>("--input") { IsRequired = true };
-        var outputOpt = new Option<string>("--output") { IsRequired = true };
+        var outputOpt = new Option<string>("--output");
         var maxChars = new Option<int>("--max-chars", () => 1_000_000, "Maximum characters in prompt.context.md");
         var viewsOpt = new Option<string?>("--views", description: "Comma-separated view ids (future hook)");
         var noGuards = new Option<bool>("--no-guards", description: "Disable non-critical guards (debug)");
@@ -28,6 +31,10 @@ public static class CliCommandFactory
         compile.SetHandler(async (input, output, max, views, disableNonCritical, config, json) =>
         {
             var handler = sp.GetRequiredService<Handlers.ICtxcCompileHandler>();
+            if(string.IsNullOrEmpty(output))
+            {
+                output = sp.GetRequiredService<IOutputPathResolver>().Resolve(input);
+            }
             Environment.ExitCode = await handler.HandleAsync(input, output, max, views, disableNonCritical, config, json);
         }, inputOpt, outputOpt, maxChars, viewsOpt, noGuards, configOpt, jsonOpt);
         root.AddCommand(compile);

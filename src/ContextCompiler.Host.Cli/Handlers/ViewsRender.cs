@@ -14,7 +14,7 @@ internal sealed class CtxcViewsRenderHandler : ICtxcViewsRenderHandler
             var path = Path.Combine(input, $"view.{id}.md");
             if (!File.Exists(path))
             {
-                _logger.LogError("View not found: {id}", id);
+                _logger.LogError("View not found: {Id}", id);
                 return 1;
             }
             var content = await File.ReadAllTextAsync(path);

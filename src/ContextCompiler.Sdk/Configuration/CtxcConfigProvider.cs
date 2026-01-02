@@ -10,6 +10,13 @@ public interface ICtxcConfigProvider
 
 public sealed class JsonCtxcConfigProvider(ILogger<JsonCtxcConfigProvider> logger) : ICtxcConfigProvider
 {
+    private static readonly JsonSerializerOptions jsonSerializerOptions = new()
+    {
+        PropertyNameCaseInsensitive = true,
+        ReadCommentHandling = JsonCommentHandling.Skip,
+        AllowTrailingCommas = true,
+    };
+
     public CtxcConfig GetConfigOrDefault(string? configPath)
     {
         if (string.IsNullOrWhiteSpace(configPath) || !File.Exists(configPath))
@@ -20,12 +27,7 @@ public sealed class JsonCtxcConfigProvider(ILogger<JsonCtxcConfigProvider> logge
         try
         {
             var json = File.ReadAllText(configPath);
-            var cfg = JsonSerializer.Deserialize<CtxcConfig>(json, new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true,
-                ReadCommentHandling = JsonCommentHandling.Skip,
-                AllowTrailingCommas = true
-            }) ?? new CtxcConfig();
+            var cfg = JsonSerializer.Deserialize<CtxcConfig>(json, jsonSerializerOptions) ?? new CtxcConfig();
             // Determinism: sort arrays
             if (cfg.Excel?.Files is not null)
             {

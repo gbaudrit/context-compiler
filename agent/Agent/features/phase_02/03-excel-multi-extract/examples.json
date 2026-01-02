@@ -1,0 +1,92 @@
+{
+  "excel": {
+    "defaults": {
+      "maxRows": 2000,
+      "trimCells": true,
+      "emptyRowPolicy": "skip",
+      "header": {
+        "mode": "firstRow",
+        "normalize": true
+      }
+    },
+    "files": [
+      {
+        "match": "**/Reporting/*.xlsx",
+        "extracts": [
+          {
+            "id": "kpi_eu",
+            "sheet": "KPI",
+            "table": "tbl_kpi",
+            "select": [
+              "Date",
+              "Region",
+              "Revenue",
+              "Margin"
+            ],
+            "where": [
+              {
+                "col": "Region",
+                "op": "in",
+                "value": [
+                  "EU",
+                  "DE",
+                  "ES"
+                ]
+              }
+            ],
+            "rename": {
+              "Revenue": "rev",
+              "Margin": "mrg"
+            },
+            "fragmenting": {
+              "mode": "groupBy",
+              "by": [
+                "Region"
+              ]
+            }
+          },
+          {
+            "id": "kpi_fr",
+            "sheet": "KPI",
+            "table": "tbl_kpi",
+            "select": [
+              "Date",
+              "Region",
+              "Revenue",
+              "Margin"
+            ],
+            "where": [
+              {
+                "col": "Region",
+                "op": "eq",
+                "value": "FR"
+              }
+            ],
+            "rename": {
+              "Revenue": "rev",
+              "Margin": "mrg"
+            },
+            "fragmenting": {
+              "mode": "chunks",
+              "maxRows": 200
+            }
+          },
+          {
+            "id": "raw_products",
+            "sheet": "Raw",
+            "range": "B3:F120",
+            "headerRow": 3,
+            "select": [
+              "Product",
+              "Price",
+              "Stock"
+            ],
+            "fragmenting": {
+              "mode": "single"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
