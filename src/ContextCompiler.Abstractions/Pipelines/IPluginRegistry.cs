@@ -13,4 +13,5 @@ public interface IPluginRegistry
     IReadOnlyList<ITemplatePlugin> Templates { get; }
     IReadOnlyList<IGraphExporterPlugin> GraphExporters { get; }
     IReadOnlyList<IPersonaPlugin> Personas { get; }
+    IPlugins<IOutputPlugin> Outputs { get; }
 }

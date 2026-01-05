@@ -1,6 +1,7 @@
 using System.Text.Json;
 
 using ContextCompiler.Abstractions.Models;
+using ContextCompiler.Abstractions.Output;
 using ContextCompiler.Core.Engine;
 
 using Microsoft.Extensions.Logging;
@@ -18,23 +19,18 @@ public record CtxcCompileCommandLine(
     string? ConfigPath,
     bool Json);
 
-internal sealed class CtxcCompileHandler : ICtxcCompileHandler
+internal sealed class CtxcCompileHandler(ICompilerEngine engine, IOutputContext outputContext, ILogger<CtxcCompileHandler> logger) : ICtxcCompileHandler
 {
-    private readonly ICompilerEngine _engine;
-    private readonly ILogger<CtxcCompileHandler> _logger;
     private JsonSerializerOptions jsonSerializerOptions = new() { WriteIndented = true };
 
-    public CtxcCompileHandler(ICompilerEngine engine, ILogger<CtxcCompileHandler> logger)
-    {
-        _engine = engine;
-        _logger = logger;
-    }
 
     public async Task<int> HandleAsync(CtxcCompileCommandLine compileCommandLine)
     {
         try
         {
-            var rc = await _engine.CompileAsync(new CompileRequest(compileCommandLine.Input,
+            outputContext.OutputPath = compileCommandLine.Output;  
+
+            var rc = await engine.CompileAsync(new CompileRequest(compileCommandLine.Input,
                                                                    compileCommandLine.Output,
                                                                    compileCommandLine.Name,
                                                                    new CompileOptions(MaxCharacters: compileCommandLine.MaxChars,
@@ -54,13 +50,13 @@ internal sealed class CtxcCompileHandler : ICtxcCompileHandler
             }
             else
             {
-                _logger.LogInformation("Compiled {Input} -> {Output} (rc={Rc})", compileCommandLine.Input, compileCommandLine.Output, rc);
+                logger.LogInformation("Compiled {Input} -> {Output} (rc={Rc})", compileCommandLine.Input, compileCommandLine.Output, rc);
             }
             return rc;
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Internal error");
+            logger.LogError(ex, "Internal error");
             return 1;
         }
     }

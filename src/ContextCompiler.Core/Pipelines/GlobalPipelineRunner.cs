@@ -4,10 +4,12 @@ using System.Text.Json;
 
 using ContextCompiler.Abstractions.Configuration;
 using ContextCompiler.Abstractions.Diagnostics;
+using ContextCompiler.Abstractions.Guards;
 using ContextCompiler.Abstractions.Models;
 using ContextCompiler.Abstractions.Pipelines;
 using ContextCompiler.Abstractions.Plugins;
 using ContextCompiler.Abstractions.Ports;
+using ContextCompiler.Abstractions.ReasoningIR;
 using ContextCompiler.Core.ReasoningIR;
 
 using Microsoft.Extensions.Logging;
@@ -25,16 +27,18 @@ public sealed class GlobalPipelineRunner(
     IFileSystem fs,
     IHasher hasher,
     IPluginRegistry plugins,
-    CtxcConfig cfg) : IGlobalPipelineRunner
+    CtxcConfig cfg,
+    IGuardian guardian) : IGlobalPipelineRunner
 {
     private static readonly JsonSerializerOptions s_jsonIndentedOptions = new() { WriteIndented = true };
 
     public async Task<GlobalCompileOutputs> RunAsync(
         string rootPath,
         string outputPath,
-        ReasoningIr ir,
+        IReasoningIr ir,
         IReadOnlyList<GuardFinding> findings,
         CompileOptions options,
+        IPlugins<IOutputPlugin> outputPlugins,
         CancellationToken ct)
     {
         ct.ThrowIfCancellationRequested();
@@ -142,6 +146,8 @@ public sealed class GlobalPipelineRunner(
             artifacts[name] = p;
         }
 
+        await outputPlugins.Run(ct);
+
         WriteArtifact("prompt.context.md", finalPrompt);
 
         var evidenceIndex = ir.Fragments.Select(f => new
@@ -161,14 +167,14 @@ public sealed class GlobalPipelineRunner(
             string.Join("\n", findings.Select(f => $"- **{f.Severity}** `{f.GuardId}` ({f.Action}): {f.Message} — `{f.Source.Path}`")));
         WriteArtifact("security.report.md", secMd);
 
-        var health = new
-        {
-            fragments = ir.Fragments.Count,
-            findings = findings.Count,
-            views = views.Count,
-            score = Math.Max(0, 100 - findings.Count * 5)
-        };
-        WriteArtifact("context.health.json", JsonSerializer.Serialize(health, s_jsonIndentedOptions));
+        //var health = new
+        //{
+        //    fragments = ir.Fragments.Count,
+        //    findings = findings.Count,
+        //    views = views.Count,
+        //    score = Math.Max(0, 100 - findings.Count * 5)
+        //};
+        //WriteArtifact("context.health.json", JsonSerializer.Serialize(health, s_jsonIndentedOptions));
 
         foreach (var exp in plugins.GraphExporters.OrderBy(e => e.Metadata.Priority))
         {

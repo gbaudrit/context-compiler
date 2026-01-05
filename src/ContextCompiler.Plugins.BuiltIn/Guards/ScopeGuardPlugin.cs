@@ -24,11 +24,12 @@ public sealed class ScopeGuardPlugin : IGuardPlugin
         if (ctx.FilePath is null) return Task.FromResult<IReadOnlyList<GuardFinding>>(Array.Empty<GuardFinding>());
 
         var matcher = new Matcher(StringComparison.OrdinalIgnoreCase);
-        matcher.AddIncludePatterns(Excludes);
+        matcher.AddInclude("**/*");
+        foreach (var ex in Excludes) matcher.AddExclude(ex);
 
         var rel = Path.GetRelativePath(ctx.RootPath, ctx.FilePath);
         var match = matcher.Match(rel);
-        if (match.HasMatches)
+        if (!match.HasMatches)
         {
             return Task.FromResult<IReadOnlyList<GuardFinding>>(new []
             {

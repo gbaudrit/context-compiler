@@ -13,4 +13,5 @@ public static class PluginKinds
     public const string Validation = "Validation";
     public const string Compression = "Compression";
     public const string GraphExporter = "GraphExporter";
+    public const string Output = "Output";
 }

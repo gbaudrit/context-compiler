@@ -14,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ContextCompiler.Core;
 using ContextCompiler.Abstractions.Pipelines;
+using ContextCompiler.Core.Output;
 
 static ServiceProvider BuildServices()
 {

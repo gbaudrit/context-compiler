@@ -23,4 +23,5 @@ public sealed class PluginRegistry : IPluginRegistry
     public IReadOnlyList<ITemplatePlugin> Templates => _services.GetServices<ITemplatePlugin>().ToList();
     public IReadOnlyList<IGraphExporterPlugin> GraphExporters => _services.GetServices<IGraphExporterPlugin>().ToList();
     public IReadOnlyList<IPersonaPlugin> Personas => _services.GetServices<IPersonaPlugin>().ToList();
+    public IPlugins<IOutputPlugin> Outputs => _services.GetRequiredService<IPlugins<IOutputPlugin>>();
 }

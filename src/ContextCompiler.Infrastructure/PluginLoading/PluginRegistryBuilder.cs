@@ -26,6 +26,7 @@ public static class PluginRegistryBuilder
                 if (typeof(ITemplatePlugin).IsAssignableFrom(t)) services.AddTransient(typeof(ITemplatePlugin), t);
                 if (typeof(IGraphExporterPlugin).IsAssignableFrom(t)) services.AddTransient(typeof(IGraphExporterPlugin), t);
                 if (typeof(IPersonaPlugin).IsAssignableFrom(t)) services.AddTransient(typeof(IPersonaPlugin), t);
+                if (typeof(IOutputPlugin).IsAssignableFrom(t)) services.AddTransient(typeof(IOutputPlugin), t);
             }
         }
     }
