@@ -1,9 +1,15 @@
+using ContextCompiler.Abstractions;
 using ContextCompiler.Abstractions.Models;
 using ContextCompiler.Abstractions.Plugins;
+using ContextCompiler.Abstractions.ReasoningIR;
+
+using DocumentFormat.OpenXml.Bibliography;
+
+using Microsoft.Extensions.Logging;
 
 namespace ContextCompiler.Plugins.BuiltIn.Transcoders;
 
-public sealed class DefaultTranscoder : ITranscoderPlugin
+public sealed class DefaultTranscoder(ILogger<DefaultTranscoder> logger, ITagBuilder tagBuilder) : ITranscoderPlugin
 {
     private System.Text.Json.JsonSerializerOptions jsonSerializerOptions = new() { WriteIndented = true };
 
@@ -15,11 +21,13 @@ public sealed class DefaultTranscoder : ITranscoderPlugin
     {
         ct.ThrowIfCancellationRequested();
 
+        logger.LogTrace("DefaultTranscoder processing envelope with shape {Shape} from source {Source}", envelope.Shape, source.Path);
+
         if (envelope.Shape == DataShape.Linear && envelope.Payload is string s)
         {
             return Task.FromResult<IReadOnlyList<TranscodedFragment>>(new[]
             {
-                new TranscodedFragment("text:full", s, new Dictionary<string,string>{{"shape","linear"}})
+                new TranscodedFragment("text:full", s) { Tags = new List<ITag>{ tagBuilder.Build("shape","linear")}}
             });
         }
 
@@ -28,7 +36,7 @@ public sealed class DefaultTranscoder : ITranscoderPlugin
             var json = System.Text.Json.JsonSerializer.Serialize(envelope.Payload, jsonSerializerOptions);
             return Task.FromResult<IReadOnlyList<TranscodedFragment>>(new[]
             {
-                new TranscodedFragment("table:json", json, new Dictionary<string,string>{{"shape","tabular"}})
+                new TranscodedFragment("table:json", json) { Tags = new List<ITag>{ tagBuilder.Build("shape", "tabular") }}
             });
         }
 

@@ -7,5 +7,6 @@ public sealed record CompileOptions(
     string PluginsFolderName = ".ctxboost/plugins",
     string[]? IncludeGlobs = null,
     string[]? ExcludeGlobs = null,
-    string? ConfigPath = null
+    string? ConfigPath = null,
+    bool? InlineViews = null
 );

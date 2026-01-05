@@ -1,0 +1,18 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+using ContextCompiler.Abstractions.Diagnostics;
+using ContextCompiler.Abstractions.ReasoningIR;
+
+namespace ContextCompiler.Abstractions.Pipelines
+{
+    public interface IDocumentCompileResult
+    {
+
+        string Path { get; }
+        IReadOnlyList<IFragment> Fragments { get; }
+        IReadOnlyList<GuardFinding> Findings { get; }
+
+    }
+}

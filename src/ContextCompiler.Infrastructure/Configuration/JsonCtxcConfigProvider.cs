@@ -22,6 +22,8 @@ public sealed class JsonCtxcConfigProvider : ICtxcConfigProvider
         _logger = logger;
     }
 
+    public ICtxcConfig Current => _cached ?? throw new InvalidOperationException("Config not loaded");
+
     public CtxcConfig GetConfigOrDefault(string? configPath)
     {
         var cached = _cached;

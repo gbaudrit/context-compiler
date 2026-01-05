@@ -3,16 +3,15 @@ using ContextCompiler.Abstractions.ReasoningIR;
 
 namespace ContextCompiler.Core.ReasoningIR;
 
-public sealed record EvidenceKey(string Value) : IEvidenceKey;
-public sealed record EvidenceRevision(string Value) : IEvidenceRevision;
 
-public sealed record Fragment(
-    IEvidenceKey Key,
-    IEvidenceRevision Revision,
-    string Content,
-    SourceRef Source,
-    IReadOnlyDictionary<string, string>? Tags = null
-) : IFragment;
+
+public sealed class Fragment() : IFragment
+{
+    public required IEvidence Evidence { get; init; }
+    public required string Content { get; init; }
+    public required ISourceRef Source { get; init; }
+    public IReadOnlyList<ITag> Tags { get; init; } = new List<ITag>();
+}
 
 public sealed class ReasoningIr : IReasoningIr
 {

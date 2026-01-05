@@ -1,7 +1,9 @@
+using ContextCompiler.Abstractions.Pipelines;
 using ContextCompiler.Abstractions.Plugins;
+
 using Microsoft.Extensions.DependencyInjection;
 
-namespace ContextCompiler.Core.Pipelines;
+namespace ContextCompiler.Infrastructure.PluginLoading;
 
 public sealed class PluginRegistry : IPluginRegistry
 {

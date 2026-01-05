@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 
@@ -10,7 +11,7 @@ public sealed class DefaultViewPlugin : IViewPlugin
     public PluginMetadata Metadata => BuiltInMetadata.Meta("builtin.view.default", PluginKinds.View, priority: 0);
     public string ViewId => "default";
 
-    public Task<ViewResult> BuildAsync(ViewContext ctx, CancellationToken ct)
+    public ValueTask<IReadOnlyList<ViewResult>> BuildAsync(ViewContext ctx, CancellationToken ct)
     {
         ct.ThrowIfCancellationRequested();
         var ir = ctx.ReasoningIr;
@@ -20,7 +21,7 @@ public sealed class DefaultViewPlugin : IViewPlugin
         sb.AppendLine();
         foreach (var f in ir.Fragments)
         {
-            sb.AppendLine(CultureInfo.InvariantCulture, $"### {f.Key.Value}");
+            sb.AppendLine(CultureInfo.InvariantCulture, $"### {f.Evidence.EvidenceKey}");
             sb.AppendLine();
             sb.AppendLine(f.Content);
             sb.AppendLine();
@@ -28,6 +29,6 @@ public sealed class DefaultViewPlugin : IViewPlugin
             sb.AppendLine();
         }
 
-        return Task.FromResult(new ViewResult(ViewId, "Default View", sb.ToString()));
+        return ValueTask.FromResult<IReadOnlyList<ViewResult>>(new[] { new ViewResult(ViewId, "Default View", sb.ToString(), "", "", "") });
     }
 }

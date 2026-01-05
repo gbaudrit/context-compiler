@@ -1,6 +1,6 @@
 using ContextCompiler.Abstractions.Plugins;
 
-namespace ContextCompiler.Core.Pipelines;
+namespace ContextCompiler.Abstractions.Pipelines;
 
 public interface IPluginRegistry
 {

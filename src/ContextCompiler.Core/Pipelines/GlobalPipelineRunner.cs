@@ -1,9 +1,11 @@
 using System.Globalization;
+using System.Text;
 using System.Text.Json;
 
 using ContextCompiler.Abstractions.Configuration;
 using ContextCompiler.Abstractions.Diagnostics;
 using ContextCompiler.Abstractions.Models;
+using ContextCompiler.Abstractions.Pipelines;
 using ContextCompiler.Abstractions.Plugins;
 using ContextCompiler.Abstractions.Ports;
 using ContextCompiler.Core.ReasoningIR;
@@ -23,7 +25,7 @@ public sealed class GlobalPipelineRunner(
     IFileSystem fs,
     IHasher hasher,
     IPluginRegistry plugins,
-    CtxcConfig cfg)
+    CtxcConfig cfg) : IGlobalPipelineRunner
 {
     private static readonly JsonSerializerOptions s_jsonIndentedOptions = new() { WriteIndented = true };
 
@@ -40,22 +42,23 @@ public sealed class GlobalPipelineRunner(
 
         var views = new List<ViewResult>();
         foreach (var v in plugins.Views.OrderBy(v => v.Metadata.Priority))
-            views.Add(await v.BuildAsync(new ViewContext(rootPath, ir), ct));
+            views.AddRange(await v.BuildAsync(new ViewContext(cfg.Views, rootPath, ir), ct));
 
         if (views.Count == 0)
         {
             views.Add(new ViewResult("default", "Default View",
-                string.Join("\n\n", ir.Fragments.Select(f => $"### {f.Key.Value}\n{f.Content}\n"))));
+                string.Join("\n\n", ir.Fragments.Select(f => $"### {f.Evidence.EvidenceKey}\n{f.Content}\n")), "", "", ""));
         }
+        Prompt prompt = new();
 
-        var compiledViews = string.Join("\n\n---\n\n", views.Select(v => $"# {v.Title}\n\n{v.RenderedMarkdown}"));
+        //string.Join("\n\n---\n\n", views.Select(v => $"# {v.Title}\n\n{v.Rendered}"));
+        prompt.Views = views;
+
 
         // Global Context rendering (before personas)
         if (cfg.Context?.Enabled == true)
         {
-            var ctxMd = RenderGlobalContext(cfg.Context);
-            if (!string.IsNullOrWhiteSpace(ctxMd))
-                compiledViews = compiledViews + "\n\n" + ctxMd;
+            prompt.Global = RenderGlobalContext(cfg.Context);
         }
 
         // Personas (existing integration)
@@ -92,21 +95,25 @@ public sealed class GlobalPipelineRunner(
                 }
             }
         }
+        prompt.Personas = personaFraming;
 
-        var mode = cfg.Personas?.Mode?.ToLowerInvariant() ?? "append";
-        string framingInput = compiledViews;
-        if (!string.IsNullOrEmpty(personaFraming))
-        {
-            framingInput = mode switch
-            {
-                "prepend" => personaFraming + "\n\n" + compiledViews,
-                "replace" => personaFraming,
-                _ => compiledViews + "\n\n" + personaFraming,
-            };
-        }
+        //var mode = cfg.Personas?.Mode?.ToLowerInvariant() ?? "append";
+        //string framingInput = compiledViews;
+        //if (!string.IsNullOrEmpty(personaFraming))
+        //{
+        //    framingInput = mode switch
+        //    {
+        //        "prepend" => personaFraming + "\n\n" + compiledViews,
+        //        "replace" => personaFraming,
+        //        _ => compiledViews + "\n\n" + personaFraming,
+        //    };
+        //}
 
         var template = plugins.Templates.OrderBy(t => t.Metadata.Priority).FirstOrDefault();
-        var finalPrompt = template is null ? framingInput : template.Apply(framingInput);
+        if(template is null)
+            throw new InvalidOperationException("No prompt template plugins are registered.");
+
+        var finalPrompt = template.Apply(options, prompt);
 
         if (finalPrompt.Length > options.MaxCharacters)
             finalPrompt = finalPrompt[..options.MaxCharacters] + "\n\n<!-- truncated by Context Compiler -->\n";
@@ -115,15 +122,15 @@ public sealed class GlobalPipelineRunner(
         var graph = new GraphModel();
         foreach (var frag in ir.Fragments)
         {
-            graph.Nodes.Add(new GraphNode(frag.Key.Value, "Evidence", frag.Key.Value, new Dictionary<string,string>
+            graph.Nodes.Add(new GraphNode(frag.Evidence.EvidenceKey, "Evidence", frag.Evidence.EvidenceKey, new Dictionary<string, string>
             {
                 ["source"] = frag.Source.Path,
                 ["locator"] = frag.Source.Locator ?? ""
             }));
             var srcId = "S-" + hasher.Sha256Hex(frag.Source.Path)[..10];
             if (!graph.Nodes.Any(n => n.Id == srcId))
-                graph.Nodes.Add(new GraphNode(srcId, "Source", Path.GetFileName(frag.Source.Path), new Dictionary<string,string>{{"path",frag.Source.Path}}));
-            graph.Edges.Add(new GraphEdge(frag.Key.Value, srcId, "DerivedFrom"));
+                graph.Nodes.Add(new GraphNode(srcId, "Source", Path.GetFileName(frag.Source.Path), new Dictionary<string, string> { { "path", frag.Source.Path } }));
+            graph.Edges.Add(new GraphEdge(frag.Evidence.EvidenceKey, srcId, "DerivedFrom"));
         }
 
         var artifacts = new Dictionary<string, string>();
@@ -139,11 +146,13 @@ public sealed class GlobalPipelineRunner(
 
         var evidenceIndex = ir.Fragments.Select(f => new
         {
-            evidenceKey = f.Key.Value,
-            evidenceRevision = f.Revision.Value,
+            ek = f.Evidence.EvidenceKey,
+            er = f.Evidence.EvidenceRevision,
             source = new { path = f.Source.Path, locator = f.Source.Locator },
             tags = f.Tags
         }).ToList();
+
+        logger.LogInformation("Writing {Count} evidence items to index.", evidenceIndex.Count);
         WriteArtifact("evidence.index.json", JsonSerializer.Serialize(evidenceIndex, s_jsonIndentedOptions));
 
         WriteArtifact("reasoning.graph.json", JsonSerializer.Serialize(graph, s_jsonIndentedOptions));
@@ -168,7 +177,7 @@ public sealed class GlobalPipelineRunner(
         }
 
         foreach (var v in views)
-            WriteArtifact($"view.{v.ViewId}.md", v.RenderedMarkdown);
+            WriteArtifact($"view.{v.ViewId}.md", v.Rendered);
 
         if (!string.IsNullOrEmpty(personaFraming))
         {

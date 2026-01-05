@@ -1,61 +1,104 @@
+using ContextCompiler.Abstractions;
+using ContextCompiler.Abstractions.Configuration;
 using ContextCompiler.Abstractions.Diagnostics;
 using ContextCompiler.Abstractions.Models;
+using ContextCompiler.Abstractions.Pipelines;
 using ContextCompiler.Abstractions.Plugins;
 using ContextCompiler.Abstractions.Ports;
+using ContextCompiler.Abstractions.ReasoningIR;
 using ContextCompiler.Core.ReasoningIR;
-using ContextCompiler.Abstractions.Configuration;
+
+using DocumentFormat.OpenXml.Spreadsheet;
+
+using Microsoft.Extensions.FileSystemGlobbing;
+using Microsoft.Extensions.FileSystemGlobbing.Abstractions;
 using Microsoft.Extensions.Logging;
 
 namespace ContextCompiler.Core.Pipelines;
 
 public sealed record DocumentCompileResult(
     string Path,
-    IReadOnlyList<Fragment> Fragments,
+    IReadOnlyList<IFragment> Fragments,
     IReadOnlyList<GuardFinding> Findings
-);
+) : IDocumentCompileResult;
 
 public sealed class DocumentPipelineRunner(
-    ILogger logger,
+    ILogger<DocumentPipelineRunner> logger,
     IFileSystem fs,
     IHasher hasher,
     IPluginRegistry plugins,
-    CtxcConfig cfg)
+    IFragmentBuilder fragmentBuilder,
+    ITagBuilder tagBuilder,
+    ICtxcConfigProvider cfgProvider) : IDocumentPipelineRunner
 {
-    public async Task<IReadOnlyList<DocumentCompileResult>> RunAsync(string rootPath, CancellationToken ct)
+    public async Task<IReadOnlyList<IDocumentCompileResult>> RunAsync(string rootPath, CancellationToken ct)
     {
-        var results = new List<DocumentCompileResult>();
+        var results = new List<IDocumentCompileResult>();
 
-        var allFiles = fs.EnumerateFiles(rootPath)
-            .Where(p => !p.Contains(Path.DirectorySeparatorChar + ".git" + Path.DirectorySeparatorChar))
-            .Where(p => !p.Contains(Path.DirectorySeparatorChar + ".ctxboost" + Path.DirectorySeparatorChar))
-            .Where(p => !p.Contains(Path.DirectorySeparatorChar + "bin" + Path.DirectorySeparatorChar))
-            .Where(p => !p.Contains(Path.DirectorySeparatorChar + "obj" + Path.DirectorySeparatorChar))
-            .ToList();
+        //var allFiles = fs.EnumerateFiles(rootPath)
+        //    .Where(p => !p.Contains(Path.DirectorySeparatorChar + ".git" + Path.DirectorySeparatorChar))
+        //    .Where(p => !p.Contains(Path.DirectorySeparatorChar + ".ctxboost" + Path.DirectorySeparatorChar))
+        //    .Where(p => !p.Contains(Path.DirectorySeparatorChar + "bin" + Path.DirectorySeparatorChar))
+        //    .Where(p => !p.Contains(Path.DirectorySeparatorChar + "obj" + Path.DirectorySeparatorChar))
+        //    .Where(p => !p.Contains(Path.DirectorySeparatorChar + ".ctxc" + Path.DirectorySeparatorChar))
+        //    .ToList();
+
+        Matcher matcher = new();
+        matcher.AddExcludePatterns(["**/.git/**", "**/bin/**", "**/obj/**", "**/.ctxc/**"]);
+        foreach (var s in cfgProvider.Current.Files.Select(x => x.Includes))
+        {
+            matcher.AddIncludePatterns(s);
+            logger.LogInformation("Including file pattern: {Pattern}", string.Join(", ", s));
+        }
+
+        foreach (var s in cfgProvider.Current.Files.Select(x => x.Excludes))
+        {
+            matcher.AddExcludePatterns(s);
+            logger.LogInformation("Excluding file pattern: {Pattern}", string.Join(", ", s));
+        }
+
+
+        PatternMatchingResult result = matcher.Execute(new DirectoryInfoWrapper(new DirectoryInfo(rootPath)));
+
 
         var discoveryFindings = await RunGuardsAsync(GuardStage.Discovery, new GuardContext(rootPath), ct);
         if (discoveryFindings.Count > 0)
             results.Add(new DocumentCompileResult("__discovery__", Array.Empty<Fragment>(), discoveryFindings));
 
-        foreach (var file in allFiles)
+        foreach (var filePatternMatch in result.Files)
         {
             ct.ThrowIfCancellationRequested();
+            var filePath = Path.Combine(rootPath, filePatternMatch.Path);
+            logger.LogInformation("Processing file: {FilePath}", filePath);
+            IList<ITag> cfgFilesMatchTags = [];
 
-            var readFindings = await RunGuardsAsync(GuardStage.Read, new GuardContext(rootPath, file), ct);
+            foreach (var cfgMatch in cfgProvider.Current.Files)
+            {
+                Matcher cfgMatcher = new();
+                cfgMatcher.AddIncludePatterns(cfgMatch.Includes);
+                if (cfgMatcher.Match(filePatternMatch.Path).HasMatches)
+                {
+                    logger.LogTrace("Apply config tags {Tags} on file {FilePath}", string.Join(',', cfgMatch.Tags), filePath);
+                    cfgFilesMatchTags = tagBuilder.AddRange(cfgFilesMatchTags, cfgMatch.Tags);
+                }
+            }
+
+            var readFindings = await RunGuardsAsync(GuardStage.Read, new GuardContext(rootPath, filePath), ct);
             if (readFindings.Any(f => f.Action is GuardActionKind.Skip or GuardActionKind.Block))
             {
-                results.Add(new DocumentCompileResult(file, Array.Empty<Fragment>(), readFindings));
+                results.Add(new DocumentCompileResult(filePath, Array.Empty<Fragment>(), readFindings));
                 continue;
             }
 
-            var reader = plugins.FileReaders.FirstOrDefault(r => r.CanRead(file));
+            var reader = plugins.FileReaders.FirstOrDefault(r => r.CanRead(filePath));
             if (reader is null) continue;
 
-            var doc = await reader.ReadAsync(file, ct);
+            var doc = await reader.ReadAsync(filePath, ct);
 
             var dataReader = plugins.DataReaders.FirstOrDefault(r => r.CanRead(doc));
             if (dataReader is null)
             {
-                results.Add(new DocumentCompileResult(file, Array.Empty<Fragment>(), readFindings));
+                results.Add(new DocumentCompileResult(filePath, Array.Empty<Fragment>(), readFindings));
                 continue;
             }
 
@@ -70,17 +113,17 @@ public sealed class DocumentPipelineRunner(
                     foreach (var mod in plugins.EngineeringModules.OrderBy(m => m.Metadata.Priority))
                         partEnv = await mod.ApplyAsync(partEnv, ct);
 
-                    var fragFindings = await RunGuardsAsync(GuardStage.Fragment, new GuardContext(rootPath, file, doc.Text, doc, partEnv), ct);
+                    var fragFindings = await RunGuardsAsync(GuardStage.Fragment, new GuardContext(rootPath, filePath, doc.Text, doc, partEnv), ct);
                     if (fragFindings.Any(f => f.Action is GuardActionKind.Block))
                     {
-                        results.Add(new DocumentCompileResult(file, Array.Empty<Fragment>(), readFindings.Concat(fragFindings).ToList()));
+                        results.Add(new DocumentCompileResult(filePath, Array.Empty<Fragment>(), readFindings.Concat(fragFindings).ToList()));
                         continue;
                     }
 
                     var transcoder = plugins.Transcoders.FirstOrDefault(t => t.CanTranscode(partEnv));
                     if (transcoder is null)
                     {
-                        results.Add(new DocumentCompileResult(file, Array.Empty<Fragment>(), readFindings.Concat(fragFindings).ToList()));
+                        results.Add(new DocumentCompileResult(filePath, Array.Empty<Fragment>(), readFindings.Concat(fragFindings).ToList()));
                         continue;
                     }
 
@@ -88,15 +131,15 @@ public sealed class DocumentPipelineRunner(
                     var fragments = transcoded.Select(tf =>
                     {
                         var locator = CombineLocator(part.Source.Locator ?? string.Empty, tf.Locator);
-                        var ek = new EvidenceKey("E-" + hasher.Sha256Hex(file + "|" + locator)[..12]);
-                        var er = new EvidenceRevision("R-" + hasher.Sha256Hex(file + "|" + locator + "|" + tf.Content)[..12]);
-                        var tagsDict = tf.Tags is null ? new Dictionary<string,string>() : new Dictionary<string,string>(tf.Tags);
-                        tagsDict["extractId"] = part.PartId;
-                        if (!string.IsNullOrWhiteSpace(part.Label)) tagsDict["extractLabel"] = part.Label!;
-                        return new Fragment(ek, er, tf.Content, new SourceRef(file, locator), tagsDict);
+                        IList<ITag> fragmentTags = tf.Tags is null ? new List<ITag>() : new List<ITag>(tf.Tags);
+                        fragmentTags.Add(new Tag("extractId", part.PartId));
+                        fragmentTags = tagBuilder.AddRange(fragmentTags, cfgFilesMatchTags);
+                        if (!string.IsNullOrWhiteSpace(part.Label)) fragmentTags.Add(new Tag("extractLabel", part.Label!));
+
+                        return fragmentBuilder.InitNew().WithTranscodedFragment(tf).WithFilePath(filePath).WithLocator(locator).WithTags(fragmentTags).Build();
                     }).ToList();
 
-                    results.Add(new DocumentCompileResult(file, fragments, readFindings.Concat(fragFindings).ToList()));
+                    results.Add(new DocumentCompileResult(filePath, fragments, readFindings.Concat(fragFindings).ToList()));
                 }
                 continue; // handled composite
             }
@@ -104,30 +147,30 @@ public sealed class DocumentPipelineRunner(
             foreach (var mod in plugins.EngineeringModules.OrderBy(m => m.Metadata.Priority))
                 envelope = await mod.ApplyAsync(envelope, ct);
 
-            var fragFindings2 = await RunGuardsAsync(GuardStage.Fragment, new GuardContext(rootPath, file, doc.Text, doc, envelope), ct);
+            var fragFindings2 = await RunGuardsAsync(GuardStage.Fragment, new GuardContext(rootPath, filePath, doc.Text, doc, envelope), ct);
 
             if (fragFindings2.Any(f => f.Action is GuardActionKind.Block))
             {
-                results.Add(new DocumentCompileResult(file, Array.Empty<Fragment>(), readFindings.Concat(fragFindings2).ToList()));
+                results.Add(new DocumentCompileResult(filePath, Array.Empty<Fragment>(), readFindings.Concat(fragFindings2).ToList()));
                 continue;
             }
 
             var transcoder2 = plugins.Transcoders.FirstOrDefault(t => t.CanTranscode(envelope));
             if (transcoder2 is null)
             {
-                results.Add(new DocumentCompileResult(file, Array.Empty<Fragment>(), readFindings.Concat(fragFindings2).ToList()));
+                results.Add(new DocumentCompileResult(filePath, Array.Empty<Fragment>(), readFindings.Concat(fragFindings2).ToList()));
                 continue;
             }
 
-            var transcoded2 = await transcoder2.TranscodeAsync(envelope, new SourceRef(file), ct);
+            var transcoded2 = await transcoder2.TranscodeAsync(envelope, new SourceRef(filePath), ct);
             var fragments2 = transcoded2.Select(tf =>
             {
-                var ek = new EvidenceKey("E-" + hasher.Sha256Hex(file + "|" + tf.Locator)[..12]);
-                var er = new EvidenceRevision("R-" + hasher.Sha256Hex(file + "|" + tf.Locator + "|" + tf.Content)[..12]);
-                return new Fragment(ek, er, tf.Content, new SourceRef(file, tf.Locator), tf.Tags);
+                IList<ITag> fragmentTags = tf.Tags is null ? new List<ITag>() : new List<ITag>(tf.Tags);
+                fragmentTags = tagBuilder.AddRange(fragmentTags, cfgFilesMatchTags);
+                return fragmentBuilder.InitNew().WithTranscodedFragment(tf).WithFilePath(filePath).WithLocator(tf.Locator).WithTags(fragmentTags).Build();
             }).ToList();
 
-            results.Add(new DocumentCompileResult(file, fragments2, readFindings.Concat(fragFindings2).ToList()));
+            results.Add(new DocumentCompileResult(filePath, fragments2, readFindings.Concat(fragFindings2).ToList()));
         }
 
         return results;

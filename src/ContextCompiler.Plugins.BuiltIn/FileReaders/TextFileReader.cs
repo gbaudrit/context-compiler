@@ -10,7 +10,7 @@ public sealed class TextFileReader : IFileReaderPlugin
 
     private static readonly HashSet<string> Extensions = new(StringComparer.OrdinalIgnoreCase)
     {
-        ".md",".txt",".cs",".json",".yaml",".yml",".xml",".config",".sln",".csproj"
+        ".md",".txt",".cs",".json",".yaml",".yml",".xml",".config",".sln",".csproj",".props"
     };
 
     public bool CanRead(string path) => Extensions.Contains(Path.GetExtension(path));

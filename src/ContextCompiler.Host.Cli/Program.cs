@@ -1,4 +1,5 @@
 using System.CommandLine;
+using ContextCompiler.Abstractions.Configuration;
 using ContextCompiler.Abstractions.Models;
 using ContextCompiler.Abstractions.Ports;
 using ContextCompiler.Core.Engine;
@@ -11,6 +12,8 @@ using ContextCompiler.Host.Cli.Handlers;
 using ContextCompiler.Infrastructure.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using ContextCompiler.Core;
+using ContextCompiler.Abstractions.Pipelines;
 
 static ServiceProvider BuildServices()
 {
@@ -40,13 +43,11 @@ static ServiceProvider BuildServices()
         .AddSingleton<ICtxcPluginsAddHandler, CtxcPluginsAddHandler>()
         .AddSingleton<ICtxcPluginsRemoveHandler, CtxcPluginsRemoveHandler>()
         .AddSingleton<ICtxcGraphExportHandler, CtxcGraphExportHandler>()
+        .AddCoreServices()
         .AddHostCliServices();
 
-    // Register plugin types as transient services
     PluginRegistryBuilder.RegisterPluginServices(services, assemblies);
-
-    // Register registry that resolves plugins on demand from the shared ServiceProvider
-    services.AddSingleton<IPluginRegistry>(sp => new PluginRegistry(sp));
+    
 
     return services.BuildServiceProvider();
 }

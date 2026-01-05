@@ -4,7 +4,7 @@ namespace ContextCompiler.Host.Cli.Handlers;
 
 public interface ICtxcCompileHandler
 {
-    Task<int> HandleAsync(string input, string output, int maxChars, string? views, bool disableNonCritical, string? configPath, bool json);
+    Task<int> HandleAsync(CtxcCompileCommandLine compileCommandLine);
 }
 
 public interface ICtxcDiffHandler

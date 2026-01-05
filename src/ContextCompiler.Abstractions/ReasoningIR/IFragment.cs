@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -9,8 +9,7 @@ namespace ContextCompiler.Abstractions.ReasoningIR;
 public interface IFragment
 {
     string Content { get; init; }
-    IEvidenceKey Key { get; init; }
-    IEvidenceRevision Revision { get; init; }
-    SourceRef Source { get; init; }
-    IReadOnlyDictionary<string, string>? Tags { get; init; }
+    IEvidence Evidence { get; init; }
+    ISourceRef Source { get; init; }
+    IReadOnlyList<ITag> Tags { get; init; }
 }

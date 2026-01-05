@@ -1,4 +1,5 @@
 using ClosedXML.Excel;
+
 using ContextCompiler.Abstractions.Configuration;
 using ContextCompiler.Abstractions.Models;
 using ContextCompiler.Abstractions.Plugins;
@@ -20,7 +21,11 @@ public sealed class ExcelExtractDataReader(ICtxcConfigProvider cfgProvider) : ID
         foreach (var f in cfg.Files)
         {
             if (f.Excel is null) continue;
-            fileExtracts.Add((f.Match, f.Excel.Defaults, f.Excel.Extracts));
+            foreach (var s in f.Includes)
+            {
+                fileExtracts.Add((s, f.Excel.Defaults, f.Excel.Extracts));
+            }
+
         }
 
         using var ms2 = new MemoryStream(doc.Bytes);
@@ -90,7 +95,7 @@ public sealed class ExcelExtractDataReader(ICtxcConfigProvider cfgProvider) : ID
                 if (!string.IsNullOrEmpty(x.Range)) locatorPrefix += $"/range:{x.Range}";
 
                 var payload = new { headerRowIndex, rows };
-                var env = new DataEnvelope(DataShape.Tabular, payload, new Dictionary<string,string>{{"extractId",x.Id},{"sheet",x.Sheet}});
+                var env = new DataEnvelope(DataShape.Tabular, payload, new Dictionary<string, string> { { "extractId", x.Id }, { "sheet", x.Sheet } });
                 parts.Add(new DataPart(x.Id, new SourceRef(sourcePath, locatorPrefix), env, x.Label));
             }
         }

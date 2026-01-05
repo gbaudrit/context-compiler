@@ -1,15 +1,17 @@
+using ContextCompiler.Abstractions.Pipelines;
+
 using Microsoft.Extensions.Logging;
 
 namespace ContextCompiler.Host.Cli.Handlers;
 
 internal sealed class CtxcPluginsListHandler : ICtxcPluginsListHandler
 {
-    private readonly ContextCompiler.Core.Pipelines.IPluginRegistry _registry;
+    private readonly IPluginRegistry _registry;
     private readonly ILogger<CtxcPluginsListHandler> _logger;
     private System.Text.Json.JsonSerializerOptions jsonSerializerOptions = new() { WriteIndented = true };
 
 
-    public CtxcPluginsListHandler(ContextCompiler.Core.Pipelines.IPluginRegistry registry, ILogger<CtxcPluginsListHandler> logger)
+    public CtxcPluginsListHandler(IPluginRegistry registry, ILogger<CtxcPluginsListHandler> logger)
     {
         _registry = registry;
         _logger = logger;

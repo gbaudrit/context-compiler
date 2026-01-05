@@ -1,5 +1,8 @@
 using System.Reflection;
+
+using ContextCompiler.Abstractions.Pipelines;
 using ContextCompiler.Abstractions.Plugins;
+
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ContextCompiler.Infrastructure.PluginLoading;
@@ -8,6 +11,7 @@ public static class PluginRegistryBuilder
 {
     public static void RegisterPluginServices(IServiceCollection services, params Assembly[] assemblies)
     {
+        services.AddSingleton<IPluginRegistry>(sp => new PluginRegistry(sp));
         foreach (var a in assemblies)
         {
             foreach (var t in a.GetTypes())

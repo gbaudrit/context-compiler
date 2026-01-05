@@ -1,5 +1,7 @@
 using System.CommandLine;
+using System.CommandLine.Invocation;
 
+using ContextCompiler.Host.Cli.Handlers;
 using ContextCompiler.Host.Cli.Services;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -11,32 +13,59 @@ public static class CliCommandFactory
     public static RootCommand Create(IServiceProvider sp)
     {
         var root = new RootCommand("Context Compiler CLI (ctxc)");
+        var debugOpt = new Option<bool>(
+            aliases: ["--debug", "-d"],
+            description: "Enable debug"
+        );
+        root.AddGlobalOption(debugOpt);
 
         // compile
         var compile = new Command("compile", "Compile context into reasoning artifacts");
         var inputOpt = new Option<string>("--input") { IsRequired = true };
         var outputOpt = new Option<string>("--output");
+        var contextOpt = new Option<string?>("--context");
         var maxChars = new Option<int>("--max-chars", () => 1_000_000, "Maximum characters in prompt.context.md");
         var viewsOpt = new Option<string?>("--views", description: "Comma-separated view ids (future hook)");
-        var noGuards = new Option<bool>("--no-guards", description: "Disable non-critical guards (debug)");
+        var noInlineViewsOpt = new Option<bool?>("--no-inline-views", description: "Disable inline views");
+        var noGuardsOpt = new Option<bool?>("--no-guards", description: "Disable non-critical guards (debug)");
         var configOpt = new Option<string?>("--config", description: "Config file path");
         var jsonOpt = new Option<bool>("--json", description: "Emit summary JSON");
         compile.AddOption(inputOpt);
         compile.AddOption(outputOpt);
+        compile.AddOption(contextOpt);
         compile.AddOption(maxChars);
         compile.AddOption(viewsOpt);
-        compile.AddOption(noGuards);
+        compile.AddOption(noInlineViewsOpt);
+        compile.AddOption(noGuardsOpt);
         compile.AddOption(configOpt);
         compile.AddOption(jsonOpt);
-        compile.SetHandler(async (input, output, max, views, disableNonCritical, config, json) =>
+        compile.SetHandler(async (InvocationContext context) =>
         {
-            var handler = sp.GetRequiredService<Handlers.ICtxcCompileHandler>();
-            if(string.IsNullOrEmpty(output))
+            bool debug = context.ParseResult.GetValueForOption(debugOpt);
+            if (debug)
             {
-                output = sp.GetRequiredService<IOutputPathResolver>().Resolve(input);
+                System.Diagnostics.Debugger.Launch();
+                System.Diagnostics.Debugger.Break();
             }
-            Environment.ExitCode = await handler.HandleAsync(input, output, max, views, disableNonCritical, config, json);
-        }, inputOpt, outputOpt, maxChars, viewsOpt, noGuards, configOpt, jsonOpt);
+
+            string input = context.ParseResult.GetValueForOption(inputOpt) ?? ".";
+            string name = context.ParseResult.GetValueForOption(contextOpt) ?? "";
+
+            CtxcCompileCommandLine compileCommandLine = new(
+                input,
+                context.ParseResult.GetValueForOption(outputOpt) ?? sp.GetRequiredService<IOutputPathResolver>().Resolve(input, name),
+                name,
+                context.ParseResult.GetValueForOption(maxChars),
+                context.ParseResult.GetValueForOption(viewsOpt),
+                context.ParseResult.GetValueForOption(noInlineViewsOpt),
+                context.ParseResult.GetValueForOption(noGuardsOpt),
+                context.ParseResult.GetValueForOption(configOpt),
+                context.ParseResult.GetValueForOption(jsonOpt)
+                );
+
+            var handler = sp.GetRequiredService<Handlers.ICtxcCompileHandler>();
+            Environment.ExitCode = await handler.HandleAsync(compileCommandLine);
+        });
         root.AddCommand(compile);
 
         // diff

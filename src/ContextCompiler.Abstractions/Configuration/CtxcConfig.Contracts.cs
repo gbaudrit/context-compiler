@@ -4,19 +4,24 @@ namespace ContextCompiler.Abstractions.Configuration;
 
 public interface ICtxcConfigProvider
 {
+    ICtxcConfig Current { get; }
+
     CtxcConfig GetConfigOrDefault(string? configPath);
 }
 
-public sealed class CtxcConfig
+public sealed class CtxcConfig : ICtxcConfig
 {
     [JsonPropertyName("files")] public List<FileConfig> Files { get; set; } = new();
     [JsonPropertyName("personas")] public PersonasConfig? Personas { get; set; }
     [JsonPropertyName("context")] public ContextConfig? Context { get; set; }
+    [JsonPropertyName("views")] public ViewsConfig Views { get; set; } = new();
 }
 
 public sealed class FileConfig
 {
-    [JsonPropertyName("match")] public string Match { get; set; } = string.Empty;
+    [JsonPropertyName("includes")] public string[] Includes { get; set; } = Array.Empty<string>();
+    [JsonPropertyName("excludes")] public string[] Excludes { get; set; } = Array.Empty<string>();
+    [JsonPropertyName("tags")] public string[] Tags { get; set; } = Array.Empty<string>();
     [JsonPropertyName("excel")] public ExcelFileSection? Excel { get; set; }
     // future: add other types e.g., json, yaml, markdown
 }
@@ -73,4 +78,22 @@ public sealed class WhereClause
     [JsonPropertyName("col")] public string Column { get; set; } = string.Empty;
     [JsonPropertyName("op")] public string Op { get; set; } = "eq"; // eq,in,contains,gt,lt,gte,lte
     [JsonPropertyName("value")] public string Value { get; set; } = string.Empty;
+}
+
+public sealed class ViewsConfig
+{
+    [JsonPropertyName("inline")] public bool? Inline { get; set; }
+    [JsonPropertyName("views")] public ViewConfig[] Views { get; set; } = Array.Empty<ViewConfig>();
+}
+
+public sealed class ViewConfig
+{
+    [JsonPropertyName("id")] public string Id { get; set; } = string.Empty;
+    [JsonPropertyName("title")] public string Title { get; set; } = string.Empty;
+    [JsonPropertyName("select")] public string[] Select { get; set; } = Array.Empty<string>();
+    [JsonPropertyName("exclude")] public string[] Exclude { get; set; } = Array.Empty<string>();
+    [JsonPropertyName("order")] public string[] Order { get; set; } = Array.Empty<string>();
+    [JsonPropertyName("includeFragmentContent")] public bool IncludeFragmentContent { get; set; } = true;
+    [JsonPropertyName("maxContentChars")] public int? MaxContentChars { get; set; } = null;
+    // future: add other types e.g., json, yaml, markdown
 }
