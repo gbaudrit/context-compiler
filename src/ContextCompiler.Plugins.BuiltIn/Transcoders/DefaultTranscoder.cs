@@ -1,9 +1,8 @@
 using ContextCompiler.Abstractions;
 using ContextCompiler.Abstractions.Models;
+using ContextCompiler.Abstractions.Pipelines.Document;
 using ContextCompiler.Abstractions.Plugins;
 using ContextCompiler.Abstractions.ReasoningIR;
-
-using DocumentFormat.OpenXml.Bibliography;
 
 using Microsoft.Extensions.Logging;
 
@@ -15,9 +14,9 @@ public sealed class DefaultTranscoder(ILogger<DefaultTranscoder> logger, ITagBui
 
     public PluginMetadata Metadata => BuiltInMetadata.Meta("builtin.transcoder.default", PluginKinds.Transcoder, priority: 0);
 
-    public bool CanTranscode(DataEnvelope envelope) => envelope.Shape is DataShape.Linear or DataShape.Tabular;
+    public bool CanTranscode(IDataEnvelope envelope) => envelope.Shape is DataShape.Linear or DataShape.Tabular;
 
-    public Task<IReadOnlyList<TranscodedFragment>> TranscodeAsync(DataEnvelope envelope, SourceRef source, CancellationToken ct)
+    public Task<IReadOnlyList<TranscodedFragment>> TranscodeAsync(IDataEnvelope envelope, ISourceRef source, CancellationToken ct)
     {
         ct.ThrowIfCancellationRequested();
 

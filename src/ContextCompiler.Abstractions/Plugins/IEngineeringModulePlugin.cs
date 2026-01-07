@@ -1,8 +1,8 @@
-using ContextCompiler.Abstractions.Models;
+using ContextCompiler.Abstractions.Pipelines.Document;
 
 namespace ContextCompiler.Abstractions.Plugins;
 
 public interface IEngineeringModulePlugin : IPlugin
 {
-    Task<DataEnvelope> ApplyAsync(DataEnvelope envelope, CancellationToken ct);
+    Task<IDataEnvelope> ApplyAsync(IDataEnvelope envelope, CancellationToken ct);
 }

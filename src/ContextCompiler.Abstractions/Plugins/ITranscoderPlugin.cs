@@ -1,12 +1,13 @@
 using ContextCompiler.Abstractions.Models;
+using ContextCompiler.Abstractions.Pipelines.Document;
 using ContextCompiler.Abstractions.ReasoningIR;
 
 namespace ContextCompiler.Abstractions.Plugins;
 
 public interface ITranscoderPlugin : IPlugin
 {
-    bool CanTranscode(DataEnvelope envelope);
-    Task<IReadOnlyList<TranscodedFragment>> TranscodeAsync(DataEnvelope envelope, SourceRef source, CancellationToken ct);
+    bool CanTranscode(IDataEnvelope envelope);
+    Task<IReadOnlyList<TranscodedFragment>> TranscodeAsync(IDataEnvelope envelope, ISourceRef source, CancellationToken ct);
 }
 
 public sealed record TranscodedFragment(

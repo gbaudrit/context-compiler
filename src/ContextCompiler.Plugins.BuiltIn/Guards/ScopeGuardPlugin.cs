@@ -1,14 +1,17 @@
-using Microsoft.Extensions.FileSystemGlobbing;
 using ContextCompiler.Abstractions.Diagnostics;
+using ContextCompiler.Abstractions.Guards;
 using ContextCompiler.Abstractions.Models;
+using ContextCompiler.Abstractions.Pipelines.Document;
 using ContextCompiler.Abstractions.Plugins;
+
+using Microsoft.Extensions.FileSystemGlobbing;
 
 namespace ContextCompiler.Plugins.BuiltIn.Guards;
 
 public sealed class ScopeGuardPlugin : IGuardPlugin
 {
     public PluginMetadata Metadata => BuiltInMetadata.Meta("builtin.guard.scope", PluginKinds.Guard, priority: -100);
-    public GuardStage Stage => GuardStage.Read;
+    public DocumentStage Stage => DocumentStage.Discovery;
 
     private static readonly string[] Excludes =
     [
@@ -18,26 +21,26 @@ public sealed class ScopeGuardPlugin : IGuardPlugin
         "**/obj/**"
     ];
 
-    public Task<IReadOnlyList<GuardFinding>> EvaluateAsync(GuardContext ctx, CancellationToken ct)
+    public Task<IReadOnlyList<IPipelineFinding>> EvaluateAsync(IGuardContext ctx, CancellationToken ct)
     {
         ct.ThrowIfCancellationRequested();
-        if (ctx.FilePath is null) return Task.FromResult<IReadOnlyList<GuardFinding>>(Array.Empty<GuardFinding>());
+        if (ctx.DocumentContext is null) return Task.FromResult<IReadOnlyList<IPipelineFinding>>(Array.Empty<IPipelineFinding>());
 
         var matcher = new Matcher(StringComparison.OrdinalIgnoreCase);
         matcher.AddInclude("**/*");
         foreach (var ex in Excludes) matcher.AddExclude(ex);
 
-        var rel = Path.GetRelativePath(ctx.RootPath, ctx.FilePath);
+        var rel = Path.GetRelativePath(ctx.DocumentContext.InputRoot, ctx.DocumentContext.FullPath);
         var match = matcher.Match(rel);
         if (!match.HasMatches)
         {
-            return Task.FromResult<IReadOnlyList<GuardFinding>>(new []
+            return Task.FromResult<IReadOnlyList<IPipelineFinding>>(new []
             {
-                new GuardFinding("CtxGuard.Scope", GuardSeverity.Info, GuardActionKind.Skip,
-                    "File excluded by scope rules.", new SourceRef(ctx.FilePath))
+                ctx.DocumentContext.AddFinding(FindingSeverity.Info, FindingAction.Skip,"CtxGuard.Scope", 
+                    "File excluded by scope rules.", new SourceRef(ctx.DocumentContext.FullPath))
             });
         }
 
-        return Task.FromResult<IReadOnlyList<GuardFinding>>(Array.Empty<GuardFinding>());
+        return Task.FromResult<IReadOnlyList<IPipelineFinding>>(Array.Empty<IPipelineFinding>());
     }
 }

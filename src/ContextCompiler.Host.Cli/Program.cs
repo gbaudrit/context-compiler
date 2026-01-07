@@ -1,32 +1,45 @@
 using System.CommandLine;
+
 using ContextCompiler.Abstractions.Configuration;
 using ContextCompiler.Abstractions.Models;
+using ContextCompiler.Abstractions.Pipelines;
 using ContextCompiler.Abstractions.Ports;
+using ContextCompiler.Core;
 using ContextCompiler.Core.Engine;
+using ContextCompiler.Core.Output;
 using ContextCompiler.Core.Pipelines;
-using ContextCompiler.Infrastructure.FileSystem;
-using ContextCompiler.Infrastructure.Hashing;
-using ContextCompiler.Infrastructure.PluginLoading;
 using ContextCompiler.Host.Cli;
 using ContextCompiler.Host.Cli.Handlers;
 using ContextCompiler.Infrastructure.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using ContextCompiler.Core;
-using ContextCompiler.Abstractions.Pipelines;
-using ContextCompiler.Core.Output;
+using ContextCompiler.Infrastructure.FileSystem;
+using ContextCompiler.Infrastructure.Hashing;
+using ContextCompiler.Infrastructure.PluginLoading;
 
-static ServiceProvider BuildServices()
-{
-    var assemblies = new[]
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+
+
+
+HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
+
+builder.Configuration.SetBasePath(AppContext.BaseDirectory)
+                     .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                     .AddEnvironmentVariables(prefix: "CTXC_");
+
+var assemblies = new[]
     {
         typeof(ContextCompiler.Core.Engine.CompilerEngine).Assembly,
         typeof(ContextCompiler.Infrastructure.FileSystem.PhysicalFileSystem).Assembly,
         typeof(ContextCompiler.Plugins.BuiltIn.BuiltInMetadata).Assembly
     };
 
-    var services = new ServiceCollection()
-        .AddLogging(b => b.AddSimpleConsole(o => o.SingleLine = true))
+IHostEnvironment env = builder.Environment;
+
+builder.Logging.ClearProviders().AddConfiguration(builder.Configuration.GetSection("Logging")).AddSimpleConsole(o => o.SingleLine = true);
+
+builder.Services
         .AddSingleton<IFileSystem, PhysicalFileSystem>()
         .AddSingleton<IHasher, DefaultHasher>()
         .AddSingleton<ContextCompiler.Abstractions.Configuration.ICtxcConfigProvider, JsonCtxcConfigProvider>()
@@ -47,12 +60,9 @@ static ServiceProvider BuildServices()
         .AddCoreServices()
         .AddHostCliServices();
 
-    PluginRegistryBuilder.RegisterPluginServices(services, assemblies);
-    
+PluginRegistryBuilder.RegisterPluginServices(builder.Services, assemblies);
 
-    return services.BuildServiceProvider();
-}
+using IHost host = builder.Build();
 
-var sp = BuildServices();
-var root = ContextCompiler.Host.Cli.CliCommandFactory.Create(sp);
+var root = ContextCompiler.Host.Cli.CliCommandFactory.Create(host.Services);
 return await root.InvokeAsync(args);

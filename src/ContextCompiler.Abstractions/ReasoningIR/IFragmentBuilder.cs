@@ -12,7 +12,7 @@ namespace ContextCompiler.Abstractions.ReasoningIR
         IFragmentBuilder InitNew();
         IFragmentBuilder WithFilePath(string filePath);
         IFragmentBuilder WithLocator(string locator);
-        IFragmentBuilder WithTags(IList<ITag> tags);
+        IFragmentBuilder WithTags(IReadOnlyList<ITag> tags);
         IFragmentBuilder WithTranscodedFragment(ITranscodedFragment transcodedFragment);
     }
 }

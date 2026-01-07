@@ -7,6 +7,7 @@ using ContextCompiler.Abstractions.Diagnostics;
 using ContextCompiler.Abstractions.Guards;
 using ContextCompiler.Abstractions.Models;
 using ContextCompiler.Abstractions.Pipelines;
+using ContextCompiler.Abstractions.Pipelines.Document;
 using ContextCompiler.Abstractions.Plugins;
 using ContextCompiler.Abstractions.Ports;
 using ContextCompiler.Abstractions.ReasoningIR;
@@ -19,30 +20,33 @@ namespace ContextCompiler.Core.Pipelines;
 public sealed record GlobalCompileOutputs(
     IReadOnlyDictionary<string, string> Artifacts,
     GraphModel Graph,
-    IReadOnlyList<GuardFinding> Findings
+    IReadOnlyList<IPipelineFinding> Findings
 );
 
 public sealed class GlobalPipelineRunner(
-    ILogger logger,
+    ILogger<GlobalPipelineRunner> logger,
+    IDocumentContextBuilder docCtxBuilder,
     IFileSystem fs,
     IHasher hasher,
     IPluginRegistry plugins,
-    CtxcConfig cfg,
+    ICtxcConfigProvider cfgProvider,
     IGuardian guardian) : IGlobalPipelineRunner
 {
     private static readonly JsonSerializerOptions s_jsonIndentedOptions = new() { WriteIndented = true };
 
-    public async Task<GlobalCompileOutputs> RunAsync(
+    public async ValueTask RunAsync(
         string rootPath,
         string outputPath,
         IReasoningIr ir,
-        IReadOnlyList<GuardFinding> findings,
+        IReadOnlyList<IPipelineFinding> findings,
         CompileOptions options,
         IPlugins<IOutputPlugin> outputPlugins,
         CancellationToken ct)
     {
         ct.ThrowIfCancellationRequested();
         fs.EnsureDirectory(outputPath);
+
+        var cfg = cfgProvider.Current;
 
         var views = new List<ViewResult>();
         foreach (var v in plugins.Views.OrderBy(v => v.Metadata.Priority))
@@ -164,7 +168,7 @@ public sealed class GlobalPipelineRunner(
         WriteArtifact("reasoning.graph.json", JsonSerializer.Serialize(graph, s_jsonIndentedOptions));
 
         var secMd = "# Security Report\n\n" + (findings.Count == 0 ? "No findings." :
-            string.Join("\n", findings.Select(f => $"- **{f.Severity}** `{f.GuardId}` ({f.Action}): {f.Message} — `{f.Source.Path}`")));
+            string.Join("\n", findings.Select(f => $"- **{f.Severity}** `{f.PassId}` ({f.Action}): {f.Message} — `{f.EvidenceRef?.Path}`")));
         WriteArtifact("security.report.md", secMd);
 
         //var health = new
@@ -192,18 +196,18 @@ public sealed class GlobalPipelineRunner(
         }
 
         // Preflight
-        var preflight = new List<GuardFinding>();
-        foreach (var g in plugins.Guards.Where(g => g.Stage == GuardStage.Preflight).OrderBy(g => g.Metadata.Priority))
-            preflight.AddRange(await g.EvaluateAsync(new GuardContext(rootPath, Text: finalPrompt), ct));
+        var preflight = new List<IPipelineFinding>();
+        foreach (var g in plugins.Guards.Where(g => g.Stage == DocumentStage.Preflight).OrderBy(g => g.Metadata.Priority))
+            preflight.AddRange(await g.EvaluateAsync(new GuardContext(docCtxBuilder.InitNew().WithRelativePath("prompt").Build()), ct));
 
         if (preflight.Count > 0)
         {
             findings = findings.Concat(preflight).ToList();
-            var preMd = "# Preflight Findings\n\n" + string.Join("\n", preflight.Select(f => $"- **{f.Severity}** `{f.GuardId}` ({f.Action}): {f.Message}"));
+            var preMd = "# Preflight Findings\n\n" + string.Join("\n", preflight.Select(f => $"- **{f.Severity}** `{f.PassId}` ({f.Action}): {f.Message}"));
             WriteArtifact("preflight.report.md", preMd);
         }
 
-        return new GlobalCompileOutputs(artifacts, graph, findings);
+        //return new GlobalCompileOutputs(artifacts, graph, findings);
     }
 
     private static string RenderGlobalContext(ContextConfig ctx)

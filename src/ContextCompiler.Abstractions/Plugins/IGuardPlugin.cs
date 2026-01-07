@@ -1,19 +1,17 @@
 using ContextCompiler.Abstractions.Diagnostics;
+using ContextCompiler.Abstractions.Guards;
 using ContextCompiler.Abstractions.Models;
+using ContextCompiler.Abstractions.Pipelines.Document;
 
 namespace ContextCompiler.Abstractions.Plugins;
 
 public interface IGuardPlugin : IPlugin
 {
-    GuardStage Stage { get; }
-    Task<IReadOnlyList<GuardFinding>> EvaluateAsync(GuardContext ctx, CancellationToken ct);
+    DocumentStage Stage { get; }
+    Task<IReadOnlyList<IPipelineFinding>> EvaluateAsync(IGuardContext ctx, CancellationToken ct);
 }
 
 public sealed record GuardContext(
-    string RootPath,
-    string? FilePath = null,
-    string? Text = null,
-    DocumentContent? Document = null,
-    DataEnvelope? Envelope = null,
-    IReadOnlyList<string>? ViewIds = null
-);
+    IDocumentContext DocumentContext,
+    IDataPart? Part = null
+) : IGuardContext;

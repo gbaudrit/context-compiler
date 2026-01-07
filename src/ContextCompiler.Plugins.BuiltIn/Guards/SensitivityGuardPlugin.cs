@@ -1,6 +1,8 @@
 using System.Text.RegularExpressions;
 using ContextCompiler.Abstractions.Diagnostics;
+using ContextCompiler.Abstractions.Guards;
 using ContextCompiler.Abstractions.Models;
+using ContextCompiler.Abstractions.Pipelines.Document;
 using ContextCompiler.Abstractions.Plugins;
 
 namespace ContextCompiler.Plugins.BuiltIn.Guards;
@@ -8,25 +10,25 @@ namespace ContextCompiler.Plugins.BuiltIn.Guards;
 public sealed class SensitivityGuardPlugin : IGuardPlugin
 {
     public PluginMetadata Metadata => BuiltInMetadata.Meta("builtin.guard.sensitivity", PluginKinds.Guard, priority: 10);
-    public GuardStage Stage => GuardStage.Fragment;
+    public DocumentStage Stage => DocumentStage.ContentGuards;
 
     private static readonly Regex Email = new(@"[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
     private static readonly Regex SecretLike = new(@"(?i)\b(api[_-]?key|secret|token|password)\b\s*[:=]\s*\S+", RegexOptions.Compiled);
 
-    public Task<IReadOnlyList<GuardFinding>> EvaluateAsync(GuardContext ctx, CancellationToken ct)
+    public Task<IReadOnlyList<IPipelineFinding>> EvaluateAsync(IGuardContext ctx, CancellationToken ct)
     {
         ct.ThrowIfCancellationRequested();
-        if (ctx.FilePath is null || string.IsNullOrWhiteSpace(ctx.Text)) return Task.FromResult<IReadOnlyList<GuardFinding>>(Array.Empty<GuardFinding>());
-        var findings = new List<GuardFinding>();
+        if (ctx.DocumentContext is null || string.IsNullOrWhiteSpace(ctx.DocumentContext.InputRoot)) return Task.FromResult<IReadOnlyList<IPipelineFinding>>(Array.Empty<IPipelineFinding>());
+        var findings = new List<IPipelineFinding>();
 
-        if (Email.IsMatch(ctx.Text))
-            findings.Add(new GuardFinding("CtxGuard.Sensitivity", GuardSeverity.Warning, GuardActionKind.Warn,
-                "Potential email address detected in context.", new SourceRef(ctx.FilePath)));
+        if (Email.IsMatch(ctx.DocumentContext.Content))
+            findings.Add(ctx.DocumentContext.AddFinding(FindingSeverity.Warning, FindingAction.Warn, "CtxGuard.Sensitivity",
+                "Potential email address detected in context.", new SourceRef(ctx.DocumentContext.FullPath)));
 
-        if (SecretLike.IsMatch(ctx.Text))
-            findings.Add(new GuardFinding("CtxGuard.Sensitivity", GuardSeverity.Error, GuardActionKind.Redact,
-                "Potential secret/token detected in context.", new SourceRef(ctx.FilePath)));
+        if (SecretLike.IsMatch(ctx.DocumentContext.Content))
+            findings.Add(ctx.DocumentContext.AddFinding(FindingSeverity.Critical, FindingAction.Redact, "CtxGuard.Sensitivity",
+                "Potential secret/token detected in context.", new SourceRef(ctx.DocumentContext.FullPath)));
 
-        return Task.FromResult<IReadOnlyList<GuardFinding>>(findings);
+        return Task.FromResult<IReadOnlyList<IPipelineFinding>>(findings);
     }
 }

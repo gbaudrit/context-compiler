@@ -3,10 +3,12 @@ using ContextCompiler.Abstractions.Diagnostics;
 using ContextCompiler.Abstractions.Guards;
 using ContextCompiler.Abstractions.Models;
 using ContextCompiler.Abstractions.Pipelines;
+using ContextCompiler.Abstractions.Pipelines.Document;
 using ContextCompiler.Abstractions.Ports;
 using ContextCompiler.Abstractions.ReasoningIR;
 using ContextCompiler.Core.Guards;
 using ContextCompiler.Core.Pipelines;
+using ContextCompiler.Core.Pipelines.Document;
 using ContextCompiler.Core.ReasoningIR;
 
 using Microsoft.Extensions.Logging;
@@ -22,6 +24,7 @@ public sealed record CompileRequest(string InputPath, string OutputPath, string 
 
 public sealed class CompilerEngine(
     ILogger<CompilerEngine> logger,
+    IGlobalPipelineRunner globalPipelineRunner,
     IFileSystem fs,
     IHasher hasher,
     IPluginRegistry plugins,
@@ -46,21 +49,20 @@ public sealed class CompilerEngine(
                 InlineViews = cfg.Views?.Inline ?? true
             };
         }
+        DocumentsContext documentsContext = new DocumentsContext() { RootPath = request.InputPath };
+        await documentPipelineRunner.RunAsync(documentsContext, ct);
 
-        var docResults = await documentPipelineRunner.RunAsync(request.InputPath, ct);
-
-        guardian.Load(docResults);
+        guardian.Load(documentsContext);
 
         var findings = guardian.Findings;
-        if (findings.Any(f => f.Action == GuardActionKind.Block && f.Severity == GuardSeverity.Critical))
+        if (findings.Any(f => f.Action == FindingAction.Block && f.Severity == FindingSeverity.Critical))
             return 2;
 
-        foreach (var r in docResults)
+        foreach (var r in documentsContext.Documents)
             foreach (var f in r.Fragments)
                 reasoningIr.Add(f);
 
-        var globalRunner = new GlobalPipelineRunner(logger, fs, hasher, plugins, cfg, guardian);
-        await globalRunner.RunAsync(request.InputPath, request.OutputPath, reasoningIr, findings, options, plugins.Outputs, ct);
+        await globalPipelineRunner.RunAsync(request.InputPath, request.OutputPath, reasoningIr, findings, options, plugins.Outputs, ct);
         return 0;
     }
 }

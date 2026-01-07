@@ -1,4 +1,7 @@
 using ContextCompiler.Abstractions.Pipelines;
+using ContextCompiler.Abstractions.Pipelines.Document;
+using ContextCompiler.Core.Pipelines.DataPart;
+using ContextCompiler.Core.Pipelines.Document;
 
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,8 +13,10 @@ namespace ContextCompiler.Core.Pipelines
         public static IServiceCollection AddPipelinesServices(this IServiceCollection services)
         {
             // Register core services here
-            services.AddSingleton<IDocumentPipelineRunner, DocumentPipelineRunner>()
-                .AddSingleton<IGlobalPipelineRunner, GlobalPipelineRunner>();
+            services.AddSingleton<IGlobalPipelineRunner, GlobalPipelineRunner>()
+                .AddSingleton<IDocumentContextBuilder, DocumentContextBuilder>()
+                .AddDocumentPipeline()
+                .AddDataPartPipeline();
             return services;
         }
 

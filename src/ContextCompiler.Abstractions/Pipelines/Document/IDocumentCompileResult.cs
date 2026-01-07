@@ -5,7 +5,7 @@ using System.Text;
 using ContextCompiler.Abstractions.Diagnostics;
 using ContextCompiler.Abstractions.ReasoningIR;
 
-namespace ContextCompiler.Abstractions.Pipelines
+namespace ContextCompiler.Abstractions.Pipelines.Document
 {
     public interface IDocumentCompileResult
     {

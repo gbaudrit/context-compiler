@@ -2,17 +2,18 @@ using ClosedXML.Excel;
 
 using ContextCompiler.Abstractions.Configuration;
 using ContextCompiler.Abstractions.Models;
+using ContextCompiler.Abstractions.Pipelines.Document;
 using ContextCompiler.Abstractions.Plugins;
 
 namespace ContextCompiler.Plugins.BuiltIn.DataReaders;
 
-public sealed class ExcelExtractDataReader(ICtxcConfigProvider cfgProvider) : IDataReaderPlugin
+public sealed class ExcelExtractDataReader(ICtxcConfigProvider cfgProvider, IDataEnvelopeBuilder dataEnvelopeBuilder, IDataPartBuilder dataPartBuilder) : IDataReaderPlugin
 {
     public PluginMetadata Metadata => BuiltInMetadata.Meta("builtin.data.excel.extract", PluginKinds.DataReader, priority: 9);
 
     public bool CanRead(DocumentContent doc) => doc.MediaType.Contains("spreadsheet", StringComparison.OrdinalIgnoreCase);
 
-    public Task<DataEnvelope> ReadAsync(DocumentContent doc, CancellationToken ct)
+    public Task<IDataEnvelope> ReadAsync(DocumentContent doc, CancellationToken ct)
     {
         ct.ThrowIfCancellationRequested();
         var cfg = cfgProvider.GetConfigOrDefault(null);
@@ -30,7 +31,7 @@ public sealed class ExcelExtractDataReader(ICtxcConfigProvider cfgProvider) : ID
 
         using var ms2 = new MemoryStream(doc.Bytes);
         using var wb2 = new XLWorkbook(ms2);
-        var parts = new List<DataPart>();
+        var parts = new List<IDataPart>();
         var sourcePath = doc.Path ?? string.Empty;
 
         foreach (var (match, defaults, extracts) in fileExtracts)
@@ -94,19 +95,30 @@ public sealed class ExcelExtractDataReader(ICtxcConfigProvider cfgProvider) : ID
                 if (!string.IsNullOrEmpty(x.Table)) locatorPrefix += $"/table:{x.Table}";
                 if (!string.IsNullOrEmpty(x.Range)) locatorPrefix += $"/range:{x.Range}";
 
+
+
                 var payload = new { headerRowIndex, rows };
-                var env = new DataEnvelope(DataShape.Tabular, payload, new Dictionary<string, string> { { "extractId", x.Id }, { "sheet", x.Sheet } });
-                parts.Add(new DataPart(x.Id, new SourceRef(sourcePath, locatorPrefix), env, x.Label));
+                //var env = dataEnvelopeBuilder.InitNew()
+                //                             .WithDataShape(DataShape.Tabular)
+                //                             .WithPayload(payload)
+                //                             .WithMetadata(new Dictionary<string, string> { { "extractId", x.Id }, { "sheet", x.Sheet } })
+                //                             .Build();
+                parts.Add(dataPartBuilder.InitNew()
+                                          .WithId(x.Id)
+                                          .WithSource(new SourceRef(sourcePath, locatorPrefix))
+                                          .WithLabel(x.Label)
+                                          .WithPayload(payload)
+                                          .Build());
             }
         }
 
-        if (parts.Count == 0)
-        {
-            return Task.FromResult(new DataEnvelope(DataShape.Tabular, new { parts = Array.Empty<object>() }));
-        }
 
-        var composite = new CompositeDataEnvelope(parts);
-        return Task.FromResult(new DataEnvelope(DataShape.Composite, composite));
+        return Task.FromResult(dataEnvelopeBuilder.InitNew()
+                                                  .WithDataShape(DataShape.Tabular)
+                                                  .WithParts(parts)
+                                                  .WithPayload(doc)
+                                                  .Build());
+
     }
 
     private static bool ApplyWhere(string value, WhereClause w)

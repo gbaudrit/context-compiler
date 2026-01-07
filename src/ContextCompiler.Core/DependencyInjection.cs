@@ -25,6 +25,7 @@ namespace ContextCompiler.Core
                     .AddReasoningIRServices()
                     .AddOutputServices()
                     .AddSingleton<ITagBuilder, TagBuilder>()
+                    .AddSingleton<ITagsBuilder, TagsBuilder>()
                     .AddTransient<ISourceRefBuilder, SourceRefBuilder>()
                     .AddSingleton<IReasoningIr, ReasoningIr>()
                     .AddSingleton<IGuardian, Guardian>()

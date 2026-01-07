@@ -1,0 +1,80 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+using ContextCompiler.Abstractions.Pipelines.Document;
+
+namespace ContextCompiler.Core.Pipelines.Document
+{
+    internal sealed class DataEnvelopeBuilder : IDataEnvelopeBuilder
+    {
+        private DataShape _shape;
+        private object? _payload;
+        private IReadOnlyDictionary<string, string>? _metadata;
+        private List<IDataPart> _parts = new();
+
+        public IDataEnvelopeBuilder InitNew()
+        {
+            _shape = DataShape.Linear;
+            _payload = null;
+            _metadata = null;
+            return this;
+        }
+
+        public IDataEnvelopeBuilder InitNewFrom(IDataEnvelope dataEnvelope)
+        {
+            _shape = dataEnvelope.Shape;
+            _payload = dataEnvelope.Payload;
+            _metadata = dataEnvelope.Metadata;
+            return this;
+        }
+
+        public IDataEnvelopeBuilder WithDataShape(DataShape Shape)
+        {
+            _shape = Shape;
+            return this;
+        }
+
+        public IDataEnvelopeBuilder WithPayload(object Payload)
+        {
+            _payload = Payload;
+            return this;
+        }
+
+        public IDataEnvelopeBuilder WithMetadata(IReadOnlyDictionary<string, string>? Metadata)
+        {
+            _metadata = Metadata;
+            return this;
+        }
+
+        public IDataEnvelopeBuilder AddPart(IDataPart part)
+        {
+            _parts.Add(part);
+            return this;
+        }
+
+        public IDataEnvelopeBuilder WithSinglePart(IDataPart part)
+        {
+            _parts.Add(part);
+            return this;
+        }
+
+        public IDataEnvelopeBuilder WithParts(IEnumerable<IDataPart> parts)
+        {
+            _parts.AddRange(parts);
+            return this;
+        }
+
+        public IDataEnvelope Build()
+        {
+            ArgumentNullException.ThrowIfNull(_payload);
+
+            return new DataEnvelope(_shape,
+                                    _payload)
+            {
+                Metadata = _metadata,
+                Parts = _parts.AsReadOnly()
+            };
+        }
+    }
+}

@@ -1,16 +1,17 @@
 using ClosedXML.Excel;
 using ContextCompiler.Abstractions.Models;
+using ContextCompiler.Abstractions.Pipelines.Document;
 using ContextCompiler.Abstractions.Plugins;
 
 namespace ContextCompiler.Plugins.BuiltIn.DataReaders;
 
-public sealed class ExcelTabularDataReader : IDataReaderPlugin
+public sealed class ExcelTabularDataReader(IDataEnvelopeBuilder dataEnvelopeBuilder) : IDataReaderPlugin
 {
     public PluginMetadata Metadata => BuiltInMetadata.Meta("builtin.data.excel.tabular", PluginKinds.DataReader, priority: 10);
 
     public bool CanRead(DocumentContent doc) => doc.MediaType.Contains("spreadsheet", StringComparison.OrdinalIgnoreCase);
 
-    public Task<DataEnvelope> ReadAsync(DocumentContent doc, CancellationToken ct)
+    public Task<IDataEnvelope> ReadAsync(DocumentContent doc, CancellationToken ct)
     {
         ct.ThrowIfCancellationRequested();
 
@@ -35,6 +36,6 @@ public sealed class ExcelTabularDataReader : IDataReaderPlugin
             sheets.Add(new { name = ws.Name, rows });
         }
 
-        return Task.FromResult(new DataEnvelope(DataShape.Tabular, new { sheets }, new Dictionary<string,string>{{"mediaType",doc.MediaType}}));
+        return Task.FromResult(dataEnvelopeBuilder.InitNew().WithDataShape(DataShape.Tabular).WithPayload(new { sheets }).WithMetadata(new Dictionary<string,string>{{"mediaType",doc.MediaType}}).Build());
     }
 }

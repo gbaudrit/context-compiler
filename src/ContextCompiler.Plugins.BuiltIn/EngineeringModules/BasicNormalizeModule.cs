@@ -1,14 +1,15 @@
 using System.Text.RegularExpressions;
-using ContextCompiler.Abstractions.Models;
+
+using ContextCompiler.Abstractions.Pipelines.Document;
 using ContextCompiler.Abstractions.Plugins;
 
 namespace ContextCompiler.Plugins.BuiltIn.EngineeringModules;
 
-public sealed class BasicNormalizeModule : IEngineeringModulePlugin
+public sealed class BasicNormalizeModule(IDataEnvelopeBuilder dataEnvelopeBuilder) : IEngineeringModulePlugin
 {
     public PluginMetadata Metadata => BuiltInMetadata.Meta("builtin.engineering.normalize", PluginKinds.EngineeringModule, priority: 0);
 
-    public Task<DataEnvelope> ApplyAsync(DataEnvelope envelope, CancellationToken ct)
+    public Task<IDataEnvelope> ApplyAsync(IDataEnvelope envelope, CancellationToken ct)
     {
         ct.ThrowIfCancellationRequested();
 
@@ -16,7 +17,7 @@ public sealed class BasicNormalizeModule : IEngineeringModulePlugin
         {
             s = s.Replace("\r\n", "\n");
             s = Regex.Replace(s, "[ \t]{2,}", " ");
-            return Task.FromResult(envelope with { Payload = s });
+            return Task.FromResult(dataEnvelopeBuilder.InitNewFrom(envelope).WithPayload(s).Build());
         }
 
         return Task.FromResult(envelope);
