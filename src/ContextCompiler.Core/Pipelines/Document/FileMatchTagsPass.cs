@@ -1,18 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Security.Cryptography;
-using System.Text;
-
-using ContextCompiler.Abstractions;
 using ContextCompiler.Abstractions.Configuration;
-using ContextCompiler.Abstractions.Diagnostics;
-using ContextCompiler.Abstractions.Models;
 using ContextCompiler.Abstractions.Pipelines;
 using ContextCompiler.Abstractions.Pipelines.Document;
-using ContextCompiler.Abstractions.Plugins;
 using ContextCompiler.Abstractions.ReasoningIR;
-using ContextCompiler.Core.ReasoningIR;
-using ContextCompiler.Core.Services;
+using ContextCompiler.Abstractions.Tags;
 
 using Microsoft.Extensions.FileSystemGlobbing;
 using Microsoft.Extensions.Logging;
@@ -37,6 +27,18 @@ namespace ContextCompiler.Core.Pipelines.Document
                 {
                     logger.LogDebug("Apply config tags {Tags} on file {FilePath}", string.Join(',', cfgMatch.Tags), ctx.FullPath);
                     ctx.AddTags(cfgMatch.Tags);
+
+                    foreach (var sub in cfgMatch.Subs)
+                    {
+                        Matcher subMatcher = new();
+                        subMatcher.AddIncludePatterns(sub.Includes);
+                        subMatcher.AddExcludePatterns(sub.Excludes);
+                        if (subMatcher.Match(ctx.FullPath).HasMatches)
+                        {
+                            logger.LogDebug("Apply config sub-tags {Tags} on file {FilePath}", string.Join(',', sub.Tags), ctx.FullPath);
+                            ctx.AddTags(sub.Tags);
+                        }
+                    }
                 }
             }
 

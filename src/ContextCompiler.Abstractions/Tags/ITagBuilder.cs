@@ -4,7 +4,7 @@ using System.Text;
 
 using ContextCompiler.Abstractions.ReasoningIR;
 
-namespace ContextCompiler.Abstractions
+namespace ContextCompiler.Abstractions.Tags
 {
     public interface ITagBuilder
     {

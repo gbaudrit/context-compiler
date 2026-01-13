@@ -21,9 +21,17 @@ public sealed class FileConfig
 {
     [JsonPropertyName("includes")] public string[] Includes { get; set; } = Array.Empty<string>();
     [JsonPropertyName("excludes")] public string[] Excludes { get; set; } = Array.Empty<string>();
+    [JsonPropertyName("subs")] public SubFilesMatchConfig[] Subs { get; set; } = Array.Empty<SubFilesMatchConfig>();
     [JsonPropertyName("tags")] public string[] Tags { get; set; } = Array.Empty<string>();
     [JsonPropertyName("excel")] public ExcelFileSection? Excel { get; set; }
     // future: add other types e.g., json, yaml, markdown
+}
+
+public sealed class SubFilesMatchConfig
+{
+    [JsonPropertyName("includes")] public string[] Includes { get; set; } = Array.Empty<string>();
+    [JsonPropertyName("excludes")] public string[] Excludes { get; set; } = Array.Empty<string>();
+    [JsonPropertyName("tags")] public string[] Tags { get; set; } = Array.Empty<string>();
 }
 
 public sealed class ExcelFileSection
@@ -64,6 +72,7 @@ public sealed class ExcelExtractConfig
     [JsonPropertyName("where")] public List<WhereClause>? Where { get; set; }
     // fragmentation
     [JsonPropertyName("fragmenting")] public FragmentingSpec? Fragmenting { get; set; }
+    [JsonPropertyName("tags")] public string[] Tags { get; set; } = Array.Empty<string>();
 }
 
 public sealed class FragmentingSpec
@@ -95,5 +104,6 @@ public sealed class ViewConfig
     [JsonPropertyName("order")] public string[] Order { get; set; } = Array.Empty<string>();
     [JsonPropertyName("includeFragmentContent")] public bool IncludeFragmentContent { get; set; } = true;
     [JsonPropertyName("maxContentChars")] public int? MaxContentChars { get; set; } = null;
+    [JsonPropertyName("renderer")] public string[] Renderer { get; set; } = ["yaml", "index.json"];
     // future: add other types e.g., json, yaml, markdown
 }

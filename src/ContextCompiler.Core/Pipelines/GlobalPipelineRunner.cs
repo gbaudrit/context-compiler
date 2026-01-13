@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 using System.Text.Json;
@@ -6,11 +7,17 @@ using ContextCompiler.Abstractions.Configuration;
 using ContextCompiler.Abstractions.Diagnostics;
 using ContextCompiler.Abstractions.Guards;
 using ContextCompiler.Abstractions.Models;
+using ContextCompiler.Abstractions.Output;
+using ContextCompiler.Abstractions.Personas;
 using ContextCompiler.Abstractions.Pipelines;
 using ContextCompiler.Abstractions.Pipelines.Document;
 using ContextCompiler.Abstractions.Plugins;
+using ContextCompiler.Abstractions.Plugins.Prompts;
 using ContextCompiler.Abstractions.Ports;
+using ContextCompiler.Abstractions.Prompt;
 using ContextCompiler.Abstractions.ReasoningIR;
+using ContextCompiler.Abstractions.Views;
+using ContextCompiler.Core.Framing;
 using ContextCompiler.Core.ReasoningIR;
 
 using Microsoft.Extensions.Logging;
@@ -37,6 +44,7 @@ public sealed class GlobalPipelineRunner(
     public async ValueTask RunAsync(
         string rootPath,
         string outputPath,
+        bool cleanOutput,
         IReasoningIr ir,
         IReadOnlyList<IPipelineFinding> findings,
         CompileOptions options,
@@ -44,19 +52,14 @@ public sealed class GlobalPipelineRunner(
         CancellationToken ct)
     {
         ct.ThrowIfCancellationRequested();
-        fs.EnsureDirectory(outputPath);
+        fs.EnsureDirectory(outputPath, cleanOutput);
 
         var cfg = cfgProvider.Current;
 
-        var views = new List<ViewResult>();
+        var views = new List<IViewResult>();
         foreach (var v in plugins.Views.OrderBy(v => v.Metadata.Priority))
             views.AddRange(await v.BuildAsync(new ViewContext(cfg.Views, rootPath, ir), ct));
 
-        if (views.Count == 0)
-        {
-            views.Add(new ViewResult("default", "Default View",
-                string.Join("\n\n", ir.Fragments.Select(f => $"### {f.Evidence.EvidenceKey}\n{f.Content}\n")), "", "", ""));
-        }
         Prompt prompt = new();
 
         //string.Join("\n\n---\n\n", views.Select(v => $"# {v.Title}\n\n{v.Rendered}"));
@@ -66,15 +69,13 @@ public sealed class GlobalPipelineRunner(
         // Global Context rendering (before personas)
         if (cfg.Context?.Enabled == true)
         {
-            prompt.Global = RenderGlobalContext(cfg.Context);
+            RenderGlobalContext(cfg.Context, prompt);
         }
 
         // Personas (existing integration)
-        string personaFraming = string.Empty;
-        var personasMeta = new List<object>();
+        var personasMeta = new List<IPersonaResult>();
         if (cfg.Personas is not null && cfg.Personas.Active.Count > 0)
         {
-            personaFraming = "# Persona (roles)";
             foreach (var id in cfg.Personas.Active)
             {
                 var plugin = plugins.Personas.FirstOrDefault(p => string.Equals(p.PersonaId, id, StringComparison.Ordinal));
@@ -94,16 +95,10 @@ public sealed class GlobalPipelineRunner(
                         inputs = dict;
                     }
                 }
-                var result = await plugin.BuildAsync(new PersonaContext(rootPath, ir, inputs), ct);
-                personasMeta.Add(new { result.PersonaId, result.Title, result.Metadata });
-                if (!string.IsNullOrWhiteSpace(result.FramingMarkdown))
-                {
-                    if (personaFraming.Length > 0) personaFraming += "\n\n";
-                    personaFraming += result.FramingMarkdown;
-                }
+                personasMeta.Add(await plugin.BuildAsync(new PersonaContext(rootPath, ir, inputs), ct));
             }
         }
-        prompt.Personas = personaFraming;
+        prompt.Personas = personasMeta;
 
         //var mode = cfg.Personas?.Mode?.ToLowerInvariant() ?? "append";
         //string framingInput = compiledViews;
@@ -117,14 +112,23 @@ public sealed class GlobalPipelineRunner(
         //    };
         //}
 
+
+
         var template = plugins.Templates.OrderBy(t => t.Metadata.Priority).FirstOrDefault();
-        if(template is null)
+        if (template is null)
             throw new InvalidOperationException("No prompt template plugins are registered.");
 
-        var finalPrompt = template.Apply(options, prompt);
+        List<IRenderedPromptResult> renderedPromptResults = new();
 
-        if (finalPrompt.Length > options.MaxCharacters)
-            finalPrompt = finalPrompt[..options.MaxCharacters] + "\n\n<!-- truncated by Context Compiler -->\n";
+        foreach (var renderer in plugins.PromptRenderers.OrderBy(r => r.Metadata.Priority))
+        {
+            renderedPromptResults.Add(await renderer.RenderTemplateAsync(prompt, "prompt.context.md", "prompt.context.md", ct));
+        }
+
+        //var finalPrompt = template.Apply(options, prompt);
+
+        //if (finalPrompt.Length > options.MaxCharacters)
+        //    finalPrompt = finalPrompt[..options.MaxCharacters] + "\n\n<!-- truncated by Context Compiler -->\n";
 
         // Graph
         var graph = new GraphModel();
@@ -152,7 +156,12 @@ public sealed class GlobalPipelineRunner(
 
         await outputPlugins.Run(ct);
 
-        WriteArtifact("prompt.context.md", finalPrompt);
+        foreach (var r in renderedPromptResults)
+        {
+            WriteArtifact(r.Filename, r.RenderedText);
+        }
+
+        //WriteArtifact("prompt.context.md", finalPrompt);
 
         var evidenceIndex = ir.Fragments.Select(f => new
         {
@@ -187,13 +196,13 @@ public sealed class GlobalPipelineRunner(
         }
 
         foreach (var v in views)
-            WriteArtifact($"view.{v.ViewId}.md", v.Rendered);
+            WriteArtifact(v.Filename, v.Content);
 
-        if (!string.IsNullOrEmpty(personaFraming))
-        {
-            WriteArtifact("persona.framing.md", personaFraming);
+        //if (!string.IsNullOrEmpty(personaFraming))
+        //{
+            //WriteArtifact("persona.framing.md", personaFraming);
             WriteArtifact("personas.active.json", JsonSerializer.Serialize(new { active = cfg.Personas!.Active, mode = cfg.Personas.Mode, results = personasMeta }, s_jsonIndentedOptions));
-        }
+        //}
 
         // Preflight
         var preflight = new List<IPipelineFinding>();
@@ -210,44 +219,33 @@ public sealed class GlobalPipelineRunner(
         //return new GlobalCompileOutputs(artifacts, graph, findings);
     }
 
-    private static string RenderGlobalContext(ContextConfig ctx)
+    private static string RenderGlobalContext(ContextConfig ctx, Prompt prompt)
     {
         var sb = new System.Text.StringBuilder();
         if (ctx.Project is not null)
         {
-            sb.AppendLine("# Project");
-            if (!string.IsNullOrWhiteSpace(ctx.Project.Name)) sb.AppendLine(CultureInfo.InvariantCulture, $"- Name: {ctx.Project.Name}");
-            if (!string.IsNullOrWhiteSpace(ctx.Project.Summary)) sb.AppendLine(CultureInfo.InvariantCulture, $"- Summary: {ctx.Project.Summary}");
-            if (!string.IsNullOrWhiteSpace(ctx.Project.Domain)) sb.AppendLine(CultureInfo.InvariantCulture, $"- Domain: {ctx.Project.Domain}");
-            if (ctx.Project.Audience is not null && ctx.Project.Audience.Count > 0)
-                sb.AppendLine("- Audience: " + string.Join(", ", ctx.Project.Audience));
-            sb.AppendLine();
+            prompt.Name = ctx.Project.Name ?? string.Empty;
+            prompt.Summary = ctx.Project.Summary ?? string.Empty;
+            prompt.Domain = ctx.Project.Domain ?? string.Empty;
+            prompt.Audiences = ctx.Project.Audience ?? [];
         }
         if (ctx.Objectives is not null && ctx.Objectives.Count > 0)
         {
-            sb.AppendLine("# Objectives");
-            foreach (var o in ctx.Objectives) sb.AppendLine("- " + o);
-            sb.AppendLine();
+            prompt.Objectives = [.. ctx.Objectives];
         }
         if (ctx.Assumptions is not null && ctx.Assumptions.Count > 0)
         {
-            sb.AppendLine("# Assumptions");
-            foreach (var a in ctx.Assumptions) sb.AppendLine("- " + a);
-            sb.AppendLine();
+            prompt.Assumptions = [.. ctx.Assumptions];
         }
         if (ctx.Constraints is not null)
         {
             if (ctx.Constraints.Must is not null && ctx.Constraints.Must.Count > 0)
             {
-                sb.AppendLine("# Constraints — MUST");
-                foreach (var m in ctx.Constraints.Must) sb.AppendLine("- " + m);
-                sb.AppendLine();
+                prompt.MustConstraints = [.. ctx.Constraints.Must.Select(m => new MustConstraint() { Text = m })];
             }
             if (ctx.Constraints.MustNot is not null && ctx.Constraints.MustNot.Count > 0)
             {
-                sb.AppendLine("# Constraints — MUST NOT");
-                foreach (var mn in ctx.Constraints.MustNot) sb.AppendLine("- " + mn);
-                sb.AppendLine();
+                prompt.MustNotConstraints = [.. ctx.Constraints.MustNot.Select(m => new MustNotConstraint() { Text = m })];
             }
         }
         if (ctx.Glossary is not null && ctx.Glossary.Count > 0)

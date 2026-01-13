@@ -20,7 +20,7 @@ public interface ICompilerEngine
     Task<int> CompileAsync(CompileRequest request, CancellationToken ct);
 }
 
-public sealed record CompileRequest(string InputPath, string OutputPath, string Name, CompileOptions? Options = null);
+public sealed record CompileRequest(string InputPath, string OutputPath, string Name, bool Clean, CompileOptions? Options = null);
 
 public sealed class CompilerEngine(
     ILogger<CompilerEngine> logger,
@@ -62,7 +62,7 @@ public sealed class CompilerEngine(
             foreach (var f in r.Fragments)
                 reasoningIr.Add(f);
 
-        await globalPipelineRunner.RunAsync(request.InputPath, request.OutputPath, reasoningIr, findings, options, plugins.Outputs, ct);
+        await globalPipelineRunner.RunAsync(request.InputPath, request.OutputPath, request.Clean, reasoningIr, findings, options, plugins.Outputs, ct);
         return 0;
     }
 }

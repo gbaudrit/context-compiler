@@ -16,13 +16,15 @@ public sealed class PromptInjectionGuardPlugin : IGuardPlugin
     private static readonly Regex Pattern = new(@"(?i)\b(ignore|disregard)\b.{0,60}\b(previous|all|any)\b.{0,30}\b(instructions|rules)\b",
         RegexOptions.Compiled | RegexOptions.CultureInvariant);
 
-    public Task<IReadOnlyList<IPipelineFinding>> EvaluateAsync(IGuardContext ctx, CancellationToken ct)
+    public async Task<IReadOnlyList<IPipelineFinding>> EvaluateAsync(IGuardContext ctx, CancellationToken ct)
     {
         ct.ThrowIfCancellationRequested();
-        if (string.IsNullOrWhiteSpace(ctx.DocumentContext?.Content) || ctx.DocumentContext.FullPath is null) return Task.FromResult<IReadOnlyList<IPipelineFinding>>(Array.Empty<IPipelineFinding>());
-        if (!Pattern.IsMatch(ctx.DocumentContext.Content)) return Task.FromResult<IReadOnlyList<IPipelineFinding>>(Array.Empty<IPipelineFinding>());
 
-        return Task.FromResult<IReadOnlyList<IPipelineFinding>>(new[]
+        using var streamReader = await ctx.DocumentContext.GetContentReader();
+
+        if (!Pattern.IsMatch(await streamReader.ReadToEndAsync(ct))) return Array.Empty<IPipelineFinding>();
+
+        return (new[]
         {
             ctx.DocumentContext.AddFinding(FindingSeverity.Critical, FindingAction.Quarantine,"CtxGuard.Inject",
                 "Prompt-injection-like instruction detected.", new SourceRef(ctx.DocumentContext.FullPath))

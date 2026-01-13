@@ -23,6 +23,7 @@ public sealed class ProjectInfo
 
 public sealed class ConstraintsInfo
 {
+    [JsonPropertyName("canUseExternalSources")] public bool CanUseExternalSources { get; set; } = true;
     [JsonPropertyName("must")] public List<string>? Must { get; set; }
     [JsonPropertyName("mustNot")] public List<string>? MustNot { get; set; }
 }

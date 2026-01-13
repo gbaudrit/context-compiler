@@ -30,6 +30,7 @@ public static class CliCommandFactory
         var noGuardsOpt = new Option<bool?>("--no-guards", description: "Disable non-critical guards (debug)");
         var configOpt = new Option<string?>("--config", description: "Config file path");
         var jsonOpt = new Option<bool>("--json", description: "Emit summary JSON");
+        var cleanOpt = new Option<bool>("--clean", description: "Clean output directory");
         compile.AddOption(inputOpt);
         compile.AddOption(outputOpt);
         compile.AddOption(contextOpt);
@@ -39,6 +40,7 @@ public static class CliCommandFactory
         compile.AddOption(noGuardsOpt);
         compile.AddOption(configOpt);
         compile.AddOption(jsonOpt);
+        compile.AddOption(cleanOpt);
         compile.SetHandler(async (InvocationContext context) =>
         {
             bool debug = context.ParseResult.GetValueForOption(debugOpt);
@@ -60,7 +62,8 @@ public static class CliCommandFactory
                 context.ParseResult.GetValueForOption(noInlineViewsOpt),
                 context.ParseResult.GetValueForOption(noGuardsOpt),
                 context.ParseResult.GetValueForOption(configOpt),
-                context.ParseResult.GetValueForOption(jsonOpt)
+                context.ParseResult.GetValueForOption(jsonOpt),
+                context.ParseResult.GetValueForOption(cleanOpt)
                 );
 
             var handler = sp.GetRequiredService<Handlers.ICtxcCompileHandler>();

@@ -23,11 +23,12 @@ namespace ContextCompiler.Core.Pipelines.Document
             if (reader is null) return;
 
             var doc = await reader.ReadAsync(ctx.FullPath, ct);
+            ctx.SetFileRead(doc);
 
-            var dataReader = plugins.DataReaders.FirstOrDefault(r => r.CanRead(doc));
+            var dataReader = plugins.DataReaders.FirstOrDefault(r => r.CanRead(doc.Content));
             if (dataReader is null) return;
 
-            var envelope = await dataReader.ReadAsync(doc, ct);
+            var envelope = await dataReader.ReadAsync(ctx, ct);
             ctx.SetData(envelope);
 
             await Task.CompletedTask;

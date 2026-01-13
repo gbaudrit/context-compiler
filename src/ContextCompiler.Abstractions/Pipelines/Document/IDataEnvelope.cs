@@ -12,7 +12,6 @@ public enum DataShape
 public interface IDataEnvelope
 {
     DataShape Shape { get; }
-    object Payload { get; }
     IReadOnlyDictionary<string, string>? Metadata { get; }
     IReadOnlyList<IDataPart> Parts { get; }
 }

@@ -3,8 +3,7 @@ using ContextCompiler.Abstractions.Pipelines.Document;
 namespace ContextCompiler.Core.Pipelines.Document;
 
 public sealed record DataEnvelope(
-    DataShape Shape,
-    object Payload
+    DataShape Shape
 ) : IDataEnvelope
 {
     public IReadOnlyList<IDataPart> Parts { get; init; } = new List<IDataPart>();

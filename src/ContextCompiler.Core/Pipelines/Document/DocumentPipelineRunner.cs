@@ -1,15 +1,10 @@
-using ContextCompiler.Abstractions;
 using ContextCompiler.Abstractions.Configuration;
 using ContextCompiler.Abstractions.Diagnostics;
-using ContextCompiler.Abstractions.Models;
 using ContextCompiler.Abstractions.Pipelines;
 using ContextCompiler.Abstractions.Pipelines.Document;
-using ContextCompiler.Abstractions.Plugins;
 using ContextCompiler.Abstractions.Ports;
 using ContextCompiler.Abstractions.ReasoningIR;
-using ContextCompiler.Core.ReasoningIR;
-
-using DocumentFormat.OpenXml.Spreadsheet;
+using ContextCompiler.Abstractions.Tags;
 
 using Microsoft.Extensions.FileSystemGlobbing;
 using Microsoft.Extensions.FileSystemGlobbing.Abstractions;
@@ -31,7 +26,8 @@ public sealed class DocumentPipelineRunner(
     IFragmentBuilder fragmentBuilder,
     ITagsBuilder tagsBuilder,
     ICtxcConfigProvider cfgProvider,
-    IEnumerable<IDocumentPass> passes) : IDocumentPipelineRunner
+    IEnumerable<IDocumentPass> passes,
+    IServiceProvider serviceProvider) : IDocumentPipelineRunner
 {
     public async ValueTask RunAsync(IDocumentsContext documentsContext, CancellationToken ct)
     {
@@ -81,7 +77,7 @@ public sealed class DocumentPipelineRunner(
         {
             ct.ThrowIfCancellationRequested();
 
-            DocumentContext docContext = new DocumentContext(tagsBuilder)
+            DocumentContext docContext = new DocumentContext(tagsBuilder, serviceProvider)
             {
                 InputRoot = documentsContext.RootPath,
                 RelativePath = filePatternMatch.Path,

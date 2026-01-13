@@ -9,14 +9,12 @@ namespace ContextCompiler.Core.Pipelines.Document
     internal sealed class DataEnvelopeBuilder : IDataEnvelopeBuilder
     {
         private DataShape _shape;
-        private object? _payload;
         private IReadOnlyDictionary<string, string>? _metadata;
         private List<IDataPart> _parts = new();
 
         public IDataEnvelopeBuilder InitNew()
         {
             _shape = DataShape.Linear;
-            _payload = null;
             _metadata = null;
             return this;
         }
@@ -24,7 +22,6 @@ namespace ContextCompiler.Core.Pipelines.Document
         public IDataEnvelopeBuilder InitNewFrom(IDataEnvelope dataEnvelope)
         {
             _shape = dataEnvelope.Shape;
-            _payload = dataEnvelope.Payload;
             _metadata = dataEnvelope.Metadata;
             return this;
         }
@@ -32,12 +29,6 @@ namespace ContextCompiler.Core.Pipelines.Document
         public IDataEnvelopeBuilder WithDataShape(DataShape Shape)
         {
             _shape = Shape;
-            return this;
-        }
-
-        public IDataEnvelopeBuilder WithPayload(object Payload)
-        {
-            _payload = Payload;
             return this;
         }
 
@@ -67,10 +58,8 @@ namespace ContextCompiler.Core.Pipelines.Document
 
         public IDataEnvelope Build()
         {
-            ArgumentNullException.ThrowIfNull(_payload);
 
-            return new DataEnvelope(_shape,
-                                    _payload)
+            return new DataEnvelope(_shape)
             {
                 Metadata = _metadata,
                 Parts = _parts.AsReadOnly()

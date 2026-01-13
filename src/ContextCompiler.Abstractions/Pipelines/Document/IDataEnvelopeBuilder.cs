@@ -8,7 +8,6 @@ namespace ContextCompiler.Abstractions.Pipelines.Document
     {
         IDataEnvelopeBuilder InitNew();
         IDataEnvelopeBuilder WithDataShape(DataShape shape);
-        IDataEnvelopeBuilder WithPayload(object payload);
         IDataEnvelopeBuilder WithMetadata(IReadOnlyDictionary<string, string> metadata);
         IDataEnvelope Build();
         IDataEnvelopeBuilder InitNewFrom(IDataEnvelope dataEnvelope);

@@ -1,9 +1,11 @@
+using ContextCompiler.Abstractions.Files;
 using ContextCompiler.Abstractions.Models;
+using ContextCompiler.Abstractions.Pipelines.Document;
 using ContextCompiler.Abstractions.Plugins;
 
 namespace ContextCompiler.Plugins.BuiltIn.FileReaders;
 
-public sealed class MarkdownFileReader : IFileReaderPlugin
+public sealed class MarkdownFileReaderPlugin(IFileReadResultBuilder fileReadResultBuilder, IFileContentBuilder fileContentBuilder) : IFileReaderPlugin
 {
     public PluginMetadata Metadata => BuiltInMetadata.Meta("builtin.markdown.reader", PluginKinds.FileReader, priority: 9);
 
@@ -13,11 +15,25 @@ public sealed class MarkdownFileReader : IFileReaderPlugin
         return ext.Equals(".md", StringComparison.OrdinalIgnoreCase) || ext.Equals(".markdown", StringComparison.OrdinalIgnoreCase);
     }
 
-    public Task<DocumentContent> ReadAsync(string path, CancellationToken ct)
+    public Task<IFileReadResult> ReadAsync(string path, CancellationToken ct)
     {
         ct.ThrowIfCancellationRequested();
-        var text = File.ReadAllText(path);
-        var bytes = System.Text.Encoding.UTF8.GetBytes(text);
-        return Task.FromResult(new DocumentContent(path, "text/markdown", bytes, text));
+        var stream = File.OpenRead(path);
+        return Task.FromResult(fileReadResultBuilder.InitNew()
+                                                    .WithContent(fileContentBuilder.InitNew()
+                                                                                   .WithPath(path)
+                                                                                   .WithMediaType("text/markdown")
+                                                                                   .WithReaderType<MarkdownFileReader>()
+                                                                                   .Build()).Build());
+    }
+}
+
+public sealed class MarkdownFileReader : IFileReader
+{
+
+    public ValueTask<Stream> ReadAsync(string path, CancellationToken ct)
+    {
+        ct.ThrowIfCancellationRequested();
+        return ValueTask.FromResult<Stream>(File.OpenRead(path));
     }
 }

@@ -1,15 +1,14 @@
-using System.Text;
-
-using ContextCompiler.Abstractions;
+using ContextCompiler.Abstractions.Files;
 using ContextCompiler.Abstractions.Models;
 using ContextCompiler.Abstractions.Pipelines.Document;
 using ContextCompiler.Abstractions.ReasoningIR;
-using ContextCompiler.Core.ReasoningIR;
-using ContextCompiler.Core.Services;
+using ContextCompiler.Abstractions.Tags;
+
+using Microsoft.Extensions.DependencyInjection;
 
 namespace ContextCompiler.Core.Pipelines
 {
-    public sealed class DocumentContext(ITagsBuilder tagsBuilder) : IDocumentContext
+    public sealed class DocumentContext(ITagsBuilder tagsBuilder, IServiceProvider serviceProvider) : IDocumentContext
     {
         public required string InputRoot { get; init; }
         public required string RelativePath { get; init; } // stable path key
@@ -18,9 +17,9 @@ namespace ContextCompiler.Core.Pipelines
         // Data flowing through passes (write-once-ish)
         public IFileReadResult? FileRead { get; private set; }
 
-
-        private string? _content;
-        public string Content { get => _content ??= Encoding.UTF8.GetString(FileRead?.Bytes ?? Array.Empty<byte>()) ?? string.Empty; init => _content = value; }
+        public IFileInfos FileInfos => FileRead?.Content ?? throw new InvalidOperationException("FileRead not set.");
+        //private string? _content;
+        //public string Content { get => _content ??= Encoding.UTF8.GetString(FileRead?.Bytes ?? Array.Empty<byte>()) ?? string.Empty; init => _content = value; }
         public IDataEnvelope? Data { get; private set; }
         public IReadOnlyList<IFragment> Fragments => _fragments;
         public IReadOnlyList<ITag> Tags { get; private set; } = Array.Empty<ITag>();
@@ -53,6 +52,22 @@ namespace ContextCompiler.Core.Pipelines
         public void AddTags(string[] tags)
         {
             Tags = tagsBuilder.InitNewFrom(Tags).AddRange(tags).Build();
+        }
+
+        public async Task<StreamReader> GetContentReader()
+        {
+            ArgumentNullException.ThrowIfNull(FileRead, nameof(FileRead));
+
+            var fileReader = (IFileReader)serviceProvider.GetRequiredService(FileRead.Content.ReaderType);
+            return new StreamReader(await fileReader.ReadAsync(FileRead.Content.Path, CancellationToken.None));
+        }
+
+        public async Task<Stream> GetContentStream()
+        {
+            ArgumentNullException.ThrowIfNull(FileRead, nameof(FileRead));
+
+            var fileReader = (IFileReader)serviceProvider.GetRequiredService(FileRead.Content.ReaderType);
+            return await fileReader.ReadAsync(FileRead.Content.Path, CancellationToken.None);
         }
     }
 }

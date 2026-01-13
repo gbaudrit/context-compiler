@@ -10,6 +10,6 @@ namespace ContextCompiler.Abstractions.Plugins
     {
         string Locator { get; }
         string Content { get; }
-        List<ITag> Tags { get; }
+        IReadOnlyList<ITag> Tags { get; }
     }
 }

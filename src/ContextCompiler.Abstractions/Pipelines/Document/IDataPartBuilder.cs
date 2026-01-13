@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 
 using ContextCompiler.Abstractions.Models;
+using ContextCompiler.Abstractions.ReasoningIR;
 
 namespace ContextCompiler.Abstractions.Pipelines.Document
 {
@@ -14,5 +15,6 @@ namespace ContextCompiler.Abstractions.Pipelines.Document
         IDataPartBuilder WithLabel(string? label);
         IDataPartBuilder WithPayload(object? payload);
         IDataPartBuilder WithSource(ISourceRef source);
+        IDataPartBuilder WithTags(IReadOnlyList<ITag> tags);
     }
 }

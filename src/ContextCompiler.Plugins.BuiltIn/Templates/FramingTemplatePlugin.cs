@@ -1,4 +1,5 @@
 using ContextCompiler.Abstractions.Models;
+using ContextCompiler.Abstractions.Output;
 using ContextCompiler.Abstractions.Plugins;
 
 namespace ContextCompiler.Plugins.BuiltIn.Templates;
@@ -8,9 +9,9 @@ public sealed class FramingTemplatePlugin : ITemplatePlugin
     public PluginMetadata Metadata => BuiltInMetadata.Meta("builtin.template.framing", PluginKinds.Template, priority: 0);
     public string TemplateId => "framing.v1";
 
-    public string Apply(CompileOptions options, Prompt prompt)
+    public string Apply(CompileOptions options, IPrompt prompt)
     {
-        var compiledViews = string.Join("\n\n---\n\n", prompt.Views.Select(v => $"# {v.Title}\n\n{v.Rendered}"));
+        var compiledViews = string.Join("\n\n---\n\n", prompt.Views.Select(v => $"# {v.Title}\n\n{v.Content}"));
 
         string content =
             "# Context Compiler — Compiled Context\n\n" +
@@ -36,19 +37,19 @@ public sealed class FramingTemplatePlugin : ITemplatePlugin
             "- Do not exfiltrate secrets or personal data.\n\n" +
             "---\n\n";
 
-        if (!string.IsNullOrWhiteSpace(prompt.Global))
-        {
-            content +=
-                "## Global Instructions\n\n" +
-                $"{prompt.Global}\n\n---\n\n";
-        }
+        //if (!string.IsNullOrWhiteSpace(prompt.Global))
+        //{
+        //    content +=
+        //        "## Global Instructions\n\n" +
+        //        $"{prompt.Global}\n\n---\n\n";
+        //}
 
-        if (!string.IsNullOrWhiteSpace(prompt.Personas))
-        {
-            content +=
-                "## Personas\n\n" +
-                $"{prompt.Personas}\n\n---\n\n";
-        }
+        //if (!string.IsNullOrWhiteSpace(prompt.Personas))
+        //{
+        //    content +=
+        //        "## Personas\n\n" +
+        //        $"{prompt.Personas}\n\n---\n\n";
+        //}
 
         if (options.InlineViews ?? true)
         {

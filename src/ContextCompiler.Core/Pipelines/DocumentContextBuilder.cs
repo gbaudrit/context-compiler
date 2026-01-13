@@ -1,10 +1,10 @@
-using ContextCompiler.Abstractions;
 using ContextCompiler.Abstractions.Pipelines;
 using ContextCompiler.Abstractions.Pipelines.Document;
+using ContextCompiler.Abstractions.Tags;
 
 namespace ContextCompiler.Core.Pipelines
 {
-    internal sealed class DocumentContextBuilder(ITagsBuilder tagsBuilder) : IDocumentContextBuilder
+    internal sealed class DocumentContextBuilder(ITagsBuilder tagsBuilder, IServiceProvider serviceProvider) : IDocumentContextBuilder
     {
 
         private string _inputRoot = "";
@@ -35,7 +35,7 @@ namespace ContextCompiler.Core.Pipelines
 
         public IDocumentContext Build()
         {
-            return new DocumentContext(tagsBuilder)
+            return new DocumentContext(tagsBuilder, serviceProvider)
             {
                 InputRoot = _inputRoot,
                 FullPath = _fullPath,

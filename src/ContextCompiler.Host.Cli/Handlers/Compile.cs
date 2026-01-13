@@ -17,7 +17,8 @@ public record CtxcCompileCommandLine(
     bool? NoInlineViews,
     bool? NoGuards,
     string? ConfigPath,
-    bool Json);
+    bool Json,
+    bool Clean);
 
 internal sealed class CtxcCompileHandler(ICompilerEngine engine, IOutputContext outputContext, ILogger<CtxcCompileHandler> logger) : ICtxcCompileHandler
 {
@@ -33,6 +34,7 @@ internal sealed class CtxcCompileHandler(ICompilerEngine engine, IOutputContext 
             var rc = await engine.CompileAsync(new CompileRequest(compileCommandLine.Input,
                                                                    compileCommandLine.Output,
                                                                    compileCommandLine.Name,
+                                                                   compileCommandLine.Clean,
                                                                    new CompileOptions(MaxCharacters: compileCommandLine.MaxChars,
                                                                                       InlineViews: compileCommandLine.NoInlineViews ?? !compileCommandLine.NoInlineViews)), CancellationToken.None);
             if (compileCommandLine.Json)

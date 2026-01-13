@@ -4,6 +4,7 @@ using System.Text;
 
 using ContextCompiler.Abstractions.Models;
 using ContextCompiler.Abstractions.Pipelines.Document;
+using ContextCompiler.Abstractions.ReasoningIR;
 
 namespace ContextCompiler.Core.Pipelines.Document
 {
@@ -14,12 +15,15 @@ namespace ContextCompiler.Core.Pipelines.Document
         private ISourceRef? _source;
         private string? _label;
         private object? _payload;
+        private IReadOnlyList<ITag> _tags = Array.Empty<ITag>();
 
         public IDataPartBuilder InitNew()
         {
             _id = "";
             _source = null;
             _label = null;
+            _payload = null;
+            _tags = new List<ITag>();
             return this;
         }
 
@@ -47,12 +51,18 @@ namespace ContextCompiler.Core.Pipelines.Document
             return this;
         }
 
+        public IDataPartBuilder WithTags(IReadOnlyList<ITag> tags)
+        {
+            _tags = tags;
+            return this;
+        }
+
         public IDataPart Build()
         {
             ArgumentNullException.ThrowIfNull(_id);
             ArgumentNullException.ThrowIfNull(_source);
 
-            return new DataPart(_id, _source, _label);
+            return new DataPart(_id, _source, _label, _payload, _tags);
         }
 
     }

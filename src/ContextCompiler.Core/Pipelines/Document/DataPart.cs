@@ -4,11 +4,14 @@ using System.Text;
 
 using ContextCompiler.Abstractions.Models;
 using ContextCompiler.Abstractions.Pipelines.Document;
+using ContextCompiler.Abstractions.ReasoningIR;
 
 namespace ContextCompiler.Core.Pipelines.Document
 {
     public sealed record DataPart(string PartId,
                                   ISourceRef Source,
-                                  string? Label = null) : IDataPart;
+                                  string? Label = null,
+                                  object? Payload = null,
+                                  IReadOnlyList<ITag>? Tags = null) : IDataPart;
 
 }

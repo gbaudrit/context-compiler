@@ -9,4 +9,5 @@ public interface IFileSystem
     void EnsureDirectory(string path);
     void WriteAllText(string path, string content);
     void WriteAllBytes(string path, byte[] bytes);
+    void EnsureDirectory(string path, bool clean);
 }

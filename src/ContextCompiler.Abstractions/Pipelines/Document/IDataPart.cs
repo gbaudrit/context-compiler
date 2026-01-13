@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 
 using ContextCompiler.Abstractions.Models;
+using ContextCompiler.Abstractions.ReasoningIR;
 
 namespace ContextCompiler.Abstractions.Pipelines.Document
 {
@@ -11,5 +12,7 @@ namespace ContextCompiler.Abstractions.Pipelines.Document
         string PartId { get; }
         ISourceRef Source { get; }
         string? Label { get; }
+        object? Payload { get; }
+        IReadOnlyList<ITag>? Tags { get; }
     }
 }

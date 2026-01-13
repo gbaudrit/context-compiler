@@ -1,13 +1,8 @@
 using System.CommandLine;
 
-using ContextCompiler.Abstractions.Configuration;
-using ContextCompiler.Abstractions.Models;
-using ContextCompiler.Abstractions.Pipelines;
 using ContextCompiler.Abstractions.Ports;
 using ContextCompiler.Core;
 using ContextCompiler.Core.Engine;
-using ContextCompiler.Core.Output;
-using ContextCompiler.Core.Pipelines;
 using ContextCompiler.Host.Cli;
 using ContextCompiler.Host.Cli.Handlers;
 using ContextCompiler.Infrastructure.Configuration;
@@ -32,7 +27,8 @@ var assemblies = new[]
     {
         typeof(ContextCompiler.Core.Engine.CompilerEngine).Assembly,
         typeof(ContextCompiler.Infrastructure.FileSystem.PhysicalFileSystem).Assembly,
-        typeof(ContextCompiler.Plugins.BuiltIn.BuiltInMetadata).Assembly
+        typeof(ContextCompiler.Plugins.BuiltIn.BuiltInMetadata).Assembly,
+        typeof(ContextCompiler.Plugins.BuiltIn.Templates.Scriban.DependencyInjection).Assembly
     };
 
 IHostEnvironment env = builder.Environment;

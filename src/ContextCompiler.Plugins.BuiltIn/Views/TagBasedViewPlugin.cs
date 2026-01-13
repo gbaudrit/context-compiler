@@ -7,19 +7,20 @@ using System.Text.Json;
 
 using ContextCompiler.Abstractions.Configuration;
 using ContextCompiler.Abstractions.Plugins;
+using ContextCompiler.Abstractions.Plugins.Views.Renderers;
 using ContextCompiler.Abstractions.ReasoningIR;
 using ContextCompiler.Abstractions.Views;
 
 namespace ContextCompiler.Plugins.BuiltIn.Views;
 
-public sealed class TagBasedViewPlugin : IViewPlugin
+public sealed class TagBasedViewPlugin(IViewResultBuilder viewResultBuilder, IViewRenderersPlugin viewRenderersPlugin) : IViewPlugin
 {
 
     public PluginMetadata Metadata => BuiltInMetadata.Meta("builtin.views.tag_based", PluginKinds.View, priority: 100);
 
     public string ViewId => "views.tagbased";
 
-    public async ValueTask<IReadOnlyList<ViewResult>> BuildAsync(ViewContext ctx, CancellationToken ct)
+    public async ValueTask<IReadOnlyList<IViewResult>> BuildAsync(ViewContext ctx, CancellationToken ct)
     {
         ct.ThrowIfCancellationRequested();
 
@@ -27,42 +28,20 @@ public sealed class TagBasedViewPlugin : IViewPlugin
             .OrderBy(v => v.Id, StringComparer.Ordinal) // deterministic view output order
             .ToArray();
 
-        var artifacts = new List<ViewResult>(capacity: views.Length * 2);
+        var artifacts = new List<IViewResult>(capacity: views.Length * 2);
 
         foreach (var def in views)
         {
             ct.ThrowIfCancellationRequested();
 
             var fragments = ViewSelector.SelectFragments(ctx.ReasoningIr, def);
-            var (md, json) = ViewRenderer.Render(def, fragments);
 
-            if (ctx.EmitMarkdown)
-            {
-                artifacts.Add(new ViewResult(
-                    ViewId: def.Id,
-                    Title: def.Title,
-                    Rendered: md,
-                    RelativePath: $"views/view.{def.Id}.md",
-                    Content: md,
-                    Mime: "text/markdown"
-                ));
-            }
-
-            if (ctx.EmitJson)
-            {
-                artifacts.Add(new ViewResult(
-                    ViewId: def.Id,
-                    Title: def.Title,
-                    Rendered: json,
-                    RelativePath: $"views/view.{def.Id}.json",
-                    Content: json,
-                    Mime: "application/json"
-                ));
-            }
+            var renderResult = await viewRenderersPlugin.RenderAsync(def, fragments, ct);
+            artifacts.AddRange(renderResult);
         }
 
         // async-friendly signature, no actual awaits needed
-        return await ValueTask.FromResult<IReadOnlyList<ViewResult>>(artifacts);
+        return await ValueTask.FromResult<IReadOnlyList<IViewResult>>(artifacts);
     }
 }
 

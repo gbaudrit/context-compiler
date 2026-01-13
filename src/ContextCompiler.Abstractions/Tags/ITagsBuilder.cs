@@ -4,7 +4,7 @@ using System.Text;
 
 using ContextCompiler.Abstractions.ReasoningIR;
 
-namespace ContextCompiler.Abstractions
+namespace ContextCompiler.Abstractions.Tags
 {
     public interface ITagsBuilder
     {
@@ -13,6 +13,6 @@ namespace ContextCompiler.Abstractions
         ITagsBuilder AddRange(string[] toAdd);
         ITagsBuilder Add(string name, string value);
         IReadOnlyList<ITag> Build();
-        ITagsBuilder AddRange(IReadOnlyList<ITag> toAdd);
+        ITagsBuilder AddRange(IReadOnlyList<ITag>? toAdd);
     }
 }

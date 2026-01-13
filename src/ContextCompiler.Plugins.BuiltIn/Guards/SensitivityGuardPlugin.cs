@@ -15,20 +15,23 @@ public sealed class SensitivityGuardPlugin : IGuardPlugin
     private static readonly Regex Email = new(@"[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
     private static readonly Regex SecretLike = new(@"(?i)\b(api[_-]?key|secret|token|password)\b\s*[:=]\s*\S+", RegexOptions.Compiled);
 
-    public Task<IReadOnlyList<IPipelineFinding>> EvaluateAsync(IGuardContext ctx, CancellationToken ct)
+    public async Task<IReadOnlyList<IPipelineFinding>> EvaluateAsync(IGuardContext ctx, CancellationToken ct)
     {
         ct.ThrowIfCancellationRequested();
-        if (ctx.DocumentContext is null || string.IsNullOrWhiteSpace(ctx.DocumentContext.InputRoot)) return Task.FromResult<IReadOnlyList<IPipelineFinding>>(Array.Empty<IPipelineFinding>());
+        if (ctx.DocumentContext is null || string.IsNullOrWhiteSpace(ctx.DocumentContext.InputRoot)) return Array.Empty<IPipelineFinding>();
         var findings = new List<IPipelineFinding>();
 
-        if (Email.IsMatch(ctx.DocumentContext.Content))
+        using var streamReader = await ctx.DocumentContext.GetContentReader();
+        string content = await streamReader.ReadToEndAsync(ct);
+
+        if (Email.IsMatch(content))
             findings.Add(ctx.DocumentContext.AddFinding(FindingSeverity.Warning, FindingAction.Warn, "CtxGuard.Sensitivity",
                 "Potential email address detected in context.", new SourceRef(ctx.DocumentContext.FullPath)));
 
-        if (SecretLike.IsMatch(ctx.DocumentContext.Content))
+        if (SecretLike.IsMatch(content))
             findings.Add(ctx.DocumentContext.AddFinding(FindingSeverity.Critical, FindingAction.Redact, "CtxGuard.Sensitivity",
                 "Potential secret/token detected in context.", new SourceRef(ctx.DocumentContext.FullPath)));
 
-        return Task.FromResult<IReadOnlyList<IPipelineFinding>>(findings);
+        return findings;
     }
 }

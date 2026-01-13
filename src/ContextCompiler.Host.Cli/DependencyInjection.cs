@@ -1,5 +1,6 @@
 using ContextCompiler.Host.Cli.Services;
 using ContextCompiler.Infrastructure.PluginLoading;
+using ContextCompiler.Plugins.BuiltIn.FileReaders;
 
 using Microsoft.Extensions.DependencyInjection;
 namespace ContextCompiler.Host.Cli;

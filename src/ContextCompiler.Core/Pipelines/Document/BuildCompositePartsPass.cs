@@ -1,19 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-using ContextCompiler.Abstractions.Diagnostics;
-using ContextCompiler.Abstractions.Models;
 using ContextCompiler.Abstractions.Pipelines;
 using ContextCompiler.Abstractions.Pipelines.DataPart;
 using ContextCompiler.Abstractions.Pipelines.Document;
-using ContextCompiler.Abstractions.Plugins;
-using ContextCompiler.Abstractions.ReasoningIR;
-using ContextCompiler.Core.Pipelines.DataPart;
-using ContextCompiler.Core.ReasoningIR;
-using ContextCompiler.Core.Services;
-
-using RBush;
 
 namespace ContextCompiler.Core.Pipelines.Document
 {
@@ -25,7 +12,7 @@ namespace ContextCompiler.Core.Pipelines.Document
 
         public async ValueTask ExecuteAsync(IDocumentContext ctx, CancellationToken ct)
         {
-            if (ctx.Data is null)
+            if (ctx.Data is null || (await ctx.GetContentStream()).Length == 0)
                 return;
 
             //var compositeParts = TryGetCompositeParts(ctx.Data);

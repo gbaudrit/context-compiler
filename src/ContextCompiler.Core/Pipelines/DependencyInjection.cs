@@ -10,7 +10,7 @@ namespace ContextCompiler.Core.Pipelines
     public static class DependencyInjection
     {
 
-        public static IServiceCollection AddPipelinesServices(this IServiceCollection services)
+        public static IServiceCollection AddPipelines(this IServiceCollection services)
         {
             // Register core services here
             services.AddSingleton<IGlobalPipelineRunner, GlobalPipelineRunner>()

@@ -1,9 +1,11 @@
+using ContextCompiler.Abstractions.Files;
 using ContextCompiler.Abstractions.Models;
+using ContextCompiler.Abstractions.Pipelines.Document;
 using ContextCompiler.Abstractions.Plugins;
 
 namespace ContextCompiler.Plugins.BuiltIn.FileReaders;
 
-public sealed class YamlFileReader : IFileReaderPlugin
+public sealed class YamlFileReaderPlugin(IFileReadResultBuilder fileReadResultBuilder, IFileContentBuilder fileContentBuilder) : IFileReaderPlugin
 {
     public PluginMetadata Metadata => BuiltInMetadata.Meta("builtin.yaml.reader", PluginKinds.FileReader, priority: 9);
 
@@ -13,11 +15,25 @@ public sealed class YamlFileReader : IFileReaderPlugin
         return ext.Equals(".yaml", StringComparison.OrdinalIgnoreCase) || ext.Equals(".yml", StringComparison.OrdinalIgnoreCase);
     }
 
-    public Task<DocumentContent> ReadAsync(string path, CancellationToken ct)
+    public Task<IFileReadResult> ReadAsync(string path, CancellationToken ct)
     {
         ct.ThrowIfCancellationRequested();
-        var text = File.ReadAllText(path);
-        var bytes = System.Text.Encoding.UTF8.GetBytes(text);
-        return Task.FromResult(new DocumentContent(path, "text/yaml", bytes, text));
+
+        return Task.FromResult(fileReadResultBuilder.InitNew()
+                                                    .WithContent(fileContentBuilder.InitNew()
+                                                                                   .WithPath(path)
+                                                                                   .WithMediaType("text/yaml")
+                                                                                   .WithReaderType<YamlFileReader>()
+                                                                                   .Build()).Build());
+    }
+}
+
+public sealed class YamlFileReader : IFileReader
+{
+
+    public ValueTask<Stream> ReadAsync(string path, CancellationToken ct)
+    {
+        ct.ThrowIfCancellationRequested();
+        return ValueTask.FromResult<Stream>(File.OpenRead(path));
     }
 }

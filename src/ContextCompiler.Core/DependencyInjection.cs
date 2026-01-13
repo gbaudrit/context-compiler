@@ -1,14 +1,16 @@
-using ContextCompiler.Abstractions;
 using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Abstractions.Guards;
 using ContextCompiler.Abstractions.ReasoningIR;
+using ContextCompiler.Abstractions.Tags;
 using ContextCompiler.Abstractions.Views;
 using ContextCompiler.Core.Common;
+using ContextCompiler.Core.Files;
 using ContextCompiler.Core.Guards;
 using ContextCompiler.Core.Output;
+using ContextCompiler.Core.Personas;
 using ContextCompiler.Core.Pipelines;
 using ContextCompiler.Core.ReasoningIR;
-using ContextCompiler.Core.Services;
+using ContextCompiler.Core.Tags;
 using ContextCompiler.Core.Views;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -21,15 +23,15 @@ namespace ContextCompiler.Core
         public static IServiceCollection AddCoreServices(this IServiceCollection services)
         {
             // Register core services here
-            services.AddPipelinesServices()
-                    .AddReasoningIRServices()
-                    .AddOutputServices()
-                    .AddSingleton<ITagBuilder, TagBuilder>()
-                    .AddSingleton<ITagsBuilder, TagsBuilder>()
-                    .AddTransient<ISourceRefBuilder, SourceRefBuilder>()
-                    .AddSingleton<IReasoningIr, ReasoningIr>()
-                    .AddSingleton<IGuardian, Guardian>()
-                    .AddSingleton<IViewsProvider,ViewsProvider>();
+            services.AddPipelines()
+                    .AddReasoningIR()
+                    .AddPersonas()
+                    .AddOutput()
+                    .AddFiles()
+                    .AddViews()
+                    .AddTags()
+                    .AddGuards()
+                    .AddTransient<ISourceRefBuilder, SourceRefBuilder>();
             return services;
         }
 

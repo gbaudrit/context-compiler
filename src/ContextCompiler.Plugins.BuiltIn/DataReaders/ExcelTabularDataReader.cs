@@ -1,41 +1,44 @@
-using ClosedXML.Excel;
-using ContextCompiler.Abstractions.Models;
-using ContextCompiler.Abstractions.Pipelines.Document;
-using ContextCompiler.Abstractions.Plugins;
+//using ClosedXML.Excel;
 
-namespace ContextCompiler.Plugins.BuiltIn.DataReaders;
+//using ContextCompiler.Abstractions.Files;
+//using ContextCompiler.Abstractions.Models;
+//using ContextCompiler.Abstractions.Pipelines.Document;
+//using ContextCompiler.Abstractions.Plugins;
 
-public sealed class ExcelTabularDataReader(IDataEnvelopeBuilder dataEnvelopeBuilder) : IDataReaderPlugin
-{
-    public PluginMetadata Metadata => BuiltInMetadata.Meta("builtin.data.excel.tabular", PluginKinds.DataReader, priority: 10);
+//namespace ContextCompiler.Plugins.BuiltIn.DataReaders;
 
-    public bool CanRead(DocumentContent doc) => doc.MediaType.Contains("spreadsheet", StringComparison.OrdinalIgnoreCase);
+//public sealed class ExcelTabularDataReader(IDataEnvelopeBuilder dataEnvelopeBuilder) : IDataReaderPlugin
+//{
+//    public PluginMetadata Metadata => BuiltInMetadata.Meta("builtin.data.excel.tabular", PluginKinds.DataReader, priority: 10);
 
-    public Task<IDataEnvelope> ReadAsync(DocumentContent doc, CancellationToken ct)
-    {
-        ct.ThrowIfCancellationRequested();
+//    public bool CanRead(IFileInfos doc) => doc.MediaType.Contains("spreadsheet", StringComparison.OrdinalIgnoreCase);
 
-        using var ms = new MemoryStream(doc.Bytes);
-        using var wb = new XLWorkbook(ms);
+//    public async Task<IDataEnvelope> ReadAsync(IDocumentContext documentContext, CancellationToken ct)
+//    {
+//        ct.ThrowIfCancellationRequested();
 
-        var sheets = new List<object>();
-        foreach (var ws in wb.Worksheets)
-        {
-            var used = ws.RangeUsed();
-            if (used is null) continue;
+//        using var ms = await documentContext.GetContentStream();
+//        ms.Position = 0;
+//        using var wb = new XLWorkbook(ms);
 
-            var rows = new List<List<string>>();
-            foreach (var row in used.Rows())
-            {
-                var r = new List<string>();
-                foreach (var cell in row.Cells())
-                    r.Add(cell.GetFormattedString());
-                rows.Add(r);
-            }
+//        var sheets = new List<object>();
+//        foreach (var ws in wb.Worksheets)
+//        {
+//            var used = ws.RangeUsed();
+//            if (used is null) continue;
 
-            sheets.Add(new { name = ws.Name, rows });
-        }
+//            var rows = new List<List<string>>();
+//            foreach (var row in used.Rows())
+//            {
+//                var r = new List<string>();
+//                foreach (var cell in row.Cells())
+//                    r.Add(cell.GetFormattedString());
+//                rows.Add(r);
+//            }
 
-        return Task.FromResult(dataEnvelopeBuilder.InitNew().WithDataShape(DataShape.Tabular).WithPayload(new { sheets }).WithMetadata(new Dictionary<string,string>{{"mediaType",doc.MediaType}}).Build());
-    }
-}
+//            sheets.Add(new { name = ws.Name, rows });
+//        }
+
+//        return dataEnvelopeBuilder.InitNew().WithDataShape(DataShape.Tabular).WithPayload(new { sheets }).WithMetadata(new Dictionary<string,string>{{"mediaType", documentContext.FileInfos.MediaType}}).Build();
+//    }
+//}

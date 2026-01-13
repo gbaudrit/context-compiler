@@ -7,7 +7,7 @@ namespace ContextCompiler.Abstractions.Plugins;
 public interface IViewPlugin : IPlugin
 {
     string ViewId { get; }
-    ValueTask<IReadOnlyList<ViewResult>> BuildAsync(ViewContext ctx, CancellationToken ct);
+    ValueTask<IReadOnlyList<IViewResult>> BuildAsync(ViewContext ctx, CancellationToken ct);
 }
 
 public sealed record ViewContext(
@@ -19,13 +19,5 @@ public sealed record ViewContext(
     bool EmitMarkdown = true
 );
 
-public sealed record ViewResult(
-    string ViewId,
-    string Title,
-    string Rendered,
-    string RelativePath,
-    string Content,
-    string Mime,
-    IReadOnlyDictionary<string, string>? Metadata = null
-);
+
 

@@ -14,6 +14,14 @@ public sealed class PhysicalFileSystem : IFileSystem
     public string ReadAllText(string path) => File.ReadAllText(path);
 
     public void EnsureDirectory(string path) => Directory.CreateDirectory(path);
+    public void EnsureDirectory(string path, bool clean)
+    {
+        if (clean && Directory.Exists(path))
+        {
+            Directory.Delete(path, true);
+        }
+        Directory.CreateDirectory(path);
+    }
 
     public void WriteAllText(string path, string content)
     {

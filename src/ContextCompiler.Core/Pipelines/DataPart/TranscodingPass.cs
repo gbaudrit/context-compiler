@@ -1,15 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-using ContextCompiler.Abstractions;
 using ContextCompiler.Abstractions.Pipelines;
 using ContextCompiler.Abstractions.Pipelines.DataPart;
 using ContextCompiler.Abstractions.Pipelines.Document;
-using ContextCompiler.Abstractions.Plugins;
 using ContextCompiler.Abstractions.ReasoningIR;
-using ContextCompiler.Core.ReasoningIR;
-using ContextCompiler.Core.Services;
+using ContextCompiler.Abstractions.Tags;
 
 namespace ContextCompiler.Core.Pipelines.DataPart
 {
@@ -43,7 +36,7 @@ namespace ContextCompiler.Core.Pipelines.DataPart
                 return;
             }
 
-            var transcoded = await transcoder.TranscodeAsync(ctx.Data, part.Source, ct);
+            var transcoded = await transcoder.TranscodeAsync(ctx.Data, part, ct);
             foreach (var tf in transcoded)
             {
                 var locator = CombineLocator(part.Source.Locator ?? string.Empty, tf.Locator);

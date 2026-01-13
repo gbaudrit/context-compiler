@@ -1,5 +1,7 @@
 using ContextCompiler.Abstractions.Pipelines;
 using ContextCompiler.Abstractions.Plugins;
+using ContextCompiler.Abstractions.Plugins.Prompts;
+using ContextCompiler.Abstractions.Plugins.Views.Renderers;
 
 using Microsoft.Extensions.DependencyInjection;
 
@@ -20,7 +22,9 @@ public sealed class PluginRegistry : IPluginRegistry
     public IReadOnlyList<ITranscoderPlugin> Transcoders => _services.GetServices<ITranscoderPlugin>().ToList();
     public IReadOnlyList<IGuardPlugin> Guards => _services.GetServices<IGuardPlugin>().ToList();
     public IReadOnlyList<IViewPlugin> Views => _services.GetServices<IViewPlugin>().ToList();
+    public IReadOnlyList<IViewRendererPlugin> ViewRenderers => _services.GetServices<IViewRendererPlugin>().ToList();
     public IReadOnlyList<ITemplatePlugin> Templates => _services.GetServices<ITemplatePlugin>().ToList();
+    public IReadOnlyList<IPromptRenderingPlugin> PromptRenderers => _services.GetServices<IPromptRenderingPlugin>().ToList();
     public IReadOnlyList<IGraphExporterPlugin> GraphExporters => _services.GetServices<IGraphExporterPlugin>().ToList();
     public IReadOnlyList<IPersonaPlugin> Personas => _services.GetServices<IPersonaPlugin>().ToList();
     public IPlugins<IOutputPlugin> Outputs => _services.GetRequiredService<IPlugins<IOutputPlugin>>();

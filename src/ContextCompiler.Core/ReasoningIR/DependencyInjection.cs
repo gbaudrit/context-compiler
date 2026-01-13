@@ -7,11 +7,12 @@ namespace ContextCompiler.Core.ReasoningIR;
 public static class DependencyInjection
 {
 
-    public static IServiceCollection AddReasoningIRServices(this IServiceCollection services)
+    public static IServiceCollection AddReasoningIR(this IServiceCollection services)
     {
         // Register core services here
         services.AddTransient<IEvidenceBuilder, EvidenceBuilder>()
-            .AddTransient<IFragmentBuilder, FragmentBuilder>();
+            .AddTransient<IFragmentBuilder, FragmentBuilder>()
+            .AddSingleton<IReasoningIr, ReasoningIr>();
         return services;
     }
 

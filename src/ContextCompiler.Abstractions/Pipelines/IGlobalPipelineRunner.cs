@@ -13,6 +13,7 @@ namespace ContextCompiler.Abstractions.Pipelines
     {
         ValueTask RunAsync(string rootPath,
                            string outputPath,
+                           bool cleanOutput,
                            IReasoningIr ir,
                            IReadOnlyList<IPipelineFinding> findings,
                            CompileOptions options,

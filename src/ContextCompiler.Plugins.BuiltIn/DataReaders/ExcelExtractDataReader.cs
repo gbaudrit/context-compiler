@@ -1,19 +1,21 @@
 using ClosedXML.Excel;
 
 using ContextCompiler.Abstractions.Configuration;
+using ContextCompiler.Abstractions.Files;
 using ContextCompiler.Abstractions.Models;
 using ContextCompiler.Abstractions.Pipelines.Document;
 using ContextCompiler.Abstractions.Plugins;
+using ContextCompiler.Abstractions.Tags;
 
 namespace ContextCompiler.Plugins.BuiltIn.DataReaders;
 
-public sealed class ExcelExtractDataReader(ICtxcConfigProvider cfgProvider, IDataEnvelopeBuilder dataEnvelopeBuilder, IDataPartBuilder dataPartBuilder) : IDataReaderPlugin
+public sealed class ExcelExtractDataReader(ICtxcConfigProvider cfgProvider, IDataEnvelopeBuilder dataEnvelopeBuilder, IDataPartBuilder dataPartBuilder, ITagsBuilder tagsBuilder) : IDataReaderPlugin
 {
     public PluginMetadata Metadata => BuiltInMetadata.Meta("builtin.data.excel.extract", PluginKinds.DataReader, priority: 9);
 
-    public bool CanRead(DocumentContent doc) => doc.MediaType.Contains("spreadsheet", StringComparison.OrdinalIgnoreCase);
+    public bool CanRead(IFileInfos doc) => doc.MediaType.Contains("spreadsheet", StringComparison.OrdinalIgnoreCase);
 
-    public Task<IDataEnvelope> ReadAsync(DocumentContent doc, CancellationToken ct)
+    public async Task<IDataEnvelope> ReadAsync(IDocumentContext documentContext, CancellationToken ct)
     {
         ct.ThrowIfCancellationRequested();
         var cfg = cfgProvider.GetConfigOrDefault(null);
@@ -29,15 +31,13 @@ public sealed class ExcelExtractDataReader(ICtxcConfigProvider cfgProvider, IDat
 
         }
 
-        using var ms2 = new MemoryStream(doc.Bytes);
+        using var ms2 = await documentContext.GetContentStream();
         using var wb2 = new XLWorkbook(ms2);
         var parts = new List<IDataPart>();
-        var sourcePath = doc.Path ?? string.Empty;
+        var sourcePath = documentContext.FullPath ?? string.Empty;
 
         foreach (var (match, defaults, extracts) in fileExtracts)
         {
-            if (!GlobMatch(sourcePath, match)) continue;
-
             foreach (var x in extracts.OrderBy(e => e.Id, StringComparer.Ordinal))
             {
                 var sheet = wb2.Worksheets.FirstOrDefault(ws => string.Equals(ws.Name, x.Sheet, StringComparison.Ordinal));
@@ -108,16 +108,16 @@ public sealed class ExcelExtractDataReader(ICtxcConfigProvider cfgProvider, IDat
                                           .WithSource(new SourceRef(sourcePath, locatorPrefix))
                                           .WithLabel(x.Label)
                                           .WithPayload(payload)
+                                          .WithTags(tagsBuilder.InitNew().AddRange(x.Tags).Build())
                                           .Build());
             }
         }
 
 
-        return Task.FromResult(dataEnvelopeBuilder.InitNew()
-                                                  .WithDataShape(DataShape.Tabular)
-                                                  .WithParts(parts)
-                                                  .WithPayload(doc)
-                                                  .Build());
+        return dataEnvelopeBuilder.InitNew()
+                                    .WithDataShape(DataShape.Tabular)
+                                    .WithParts(parts)
+                                    .Build();
 
     }
 
@@ -139,30 +139,5 @@ public sealed class ExcelExtractDataReader(ICtxcConfigProvider cfgProvider, IDat
             "lte" => string.Compare(v, w.Value, cmp) <= 0,
             _ => true
         };
-    }
-
-    private static bool GlobMatch(string path, string pattern)
-    {
-        if (string.IsNullOrWhiteSpace(pattern)) return false;
-        var p = pattern.Replace("\\", "/");
-        var t = path.Replace("\\", "/");
-        if (p == "**" || p == "*") return true;
-        var parts = p.Split('/');
-        var idx = 0;
-        foreach (var part in parts)
-        {
-            if (part == "**") { idx = t.Length; continue; }
-            if (part == "*")
-            {
-                var nextSlash = t.IndexOf('/', idx);
-                if (nextSlash < 0) { idx = t.Length; continue; }
-                idx = nextSlash + 1;
-                continue;
-            }
-            var pos = t.IndexOf(part, idx, StringComparison.Ordinal);
-            if (pos < 0) return false;
-            idx = pos + part.Length;
-        }
-        return true;
     }
 }

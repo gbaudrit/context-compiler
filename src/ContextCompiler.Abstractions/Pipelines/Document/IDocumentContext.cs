@@ -1,5 +1,6 @@
 using System.Text;
 
+using ContextCompiler.Abstractions.Files;
 using ContextCompiler.Abstractions.Models;
 using ContextCompiler.Abstractions.ReasoningIR;
 
@@ -10,7 +11,7 @@ namespace ContextCompiler.Abstractions.Pipelines.Document
         IDataEnvelope? Data { get; }
         IFileReadResult? FileRead { get; }
 
-        public string Content { get; init; }
+        //public string Content { get; init; }
 
         IReadOnlyList<IPipelineFinding> Findings { get; }
         IReadOnlyList<IFragment> Fragments { get; }
@@ -30,5 +31,10 @@ namespace ContextCompiler.Abstractions.Pipelines.Document
         void SetTags(IReadOnlyList<ITag> tags);
         void AddTags(IReadOnlyList<ITag> tags);
         void AddTags(string[] tags);
+
+        IFileInfos FileInfos { get; }
+        Task<StreamReader> GetContentReader();
+        Task<Stream> GetContentStream();
+
     }
 }
