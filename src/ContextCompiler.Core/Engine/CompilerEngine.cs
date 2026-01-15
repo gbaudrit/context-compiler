@@ -62,7 +62,7 @@ public sealed class CompilerEngine(
             foreach (var f in r.Fragments)
                 reasoningIr.Add(f);
 
-        await globalPipelineRunner.RunAsync(request.InputPath, request.OutputPath, request.Clean, reasoningIr, findings, options, plugins.Outputs, ct);
+        await globalPipelineRunner.RunAsync(request.InputPath, request.OutputPath, request.Clean, reasoningIr, findings, options, ct);
         return 0;
     }
 }

@@ -5,6 +5,7 @@ using ContextCompiler.Abstractions.Tags;
 using ContextCompiler.Abstractions.Views;
 using ContextCompiler.Core.Common;
 using ContextCompiler.Core.Files;
+using ContextCompiler.Core.Framing;
 using ContextCompiler.Core.Guards;
 using ContextCompiler.Core.Output;
 using ContextCompiler.Core.Personas;
@@ -31,6 +32,7 @@ namespace ContextCompiler.Core
                     .AddViews()
                     .AddTags()
                     .AddGuards()
+                    .AddFraming()
                     .AddTransient<ISourceRefBuilder, SourceRefBuilder>();
             return services;
         }

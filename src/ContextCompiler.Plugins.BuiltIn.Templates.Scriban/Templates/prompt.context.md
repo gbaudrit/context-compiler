@@ -7,17 +7,17 @@
 
 ### Audiences
 {{~ for a in audiences ~}}
-- {{ a }}
+- {{ a.name }}: {{ a.description }}
 {{~ end ~}}
 
 ### Objectives
 {{~ for m in objectives ~}}
-- {{ m }}
+- {{ m.name }}: {{ m.description }}
 {{~ end ~}}
 
 ### Assumptions
 {{~ for a in assumptions ~}}
-- {{ a }}
+- {{ a.name }}: {{ a.description }}
 {{~ end ~}}
 
 ### MUST
@@ -28,6 +28,11 @@
 ### MUST NOT
 {{~ for m in mustNot ~}}
 - {{ m.text }}
+{{~ end ~}}
+
+### Glossary
+{{~ for g in glossary ~}}
+- {{ g.term }}: {{ g.definition }}
 {{~ end ~}}
 
 # Personas (roles)

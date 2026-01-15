@@ -17,9 +17,10 @@ namespace ContextCompiler.Abstractions.Models
         public string Summary { get; set; } = string.Empty;
         public string Domain { get; set; } = string.Empty;
 
-        public IReadOnlyList<string> Audiences { get; set; } = new List<string>();
-        public IReadOnlyList<string> Objectives { get; set; } = new List<string>();
-        public IReadOnlyList<string> Assumptions { get; set; } = new List<string>();
+        public IReadOnlyList<IAudience> Audiences { get; set; } = new List<IAudience>();
+        public IReadOnlyList<IObjective> Objectives { get; set; } = new List<IObjective>();
+        public IReadOnlyList<IAssumption> Assumptions { get; set; } = new List<IAssumption>();
+        public IReadOnlyList<IGlossaryTerm> Glossary { get; set; } = new List<IGlossaryTerm>();
         public IReadOnlyList<IMustConstraint> MustConstraints { get; set; } = new List<IMustConstraint>();
         public IReadOnlyList<IMustNotConstraint> MustNotConstraints { get; set; } = new List<IMustNotConstraint>();
         public IReadOnlyList<IPersonaResult> Personas { get; set; } = new List<IPersonaResult>();

@@ -10,7 +10,7 @@ public static class DependencyInjection
     public static IServiceCollection AddPluginLoadingServices(this IServiceCollection services)
     {
         // Register core services here
-        services.AddTransient(typeof(IPlugins<>), typeof(GlobalPipelinePlugins<>));
+        //services.AddTransient(typeof(IPlugins<>), typeof(GlobalPipelinePlugins<>));
         return services;
     }
 

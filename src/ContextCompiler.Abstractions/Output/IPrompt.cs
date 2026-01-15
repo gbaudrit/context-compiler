@@ -18,8 +18,9 @@ namespace ContextCompiler.Abstractions.Output
         string Name { get; set; }
         string Summary { get; set; }
         string Domain { get; set; }
-        IReadOnlyList<string> Audiences { get; set; }
-        IReadOnlyList<string> Objectives { get; set; }
-        IReadOnlyList<string> Assumptions { get; set; }
+        IReadOnlyList<IAudience> Audiences { get; set; }
+        IReadOnlyList<IObjective> Objectives { get; set; }
+        IReadOnlyList<IAssumption> Assumptions { get; set; }
+        IReadOnlyList<IGlossaryTerm> Glossary { get; set; }
     }
 }

@@ -24,9 +24,10 @@ namespace ContextCompiler.Plugins.BuiltIn.Templates.Scriban.Extensions
                     audiences = o.Audiences,
                     objectives = o.Objectives,
                     assumptions = o.Assumptions,
-                    personas = o.Personas.Select(p => p.ToTemplateModel()).ToList(),
-                    must = o.MustConstraints.Select(m => m.ToTemplateModel()).ToList(),
-                    mustNot = o.MustNotConstraints.Select(mn => mn.ToTemplateModel()).ToList()
+                    personas = o.Personas.Select(x => x.ToTemplateModel()).ToList(),
+                    must = o.MustConstraints.Select(x => x.ToTemplateModel()).ToList(),
+                    mustNot = o.MustNotConstraints.Select(x => x.ToTemplateModel()).ToList(),
+                    glossary = o.Glossary.Select(x => x.ToTemplateModel()).ToList()
                 }
             };
         }
@@ -58,6 +59,15 @@ namespace ContextCompiler.Plugins.BuiltIn.Templates.Scriban.Extensions
             return new
             {
                 text = o.Text
+            };
+        }
+
+        public static object ToTemplateModel(this IGlossaryTerm o)
+        {
+            return new
+            {
+                term = o.Term,
+                definition = o.Definition
             };
         }
 

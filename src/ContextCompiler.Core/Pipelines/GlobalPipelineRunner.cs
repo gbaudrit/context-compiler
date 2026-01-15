@@ -48,7 +48,6 @@ public sealed class GlobalPipelineRunner(
         IReasoningIr ir,
         IReadOnlyList<IPipelineFinding> findings,
         CompileOptions options,
-        IPlugins<IOutputPlugin> outputPlugins,
         CancellationToken ct)
     {
         ct.ThrowIfCancellationRequested();
@@ -154,7 +153,7 @@ public sealed class GlobalPipelineRunner(
             artifacts[name] = p;
         }
 
-        await outputPlugins.Run(ct);
+        await plugins.Outputs.Run(ct);
 
         foreach (var r in renderedPromptResults)
         {
@@ -227,33 +226,17 @@ public sealed class GlobalPipelineRunner(
             prompt.Name = ctx.Project.Name ?? string.Empty;
             prompt.Summary = ctx.Project.Summary ?? string.Empty;
             prompt.Domain = ctx.Project.Domain ?? string.Empty;
-            prompt.Audiences = ctx.Project.Audience ?? [];
+            prompt.Audiences = [.. ctx.Project.Audiences?.Select(a => new Audience() { Name = a.Key, Description = a.Value }).ToList() ?? []];
+
         }
-        if (ctx.Objectives is not null && ctx.Objectives.Count > 0)
-        {
-            prompt.Objectives = [.. ctx.Objectives];
-        }
-        if (ctx.Assumptions is not null && ctx.Assumptions.Count > 0)
-        {
-            prompt.Assumptions = [.. ctx.Assumptions];
-        }
-        if (ctx.Constraints is not null)
-        {
-            if (ctx.Constraints.Must is not null && ctx.Constraints.Must.Count > 0)
-            {
-                prompt.MustConstraints = [.. ctx.Constraints.Must.Select(m => new MustConstraint() { Text = m })];
-            }
-            if (ctx.Constraints.MustNot is not null && ctx.Constraints.MustNot.Count > 0)
-            {
-                prompt.MustNotConstraints = [.. ctx.Constraints.MustNot.Select(m => new MustNotConstraint() { Text = m })];
-            }
-        }
-        if (ctx.Glossary is not null && ctx.Glossary.Count > 0)
-        {
-            sb.AppendLine("# Glossary");
-            foreach (var kv in ctx.Glossary) sb.AppendLine(CultureInfo.InvariantCulture, $"- {kv.Key}: {kv.Value}");
-            sb.AppendLine();
-        }
+
+        prompt.Objectives = [.. ctx.Objectives?.Select(o => new Objective() { Name = o.Key, Description = o.Value }).ToList() ?? []];
+        prompt.Assumptions = [.. ctx.Assumptions?.Select(a => new Assumption() { Name = a.Key, Description = a.Value }).ToList() ?? []];
+        prompt.MustConstraints = [.. ctx.Constraints?.Must?.Select(m => new MustConstraint() { Text = m }) ?? []];
+        prompt.MustNotConstraints = [.. ctx.Constraints?.MustNot?.Select(m => new MustNotConstraint() { Text = m }) ?? []];
+        prompt.Glossary = [.. ctx.Glossary?.Select(kv => new GlossaryTerm() { Term = kv.Key, Definition = kv.Value }) ?? []];
+
+        
         if (ctx.OutputContract is not null)
         {
             sb.AppendLine("# Output Contract");

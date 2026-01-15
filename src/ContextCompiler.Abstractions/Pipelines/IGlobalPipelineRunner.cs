@@ -17,7 +17,6 @@ namespace ContextCompiler.Abstractions.Pipelines
                            IReasoningIr ir,
                            IReadOnlyList<IPipelineFinding> findings,
                            CompileOptions options,
-                           IPlugins<IOutputPlugin> outputPlugins,
                            CancellationToken ct);
     }
 }
