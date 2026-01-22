@@ -1,5 +1,3 @@
-using ContextCompiler.Abstractions.Plugins;
-
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ContextCompiler.Infrastructure.PluginLoading;

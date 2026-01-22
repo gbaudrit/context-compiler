@@ -1,13 +1,7 @@
-using System.Security.Cryptography;
-using System.Text.Json;
-
 using ContextCompiler.Abstractions.Configuration;
 using ContextCompiler.Abstractions.Output;
-using ContextCompiler.Abstractions.Personas;
 using ContextCompiler.Abstractions.Plugins;
-using ContextCompiler.Abstractions.Plugins.GlobalPipeline;
 using ContextCompiler.Abstractions.Plugins.Prompts;
-using ContextCompiler.Abstractions.Prompt;
 using ContextCompiler.Abstractions.Rendering;
 using ContextCompiler.Abstractions.Versioning;
 using ContextCompiler.Plugins.BuiltIn.Templates.Scriban.Extensions;

@@ -1,4 +1,3 @@
-using ContextCompiler.Abstractions.Models;
 using ContextCompiler.Abstractions.Pipelines.Document;
 using ContextCompiler.Abstractions.ReasoningIR;
 

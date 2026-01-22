@@ -1,13 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-using ContextCompiler.Abstractions.Diagnostics;
-using ContextCompiler.Abstractions.Models;
-using ContextCompiler.Abstractions.Pipelines;
 using ContextCompiler.Abstractions.Pipelines.Document;
-using ContextCompiler.Abstractions.Plugins;
-using ContextCompiler.Core.ReasoningIR;
 
 using Microsoft.Extensions.Logging;
 

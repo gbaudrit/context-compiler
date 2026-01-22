@@ -1,5 +1,4 @@
 using ContextCompiler.Abstractions.Files;
-using ContextCompiler.Abstractions.Models;
 using ContextCompiler.Abstractions.Pipelines.Document;
 
 namespace ContextCompiler.Abstractions.Plugins;

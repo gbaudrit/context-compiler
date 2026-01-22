@@ -1,4 +1,3 @@
-using ContextCompiler.Abstractions.Diagnostics;
 using ContextCompiler.Abstractions.Pipelines;
 using ContextCompiler.Abstractions.Pipelines.Document;
 using ContextCompiler.Abstractions.Plugins;

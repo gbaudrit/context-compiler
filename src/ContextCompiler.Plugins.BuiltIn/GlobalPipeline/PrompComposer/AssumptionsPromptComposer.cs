@@ -1,6 +1,3 @@
-using System;
-using System.Linq;
-
 using ContextCompiler.Abstractions.Configuration;
 using ContextCompiler.Abstractions.Output;
 using ContextCompiler.Abstractions.Plugins;

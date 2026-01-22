@@ -1,7 +1,6 @@
 using System.Globalization;
 using System.Text;
 
-using ContextCompiler.Abstractions.Models;
 using ContextCompiler.Abstractions.Output;
 using ContextCompiler.Abstractions.Plugins;
 using ContextCompiler.Abstractions.Plugins.GlobalPipeline;

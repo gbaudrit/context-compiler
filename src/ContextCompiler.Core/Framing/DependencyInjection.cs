@@ -1,9 +1,4 @@
-using ContextCompiler.Abstractions.Pipelines;
-using ContextCompiler.Abstractions.Pipelines.Document;
 using ContextCompiler.Abstractions.Prompt;
-using ContextCompiler.Core.Pipelines;
-using ContextCompiler.Core.Pipelines.DataPart;
-using ContextCompiler.Core.Pipelines.Document;
 
 using Microsoft.Extensions.DependencyInjection;
 

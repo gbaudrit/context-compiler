@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 using ContextCompiler.Abstractions.Pipelines.DataPart;
 using ContextCompiler.Abstractions.Pipelines.Document;
 

@@ -1,14 +1,9 @@
-using System;
-using System.Linq;
-
 using ContextCompiler.Abstractions.Configuration;
 using ContextCompiler.Abstractions.Output;
 using ContextCompiler.Abstractions.Pipelines;
 using ContextCompiler.Abstractions.Plugins;
 using ContextCompiler.Abstractions.Plugins.GlobalPipeline;
-using ContextCompiler.Abstractions.Prompt;
 using ContextCompiler.Abstractions.ReasoningIR;
-using ContextCompiler.Abstractions.Views;
 
 namespace ContextCompiler.Plugins.BuiltIn.GlobalPipeline.PrompComposer
 {

@@ -1,6 +1,5 @@
 using ContextCompiler.Abstractions.Personas;
 using ContextCompiler.Abstractions.Plugins;
-using ContextCompiler.Abstractions.ReasoningIR;
 
 namespace ContextCompiler.Plugins.BuiltIn.Personas;
 

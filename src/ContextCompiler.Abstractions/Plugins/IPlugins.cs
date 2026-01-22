@@ -1,6 +1,3 @@
-using ContextCompiler.Abstractions.Output;
-using ContextCompiler.Abstractions.ReasoningIR;
-
 namespace ContextCompiler.Abstractions.Plugins
 {
     public interface IPlugins

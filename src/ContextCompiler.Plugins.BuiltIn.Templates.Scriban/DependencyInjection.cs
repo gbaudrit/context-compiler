@@ -1,4 +1,3 @@
-using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Abstractions.Plugins.Prompts;
 using ContextCompiler.Plugins.BuiltIn.Templates.Scriban.Templates;
 

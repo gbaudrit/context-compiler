@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Abstractions.Plugins;
 using ContextCompiler.Abstractions.ReasoningIR;

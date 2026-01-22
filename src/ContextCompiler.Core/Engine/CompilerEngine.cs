@@ -1,5 +1,4 @@
 using ContextCompiler.Abstractions.Configuration;
-using ContextCompiler.Abstractions.Diagnostics;
 using ContextCompiler.Abstractions.Guards;
 using ContextCompiler.Abstractions.Models;
 using ContextCompiler.Abstractions.Output;
@@ -7,10 +6,7 @@ using ContextCompiler.Abstractions.Pipelines;
 using ContextCompiler.Abstractions.Pipelines.Document;
 using ContextCompiler.Abstractions.Ports;
 using ContextCompiler.Abstractions.ReasoningIR;
-using ContextCompiler.Core.Guards;
-using ContextCompiler.Core.Pipelines;
 using ContextCompiler.Core.Pipelines.Document;
-using ContextCompiler.Core.ReasoningIR;
 
 using Microsoft.Extensions.Logging;
 

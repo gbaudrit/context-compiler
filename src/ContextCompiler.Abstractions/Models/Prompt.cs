@@ -1,10 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 using ContextCompiler.Abstractions.Output;
 using ContextCompiler.Abstractions.Personas;
-using ContextCompiler.Abstractions.Plugins;
 using ContextCompiler.Abstractions.Prompt;
 using ContextCompiler.Abstractions.Views;
 
