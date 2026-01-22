@@ -11,11 +11,6 @@ public interface ICtxcConfigProvider
 
 public sealed class CtxcConfig : ICtxcConfig
 {
-    [JsonPropertyName("enabled")] public bool Enabled { get; set; } = true;
-    
-    [JsonPropertyName("constraints")] public ConstraintsInfo? Constraints { get; set; }
-    [JsonPropertyName("glossary")] public Dictionary<string, string>? Glossary { get; set; }
-    [JsonPropertyName("outputContract")] public OutputContract? OutputContract { get; set; }
     [JsonPropertyName("files")] public List<FileConfig> Files { get; set; } = [];
     [JsonPropertyName("personas")] public PersonasConfig? Personas { get; set; }
     [JsonPropertyName("context")] public ContextConfig Context { get; set; } = new();

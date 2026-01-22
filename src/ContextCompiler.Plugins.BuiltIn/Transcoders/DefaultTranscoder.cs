@@ -1,3 +1,4 @@
+using ContextCompiler.Abstractions.Files;
 using ContextCompiler.Abstractions.Pipelines.Document;
 using ContextCompiler.Abstractions.Plugins;
 using ContextCompiler.Abstractions.ReasoningIR;
@@ -21,11 +22,24 @@ public sealed class DefaultTranscoder(ILogger<DefaultTranscoder> logger, ITagBui
 
         logger.LogTrace("DefaultTranscoder processing envelope with shape {Shape} from source {Source}", envelope.Shape, dataPart.Source.Path);
 
-        if (envelope.Shape == DataShape.Linear && dataPart.Payload is string s)
+        if (envelope.Shape == DataShape.Linear)
         {
+            string locator = "unknown";
+            string content = "";
+            if (dataPart.Payload is IFileInfos)
+            {
+                locator = "file:full";
+                content = (dataPart.Payload as IFileInfos)!.Path;
+            }
+            else if (dataPart.Payload is string s)
+            {
+                locator = "text:full";
+                content = s;
+            }
+
             return Task.FromResult<IReadOnlyList<TranscodedFragment>>(new[]
             {
-                new TranscodedFragment("text:full", s) { Tags =  tagsBuilder.InitNewFrom(new List<ITag>{ tagBuilder.Build("shape", "linear")}).AddRange(dataPart.Tags).Build()}
+                new TranscodedFragment(locator, content) { Tags =  tagsBuilder.InitNewFrom(new List<ITag>{ tagBuilder.Build("shape", "linear")}).AddRange(dataPart.Tags).Build()}
             });
         }
 

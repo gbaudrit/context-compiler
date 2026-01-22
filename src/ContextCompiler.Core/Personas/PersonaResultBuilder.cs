@@ -4,7 +4,7 @@ using ContextCompiler.Core.Framing;
 
 namespace ContextCompiler.Core.Personas
 {
-    internal sealed class PersonaResultBuilder : IPersonaResultBuilder
+    internal sealed class PersonaResultBuilder(IMustConstraintBuilder mustConstraintBuilder, IMustNotConstraintBuilder mustNotConstraintBuilder) : IPersonaResultBuilder
     {
 
         private string? _personaId;
@@ -65,7 +65,16 @@ namespace ContextCompiler.Core.Personas
 
         public IPersonaResultBuilder WithMust(IReadOnlyList<string> must)
         {
-            _must = must.Select(m => new MustConstraint() { Text = m}).ToArray();
+            var index = 0;
+            var mustConstraints = new List<IMustConstraint>();
+            foreach (var m in must)
+            {
+                mustConstraints.Add(mustConstraintBuilder.InitNew()
+                    .WithId($"MUST{index++}")
+                    .WithText(m)
+                    .Build());
+            }
+            _must = mustConstraints.ToArray();
             return this;
         }
 
@@ -77,7 +86,16 @@ namespace ContextCompiler.Core.Personas
 
         public IPersonaResultBuilder WithMustNot(IReadOnlyList<string> mustNot)
         {
-            _mustNot = mustNot.Select(m => new MustNotConstraint() { Text = m }).ToArray();
+            var index = 0;
+            var mustNotConstraints = new List<IMustNotConstraint>();
+            foreach (var m in mustNot)
+            {
+                mustNotConstraints.Add(mustNotConstraintBuilder.InitNew()
+                    .WithId($"MUSTNOT{index++}")
+                    .WithText(m)
+                    .Build());
+            }
+            _mustNot = mustNotConstraints.ToArray();
             return this;
         }
 

@@ -35,7 +35,7 @@ public enum GlobalPipelinePluginKinds
     Compression = 11000,
     GraphExporter = 12000,
     Output = 13000,
-    OutputWriter = 14000,
-    OutputArtifactComposer = 15000,
+    OutputArtifactComposer = 14000,
+    OutputWriter = 15000,
     PromptRenderer = 16000,
 }

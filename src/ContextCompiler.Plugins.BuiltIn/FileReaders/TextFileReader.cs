@@ -4,9 +4,11 @@ using ContextCompiler.Abstractions.Files;
 using ContextCompiler.Abstractions.Pipelines.Document;
 using ContextCompiler.Abstractions.Plugins;
 
+using Microsoft.Extensions.Logging;
+
 namespace ContextCompiler.Plugins.BuiltIn.FileReaders;
 
-public sealed class TextFileReaderPlugin(IFileReadResultBuilder fileReadResultBuilder, IFileContentBuilder fileContentBuilder) : IFileReaderPlugin
+public sealed class TextFileReaderPlugin(IFileReadResultBuilder fileReadResultBuilder, IFileContentBuilder fileContentBuilder, ILogger<TextFileReaderPlugin> logger) : IFileReaderPlugin
 {
     public PluginMetadata Metadata => BuiltInMetadata.Meta("builtin.text.reader", GlobalPipelinePluginKinds.FileReader, priority: 0);
 
@@ -19,6 +21,7 @@ public sealed class TextFileReaderPlugin(IFileReadResultBuilder fileReadResultBu
 
     public Task<IFileReadResult> ReadAsync(string path, CancellationToken ct)
     {
+        logger.LogInformation("Reading text file: {Path}", path);
         ct.ThrowIfCancellationRequested();
         var bytes = File.ReadAllBytes(path);
         var text = Encoding.UTF8.GetString(bytes);

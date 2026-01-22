@@ -14,6 +14,8 @@ namespace ContextCompiler.Core.Framing
             services.AddSingleton<IAssumptionBuilder, AssumptionBuilder>();
             services.AddSingleton<IAudienceBuilder, AudienceBuilder>();
             services.AddSingleton<IGlossaryTermBuilder, GlossaryTermBuilder>();
+            services.AddSingleton<IMustConstraintBuilder, MustConstraintBuilder>();
+            services.AddSingleton<IMustNotConstraintBuilder, MustNotConstraintBuilder>();
             return services;
         }
 

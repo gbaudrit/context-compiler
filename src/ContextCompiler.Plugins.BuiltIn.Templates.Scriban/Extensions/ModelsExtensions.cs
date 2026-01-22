@@ -46,6 +46,7 @@ namespace ContextCompiler.Plugins.BuiltIn.Templates.Scriban.Extensions
         {
             return new
             {
+                id = o.Id,
                 text = o.Text
             };
         }
@@ -54,6 +55,7 @@ namespace ContextCompiler.Plugins.BuiltIn.Templates.Scriban.Extensions
         {
             return new
             {
+                id = o.Id,
                 text = o.Text
             };
         }
