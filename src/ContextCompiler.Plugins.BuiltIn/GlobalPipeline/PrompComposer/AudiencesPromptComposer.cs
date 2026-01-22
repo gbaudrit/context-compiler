@@ -15,7 +15,7 @@ namespace ContextCompiler.Plugins.BuiltIn.GlobalPipeline.PrompComposer
 
         public Task Run(CancellationToken cancellationToken)
         {
-            var list = ctxcConfig.Current.Context.Project?.Audiences?
+            var list = ctxcConfig.Current.Context.Audiences?
                 .Select(kv => audienceBuilder.InitNew().WithName(kv.Key).WithDescription(kv.Value).Build())
                 .ToList() ?? new();
             prompt.Audiences = [.. list];

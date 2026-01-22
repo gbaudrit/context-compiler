@@ -12,9 +12,7 @@ public interface ICtxcConfigProvider
 public sealed class CtxcConfig : ICtxcConfig
 {
     [JsonPropertyName("enabled")] public bool Enabled { get; set; } = true;
-    [JsonPropertyName("project")] public ProjectInfo? Project { get; set; }
-    [JsonPropertyName("objectives")] public Dictionary<string, string>? Objectives { get; set; }
-    [JsonPropertyName("assumptions")] public Dictionary<string, string>? Assumptions { get; set; }
+    
     [JsonPropertyName("constraints")] public ConstraintsInfo? Constraints { get; set; }
     [JsonPropertyName("glossary")] public Dictionary<string, string>? Glossary { get; set; }
     [JsonPropertyName("outputContract")] public OutputContract? OutputContract { get; set; }
@@ -28,7 +26,10 @@ public sealed class CtxcConfig : ICtxcConfig
 public sealed class ContextConfig
 {
     [JsonPropertyName("enabled")] public bool Enabled { get; set; } = true;
-    [JsonPropertyName("project")] public ProjectInfo? Project { get; set; }
+    [JsonPropertyName("name")] public string? Name { get; set; }
+    [JsonPropertyName("summary")] public string? Summary { get; set; }
+    [JsonPropertyName("domain")] public string? Domain { get; set; }
+    [JsonPropertyName("audience")] public Dictionary<string, string>? Audiences { get; set; }
     [JsonPropertyName("objectives")] public List<string>? Objectives { get; set; }
     [JsonPropertyName("assumptions")] public List<string>? Assumptions { get; set; }
     [JsonPropertyName("constraints")] public ConstraintsInfo? Constraints { get; set; }
@@ -38,10 +39,7 @@ public sealed class ContextConfig
 
 public sealed class ProjectInfo
 {
-    [JsonPropertyName("name")] public string? Name { get; set; }
-    [JsonPropertyName("summary")] public string? Summary { get; set; }
-    [JsonPropertyName("domain")] public string? Domain { get; set; }
-    [JsonPropertyName("audience")] public Dictionary<string, string>? Audiences { get; set; }
+    
 }
 
 public sealed class ConstraintsInfo
