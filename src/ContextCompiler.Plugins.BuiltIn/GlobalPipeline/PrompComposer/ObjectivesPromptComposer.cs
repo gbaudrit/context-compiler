@@ -18,7 +18,16 @@ namespace ContextCompiler.Plugins.BuiltIn.GlobalPipeline.PrompComposer
 
         public Task Run(CancellationToken cancellationToken)
         {
-            prompt.Objectives = [.. ctxcConfig.Current.Context.Objectives?.Select(o => objectiveBuilder.WithName(o.Key).WithDescription(o.Value).Build()).ToList() ?? []];
+            int index = 1;
+            var objectives = new List<IObjective>();
+            foreach (var obj in ctxcConfig.Current.Context.Objectives ?? [])
+            {
+                objectives.Add(objectiveBuilder.InitNew()
+                                .WithName($"OBJ{index++}")
+                                .WithDescription(obj)
+                                .Build());
+            }
+            prompt.Objectives = objectives;
             return Task.CompletedTask;
         }
     }

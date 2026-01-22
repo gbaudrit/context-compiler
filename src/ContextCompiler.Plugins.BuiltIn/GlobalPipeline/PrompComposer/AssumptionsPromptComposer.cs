@@ -15,10 +15,14 @@ namespace ContextCompiler.Plugins.BuiltIn.GlobalPipeline.PrompComposer
 
         public Task Run(CancellationToken cancellationToken)
         {
-            var list = ctxcConfig.Current.Context.Assumptions?
-                .Select(a => assumptionBuilder.InitNew().WithName(a.Key).WithDescription(a.Value).Build())
-                .ToList() ?? new();
-            prompt.Assumptions = [.. list];
+            var index = 1;
+            var assumptions = new List<IAssumption>();
+            foreach (var a in ctxcConfig.Current.Context.Assumptions ?? [])
+            {
+                assumptions.Add(assumptionBuilder.InitNew().WithName($"AS{index++}").WithDescription(a).Build());
+            }
+
+            prompt.Assumptions = assumptions;
             return Task.CompletedTask;
         }
     }
