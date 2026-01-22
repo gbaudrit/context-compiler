@@ -10,7 +10,7 @@ namespace ContextCompiler.Plugins.BuiltIn.Guards;
 
 public sealed class ScopeGuardPlugin : IGuardPlugin
 {
-    public PluginMetadata Metadata => BuiltInMetadata.Meta("builtin.guard.scope", PluginKinds.Guard, priority: -100);
+    public PluginMetadata Metadata => BuiltInMetadata.Meta("builtin.guard.scope", GlobalPipelinePluginKinds.Guard, priority: -100);
     public DocumentStage Stage => DocumentStage.Discovery;
 
     private static readonly string[] Excludes =

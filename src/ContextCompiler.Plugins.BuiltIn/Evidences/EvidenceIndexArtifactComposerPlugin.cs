@@ -14,11 +14,11 @@ namespace ContextCompiler.Plugins.BuiltIn.Evidences
 {
     internal sealed class EvidenceIndexArtifactComposerPlugin(ILogger<EvidenceIndexArtifactComposerPlugin> logger, IReasoningIr ir, IOutput output) : IOutputArtifactComposerPlugin
     {
-        public PluginMetadata Metadata => BuiltInMetadata.Meta("builtin.output.evidence.index.json", PluginKinds.OutputArtifactComposer, priority: 10);
+        public PluginMetadata Metadata => BuiltInMetadata.Meta("builtin.output.evidence.index.json", GlobalPipelinePluginKinds.OutputArtifactComposer, priority: 10);
 
         private static readonly JsonSerializerOptions s_jsonIndentedOptions = new() { WriteIndented = true };
 
-        public ValueTask Compose(CancellationToken cancellationToken)
+        public Task Run(CancellationToken cancellationToken)
         {
             var evidenceIndex = ir.Fragments.Select(f => new
             {
@@ -36,7 +36,7 @@ namespace ContextCompiler.Plugins.BuiltIn.Evidences
                               .WithContent(JsonSerializer.Serialize(evidenceIndex, s_jsonIndentedOptions));
             });
 
-            return ValueTask.CompletedTask;
+            return Task.CompletedTask;
         }
     }
 }

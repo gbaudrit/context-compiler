@@ -14,9 +14,9 @@ namespace ContextCompiler.Plugins.BuiltIn.GlobalPipeline.PrompComposer
 {
     internal sealed class ViewsPromptComposer(IOutput output, ICtxcConfigProvider ctxcConfig, IPluginRegistry plugins, IReasoningIr ir) : IPromptComposerPlugin
     {
-        public PluginMetadata Metadata => BuiltInMetadata.Meta("builtin.prompt.composer.views", PluginKinds.PromptComposer, priority: 10);
+        public PluginMetadata Metadata => BuiltInMetadata.Meta("builtin.prompt.composer.views", GlobalPipelinePluginKinds.PromptComposer, priority: 10);
 
-        public async ValueTask Run(CancellationToken cancellationToken)
+        public async Task Run(CancellationToken cancellationToken)
         {
             var views = new List<IViewResult>();
             foreach (var v in plugins.Views.OrderBy(v => v.Metadata.Priority))

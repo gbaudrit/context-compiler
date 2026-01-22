@@ -22,9 +22,9 @@ namespace ContextCompiler.Plugins.BuiltIn.GlobalPipeline.PrompComposer
                                                  IPluginRegistry plugins,
                                                  ILogger<PersonasPromptComposer> logger) : IPromptComposerPlugin
     {
-        public PluginMetadata Metadata => BuiltInMetadata.Meta("builtin.prompt.composer.personas", PluginKinds.PromptComposer, priority: 10);
+        public PluginMetadata Metadata => BuiltInMetadata.Meta("builtin.prompt.composer.personas", GlobalPipelinePluginKinds.PromptComposer, priority: 10);
 
-        public async ValueTask Run(CancellationToken cancellationToken)
+        public async Task Run(CancellationToken cancellationToken)
         {
             // Personas (existing integration)
             var personasMeta = new List<IPersonaResult>();

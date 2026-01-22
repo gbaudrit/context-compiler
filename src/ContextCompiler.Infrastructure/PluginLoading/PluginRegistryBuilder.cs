@@ -25,6 +25,7 @@ public static class PluginRegistryBuilder
                     var registration = (IPluginRegistration)Activator.CreateInstance(t)!;
                     registration.RegisterServices(services);
                 }
+                if (typeof(IGlobalPipelinePlugin).IsAssignableFrom(t)) services.AddTransient(typeof(IGlobalPipelinePlugin), t);
                 if (typeof(IFileReaderPlugin).IsAssignableFrom(t)) services.AddTransient(typeof(IFileReaderPlugin), t);
                 if (typeof(IFileReader).IsAssignableFrom(t)) services.AddTransient(t);
                 if (typeof(IDataReaderPlugin).IsAssignableFrom(t)) services.AddTransient(typeof(IDataReaderPlugin), t);

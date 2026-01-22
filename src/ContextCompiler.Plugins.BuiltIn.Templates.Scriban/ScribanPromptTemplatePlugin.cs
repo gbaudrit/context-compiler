@@ -1,5 +1,7 @@
+using System.Security.Cryptography;
 using System.Text.Json;
 
+using ContextCompiler.Abstractions.Configuration;
 using ContextCompiler.Abstractions.Output;
 using ContextCompiler.Abstractions.Personas;
 using ContextCompiler.Abstractions.Plugins;
@@ -15,27 +17,23 @@ using ScribanLib = global::Scriban;
 
 namespace ContextCompiler.Plugins.BuiltIn.Templates.Scriban
 {
-    internal sealed class ScribanPromptTemplatePlugin(ITemplateProvider templateProvider, IOutput output) : IPromptRenderingPlugin
+    internal sealed class ScribanPromptTemplatePlugin(IPrompt prompt, ITemplateProvider templateProvider, IOutput output, ICtxcConfigProvider ctxcConfigProvider) : IPromptRenderingPlugin
     {
-        public PluginMetadata Metadata => new PluginMetadata("builtin.prompt.render", PluginKinds.Template, PluginApiVersion.Current, 0);
+        public PluginMetadata Metadata => new PluginMetadata("builtin.prompt.render", GlobalPipelinePluginKinds.Template, PluginApiVersion.Current, 0);
 
-        public async ValueTask<IRenderedPromptResult> RenderTemplateAsync(IPrompt prompt, string templateName, string outputFilename, CancellationToken ct)
+        public async Task Run(CancellationToken ct)
         {
-            return await RenderTemplateAsync(prompt.ToRenderable(), templateName, outputFilename, ct);
+            foreach (var rendererName in ctxcConfigProvider.Current.Renderers)
+            {
+                await RenderTemplateAsync(prompt.ToRenderable(), rendererName, rendererName, ct);
+            }
         }
 
-        public async ValueTask<IRenderedPromptResult> RenderTemplateAsync(IRenderable prompt, string templateName, string outputFilename, CancellationToken ct)
+        public async Task RenderTemplateAsync(IRenderable prompt, string templateName, string outputFilename, CancellationToken ct)
         {
             ITemplateDefinition templateDefinition = templateProvider.GetTemplate(templateName);
 
-            var template = ScribanLib.Template.Parse(templateDefinition.Content);
-
-            if (template is null)
-            {
-                throw new InvalidOperationException("Failed to parse template.");
-
-            }
-
+            var template = ScribanLib.Template.Parse(templateDefinition.Content) ?? throw new InvalidOperationException("Failed to parse template.");
             string result;
             // Check for any errors
             if (template.HasErrors)
@@ -53,7 +51,7 @@ namespace ContextCompiler.Plugins.BuiltIn.Templates.Scriban
                               .WithContent(result);
             });
 
-            return new ScribanRenderedPromptResult() { Filename = outputFilename, RenderedText = result };
+            //new ScribanRenderedPromptResult() { Filename = outputFilename, RenderedText = result };
         }
 
     }

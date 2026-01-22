@@ -9,18 +9,18 @@ using ContextCompiler.Abstractions.Plugins;
 using ContextCompiler.Abstractions.Plugins.GlobalPipeline;
 using ContextCompiler.Abstractions.ReasoningIR;
 
-namespace ContextCompiler.Plugins.BuiltIn.GraphExporters;
+namespace ContextCompiler.Plugins.BuiltIn.Personas;
 
 public sealed class ActivatedPersonasIndexArtifact(IPrompt prompt, IOutput output, IReasoningIr ir, ICtxcConfigProvider cfgProvider) : IOutputArtifactComposerPlugin
 {
     private JsonSerializerOptions jsonSerializerOptions = new() { WriteIndented = true };
 
-    public PluginMetadata Metadata => BuiltInMetadata.Meta("builtin.output.evidence.graph.json", PluginKinds.OutputArtifactComposer, priority: 0);
+    public PluginMetadata Metadata => BuiltInMetadata.Meta("builtin.output.evidence.graph.json", GlobalPipelinePluginKinds.OutputArtifactComposer, priority: 0);
 
     public string Export(object graphModel)
         => JsonSerializer.Serialize(graphModel, jsonSerializerOptions);
 
-    public async ValueTask Compose(CancellationToken cancellationToken)
+    public async Task Run(CancellationToken cancellationToken)
     {
         output.AddArtifact(builder =>
         {

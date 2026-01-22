@@ -7,11 +7,11 @@ using Microsoft.Extensions.Logging;
 
 namespace ContextCompiler.Plugins.BuiltIn.Output
 {
-    internal sealed class OutputArtifactsFilesWriterPlugin(IFileSystem fs, ILogger<OutputArtifactsFilesWriterPlugin> logger) : IOutputArtifactsFilesWriterPlugin
+    internal sealed class OutputArtifactsFilesWriterPlugin(IOutput output, IFileSystem fs, ILogger<OutputArtifactsFilesWriterPlugin> logger) : IOutputArtifactsFilesWriterPlugin
     {
-        public PluginMetadata Metadata => BuiltInMetadata.Meta("builtin.output.writer", PluginKinds.OutputWriter, priority: 10);
+        public PluginMetadata Metadata => BuiltInMetadata.Meta("builtin.output.writer", GlobalPipelinePluginKinds.OutputWriter, priority: 10);
 
-        public ValueTask Run(IOutput output, CancellationToken ct)
+        public Task Run(CancellationToken ct)
         {
             foreach (var artifact in output.Artifacts)
             {
@@ -21,7 +21,7 @@ namespace ContextCompiler.Plugins.BuiltIn.Output
                 logger.LogInformation("Wrote output artifact file: {Path}", p);
             }
             
-            return ValueTask.CompletedTask;
+            return Task.CompletedTask;
         }
 
     }

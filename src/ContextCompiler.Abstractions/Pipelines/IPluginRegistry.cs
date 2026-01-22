@@ -22,4 +22,5 @@ public interface IPluginRegistry
     IReadOnlyList<IPromptComposerPlugin> PromptComposers { get; }
     IReadOnlyList<IOutputArtifactsFilesWriterPlugin> OutputArtifactWriters { get; }
     IReadOnlyList<IOutputArtifactComposerPlugin> OutputArtifactComposers { get; }
+    IReadOnlyList<IGlobalPipelinePlugin> GlobalPipelinePlugins { get; }
 }

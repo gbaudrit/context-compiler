@@ -7,7 +7,7 @@ namespace ContextCompiler.Plugins.BuiltIn.DataReaders;
 
 public sealed class LinearDataReader(IDataEnvelopeBuilder dataEnvelopeBuilder, IDataPartBuilder dataPartBuilder) : IDataReaderPlugin
 {
-    public PluginMetadata Metadata => BuiltInMetadata.Meta("builtin.data.linear", PluginKinds.DataReader, priority: 0);
+    public PluginMetadata Metadata => BuiltInMetadata.Meta("builtin.data.linear", GlobalPipelinePluginKinds.DataReader, priority: 0);
 
     public bool CanRead(IFileInfos doc) => doc.Text is not null;
 

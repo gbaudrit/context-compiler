@@ -12,7 +12,7 @@ public sealed class DefaultTranscoder(ILogger<DefaultTranscoder> logger, ITagBui
 {
     private System.Text.Json.JsonSerializerOptions jsonSerializerOptions = new() { WriteIndented = true };
 
-    public PluginMetadata Metadata => BuiltInMetadata.Meta("builtin.transcoder.default", PluginKinds.Transcoder, priority: 0);
+    public PluginMetadata Metadata => BuiltInMetadata.Meta("builtin.transcoder.default", GlobalPipelinePluginKinds.Transcoder, priority: 0);
 
     public bool CanTranscode(IDataEnvelope envelope) => envelope.Shape is DataShape.Linear or DataShape.Tabular;
 

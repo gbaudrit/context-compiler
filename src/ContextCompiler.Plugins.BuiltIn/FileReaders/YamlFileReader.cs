@@ -7,7 +7,7 @@ namespace ContextCompiler.Plugins.BuiltIn.FileReaders;
 
 public sealed class YamlFileReaderPlugin(IFileReadResultBuilder fileReadResultBuilder, IFileContentBuilder fileContentBuilder) : IFileReaderPlugin
 {
-    public PluginMetadata Metadata => BuiltInMetadata.Meta("builtin.yaml.reader", PluginKinds.FileReader, priority: 9);
+    public PluginMetadata Metadata => BuiltInMetadata.Meta("builtin.yaml.reader", GlobalPipelinePluginKinds.FileReader, priority: 9);
 
     public bool CanRead(string path)
     {

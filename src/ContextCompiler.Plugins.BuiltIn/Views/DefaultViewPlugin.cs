@@ -9,7 +9,7 @@ namespace ContextCompiler.Plugins.BuiltIn.Views;
 
 public sealed class DefaultViewPlugin(IViewResultBuilder viewResultBuilder) : IViewPlugin
 {
-    public PluginMetadata Metadata => BuiltInMetadata.Meta("builtin.view.default", PluginKinds.View, priority: 0);
+    public PluginMetadata Metadata => BuiltInMetadata.Meta("builtin.view.default", GlobalPipelinePluginKinds.View, priority: 0);
     public string ViewId => "default";
 
     public ValueTask<IReadOnlyList<IViewResult>> BuildAsync(ViewContext ctx, CancellationToken ct)

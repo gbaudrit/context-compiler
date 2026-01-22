@@ -10,7 +10,7 @@ namespace ContextCompiler.Plugins.BuiltIn.Guards;
 
 public sealed class PromptInjectionGuardPlugin : IGuardPlugin
 {
-    public PluginMetadata Metadata => BuiltInMetadata.Meta("builtin.guard.injection", PluginKinds.Guard, priority: 0);
+    public PluginMetadata Metadata => BuiltInMetadata.Meta("builtin.guard.injection", GlobalPipelinePluginKinds.Guard, priority: 0);
     public DocumentStage Stage => DocumentStage.ContentGuards;
 
     private static readonly Regex Pattern = new(@"(?i)\b(ignore|disregard)\b.{0,60}\b(previous|all|any)\b.{0,30}\b(instructions|rules)\b",

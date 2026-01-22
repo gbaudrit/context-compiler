@@ -8,6 +8,6 @@ namespace ContextCompiler.Abstractions.Plugins.GlobalPipeline
 {
     public interface IOutputArtifactsFilesWriterPlugin : IGlobalPipelinePlugin
     {
-        ValueTask Run(IOutput output, CancellationToken ct);
+        //ValueTask Run(CancellationToken ct);
     }
 }

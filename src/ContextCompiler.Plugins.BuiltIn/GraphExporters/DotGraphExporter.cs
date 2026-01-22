@@ -11,9 +11,9 @@ namespace ContextCompiler.Plugins.BuiltIn.GraphExporters;
 
 public sealed class DotGraphExporter(IOutput output, IReasoningIr ir) : IOutputArtifactComposerPlugin
 {
-    public PluginMetadata Metadata => BuiltInMetadata.Meta("builtin.output.evidence.graph.dot", PluginKinds.OutputArtifactComposer, priority: 10);
+    public PluginMetadata Metadata => BuiltInMetadata.Meta("builtin.output.evidence.graph.dot", GlobalPipelinePluginKinds.OutputArtifactComposer, priority: 10);
 
-    public async ValueTask Compose(CancellationToken cancellationToken)
+    public async Task Run(CancellationToken cancellationToken)
     {
         IGraph graph = await ir.Graph(cancellationToken);
         var sb = new StringBuilder();

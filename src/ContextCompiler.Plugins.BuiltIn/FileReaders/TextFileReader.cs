@@ -9,7 +9,7 @@ namespace ContextCompiler.Plugins.BuiltIn.FileReaders;
 
 public sealed class TextFileReaderPlugin(IFileReadResultBuilder fileReadResultBuilder, IFileContentBuilder fileContentBuilder) : IFileReaderPlugin
 {
-    public PluginMetadata Metadata => BuiltInMetadata.Meta("builtin.text.reader", PluginKinds.FileReader, priority: 0);
+    public PluginMetadata Metadata => BuiltInMetadata.Meta("builtin.text.reader", GlobalPipelinePluginKinds.FileReader, priority: 0);
 
     private static readonly HashSet<string> Extensions = new(StringComparer.OrdinalIgnoreCase)
     {

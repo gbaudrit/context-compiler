@@ -14,12 +14,12 @@ public sealed class PersonasActiveArtifact(IOutput output, IReasoningIr ir) : IO
 {
     private JsonSerializerOptions jsonSerializerOptions = new() { WriteIndented = true };
 
-    public PluginMetadata Metadata => BuiltInMetadata.Meta("builtin.output.evidence.graph.json", PluginKinds.OutputArtifactComposer, priority: 0);
+    public PluginMetadata Metadata => BuiltInMetadata.Meta("builtin.output.evidence.graph.json", GlobalPipelinePluginKinds.OutputArtifactComposer, priority: 0);
 
     public string Export(object graphModel)
         => JsonSerializer.Serialize(graphModel, jsonSerializerOptions);
 
-    public async ValueTask Compose(CancellationToken cancellationToken)
+    public async Task Run(CancellationToken cancellationToken)
     {
         IGraph graph = await ir.Graph(cancellationToken);
         output.AddArtifact(builder =>

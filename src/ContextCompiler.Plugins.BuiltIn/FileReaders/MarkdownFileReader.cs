@@ -7,7 +7,7 @@ namespace ContextCompiler.Plugins.BuiltIn.FileReaders;
 
 public sealed class MarkdownFileReaderPlugin(IFileReadResultBuilder fileReadResultBuilder, IFileContentBuilder fileContentBuilder) : IFileReaderPlugin
 {
-    public PluginMetadata Metadata => BuiltInMetadata.Meta("builtin.markdown.reader", PluginKinds.FileReader, priority: 9);
+    public PluginMetadata Metadata => BuiltInMetadata.Meta("builtin.markdown.reader", GlobalPipelinePluginKinds.FileReader, priority: 9);
 
     public bool CanRead(string path)
     {

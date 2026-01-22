@@ -16,7 +16,7 @@ namespace ContextCompiler.Plugins.BuiltIn.Views;
 public sealed class TagBasedViewPlugin(IViewResultBuilder viewResultBuilder, IViewRenderersPlugin viewRenderersPlugin) : IViewPlugin
 {
 
-    public PluginMetadata Metadata => BuiltInMetadata.Meta("builtin.views.tag_based", PluginKinds.View, priority: 100);
+    public PluginMetadata Metadata => BuiltInMetadata.Meta("builtin.views.tag_based", GlobalPipelinePluginKinds.View, priority: 100);
 
     public string ViewId => "views.tagbased";
 

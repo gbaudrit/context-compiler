@@ -18,11 +18,11 @@ public sealed class CtxcConfig : ICtxcConfig
     [JsonPropertyName("constraints")] public ConstraintsInfo? Constraints { get; set; }
     [JsonPropertyName("glossary")] public Dictionary<string, string>? Glossary { get; set; }
     [JsonPropertyName("outputContract")] public OutputContract? OutputContract { get; set; }
-    [JsonPropertyName("files")] public List<FileConfig> Files { get; set; } = new();
+    [JsonPropertyName("files")] public List<FileConfig> Files { get; set; } = [];
     [JsonPropertyName("personas")] public PersonasConfig? Personas { get; set; }
     [JsonPropertyName("context")] public ContextConfig Context { get; set; } = new();
     [JsonPropertyName("views")] public ViewsConfig Views { get; set; } = new();
-    [JsonPropertyName("renderers")] public List<string> Renderers { get; set; } = new() { "prompt.context.md" };
+    [JsonPropertyName("renderers")] public List<string> Renderers { get; set; } = ["prompt.context.md"];
 }
 
 public sealed class ContextConfig
@@ -66,25 +66,25 @@ public sealed class OutputStyle
 
 public sealed class FileConfig
 {
-    [JsonPropertyName("includes")] public string[] Includes { get; set; } = Array.Empty<string>();
-    [JsonPropertyName("excludes")] public string[] Excludes { get; set; } = Array.Empty<string>();
-    [JsonPropertyName("subs")] public SubFilesMatchConfig[] Subs { get; set; } = Array.Empty<SubFilesMatchConfig>();
-    [JsonPropertyName("tags")] public string[] Tags { get; set; } = Array.Empty<string>();
+    [JsonPropertyName("includes")] public string[] Includes { get; set; } = [];
+    [JsonPropertyName("excludes")] public string[] Excludes { get; set; } = [];
+    [JsonPropertyName("subs")] public SubFilesMatchConfig[] Subs { get; set; } = [];
+    [JsonPropertyName("tags")] public string[] Tags { get; set; } = [];
     [JsonPropertyName("excel")] public ExcelFileSection? Excel { get; set; }
     // future: add other types e.g., json, yaml, markdown
 }
 
 public sealed class SubFilesMatchConfig
 {
-    [JsonPropertyName("includes")] public string[] Includes { get; set; } = Array.Empty<string>();
-    [JsonPropertyName("excludes")] public string[] Excludes { get; set; } = Array.Empty<string>();
-    [JsonPropertyName("tags")] public string[] Tags { get; set; } = Array.Empty<string>();
+    [JsonPropertyName("includes")] public string[] Includes { get; set; } = [];
+    [JsonPropertyName("excludes")] public string[] Excludes { get; set; } = [];
+    [JsonPropertyName("tags")] public string[] Tags { get; set; } = [];
 }
 
 public sealed class ExcelFileSection
 {
     [JsonPropertyName("defaults")] public ExcelDefaults? Defaults { get; set; }
-    [JsonPropertyName("extracts")] public List<ExcelExtractConfig> Extracts { get; set; } = new();
+    [JsonPropertyName("extracts")] public List<ExcelExtractConfig> Extracts { get; set; } = [];
 }
 
 public sealed class ExcelDefaults
@@ -119,7 +119,7 @@ public sealed class ExcelExtractConfig
     [JsonPropertyName("where")] public List<WhereClause>? Where { get; set; }
     // fragmentation
     [JsonPropertyName("fragmenting")] public FragmentingSpec? Fragmenting { get; set; }
-    [JsonPropertyName("tags")] public string[] Tags { get; set; } = Array.Empty<string>();
+    [JsonPropertyName("tags")] public string[] Tags { get; set; } = [];
 }
 
 public sealed class FragmentingSpec
@@ -139,16 +139,16 @@ public sealed class WhereClause
 public sealed class ViewsConfig
 {
     [JsonPropertyName("inline")] public bool? Inline { get; set; }
-    [JsonPropertyName("views")] public ViewConfig[] Views { get; set; } = Array.Empty<ViewConfig>();
+    [JsonPropertyName("views")] public ViewConfig[] Views { get; set; } = [];
 }
 
 public sealed class ViewConfig
 {
     [JsonPropertyName("id")] public string Id { get; set; } = string.Empty;
     [JsonPropertyName("title")] public string Title { get; set; } = string.Empty;
-    [JsonPropertyName("select")] public string[] Select { get; set; } = Array.Empty<string>();
-    [JsonPropertyName("exclude")] public string[] Exclude { get; set; } = Array.Empty<string>();
-    [JsonPropertyName("order")] public string[] Order { get; set; } = Array.Empty<string>();
+    [JsonPropertyName("select")] public string[] Select { get; set; } = [];
+    [JsonPropertyName("exclude")] public string[] Exclude { get; set; } = [];
+    [JsonPropertyName("order")] public string[] Order { get; set; } = [];
     [JsonPropertyName("includeFragmentContent")] public bool IncludeFragmentContent { get; set; } = true;
     [JsonPropertyName("maxContentChars")] public int? MaxContentChars { get; set; } = null;
     [JsonPropertyName("renderer")] public string[] Renderer { get; set; } = ["yaml", "index.json"];

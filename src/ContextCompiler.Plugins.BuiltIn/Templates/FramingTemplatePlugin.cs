@@ -6,7 +6,7 @@ namespace ContextCompiler.Plugins.BuiltIn.Templates;
 
 public sealed class FramingTemplatePlugin : ITemplatePlugin
 {
-    public PluginMetadata Metadata => BuiltInMetadata.Meta("builtin.template.framing", PluginKinds.Template, priority: 0);
+    public PluginMetadata Metadata => BuiltInMetadata.Meta("builtin.template.framing", GlobalPipelinePluginKinds.Template, priority: 0);
     public string TemplateId => "framing.v1";
 
     public string Apply(CompileOptions options, IPrompt prompt)

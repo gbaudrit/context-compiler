@@ -11,7 +11,7 @@ namespace ContextCompiler.Plugins.BuiltIn.DataReaders;
 
 public sealed class ExcelExtractDataReader(ICtxcConfigProvider cfgProvider, IDataEnvelopeBuilder dataEnvelopeBuilder, IDataPartBuilder dataPartBuilder, ITagsBuilder tagsBuilder) : IDataReaderPlugin
 {
-    public PluginMetadata Metadata => BuiltInMetadata.Meta("builtin.data.excel.extract", PluginKinds.DataReader, priority: 9);
+    public PluginMetadata Metadata => BuiltInMetadata.Meta("builtin.data.excel.extract", GlobalPipelinePluginKinds.DataReader, priority: 9);
 
     public bool CanRead(IFileInfos doc) => doc.MediaType.Contains("spreadsheet", StringComparison.OrdinalIgnoreCase);
 

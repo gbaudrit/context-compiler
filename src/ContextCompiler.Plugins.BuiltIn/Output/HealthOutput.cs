@@ -15,11 +15,11 @@ namespace ContextCompiler.Plugins.BuiltIn.Output
         IViewsProvider viewsProvider,
         IOutput output) : IOutputArtifactComposerPlugin
     {
-        public PluginMetadata Metadata => BuiltInMetadata.Meta("builtin.output.health", PluginKinds.Output, priority: 10);
+        public PluginMetadata Metadata => BuiltInMetadata.Meta("builtin.output.health", GlobalPipelinePluginKinds.Output, priority: 10);
 
         private JsonSerializerOptions jsonSerializerOptions = new() { WriteIndented = true };
 
-        public ValueTask Compose(CancellationToken cancellationToken)
+        public Task Run(CancellationToken cancellationToken)
         {
             var health = new
             {
@@ -35,7 +35,7 @@ namespace ContextCompiler.Plugins.BuiltIn.Output
                               .WithContent(JsonSerializer.Serialize(health, jsonSerializerOptions));
             });
 
-            return ValueTask.CompletedTask;
+            return Task.CompletedTask;
         }
 
     }

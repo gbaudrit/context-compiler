@@ -7,7 +7,7 @@ namespace ContextCompiler.Plugins.BuiltIn.FileReaders;
 
 public sealed class ExcelFileReaderPlugin(IFileReadResultBuilder fileReadResultBuilder, IFileContentBuilder fileContentBuilder)  : IFileReaderPlugin
 {
-    public PluginMetadata Metadata => BuiltInMetadata.Meta("builtin.excel.reader", PluginKinds.FileReader, priority: 10);
+    public PluginMetadata Metadata => BuiltInMetadata.Meta("builtin.excel.reader", GlobalPipelinePluginKinds.FileReader, priority: 10);
 
     public bool CanRead(string path)
     {

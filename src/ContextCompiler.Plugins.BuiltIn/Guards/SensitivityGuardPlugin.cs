@@ -9,7 +9,7 @@ namespace ContextCompiler.Plugins.BuiltIn.Guards;
 
 public sealed class SensitivityGuardPlugin : IGuardPlugin
 {
-    public PluginMetadata Metadata => BuiltInMetadata.Meta("builtin.guard.sensitivity", PluginKinds.Guard, priority: 10);
+    public PluginMetadata Metadata => BuiltInMetadata.Meta("builtin.guard.sensitivity", GlobalPipelinePluginKinds.Guard, priority: 10);
     public DocumentStage Stage => DocumentStage.ContentGuards;
 
     private static readonly Regex Email = new(@"[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
