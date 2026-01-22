@@ -16,6 +16,9 @@ namespace ContextCompiler.Core.Framing
         {
             // Register core services here
             services.AddSingleton<IObjectiveBuilder, ObjectiveBuilder>();
+            services.AddSingleton<IAssumptionBuilder, AssumptionBuilder>();
+            services.AddSingleton<IAudienceBuilder, AudienceBuilder>();
+            services.AddSingleton<IGlossaryTermBuilder, GlossaryTermBuilder>();
             return services;
         }
 

@@ -5,14 +5,14 @@ using System.Text;
 using ContextCompiler.Abstractions.Configuration;
 using ContextCompiler.Abstractions.Output;
 
-namespace ContextCompiler.Plugins.BuiltIn.GlobalPipeline.PrompComposer
+namespace ContextCompiler.Abstractions.Plugins.GlobalPipeline
 {
-    internal interface IPromptComposerContext
+    public interface IPromptComposerContext
     {
 
         public IPrompt Prompt { get; }
 
-        public ContextConfig Config { get; }
+        public IOutput Output { get; }
 
     }
 }

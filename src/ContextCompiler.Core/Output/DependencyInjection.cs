@@ -12,7 +12,9 @@ namespace ContextCompiler.Core.Output
             // Register core services here
             services.AddTransient<IOutputArtifactWriter, OutputArtifactWriter>()
                 .AddTransient<IOutputJsonArtifactWriter, OutputJsonArtifactWriter>()
-                .AddSingleton<IOutputContext, OutputContext>();
+                .AddTransient<IOutputArtifactBuilder, OutputArtifactBuilder>()
+                .AddSingleton<IOutputContext, OutputContext>()
+                .AddSingleton<IOutput, Output>();
             return services;
         }
 

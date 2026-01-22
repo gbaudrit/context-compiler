@@ -12,7 +12,8 @@ public static class DependencyInjection
         // Register core services here
         services.AddTransient<IEvidenceBuilder, EvidenceBuilder>()
             .AddTransient<IFragmentBuilder, FragmentBuilder>()
-            .AddSingleton<IReasoningIr, ReasoningIr>();
+            .AddSingleton<IReasoningIr, ReasoningIr>()
+            .AddTransient<IReasoningIrGraphComputer, ReasoningIrGraphComputer>();
         return services;
     }
 

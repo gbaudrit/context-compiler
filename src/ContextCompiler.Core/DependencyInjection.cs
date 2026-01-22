@@ -1,5 +1,7 @@
 using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Abstractions.Guards;
+using ContextCompiler.Abstractions.Models;
+using ContextCompiler.Abstractions.Output;
 using ContextCompiler.Abstractions.ReasoningIR;
 using ContextCompiler.Abstractions.Tags;
 using ContextCompiler.Abstractions.Views;
@@ -33,6 +35,7 @@ namespace ContextCompiler.Core
                     .AddTags()
                     .AddGuards()
                     .AddFraming()
+                    .AddSingleton<IPrompt, Prompt>()
                     .AddTransient<ISourceRefBuilder, SourceRefBuilder>();
             return services;
         }

@@ -2,6 +2,7 @@ using ContextCompiler.Abstractions.Configuration;
 using ContextCompiler.Abstractions.Diagnostics;
 using ContextCompiler.Abstractions.Guards;
 using ContextCompiler.Abstractions.Models;
+using ContextCompiler.Abstractions.Output;
 using ContextCompiler.Abstractions.Pipelines;
 using ContextCompiler.Abstractions.Pipelines.Document;
 using ContextCompiler.Abstractions.Ports;
@@ -32,7 +33,8 @@ public sealed class CompilerEngine(
     IConfigLocator configLocator,
     IDocumentPipelineRunner documentPipelineRunner,
     IReasoningIr reasoningIr,
-    IGuardian guardian
+    IGuardian guardian,
+    IOutput output
 ) : ICompilerEngine
 {
     public async Task<int> CompileAsync(CompileRequest request, CancellationToken ct)
@@ -62,7 +64,7 @@ public sealed class CompilerEngine(
             foreach (var f in r.Fragments)
                 reasoningIr.Add(f);
 
-        await globalPipelineRunner.RunAsync(request.InputPath, request.OutputPath, request.Clean, reasoningIr, findings, options, ct);
+        await globalPipelineRunner.RunAsync(request.InputPath, request.OutputPath, request.Clean, reasoningIr, findings, options, output, ct);
         return 0;
     }
 }

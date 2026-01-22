@@ -3,6 +3,7 @@ using System.Reflection;
 using ContextCompiler.Abstractions.Files;
 using ContextCompiler.Abstractions.Pipelines;
 using ContextCompiler.Abstractions.Plugins;
+using ContextCompiler.Abstractions.Plugins.GlobalPipeline;
 using ContextCompiler.Abstractions.Plugins.Views.Renderers;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -36,7 +37,10 @@ public static class PluginRegistryBuilder
                 if (typeof(ITemplatePlugin).IsAssignableFrom(t)) services.AddTransient(typeof(ITemplatePlugin), t);
                 if (typeof(IGraphExporterPlugin).IsAssignableFrom(t)) services.AddTransient(typeof(IGraphExporterPlugin), t);
                 if (typeof(IPersonaPlugin).IsAssignableFrom(t)) services.AddTransient(typeof(IPersonaPlugin), t);
-                if (typeof(IOutputPlugin).IsAssignableFrom(t)) services.AddTransient(typeof(IOutputPlugin), t);
+                //if (typeof(IOutputPlugin).IsAssignableFrom(t)) services.AddTransient(typeof(IOutputPlugin), t);
+                if (typeof(IPromptComposerPlugin).IsAssignableFrom(t)) services.AddTransient(typeof(IPromptComposerPlugin), t);
+                if (typeof(IOutputArtifactsFilesWriterPlugin).IsAssignableFrom(t)) services.AddTransient(typeof(IOutputArtifactsFilesWriterPlugin), t);
+                if (typeof(IOutputArtifactComposerPlugin).IsAssignableFrom(t)) services.AddTransient(typeof(IOutputArtifactComposerPlugin), t);
             }
         }
     }

@@ -9,7 +9,5 @@ public interface IPersonaPlugin : IPlugin
 }
 
 public sealed record PersonaContext(
-    string RootPath,
-    ContextCompiler.Abstractions.ReasoningIR.IReasoningIr Ir,
     IReadOnlyDictionary<string, object>? Inputs
 );

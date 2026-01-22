@@ -12,12 +12,14 @@ using ContextCompiler.Abstractions.Personas;
 using ContextCompiler.Abstractions.Pipelines;
 using ContextCompiler.Abstractions.Pipelines.Document;
 using ContextCompiler.Abstractions.Plugins;
+using ContextCompiler.Abstractions.Plugins.GlobalPipeline;
 using ContextCompiler.Abstractions.Plugins.Prompts;
 using ContextCompiler.Abstractions.Ports;
 using ContextCompiler.Abstractions.Prompt;
 using ContextCompiler.Abstractions.ReasoningIR;
 using ContextCompiler.Abstractions.Views;
 using ContextCompiler.Core.Framing;
+using ContextCompiler.Core.Plugins.GlobalPipeline;
 using ContextCompiler.Core.ReasoningIR;
 
 using Microsoft.Extensions.Logging;
@@ -37,6 +39,8 @@ public sealed class GlobalPipelineRunner(
     IHasher hasher,
     IPluginRegistry plugins,
     ICtxcConfigProvider cfgProvider,
+    IPrompt prompt,
+    IOutput output,
     IGuardian guardian) : IGlobalPipelineRunner
 {
     private static readonly JsonSerializerOptions s_jsonIndentedOptions = new() { WriteIndented = true };
@@ -48,6 +52,7 @@ public sealed class GlobalPipelineRunner(
         IReasoningIr ir,
         IReadOnlyList<IPipelineFinding> findings,
         CompileOptions options,
+        IOutput output,
         CancellationToken ct)
     {
         ct.ThrowIfCancellationRequested();
@@ -55,14 +60,10 @@ public sealed class GlobalPipelineRunner(
 
         var cfg = cfgProvider.Current;
 
-        var views = new List<IViewResult>();
-        foreach (var v in plugins.Views.OrderBy(v => v.Metadata.Priority))
-            views.AddRange(await v.BuildAsync(new ViewContext(cfg.Views, rootPath, ir), ct));
-
-        Prompt prompt = new();
-
-        //string.Join("\n\n---\n\n", views.Select(v => $"# {v.Title}\n\n{v.Rendered}"));
-        prompt.Views = views;
+        await Task.WhenAll(plugins.PromptComposers.OrderBy(c => c.Metadata.Priority).Select(async composer =>
+        {
+            await composer.Run(ct);
+        }));
 
 
         // Global Context rendering (before personas)
@@ -71,58 +72,17 @@ public sealed class GlobalPipelineRunner(
             RenderGlobalContext(cfg.Context, prompt);
         }
 
-        // Personas (existing integration)
-        var personasMeta = new List<IPersonaResult>();
-        if (cfg.Personas is not null && cfg.Personas.Active.Count > 0)
-        {
-            foreach (var id in cfg.Personas.Active)
-            {
-                var plugin = plugins.Personas.FirstOrDefault(p => string.Equals(p.PersonaId, id, StringComparison.Ordinal));
-                if (plugin is null)
-                {
-                    logger.LogWarning("Persona not found: {Id}", id);
-                    continue;
-                }
-                IReadOnlyDictionary<string, object>? inputs = null;
-                if (cfg.Personas.Params is not null && cfg.Personas.Params.TryGetValue(id, out var pval) && pval is not null)
-                {
-                    if (pval is JsonElement je && je.ValueKind == JsonValueKind.Object)
-                    {
-                        var dict = new Dictionary<string, object>();
-                        foreach (var prop in je.EnumerateObject())
-                            dict[prop.Name] = prop.Value.ToString();
-                        inputs = dict;
-                    }
-                }
-                personasMeta.Add(await plugin.BuildAsync(new PersonaContext(rootPath, ir, inputs), ct));
-            }
-        }
-        prompt.Personas = personasMeta;
-
-        //var mode = cfg.Personas?.Mode?.ToLowerInvariant() ?? "append";
-        //string framingInput = compiledViews;
-        //if (!string.IsNullOrEmpty(personaFraming))
-        //{
-        //    framingInput = mode switch
-        //    {
-        //        "prepend" => personaFraming + "\n\n" + compiledViews,
-        //        "replace" => personaFraming,
-        //        _ => compiledViews + "\n\n" + personaFraming,
-        //    };
-        //}
-
-
-
         var template = plugins.Templates.OrderBy(t => t.Metadata.Priority).FirstOrDefault();
         if (template is null)
             throw new InvalidOperationException("No prompt template plugins are registered.");
 
-        List<IRenderedPromptResult> renderedPromptResults = new();
-
-        foreach (var renderer in plugins.PromptRenderers.OrderBy(r => r.Metadata.Priority))
+        await Task.WhenAll(plugins.PromptRenderers.OrderBy(c => c.Metadata.Priority).Select(async renderer =>
         {
-            renderedPromptResults.Add(await renderer.RenderTemplateAsync(prompt, "prompt.context.md", "prompt.context.md", ct));
-        }
+            foreach(var rendererName in cfgProvider.Current.Renderers)
+            {
+                await renderer.RenderTemplateAsync(prompt, rendererName, rendererName, ct);
+            }
+        }));
 
         //var finalPrompt = template.Apply(options, prompt);
 
@@ -130,19 +90,7 @@ public sealed class GlobalPipelineRunner(
         //    finalPrompt = finalPrompt[..options.MaxCharacters] + "\n\n<!-- truncated by Context Compiler -->\n";
 
         // Graph
-        var graph = new GraphModel();
-        foreach (var frag in ir.Fragments)
-        {
-            graph.Nodes.Add(new GraphNode(frag.Evidence.EvidenceKey, "Evidence", frag.Evidence.EvidenceKey, new Dictionary<string, string>
-            {
-                ["source"] = frag.Source.Path,
-                ["locator"] = frag.Source.Locator ?? ""
-            }));
-            var srcId = "S-" + hasher.Sha256Hex(frag.Source.Path)[..10];
-            if (!graph.Nodes.Any(n => n.Id == srcId))
-                graph.Nodes.Add(new GraphNode(srcId, "Source", Path.GetFileName(frag.Source.Path), new Dictionary<string, string> { { "path", frag.Source.Path } }));
-            graph.Edges.Add(new GraphEdge(frag.Evidence.EvidenceKey, srcId, "DerivedFrom"));
-        }
+
 
         var artifacts = new Dictionary<string, string>();
 
@@ -152,56 +100,6 @@ public sealed class GlobalPipelineRunner(
             fs.WriteAllText(p, content);
             artifacts[name] = p;
         }
-
-        await plugins.Outputs.Run(ct);
-
-        foreach (var r in renderedPromptResults)
-        {
-            WriteArtifact(r.Filename, r.RenderedText);
-        }
-
-        //WriteArtifact("prompt.context.md", finalPrompt);
-
-        var evidenceIndex = ir.Fragments.Select(f => new
-        {
-            ek = f.Evidence.EvidenceKey,
-            er = f.Evidence.EvidenceRevision,
-            source = new { path = f.Source.Path, locator = f.Source.Locator },
-            tags = f.Tags
-        }).ToList();
-
-        logger.LogInformation("Writing {Count} evidence items to index.", evidenceIndex.Count);
-        WriteArtifact("evidence.index.json", JsonSerializer.Serialize(evidenceIndex, s_jsonIndentedOptions));
-
-        WriteArtifact("reasoning.graph.json", JsonSerializer.Serialize(graph, s_jsonIndentedOptions));
-
-        var secMd = "# Security Report\n\n" + (findings.Count == 0 ? "No findings." :
-            string.Join("\n", findings.Select(f => $"- **{f.Severity}** `{f.PassId}` ({f.Action}): {f.Message} — `{f.EvidenceRef?.Path}`")));
-        WriteArtifact("security.report.md", secMd);
-
-        //var health = new
-        //{
-        //    fragments = ir.Fragments.Count,
-        //    findings = findings.Count,
-        //    views = views.Count,
-        //    score = Math.Max(0, 100 - findings.Count * 5)
-        //};
-        //WriteArtifact("context.health.json", JsonSerializer.Serialize(health, s_jsonIndentedOptions));
-
-        foreach (var exp in plugins.GraphExporters.OrderBy(e => e.Metadata.Priority))
-        {
-            var content = exp.Export(graph);
-            WriteArtifact("reasoning.graph" + exp.FileExtension, content);
-        }
-
-        foreach (var v in views)
-            WriteArtifact(v.Filename, v.Content);
-
-        //if (!string.IsNullOrEmpty(personaFraming))
-        //{
-            //WriteArtifact("persona.framing.md", personaFraming);
-            WriteArtifact("personas.active.json", JsonSerializer.Serialize(new { active = cfg.Personas!.Active, mode = cfg.Personas.Mode, results = personasMeta }, s_jsonIndentedOptions));
-        //}
 
         // Preflight
         var preflight = new List<IPipelineFinding>();
@@ -215,28 +113,38 @@ public sealed class GlobalPipelineRunner(
             WriteArtifact("preflight.report.md", preMd);
         }
 
+        foreach (var p in plugins.OutputArtifactComposers.OrderBy(e => e.Metadata.Priority))
+        {
+            await p.Compose(ct);
+        }
+
+        foreach (var p in plugins.OutputArtifactWriters.OrderBy(e => e.Metadata.Priority))
+        {
+            await p.Run(output, ct);
+        }
+
         //return new GlobalCompileOutputs(artifacts, graph, findings);
     }
 
-    private static string RenderGlobalContext(ContextConfig ctx, Prompt prompt)
+    private static string RenderGlobalContext(ContextConfig ctx, IPrompt prompt)
     {
         var sb = new System.Text.StringBuilder();
-        if (ctx.Project is not null)
-        {
-            prompt.Name = ctx.Project.Name ?? string.Empty;
-            prompt.Summary = ctx.Project.Summary ?? string.Empty;
-            prompt.Domain = ctx.Project.Domain ?? string.Empty;
-            prompt.Audiences = [.. ctx.Project.Audiences?.Select(a => new Audience() { Name = a.Key, Description = a.Value }).ToList() ?? []];
+        //if (ctx.Project is not null)
+        //{
+        //    prompt.Name = ctx.Project.Name ?? string.Empty;
+        //    prompt.Summary = ctx.Project.Summary ?? string.Empty;
+        //    prompt.Domain = ctx.Project.Domain ?? string.Empty;
+        //    prompt.Audiences = [.. ctx.Project.Audiences?.Select(a => new Audience() { Name = a.Key, Description = a.Value }).ToList() ?? []];
 
-        }
+        //}
 
-        prompt.Objectives = [.. ctx.Objectives?.Select(o => new Objective() { Name = o.Key, Description = o.Value }).ToList() ?? []];
-        prompt.Assumptions = [.. ctx.Assumptions?.Select(a => new Assumption() { Name = a.Key, Description = a.Value }).ToList() ?? []];
-        prompt.MustConstraints = [.. ctx.Constraints?.Must?.Select(m => new MustConstraint() { Text = m }) ?? []];
-        prompt.MustNotConstraints = [.. ctx.Constraints?.MustNot?.Select(m => new MustNotConstraint() { Text = m }) ?? []];
-        prompt.Glossary = [.. ctx.Glossary?.Select(kv => new GlossaryTerm() { Term = kv.Key, Definition = kv.Value }) ?? []];
+        //prompt.Objectives = [.. ctx.Objectives?.Select(o => new Objective() { Name = o.Key, Description = o.Value }).ToList() ?? []];
+        //prompt.Assumptions = [.. ctx.Assumptions?.Select(a => new Assumption() { Name = a.Key, Description = a.Value }).ToList() ?? []];
+        //prompt.MustConstraints = [.. ctx.Constraints?.Must?.Select(m => new MustConstraint() { Text = m }) ?? []];
+        //prompt.MustNotConstraints = [.. ctx.Constraints?.MustNot?.Select(m => new MustNotConstraint() { Text = m }) ?? []];
+        //prompt.Glossary = [.. ctx.Glossary?.Select(kv => new GlossaryTerm() { Term = kv.Key, Definition = kv.Value }) ?? []];
 
-        
+
         if (ctx.OutputContract is not null)
         {
             sb.AppendLine("# Output Contract");

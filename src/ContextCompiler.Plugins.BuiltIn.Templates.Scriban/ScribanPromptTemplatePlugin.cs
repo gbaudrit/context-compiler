@@ -1,6 +1,9 @@
+using System.Text.Json;
+
 using ContextCompiler.Abstractions.Output;
 using ContextCompiler.Abstractions.Personas;
 using ContextCompiler.Abstractions.Plugins;
+using ContextCompiler.Abstractions.Plugins.GlobalPipeline;
 using ContextCompiler.Abstractions.Plugins.Prompts;
 using ContextCompiler.Abstractions.Prompt;
 using ContextCompiler.Abstractions.Rendering;
@@ -12,7 +15,7 @@ using ScribanLib = global::Scriban;
 
 namespace ContextCompiler.Plugins.BuiltIn.Templates.Scriban
 {
-    internal sealed class ScribanPromptTemplatePlugin(ITemplateProvider templateProvider) : IPromptRenderingPlugin
+    internal sealed class ScribanPromptTemplatePlugin(ITemplateProvider templateProvider, IOutput output) : IPromptRenderingPlugin
     {
         public PluginMetadata Metadata => new PluginMetadata("builtin.prompt.render", PluginKinds.Template, PluginApiVersion.Current, 0);
 
@@ -43,6 +46,12 @@ namespace ContextCompiler.Plugins.BuiltIn.Templates.Scriban
             {
                 result = await template.RenderAsync(prompt.Subject);
             }
+
+            output.AddArtifact(builder =>
+            {
+                return builder.WithFileName(outputFilename)
+                              .WithContent(result);
+            });
 
             return new ScribanRenderedPromptResult() { Filename = outputFilename, RenderedText = result };
         }

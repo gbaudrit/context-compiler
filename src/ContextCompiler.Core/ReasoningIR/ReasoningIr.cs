@@ -13,10 +13,12 @@ public sealed class Fragment() : IFragment
     public IReadOnlyList<ITag> Tags { get; init; } = new List<ITag>();
 }
 
-public sealed class ReasoningIr : IReasoningIr
+public sealed class ReasoningIr(IReasoningIrGraphComputer reasoningIrGraphComputer) : IReasoningIr
 {
     private readonly List<IFragment> _fragments = new();
     public IReadOnlyList<IFragment> Fragments => _fragments;
 
     public void Add(IFragment fragment) => _fragments.Add(fragment);
+
+    public ValueTask<IGraph> Graph(CancellationToken ct) => reasoningIrGraphComputer.Compute(this, ct);
 }

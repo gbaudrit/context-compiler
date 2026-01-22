@@ -12,7 +12,6 @@ public interface IViewPlugin : IPlugin
 
 public sealed record ViewContext(
     ViewsConfig Config,
-    string RootPath,
     IReasoningIr ReasoningIr,
     IReadOnlyDictionary<string, object>? Inputs = null,
     bool EmitJson = true,

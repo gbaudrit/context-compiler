@@ -2,6 +2,8 @@ using System.Globalization;
 using System.Text;
 using System.Text.Json;
 
+using ContextCompiler.Abstractions.Configuration;
+using ContextCompiler.Abstractions.Guards;
 using ContextCompiler.Abstractions.Models;
 using ContextCompiler.Abstractions.Output;
 using ContextCompiler.Abstractions.Plugins;
@@ -10,7 +12,7 @@ using ContextCompiler.Abstractions.ReasoningIR;
 
 namespace ContextCompiler.Plugins.BuiltIn.GraphExporters;
 
-public sealed class PersonasActiveArtifact(IOutput output, IReasoningIr ir) : IOutputArtifactComposerPlugin
+public sealed class SecurityReportArtifact(IPrompt prompt, IOutput output, IGuardian guardian) : IOutputArtifactComposerPlugin
 {
     private JsonSerializerOptions jsonSerializerOptions = new() { WriteIndented = true };
 
@@ -21,11 +23,13 @@ public sealed class PersonasActiveArtifact(IOutput output, IReasoningIr ir) : IO
 
     public async ValueTask Compose(CancellationToken cancellationToken)
     {
-        IGraph graph = await ir.Graph(cancellationToken);
+        var secMd = "# Security Report\n\n" + (guardian.Findings.Count == 0 ? "No findings." :
+            string.Join("\n", guardian.Findings.Select(f => $"- **{f.Severity}** `{f.PassId}` ({f.Action}): {f.Message} — `{f.EvidenceRef?.Path}`")));
+
         output.AddArtifact(builder =>
         {
-            return builder.WithFileName("reasoning.graph.json")
-                          .WithContent(JsonSerializer.Serialize(graph, jsonSerializerOptions));
+            return builder.WithFileName("security.report.md")
+                          .WithContent(secMd);
 
         });
     }

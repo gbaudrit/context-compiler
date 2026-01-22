@@ -1,5 +1,6 @@
 using ContextCompiler.Abstractions.Pipelines;
 using ContextCompiler.Abstractions.Plugins;
+using ContextCompiler.Abstractions.Plugins.GlobalPipeline;
 using ContextCompiler.Abstractions.Plugins.Prompts;
 using ContextCompiler.Abstractions.Plugins.Views.Renderers;
 
@@ -25,7 +26,10 @@ public sealed class PluginRegistry : IPluginRegistry
     public IReadOnlyList<IViewRendererPlugin> ViewRenderers => _services.GetServices<IViewRendererPlugin>().ToList();
     public IReadOnlyList<ITemplatePlugin> Templates => _services.GetServices<ITemplatePlugin>().ToList();
     public IReadOnlyList<IPromptRenderingPlugin> PromptRenderers => _services.GetServices<IPromptRenderingPlugin>().ToList();
+    public IReadOnlyList<IPromptComposerPlugin> PromptComposers => _services.GetServices<IPromptComposerPlugin>().ToList();
     public IReadOnlyList<IGraphExporterPlugin> GraphExporters => _services.GetServices<IGraphExporterPlugin>().ToList();
     public IReadOnlyList<IPersonaPlugin> Personas => _services.GetServices<IPersonaPlugin>().ToList();
-    public IPlugins<IOutputPlugin> Outputs => _services.GetRequiredService<IPlugins<IOutputPlugin>>();
+    //public IPlugins<IOutputPlugin> Outputs => _services.GetRequiredService<IPlugins<IOutputPlugin>>();
+    public IReadOnlyList<IOutputArtifactsFilesWriterPlugin> OutputArtifactWriters => _services.GetServices<IOutputArtifactsFilesWriterPlugin>().ToList();
+    public IReadOnlyList<IOutputArtifactComposerPlugin> OutputArtifactComposers => _services.GetServices<IOutputArtifactComposerPlugin>().ToList();
 }

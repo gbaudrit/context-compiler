@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 
 using ContextCompiler.Abstractions.Models;
+using ContextCompiler.Abstractions.Output;
 using ContextCompiler.Abstractions.Pipelines.Document;
 using ContextCompiler.Abstractions.Plugins;
 using ContextCompiler.Abstractions.ReasoningIR;
@@ -17,6 +18,7 @@ namespace ContextCompiler.Abstractions.Pipelines
                            IReasoningIr ir,
                            IReadOnlyList<IPipelineFinding> findings,
                            CompileOptions options,
+                           IOutput output,
                            CancellationToken ct);
     }
 }

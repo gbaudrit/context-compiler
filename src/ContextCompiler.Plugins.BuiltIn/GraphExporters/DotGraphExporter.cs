@@ -1,28 +1,37 @@
 using System.Globalization;
 using System.Text;
+
 using ContextCompiler.Abstractions.Models;
+using ContextCompiler.Abstractions.Output;
 using ContextCompiler.Abstractions.Plugins;
+using ContextCompiler.Abstractions.Plugins.GlobalPipeline;
+using ContextCompiler.Abstractions.ReasoningIR;
 
 namespace ContextCompiler.Plugins.BuiltIn.GraphExporters;
 
-public sealed class DotGraphExporter : IGraphExporterPlugin
+public sealed class DotGraphExporter(IOutput output, IReasoningIr ir) : IOutputArtifactComposerPlugin
 {
-    public PluginMetadata Metadata => BuiltInMetadata.Meta("builtin.graph.dot", PluginKinds.GraphExporter, priority: 10);
-    public string FormatId => "dot";
-    public string FileExtension => ".dot";
+    public PluginMetadata Metadata => BuiltInMetadata.Meta("builtin.output.evidence.graph.dot", PluginKinds.OutputArtifactComposer, priority: 10);
 
-    public string Export(object graphModel)
+    public async ValueTask Compose(CancellationToken cancellationToken)
     {
-        var g = (GraphModel)graphModel;
+        IGraph graph = await ir.Graph(cancellationToken);
         var sb = new StringBuilder();
         sb.AppendLine("digraph reasoning {");
-        foreach (var n in g.Nodes)
+        foreach (var n in graph.Nodes)
             sb.AppendLine(CultureInfo.InvariantCulture, $"  \"{n.Id}\" [label=\"{Escape(n.Label)}\"];");
-        foreach (var e in g.Edges)
+        foreach (var e in graph.Edges)
             sb.AppendLine(CultureInfo.InvariantCulture, $"  \"{e.FromId}\" -> \"{e.ToId}\" [label=\"{Escape(e.Kind)}\"];");
         sb.AppendLine("}");
-        return sb.ToString();
+
+        output.AddArtifact(builder =>
+        {
+            return builder.WithFileName("reasoning.graph.dot")
+                          .WithContent(sb.ToString());
+        });
     }
 
     private static string Escape(string s) => s.Replace("\\", "\\\\").Replace("\"", "\\\"");
+
+    
 }
