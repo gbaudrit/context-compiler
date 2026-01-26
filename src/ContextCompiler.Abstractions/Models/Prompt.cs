@@ -20,5 +20,6 @@ namespace ContextCompiler.Abstractions.Models
         public IReadOnlyList<IMustNotConstraint> MustNotConstraints { get; set; } = new List<IMustNotConstraint>();
         public IReadOnlyList<IPersonaResult> Personas { get; set; } = new List<IPersonaResult>();
         public IReadOnlyList<IViewResult> Views { get; set; } = new List<IViewResult>();
+        public IReadOnlyList<ICommand> Commands { get; set; } = new List<ICommand>();
     }
 }

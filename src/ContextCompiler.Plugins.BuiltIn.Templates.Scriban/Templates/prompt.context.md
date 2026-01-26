@@ -1,6 +1,14 @@
-# Context Compiler — Compiled Context
-
 # Global Instructions
+## Commands
+{{~ for c in commands ~}}
+- {{ c.name }}: {{ c.description }}
+{{~ end ~}}
+
+## Objectives
+{{~ for m in objectives ~}}
+- {{ m.name }}: {{ m.description }}
+{{~ end ~}}
+
 ## Project
 - Name: {{ name }}
 - Summary: {{ summary }}

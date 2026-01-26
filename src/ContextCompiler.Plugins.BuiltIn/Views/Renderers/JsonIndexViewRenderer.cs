@@ -34,7 +34,7 @@ namespace ContextCompiler.Plugins.BuiltIn.Views.Renderers
                     ek = f.Evidence.EvidenceKey,
                     er = f.Evidence.EvidenceRevision,
                     source = new { path = f.Source.Path, locator = f.Source.Locator },
-                    tags = f.Tags
+                    tags = f.Tags,
                 }).ToArray()
             };
 

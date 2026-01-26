@@ -18,5 +18,6 @@ namespace ContextCompiler.Abstractions.Output
         IReadOnlyList<IObjective> Objectives { get; set; }
         IReadOnlyList<IAssumption> Assumptions { get; set; }
         IReadOnlyList<IGlossaryTerm> Glossary { get; set; }
+        IReadOnlyList<ICommand> Commands { get; set; }
     }
 }

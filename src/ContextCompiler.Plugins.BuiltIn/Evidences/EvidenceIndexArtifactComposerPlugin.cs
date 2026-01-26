@@ -17,7 +17,16 @@ namespace ContextCompiler.Plugins.BuiltIn.Evidences
 
         public Task Run(CancellationToken cancellationToken)
         {
-            var evidenceIndex = ir.Fragments.Select(f => new
+            var distinctEvidenceCount = ir.Fragments.Select(f => f.Evidence.EvidenceKey).Distinct().Count();
+            var distinctsTags = ir.Fragments.SelectMany(f => f.Tags).Distinct().ToList();
+            var evidencesCountByTag = new Dictionary<string, int>();
+            foreach (var tag in distinctsTags)
+            {
+                evidencesCountByTag[$"{tag.Name}:{tag.Value}"] = ir.Fragments.Count(f => f.Tags.Contains(tag));
+            }
+
+
+            var evidences = ir.Fragments.Select(f => new
             {
                 ek = f.Evidence.EvidenceKey,
                 er = f.Evidence.EvidenceRevision,
@@ -25,7 +34,17 @@ namespace ContextCompiler.Plugins.BuiltIn.Evidences
                 tags = f.Tags
             }).ToList();
 
-            logger.LogInformation("Writing {Count} evidence items to index.", evidenceIndex.Count);
+            var evidenceIndex = new
+            {
+                summary = new
+                {
+                    totalDistinctEvidences = distinctEvidenceCount,
+                    totalEvidencesByTag = evidencesCountByTag
+                },
+                evidences
+            };
+
+            logger.LogInformation("Writing {Count} evidence items to index.", evidences.Count);
 
             output.AddArtifact(builder =>
             {

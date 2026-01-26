@@ -23,7 +23,8 @@ namespace ContextCompiler.Plugins.BuiltIn.Templates.Scriban.Extensions
                     personas = o.Personas.Select(x => x.ToTemplateModel()).ToList(),
                     must = o.MustConstraints.Select(x => x.ToTemplateModel()).ToList(),
                     mustNot = o.MustNotConstraints.Select(x => x.ToTemplateModel()).ToList(),
-                    glossary = o.Glossary.Select(x => x.ToTemplateModel()).ToList()
+                    glossary = o.Glossary.Select(x => x.ToTemplateModel()).ToList(),
+                    commands = o.Commands.Select(x => x.ToTemplateModel()).ToList()
                 }
             };
         }
@@ -66,6 +67,15 @@ namespace ContextCompiler.Plugins.BuiltIn.Templates.Scriban.Extensions
             {
                 term = o.Term,
                 definition = o.Definition
+            };
+        }
+
+        public static object ToTemplateModel(this ICommand o)
+        {
+            return new
+            {
+                name = o.Name,
+                description = o.Description
             };
         }
 

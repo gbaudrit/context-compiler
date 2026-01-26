@@ -54,7 +54,7 @@ namespace ContextCompiler.Core.ReasoningIR
                 Content = _transcodedFragment.Content ?? string.Empty,
                 Evidence = evidenceBuilder.InitNew().ForTranscodedFragment(_transcodedFragment).ForFile(_filePath).Build(),
                 Source = sourceRefBuilder.InitNew().WithPath(_filePath).WithLocator(_locator).Build(),
-                Tags = _tags
+                Tags = _tags.DistinctBy(t => t.Name + t.Value).ToArray(),
             };
         }
 

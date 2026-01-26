@@ -1,0 +1,51 @@
+using ContextCompiler.Abstractions.Configuration;
+using ContextCompiler.Abstractions.Output;
+using ContextCompiler.Abstractions.Plugins;
+using ContextCompiler.Abstractions.Plugins.GlobalPipeline;
+using ContextCompiler.Abstractions.Prompt;
+
+namespace ContextCompiler.Plugins.BuiltIn.GlobalPipeline.PrompComposer
+{
+    internal sealed class CommandsPromptComposer(IPrompt prompt, ICommandBuilder commandBuilder, ICtxcConfigProvider ctxcConfig) : IPromptComposerPlugin
+    {
+
+        public PluginMetadata Metadata => BuiltInMetadata.Meta("builtin.prompt.composer.commands", GlobalPipelinePluginKinds.PromptComposer, priority: 10);
+
+        public Task Run(CancellationToken cancellationToken)
+        {
+            var commands = new List<ICommand>();
+
+            commands.Add(commandBuilder.InitNew()
+                                    .WithName("init, load")
+                                    .WithDescription("Load this context")
+                                    .Build());
+
+            commands.Add(commandBuilder.InitNew()
+                                    .WithName("role <name>")
+                                    .WithDescription("Load role (persona) <name> and be him")
+                                    .Build());
+
+            commands.Add(commandBuilder.InitNew()
+                                    .WithName("evidence used")
+                                    .WithDescription("List all evidence fragments you have analysed")
+                                    .Build());
+
+            commands.Add(commandBuilder.InitNew()
+                                    .WithName("evidence coverage stats")
+                                    .WithDescription("statistical analysis of the evidence used in relation to the complete list to establish coverage")
+                                    .Build());
+
+            if (ctxcConfig.Current.Views.Views.Length != 0)
+            {
+                commands.Add(commandBuilder.InitNew()
+                                    .WithName("view <name>")
+                                    .WithDescription("Load view view.<name>.yaml and it's index view.<name>.json")
+                                    .Build());
+            }
+
+
+            prompt.Commands = commands;
+            return Task.CompletedTask;
+        }
+    }
+}
