@@ -11,7 +11,8 @@ public static class DependencyInjection
     {
         // Register core services here
         services.AddSingleton<IFileContentBuilder, FileContentBuilder>()
-                .AddSingleton<IFileReadResultBuilder, FileReadResultBuilder>();
+                .AddSingleton<IFileReadResultBuilder, FileReadResultBuilder>()
+                .AddTransient<ILinearFileReader, LinearDataReader>();
         return services;
     }
 

@@ -7,7 +7,7 @@ namespace ContextCompiler.Abstractions.Pipelines.Document
     public interface IDocumentContext
     {
         IDataEnvelope? Data { get; }
-        IFileReadResult? FileRead { get; }
+        //IFileReadResult? FileRead { get; }
 
         //public string Content { get; init; }
 
@@ -25,14 +25,14 @@ namespace ContextCompiler.Abstractions.Pipelines.Document
                                     ISourceRef? EvidenceRef = null);
         void AddFragment(IFragment f);
         void SetData(IDataEnvelope envelope);
-        void SetFileRead(IFileReadResult result);
+        //void SetFileRead(IFileReadResult result);
         void SetTags(IReadOnlyList<ITag> tags);
         void AddTags(IReadOnlyList<ITag> tags);
         void AddTags(string[] tags);
 
-        IFileInfos FileInfos { get; }
-        Task<IFileContent> GetContentReader();
-        Task<IFileContent> GetContentStream();
+        //IFileInfos FileInfos { get; }
+        //Task<IFileContent> GetContentReader();
+        //Task<IFileContent> GetContentStream();
 
     }
 }

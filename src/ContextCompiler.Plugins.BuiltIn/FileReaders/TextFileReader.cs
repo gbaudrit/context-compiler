@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 
 namespace ContextCompiler.Plugins.BuiltIn.FileReaders;
 
-public sealed class TextFileReaderPlugin(IFileReadResultBuilder fileReadResultBuilder, IFileContentBuilder fileContentBuilder, ILogger<TextFileReaderPlugin> logger) : IFileReaderPlugin
+public sealed class TextFileReaderPlugin(IFileReadResultBuilder fileReadResultBuilder, IFileContentBuilder fileContentBuilder, ILinearFileReader linearFileReader, ILogger<TextFileReaderPlugin> logger) : IFileReaderPlugin
 {
     public PluginMetadata Metadata => BuiltInMetadata.Meta("builtin.text.reader", GlobalPipelinePluginKinds.FileReader, priority: 0);
 
@@ -19,33 +19,73 @@ public sealed class TextFileReaderPlugin(IFileReadResultBuilder fileReadResultBu
 
     public bool CanRead(string path) => Extensions.Contains(Path.GetExtension(path));
 
-    public Task<IFileReadResult> ReadAsync(string path, CancellationToken ct)
+    //public Task<IFileReadResult> ReadAsync(string path, CancellationToken ct)
+    //{
+    //    logger.LogInformation("Reading text file: {Path}", path);
+    //    ct.ThrowIfCancellationRequested();
+    //    var bytes = File.ReadAllBytes(path);
+    //    var text = Encoding.UTF8.GetString(bytes);
+    //    return Task.FromResult(fileReadResultBuilder.InitNew()
+    //                                                .WithContent(fileContentBuilder.InitNew()
+    //                                                                               .WithPath(path)
+    //                                                                               .WithMediaType("text/plain")
+    //                                                                               .WithReaderType<TextFileReader>()
+    //                                                                               .Build()).Build());
+    //}
+
+    public async Task<IDataEnvelope> ReadAsync(IDocumentContext documentContext, CancellationToken ct)
     {
-        logger.LogInformation("Reading text file: {Path}", path);
-        ct.ThrowIfCancellationRequested();
-        var bytes = File.ReadAllBytes(path);
-        var text = Encoding.UTF8.GetString(bytes);
-        return Task.FromResult(fileReadResultBuilder.InitNew()
-                                                    .WithContent(fileContentBuilder.InitNew()
-                                                                                   .WithPath(path)
-                                                                                   .WithMediaType("text/plain")
-                                                                                   .WithReaderType<TextFileReader>()
-                                                                                   .Build()).Build());
+        return await linearFileReader.ReadAsync(documentContext, ct);
     }
 }
 
-public sealed class TextFileReader : IFileReader
-{
+//public sealed class TextFileReader(ILinearFileReader linearFileReader) : IFileReader
+//{
+//    private bool disposedValue;
 
-    public ValueTask<IFileContent> ReadAsync(string path, CancellationToken ct)
-    {
-        ct.ThrowIfCancellationRequested();
-        return ValueTask.FromResult<IFileContent>(new TextFileContent
-        {
-            Stream = File.OpenRead(path)
-        });
-    }
-}
+//    public ValueTask<IFileContent> ReadAsync(string path, CancellationToken ct)
+//    {
+//        ct.ThrowIfCancellationRequested();
+//        return ValueTask.FromResult<IFileContent>(new TextFileContent
+//        {
+//            Stream = File.OpenRead(path)
+//        });
+//    }
+
+
+//    public async Task<IDataEnvelope> ReadAsync(IDocumentContext documentContext, CancellationToken ct)
+//    {
+//        return await linearFileReader.ReadAsync(documentContext, ct);
+//    }
+
+//    private void Dispose(bool disposing)
+//    {
+//        if (!disposedValue)
+//        {
+//            if (disposing)
+//            {
+//                linearFileReader.Dispose();
+//            }
+
+//            linearFileReader = null!;
+//            disposedValue = true;
+//        }
+//    }
+
+//    // // TODO: override finalizer only if 'Dispose(bool disposing)' has code to free unmanaged resources
+//    // ~TextFileReader()
+//    // {
+//    //     // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+//    //     Dispose(disposing: false);
+//    // }
+
+//    public void Dispose()
+//    {
+//        // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+//        Dispose(disposing: true);
+//        GC.SuppressFinalize(this);
+//    }
+//}
 
 public sealed class TextFileContent : IFileContent
 {

@@ -2,10 +2,8 @@ using ContextCompiler.Abstractions.Pipelines.Document;
 
 namespace ContextCompiler.Abstractions.Files
 {
-    public interface IFileReader : IDisposable
+    public interface ILinearFileReader : IDisposable
     {
-        ValueTask<IFileContent> ReadAsync(string path, CancellationToken ct);
-
         Task<IDataEnvelope> ReadAsync(IDocumentContext documentContext, CancellationToken ct);
     }
 }

@@ -8,7 +8,7 @@ namespace ContextCompiler.Abstractions.Pipelines.Document
         string PartId { get; }
         ISourceRef Source { get; }
         string? Label { get; }
-        object? Payload { get; }
+        object Payload { get; }
         IReadOnlyList<ITag>? Tags { get; }
     }
 }

@@ -21,23 +21,19 @@ public sealed class SensitivityGuardPlugin : IGuardPlugin
     {
         ct.ThrowIfCancellationRequested();
         if (ctx.DocumentContext is null || string.IsNullOrWhiteSpace(ctx.DocumentContext.InputRoot)) return Array.Empty<IPipelineFinding>();
-        var findings = new List<IPipelineFinding>();
 
-        using var streamReader = await ctx.DocumentContext.GetContentReader();
+        List<IPipelineFinding> findings = new();
+        if (ctx.DocumentContext.Data is null) return findings;
 
-        Stream part = streamReader.NextPart();
-        while (part != Stream.Null)
+        foreach (IDataPart part in ctx.DocumentContext.Data.Parts)
         {
-            using var reader = new StreamReader(part);
-            string content = await reader.ReadToEndAsync(ct);    
-            if (Email.IsMatch(content))
+            if (Email.IsMatch(part.Payload.ToString() ?? ""))
                 findings.Add(ctx.DocumentContext.AddFinding(FindingSeverity.Warning, FindingAction.Warn, "CtxGuard.Sensitivity",
                     "Potential email address detected in context.", new SourceRef(ctx.DocumentContext.FullPath)));
 
-            if (SecretLike.IsMatch(content))
+            if (SecretLike.IsMatch(part.Payload.ToString() ?? ""))
                 findings.Add(ctx.DocumentContext.AddFinding(FindingSeverity.Critical, FindingAction.Redact, "CtxGuard.Sensitivity",
                     "Potential secret/token detected in context.", new SourceRef(ctx.DocumentContext.FullPath)));
-            part = streamReader.NextPart();
         }
 
         return findings;

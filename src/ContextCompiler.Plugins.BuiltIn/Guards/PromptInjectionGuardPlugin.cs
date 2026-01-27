@@ -20,18 +20,15 @@ public sealed class PromptInjectionGuardPlugin : IGuardPlugin
         ct.ThrowIfCancellationRequested();
 
         List<IPipelineFinding> findings = new();
+        if (ctx.DocumentContext.Data is null) return findings;
 
-        using var streamReader = await ctx.DocumentContext.GetContentReader();
-
-        Stream part = streamReader.NextPart();
-        while (part != Stream.Null) {
-            using var reader = new StreamReader(part);
-            if (Pattern.IsMatch(await reader.ReadToEndAsync(ct)))
+        foreach (IDataPart part in ctx.DocumentContext.Data.Parts)
+        {
+            if (Pattern.IsMatch(part.Payload.ToString() ?? ""))
             {
                 ctx.DocumentContext.AddFinding(FindingSeverity.Critical, FindingAction.Quarantine, "CtxGuard.Inject",
                 "Prompt-injection-like instruction detected.", new SourceRef(ctx.DocumentContext.FullPath));
             }
-            part = streamReader.NextPart();
         }
 
         return findings;

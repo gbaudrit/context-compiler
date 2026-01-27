@@ -14,10 +14,10 @@ namespace ContextCompiler.Core.Pipelines
         public required string RelativePath { get; init; } // stable path key
         public required string FullPath { get; init; }
 
-        // Data flowing through passes (write-once-ish)
-        public IFileReadResult? FileRead { get; private set; }
+        //// Data flowing through passes (write-once-ish)
+        //public IFileReadResult? FileRead { get; private set; }
 
-        public IFileInfos FileInfos => FileRead?.Content ?? throw new InvalidOperationException("FileRead not set.");
+        //public IFileInfos FileInfos => FileRead?.Content ?? throw new InvalidOperationException("FileRead not set.");
         //private string? _content;
         //public string Content { get => _content ??= Encoding.UTF8.GetString(FileRead?.Bytes ?? Array.Empty<byte>()) ?? string.Empty; init => _content = value; }
         public IDataEnvelope? Data { get; private set; }
@@ -30,7 +30,7 @@ namespace ContextCompiler.Core.Pipelines
         private readonly List<IFragment> _fragments = new();
         private readonly List<IPipelineFinding> _findings = new();
 
-        public void SetFileRead(IFileReadResult result) => FileRead = FileRead is null ? result : throw new InvalidOperationException("FileRead already set.");
+        //public void SetFileRead(IFileReadResult result) => FileRead = FileRead is null ? result : throw new InvalidOperationException("FileRead already set.");
         public void SetData(IDataEnvelope envelope) => Data = Data is null ? envelope : throw new InvalidOperationException("Data already set.");
         public void SetTags(IReadOnlyList<ITag> tags) => Tags = Tags is null ? tags : throw new InvalidOperationException("Tags already set.");
 
@@ -54,20 +54,20 @@ namespace ContextCompiler.Core.Pipelines
             Tags = tagsBuilder.InitNewFrom(Tags).AddRange(tags).Build();
         }
 
-        public async Task<IFileContent> GetContentReader()
-        {
-            ArgumentNullException.ThrowIfNull(FileRead, nameof(FileRead));
+        //public async Task<IFileContent> GetContentReader()
+        //{
+        //    ArgumentNullException.ThrowIfNull(FileRead, nameof(FileRead));
 
-            var fileReader = (IFileReader)serviceProvider.GetRequiredService(FileRead.Content.ReaderType);
-            return await fileReader.ReadAsync(FileRead.Content.Path, CancellationToken.None);
-        }
+        //    var fileReader = (IFileReader)serviceProvider.GetRequiredService(FileRead.Content.ReaderType);
+        //    return await fileReader.ReadAsync(FileRead.Content.Path, CancellationToken.None);
+        //}
 
-        public async Task<IFileContent> GetContentStream()
-        {
-            ArgumentNullException.ThrowIfNull(FileRead, nameof(FileRead));
+        //public async Task<IFileContent> GetContentStream()
+        //{
+        //    ArgumentNullException.ThrowIfNull(FileRead, nameof(FileRead));
 
-            var fileReader = (IFileReader)serviceProvider.GetRequiredService(FileRead.Content.ReaderType);
-            return await fileReader.ReadAsync(FileRead.Content.Path, CancellationToken.None);
-        }
+        //    var fileReader = (IFileReader)serviceProvider.GetRequiredService(FileRead.Content.ReaderType);
+        //    return await fileReader.ReadAsync(FileRead.Content.Path, CancellationToken.None);
+        //}
     }
 }

@@ -6,8 +6,8 @@ namespace ContextCompiler.Core.Pipelines.Document
 {
     public sealed record DataPart(string PartId,
                                   ISourceRef Source,
+                                  object Payload,
                                   string? Label = null,
-                                  object? Payload = null,
                                   IReadOnlyList<ITag>? Tags = null) : IDataPart;
 
 }

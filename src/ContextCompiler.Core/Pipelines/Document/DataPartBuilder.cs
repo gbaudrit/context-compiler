@@ -58,7 +58,7 @@ namespace ContextCompiler.Core.Pipelines.Document
             ArgumentNullException.ThrowIfNull(_id);
             ArgumentNullException.ThrowIfNull(_source);
 
-            return new DataPart(_id, _source, _label, _payload, _tags);
+            return new DataPart(_id, _source, _payload ?? "", _label, _tags);
         }
 
     }
