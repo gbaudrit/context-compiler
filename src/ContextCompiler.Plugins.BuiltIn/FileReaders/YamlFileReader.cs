@@ -30,9 +30,44 @@ public sealed class YamlFileReaderPlugin(IFileReadResultBuilder fileReadResultBu
 public sealed class YamlFileReader : IFileReader
 {
 
-    public ValueTask<Stream> ReadAsync(string path, CancellationToken ct)
+    public ValueTask<IFileContent> ReadAsync(string path, CancellationToken ct)
     {
         ct.ThrowIfCancellationRequested();
-        return ValueTask.FromResult<Stream>(File.OpenRead(path));
+        return ValueTask.FromResult<IFileContent>(new YamlFileContent
+        {
+            Stream = File.OpenRead(path)
+        });
+    }
+}
+
+public sealed class YamlFileContent : IFileContent
+{
+    private bool disposedValue;
+    public required FileStream Stream { get; init; }
+    private bool _readen;
+    public Stream NextPart()
+    {
+        if (_readen)
+        {
+            return System.IO.Stream.Null;
+        }
+        _readen = true;
+        return Stream;
+    }
+    private void Dispose(bool disposing)
+    {
+        if (!disposedValue)
+        {
+            if (disposing)
+            {
+                Stream.Dispose();
+            }
+            disposedValue = true;
+        }
+    }
+    public void Dispose()
+    {
+        Dispose(disposing: true);
+        GC.SuppressFinalize(this);
     }
 }

@@ -17,7 +17,6 @@ public sealed class ExcelFileReaderPlugin(IFileReadResultBuilder fileReadResultB
     public Task<IFileReadResult> ReadAsync(string path, CancellationToken ct)
     {
         ct.ThrowIfCancellationRequested();
-        var stream = File.OpenRead(path);
         return Task.FromResult(fileReadResultBuilder.InitNew()
                                                     .WithContent(fileContentBuilder.InitNew()
                                                                                    .WithPath(path)
@@ -30,9 +29,58 @@ public sealed class ExcelFileReaderPlugin(IFileReadResultBuilder fileReadResultB
 public sealed class ExcelFileReader : IFileReader
 {
 
-    public ValueTask<Stream> ReadAsync(string path, CancellationToken ct)
+    public ValueTask<IFileContent> ReadAsync(string path, CancellationToken ct)
     {
         ct.ThrowIfCancellationRequested();
-        return ValueTask.FromResult<Stream>(File.OpenRead(path));
+        return ValueTask.FromResult<IFileContent>(new ExcelFileContent
+        {
+            Stream = File.OpenRead(path)
+        });
+    }
+}
+
+public sealed class ExcelFileContent : IFileContent
+{
+    private bool disposedValue;
+    public required FileStream Stream { get; init; }
+    private bool _readen;
+
+    public Stream NextPart()
+    {
+        if (_readen)
+        {
+            return System.IO.Stream.Null;
+        }
+        _readen = true;
+        return Stream;
+    }
+
+    private void Dispose(bool disposing)
+    {
+        if (!disposedValue)
+        {
+            if (disposing)
+            {
+                Stream.Dispose();
+            }
+
+            // TODO: free unmanaged resources (unmanaged objects) and override finalizer
+            // TODO: set large fields to null
+            disposedValue = true;
+        }
+    }
+
+    // // TODO: override finalizer only if 'Dispose(bool disposing)' has code to free unmanaged resources
+    // ~ExcelFileContent()
+    // {
+    //     // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+    //     Dispose(disposing: false);
+    // }
+
+    public void Dispose()
+    {
+        // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+        Dispose(disposing: true);
+        GC.SuppressFinalize(this);
     }
 }

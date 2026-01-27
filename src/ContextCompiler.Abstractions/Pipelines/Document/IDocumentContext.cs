@@ -31,8 +31,8 @@ namespace ContextCompiler.Abstractions.Pipelines.Document
         void AddTags(string[] tags);
 
         IFileInfos FileInfos { get; }
-        Task<StreamReader> GetContentReader();
-        Task<Stream> GetContentStream();
+        Task<IFileContent> GetContentReader();
+        Task<IFileContent> GetContentStream();
 
     }
 }

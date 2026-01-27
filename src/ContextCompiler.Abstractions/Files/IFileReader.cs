@@ -2,6 +2,6 @@ namespace ContextCompiler.Abstractions.Files
 {
     public interface IFileReader
     {
-        ValueTask<Stream> ReadAsync(string path, CancellationToken ct);
+        ValueTask<IFileContent> ReadAsync(string path, CancellationToken ct);
     }
 }

@@ -12,8 +12,9 @@ namespace ContextCompiler.Core.Pipelines.Document
 
         public async ValueTask ExecuteAsync(IDocumentContext ctx, CancellationToken ct)
         {
-            if (ctx.Data is null || (await ctx.GetContentStream()).Length == 0)
-                return;
+            //if (ctx.Data is null || (await ctx.GetContentStream()).Length == 0)
+            //    return;
+            if (ctx.Data is null) return;
 
             //var compositeParts = TryGetCompositeParts(ctx.Data);
             //if (compositeParts is not null)

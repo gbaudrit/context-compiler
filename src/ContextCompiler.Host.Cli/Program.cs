@@ -28,7 +28,8 @@ var assemblies = new[]
         typeof(ContextCompiler.Core.Engine.CompilerEngine).Assembly,
         typeof(ContextCompiler.Infrastructure.FileSystem.PhysicalFileSystem).Assembly,
         typeof(ContextCompiler.Plugins.BuiltIn.BuiltInMetadata).Assembly,
-        typeof(ContextCompiler.Plugins.BuiltIn.Templates.Scriban.DependencyInjection).Assembly
+        typeof(ContextCompiler.Plugins.BuiltIn.Templates.Scriban.DependencyInjection).Assembly,
+        typeof(ContextCompiler.Plugins.Readers.PDF.PdfFileReaderPlugin).Assembly
     };
 
 IHostEnvironment env = builder.Environment;

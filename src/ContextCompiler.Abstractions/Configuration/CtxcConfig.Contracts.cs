@@ -57,7 +57,7 @@ public sealed class OutputStyle
     [JsonPropertyName("language")] public string? Language { get; set; }
 }
 
-public sealed class FileConfig
+public partial class FileConfig
 {
     [JsonPropertyName("includes")] public string[] Includes { get; set; } = [];
     [JsonPropertyName("excludes")] public string[] Excludes { get; set; } = [];

@@ -13,7 +13,7 @@ public sealed class ExcelExtractDataReader(ICtxcConfigProvider cfgProvider, IDat
 {
     public PluginMetadata Metadata => BuiltInMetadata.Meta("builtin.data.excel.extract", GlobalPipelinePluginKinds.DataReader, priority: 9);
 
-    public bool CanRead(IFileInfos doc) => doc.MediaType.Contains("spreadsheet", StringComparison.OrdinalIgnoreCase);
+    public bool CanRead(IFileInfos doc) => doc.MediaType.Equals("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", StringComparison.OrdinalIgnoreCase);
 
     public async Task<IDataEnvelope> ReadAsync(IDocumentContext documentContext, CancellationToken ct)
     {
@@ -32,7 +32,7 @@ public sealed class ExcelExtractDataReader(ICtxcConfigProvider cfgProvider, IDat
         }
 
         using var ms2 = await documentContext.GetContentStream();
-        using var wb2 = new XLWorkbook(ms2);
+        using var wb2 = new XLWorkbook(ms2.NextPart());
         var parts = new List<IDataPart>();
         var sourcePath = documentContext.FullPath ?? string.Empty;
 

@@ -63,6 +63,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.Plugins.Bui
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.Plugins.BuiltIn.Agents.Copilot", "src\ContextCompiler.Plugins.BuiltIn.Agents.Copilot\ContextCompiler.Plugins.BuiltIn.Agents.Copilot.csproj", "{632DF03C-F6CA-4D5D-9336-D4FD863A6B6E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.Plugins.Readers.Pdf", "src\ContextCompiler.Plugins.Readers.PDF\ContextCompiler.Plugins.Readers.Pdf.csproj", "{540FD63D-DD05-CDF9-1B84-87176A51E721}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -125,6 +127,10 @@ Global
 		{632DF03C-F6CA-4D5D-9336-D4FD863A6B6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{632DF03C-F6CA-4D5D-9336-D4FD863A6B6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{632DF03C-F6CA-4D5D-9336-D4FD863A6B6E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{540FD63D-DD05-CDF9-1B84-87176A51E721}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{540FD63D-DD05-CDF9-1B84-87176A51E721}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{540FD63D-DD05-CDF9-1B84-87176A51E721}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{540FD63D-DD05-CDF9-1B84-87176A51E721}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -13,27 +13,25 @@ namespace ContextCompiler.Plugins.BuiltIn.GlobalPipeline.PrompComposer
 
         public Task Run(CancellationToken cancellationToken)
         {
-            var commands = new List<ICommand>();
-
-            commands.Add(commandBuilder.InitNew()
+            var commands = new List<ICommand>
+            {
+                commandBuilder.InitNew()
                                     .WithName("init, load")
                                     .WithDescription("Load this context")
-                                    .Build());
-
-            commands.Add(commandBuilder.InitNew()
+                                    .Build(),
+                commandBuilder.InitNew()
                                     .WithName("role <name>")
                                     .WithDescription("Load role (persona) <name> and be him")
-                                    .Build());
-
-            commands.Add(commandBuilder.InitNew()
+                                    .Build(),
+                commandBuilder.InitNew()
                                     .WithName("evidence used")
                                     .WithDescription("List all evidence fragments you have analysed")
-                                    .Build());
-
-            commands.Add(commandBuilder.InitNew()
+                                    .Build(),
+                commandBuilder.InitNew()
                                     .WithName("evidence coverage stats")
                                     .WithDescription("statistical analysis of the evidence used in relation to the complete list to establish coverage")
-                                    .Build());
+                                    .Build()
+            };
 
             if (ctxcConfig.Current.Views.Views.Length != 0)
             {

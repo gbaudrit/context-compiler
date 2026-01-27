@@ -5,6 +5,8 @@ using ContextCompiler.Abstractions.Models;
 using ContextCompiler.Abstractions.Pipelines.Document;
 using ContextCompiler.Abstractions.Plugins;
 
+using Microsoft.Extensions.FileSystemGlobbing.Internal;
+
 namespace ContextCompiler.Plugins.BuiltIn.Guards;
 
 public sealed class SensitivityGuardPlugin : IGuardPlugin
@@ -22,15 +24,21 @@ public sealed class SensitivityGuardPlugin : IGuardPlugin
         var findings = new List<IPipelineFinding>();
 
         using var streamReader = await ctx.DocumentContext.GetContentReader();
-        string content = await streamReader.ReadToEndAsync(ct);
 
-        if (Email.IsMatch(content))
-            findings.Add(ctx.DocumentContext.AddFinding(FindingSeverity.Warning, FindingAction.Warn, "CtxGuard.Sensitivity",
-                "Potential email address detected in context.", new SourceRef(ctx.DocumentContext.FullPath)));
+        Stream part = streamReader.NextPart();
+        while (part != Stream.Null)
+        {
+            using var reader = new StreamReader(part);
+            string content = await reader.ReadToEndAsync(ct);    
+            if (Email.IsMatch(content))
+                findings.Add(ctx.DocumentContext.AddFinding(FindingSeverity.Warning, FindingAction.Warn, "CtxGuard.Sensitivity",
+                    "Potential email address detected in context.", new SourceRef(ctx.DocumentContext.FullPath)));
 
-        if (SecretLike.IsMatch(content))
-            findings.Add(ctx.DocumentContext.AddFinding(FindingSeverity.Critical, FindingAction.Redact, "CtxGuard.Sensitivity",
-                "Potential secret/token detected in context.", new SourceRef(ctx.DocumentContext.FullPath)));
+            if (SecretLike.IsMatch(content))
+                findings.Add(ctx.DocumentContext.AddFinding(FindingSeverity.Critical, FindingAction.Redact, "CtxGuard.Sensitivity",
+                    "Potential secret/token detected in context.", new SourceRef(ctx.DocumentContext.FullPath)));
+            part = streamReader.NextPart();
+        }
 
         return findings;
     }

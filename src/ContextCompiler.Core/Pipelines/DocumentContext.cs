@@ -54,15 +54,15 @@ namespace ContextCompiler.Core.Pipelines
             Tags = tagsBuilder.InitNewFrom(Tags).AddRange(tags).Build();
         }
 
-        public async Task<StreamReader> GetContentReader()
+        public async Task<IFileContent> GetContentReader()
         {
             ArgumentNullException.ThrowIfNull(FileRead, nameof(FileRead));
 
             var fileReader = (IFileReader)serviceProvider.GetRequiredService(FileRead.Content.ReaderType);
-            return new StreamReader(await fileReader.ReadAsync(FileRead.Content.Path, CancellationToken.None));
+            return await fileReader.ReadAsync(FileRead.Content.Path, CancellationToken.None);
         }
 
-        public async Task<Stream> GetContentStream()
+        public async Task<IFileContent> GetContentStream()
         {
             ArgumentNullException.ThrowIfNull(FileRead, nameof(FileRead));
 
