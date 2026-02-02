@@ -1,10 +1,25 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace ContextCompiler.Plugins.Readers.Pdf.Configurations
 {
-    internal sealed class PdfExtractConfig
+    internal sealed class PdfExtractsConfig
     {
+        [JsonPropertyName("extracts")] public List<PdfExtractConfig> Extracts { get; set; } = [];
+    }
+
+    public sealed class PdfExtractConfig
+    {
+        [JsonPropertyName("id")] public string Id { get; set; } = string.Empty;
+        [JsonPropertyName("start")] public int StartPage { get; set; }
+        [JsonPropertyName("end")] public int EndPage { get; set; } = int.MaxValue;
+        [JsonPropertyName("excludes")] public int[] PageExcludes { get; set; } = Array.Empty<int>();
+
+        [JsonPropertyName("tags")] public string[] Tags { get; set; } = [];
+
+        [JsonPropertyName("isArray")] public int[] IsArray { get; set; } = [];
+
     }
 }

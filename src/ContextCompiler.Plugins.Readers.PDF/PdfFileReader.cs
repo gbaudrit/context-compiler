@@ -1,4 +1,7 @@
+using System.Reflection.Metadata;
 using System.Security.Cryptography;
+using System.Text;
+using System.Text.Json;
 
 using ContextCompiler.Abstractions.Configuration;
 using ContextCompiler.Abstractions.Files;
@@ -7,8 +10,14 @@ using ContextCompiler.Abstractions.Pipelines.Document;
 using ContextCompiler.Abstractions.Plugins;
 using ContextCompiler.Abstractions.Tags;
 using ContextCompiler.Plugins.Readers.Pdf;
+using ContextCompiler.Plugins.Readers.Pdf.Configurations;
+
+using Tabula;
+using Tabula.Detectors;
+using Tabula.Extractors;
 
 using UglyToad.PdfPig;
+using UglyToad.PdfPig.DocumentLayoutAnalysis.TextExtractor;
 
 namespace ContextCompiler.Plugins.Readers.PDF;
 
@@ -49,21 +58,54 @@ public sealed class PdfFileReaderPlugin(IFileReadResultBuilder fileReadResultBui
         //    }
 
         //}
-        using PdfDocument pdfDocument = PdfDocument.Open(documentContext.FullPath!);
+        var options = documentContext.ExtractOptions.Deserialize<PdfExtractsConfig>() ?? new PdfExtractsConfig();
+
+        using PdfDocument pdfDocument = PdfDocument.Open(documentContext.FullPath!, new ParsingOptions() { ClipPaths = true });
         var sourcePath = documentContext.FullPath ?? string.Empty;
 
         var parts = new List<IDataPart>();
-        foreach (var page in pdfDocument.GetPages())
+        foreach(var extract in options.Extracts)
         {
-            var locatorPrefix = $"page:{page.Number}";
-            parts.Add(dataPartBuilder.InitNew()
-                                         .WithId(locatorPrefix)
-                                         .WithSource(new SourceRef(sourcePath, locatorPrefix))
-                                         .WithLabel("Page " + page.Number)
-                                         .WithPayload(page.Text)
-                                         .WithTags(tagsBuilder.InitNew().Build()) //.AddRange(x.Tags)
-                                         .Build());
+            foreach (var page in pdfDocument.GetPages().Where(p => p.Number >= extract.StartPage && p.Number <= extract.EndPage && !extract.PageExcludes.Contains(p.Number)))
+            {
+                object payload = "";
+                if(extract.IsArray.Contains(page.Number))
+                {
+                    PageArea pageArea = ObjectExtractor.Extract(pdfDocument, page.Number);
+                    SimpleNurminenDetectionAlgorithm detector = new SimpleNurminenDetectionAlgorithm();
+                    var regions = detector.Detect(pageArea);
+
+                    IReadOnlyList<Table> tables;
+
+                    //BasicExtractionAlgorithm ea1 = new();
+                    //tables = ea1.Extract(pageArea.GetArea(regions[0].BoundingBox)); // take first candidate area
+
+                    SpreadsheetExtractionAlgorithm ea2 = new SpreadsheetExtractionAlgorithm();
+                    tables = ea2.Extract(pageArea);
+
+                    var table = tables[0];
+                    var rows = table.Rows;
+                    var serializer = new Tabula.Writers.JSONWriter();
+                    var sb = new StringBuilder();
+                    serializer.Write(sb,table);
+                    payload = sb.ToString();
+                } else
+                {
+                    payload = ContentOrderTextExtractor.GetText(page, new ContentOrderTextExtractor.Options() { NegativeGapAsWhitespace = true, SeparateParagraphsWithDoubleNewline = true });
+                }
+                var locatorPrefix = $"page:{page.Number}";
+                parts.Add(dataPartBuilder.InitNew()
+                                             .WithId(extract.Id)
+                                             .WithSource(new SourceRef(sourcePath, locatorPrefix))
+                                             .WithLabel("Page " + page.Number)
+                                             .WithPayload(payload)
+                                             .WithTags(tagsBuilder.InitNew().AddRange(extract.Tags).Build())
+                                             .Build());
+            }
         }
+
+
+        
 
         return dataEnvelopeBuilder.InitNew()
                                     .WithDataShape(DataShape.Linear)

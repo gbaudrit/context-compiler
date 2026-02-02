@@ -1,3 +1,5 @@
+using System.Text.Json;
+
 using ContextCompiler.Abstractions.Pipelines.Document;
 
 namespace ContextCompiler.Abstractions.Pipelines
@@ -6,6 +8,7 @@ namespace ContextCompiler.Abstractions.Pipelines
     {
         IDocumentContext Build();
         IDocumentContextBuilder InitNew();
+        IDocumentContextBuilder WithExtractOptions(JsonElement extractOptions);
         IDocumentContextBuilder WithFullPath(string fullPath);
         IDocumentContextBuilder WithInputRoot(string inputRoot);
         IDocumentContextBuilder WithRelativePath(string relativePath);

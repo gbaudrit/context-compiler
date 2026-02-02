@@ -8,6 +8,8 @@
 
   <ItemGroup>
     <PackageReference Include="PdfPig" />
+    <PackageReference Include="Tabula" />
+    <PackageReference Include="Tabula.Json" />
   </ItemGroup>
 
 	<ItemGroup>

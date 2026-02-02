@@ -1,3 +1,5 @@
+using System.Text.Json;
+
 using ContextCompiler.Abstractions.Files;
 using ContextCompiler.Abstractions.Models;
 using ContextCompiler.Abstractions.Pipelines.Document;
@@ -13,6 +15,7 @@ namespace ContextCompiler.Core.Pipelines
         public required string InputRoot { get; init; }
         public required string RelativePath { get; init; } // stable path key
         public required string FullPath { get; init; }
+        public required JsonElement ExtractOptions { get; init; }
 
         //// Data flowing through passes (write-once-ish)
         //public IFileReadResult? FileRead { get; private set; }

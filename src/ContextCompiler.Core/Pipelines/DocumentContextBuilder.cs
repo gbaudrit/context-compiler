@@ -1,3 +1,5 @@
+using System.Text.Json;
+
 using ContextCompiler.Abstractions.Pipelines;
 using ContextCompiler.Abstractions.Pipelines.Document;
 using ContextCompiler.Abstractions.Tags;
@@ -10,6 +12,7 @@ namespace ContextCompiler.Core.Pipelines
         private string _inputRoot = "";
         private string _fullPath = "";
         private string _relativePath = "";
+        private JsonElement? _extractOptions;
 
         public IDocumentContextBuilder InitNew()
         {
@@ -33,13 +36,20 @@ namespace ContextCompiler.Core.Pipelines
             return this;
         }
 
+        public IDocumentContextBuilder WithExtractOptions(JsonElement extractOptions)
+        {
+            _extractOptions = extractOptions;
+            return this;
+        }
+
         public IDocumentContext Build()
         {
             return new DocumentContext(tagsBuilder, serviceProvider)
             {
                 InputRoot = _inputRoot,
                 FullPath = _fullPath,
-                RelativePath = _relativePath
+                RelativePath = _relativePath,
+                ExtractOptions = _extractOptions ?? JsonDocument.Parse("{}").RootElement
             };
         }
     }
