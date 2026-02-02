@@ -4,10 +4,10 @@ namespace ContextCompiler.Abstractions.Output
     {
         string Path { get; }
 
-        public IReadOnlyList<IOutputArtifact> Artifacts { get; }
+        IReadOnlyList<IOutputArtifact> Artifacts { get; }
 
-        public void AddArtifact(IOutputArtifact artifact);
-        public void AddArtifact(Func<IOutputArtifactBuilder, IOutputArtifactBuilder> builder);
+        void AddArtifact(IOutputArtifact artifact);
+        void AddArtifact(Func<IOutputArtifactBuilder, IOutputArtifactBuilder> builder);
 
     }
 }

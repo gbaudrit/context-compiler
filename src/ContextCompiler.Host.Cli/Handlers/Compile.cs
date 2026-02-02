@@ -22,16 +22,16 @@ public record CtxcCompileCommandLine(
 
 internal sealed class CtxcCompileHandler(ICompilerEngine engine, IOutputContext outputContext, ILogger<CtxcCompileHandler> logger) : ICtxcCompileHandler
 {
-    private JsonSerializerOptions jsonSerializerOptions = new() { WriteIndented = true };
+    private readonly JsonSerializerOptions jsonSerializerOptions = new() { WriteIndented = true };
 
 
     public async Task<int> HandleAsync(CtxcCompileCommandLine compileCommandLine)
     {
         try
         {
-            outputContext.OutputPath = compileCommandLine.Output;  
+            outputContext.OutputPath = compileCommandLine.Output;
 
-            var rc = await engine.CompileAsync(new CompileRequest(compileCommandLine.Input,
+            int rc = await engine.CompileAsync(new CompileRequest(compileCommandLine.Input,
                                                                    compileCommandLine.Output,
                                                                    compileCommandLine.Name,
                                                                    compileCommandLine.Clean,

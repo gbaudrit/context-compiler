@@ -10,7 +10,7 @@ using ContextCompiler.Abstractions.Prompt;
 
 using Microsoft.Extensions.Logging;
 
-namespace ContextCompiler.Plugins.BuiltIn.GlobalPipeline.PrompComposer
+namespace ContextCompiler.Plugins.BuiltIn.Personas
 {
     internal sealed class PersonasPromptComposer(IPrompt prompt,
                                                  IOutput output,
@@ -24,25 +24,28 @@ namespace ContextCompiler.Plugins.BuiltIn.GlobalPipeline.PrompComposer
         public async Task Run(CancellationToken cancellationToken)
         {
             // Personas (existing integration)
-            var personasMeta = new List<IPersonaResult>();
+            List<IPersonaResult> personasMeta = [];
             if (ctxcConfig.Current.Personas is not null && ctxcConfig.Current.Personas.Active.Count > 0)
             {
-                foreach (var id in ctxcConfig.Current.Personas.Active)
+                foreach (string id in ctxcConfig.Current.Personas.Active)
                 {
-                    var plugin = plugins.Personas.FirstOrDefault(p => string.Equals(p.PersonaId, id, StringComparison.Ordinal));
+                    IPersonaPlugin? plugin = plugins.Personas.FirstOrDefault(p => string.Equals(p.PersonaId, id, StringComparison.Ordinal));
                     if (plugin is null)
                     {
                         logger.LogWarning("Persona not found: {Id}", id);
                         continue;
                     }
                     IReadOnlyDictionary<string, object>? inputs = null;
-                    if (ctxcConfig.Current.Personas.Params is not null && ctxcConfig.Current.Personas.Params.TryGetValue(id, out var pval) && pval is not null)
+                    if (ctxcConfig.Current.Personas.Params is not null && ctxcConfig.Current.Personas.Params.TryGetValue(id, out object? pval) && pval is not null)
                     {
                         if (pval is JsonElement je && je.ValueKind == JsonValueKind.Object)
                         {
-                            var dict = new Dictionary<string, object>();
-                            foreach (var prop in je.EnumerateObject())
+                            Dictionary<string, object> dict = [];
+                            foreach (JsonProperty prop in je.EnumerateObject())
+                            {
                                 dict[prop.Name] = prop.Value.ToString();
+                            }
+
                             inputs = dict;
                         }
                     }

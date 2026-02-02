@@ -28,8 +28,10 @@ internal sealed class AudienceBuilder : IAudienceBuilder
 
     public IAudience Build()
     {
-        if (_name is null) throw new InvalidOperationException("Audience name is required.");
-        if (_description is null) throw new InvalidOperationException("Audience description is required.");
-        return new Audience { Name = _name, Description = _description };
+        return _name is null
+            ? throw new InvalidOperationException("Audience name is required.")
+            : _description is null
+            ? throw new InvalidOperationException("Audience description is required.")
+            : (IAudience)new Audience { Name = _name, Description = _description };
     }
 }

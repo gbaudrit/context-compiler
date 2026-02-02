@@ -3,18 +3,13 @@ using System.Runtime.Loader;
 
 namespace ContextCompiler.Infrastructure.PluginLoading;
 
-public sealed class PluginLoadContext : AssemblyLoadContext
+public sealed class PluginLoadContext(string pluginMainAssemblyPath) : AssemblyLoadContext(isCollectible: false)
 {
-    private readonly AssemblyDependencyResolver _resolver;
-
-    public PluginLoadContext(string pluginMainAssemblyPath) : base(isCollectible: false)
-    {
-        _resolver = new AssemblyDependencyResolver(pluginMainAssemblyPath);
-    }
+    private readonly AssemblyDependencyResolver _resolver = new(pluginMainAssemblyPath);
 
     protected override Assembly? Load(AssemblyName assemblyName)
     {
-        var path = _resolver.ResolveAssemblyToPath(assemblyName);
+        string? path = _resolver.ResolveAssemblyToPath(assemblyName);
         return path is null ? null : LoadFromAssemblyPath(path);
     }
 }

@@ -1,6 +1,7 @@
 using ContextCompiler.Abstractions.Pipelines;
 using ContextCompiler.Abstractions.Pipelines.DataPart;
 using ContextCompiler.Abstractions.Pipelines.Document;
+using ContextCompiler.Abstractions.Plugins;
 
 namespace ContextCompiler.Core.Pipelines.DataPart
 {
@@ -10,11 +11,11 @@ namespace ContextCompiler.Core.Pipelines.DataPart
         public int Priority => 100;
         public DocumentStage Stage => DocumentStage.Engineering;
 
-        public async ValueTask ExecuteAsync(IDocumentContext ctx,IDataPart part, CancellationToken ct)
+        public async ValueTask ExecuteAsync(IDocumentContext ctx, IDataPart part, CancellationToken ct)
         {
             if (ctx.Data is null)
             {
-                ctx.AddFinding(
+                _ = ctx.AddFinding(
                     FindingSeverity.Warning,
                     FindingAction.Skip,
                     Id,
@@ -22,8 +23,10 @@ namespace ContextCompiler.Core.Pipelines.DataPart
                 return;
             }
 
-            foreach (var mod in plugins.EngineeringModules.OrderBy(m => m.Metadata.Priority))
-               await mod.ApplyAsync(ctx.Data, ct);
+            foreach (IEngineeringModulePlugin? mod in plugins.EngineeringModules.OrderBy(m => m.Metadata.Priority))
+            {
+                _ = await mod.ApplyAsync(ctx.Data, ct);
+            }
         }
     }
 }

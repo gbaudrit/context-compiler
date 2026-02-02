@@ -11,7 +11,7 @@ public sealed class FramingTemplatePlugin : ITemplatePlugin
 
     public string Apply(CompileOptions options, IPrompt prompt)
     {
-        var compiledViews = string.Join("\n\n---\n\n", prompt.Views.Select(v => $"# {v.Title}\n\n{v.Content}"));
+        string compiledViews = string.Join("\n\n---\n\n", prompt.Views.Select(v => $"# {v.Title}\n\n{v.Content}"));
 
         string content =
             "# Context Compiler — Compiled Context\n\n" +

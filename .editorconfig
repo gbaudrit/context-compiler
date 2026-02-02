@@ -21,3 +21,9 @@ dotnet_style_qualification_for_event = false:suggestion
 # CS9113: Parameter is unread.
 dotnet_diagnostic.CS9113.severity = none
 dotnet_diagnostic.CA1848.severity = none
+
+# Default severity for all analyzer diagnostics
+dotnet_analyzer_diagnostic.severity = error
+
+# IDE0160: Convert to block scoped namespace
+dotnet_diagnostic.IDE0160.severity = none

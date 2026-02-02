@@ -4,7 +4,7 @@ namespace ContextCompiler.Core.Pipelines.Document
 {
     internal sealed class DocumentsContext : IDocumentsContext
     {
-        private readonly List<IDocumentContext> _documents = new();
+        private readonly List<IDocumentContext> _documents = [];
 
         public required string RootPath { get; init; }
 

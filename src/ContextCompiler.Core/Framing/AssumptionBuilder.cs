@@ -28,8 +28,10 @@ internal sealed class AssumptionBuilder : IAssumptionBuilder
 
     public IAssumption Build()
     {
-        if (_name is null) throw new InvalidOperationException("Assumption name is required.");
-        if (_description is null) throw new InvalidOperationException("Assumption description is required.");
-        return new Assumption { Name = _name, Description = _description };
+        return _name is null
+            ? throw new InvalidOperationException("Assumption name is required.")
+            : _description is null
+            ? throw new InvalidOperationException("Assumption description is required.")
+            : (IAssumption)new Assumption { Name = _name, Description = _description };
     }
 }

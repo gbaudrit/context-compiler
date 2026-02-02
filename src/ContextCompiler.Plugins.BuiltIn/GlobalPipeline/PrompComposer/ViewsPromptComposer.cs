@@ -14,8 +14,8 @@ namespace ContextCompiler.Plugins.BuiltIn.GlobalPipeline.PrompComposer
 
         public async Task Run(CancellationToken cancellationToken)
         {
-            var views = new List<IViewResult>();
-            foreach (var v in plugins.Views.OrderBy(v => v.Metadata.Priority))
+            List<IViewResult> views = [];
+            foreach (IViewPlugin? v in plugins.Views.OrderBy(v => v.Metadata.Priority))
             {
                 views.AddRange(await v.BuildAsync(new ViewContext(ctxcConfig.Current.Views, ir), cancellationToken));
             }

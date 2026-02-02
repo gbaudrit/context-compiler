@@ -12,9 +12,9 @@ namespace ContextCompiler.Plugins.BuiltIn.GlobalPipeline.PrompComposer
 
         public Task Run(CancellationToken cancellationToken)
         {
-            var index = 1;
-            var assumptions = new List<IAssumption>();
-            foreach (var a in ctxcConfig.Current.Context.Assumptions ?? [])
+            int index = 1;
+            List<IAssumption> assumptions = [];
+            foreach (string a in ctxcConfig.Current.Context.Assumptions ?? [])
             {
                 assumptions.Add(assumptionBuilder.InitNew().WithName($"AS{index++}").WithDescription(a).Build());
             }

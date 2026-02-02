@@ -10,7 +10,7 @@ public sealed class YamlFileReaderPlugin(IFileReadResultBuilder fileReadResultBu
 
     public bool CanRead(string path)
     {
-        var ext = Path.GetExtension(path);
+        string ext = Path.GetExtension(path);
         return ext.Equals(".yaml", StringComparison.OrdinalIgnoreCase) || ext.Equals(".yml", StringComparison.OrdinalIgnoreCase);
     }
 

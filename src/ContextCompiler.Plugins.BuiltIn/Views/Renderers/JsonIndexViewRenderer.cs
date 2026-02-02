@@ -15,7 +15,10 @@ namespace ContextCompiler.Plugins.BuiltIn.Views.Renderers
             WriteIndented = true
         };
 
-        public bool CanRender(ViewConfig def) => def.Renderer.Contains("index.json");
+        public bool CanRender(ViewConfig def)
+        {
+            return def.Renderer.Contains("index.json");
+        }
 
         public string OutputFileExtension => ".json";
         public string OutputMimeType => "application/json";

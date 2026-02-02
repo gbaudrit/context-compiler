@@ -12,15 +12,15 @@ namespace ContextCompiler.Plugins.BuiltIn.GlobalPipeline.PrompComposer
 
         public Task Run(CancellationToken cancellationToken)
         {
-            var index = 1;
-            var must = new List<IMustConstraint>();
-            foreach (var a in ctxcConfig.Current.Context.Constraints?.Must ?? [])
+            int index = 1;
+            List<IMustConstraint> must = [];
+            foreach (string a in ctxcConfig.Current.Context.Constraints?.Must ?? [])
             {
                 must.Add(mustConstraintBuilder.InitNew().WithId($"MUST{index++}").WithText(a).Build());
             }
 
-            var mustNot = new List<IMustNotConstraint>();
-            foreach (var a in ctxcConfig.Current.Context.Constraints?.MustNot ?? [])
+            List<IMustNotConstraint> mustNot = [];
+            foreach (string a in ctxcConfig.Current.Context.Constraints?.MustNot ?? [])
             {
                 mustNot.Add(mustNotConstraintBuilder.InitNew().WithId($"MUSTNOT{index++}").WithText(a).Build());
             }

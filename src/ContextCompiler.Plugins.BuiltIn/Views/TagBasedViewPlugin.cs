@@ -21,19 +21,17 @@ public sealed class TagBasedViewPlugin(IViewResultBuilder viewResultBuilder, IVi
     {
         ct.ThrowIfCancellationRequested();
 
-        var views = (ctx.Config.Views ?? Array.Empty<ViewConfig>())
-            .OrderBy(v => v.Id, StringComparer.Ordinal) // deterministic view output order
-            .ToArray();
+        ViewConfig[] views = [.. (ctx.Config.Views ?? []).OrderBy(v => v.Id, StringComparer.Ordinal)];
 
-        var artifacts = new List<IViewResult>(capacity: views.Length * 2);
+        List<IViewResult> artifacts = new(capacity: views.Length * 2);
 
-        foreach (var def in views)
+        foreach (ViewConfig? def in views)
         {
             ct.ThrowIfCancellationRequested();
 
-            var fragments = ViewSelector.SelectFragments(ctx.ReasoningIr, def);
+            IReadOnlyList<IFragment> fragments = ViewSelector.SelectFragments(ctx.ReasoningIr, def);
 
-            var renderResult = await viewRenderersPlugin.RenderAsync(def, fragments, ct);
+            IReadOnlyList<IViewResult> renderResult = await viewRenderersPlugin.RenderAsync(def, fragments, ct);
             artifacts.AddRange(renderResult);
         }
 
@@ -45,40 +43,46 @@ public sealed class TagBasedViewPlugin(IViewResultBuilder viewResultBuilder, IVi
 internal static class WildcardTagMatcher
 {
     public static bool MatchesAny(IReadOnlyList<ITag> tags, IEnumerable<string> patterns)
-        => patterns.Any(p => Matches(tags, p));
+    {
+        return patterns.Any(p => Matches(tags, p));
+    }
 
     public static bool Matches(IReadOnlyList<ITag> tags, string pattern)
     {
         // pattern: "ns:value" where value may contain "*"
-        var idx = pattern.IndexOf(':');
+        int idx = pattern.IndexOf(':');
         if (idx <= 0 || idx == pattern.Length - 1)
+        {
             return false;
+        }
 
-        var ns = pattern[..idx];
-        var pv = pattern[(idx + 1)..];
+        string ns = pattern[..idx];
+        string pv = pattern[(idx + 1)..];
 
         IEnumerable<string> values = tags.Where(t => t.Name == ns).Select(t => t.Value ?? "");
-        if (!values.Any())
-            return false;
-
-        return WildcardEquals(values, pv);
+        return values.Any() && WildcardEquals(values, pv);
     }
 
     private static bool WildcardEquals(IEnumerable<string> values, string pattern)
     {
         // Only supports '*' wildcard (deterministic, simple)
-        if (pattern == "*") return true;
+        if (pattern == "*")
+        {
+            return true;
+        }
 
-        var star = pattern.IndexOf('*');
-        if (star < 0) return values.Any(x => string.Equals(x, pattern, StringComparison.OrdinalIgnoreCase));
+        int star = pattern.IndexOf('*');
+        if (star < 0)
+        {
+            return values.Any(x => string.Equals(x, pattern, StringComparison.OrdinalIgnoreCase));
+        }
 
-        var prefix = pattern[..star];
-        var suffix = pattern[(star + 1)..];
+        string prefix = pattern[..star];
+        string suffix = pattern[(star + 1)..];
 
-        if (!values.Any(v => v.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))) return false;
-        if (!values.Any(v => v.EndsWith(suffix, StringComparison.OrdinalIgnoreCase))) return false;
-
-        return values.Any(x => x.Length >= prefix.Length + suffix.Length);
+        return values.Any(v => v.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
+               && values.Any(v => v.EndsWith(suffix, StringComparison.OrdinalIgnoreCase))
+               && values.Any(x => x.Length >= prefix.Length + suffix.Length);
     }
 }
 
@@ -87,41 +91,61 @@ internal static class Deterministic
     public static int GetSeverity(IReadOnlyDictionary<string, string> tags)
     {
         // accepted tag keys: "riskSeverity" or "severity"
-        if (tags.TryGetValue("riskSeverity", out var s) || tags.TryGetValue("severity", out s))
+        if (tags.TryGetValue("riskSeverity", out string? s) || tags.TryGetValue("severity", out s))
         {
             // normalize: critical=3 warning=2 info=1 else parse int
-            if (string.Equals(s, "critical", StringComparison.OrdinalIgnoreCase)) return 3;
-            if (string.Equals(s, "warning", StringComparison.OrdinalIgnoreCase)) return 2;
-            if (string.Equals(s, "info", StringComparison.OrdinalIgnoreCase)) return 1;
-            if (int.TryParse(s, out var n)) return n;
+            if (string.Equals(s, "critical", StringComparison.OrdinalIgnoreCase))
+            {
+                return 3;
+            }
+
+            if (string.Equals(s, "warning", StringComparison.OrdinalIgnoreCase))
+            {
+                return 2;
+            }
+
+            if (string.Equals(s, "info", StringComparison.OrdinalIgnoreCase))
+            {
+                return 1;
+            }
+
+            if (int.TryParse(s, out int n))
+            {
+                return n;
+            }
         }
         return 0;
     }
 
-    public static string NormalizeNewlines(string s) => s.Replace("\r\n", "\n").Replace("\r", "\n");
+    public static string NormalizeNewlines(string s)
+    {
+        return s.Replace("\r\n", "\n").Replace("\r", "\n");
+    }
 }
 
 internal static class ViewSelector
 {
     public static IReadOnlyList<IFragment> SelectFragments(IReasoningIr ir, ViewConfig def)
     {
-        var include = def.Select ?? Array.Empty<string>();
-        var exclude = def.Exclude ?? Array.Empty<string>();
+        string[] include = def.Select ?? [];
+        string[] exclude = def.Exclude ?? [];
 
-        var selected = ir.Fragments
+        IEnumerable<IFragment> selected = ir.Fragments
             .Where(f =>
             {
-                var tags = f.Tags;
-                var incOk = include.Length == 0 || WildcardTagMatcher.MatchesAny(tags, include);
-                var excHit = exclude.Length != 0 && WildcardTagMatcher.MatchesAny(tags, exclude);
+                IReadOnlyList<ITag> tags = f.Tags;
+                bool incOk = include.Length == 0 || WildcardTagMatcher.MatchesAny(tags, include);
+                bool excHit = exclude.Length != 0 && WildcardTagMatcher.MatchesAny(tags, exclude);
                 return incOk && !excHit;
             });
 
         // deterministic ordering
-        return Order(selected, def.Order).ToArray();
+        return [.. Order(selected, def.Order)];
     }
 
+#pragma warning disable IDE0060 // Remove unused parameter
     private static IEnumerable<IFragment> Order(IEnumerable<IFragment> frags, string[] order)
+#pragma warning restore IDE0060 // Remove unused parameter
     {
         //IOrderedEnumerable<IFragment>? o = null;
 
@@ -148,40 +172,42 @@ internal static class ViewRenderer
 
     public static (string md, string json) Render(ViewConfig def, IReadOnlyList<IFragment> fragments)
     {
-        var md = RenderMarkdown(def, fragments);
-        var json = RenderJson(def, fragments);
+        string md = RenderMarkdown(def, fragments);
+        string json = RenderJson(def, fragments);
         return (md, json);
     }
 
     private static string RenderMarkdown(ViewConfig def, IReadOnlyList<IFragment> fragments)
     {
-        var sb = new StringBuilder();
-        sb.AppendLine(CultureInfo.InvariantCulture,$"# View: {def.Id}");
-        sb.AppendLine();
-        sb.AppendLine(def.Title);
-        sb.AppendLine();
-        sb.AppendLine("## Evidence");
-        sb.AppendLine();
+        StringBuilder sb = new();
+        _ = sb.AppendLine(CultureInfo.InvariantCulture, $"# View: {def.Id}");
+        _ = sb.AppendLine();
+        _ = sb.AppendLine(def.Title);
+        _ = sb.AppendLine();
+        _ = sb.AppendLine("## Evidence");
+        _ = sb.AppendLine();
 
-        foreach (var f in fragments)
+        foreach (IFragment f in fragments)
         {
-            sb.AppendLine(CultureInfo.InvariantCulture, $"- **EK:** `{f.Evidence.EvidenceKey}`  ");
-            sb.AppendLine(CultureInfo.InvariantCulture, $"  **ER:** `{f.Evidence.EvidenceRevision}`  ");
-            sb.AppendLine(CultureInfo.InvariantCulture, $"  **Source:** `{f.Source.Path}#{f.Source.Locator}`  ");
+            _ = sb.AppendLine(CultureInfo.InvariantCulture, $"- **EK:** `{f.Evidence.EvidenceKey}`  ");
+            _ = sb.AppendLine(CultureInfo.InvariantCulture, $"  **ER:** `{f.Evidence.EvidenceRevision}`  ");
+            _ = sb.AppendLine(CultureInfo.InvariantCulture, $"  **Source:** `{f.Source.Path}#{f.Source.Locator}`  ");
 
             if (def.IncludeFragmentContent)
             {
-                var content = Deterministic.NormalizeNewlines(f.Content);
+                string content = Deterministic.NormalizeNewlines(f.Content);
                 if (def.MaxContentChars is int max && content.Length > max)
+                {
                     content = content[..max] + "…";
+                }
 
-                sb.AppendLine();
-                sb.AppendLine("```");
-                sb.AppendLine(content);
-                sb.AppendLine("```");
+                _ = sb.AppendLine();
+                _ = sb.AppendLine("```");
+                _ = sb.AppendLine(content);
+                _ = sb.AppendLine("```");
             }
 
-            sb.AppendLine();
+            _ = sb.AppendLine();
         }
 
         return sb.ToString();

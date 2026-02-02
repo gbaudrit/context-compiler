@@ -34,17 +34,16 @@ public sealed class DocumentPipelineRunner(
 {
     public async ValueTask RunAsync(IDocumentsContext documentsContext, CancellationToken ct)
     {
-        passes = passes
+        passes = [.. passes
             .OrderBy(p => (int)p.Stage)
             .ThenBy(p => p.Priority)
-            .ThenBy(p => p.Id, StringComparer.Ordinal)
-            .ToArray();
+            .ThenBy(p => p.Id, StringComparer.Ordinal)];
 
         logger.LogInformation("Starting documents pipeline run in root path: {RootPath} ({Count} passes)", documentsContext.RootPath, passes.Count());
 
         logger.LogDebug("Document pipeline passes order: {Passes}", Environment.NewLine + string.Join(Environment.NewLine, passes));
 
-        var results = new List<IDocumentCompileResult>();
+        List<IDocumentCompileResult> results = [];
 
         //var allFiles = fs.EnumerateFiles(rootPath)
         //    .Where(p => !p.Contains(Path.DirectorySeparatorChar + ".git" + Path.DirectorySeparatorChar))
@@ -54,7 +53,7 @@ public sealed class DocumentPipelineRunner(
         //    .Where(p => !p.Contains(Path.DirectorySeparatorChar + ".ctxc" + Path.DirectorySeparatorChar))
         //    .ToList();
 
-        foreach (var s in cfgProvider.Current.Files)
+        foreach (FileConfig s in cfgProvider.Current.Files)
         {
             Matcher matcher = new();
             matcher.AddExcludePatterns(["**/.git/**", "**/bin/**", "**/obj/**", "**/.ctxc/**"]);
@@ -63,7 +62,7 @@ public sealed class DocumentPipelineRunner(
 
             PatternMatchingResult result = matcher.Execute(new DirectoryInfoWrapper(new DirectoryInfo(documentsContext.RootPath)));
 
-            foreach (var filePatternMatch in result.Files)
+            foreach (FilePatternMatch filePatternMatch in result.Files)
             {
                 ct.ThrowIfCancellationRequested();
 
@@ -77,7 +76,7 @@ public sealed class DocumentPipelineRunner(
 
                 try
                 {
-                    foreach (var pass in passes)
+                    foreach (IDocumentPass pass in passes)
                     {
                         ct.ThrowIfCancellationRequested();
                         logger.LogDebug("Executing document pass '{PassId}' on document '{DocumentPath}'", pass.Id, docContext.RelativePath);
@@ -85,9 +84,11 @@ public sealed class DocumentPipelineRunner(
                         await pass.ExecuteAsync(docContext, ct);
 
                         // hard stop rule
-                        var blocked = docContext.Findings.Any(f => f.Severity == FindingSeverity.Critical && f.Action == FindingAction.Block);
+                        bool blocked = docContext.Findings.Any(f => f.Severity == FindingSeverity.Critical && f.Action == FindingAction.Block);
                         if (blocked)
+                        {
                             break;
+                        }
                     }
 
                     //return new PipelineRunResult(true, 0, docContext.Findings);
@@ -95,7 +96,7 @@ public sealed class DocumentPipelineRunner(
                 catch (OperationCanceledException) { throw; }
                 catch (Exception ex)
                 {
-                    docContext.AddFinding(
+                    _ = docContext.AddFinding(
                         FindingSeverity.Critical,
                         FindingAction.Block,
                         PassId: "pipeline.runner",

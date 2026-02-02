@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Text.Json.Serialization;
 
 namespace ContextCompiler.Plugins.Readers.Pdf.Configurations
@@ -15,7 +12,7 @@ namespace ContextCompiler.Plugins.Readers.Pdf.Configurations
         [JsonPropertyName("id")] public string Id { get; set; } = string.Empty;
         [JsonPropertyName("start")] public int StartPage { get; set; }
         [JsonPropertyName("end")] public int EndPage { get; set; } = int.MaxValue;
-        [JsonPropertyName("excludes")] public int[] PageExcludes { get; set; } = Array.Empty<int>();
+        [JsonPropertyName("excludes")] public int[] PageExcludes { get; set; } = [];
 
         [JsonPropertyName("tags")] public string[] Tags { get; set; } = [];
 

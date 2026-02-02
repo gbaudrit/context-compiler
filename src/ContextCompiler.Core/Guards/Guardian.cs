@@ -5,13 +5,13 @@ namespace ContextCompiler.Core.Guards
 {
     internal sealed class Guardian : IGuardian
     {
-        private List<IPipelineFinding> _findings = new();
+        private List<IPipelineFinding> _findings = [];
 
         public IReadOnlyList<IPipelineFinding> Findings => _findings;
 
         public void Load(IDocumentsContext documents)
         {
-            _findings = documents.Documents.SelectMany(r => r.Findings).ToList();
+            _findings = [.. documents.Documents.SelectMany(r => r.Findings)];
         }
 
         public bool HasBlockingCriticalFindings()

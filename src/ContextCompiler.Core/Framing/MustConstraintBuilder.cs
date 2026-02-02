@@ -28,9 +28,11 @@ namespace ContextCompiler.Core.Framing
 
         public IMustConstraint Build()
         {
-            if (_id is null) throw new InvalidOperationException("MustConstraint id is required.");
-            if (_text is null) throw new InvalidOperationException("MustConstraint text is required.");
-            return new MustConstraint() { Id = _id, Text = _text };
+            return _id is null
+                ? throw new InvalidOperationException("MustConstraint id is required.")
+                : _text is null
+                ? throw new InvalidOperationException("MustConstraint text is required.")
+                : (IMustConstraint)new MustConstraint() { Id = _id, Text = _text };
         }
     }
 }

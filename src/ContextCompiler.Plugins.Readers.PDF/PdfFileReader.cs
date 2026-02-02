@@ -1,5 +1,3 @@
-using System.Reflection.Metadata;
-using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 
@@ -9,25 +7,26 @@ using ContextCompiler.Abstractions.Models;
 using ContextCompiler.Abstractions.Pipelines.Document;
 using ContextCompiler.Abstractions.Plugins;
 using ContextCompiler.Abstractions.Tags;
-using ContextCompiler.Plugins.Readers.Pdf;
 using ContextCompiler.Plugins.Readers.Pdf.Configurations;
 
 using Tabula;
 using Tabula.Detectors;
 using Tabula.Extractors;
+using Tabula.Writers;
 
 using UglyToad.PdfPig;
+using UglyToad.PdfPig.Content;
 using UglyToad.PdfPig.DocumentLayoutAnalysis.TextExtractor;
 
 namespace ContextCompiler.Plugins.Readers.PDF;
 
-public sealed class PdfFileReaderPlugin(IFileReadResultBuilder fileReadResultBuilder, IFileContentBuilder fileContentBuilder, ICtxcConfigProvider cfgProvider, IDataEnvelopeBuilder dataEnvelopeBuilder, IDataPartBuilder dataPartBuilder, ITagsBuilder tagsBuilder)  : IFileReaderPlugin
+public sealed class PdfFileReaderPlugin(IFileReadResultBuilder fileReadResultBuilder, IFileContentBuilder fileContentBuilder, ICtxcConfigProvider cfgProvider, IDataEnvelopeBuilder dataEnvelopeBuilder, IDataPartBuilder dataPartBuilder, ITagsBuilder tagsBuilder) : IFileReaderPlugin
 {
     public PluginMetadata Metadata => IPlugin.Meta("readers.pdf", GlobalPipelinePluginKinds.FileReader, priority: 10);
 
     public bool CanRead(string path)
     {
-        var ext = Path.GetExtension(path);
+        string ext = Path.GetExtension(path);
         return ext.Equals(".pdf", StringComparison.OrdinalIgnoreCase);
     }
 
@@ -46,7 +45,7 @@ public sealed class PdfFileReaderPlugin(IFileReadResultBuilder fileReadResultBui
     public async Task<IDataEnvelope> ReadAsync(IDocumentContext documentContext, CancellationToken ct)
     {
         ct.ThrowIfCancellationRequested();
-        var cfg = cfgProvider.GetConfigOrDefault(null);
+        CtxcConfig cfg = cfgProvider.GetConfigOrDefault(null);
 
         //var fileExtracts = new List<(string match, PdfDefaults? defaults, List<PdfExtractConfig> extracts)>();
         //foreach (var f in cfg.Files)
@@ -58,42 +57,43 @@ public sealed class PdfFileReaderPlugin(IFileReadResultBuilder fileReadResultBui
         //    }
 
         //}
-        var options = documentContext.ExtractOptions.Deserialize<PdfExtractsConfig>() ?? new PdfExtractsConfig();
+        PdfExtractsConfig options = documentContext.ExtractOptions.Deserialize<PdfExtractsConfig>() ?? new PdfExtractsConfig();
 
         using PdfDocument pdfDocument = PdfDocument.Open(documentContext.FullPath!, new ParsingOptions() { ClipPaths = true });
-        var sourcePath = documentContext.FullPath ?? string.Empty;
+        string sourcePath = documentContext.FullPath ?? string.Empty;
 
-        var parts = new List<IDataPart>();
-        foreach(var extract in options.Extracts)
+        List<IDataPart> parts = [];
+        foreach (PdfExtractConfig extract in options.Extracts)
         {
-            foreach (var page in pdfDocument.GetPages().Where(p => p.Number >= extract.StartPage && p.Number <= extract.EndPage && !extract.PageExcludes.Contains(p.Number)))
+            foreach (Page? page in pdfDocument.GetPages().Where(p => p.Number >= extract.StartPage && p.Number <= extract.EndPage && !extract.PageExcludes.Contains(p.Number)))
             {
                 object payload = "";
-                if(extract.IsArray.Contains(page.Number))
+                if (extract.IsArray.Contains(page.Number))
                 {
                     PageArea pageArea = ObjectExtractor.Extract(pdfDocument, page.Number);
-                    SimpleNurminenDetectionAlgorithm detector = new SimpleNurminenDetectionAlgorithm();
-                    var regions = detector.Detect(pageArea);
+                    SimpleNurminenDetectionAlgorithm detector = new();
+                    IReadOnlyList<TableRectangle> regions = detector.Detect(pageArea);
 
                     IReadOnlyList<Table> tables;
 
                     //BasicExtractionAlgorithm ea1 = new();
                     //tables = ea1.Extract(pageArea.GetArea(regions[0].BoundingBox)); // take first candidate area
 
-                    SpreadsheetExtractionAlgorithm ea2 = new SpreadsheetExtractionAlgorithm();
+                    SpreadsheetExtractionAlgorithm ea2 = new();
                     tables = ea2.Extract(pageArea);
 
-                    var table = tables[0];
-                    var rows = table.Rows;
-                    var serializer = new Tabula.Writers.JSONWriter();
-                    var sb = new StringBuilder();
-                    serializer.Write(sb,table);
+                    Table table = tables[0];
+                    IReadOnlyList<IReadOnlyList<Cell>> rows = table.Rows;
+                    JSONWriter serializer = new();
+                    StringBuilder sb = new();
+                    serializer.Write(sb, table);
                     payload = sb.ToString();
-                } else
+                }
+                else
                 {
                     payload = ContentOrderTextExtractor.GetText(page, new ContentOrderTextExtractor.Options() { NegativeGapAsWhitespace = true, SeparateParagraphsWithDoubleNewline = true });
                 }
-                var locatorPrefix = $"page:{page.Number}";
+                string locatorPrefix = $"page:{page.Number}";
                 parts.Add(dataPartBuilder.InitNew()
                                              .WithId(extract.Id)
                                              .WithSource(new SourceRef(sourcePath, locatorPrefix))
@@ -105,7 +105,7 @@ public sealed class PdfFileReaderPlugin(IFileReadResultBuilder fileReadResultBui
         }
 
 
-        
+
 
         return dataEnvelopeBuilder.InitNew()
                                     .WithDataShape(DataShape.Linear)
@@ -130,7 +130,7 @@ public sealed class PdfFileReaderPlugin(IFileReadResultBuilder fileReadResultBui
 //        return ValueTask.FromResult<IFileContent>(_pdfFileContent);
 //    }
 
-    
+
 
 //    private void Dispose(bool disposing)
 //    {

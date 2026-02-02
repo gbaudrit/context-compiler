@@ -13,8 +13,8 @@ namespace ContextCompiler.Plugins.BuiltIn.GlobalPipeline.PrompComposer
 
         public Task Run(CancellationToken cancellationToken)
         {
-            var commands = new List<ICommand>
-            {
+            List<ICommand> commands =
+            [
                 commandBuilder.InitNew()
                                     .WithName("init, load")
                                     .WithDescription("Load this context")
@@ -31,7 +31,7 @@ namespace ContextCompiler.Plugins.BuiltIn.GlobalPipeline.PrompComposer
                                     .WithName("evidence coverage stats")
                                     .WithDescription("statistical analysis of the evidence used in relation to the complete list to establish coverage")
                                     .Build()
-            };
+            ];
 
             if (ctxcConfig.Current.Views.Views.Length != 0)
             {

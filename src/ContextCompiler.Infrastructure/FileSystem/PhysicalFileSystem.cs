@@ -5,22 +5,37 @@ namespace ContextCompiler.Infrastructure.FileSystem;
 public sealed class PhysicalFileSystem : IFileSystem
 {
     public IEnumerable<string> EnumerateFiles(string rootPath)
-        => Directory.EnumerateFiles(rootPath, "*", SearchOption.AllDirectories);
+    {
+        return Directory.EnumerateFiles(rootPath, "*", SearchOption.AllDirectories);
+    }
 
-    public bool FileExists(string path) => File.Exists(path);
+    public bool FileExists(string path)
+    {
+        return File.Exists(path);
+    }
 
-    public Stream OpenRead(string path) => File.OpenRead(path);
+    public Stream OpenRead(string path)
+    {
+        return File.OpenRead(path);
+    }
 
-    public string ReadAllText(string path) => File.ReadAllText(path);
+    public string ReadAllText(string path)
+    {
+        return File.ReadAllText(path);
+    }
 
-    public void EnsureDirectory(string path) => Directory.CreateDirectory(path);
+    public void EnsureDirectory(string path)
+    {
+        _ = Directory.CreateDirectory(path);
+    }
+
     public void EnsureDirectory(string path, bool clean)
     {
         if (clean && Directory.Exists(path))
         {
             Directory.Delete(path, true);
         }
-        Directory.CreateDirectory(path);
+        _ = Directory.CreateDirectory(path);
     }
 
     public void WriteAllText(string path, string content)

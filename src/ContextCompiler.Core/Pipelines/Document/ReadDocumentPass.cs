@@ -1,5 +1,6 @@
 using ContextCompiler.Abstractions.Pipelines;
 using ContextCompiler.Abstractions.Pipelines.Document;
+using ContextCompiler.Abstractions.Plugins;
 
 namespace ContextCompiler.Core.Pipelines.Document
 {
@@ -11,10 +12,13 @@ namespace ContextCompiler.Core.Pipelines.Document
 
         public async ValueTask ExecuteAsync(IDocumentContext ctx, CancellationToken ct)
         {
-            var reader = plugins.FileReaders.FirstOrDefault(r => r.CanRead(ctx.FullPath));
-            if (reader is null) return;
+            IFileReaderPlugin? reader = plugins.FileReaders.FirstOrDefault(r => r.CanRead(ctx.FullPath));
+            if (reader is null)
+            {
+                return;
+            }
 
-            var envelope = await reader.ReadAsync(ctx, ct);
+            IDataEnvelope envelope = await reader.ReadAsync(ctx, ct);
             //ctx.SetFileRead(doc);
 
             //var dataReader = plugins.DataReaders.FirstOrDefault(r => r.CanRead(doc.Content));

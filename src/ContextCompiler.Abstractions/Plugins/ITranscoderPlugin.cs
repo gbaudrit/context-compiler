@@ -14,5 +14,5 @@ public sealed record TranscodedFragment(
     string Content
 ) : ITranscodedFragment
 {
-    public IReadOnlyList<ITag> Tags { get; init; } = new List<ITag>();
+    public IReadOnlyList<ITag> Tags { get; init; } = [];
 };

@@ -1,6 +1,5 @@
 using ContextCompiler.Abstractions.Personas;
 using ContextCompiler.Abstractions.Prompt;
-using ContextCompiler.Core.Framing;
 
 namespace ContextCompiler.Core.Personas
 {
@@ -65,16 +64,16 @@ namespace ContextCompiler.Core.Personas
 
         public IPersonaResultBuilder WithMust(IReadOnlyList<string> must)
         {
-            var index = 0;
-            var mustConstraints = new List<IMustConstraint>();
-            foreach (var m in must)
+            int index = 0;
+            List<IMustConstraint> mustConstraints = [];
+            foreach (string m in must)
             {
                 mustConstraints.Add(mustConstraintBuilder.InitNew()
                     .WithId($"MUST{index++}")
                     .WithText(m)
                     .Build());
             }
-            _must = mustConstraints.ToArray();
+            _must = [.. mustConstraints];
             return this;
         }
 
@@ -86,16 +85,16 @@ namespace ContextCompiler.Core.Personas
 
         public IPersonaResultBuilder WithMustNot(IReadOnlyList<string> mustNot)
         {
-            var index = 0;
-            var mustNotConstraints = new List<IMustNotConstraint>();
-            foreach (var m in mustNot)
+            int index = 0;
+            List<IMustNotConstraint> mustNotConstraints = [];
+            foreach (string m in mustNot)
             {
                 mustNotConstraints.Add(mustNotConstraintBuilder.InitNew()
                     .WithId($"MUSTNOT{index++}")
                     .WithText(m)
                     .Build());
             }
-            _mustNot = mustNotConstraints.ToArray();
+            _mustNot = [.. mustNotConstraints];
             return this;
         }
 
@@ -110,8 +109,8 @@ namespace ContextCompiler.Core.Personas
                 _role ?? string.Empty,
                 _framingMarkdown,
                 _metadata ?? new Dictionary<string, string>(),
-                _must ?? Array.Empty<IMustConstraint>(),
-                _mustNot ?? Array.Empty<IMustNotConstraint>());
+                _must ?? [],
+                _mustNot ?? []);
         }
 
 

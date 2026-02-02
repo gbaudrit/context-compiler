@@ -17,10 +17,10 @@ namespace ContextCompiler.Core.Pipelines.Document
 
         public async ValueTask ExecuteAsync(IDocumentContext ctx, CancellationToken ct)
         {
-            
-            foreach (var cfgMatch in cfgProvider.Current.Files)
+
+            foreach (FileConfig cfgMatch in cfgProvider.Current.Files)
             {
-                IReadOnlyList<ITag> cfgFilesMatchTags = Array.Empty<ITag>();
+                IReadOnlyList<ITag> cfgFilesMatchTags = [];
                 Matcher cfgMatcher = new();
                 cfgMatcher.AddIncludePatterns(cfgMatch.Includes);
                 if (cfgMatcher.Match(ctx.FullPath).HasMatches)
@@ -28,7 +28,7 @@ namespace ContextCompiler.Core.Pipelines.Document
                     logger.LogDebug("Apply config tags {Tags} on file {FilePath}", string.Join(',', cfgMatch.Tags), ctx.FullPath);
                     ctx.AddTags(cfgMatch.Tags);
 
-                    foreach (var sub in cfgMatch.Subs)
+                    foreach (SubFilesMatchConfig sub in cfgMatch.Subs)
                     {
                         Matcher subMatcher = new();
                         subMatcher.AddIncludePatterns(sub.Includes);

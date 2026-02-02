@@ -32,7 +32,7 @@
 
 //        using var ms2 = await documentContext.GetContentStream();
 //        Stream s = ms2.NextPart();
-        
+
 //        var parts = new List<IDataPart>();
 //        var sourcePath = documentContext.FullPath ?? string.Empty;
 //        var index = 0;

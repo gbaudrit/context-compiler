@@ -10,7 +10,7 @@ public sealed class MarkdownFileReaderPlugin(IFileReadResultBuilder fileReadResu
 
     public bool CanRead(string path)
     {
-        var ext = Path.GetExtension(path);
+        string ext = Path.GetExtension(path);
         return ext.Equals(".md", StringComparison.OrdinalIgnoreCase) || ext.Equals(".markdown", StringComparison.OrdinalIgnoreCase);
     }
 

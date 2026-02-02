@@ -8,8 +8,7 @@ internal static class DependencyInjection
 {
     public static IServiceCollection AddHostCliServices(this IServiceCollection services)
     {
-        services.AddSingleton<IOutputPathResolver, OutputPathResolver>()
+        return services.AddSingleton<IOutputPathResolver, OutputPathResolver>()
             .AddPluginLoadingServices();
-        return services;
     }
 }

@@ -5,7 +5,7 @@ namespace ContextCompiler.Core.Tags;
 
 internal sealed class TagsBuilder(ITagBuilder tagBuilder) : ITagsBuilder
 {
-    private List<ITag> _tags = new();
+    private List<ITag> _tags = [];
 
     public ITagsBuilder Add(string name, string value)
     {
@@ -15,10 +15,10 @@ internal sealed class TagsBuilder(ITagBuilder tagBuilder) : ITagsBuilder
 
     public ITagsBuilder AddRange(string[] toAdd)
     {
-        foreach (var item in toAdd)
+        foreach (string item in toAdd)
         {
-                string name = item.Split(":", 2)[0];
-                string value = item.Split(":", 2)[1];
+            string name = item.Split(":", 2)[0];
+            string value = item.Split(":", 2)[1];
             _tags.Add(tagBuilder.Build(name, value));
         }
         return this;
@@ -26,8 +26,12 @@ internal sealed class TagsBuilder(ITagBuilder tagBuilder) : ITagsBuilder
 
     public ITagsBuilder AddRange(IReadOnlyList<ITag>? toAdd)
     {
-        if(toAdd is null) return this;
-        _tags.AddRange(toAdd.ToArray());
+        if (toAdd is null)
+        {
+            return this;
+        }
+
+        _tags.AddRange([.. toAdd]);
         return this;
     }
 
@@ -38,13 +42,13 @@ internal sealed class TagsBuilder(ITagBuilder tagBuilder) : ITagsBuilder
 
     public ITagsBuilder InitNew()
     {
-        _tags = new List<ITag>();
+        _tags = [];
         return this;
     }
 
     public ITagsBuilder InitNewFrom(IReadOnlyList<ITag>? tags)
     {
-        _tags = tags?.ToList() ?? new();
+        _tags = tags?.ToList() ?? [];
         return this;
     }
 }

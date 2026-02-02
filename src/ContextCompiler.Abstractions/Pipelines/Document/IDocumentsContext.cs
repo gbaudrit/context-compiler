@@ -5,6 +5,6 @@ namespace ContextCompiler.Abstractions.Pipelines.Document
         string RootPath { get; init; }
         IReadOnlyList<IDocumentContext> Documents { get; }
 
-        public void AddDocument(IDocumentContext doc);
+        void AddDocument(IDocumentContext doc);
     }
 }

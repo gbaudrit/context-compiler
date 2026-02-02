@@ -12,6 +12,6 @@ internal sealed class TagBuilder : ITagBuilder
         return new Tag(name, value);
     }
 
-    
+
 
 }

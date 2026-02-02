@@ -6,7 +6,7 @@ namespace ContextCompiler.Plugins.BuiltIn.Templates.Scriban
     {
         public required string Filename { get; init; }
 
-        public required string RenderedText { get; init; }   
+        public required string RenderedText { get; init; }
 
     }
 }

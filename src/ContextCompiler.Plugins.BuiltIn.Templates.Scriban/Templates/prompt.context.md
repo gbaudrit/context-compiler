@@ -18,11 +18,6 @@
 - {{ a.name }}: {{ a.description }}
 {{~ end ~}}
 
-### Objectives
-{{~ for m in objectives ~}}
-- {{ m.name }}: {{ m.description }}
-{{~ end ~}}
-
 ### Assumptions
 {{~ for a in assumptions ~}}
 - {{ a.name }}: {{ a.description }}

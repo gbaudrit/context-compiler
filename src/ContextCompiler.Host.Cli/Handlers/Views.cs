@@ -1,38 +1,39 @@
 using System.Text.Json;
+
 using Microsoft.Extensions.Logging;
 
 namespace ContextCompiler.Host.Cli.Handlers;
 
-internal sealed class CtxcViewsListHandler : ICtxcViewsListHandler
+internal sealed class CtxcViewsListHandler(ILogger<CtxcViewsListHandler> logger) : ICtxcViewsListHandler
 {
-    private JsonSerializerOptions jsonSerializerOptions = new() { WriteIndented = true };    
-    private readonly ILogger<CtxcViewsListHandler> _logger;
-    public CtxcViewsListHandler(ILogger<CtxcViewsListHandler> logger) => _logger = logger;
+    private readonly JsonSerializerOptions jsonSerializerOptions = new() { WriteIndented = true };
 
     public Task<int> HandleAsync(string input, bool json)
     {
         try
         {
-            var files = Directory.Exists(input)
+            IEnumerable<string> files = Directory.Exists(input)
                 ? Directory.EnumerateFiles(input, "view.*.md", SearchOption.TopDirectoryOnly)
-                : Enumerable.Empty<string>();
-            var ids = files.Select(f => Path.GetFileName(f))
-                           .Select(n => n.Substring(5, n.Length - 8)) // strip view. + .md
-                           .OrderBy(s => s, StringComparer.Ordinal)
-                           .ToArray();
+                : [];
+            string[] ids = [.. files.Select(f => Path.GetFileName(f))
+                           .Select(n => n[5..^3]) // strip view. + .md
+                           .OrderBy(s => s, StringComparer.Ordinal)];
             if (json)
             {
                 Console.WriteLine(JsonSerializer.Serialize(ids, jsonSerializerOptions));
             }
             else
             {
-                foreach (var id in ids) Console.WriteLine(id);
+                foreach (string? id in ids)
+                {
+                    Console.WriteLine(id);
+                }
             }
             return Task.FromResult(0);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Internal error");
+            logger.LogError(ex, "Internal error");
             return Task.FromResult(1);
         }
     }

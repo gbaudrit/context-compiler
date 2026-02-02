@@ -9,13 +9,13 @@ public sealed class CtxcConfig
 
 public sealed class ExcelConfig
 {
-    [JsonPropertyName("files")] public List<ExcelFileConfig> Files { get; set; } = new();
+    [JsonPropertyName("files")] public List<ExcelFileConfig> Files { get; set; } = [];
 }
 
 public sealed class ExcelFileConfig
 {
     [JsonPropertyName("path")] public string Path { get; set; } = string.Empty;
-    [JsonPropertyName("extracts")] public List<ExcelExtractConfig> Extracts { get; set; } = new();
+    [JsonPropertyName("extracts")] public List<ExcelExtractConfig> Extracts { get; set; } = [];
 }
 
 public sealed class ExcelExtractConfig
@@ -26,7 +26,7 @@ public sealed class ExcelExtractConfig
     [JsonPropertyName("range")] public string? Range { get; set; }
     [JsonPropertyName("columns")] public List<string>? Columns { get; set; }
     [JsonPropertyName("where")] public List<WhereClause>? Where { get; set; }
-    [JsonPropertyName("rename")] public Dictionary<string,string>? Rename { get; set; }
+    [JsonPropertyName("rename")] public Dictionary<string, string>? Rename { get; set; }
     [JsonPropertyName("fragmentation")] public FragmentationStrategy Strategy { get; set; } = FragmentationStrategy.Single;
     [JsonPropertyName("chunkSize")] public int? ChunkSize { get; set; }
     [JsonPropertyName("groupBy")] public string? GroupBy { get; set; }

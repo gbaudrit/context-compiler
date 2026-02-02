@@ -17,7 +17,7 @@ namespace ContextCompiler.Plugins.BuiltIn.Output
     {
         public PluginMetadata Metadata => BuiltInMetadata.Meta("builtin.output.health", GlobalPipelinePluginKinds.Output, priority: 10);
 
-        private JsonSerializerOptions jsonSerializerOptions = new() { WriteIndented = true };
+        private readonly JsonSerializerOptions jsonSerializerOptions = new() { WriteIndented = true };
 
         public Task Run(CancellationToken cancellationToken)
         {
@@ -26,7 +26,7 @@ namespace ContextCompiler.Plugins.BuiltIn.Output
                 fragments = ir.Fragments.Count,
                 findings = guardian.Findings.Count,
                 views = viewsProvider.Views.Count,
-                score = Math.Max(0, 100 - guardian.Findings.Count * 5)
+                score = Math.Max(0, 100 - (guardian.Findings.Count * 5))
             };
 
             output.AddArtifact(builder =>

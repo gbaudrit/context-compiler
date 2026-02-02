@@ -4,7 +4,7 @@ namespace ContextCompiler.Abstractions.Pipelines.Document
 {
     public interface IPipelineFinding
     {
-        
+
         FindingSeverity Severity { get; }
         FindingAction Action { get; }
         string PassId { get; }

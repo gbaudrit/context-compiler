@@ -10,15 +10,15 @@ namespace ContextCompiler.Plugins.BuiltIn.Views.Renderers
     {
         public async ValueTask<IReadOnlyList<IViewResult>> RenderAsync(ViewConfig def, IReadOnlyList<IFragment> fragments, CancellationToken ct)
         {
-            var tasks = new List<Task<IViewResult>>();
-            foreach (var renderer in pluginRegistry.ViewRenderers)
+            List<Task<IViewResult>> tasks = [];
+            foreach (IViewRendererPlugin renderer in pluginRegistry.ViewRenderers)
             {
-                if(renderer.CanRender(def))
+                if (renderer.CanRender(def))
                 {
-                    var call = (async () =>
+                    async Task<IViewResult> call()
                     {
-                        var content = await renderer.RenderAsync(def, fragments, ct);
-                        
+                        string content = await renderer.RenderAsync(def, fragments, ct);
+
                         return viewResultBuilder.InitNew()
                                                .WithId(def.Id)
                                                .WithTitle(def.Title)
@@ -26,7 +26,7 @@ namespace ContextCompiler.Plugins.BuiltIn.Views.Renderers
                                                .WithFilename($"view.{def.Id}{renderer.OutputFileExtension}")
                                                .WithMime(renderer.OutputMimeType)
                                                .Build();
-                    });
+                    }
 
                     tasks.Add(call());
                 }

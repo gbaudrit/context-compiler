@@ -2,8 +2,8 @@ namespace ContextCompiler.Abstractions.ReasoningIR
 {
     public interface IGraph
     {
-        public IReadOnlyList<IGraphNode> Nodes { get; }
-        public IReadOnlyList<IGraphEdge> Edges { get; }
+        IReadOnlyList<IGraphNode> Nodes { get; }
+        IReadOnlyList<IGraphEdge> Edges { get; }
     }
 
     public interface IGraphNode

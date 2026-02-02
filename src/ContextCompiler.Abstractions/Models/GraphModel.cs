@@ -5,6 +5,6 @@ public sealed record GraphEdge(string FromId, string ToId, string Kind, IReadOnl
 
 public sealed class GraphModel
 {
-    public List<GraphNode> Nodes { get; } = new();
-    public List<GraphEdge> Edges { get; } = new();
+    public List<GraphNode> Nodes { get; } = [];
+    public List<GraphEdge> Edges { get; } = [];
 }

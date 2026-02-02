@@ -8,24 +8,25 @@ namespace ContextCompiler.Core.Pipelines.DataPart
 
         public async ValueTask<IPipelineRunResult> RunAsync(IDocumentContext ctx, IDataPart part, CancellationToken ct)
         {
-            passes = passes
+            passes = [.. passes
                 .OrderBy(p => (int)p.Stage)
                 .ThenBy(p => p.Priority)
-                .ThenBy(p => p.Id, StringComparer.Ordinal)
-                .ToArray();
+                .ThenBy(p => p.Id, StringComparer.Ordinal)];
 
             try
             {
-                foreach (var pass in passes)
+                foreach (IDataPartPass pass in passes)
                 {
                     ct.ThrowIfCancellationRequested();
 
                     await pass.ExecuteAsync(ctx, part, ct);
 
                     // hard stop rule
-                    var blocked = ctx.Findings.Any(f => f.Severity == FindingSeverity.Critical && f.Action == FindingAction.Block);
+                    bool blocked = ctx.Findings.Any(f => f.Severity == FindingSeverity.Critical && f.Action == FindingAction.Block);
                     if (blocked)
+                    {
                         return new PipelineRunResult(false, ExitCode: 2, ctx.Findings);
+                    }
                 }
 
                 return new PipelineRunResult(true, 0, ctx.Findings);
@@ -33,7 +34,7 @@ namespace ContextCompiler.Core.Pipelines.DataPart
             catch (OperationCanceledException) { throw; }
             catch (Exception ex)
             {
-                ctx.AddFinding(
+                _ = ctx.AddFinding(
                     FindingSeverity.Critical,
                     FindingAction.Block,
                     PassId: "pipeline.runner",

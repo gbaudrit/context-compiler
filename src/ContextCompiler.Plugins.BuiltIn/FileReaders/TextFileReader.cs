@@ -1,5 +1,3 @@
-using System.Text;
-
 using ContextCompiler.Abstractions.Files;
 using ContextCompiler.Abstractions.Pipelines.Document;
 using ContextCompiler.Abstractions.Plugins;
@@ -17,7 +15,10 @@ public sealed class TextFileReaderPlugin(IFileReadResultBuilder fileReadResultBu
         ".md",".txt",".cs",".json",".yaml",".yml",".xml",".config",".sln",".csproj",".props"
     };
 
-    public bool CanRead(string path) => Extensions.Contains(Path.GetExtension(path));
+    public bool CanRead(string path)
+    {
+        return Extensions.Contains(Path.GetExtension(path));
+    }
 
     //public Task<IFileReadResult> ReadAsync(string path, CancellationToken ct)
     //{

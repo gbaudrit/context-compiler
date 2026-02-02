@@ -1,5 +1,3 @@
-using System.Text.Json;
-
 using ContextCompiler.Abstractions.Configuration;
 using ContextCompiler.Abstractions.Guards;
 using ContextCompiler.Abstractions.Models;
@@ -30,7 +28,6 @@ public sealed class GlobalPipelineRunner(
     IOutput output,
     IGuardian guardian) : IGlobalPipelineRunner
 {
-    private static readonly JsonSerializerOptions s_jsonIndentedOptions = new() { WriteIndented = true };
 
     public async ValueTask RunAsync(
         string rootPath,
@@ -45,7 +42,7 @@ public sealed class GlobalPipelineRunner(
         ct.ThrowIfCancellationRequested();
         fs.EnsureDirectory(outputPath, cleanOutput);
 
-        var cfg = cfgProvider.Current;
+        ICtxcConfig cfg = cfgProvider.Current;
 
         await Task.WhenAll(plugins.GlobalPipelinePlugins.OrderBy(c => c.Metadata.Kind).Select(async p =>
         {

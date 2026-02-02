@@ -5,9 +5,9 @@ namespace ContextCompiler.Abstractions.Plugins.GlobalPipeline
     public interface IPromptComposerContext
     {
 
-        public IPrompt Prompt { get; }
+        IPrompt Prompt { get; }
 
-        public IOutput Output { get; }
+        IOutput Output { get; }
 
     }
 }

@@ -10,9 +10,9 @@ public static class DependencyInjection
     public static IServiceCollection AddDocumentPipeline(this IServiceCollection services)
     {
         // Register core services here
-        services.AddSingleton<IDocumentPipelineRunner, DocumentPipelineRunner>().AddTransient<IDataEnvelopeBuilder, DataEnvelopeBuilder>().AddTransient<IDataPartBuilder, DataPartBuilder>();
+        _ = services.AddSingleton<IDocumentPipelineRunner, DocumentPipelineRunner>().AddTransient<IDataEnvelopeBuilder, DataEnvelopeBuilder>().AddTransient<IDataPartBuilder, DataPartBuilder>();
 
-        services
+        return services
             .AddSingleton<IDocumentPass, BeginProcessDocumentPass>()
             .AddSingleton<IDocumentPass, DiscoveryScopeGuardsPass>()
             .AddSingleton<IDocumentPass, ReadScopeGuardsPass>()
@@ -20,8 +20,6 @@ public static class DependencyInjection
             .AddSingleton<IDocumentPass, FileMatchTagsPass>()
             .AddSingleton<IDocumentPass, ReadDocumentPass>()
             .AddSingleton<IDocumentPass, EndProcessDocumentPass>();
-
-        return services;
     }
 
 }

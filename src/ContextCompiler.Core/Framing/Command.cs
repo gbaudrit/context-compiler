@@ -8,6 +8,6 @@ namespace ContextCompiler.Core.Framing
         public required string Name { get; init; }
         public required string Description { get; init; }
 
-        public List<ICommand> Subs { get; init; } = new();
+        public List<ICommand> Subs { get; init; } = [];
     }
 }

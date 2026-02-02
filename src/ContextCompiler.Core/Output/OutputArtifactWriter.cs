@@ -7,7 +7,7 @@ namespace ContextCompiler.Core.Output
     {
         public Task Write(string name, string content)
         {
-            var p = Path.Combine(outputContext.OutputPath, name);
+            string p = Path.Combine(outputContext.OutputPath, name);
             fs.WriteAllText(p, content);
             return Task.CompletedTask;
         }

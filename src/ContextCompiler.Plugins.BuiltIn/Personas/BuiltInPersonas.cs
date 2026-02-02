@@ -10,10 +10,10 @@ public sealed class DevArchitectPersona(IPersonaResultBuilder personaResultBuild
 
     public Task<IPersonaResult> BuildAsync(PersonaContext ctx, CancellationToken ct)
     {
-        var inputs = ctx.Inputs as IReadOnlyDictionary<string, object>;
-        var language = inputs?.TryGetValue("language", out var l) == true ? l?.ToString() ?? "fr" : "fr";
-        var style = inputs?.TryGetValue("style", out var s) == true ? s?.ToString() ?? "direct" : "direct";
-        var md = "" +
+        IReadOnlyDictionary<string, object>? inputs = ctx.Inputs;
+        string language = inputs?.TryGetValue("language", out object? l) == true ? l?.ToString() ?? "fr" : "fr";
+        string style = inputs?.TryGetValue("style", out object? s) == true ? s?.ToString() ?? "direct" : "direct";
+        string md = "" +
         $"## Persona: Architecte .NET senior ({language}) (id: {PersonaId})\n\n" +
         $"- Rôle: guider la conception et la qualité\n" +
         $"- Style: {style}\n" +
@@ -22,7 +22,7 @@ public sealed class DevArchitectPersona(IPersonaResultBuilder personaResultBuild
         "### Exigences globales\n\n" +
         "- Respecter les invariants\n" +
         "- Code déterministe et testable\n";
-        var res = personaResultBuilder
+        IPersonaResult res = personaResultBuilder
             .InitNew()
             .WithPersonaId(PersonaId)
             .WithTitle("Dev Architect Persona")
@@ -43,22 +43,22 @@ public sealed class SecurityReviewerPersona(IPersonaResultBuilder personaResultB
 
     public Task<IPersonaResult> BuildAsync(PersonaContext ctx, CancellationToken ct)
     {
-        var inputs = ctx.Inputs as IReadOnlyDictionary<string, object>;
-        var severity = inputs?.TryGetValue("severityBias", out var b) == true ? b?.ToString() ?? "high" : "high";
-        var md = "" +
+        IReadOnlyDictionary<string, object>? inputs = ctx.Inputs;
+        string severity = inputs?.TryGetValue("severityBias", out object? b) == true ? b?.ToString() ?? "high" : "high";
+        string md = "" +
         $"## Persona: Security Reviewer (id: {PersonaId})\n\n" +
         "- Rôle: reviewer sécurité\n" +
         $"- Bias: {severity}\n" +
         "### Engagements — MUST\n\n" +
         "- Lister risques\n" +
         "- Lister vulnérabilités\n" +
-        "- Lister les secrets\n"+
+        "- Lister les secrets\n" +
         "- Vérifier les versions des dépendances\n" +
         "- Proposer recommandations\n" +
         "- Sortie: checklist + recommandations\n\n" +
         "### Checklist\n\n" +
         "- [ ] Secrets exposés\n- [ ] Injection\n- [ ] Permissions, ...\n";
-        var res = personaResultBuilder
+        IPersonaResult res = personaResultBuilder
             .InitNew()
             .WithPersonaId(PersonaId)
             .WithTitle("Security Reviewer Persona")
@@ -79,16 +79,16 @@ public sealed class DeepSecurityReviewerPersona(IPersonaResultBuilder personaRes
 
     public Task<IPersonaResult> BuildAsync(PersonaContext ctx, CancellationToken ct)
     {
-        var inputs = ctx.Inputs as IReadOnlyDictionary<string, object>;
-        var severity = inputs?.TryGetValue("severityBias", out var b) == true ? b?.ToString() ?? "high" : "high";
-        var md = "" +
+        IReadOnlyDictionary<string, object>? inputs = ctx.Inputs;
+        string severity = inputs?.TryGetValue("severityBias", out object? b) == true ? b?.ToString() ?? "high" : "high";
+        string md = "" +
         $"## Persona: Deep Security Reviewer (id: {PersonaId})\n\n" +
         "- Rôle: reviewer sécurité en profondeur\n" +
         $"- Bias: {severity}\n" +
         "### Engagements — MUST\n\n" +
         "- Respecter les engagements du Security Reviewer (security_reviewer)\n\n" +
         "- Analyser en profondeur le code\n";
-        var res = personaResultBuilder
+        IPersonaResult res = personaResultBuilder
             .InitNew()
             .WithPersonaId(PersonaId)
             .WithTitle("Security Reviewer Persona")
@@ -109,18 +109,18 @@ public sealed class BusinessAnalystPersona(IPersonaResultBuilder personaResultBu
 
     public Task<IPersonaResult> BuildAsync(PersonaContext ctx, CancellationToken ct)
     {
-        var inputs = ctx.Inputs as IReadOnlyDictionary<string, object>;
-        var domain = inputs?.TryGetValue("domain", out var d) == true ? d?.ToString() ?? "general" : "general";
-        var audience = inputs?.TryGetValue("audience", out var a) == true ? a?.ToString() ?? "stakeholders" : "stakeholders";
-        var format = inputs?.TryGetValue("format", out var f) == true ? f?.ToString() ?? "markdown" : "markdown";
-        var md = "" +
+        IReadOnlyDictionary<string, object>? inputs = ctx.Inputs;
+        string domain = inputs?.TryGetValue("domain", out object? d) == true ? d?.ToString() ?? "general" : "general";
+        string audience = inputs?.TryGetValue("audience", out object? a) == true ? a?.ToString() ?? "stakeholders" : "stakeholders";
+        string format = inputs?.TryGetValue("format", out object? f) == true ? f?.ToString() ?? "markdown" : "markdown";
+        string md = "" +
         "## Persona: Business Analyst (id: {PersonaId})\n\n" +
         $"- Domaine: {domain}\n" +
         $"- Audience: {audience}\n" +
         "- Objectif: clarifier besoins, contraintes, et KPI\n\n" +
         "### Cadre d'analyse\n\n" +
         "- Contexte métier\n- Problème à résoudre\n- Parties prenantes\n- KPI / Impact attendu\n- Contraintes / Risques\n";
-        var res = personaResultBuilder
+        IPersonaResult res = personaResultBuilder
             .InitNew()
             .WithPersonaId(PersonaId)
             .WithTitle("Business Analyst Persona")
@@ -141,18 +141,18 @@ public sealed class DevSeniorPersona(IPersonaResultBuilder personaResultBuilder)
 
     public Task<IPersonaResult> BuildAsync(PersonaContext ctx, CancellationToken ct)
     {
-        var inputs = ctx.Inputs as IReadOnlyDictionary<string, object>;
-        var language = inputs?.TryGetValue("language", out var l) == true ? l?.ToString() ?? "fr" : "fr";
-        var style = inputs?.TryGetValue("style", out var s) == true ? s?.ToString() ?? "direct" : "direct";
-        var focus = inputs?.TryGetValue("focus", out var f) == true ? f?.ToString() ?? "quality" : "quality";
-        var md = "" +
+        IReadOnlyDictionary<string, object>? inputs = ctx.Inputs;
+        string language = inputs?.TryGetValue("language", out object? l) == true ? l?.ToString() ?? "fr" : "fr";
+        string style = inputs?.TryGetValue("style", out object? s) == true ? s?.ToString() ?? "direct" : "direct";
+        string focus = inputs?.TryGetValue("focus", out object? f) == true ? f?.ToString() ?? "quality" : "quality";
+        string md = "" +
         $"## Persona: Développeur Senior ({language}) (id: {PersonaId})\n\n" +
         $"- Style: {style}\n" +
         $"- Focus: {focus}\n" +
         "- Bonnes pratiques: tests, lisibilité, performance, sécurité, DI\n\n" +
         "### Engagements — MUST\n\n" +
         "- Respect des conventions de code\n- Respect des conventions de nommage\n- Respect du typage\n- Couverture de tests adéquate\n- Gestion des erreurs robuste\n- Simplicité et maintenabilité\n- Commentaires dans le code\n";
-        var res = personaResultBuilder
+        IPersonaResult res = personaResultBuilder
             .InitNew()
             .WithPersonaId(PersonaId)
             .WithTitle("Dev Senior Persona")
@@ -183,18 +183,18 @@ public sealed class DevBadPersona(IPersonaResultBuilder personaResultBuilder) : 
 
     public Task<IPersonaResult> BuildAsync(PersonaContext ctx, CancellationToken ct)
     {
-        var inputs = ctx.Inputs as IReadOnlyDictionary<string, object>;
-        var language = inputs?.TryGetValue("language", out var l) == true ? l?.ToString() ?? "fr" : "fr";
-        var style = inputs?.TryGetValue("style", out var s) == true ? s?.ToString() ?? "direct" : "direct";
-        var focus = inputs?.TryGetValue("focus", out var f) == true ? f?.ToString() ?? "bad quality" : "bad quality";
-        var md = "" +
+        IReadOnlyDictionary<string, object>? inputs = ctx.Inputs;
+        string language = inputs?.TryGetValue("language", out object? l) == true ? l?.ToString() ?? "fr" : "fr";
+        string style = inputs?.TryGetValue("style", out object? s) == true ? s?.ToString() ?? "direct" : "direct";
+        string focus = inputs?.TryGetValue("focus", out object? f) == true ? f?.ToString() ?? "bad quality" : "bad quality";
+        string md = "" +
         $"## Persona: Développeur mauvais ({language}) (id: {PersonaId})\n\n" +
         $"- Style: {style}\n" +
         $"- Focus: {focus}\n" +
         "- Mauvaises pratiques: code illisible, manque de tests, mauvaise gestion des erreurs\n\n" +
         "### Engagements — MUST\n\n" +
         "- Ne respecte pas les conventions de code\n- Ne respecte pas les conventions de nommage\n- Ne respecte pas le typage\n- Mauvaise gestion d'erreurs\n- Compléxité et défaut de maintenabilité\n";
-        var res = personaResultBuilder
+        IPersonaResult res = personaResultBuilder
             .InitNew()
             .WithPersonaId(PersonaId)
             .WithTitle("Dev Bad Persona")

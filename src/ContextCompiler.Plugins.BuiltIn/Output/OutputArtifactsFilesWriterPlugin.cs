@@ -13,14 +13,14 @@ namespace ContextCompiler.Plugins.BuiltIn.Output
 
         public Task Run(CancellationToken ct)
         {
-            foreach (var artifact in output.Artifacts)
+            foreach (IOutputArtifact artifact in output.Artifacts)
             {
-                var p = Path.Combine(output.Path, artifact.FileName);
+                string p = Path.Combine(output.Path, artifact.FileName);
                 fs.WriteAllText(p, artifact.Content);
 
                 logger.LogInformation("Wrote output artifact file: {Path}", p);
             }
-            
+
             return Task.CompletedTask;
         }
 

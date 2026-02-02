@@ -1,6 +1,7 @@
 using ContextCompiler.Abstractions.Pipelines;
 using ContextCompiler.Abstractions.Pipelines.DataPart;
 using ContextCompiler.Abstractions.Pipelines.Document;
+using ContextCompiler.Abstractions.Plugins;
 using ContextCompiler.Abstractions.ReasoningIR;
 using ContextCompiler.Abstractions.Tags;
 
@@ -16,7 +17,7 @@ namespace ContextCompiler.Core.Pipelines.DataPart
         {
             if (ctx.Data is null)
             {
-                ctx.AddFinding(
+                _ = ctx.AddFinding(
                     FindingSeverity.Warning,
                     FindingAction.Skip,
                     Id,
@@ -24,11 +25,11 @@ namespace ContextCompiler.Core.Pipelines.DataPart
                 return;
             }
 
-            var transcoder = plugins.Transcoders.FirstOrDefault(t => t.CanTranscode(ctx.Data));
+            ITranscoderPlugin? transcoder = plugins.Transcoders.FirstOrDefault(t => t.CanTranscode(ctx.Data));
 
             if (transcoder is null)
             {
-                ctx.AddFinding(
+                _ = ctx.AddFinding(
                     FindingSeverity.Warning,
                     FindingAction.Skip,
                     Id,
@@ -36,22 +37,22 @@ namespace ContextCompiler.Core.Pipelines.DataPart
                 return;
             }
 
-            var transcoded = await transcoder.TranscodeAsync(ctx.Data, part, ct);
-            foreach (var tf in transcoded)
+            IReadOnlyList<TranscodedFragment> transcoded = await transcoder.TranscodeAsync(ctx.Data, part, ct);
+            foreach (TranscodedFragment tf in transcoded)
             {
-                var locator = CombineLocator(part.Source.Locator ?? string.Empty, tf.Locator);
+                string locator = CombineLocator(part.Source.Locator ?? string.Empty, tf.Locator);
 
-                tagsBuilder.InitNewFrom(ctx.Tags).AddRange(tf.Tags);
+                _ = tagsBuilder.InitNewFrom(ctx.Tags).AddRange(tf.Tags);
 
                 if (!string.IsNullOrWhiteSpace(part.PartId))
                 {
-                    tagsBuilder.Add("extractId", part.PartId);
+                    _ = tagsBuilder.Add("extractId", part.PartId);
                 }
 
 
                 if (!string.IsNullOrWhiteSpace(part.Label))
                 {
-                    tagsBuilder.Add("extractLabel", part.Label!);
+                    _ = tagsBuilder.Add("extractLabel", part.Label!);
                 }
 
                 ctx.AddFragment(fragmentBuilder.InitNew().WithTranscodedFragment(tf).WithFilePath(ctx.FullPath).WithLocator(locator).WithTags(tagsBuilder.Build()).Build());
@@ -63,9 +64,7 @@ namespace ContextCompiler.Core.Pipelines.DataPart
 
         private static string CombineLocator(string prefix, string? locator)
         {
-            if (string.IsNullOrEmpty(locator)) return prefix;
-            if (string.IsNullOrEmpty(prefix)) return locator ?? string.Empty;
-            return prefix + "/" + locator;
+            return string.IsNullOrEmpty(locator) ? prefix : string.IsNullOrEmpty(prefix) ? locator ?? string.Empty : prefix + "/" + locator;
         }
     }
 }

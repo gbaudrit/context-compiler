@@ -9,15 +9,9 @@ namespace ContextCompiler.Plugins.BuiltIn.Templates.Scriban
 
         public ITemplateDefinition GetTemplate(string name)
         {
-            var resource = Assembly.GetExecutingAssembly()
-                .GetManifestResourceStream($"ContextCompiler.Plugins.BuiltIn.Templates.Scriban.Templates.{name}");
-
-            if (resource is null)
-            {
-                throw new InvalidOperationException($"Template '{name}' not found as embedded resource.");
-            }
-
-            using var reader = new StreamReader(resource);
+            Stream? resource = Assembly.GetExecutingAssembly()
+                .GetManifestResourceStream($"ContextCompiler.Plugins.BuiltIn.Templates.Scriban.Templates.{name}") ?? throw new InvalidOperationException($"Template '{name}' not found as embedded resource.");
+            using StreamReader reader = new(resource);
             return new TemplateDefinition() { Name = name, Content = reader.ReadToEnd() };
         }
 

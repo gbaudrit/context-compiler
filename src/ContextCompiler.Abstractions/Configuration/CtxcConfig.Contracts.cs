@@ -35,7 +35,7 @@ public sealed class ContextConfig
 
 public sealed class ProjectInfo
 {
-    
+
 }
 
 public sealed class ConstraintsInfo

@@ -17,10 +17,10 @@ namespace ContextCompiler.Plugins.BuiltIn.Evidences
 
         public Task Run(CancellationToken cancellationToken)
         {
-            var distinctEvidenceCount = ir.Fragments.Select(f => f.Evidence.EvidenceKey).Distinct().Count();
-            var distinctsTags = ir.Fragments.SelectMany(f => f.Tags).Distinct().ToList();
-            var evidencesCountByTag = new Dictionary<string, int>();
-            foreach (var tag in distinctsTags)
+            int distinctEvidenceCount = ir.Fragments.Select(f => f.Evidence.EvidenceKey).Distinct().Count();
+            List<ITag> distinctsTags = [.. ir.Fragments.SelectMany(f => f.Tags).Distinct()];
+            Dictionary<string, int> evidencesCountByTag = [];
+            foreach (ITag? tag in distinctsTags)
             {
                 evidencesCountByTag[$"{tag.Name}:{tag.Value}"] = ir.Fragments.Count(f => f.Tags.Contains(tag));
             }

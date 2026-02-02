@@ -11,7 +11,7 @@ namespace ContextCompiler.Core.Pipelines.Document
         private ISourceRef? _source;
         private string? _label;
         private object? _payload;
-        private IReadOnlyList<ITag> _tags = Array.Empty<ITag>();
+        private IReadOnlyList<ITag> _tags = [];
 
         public IDataPartBuilder InitNew()
         {
@@ -19,7 +19,7 @@ namespace ContextCompiler.Core.Pipelines.Document
             _source = null;
             _label = null;
             _payload = null;
-            _tags = new List<ITag>();
+            _tags = [];
             return this;
         }
 

@@ -8,13 +8,21 @@ public sealed class DefaultConfigLocator : IConfigLocator
     {
         string fileName = $"ctxc{(!string.IsNullOrEmpty(name) ? $".{name}" : "")}.config.json";
 
-        if (!string.IsNullOrWhiteSpace(providedPath)) return providedPath;
-        var candidateInRoot = System.IO.Path.Combine(inputPath, fileName);
-        if (System.IO.File.Exists(candidateInRoot)) return candidateInRoot;
-        var hiddenDir = System.IO.Path.Combine(inputPath, ".ctxc");
-        var candidateHidden = System.IO.Path.Combine(hiddenDir, fileName);
-        if (System.IO.File.Exists(candidateHidden)) return candidateHidden;
+        if (!string.IsNullOrWhiteSpace(providedPath))
+        {
+            return providedPath;
+        }
 
-        throw new InvalidOperationException($"No config file found for context named {name}");
+        string candidateInRoot = Path.Combine(inputPath, fileName);
+        if (File.Exists(candidateInRoot))
+        {
+            return candidateInRoot;
+        }
+
+        string hiddenDir = Path.Combine(inputPath, ".ctxc");
+        string candidateHidden = Path.Combine(hiddenDir, fileName);
+        return File.Exists(candidateHidden)
+            ? candidateHidden
+            : throw new InvalidOperationException($"No config file found for context named {name}");
     }
 }

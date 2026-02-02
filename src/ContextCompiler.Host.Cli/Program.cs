@@ -1,4 +1,5 @@
 using System.CommandLine;
+using System.Reflection;
 
 using ContextCompiler.Abstractions.Ports;
 using ContextCompiler.Core;
@@ -23,14 +24,14 @@ builder.Configuration.SetBasePath(AppContext.BaseDirectory)
                      .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                      .AddEnvironmentVariables(prefix: "CTXC_");
 
-var assemblies = new[]
-    {
+Assembly[] assemblies =
+    [
         typeof(ContextCompiler.Core.Engine.CompilerEngine).Assembly,
         typeof(ContextCompiler.Infrastructure.FileSystem.PhysicalFileSystem).Assembly,
         typeof(ContextCompiler.Plugins.BuiltIn.BuiltInMetadata).Assembly,
         typeof(ContextCompiler.Plugins.BuiltIn.Templates.Scriban.DependencyInjection).Assembly,
         typeof(ContextCompiler.Plugins.Readers.PDF.PdfFileReaderPlugin).Assembly
-    };
+    ];
 
 IHostEnvironment env = builder.Environment;
 
@@ -61,5 +62,5 @@ PluginRegistryBuilder.RegisterPluginServices(builder.Services, assemblies);
 
 using IHost host = builder.Build();
 
-var root = ContextCompiler.Host.Cli.CliCommandFactory.Create(host.Services);
+RootCommand root = ContextCompiler.Host.Cli.CliCommandFactory.Create(host.Services);
 return await root.InvokeAsync(args);

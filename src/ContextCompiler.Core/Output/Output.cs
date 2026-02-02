@@ -4,7 +4,7 @@ namespace ContextCompiler.Core.Output
 {
     internal sealed class Output(IOutputArtifactBuilder outputArtifactBuilder, IOutputContext outputContext) : IOutput
     {
-        private readonly List<IOutputArtifact> _artifacts = new();
+        private readonly List<IOutputArtifact> _artifacts = [];
 
         public IReadOnlyList<IOutputArtifact> Artifacts => _artifacts.AsReadOnly();
 

@@ -14,8 +14,8 @@ namespace ContextCompiler.Plugins.BuiltIn.GlobalPipeline.PrompComposer
         public Task Run(CancellationToken cancellationToken)
         {
             int index = 1;
-            var objectives = new List<IObjective>();
-            foreach (var obj in ctxcConfig.Current.Context.Objectives ?? [])
+            List<IObjective> objectives = [];
+            foreach (string obj in ctxcConfig.Current.Context.Objectives ?? [])
             {
                 objectives.Add(objectiveBuilder.InitNew()
                                 .WithName($"OBJ{index++}")

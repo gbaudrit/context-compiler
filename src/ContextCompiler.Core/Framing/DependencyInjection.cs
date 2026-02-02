@@ -10,14 +10,13 @@ namespace ContextCompiler.Core.Framing
         public static IServiceCollection AddFraming(this IServiceCollection services)
         {
             // Register core services here
-            services.AddTransient<IObjectiveBuilder, ObjectiveBuilder>();
-            services.AddTransient<IAssumptionBuilder, AssumptionBuilder>();
-            services.AddTransient<IAudienceBuilder, AudienceBuilder>();
-            services.AddTransient<IGlossaryTermBuilder, GlossaryTermBuilder>();
-            services.AddTransient<IMustConstraintBuilder, MustConstraintBuilder>();
-            services.AddTransient<IMustNotConstraintBuilder, MustNotConstraintBuilder>();
-            services.AddTransient<ICommandBuilder, CommandBuilder>();
-            return services;
+            return services.AddTransient<IObjectiveBuilder, ObjectiveBuilder>()
+                           .AddTransient<IAssumptionBuilder, AssumptionBuilder>()
+                           .AddTransient<IAudienceBuilder, AudienceBuilder>()
+                           .AddTransient<IGlossaryTermBuilder, GlossaryTermBuilder>()
+                           .AddTransient<IMustConstraintBuilder, MustConstraintBuilder>()
+                           .AddTransient<IMustNotConstraintBuilder, MustNotConstraintBuilder>()
+                           .AddTransient<ICommandBuilder, CommandBuilder>();
         }
 
     }

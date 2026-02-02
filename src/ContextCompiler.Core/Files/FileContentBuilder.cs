@@ -31,7 +31,7 @@ namespace ContextCompiler.Core.Files
             _readerType = typeof(TReader);
             return this;
         }
-        
+
         public IFileContentBuilder WithMetadata(IReadOnlyDictionary<string, string>? metadata)
         {
             _metadata = metadata;

@@ -28,9 +28,11 @@ namespace ContextCompiler.Core.Framing
 
         public IObjective Build()
         {
-            if (_name is null) throw new InvalidOperationException("Objective name is required.");
-            if (_description is null) throw new InvalidOperationException("Objective description is required.");
-            return new Objective() { Name = _name, Description = _description };
+            return _name is null
+                ? throw new InvalidOperationException("Objective name is required.")
+                : _description is null
+                ? throw new InvalidOperationException("Objective description is required.")
+                : (IObjective)new Objective() { Name = _name, Description = _description };
         }
     }
 }

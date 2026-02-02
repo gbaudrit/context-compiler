@@ -1,4 +1,3 @@
-using System.Security.Cryptography;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -25,7 +24,7 @@ public sealed class ExcelFileReaderPlugin(
 
     public bool CanRead(string path)
     {
-        var ext = Path.GetExtension(path);
+        string ext = Path.GetExtension(path);
         return ext.Equals(".xlsx", StringComparison.OrdinalIgnoreCase) || ext.Equals(".xlsm", StringComparison.OrdinalIgnoreCase);
     }
 
@@ -43,8 +42,8 @@ public sealed class ExcelFileReaderPlugin(
     public async Task<IDataEnvelope> ReadAsync(IDocumentContext documentContext, CancellationToken ct)
     {
         ct.ThrowIfCancellationRequested();
-        var cfg = cfgProvider.GetConfigOrDefault(null);
-        var options = documentContext.ExtractOptions.Deserialize<ExcelFileSection>() ?? new ExcelFileSection();
+        CtxcConfig cfg = cfgProvider.GetConfigOrDefault(null);
+        ExcelFileSection options = documentContext.ExtractOptions.Deserialize<ExcelFileSection>() ?? new ExcelFileSection();
 
         //var fileExtracts = new List<(string match, ExcelDefaults? defaults, List<ExcelExtractConfig> extracts)>();
         //foreach (var f in cfg.Files)
@@ -56,69 +55,93 @@ public sealed class ExcelFileReaderPlugin(
 
         //}
 
-        using var ms2 = File.OpenRead(documentContext.FullPath ?? string.Empty);
-        using var wb2 = new XLWorkbook(ms2);
-        var parts = new List<IDataPart>();
-        var sourcePath = documentContext.FullPath ?? string.Empty;
+        using FileStream ms2 = File.OpenRead(documentContext.FullPath ?? string.Empty);
+        using XLWorkbook wb2 = new(ms2);
+        List<IDataPart> parts = [];
+        string sourcePath = documentContext.FullPath ?? string.Empty;
 
-        foreach (var x in options.Extracts.OrderBy(e => e.Id, StringComparer.Ordinal))
+        foreach (ExcelExtractConfig? x in options.Extracts.OrderBy(e => e.Id, StringComparer.Ordinal))
         {
-            var sheet = wb2.Worksheets.FirstOrDefault(ws => string.Equals(ws.Name, x.Sheet, StringComparison.Ordinal));
-            if (sheet is null) continue;
+            IXLWorksheet? sheet = wb2.Worksheets.FirstOrDefault(ws => string.Equals(ws.Name, x.Sheet, StringComparison.Ordinal));
+            if (sheet is null)
+            {
+                continue;
+            }
+
             IXLRange range = sheet.RangeUsed()!;
             if (!string.IsNullOrEmpty(x.Range))
             {
                 range = sheet.Range(x.Range);
             }
 
-            var rows = new List<List<string>>();
-            foreach (var row in range.Rows())
+            List<List<string>> rows = [];
+            foreach (IXLRangeRow? row in range.Rows())
             {
-                var r = new List<string>();
-                foreach (var cell in row.Cells()) r.Add(cell.GetFormattedString());
+                List<string> r = [];
+                foreach (IXLCell? cell in row.Cells())
+                {
+                    r.Add(cell.GetFormattedString());
+                }
+
                 rows.Add(r);
             }
 
-            var toSkip = x.Skip.GetValueOrDefault(0);
+            int toSkip = x.Skip.GetValueOrDefault(0);
             if (toSkip > 0 && toSkip < rows.Count)
             {
-                rows = rows.Skip(toSkip).ToList();
+                rows = [.. rows.Skip(toSkip)];
             }
 
-            var headerRowIndex = x.HeaderRowIndex ?? 0;
-            if (headerRowIndex < 0) headerRowIndex = 0;
-            if (rows.Count == 0) continue;
-            var header = rows[Math.Min(headerRowIndex, rows.Count - 1)].ToArray();
-            var body = rows.Skip(Math.Min(headerRowIndex + 1, rows.Count)).ToList();
+            int headerRowIndex = x.HeaderRowIndex ?? 0;
+            if (headerRowIndex < 0)
+            {
+                headerRowIndex = 0;
+            }
+
+            if (rows.Count == 0)
+            {
+                continue;
+            }
+
+            string[] header = [.. rows[Math.Min(headerRowIndex, rows.Count - 1)]];
+            List<List<string>> body = [.. rows.Skip(Math.Min(headerRowIndex + 1, rows.Count))];
 
             if (x.Where is not null && x.Where.Count > 0)
             {
-                foreach (var w in x.Where)
+                foreach (WhereClause w in x.Where)
                 {
-                    var colIndex = Array.FindIndex(header, h => string.Equals(h, w.Column, StringComparison.Ordinal));
-                    if (colIndex < 0) continue;
-                    body = body.Where(r => ApplyWhere(r[colIndex], w)).ToList();
+                    int colIndex = Array.FindIndex(header, h => string.Equals(h, w.Column, StringComparison.Ordinal));
+                    if (colIndex < 0)
+                    {
+                        continue;
+                    }
+
+                    body = [.. body.Where(r => ApplyWhere(r[colIndex], w))];
                 }
             }
 
             if (x.Select is not null && x.Select.Count > 0)
             {
-                var desired = x.Select.OrderBy(s => s, StringComparer.Ordinal).ToArray();
-                var idxMap = desired.Select(col => Array.FindIndex(header, h => string.Equals(h, col, StringComparison.Ordinal))).ToArray();
-                var valid = idxMap.Select((idx, i) => (idx, i)).Where(t => t.idx >= 0).ToArray();
-                var projHeader = valid.Select(t => desired[t.i]).ToList();
-                var projBody = body.Select(row => valid.Select(t => row[t.idx]).ToList()).ToList();
-                rows = new List<List<string>> { projHeader };
-                rows.AddRange(projBody);
-                header = projHeader.ToArray();
+                string[] desired = [.. x.Select.OrderBy(s => s, StringComparer.Ordinal)];
+                int[] idxMap = [.. desired.Select(col => Array.FindIndex(header, h => string.Equals(h, col, StringComparison.Ordinal)))];
+                (int idx, int i)[] valid = [.. idxMap.Select((idx, i) => (idx, i)).Where(t => t.idx >= 0)];
+                List<string> projHeader = [.. valid.Select(t => desired[t.i])];
+                List<List<string>> projBody = [.. body.Select(row => valid.Select(t => row[t.idx]).ToList())];
+                rows = [projHeader, .. projBody];
+                header = [.. projHeader];
                 body = projBody;
             }
 
-            var locatorPrefix = $"extract:{x.Id}/sheet:{x.Sheet}";
-            if (!string.IsNullOrEmpty(x.Table)) locatorPrefix += $"/table:{x.Table}";
-            if (!string.IsNullOrEmpty(x.Range)) locatorPrefix += $"/range:{x.Range}";
+            string locatorPrefix = $"extract:{x.Id}/sheet:{x.Sheet}";
+            if (!string.IsNullOrEmpty(x.Table))
+            {
+                locatorPrefix += $"/table:{x.Table}";
+            }
 
-
+            if (!string.IsNullOrEmpty(x.Range))
+            {
+                locatorPrefix += $"/range:{x.Range}";
+            }
 
             var payload = new { headerRowIndex, rows };
             //var env = dataEnvelopeBuilder.InitNew()
@@ -144,8 +167,8 @@ public sealed class ExcelFileReaderPlugin(
 
     private static bool ApplyWhere(string value, WhereClause w)
     {
-        var v = value ?? string.Empty;
-        var cmp = StringComparison.Ordinal;
+        string v = value ?? string.Empty;
+        StringComparison cmp = StringComparison.Ordinal;
         return w.Op switch
         {
             "eq" => string.Equals(v, w.Value, cmp),

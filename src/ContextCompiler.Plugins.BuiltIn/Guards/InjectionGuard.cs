@@ -1,19 +1,20 @@
 using System.Text.RegularExpressions;
+
 using ContextCompiler.Abstractions.Diagnostics;
 using ContextCompiler.Abstractions.Models;
 
 namespace ContextCompiler.Plugins.BuiltIn.Guards;
 
-public sealed class InjectionGuard : IInjectionGuard
+public sealed partial class InjectionGuard : IInjectionGuard
 {
     // TODO: move to IGuardPlugin + stage hooks
-    private static readonly Regex HardIgnore = new(@"(?i)\bignore\b.{0,40}\b(previous|all|any)\b.{0,20}\b(instructions|rules)\b",
-        RegexOptions.Compiled | RegexOptions.CultureInvariant);
+    private static readonly Regex HardIgnore = PromptInjectionPattern();
 
     public GuardFinding? Scan(string path, string content)
     {
-        if (!HardIgnore.IsMatch(content)) return null;
-        return new GuardFinding(
+        return !HardIgnore.IsMatch(content)
+            ? null
+            : new GuardFinding(
             GuardId: "CtxGuard.Inject",
             Severity: GuardSeverity.Error,
             Action: GuardActionKind.Quarantine,
@@ -22,4 +23,7 @@ public sealed class InjectionGuard : IInjectionGuard
             Data: new Dictionary<string, object> { ["match"] = "ignore previous instructions" }
         );
     }
+
+    [GeneratedRegex(@"(?i)\bignore\b.{0,40}\b(previous|all|any)\b.{0,20}\b(instructions|rules)\b", RegexOptions.Compiled | RegexOptions.CultureInvariant)]
+    private static partial Regex PromptInjectionPattern();
 }

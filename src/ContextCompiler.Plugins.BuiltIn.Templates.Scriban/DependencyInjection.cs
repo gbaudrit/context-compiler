@@ -11,9 +11,8 @@ namespace ContextCompiler.Plugins.BuiltIn.Templates.Scriban
         public static IServiceCollection AddScribanPromptTemplateEngine(this IServiceCollection services)
         {
             // Register core services here
-            services.AddSingleton<ITemplateProvider, TemplateProvider>()
+            return services.AddSingleton<ITemplateProvider, TemplateProvider>()
                     .AddTransient<IPromptRenderingPlugin, ScribanPromptTemplatePlugin>();
-            return services;
         }
 
     }

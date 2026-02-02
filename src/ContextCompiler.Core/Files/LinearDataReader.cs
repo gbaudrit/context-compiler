@@ -1,9 +1,6 @@
-using System.IO;
-
 using ContextCompiler.Abstractions.Files;
 using ContextCompiler.Abstractions.Models;
 using ContextCompiler.Abstractions.Pipelines.Document;
-using ContextCompiler.Abstractions.Plugins;
 
 using Microsoft.Extensions.Logging;
 

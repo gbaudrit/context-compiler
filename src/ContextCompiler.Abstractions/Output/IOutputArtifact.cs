@@ -3,8 +3,8 @@ namespace ContextCompiler.Abstractions.Output
     public interface IOutputArtifact
     {
 
-        public string FileName { get; init; }
-        public string Content { get; init; }
+        string FileName { get; init; }
+        string Content { get; init; }
 
     }
 }

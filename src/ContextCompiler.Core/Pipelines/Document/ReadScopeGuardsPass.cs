@@ -12,12 +12,15 @@ namespace ContextCompiler.Core.Pipelines.Document
 
         public async ValueTask ExecuteAsync(IDocumentContext ctx, CancellationToken ct)
         {
-            var guards = plugins.Guards.Where(g => g.Stage == Stage).OrderBy(g => g.Metadata.Priority).ToList();
-            var findings = new List<IPipelineFinding>();
-            foreach (var g in guards)
+            List<IGuardPlugin> guards = [.. plugins.Guards.Where(g => g.Stage == Stage).OrderBy(g => g.Metadata.Priority)];
+            List<IPipelineFinding> findings = [];
+            foreach (IGuardPlugin? g in guards)
             {
-                var f = await g.EvaluateAsync(new GuardContext(ctx), ct);
-                if (f.Count > 0) findings.AddRange(f);
+                IReadOnlyList<IPipelineFinding> f = await g.EvaluateAsync(new GuardContext(ctx), ct);
+                if (f.Count > 0)
+                {
+                    findings.AddRange(f);
+                }
             }
         }
     }

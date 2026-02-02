@@ -9,8 +9,7 @@ namespace ContextCompiler.Plugins.BuiltIn.Templates.Scriban
 
         public IServiceCollection RegisterServices(IServiceCollection services)
         {
-            services.AddScribanPromptTemplateEngine();
-            return services; 
+            return services.AddScribanPromptTemplateEngine();
         }
 
     }

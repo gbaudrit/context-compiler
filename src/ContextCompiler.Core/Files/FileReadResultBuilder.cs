@@ -22,10 +22,9 @@ namespace ContextCompiler.Core.Files
 
         public IFileReadResult Build()
         {
-            if (_documentContent is null)
-                throw new InvalidOperationException("FileReadResultBuilder: DocumentContent is not set.");
-
-            return new FileReadResult() { Content = _documentContent };
+            return _documentContent is null
+                ? throw new InvalidOperationException("FileReadResultBuilder: DocumentContent is not set.")
+                : (IFileReadResult)new FileReadResult() { Content = _documentContent };
         }
 
     }

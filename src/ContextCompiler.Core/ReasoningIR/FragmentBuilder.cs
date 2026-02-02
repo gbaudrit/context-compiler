@@ -10,14 +10,14 @@ namespace ContextCompiler.Core.ReasoningIR
         private ITranscodedFragment? _transcodedFragment;
         private string _filePath = string.Empty;
         private string _locator = string.Empty;
-        private IReadOnlyList<ITag> _tags = new List<ITag>();
+        private IReadOnlyList<ITag> _tags = [];
 
         public IFragmentBuilder InitNew()
         {
             _transcodedFragment = null;
             _filePath = string.Empty;
             _locator = string.Empty;
-            _tags = new List<ITag>();
+            _tags = [];
             return this;
         }
 
@@ -54,7 +54,7 @@ namespace ContextCompiler.Core.ReasoningIR
                 Content = _transcodedFragment.Content ?? string.Empty,
                 Evidence = evidenceBuilder.InitNew().ForTranscodedFragment(_transcodedFragment).ForFile(_filePath).Build(),
                 Source = sourceRefBuilder.InitNew().WithPath(_filePath).WithLocator(_locator).Build(),
-                Tags = _tags.DistinctBy(t => t.Name + t.Value).ToArray(),
+                Tags = [.. _tags.DistinctBy(t => t.Name + t.Value)],
             };
         }
 

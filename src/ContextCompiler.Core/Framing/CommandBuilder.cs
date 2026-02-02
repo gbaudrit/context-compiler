@@ -12,7 +12,7 @@ namespace ContextCompiler.Core.Framing
         {
             _name = null;
             _description = null;
-            _subs = new List<ICommand>();
+            _subs = [];
             return this;
         }
 
@@ -36,9 +36,11 @@ namespace ContextCompiler.Core.Framing
 
         public ICommand Build()
         {
-            if (_name is null) throw new InvalidOperationException("Command name is required.");
-            if (_description is null) throw new InvalidOperationException("Command description is required.");
-            return new Command() { Name = _name, Description = _description, Subs = _subs ?? [] };
+            return _name is null
+                ? throw new InvalidOperationException("Command name is required.")
+                : _description is null
+                ? throw new InvalidOperationException("Command description is required.")
+                : (ICommand)new Command() { Name = _name, Description = _description, Subs = _subs ?? [] };
         }
     }
 }

@@ -1,6 +1,5 @@
 using System.Globalization;
 using System.Text;
-using System.Text.Json;
 
 using ContextCompiler.Abstractions.Configuration;
 using ContextCompiler.Abstractions.Plugins.Views.Renderers;
@@ -10,12 +9,11 @@ namespace ContextCompiler.Plugins.BuiltIn.Views.Renderers
 {
     internal sealed class MarkdownViewRenderer : IViewRendererPlugin
     {
-        private static readonly JsonSerializerOptions JsonOpts = new()
-        {
-            WriteIndented = true
-        };
 
-        public bool CanRender(ViewConfig def) => def.Renderer.Contains("md");
+        public bool CanRender(ViewConfig def)
+        {
+            return def.Renderer.Contains("md");
+        }
 
         public string OutputFileExtension => ".md";
 
@@ -23,33 +21,35 @@ namespace ContextCompiler.Plugins.BuiltIn.Views.Renderers
 
         public Task<string> RenderAsync(ViewConfig def, IReadOnlyList<IFragment> fragments, CancellationToken ct)
         {
-            var sb = new StringBuilder();
-            sb.AppendLine(CultureInfo.InvariantCulture, $"# View: {def.Id}");
-            sb.AppendLine();
-            sb.AppendLine(def.Title);
-            sb.AppendLine();
-            sb.AppendLine("## Evidence");
-            sb.AppendLine();
+            StringBuilder sb = new();
+            _ = sb.AppendLine(CultureInfo.InvariantCulture, $"# View: {def.Id}");
+            _ = sb.AppendLine();
+            _ = sb.AppendLine(def.Title);
+            _ = sb.AppendLine();
+            _ = sb.AppendLine("## Evidence");
+            _ = sb.AppendLine();
 
-            foreach (var f in fragments)
+            foreach (IFragment f in fragments)
             {
-                sb.AppendLine(CultureInfo.InvariantCulture, $"- **EK:** `{f.Evidence.EvidenceKey}`  ");
-                sb.AppendLine(CultureInfo.InvariantCulture, $"  **ER:** `{f.Evidence.EvidenceRevision}`  ");
-                sb.AppendLine(CultureInfo.InvariantCulture, $"  **Source:** `{f.Source.Path}#{f.Source.Locator}`  ");
+                _ = sb.AppendLine(CultureInfo.InvariantCulture, $"- **EK:** `{f.Evidence.EvidenceKey}`  ");
+                _ = sb.AppendLine(CultureInfo.InvariantCulture, $"  **ER:** `{f.Evidence.EvidenceRevision}`  ");
+                _ = sb.AppendLine(CultureInfo.InvariantCulture, $"  **Source:** `{f.Source.Path}#{f.Source.Locator}`  ");
 
                 if (def.IncludeFragmentContent)
                 {
-                    var content = Deterministic.NormalizeNewlines(f.Content);
+                    string content = Deterministic.NormalizeNewlines(f.Content);
                     if (def.MaxContentChars is int max && content.Length > max)
+                    {
                         content = content[..max] + "…";
+                    }
 
-                    sb.AppendLine();
-                    sb.AppendLine("```");
-                    sb.AppendLine(content);
-                    sb.AppendLine("```");
+                    _ = sb.AppendLine();
+                    _ = sb.AppendLine("```");
+                    _ = sb.AppendLine(content);
+                    _ = sb.AppendLine("```");
                 }
 
-                sb.AppendLine();
+                _ = sb.AppendLine();
             }
 
             return Task.FromResult(sb.ToString());

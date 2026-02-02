@@ -3,7 +3,7 @@ using ContextCompiler.Abstractions.Pipelines.DataPart;
 using ContextCompiler.Abstractions.Pipelines.Document;
 using ContextCompiler.Abstractions.Plugins;
 
-namespace ContextCompiler.Core.Pipelines.Document
+namespace ContextCompiler.Core.Pipelines.DataPart
 {
     internal sealed class FragmentGuardsPass(IPluginRegistry plugins) : IDataPartPass
     {
@@ -13,12 +13,15 @@ namespace ContextCompiler.Core.Pipelines.Document
 
         public async ValueTask ExecuteAsync(IDocumentContext ctx, IDataPart part, CancellationToken ct)
         {
-            var guards = plugins.Guards.Where(g => g.Stage == Stage).OrderBy(g => g.Metadata.Priority).ToList();
-            var findings = new List<IPipelineFinding>();
-            foreach (var g in guards)
+            List<IGuardPlugin> guards = [.. plugins.Guards.Where(g => g.Stage == Stage).OrderBy(g => g.Metadata.Priority)];
+            List<IPipelineFinding> findings = [];
+            foreach (IGuardPlugin? g in guards)
             {
-                var f = await g.EvaluateAsync(new GuardContext(ctx, part), ct);
-                if (f.Count > 0) findings.AddRange(f);
+                IReadOnlyList<IPipelineFinding> f = await g.EvaluateAsync(new GuardContext(ctx, part), ct);
+                if (f.Count > 0)
+                {
+                    findings.AddRange(f);
+                }
             }
         }
     }

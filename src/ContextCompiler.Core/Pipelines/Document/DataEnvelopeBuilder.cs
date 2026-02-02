@@ -6,7 +6,7 @@ namespace ContextCompiler.Core.Pipelines.Document
     {
         private DataShape _shape;
         private IReadOnlyDictionary<string, string>? _metadata;
-        private List<IDataPart> _parts = new();
+        private readonly List<IDataPart> _parts = [];
 
         public IDataEnvelopeBuilder InitNew()
         {

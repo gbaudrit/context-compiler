@@ -1,7 +1,6 @@
 using ContextCompiler.Abstractions.Files;
 using ContextCompiler.Abstractions.Pipelines.Document;
 using ContextCompiler.Abstractions.Plugins;
-using ContextCompiler.Abstractions.ReasoningIR;
 using ContextCompiler.Abstractions.Tags;
 
 using Microsoft.Extensions.Logging;
@@ -10,11 +9,14 @@ namespace ContextCompiler.Plugins.BuiltIn.Transcoders;
 
 public sealed class DefaultTranscoder(ILogger<DefaultTranscoder> logger, ITagBuilder tagBuilder, ITagsBuilder tagsBuilder) : ITranscoderPlugin
 {
-    private System.Text.Json.JsonSerializerOptions jsonSerializerOptions = new() { WriteIndented = true };
+    private readonly System.Text.Json.JsonSerializerOptions jsonSerializerOptions = new() { WriteIndented = true };
 
     public PluginMetadata Metadata => BuiltInMetadata.Meta("builtin.transcoder.default", GlobalPipelinePluginKinds.Transcoder, priority: 0);
 
-    public bool CanTranscode(IDataEnvelope envelope) => envelope.Shape is DataShape.Linear or DataShape.Tabular;
+    public bool CanTranscode(IDataEnvelope envelope)
+    {
+        return envelope.Shape is DataShape.Linear or DataShape.Tabular;
+    }
 
     public Task<IReadOnlyList<TranscodedFragment>> TranscodeAsync(IDataEnvelope envelope, IDataPart dataPart, CancellationToken ct)
     {
@@ -37,21 +39,21 @@ public sealed class DefaultTranscoder(ILogger<DefaultTranscoder> logger, ITagBui
                 content = s;
             }
 
-            return Task.FromResult<IReadOnlyList<TranscodedFragment>>(new[]
-            {
-                new TranscodedFragment(locator, content) { Tags =  tagsBuilder.InitNewFrom(new List<ITag>{ tagBuilder.Build("shape", "linear")}).AddRange(dataPart.Tags).Build()}
-            });
+            return Task.FromResult<IReadOnlyList<TranscodedFragment>>(
+            [
+                new TranscodedFragment(locator, content) { Tags =  tagsBuilder.InitNewFrom([tagBuilder.Build("shape", "linear")]).AddRange(dataPart.Tags).Build()}
+            ]);
         }
 
         if (envelope.Shape == DataShape.Tabular)
         {
-            var json = System.Text.Json.JsonSerializer.Serialize(dataPart.Payload, jsonSerializerOptions);
-            return Task.FromResult<IReadOnlyList<TranscodedFragment>>(new[]
-            {
-                new TranscodedFragment("table:json", json) { Tags = tagsBuilder.InitNewFrom(new List<ITag>{ tagBuilder.Build("shape", "tabular")}).AddRange(dataPart.Tags).Build() }
-            });
+            string json = System.Text.Json.JsonSerializer.Serialize(dataPart.Payload, jsonSerializerOptions);
+            return Task.FromResult<IReadOnlyList<TranscodedFragment>>(
+            [
+                new TranscodedFragment("table:json", json) { Tags = tagsBuilder.InitNewFrom([tagBuilder.Build("shape", "tabular")]).AddRange(dataPart.Tags).Build() }
+            ]);
         }
 
-        return Task.FromResult<IReadOnlyList<TranscodedFragment>>(Array.Empty<TranscodedFragment>());
+        return Task.FromResult<IReadOnlyList<TranscodedFragment>>([]);
     }
 }

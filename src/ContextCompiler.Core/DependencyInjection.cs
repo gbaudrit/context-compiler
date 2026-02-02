@@ -22,7 +22,7 @@ namespace ContextCompiler.Core
         public static IServiceCollection AddCoreServices(this IServiceCollection services)
         {
             // Register core services here
-            services.AddPipelines()
+            return services.AddPipelines()
                     .AddReasoningIR()
                     .AddPersonas()
                     .AddOutput()
@@ -33,7 +33,6 @@ namespace ContextCompiler.Core
                     .AddFraming()
                     .AddSingleton<IPrompt, Prompt>()
                     .AddTransient<ISourceRefBuilder, SourceRefBuilder>();
-            return services;
         }
 
     }

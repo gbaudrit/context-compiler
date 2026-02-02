@@ -10,10 +10,9 @@ public static class DependencyInjection
     public static IServiceCollection AddFiles(this IServiceCollection services)
     {
         // Register core services here
-        services.AddSingleton<IFileContentBuilder, FileContentBuilder>()
+        return services.AddSingleton<IFileContentBuilder, FileContentBuilder>()
                 .AddSingleton<IFileReadResultBuilder, FileReadResultBuilder>()
                 .AddTransient<ILinearFileReader, LinearDataReader>();
-        return services;
     }
 
 }

@@ -15,13 +15,19 @@ public sealed class DotGraphExporter(IOutput output, IReasoningIr ir) : IOutputA
     public async Task Run(CancellationToken cancellationToken)
     {
         IGraph graph = await ir.Graph(cancellationToken);
-        var sb = new StringBuilder();
-        sb.AppendLine("digraph reasoning {");
-        foreach (var n in graph.Nodes)
-            sb.AppendLine(CultureInfo.InvariantCulture, $"  \"{n.Id}\" [label=\"{Escape(n.Label)}\"];");
-        foreach (var e in graph.Edges)
-            sb.AppendLine(CultureInfo.InvariantCulture, $"  \"{e.FromId}\" -> \"{e.ToId}\" [label=\"{Escape(e.Kind)}\"];");
-        sb.AppendLine("}");
+        StringBuilder sb = new();
+        _ = sb.AppendLine("digraph reasoning {");
+        foreach (IGraphNode n in graph.Nodes)
+        {
+            _ = sb.AppendLine(CultureInfo.InvariantCulture, $"  \"{n.Id}\" [label=\"{Escape(n.Label)}\"];");
+        }
+
+        foreach (IGraphEdge e in graph.Edges)
+        {
+            _ = sb.AppendLine(CultureInfo.InvariantCulture, $"  \"{e.FromId}\" -> \"{e.ToId}\" [label=\"{Escape(e.Kind)}\"];");
+        }
+
+        _ = sb.AppendLine("}");
 
         output.AddArtifact(builder =>
         {
@@ -30,7 +36,8 @@ public sealed class DotGraphExporter(IOutput output, IReasoningIr ir) : IOutputA
         });
     }
 
-    private static string Escape(string s) => s.Replace("\\", "\\\\").Replace("\"", "\\\"");
-
-    
+    private static string Escape(string s)
+    {
+        return s.Replace("\\", "\\\\").Replace("\"", "\\\"");
+    }
 }

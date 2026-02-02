@@ -12,9 +12,9 @@ namespace ContextCompiler.Plugins.BuiltIn.GlobalPipeline.PrompComposer
 
         public Task Run(CancellationToken cancellationToken)
         {
-            var list = ctxcConfig.Current.Context.Glossary?
+            List<IGlossaryTerm> list = ctxcConfig.Current.Context.Glossary?
                 .Select(kv => termBuilder.InitNew().WithTerm(kv.Key).WithDefinition(kv.Value).Build())
-                .ToList() ?? new();
+                .ToList() ?? [];
             prompt.Glossary = [.. list];
             return Task.CompletedTask;
         }

@@ -28,8 +28,10 @@ internal sealed class GlossaryTermBuilder : IGlossaryTermBuilder
 
     public IGlossaryTerm Build()
     {
-        if (_term is null) throw new InvalidOperationException("Glossary term is required.");
-        if (_definition is null) throw new InvalidOperationException("Glossary definition is required.");
-        return new GlossaryTerm { Term = _term, Definition = _definition };
+        return _term is null
+            ? throw new InvalidOperationException("Glossary term is required.")
+            : _definition is null
+            ? throw new InvalidOperationException("Glossary definition is required.")
+            : (IGlossaryTerm)new GlossaryTerm { Term = _term, Definition = _definition };
     }
 }
