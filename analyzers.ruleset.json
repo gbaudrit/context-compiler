@@ -1,0 +1,16 @@
+{
+  "rules": {
+    "CA1848": {
+      "severity": "suggestion"
+    },
+    "CA2007": {
+      "severity": "warning"
+    },
+    "CA1822": {
+      "severity": "suggestion"
+    },
+    "IDE0005": {
+      "severity": "warning"
+    }
+  }
+}

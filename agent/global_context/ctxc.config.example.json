@@ -1,0 +1,30 @@
+{
+  "context": {
+    "enabled": true,
+    "project": {
+      "name": "Context Compiler",
+      "summary": "Pre-LLM deterministic context compiler.",
+      "domain": "context-engineering",
+      "audience": [
+        "dev",
+        "tech-lead",
+        "security"
+      ]
+    },
+    "objectives": [
+      "Compile heterogeneous inputs into governed reasoning context.",
+      "Preserve traceability via Evidence IDs."
+    ],
+    "assumptions": [
+      "The compiler never calls an LLM."
+    ],
+    "constraints": {
+      "must": [
+        "Preserve Evidence IDs verbatim."
+      ],
+      "mustNot": [
+        "Invent facts or identifiers."
+      ]
+    }
+  }
+}

@@ -1,0 +1,211 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "excel": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "defaults": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "maxRows": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 2000
+            },
+            "trimCells": {
+              "type": "boolean",
+              "default": true
+            },
+            "emptyRowPolicy": {
+              "type": "string",
+              "enum": [
+                "skip",
+                "keep"
+              ],
+              "default": "skip"
+            },
+            "header": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "mode": {
+                  "type": "string",
+                  "enum": [
+                    "firstRow",
+                    "explicit"
+                  ],
+                  "default": "firstRow"
+                },
+                "normalize": {
+                  "type": "boolean",
+                  "default": true
+                }
+              }
+            }
+          }
+        },
+        "files": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "match": {
+                "type": "string",
+                "minLength": 1
+              },
+              "extracts": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "sheet": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "table": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "range": {
+                      "type": "string",
+                      "minLength": 3
+                    },
+                    "headerRow": {
+                      "type": "integer",
+                      "minimum": 1
+                    },
+                    "select": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    },
+                    "exclude": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    },
+                    "rename": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "string"
+                      }
+                    },
+                    "where": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "col": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "op": {
+                            "type": "string",
+                            "enum": [
+                              "eq",
+                              "in",
+                              "contains",
+                              "gt",
+                              "lt",
+                              "gte",
+                              "lte"
+                            ]
+                          },
+                          "value": {}
+                        },
+                        "required": [
+                          "col",
+                          "op",
+                          "value"
+                        ]
+                      }
+                    },
+                    "fragmenting": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "mode": {
+                          "type": "string",
+                          "enum": [
+                            "single",
+                            "chunks",
+                            "groupBy",
+                            "rowWise"
+                          ],
+                          "default": "single"
+                        },
+                        "maxRows": {
+                          "type": "integer",
+                          "minimum": 1
+                        },
+                        "by": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        }
+                      },
+                      "required": [
+                        "mode"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "sheet"
+                  ],
+                  "allOf": [
+                    {
+                      "oneOf": [
+                        {
+                          "required": [
+                            "table"
+                          ],
+                          "not": {
+                            "required": [
+                              "range"
+                            ]
+                          }
+                        },
+                        {
+                          "required": [
+                            "range"
+                          ],
+                          "not": {
+                            "required": [
+                              "table"
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            },
+            "required": [
+              "match",
+              "extracts"
+            ]
+          }
+        }
+      }
+    }
+  }
+}
