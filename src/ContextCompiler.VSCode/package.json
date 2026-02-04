@@ -5,22 +5,21 @@
   "version": "0.1.0",
   "publisher": "your-org",
   "engines": {
-    "vscode": "^1.90.0"
+    "vscode": "^1.100.0"
   },
   "categories": [
     "Other"
   ],
-  "activationEvents": [
-    "onCommand:ctxc.compileWorkspace",
-    "onCommand:ctxc.compileFolder",
-    "onCommand:ctxc.selectView",
-    "onCommand:ctxc.openOutputs",
-    "onCommand:ctxc.copyActiveViewPrompt",
-    "onCommand:ctxc.recompileLast",
-    "onView:ctxcViews"
-  ],
-  "main": "./dist/extension.js",
+  "main": "./out/extension.js",
   "contributes": {
+    "chatParticipants": [
+      {
+        "id": "ctxc-view-select",
+        "fullName": "Ctxc select view",
+        "name": "ctxc-view-select",
+        "description": "Select a view in CtxC views tree to use as context for the current chat session."
+      }
+    ],
     "commands": [
       {
         "command": "ctxc.compileWorkspace",
@@ -33,6 +32,10 @@
       {
         "command": "ctxc.selectView",
         "title": "CtxC: Select View"
+      },
+      {
+        "command": "ctxc.selectPersona",
+        "title": "CtxC: Select Persona"
       },
       {
         "command": "ctxc.openOutputs",
@@ -49,13 +52,27 @@
       {
         "command": "ctxc.setActiveViewFromTree",
         "title": "CtxC: Set Active View"
+      },
+      {
+        "command": "ctxc.openPersonaFramingFromTree",
+        "title": "CtxC: Open Persona Framing"
+      },
+      {
+        "command": "ctxc.setActivePersonaFromTree",
+        "title": "CtxC: Set Active Persona"
       }
     ],
     "views": {
       "explorer": [
         {
           "id": "ctxcViews",
-          "name": "CtxC Views"
+          "name": "CtxC Views",
+          "icon": "debug-configure"
+        },
+        {
+          "id": "ctxcPersonas",
+          "name": "CtxC Personas",
+          "icon": "account"
         }
       ]
     },
@@ -64,6 +81,16 @@
         {
           "command": "ctxc.setActiveViewFromTree",
           "when": "view == ctxcViews && viewItem == ctxcView",
+          "group": "navigation"
+        },
+        {
+          "command": "ctxc.openPersonaFramingFromTree",
+          "when": "view == ctxcPersonas && viewItem == ctxcPersona",
+          "group": "navigation"
+        },
+        {
+          "command": "ctxc.setActivePersonaFromTree",
+          "when": "view == ctxcPersonas && viewItem == ctxcPersona",
           "group": "navigation"
         }
       ]
@@ -83,7 +110,7 @@
         },
         "ctxc.outputDir": {
           "type": "string",
-          "default": ".ctxc/out",
+          "default": ".ctxc/compiled",
           "description": "Output directory for compiled artifacts."
         }
       }
@@ -96,9 +123,12 @@
     "lint": "eslint ."
   },
   "devDependencies": {
-    "@types/node": "^20.11.30",
-    "@types/vscode": "^1.90.0",
-    "typescript": "^5.5.4",
-    "eslint": "^9.8.0"
+    "@eslint/js": "^9.13.0",
+		"@stylistic/eslint-plugin": "^2.9.0",
+		"@types/node": "^22",
+		"@types/vscode": "^1.100.0",
+		"eslint": "^9.13.0",
+		"typescript": "^5.8.2",
+		"typescript-eslint": "^8.26.0"
   }
 }
