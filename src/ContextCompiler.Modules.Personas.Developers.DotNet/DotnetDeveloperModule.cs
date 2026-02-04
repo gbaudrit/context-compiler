@@ -24,7 +24,7 @@ public sealed class DotnetDeveloperModule(IConfigProvider cfgProvider,
     public Task Run(CancellationToken cancellationToken)
     {
         commandsProvider.AddCommand(commandBuilder.InitNew()
-                                    .WithName("dev dotnetcore write")
+                                    .WithName("write")
                                     .WithDescription("write a code that respond to functional requirement")
                                     .ForPersona(PersonaId)
                                     .Build());

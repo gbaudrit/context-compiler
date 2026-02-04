@@ -23,7 +23,7 @@ public sealed class BusinessAnalystModule(IConfigProvider cfgProvider,
     public Task Run(CancellationToken cancellationToken)
     {
         commandsProvider.AddCommand(commandBuilder.InitNew()
-                                    .WithName("ba write us")
+                                    .WithName("write userstory")
                                     .WithDescription("write a user story with actual context")
                                     .ForPersona(PersonaId)
                                     .Build());

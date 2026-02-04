@@ -71,7 +71,7 @@ public sealed class GlobalPipelineRunner(
             logger.LogInformation("Running global pipeline group Kind={Kind} with {Count} modules",
                 group.Key, group.Count());
 
-            await Task.WhenAll(group.Select(async module =>
+            await Task.WhenAll(group.OrderBy(x => x.Metadata.Priority).Select(async module =>
             {
                 logger.LogInformation(
                     "Running global pipeline module: {ModuleName} (Kind: {ModuleKind}, Priority: {ModulePriority})",

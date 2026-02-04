@@ -1,4 +1,5 @@
 using ContextCompiler.Modules.Abstractions;
+using ContextCompiler.Modules.Abstractions.MCP;
 using ContextCompiler.Modules.Artifacts.Registry.Abstractions;
 using ContextCompiler.Modules.Artifacts.Registry.MCP.Handlers;
 
@@ -12,6 +13,7 @@ public sealed class DependencyInjection : IDependencyInjection
     {
         return services.AddSingleton<IArtifactsStore, ArtifactsStore>()
                        .AddTransient<IJsonIndexSerializer, JsonIndexSerializer>()
-                       .AddTransient<IListArtifacts, ListArtifacts>();
+                       .AddTransient<IListArtifacts, ListArtifacts>()
+                       .AddTransient<IMCPReadResourceHandler, ArtifactReadResourceHandler>();
     }
 }

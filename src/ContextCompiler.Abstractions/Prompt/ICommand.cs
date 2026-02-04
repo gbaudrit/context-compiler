@@ -2,7 +2,7 @@ namespace ContextCompiler.Abstractions.Prompt
 {
     public interface ICommand
     {
-        string Name { get; }
+        string Id { get; }
         string Description { get; }
         List<ICommand> Subs { get; }
         string PersonaId { get; init; }

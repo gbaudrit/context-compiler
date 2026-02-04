@@ -5,22 +5,21 @@
   "version": "0.1.0",
   "publisher": "your-org",
   "engines": {
-    "vscode": "^1.90.0"
+    "vscode": "^1.100.0"
   },
   "categories": [
     "Other"
   ],
-  "activationEvents": [
-    "onCommand:ctxc.compileWorkspace",
-    "onCommand:ctxc.compileFolder",
-    "onCommand:ctxc.selectView",
-    "onCommand:ctxc.openOutputs",
-    "onCommand:ctxc.copyActiveViewPrompt",
-    "onCommand:ctxc.recompileLast",
-    "onView:ctxcViews"
-  ],
-  "main": "./dist/extension.js",
+  "main": "./out/extension.js",
   "contributes": {
+    "chatParticipants": [
+      {
+        "id": "ctxc-view-select",
+        "fullName": "Ctxc select view",
+        "name": "ctxc-view-select",
+        "description": "Select a view in CtxC views tree to use as context for the current chat session."
+      }
+    ],
     "commands": [
       {
         "command": "ctxc.compileWorkspace",
@@ -35,27 +34,58 @@
         "title": "CtxC: Select View"
       },
       {
+        "command": "ctxc.selectPersona",
+        "title": "CtxC: Select Persona"
+      },
+      {
         "command": "ctxc.openOutputs",
-        "title": "CtxC: Open Compiled Output"
+        "title": "Open Compiled Output"
       },
       {
         "command": "ctxc.copyActiveViewPrompt",
-        "title": "CtxC: Copy View + Framing to Clipboard"
+        "title": "Copy View + Framing to Clipboard"
       },
       {
         "command": "ctxc.recompileLast",
-        "title": "CtxC: Re-Compile (Last Run)"
+        "title": "Re-Compile (Last Run)"
       },
       {
         "command": "ctxc.setActiveViewFromTree",
-        "title": "CtxC: Set Active View"
+        "title": "Set Active View"
+      },
+      {
+        "command": "ctxc.openPersonaFramingFromTree",
+        "title": "Open Persona Framing"
+      },
+      {
+        "command": "ctxc.setActivePersonaFromTree",
+        "title": "Set Active Persona"
+      },
+      {
+        "command": "ctxc.executeCommandFromTree",
+        "title": "Execute Command"
+      },
+      {
+        "command": "ctxc.copyCommandFromTree",
+        "title": "Copy Command"
       }
     ],
     "views": {
       "explorer": [
         {
           "id": "ctxcViews",
-          "name": "CtxC Views"
+          "name": "CtxC Views",
+          "icon": "debug-configure"
+        },
+        {
+          "id": "ctxcPersonas",
+          "name": "CtxC Personas",
+          "icon": "account"
+        },
+        {
+          "id": "ctxcCommands",
+          "name": "CtxC Commands",
+          "icon": "terminal"
         }
       ]
     },
@@ -65,6 +95,26 @@
           "command": "ctxc.setActiveViewFromTree",
           "when": "view == ctxcViews && viewItem == ctxcView",
           "group": "navigation"
+        },
+        {
+          "command": "ctxc.openPersonaFramingFromTree",
+          "when": "view == ctxcPersonas && viewItem == ctxcPersona",
+          "group": "navigation"
+        },
+        {
+          "command": "ctxc.setActivePersonaFromTree",
+          "when": "view == ctxcPersonas && viewItem == ctxcPersona",
+          "group": "navigation"
+        },
+        {
+          "command": "ctxc.executeCommandFromTree",
+          "when": "view == ctxcCommands && viewItem == ctxcCommand",
+          "group": "navigation"
+        },
+        {
+          "command": "ctxc.copyCommandFromTree",
+          "when": "view == ctxcCommands && viewItem == ctxcCommand",
+          "group": "navigation"
         }
       ]
     },
@@ -73,8 +123,13 @@
       "properties": {
         "ctxc.path": {
           "type": "string",
-          "default": "ctxc",
+          "default": "ContextCompiler.Host.Cli.exe",
           "description": "Path to the ctxc CLI executable."
+        },
+        "ctxc.modulesPath": {
+          "type": "string",
+          "default": "ContextCompiler.Modules.Cli.exe",
+          "description": "Path to the ctxc modules CLI executable."
         },
         "ctxc.configPath": {
           "type": "string",
@@ -83,7 +138,7 @@
         },
         "ctxc.outputDir": {
           "type": "string",
-          "default": ".ctxc/out",
+          "default": ".ctxc/compiled",
           "description": "Output directory for compiled artifacts."
         }
       }
@@ -96,9 +151,12 @@
     "lint": "eslint ."
   },
   "devDependencies": {
-    "@types/node": "^20.11.30",
-    "@types/vscode": "^1.90.0",
-    "typescript": "^5.5.4",
-    "eslint": "^9.8.0"
+    "@eslint/js": "^9.13.0",
+		"@stylistic/eslint-plugin": "^2.9.0",
+		"@types/node": "^22",
+		"@types/vscode": "^1.100.0",
+		"eslint": "^9.13.0",
+		"typescript": "^5.8.2",
+		"typescript-eslint": "^8.26.0"
   }
 }

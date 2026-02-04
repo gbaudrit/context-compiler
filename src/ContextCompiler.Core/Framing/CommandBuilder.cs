@@ -47,7 +47,7 @@ namespace ContextCompiler.Core.Framing
                 ? throw new InvalidOperationException("Command name is required.")
                 : _description is null
                 ? throw new InvalidOperationException("Command description is required.")
-                : (ICommand)new Command() { Name = _name, Description = _description, Subs = _subs ?? [], PersonaId = _personaId ?? string.Empty };
+                : (ICommand)new Command() { Id = _name, Description = _description, Subs = _subs ?? [], PersonaId = _personaId ?? string.Empty };
         }
     }
 }

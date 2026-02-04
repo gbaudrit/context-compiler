@@ -23,7 +23,7 @@ public sealed class PythonDeveloperModule(IConfigProvider cfgProvider,
     public Task Run(CancellationToken cancellationToken)
     {
         commandsProvider.AddCommand(commandBuilder.InitNew()
-                                    .WithName("dev python write")
+                                    .WithName("write")
                                     .WithDescription("write a code that respond to functional requirement")
                                     .ForPersona(PersonaId)
                                     .Build());

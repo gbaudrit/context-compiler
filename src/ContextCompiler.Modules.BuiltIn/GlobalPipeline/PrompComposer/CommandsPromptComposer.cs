@@ -17,7 +17,7 @@ namespace ContextCompiler.Modules.BuiltIn.GlobalPipeline.PrompComposer
             List<ICommand> commands =
             [
                 commandBuilder.InitNew()
-                                    .WithName("init, load")
+                                    .WithName("load")
                                     .WithDescription("Load this context")
                                     .Build(),
                 commandBuilder.InitNew()
@@ -31,7 +31,11 @@ namespace ContextCompiler.Modules.BuiltIn.GlobalPipeline.PrompComposer
                 commandBuilder.InitNew()
                                     .WithName("evidence coverage stats")
                                     .WithDescription("statistical analysis of the evidence used in relation to the complete list to establish coverage")
-                                    .Build()
+                                    .Build(),
+                commandBuilder.InitNew()
+                                    .WithName("write complete report to output")
+                                    .WithDescription("Write a complete report to the output")
+                                    .Build(),
             ];
 
             if (ctxcConfig.Current.Views.Views.Count > 0)

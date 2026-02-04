@@ -75,7 +75,7 @@ namespace ContextCompiler.Modules.BuiltIn.Templates.Scriban.Extensions
         {
             return new
             {
-                name = o.Name,
+                name = o.Id,
                 description = o.Description
             };
         }

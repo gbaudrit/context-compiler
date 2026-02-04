@@ -41,7 +41,7 @@ internal sealed class ResourceContentsBuilder : IMCPResourceContentsBuilder
             ? throw new InvalidOperationException("Uri must be set")
             : _mimeType is null
             ? throw new InvalidOperationException("MimeType must be set")
-            : _text is null ? throw new InvalidOperationException("Content must be set") : (IMCPResourceContents)new ResourceContents() { MimeType = _mimeType, Text = _text, Uri = _uri };
+            : _text is null ? (IMCPResourceContents)new ResourceContents() { MimeType = _mimeType, Uri = _uri } : new TextResourceContents() { MimeType = _mimeType, Text = _text, Uri = _uri };
     }
 
 }

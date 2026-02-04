@@ -97,6 +97,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.Modules.Art
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.Modules.Rag", "src\ContextCompiler.Modules.Rag\ContextCompiler.Modules.Rag.csproj", "{BC5EDB08-CB99-F16C-A7A3-1D54B4B2C233}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.Modules.Commands.Registry", "src\ContextCompiler.Modules.Commands.Registry\ContextCompiler.Modules.Commands.Registry.csproj", "{77CBF0A4-CE68-E147-A742-9BBB8843A004}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -282,6 +284,12 @@ Global
 		{BC5EDB08-CB99-F16C-A7A3-1D54B4B2C233}.DebugLocal|Any CPU.Build.0 = DebugLocal|Any CPU
 		{BC5EDB08-CB99-F16C-A7A3-1D54B4B2C233}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BC5EDB08-CB99-F16C-A7A3-1D54B4B2C233}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77CBF0A4-CE68-E147-A742-9BBB8843A004}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77CBF0A4-CE68-E147-A742-9BBB8843A004}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77CBF0A4-CE68-E147-A742-9BBB8843A004}.DebugLocal|Any CPU.ActiveCfg = DebugLocal|Any CPU
+		{77CBF0A4-CE68-E147-A742-9BBB8843A004}.DebugLocal|Any CPU.Build.0 = DebugLocal|Any CPU
+		{77CBF0A4-CE68-E147-A742-9BBB8843A004}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77CBF0A4-CE68-E147-A742-9BBB8843A004}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

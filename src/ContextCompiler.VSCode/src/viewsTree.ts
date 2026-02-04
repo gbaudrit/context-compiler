@@ -8,7 +8,11 @@ export class CtxcViewsProvider implements vscode.TreeDataProvider<ViewNode> {
 
   private activeViewId: string | undefined;
 
-  constructor(private readonly workspaceRoot: string, private readonly outputDir: string) {}
+  constructor(private readonly workspaceRoot: string, private outputDir: string) {}
+
+  setOutputDir(outputDir: string): void {
+    this.outputDir = outputDir;
+  }
 
   refresh(): void {
     this._onDidChangeTreeData.fire();
@@ -28,16 +32,22 @@ export class CtxcViewsProvider implements vscode.TreeDataProvider<ViewNode> {
   }
 
   getChildren(): Thenable<ViewNode[]> {
-    const viewsDir = path.join(this.workspaceRoot, this.outputDir, "views");
+    const viewsDir = path.join(this.workspaceRoot, this.outputDir);
     if (!fs.existsSync(viewsDir)) return Promise.resolve([]);
 
-    const files = fs.readdirSync(viewsDir).filter(f => f.toLowerCase().endsWith(".md"));
-    const nodes = files.map(f => {
-      const id = f.replace(/\.md$/i, "");
-      const label = (this.activeViewId === id) ? `★ ${id}` : id;
-      const filePath = path.join(viewsDir, f);
-      return new ViewNode(label, filePath, id);
-    });
+    const nodes: ViewNode[] = [];
+    for (const fileName of fs.readdirSync(viewsDir)) {
+      const lower = fileName.toLowerCase();
+      let id: string | undefined;
+
+      const m = /^view\.(.+)\.json$/i.exec(fileName);
+      if (m?.[1]) id = m[1];
+
+      if (!id) continue;
+      const label = (this.activeViewId === id) ? `✓ ${id}` : id;
+      const filePath = path.join(viewsDir, fileName);
+      nodes.push(new ViewNode(label, fileName, filePath, id));
+    }
 
     nodes.sort((a, b) => {
       if (a.viewId === this.activeViewId) return -1;
@@ -52,6 +62,7 @@ export class CtxcViewsProvider implements vscode.TreeDataProvider<ViewNode> {
 export class ViewNode extends vscode.TreeItem {
   constructor(
     public readonly label: string,
+    public readonly fileName: string,
     public readonly filePath: string,
     public readonly viewId: string
   ) {

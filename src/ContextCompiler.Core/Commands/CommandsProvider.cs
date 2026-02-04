@@ -12,7 +12,7 @@ internal sealed class CommandsProvider : ICommandsProvider
 
     public void AddCommand(ICommand command)
     {
-        if (!_commands.Any(c => c.Name == command.Name))
+        if (!_commands.Any(c => c.Id == command.Id))
         {
             _commands.Add(command);
         }

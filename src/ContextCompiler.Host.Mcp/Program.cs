@@ -197,7 +197,7 @@ mcpServerBuilder
             {
                 return new ReadResourceResult
                 {
-                    Contents = [new TextResourceContents()
+                    Contents = [new ModelContextProtocol.Protocol.TextResourceContents()
                     {
                         Uri = textContents.Uri,
                         MimeType = textContents.MimeType,

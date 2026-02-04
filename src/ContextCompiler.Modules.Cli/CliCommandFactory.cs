@@ -1,5 +1,6 @@
 using System.CommandLine;
 using System.CommandLine.Parsing;
+using System.Diagnostics.CodeAnalysis;
 
 using Microsoft.Extensions.DependencyInjection;
 
@@ -7,33 +8,40 @@ namespace ContextCompiler.Modules.Cli;
 
 public static class CliCommandFactory
 {
+
+    private static Option<string>? _inputOpt;
+    private static Option<bool>? _debugOpt;
+
+    [MemberNotNull(nameof(_inputOpt), nameof(_debugOpt))]
+    private static RootCommand CreateRootCommand()
+    {
+#pragma warning disable IDE0028 // Simplify collection initialization
+        RootCommand root = new("Context Compiler modules CLI (ctxc-modules)");
+#pragma warning restore IDE0028 // Simplify collection initialization
+        _inputOpt = new("--input", () => { return Environment.CurrentDirectory; });
+        root.AddGlobalOption(_inputOpt);
+        _debugOpt = new("--debug") { IsRequired = false };
+        root.AddGlobalOption(_debugOpt);
+        return root;
+    }
+
     internal static GlobalCommandLineOptions ParseGlobals(string[] args)
     {
         //_ = Debugger.Launch();
         //Debugger.Break();
 
-        RootCommand root = new("Context Compiler CLI (ctxc)");
-        Option<string> inputOpt = new("--input", () => { return Environment.CurrentDirectory; });
-        root.AddGlobalOption(inputOpt);
-        Option<bool> debugOpt = new("--debug") { IsRequired = false };
-        root.AddGlobalOption(debugOpt);
+        RootCommand root = CreateRootCommand();
         ParseResult result = root.Parse(args);
         return new GlobalCommandLineOptions
         {
-            InputPath = result.GetValueForOption(inputOpt) ?? "",
-            Debug = result.GetValueForOption(debugOpt)
+            InputPath = result.GetValueForOption(_inputOpt) ?? "",
+            Debug = result.GetValueForOption(_debugOpt)
         };
     }
 
     public static RootCommand Create(IServiceProvider sp)
     {
-        RootCommand root = new("Context Compiler CLI (ctxc)");
-        Option<bool> debugOpt = new(
-            aliases: ["--debug", "-d"],
-            description: "Enable debug"
-        );
-        root.AddGlobalOption(debugOpt);
-
+        RootCommand root = CreateRootCommand();
 
         Option<string> configOpt = new("--config", () => ".", "Path to ctxc.config.json");
 
@@ -42,7 +50,7 @@ public static class CliCommandFactory
         {
             Handlers.IRestoreHandler handler = sp.GetRequiredService<Handlers.IRestoreHandler>();
             Environment.ExitCode = await handler.HandleAsync(debug, cfgFile);
-        }, debugOpt, configOpt);
+        }, _debugOpt, configOpt);
 
         Command verify = new("verify", "Verify lock file and cached packages integrity (sha256).") { configOpt };
         verify.SetHandler(async cfgFile =>

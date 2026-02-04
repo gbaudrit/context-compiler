@@ -49,7 +49,8 @@ namespace ContextCompiler.Core
                     .AddConfiguration()
                     .AddWorkspace()
                     .AddSingleton<ICtxcWorkingFolder, CtxcWorkingFolder>()
-                    .AddSingleton<ICompiledWorkingFolder, CompiledWorkingFolder>();
+                    .AddSingleton<ICompiledWorkingFolder, CompiledWorkingFolder>()
+                    .AddTransient<IOutputArtifactReader, OutputArtifactReader>();
         }
 
     }
