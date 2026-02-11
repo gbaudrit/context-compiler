@@ -70,6 +70,17 @@ public static class CliCommandFactory
         });
         root.AddCommand(compile);
 
+        // new
+        Command newCommand = new("new", "Create new project");
+        Option<string> pathOpt = new("--path", () => ".");
+        newCommand.AddOption(outputOpt);
+        newCommand.SetHandler(async (pathOpt) =>
+        {
+            ICtxcNewProjectHandler handler = sp.GetRequiredService<ICtxcNewProjectHandler>();
+            Environment.ExitCode = await handler.HandleAsync(pathOpt);
+        }, pathOpt);
+        root.AddCommand(newCommand);
+
         // diff
         Command diff = new("diff", "Compare two output folders");
         Option<string> leftOpt = new("--left") { IsRequired = true };

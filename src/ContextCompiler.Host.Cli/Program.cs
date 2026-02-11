@@ -26,8 +26,8 @@ builder.Configuration.SetBasePath(AppContext.BaseDirectory)
 
 Assembly[] assemblies =
     [
-        typeof(ContextCompiler.Core.Engine.CompilerEngine).Assembly,
-        typeof(ContextCompiler.Infrastructure.FileSystem.PhysicalFileSystem).Assembly,
+        typeof(CompilerEngine).Assembly,
+        typeof(PhysicalFileSystem).Assembly,
         typeof(ContextCompiler.Plugins.BuiltIn.BuiltInMetadata).Assembly,
         typeof(ContextCompiler.Plugins.BuiltIn.Templates.Scriban.DependencyInjection).Assembly,
         typeof(ContextCompiler.Plugins.Readers.PDF.PdfFileReaderPlugin).Assembly
@@ -62,5 +62,5 @@ PluginRegistryBuilder.RegisterPluginServices(builder.Services, assemblies);
 
 using IHost host = builder.Build();
 
-RootCommand root = ContextCompiler.Host.Cli.CliCommandFactory.Create(host.Services);
+RootCommand root = CliCommandFactory.Create(host.Services);
 return await root.InvokeAsync(args);

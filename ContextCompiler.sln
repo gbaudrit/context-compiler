@@ -63,6 +63,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.Plugins.Bui
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.Plugins.Readers.Pdf", "src\ContextCompiler.Plugins.Readers.PDF\ContextCompiler.Plugins.Readers.Pdf.csproj", "{540FD63D-DD05-CDF9-1B84-87176A51E721}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "schemas", "schemas", "{996D7E4B-0047-43A2-BE58-DC0C7E6622D1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "v0.0.1", "v0.0.1", "{F73141AC-1392-4956-954A-CC23BECAE804}"
+	ProjectSection(SolutionItems) = preProject
+		schemas\v0.0.1\ctxc.config.schema.json = schemas\v0.0.1\ctxc.config.schema.json
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -132,6 +139,8 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{99A3087A-DCE3-4F65-BA47-5E52B5DFED6A} = {A5065593-A2C0-4970-A3C6-0EC3C6464EA9}
 		{09D92C29-0D37-42D4-A2F3-F0CCCFA55FC3} = {DEEF50A3-E5A2-4A19-94CB-23640FCBB2D8}
+		{996D7E4B-0047-43A2-BE58-DC0C7E6622D1} = {A5065593-A2C0-4970-A3C6-0EC3C6464EA9}
+		{F73141AC-1392-4956-954A-CC23BECAE804} = {996D7E4B-0047-43A2-BE58-DC0C7E6622D1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E59B7756-7651-4176-ABF1-8E66BF843C28}
