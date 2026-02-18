@@ -1,4 +1,4 @@
-using ContextCompiler.Abstractions.Plugins.Prompts;
+using ContextCompiler.Plugins.Abstractions.Prompts;
 
 namespace ContextCompiler.Plugins.BuiltIn.Templates.Scriban
 {

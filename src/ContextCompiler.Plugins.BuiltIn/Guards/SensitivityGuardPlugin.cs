@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 using ContextCompiler.Abstractions.Guards;
 using ContextCompiler.Abstractions.Models;
 using ContextCompiler.Abstractions.Pipelines.Document;
-using ContextCompiler.Abstractions.Plugins;
+using ContextCompiler.Plugins.Abstractions;
 
 namespace ContextCompiler.Plugins.BuiltIn.Guards;
 

@@ -2,14 +2,19 @@
 	<PropertyGroup>
 		<TargetFramework>net10.0</TargetFramework>
 		<OutputType>Exe</OutputType>
+		<Configurations>Debug;Release;DebugLocal</Configurations>
 	</PropertyGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\ContextCompiler.Abstractions\ContextCompiler.Abstractions.csproj" />
+		<ProjectReference Include="..\ContextCompiler.Configuration.Json\ContextCompiler.Configuration.Json.csproj" />
 		<ProjectReference Include="..\ContextCompiler.Infrastructure\ContextCompiler.Infrastructure.csproj" />
+		<ProjectReference Include="..\ContextCompiler.Plugins.Abstractions\ContextCompiler.Plugins.Abstractions.csproj" />
 		<ProjectReference Include="..\ContextCompiler.Plugins.BuiltIn.Templates.Scriban\ContextCompiler.Plugins.BuiltIn.Templates.Scriban.csproj" />
 		<ProjectReference Include="..\ContextCompiler.Plugins.BuiltIn\ContextCompiler.Plugins.BuiltIn.csproj" />
 		<ProjectReference Include="..\ContextCompiler.Core\ContextCompiler.Core.csproj" />
+		<ProjectReference Include="..\ContextCompiler.Plugins.Loader\ContextCompiler.Plugins.Loader.csproj" />
 		<ProjectReference Include="..\ContextCompiler.Plugins.Readers.PDF\ContextCompiler.Plugins.Readers.Pdf.csproj" />
+		<ProjectReference Include="..\ContextCompiler.Plugins.Readers.Excel\ContextCompiler.Plugins.Readers.Excel.csproj" />
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Extensions.Configuration.Json" />

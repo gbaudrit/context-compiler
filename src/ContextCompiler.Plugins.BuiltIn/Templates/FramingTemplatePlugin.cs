@@ -1,6 +1,6 @@
 using ContextCompiler.Abstractions.Models;
 using ContextCompiler.Abstractions.Output;
-using ContextCompiler.Abstractions.Plugins;
+using ContextCompiler.Plugins.Abstractions;
 
 namespace ContextCompiler.Plugins.BuiltIn.Templates;
 

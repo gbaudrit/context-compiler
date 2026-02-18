@@ -5,7 +5,7 @@ namespace ContextCompiler.Abstractions.Views
     public interface IViewsProvider
     {
 
-        IReadOnlyList<ViewConfig> Views { get; }
+        IReadOnlyList<IViewConfig> Views { get; }
 
     }
 }

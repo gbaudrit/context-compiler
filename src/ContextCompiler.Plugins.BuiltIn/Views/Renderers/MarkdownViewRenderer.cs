@@ -2,15 +2,15 @@ using System.Globalization;
 using System.Text;
 
 using ContextCompiler.Abstractions.Configuration;
-using ContextCompiler.Abstractions.Plugins.Views.Renderers;
 using ContextCompiler.Abstractions.ReasoningIR;
+using ContextCompiler.Plugins.Abstractions.Views.Renderers;
 
 namespace ContextCompiler.Plugins.BuiltIn.Views.Renderers
 {
     internal sealed class MarkdownViewRenderer : IViewRendererPlugin
     {
 
-        public bool CanRender(ViewConfig def)
+        public bool CanRender(IViewConfig def)
         {
             return def.Renderer.Contains("md");
         }
@@ -19,7 +19,7 @@ namespace ContextCompiler.Plugins.BuiltIn.Views.Renderers
 
         public string OutputMimeType => "text/markdown";
 
-        public Task<string> RenderAsync(ViewConfig def, IReadOnlyList<IFragment> fragments, CancellationToken ct)
+        public Task<string> RenderAsync(IViewConfig def, IReadOnlyList<IFragment> fragments, CancellationToken ct)
         {
             StringBuilder sb = new();
             _ = sb.AppendLine(CultureInfo.InvariantCulture, $"# View: {def.Id}");

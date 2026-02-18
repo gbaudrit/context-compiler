@@ -1,11 +1,16 @@
+using System.Text.Json;
+
 namespace ContextCompiler.Abstractions.Configuration
 {
     public interface ICtxcConfig
     {
-        ContextConfig Context { get; set; }
-        List<FileConfig> Files { get; set; }
-        PersonasConfig? Personas { get; set; }
-        ViewsConfig Views { get; set; }
+        string Schema { get; }
+        IContextConfig Context { get; set; }
+        List<IFileConfig> Files { get; set; }
+        IPersonasConfig? Personas { get; set; }
+        IViewsConfig Views { get; set; }
         List<string> Renderers { get; set; }
+
+        void AddFile(string[] Includes, string[] Excludes, ISubFilesMatchConfig[] Subs, string[] Tags, JsonElement? Options);
     }
 }

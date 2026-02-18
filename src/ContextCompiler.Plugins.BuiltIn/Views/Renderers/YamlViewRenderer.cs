@@ -2,8 +2,8 @@ using System.Globalization;
 using System.Text;
 
 using ContextCompiler.Abstractions.Configuration;
-using ContextCompiler.Abstractions.Plugins.Views.Renderers;
 using ContextCompiler.Abstractions.ReasoningIR;
+using ContextCompiler.Plugins.Abstractions.Views.Renderers;
 
 using Microsoft.Extensions.Logging;
 
@@ -11,7 +11,7 @@ namespace ContextCompiler.Plugins.BuiltIn.Views.Renderers
 {
     internal sealed class YamlViewRenderer(ILogger<YamlViewRenderer> logger) : IViewRendererPlugin
     {
-        public bool CanRender(ViewConfig def)
+        public bool CanRender(IViewConfig def)
         {
             return def.Renderer.Contains("yaml");
         }
@@ -19,7 +19,7 @@ namespace ContextCompiler.Plugins.BuiltIn.Views.Renderers
         public string OutputFileExtension => ".yaml";
         public string OutputMimeType => "application/x-yaml";
 
-        public Task<string> RenderAsync(ViewConfig def, IReadOnlyList<IFragment> fragments, CancellationToken ct)
+        public Task<string> RenderAsync(IViewConfig def, IReadOnlyList<IFragment> fragments, CancellationToken ct)
         {
             logger.LogInformation("Rendering YAML view for '{ViewId}' with {FragmentCount} fragments", def.Id, fragments.Count);
 

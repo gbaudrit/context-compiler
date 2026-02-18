@@ -1,9 +1,9 @@
 using ContextCompiler.Abstractions.Configuration;
 using ContextCompiler.Abstractions.Output;
-using ContextCompiler.Abstractions.Plugins;
-using ContextCompiler.Abstractions.Plugins.Prompts;
 using ContextCompiler.Abstractions.Rendering;
 using ContextCompiler.Abstractions.Versioning;
+using ContextCompiler.Plugins.Abstractions;
+using ContextCompiler.Plugins.Abstractions.Prompts;
 using ContextCompiler.Plugins.BuiltIn.Templates.Scriban.Extensions;
 using ContextCompiler.Plugins.BuiltIn.Templates.Scriban.Templates;
 

@@ -1,4 +1,5 @@
 using System.CommandLine;
+using System.CommandLine.Parsing;
 
 using ContextCompiler.Host.Cli.Handlers;
 using ContextCompiler.Host.Cli.Services;
@@ -9,6 +10,25 @@ namespace ContextCompiler.Host.Cli;
 
 public static class CliCommandFactory
 {
+    internal static GlobalCommandLineOptions ParseGlobals(string[] args)
+    {
+        //_ = Debugger.Launch();
+        //Debugger.Break();
+
+        RootCommand root = new("Context Compiler CLI (ctxc)");
+        Option<string> inputOpt = new("--input") { IsRequired = true };
+        root.AddGlobalOption(inputOpt);
+        Option<bool> debugOpt = new("--debug") { IsRequired = false };
+        root.AddGlobalOption(debugOpt);
+        ParseResult result = root.Parse(args);
+        return new GlobalCommandLineOptions
+        {
+            InputPath = result.GetValueForOption(inputOpt) ?? "",
+            Debug = result.GetValueForOption(debugOpt)
+        };
+    }
+
+
     public static RootCommand Create(IServiceProvider sp)
     {
         RootCommand root = new("Context Compiler CLI (ctxc)");
@@ -42,13 +62,6 @@ public static class CliCommandFactory
         compile.AddOption(cleanOpt);
         compile.SetHandler(async context =>
         {
-            bool debug = context.ParseResult.GetValueForOption(debugOpt);
-            if (debug)
-            {
-                _ = System.Diagnostics.Debugger.Launch();
-                System.Diagnostics.Debugger.Break();
-            }
-
             string input = context.ParseResult.GetValueForOption(inputOpt) ?? ".";
             string name = context.ParseResult.GetValueForOption(contextOpt) ?? "";
 
@@ -73,7 +86,7 @@ public static class CliCommandFactory
         // new
         Command newCommand = new("new", "Create new project");
         Option<string> pathOpt = new("--path", () => ".");
-        newCommand.AddOption(outputOpt);
+        newCommand.AddOption(pathOpt);
         newCommand.SetHandler(async (pathOpt) =>
         {
             ICtxcNewProjectHandler handler = sp.GetRequiredService<ICtxcNewProjectHandler>();
@@ -229,6 +242,26 @@ public static class CliCommandFactory
         }, giInput, giFormat, giOut);
         graph.AddCommand(graphExport);
         root.AddCommand(graph);
+
+        // config group
+        Command config = new("config", "Configuration commands");
+        Command configFiles = new("files", "Manage config files section");
+        Command configFilesAdd = new("add", "Add an include entry to ctxc.config.json");
+
+        Option<string> cfgPathOpt = new("--path", () => ".", "Folder containing ctxc.config.json");
+        Argument<string> cfgRelativePathArg = new("relativePath", "Relative path to add (e.g. src/MyFile.cs)");
+
+        configFilesAdd.AddOption(cfgPathOpt);
+        configFilesAdd.AddArgument(cfgRelativePathArg);
+        configFilesAdd.SetHandler(async (path, relativePath) =>
+        {
+            ICtxcConfigFilesAddHandler handler = sp.GetRequiredService<ICtxcConfigFilesAddHandler>();
+            Environment.ExitCode = await handler.HandleAsync(path, relativePath);
+        }, cfgPathOpt, cfgRelativePathArg);
+
+        configFiles.AddCommand(configFilesAdd);
+        config.AddCommand(configFiles);
+        root.AddCommand(config);
 
         return root;
     }

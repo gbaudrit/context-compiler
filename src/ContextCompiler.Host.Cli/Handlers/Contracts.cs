@@ -59,3 +59,8 @@ public interface ICtxcGraphExportHandler
 {
     Task<int> HandleAsync(string input, string format, string? outFile);
 }
+
+public interface ICtxcConfigFilesAddHandler
+{
+    Task<int> HandleAsync(string path, string relativePath);
+}

@@ -3,10 +3,9 @@ using System.Text.Json;
 using ContextCompiler.Abstractions.Configuration;
 using ContextCompiler.Abstractions.Output;
 using ContextCompiler.Abstractions.Personas;
-using ContextCompiler.Abstractions.Pipelines;
-using ContextCompiler.Abstractions.Plugins;
-using ContextCompiler.Abstractions.Plugins.GlobalPipeline;
 using ContextCompiler.Abstractions.Prompt;
+using ContextCompiler.Plugins.Abstractions;
+using ContextCompiler.Plugins.Abstractions.GlobalPipeline;
 
 using Microsoft.Extensions.Logging;
 

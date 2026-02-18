@@ -1,4 +1,4 @@
-using ContextCompiler.Abstractions.Pipelines;
+using ContextCompiler.Plugins.Abstractions;
 
 using Microsoft.Extensions.Logging;
 

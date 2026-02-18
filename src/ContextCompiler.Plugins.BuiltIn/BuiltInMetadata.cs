@@ -1,5 +1,5 @@
-using ContextCompiler.Abstractions.Plugins;
 using ContextCompiler.Abstractions.Versioning;
+using ContextCompiler.Plugins.Abstractions;
 
 namespace ContextCompiler.Plugins.BuiltIn;
 

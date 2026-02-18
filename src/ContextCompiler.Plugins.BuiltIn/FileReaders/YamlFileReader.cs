@@ -1,6 +1,6 @@
 using ContextCompiler.Abstractions.Files;
 using ContextCompiler.Abstractions.Pipelines.Document;
-using ContextCompiler.Abstractions.Plugins;
+using ContextCompiler.Plugins.Abstractions;
 
 namespace ContextCompiler.Plugins.BuiltIn.FileReaders;
 

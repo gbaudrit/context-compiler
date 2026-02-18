@@ -1,7 +1,7 @@
 using ContextCompiler.Abstractions.Output;
-using ContextCompiler.Abstractions.Plugins;
-using ContextCompiler.Abstractions.Plugins.GlobalPipeline;
 using ContextCompiler.Abstractions.Ports;
+using ContextCompiler.Plugins.Abstractions;
+using ContextCompiler.Plugins.Abstractions.GlobalPipeline;
 
 using Microsoft.Extensions.Logging;
 

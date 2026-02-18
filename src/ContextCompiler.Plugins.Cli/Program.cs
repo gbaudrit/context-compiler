@@ -1,0 +1,38 @@
+using System.CommandLine;
+
+using ContextCompiler.Abstractions;
+using ContextCompiler.Configuration.Json;
+using ContextCompiler.Core;
+using ContextCompiler.Plugins.Cli;
+using ContextCompiler.Plugins.Cli.Handlers;
+using ContextCompiler.Plugins.Loader;
+using ContextCompiler.Plugins.NuGet;
+
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+
+HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
+
+GlobalCommandLineOptions globals = CliCommandFactory.ParseGlobals(args);
+
+IWorkingFolder workingFolder = new WorkingFolder(globals.InputPath);
+
+builder.Services.AddSingleton(workingFolder)
+                .AddCoreServices()
+                .AddJsonConfiguration()
+                .AddPluginsNuGetRestoreServices()
+                .AddPluginsLoaderServices();
+
+builder.Services
+    .AddSingleton<IRestoreHandler, RestoreHandler>()
+    .AddSingleton<IVerifyHandler, VerifyHandler>()
+    .AddSingleton<IListHandler, ListHandler>()
+    .AddSingleton<IPurgeHandler, PurgeHandler>()
+    .AddSingleton<ISchemasAggregateHandler, SchemasAggregateHandler>();
+
+using IHost host = builder.Build();
+
+RootCommand root = CliCommandFactory.Create(host.Services);
+return await root.InvokeAsync(args);
+
+

@@ -1,4 +1,3 @@
-using ContextCompiler.Abstractions.Plugins;
 using ContextCompiler.Abstractions.Ports;
 using ContextCompiler.Abstractions.ReasoningIR;
 using ContextCompiler.Core.ReasoningIR.Domain;

@@ -7,6 +7,7 @@ using ContextCompiler.Abstractions.Pipelines.Document;
 using ContextCompiler.Abstractions.Ports;
 using ContextCompiler.Abstractions.ReasoningIR;
 using ContextCompiler.Abstractions.Tags;
+using ContextCompiler.Plugins.Abstractions;
 
 using Microsoft.Extensions.FileSystemGlobbing;
 using Microsoft.Extensions.FileSystemGlobbing.Abstractions;
@@ -53,7 +54,7 @@ public sealed class DocumentPipelineRunner(
         //    .Where(p => !p.Contains(Path.DirectorySeparatorChar + ".ctxc" + Path.DirectorySeparatorChar))
         //    .ToList();
 
-        foreach (FileConfig s in cfgProvider.Current.Files)
+        foreach (IFileConfig s in cfgProvider.Current.Files)
         {
             Matcher matcher = new();
             matcher.AddExcludePatterns(["**/.git/**", "**/bin/**", "**/obj/**", "**/.ctxc/**"]);

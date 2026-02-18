@@ -5,6 +5,6 @@ namespace ContextCompiler.Core.Views
 {
     internal sealed class ViewsProvider(ICtxcConfigProvider ctxcConfigProvider) : IViewsProvider
     {
-        public IReadOnlyList<ViewConfig> Views => ctxcConfigProvider.Current.Views.Views;
+        public IReadOnlyList<IViewConfig> Views => ctxcConfigProvider.Current.Views.Views;
     }
 }

@@ -3,10 +3,10 @@ using System.Text;
 using System.Text.Json;
 
 using ContextCompiler.Abstractions.Configuration;
-using ContextCompiler.Abstractions.Plugins;
-using ContextCompiler.Abstractions.Plugins.Views.Renderers;
 using ContextCompiler.Abstractions.ReasoningIR;
 using ContextCompiler.Abstractions.Views;
+using ContextCompiler.Plugins.Abstractions;
+using ContextCompiler.Plugins.Abstractions.Views.Renderers;
 
 namespace ContextCompiler.Plugins.BuiltIn.Views;
 
@@ -21,11 +21,11 @@ public sealed class TagBasedViewPlugin(IViewResultBuilder viewResultBuilder, IVi
     {
         ct.ThrowIfCancellationRequested();
 
-        ViewConfig[] views = [.. (ctx.Config.Views ?? []).OrderBy(v => v.Id, StringComparer.Ordinal)];
+        IViewConfig[] views = [.. (ctx.Config.Views ?? []).OrderBy(v => v.Id, StringComparer.Ordinal)];
 
         List<IViewResult> artifacts = new(capacity: views.Length * 2);
 
-        foreach (ViewConfig? def in views)
+        foreach (IViewConfig? def in views)
         {
             ct.ThrowIfCancellationRequested();
 
@@ -125,9 +125,9 @@ internal static class Deterministic
 
 internal static class ViewSelector
 {
-    public static IReadOnlyList<IFragment> SelectFragments(IReasoningIr ir, ViewConfig def)
+    public static IReadOnlyList<IFragment> SelectFragments(IReasoningIr ir, IViewConfig def)
     {
-        string[] include = def.Select ?? [];
+        string[] include = def.SelectTags ?? [];
         string[] exclude = def.Exclude ?? [];
 
         IEnumerable<IFragment> selected = ir.Fragments
@@ -170,14 +170,14 @@ internal static class ViewRenderer
         WriteIndented = true
     };
 
-    public static (string md, string json) Render(ViewConfig def, IReadOnlyList<IFragment> fragments)
+    public static (string md, string json) Render(IViewConfig def, IReadOnlyList<IFragment> fragments)
     {
         string md = RenderMarkdown(def, fragments);
         string json = RenderJson(def, fragments);
         return (md, json);
     }
 
-    private static string RenderMarkdown(ViewConfig def, IReadOnlyList<IFragment> fragments)
+    private static string RenderMarkdown(IViewConfig def, IReadOnlyList<IFragment> fragments)
     {
         StringBuilder sb = new();
         _ = sb.AppendLine(CultureInfo.InvariantCulture, $"# View: {def.Id}");
@@ -213,7 +213,7 @@ internal static class ViewRenderer
         return sb.ToString();
     }
 
-    private static string RenderJson(ViewConfig def, IReadOnlyList<IFragment> fragments)
+    private static string RenderJson(IViewConfig def, IReadOnlyList<IFragment> fragments)
     {
         var model = new
         {

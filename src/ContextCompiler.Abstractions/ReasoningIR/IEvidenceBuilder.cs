@@ -1,5 +1,3 @@
-using ContextCompiler.Abstractions.Plugins;
-
 namespace ContextCompiler.Abstractions.ReasoningIR
 {
     public interface IEvidenceBuilder

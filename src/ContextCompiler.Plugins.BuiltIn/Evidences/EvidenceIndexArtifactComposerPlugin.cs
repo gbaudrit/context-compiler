@@ -1,9 +1,9 @@
 using System.Text.Json;
 
 using ContextCompiler.Abstractions.Output;
-using ContextCompiler.Abstractions.Plugins;
-using ContextCompiler.Abstractions.Plugins.GlobalPipeline;
 using ContextCompiler.Abstractions.ReasoningIR;
+using ContextCompiler.Plugins.Abstractions;
+using ContextCompiler.Plugins.Abstractions.GlobalPipeline;
 
 using Microsoft.Extensions.Logging;
 

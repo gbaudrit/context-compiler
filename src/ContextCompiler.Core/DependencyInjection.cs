@@ -1,7 +1,9 @@
+using ContextCompiler.Abstractions;
 using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Abstractions.Models;
 using ContextCompiler.Abstractions.Output;
 using ContextCompiler.Core.Common;
+using ContextCompiler.Core.Configuration;
 using ContextCompiler.Core.Files;
 using ContextCompiler.Core.Framing;
 using ContextCompiler.Core.Guards;
@@ -19,10 +21,11 @@ namespace ContextCompiler.Core
     public static class DependencyInjection
     {
 
-        public static IServiceCollection AddCoreServices(this IServiceCollection services)
+        public static IServiceCollection AddCompileCoreServices(this IServiceCollection services)
         {
             // Register core services here
-            return services.AddPipelines()
+            return services
+                    .AddPipelines()
                     .AddReasoningIR()
                     .AddPersonas()
                     .AddOutput()
@@ -32,7 +35,16 @@ namespace ContextCompiler.Core
                     .AddGuards()
                     .AddFraming()
                     .AddSingleton<IPrompt, Prompt>()
-                    .AddTransient<ISourceRefBuilder, SourceRefBuilder>();
+                    .AddTransient<ISourceRefBuilder, SourceRefBuilder>()
+                    .AddSingleton<ICtxcWorkingFolder, CtxcWorkingFolder>();
+        }
+
+        public static IServiceCollection AddCoreServices(this IServiceCollection services)
+        {
+            // Register core services here
+            return services
+                    .AddConfiguration()
+                    .AddSingleton<ICtxcWorkingFolder, CtxcWorkingFolder>();
         }
 
     }

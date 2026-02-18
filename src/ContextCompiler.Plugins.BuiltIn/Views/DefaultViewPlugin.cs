@@ -1,9 +1,9 @@
 using System.Globalization;
 using System.Text;
 
-using ContextCompiler.Abstractions.Plugins;
 using ContextCompiler.Abstractions.ReasoningIR;
 using ContextCompiler.Abstractions.Views;
+using ContextCompiler.Plugins.Abstractions;
 
 namespace ContextCompiler.Plugins.BuiltIn.Views;
 

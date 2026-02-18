@@ -1,31 +1,49 @@
 <Project>
-  <PropertyGroup>
-    <!-- Target framework -->
-    <TargetFramework>net10.0</TargetFramework>
+	<PropertyGroup>
+		<!-- Target framework -->
+		<TargetFramework>net10.0</TargetFramework>
 
-    <!-- Modern defaults -->
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <Deterministic>true</Deterministic>
-    <LangVersion>preview</LangVersion>
+		<!-- Modern defaults -->
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+		<Deterministic>true</Deterministic>
+		<LangVersion>preview</LangVersion>
 
-    <!-- Analyzers -->
-	<AnalysisLevel>latest-recommended</AnalysisLevel>
-    <EnableNETAnalyzers>true</EnableNETAnalyzers>
-    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+		<!-- Analyzers -->
+		<AnalysisLevel>latest-recommended</AnalysisLevel>
+		<EnableNETAnalyzers>true</EnableNETAnalyzers>
+		<EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
 
-    <!-- Central Package Management -->
-    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
-    <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
+		<!-- Central Package Management -->
+		<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+		<CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
 
-    <!-- NuGet packing defaults -->
-    <RepositoryType>git</RepositoryType>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <NoWarn>$(NoWarn);1591</NoWarn>
-  </PropertyGroup>
+		<!-- NuGet packing defaults -->
+		<RepositoryType>git</RepositoryType>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<NoWarn>$(NoWarn);1591</NoWarn>
 
-  <PropertyGroup Condition="'$(IsTestProject)' == 'true'">
-    <GenerateDocumentationFile>false</GenerateDocumentationFile>
-  </PropertyGroup>
+		<!-- Si tu veux inclure pdb dans le .nupkg (comme ton nuspec) -->
+		<AllowedOutputExtensionsInPackageBuildOutputFolder>
+			$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb;.xml
+		</AllowedOutputExtensionsInPackageBuildOutputFolder>
+
+		<!-- Recommandé pour éviter des comportements de pack implicites -->
+		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+		<!-- timestamp UTC -->
+		<AlphaTimestamp>$([System.DateTime]::UtcNow.ToString('yyyyMMddHHmm'))</AlphaTimestamp>
+		<VersionSuffix>alpha$(AlphaTimestamp)</VersionSuffix>
+
+		<!-- sort le nupkg dans bin\DebugLocal\... -->
+		<PackageOutputPath>$(OutputPath)</PackageOutputPath>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(IsTestProject)' == 'true'">
+		<GenerateDocumentationFile>false</GenerateDocumentationFile>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)' == 'DebugLocal' And '$(IsPackable)' == 'true'">
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	</PropertyGroup>
 </Project>

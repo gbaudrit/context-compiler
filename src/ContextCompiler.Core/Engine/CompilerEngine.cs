@@ -7,6 +7,7 @@ using ContextCompiler.Abstractions.Pipelines.Document;
 using ContextCompiler.Abstractions.Ports;
 using ContextCompiler.Abstractions.ReasoningIR;
 using ContextCompiler.Core.Pipelines.Document;
+using ContextCompiler.Plugins.Abstractions;
 
 using Microsoft.Extensions.Logging;
 
@@ -37,7 +38,7 @@ public sealed class CompilerEngine(
     {
         CompileOptions options = request.Options ?? new CompileOptions();
         string? configPath = configLocator.Locate(request.InputPath, options.ConfigPath, request.Name);
-        CtxcConfig cfg = configProvider.GetConfigOrDefault(configPath);
+        ICtxcConfig cfg = configProvider.GetConfigOrDefault(configPath);
         logger.LogInformation("Compile requested. Input={Input} Output={Output}", request.InputPath, request.OutputPath);
 
         if (options.InlineViews == null)

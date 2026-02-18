@@ -1,6 +1,5 @@
-using ContextCompiler.Abstractions.Pipelines;
 using ContextCompiler.Abstractions.Pipelines.Document;
-using ContextCompiler.Abstractions.Plugins;
+using ContextCompiler.Plugins.Abstractions;
 
 namespace ContextCompiler.Core.Pipelines.Document
 {

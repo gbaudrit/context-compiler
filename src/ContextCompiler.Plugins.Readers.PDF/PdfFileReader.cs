@@ -5,9 +5,11 @@ using ContextCompiler.Abstractions.Configuration;
 using ContextCompiler.Abstractions.Files;
 using ContextCompiler.Abstractions.Models;
 using ContextCompiler.Abstractions.Pipelines.Document;
-using ContextCompiler.Abstractions.Plugins;
 using ContextCompiler.Abstractions.Tags;
+using ContextCompiler.Plugins.Abstractions;
 using ContextCompiler.Plugins.Readers.Pdf.Configurations;
+
+using Microsoft.Extensions.Logging;
 
 using Tabula;
 using Tabula.Detectors;
@@ -20,7 +22,13 @@ using UglyToad.PdfPig.DocumentLayoutAnalysis.TextExtractor;
 
 namespace ContextCompiler.Plugins.Readers.PDF;
 
-public sealed class PdfFileReaderPlugin(IFileReadResultBuilder fileReadResultBuilder, IFileContentBuilder fileContentBuilder, ICtxcConfigProvider cfgProvider, IDataEnvelopeBuilder dataEnvelopeBuilder, IDataPartBuilder dataPartBuilder, ITagsBuilder tagsBuilder) : IFileReaderPlugin
+public sealed class PdfFileReaderPlugin(IFileReadResultBuilder fileReadResultBuilder,
+                                        IFileContentBuilder fileContentBuilder,
+                                        ICtxcConfigProvider cfgProvider,
+                                        IDataEnvelopeBuilder dataEnvelopeBuilder,
+                                        IDataPartBuilder dataPartBuilder,
+                                        ITagsBuilder tagsBuilder,
+                                        ILogger<PdfFileReaderPlugin> logger) : IFileReaderPlugin
 {
     public PluginMetadata Metadata => IPlugin.Meta("readers.pdf", GlobalPipelinePluginKinds.FileReader, priority: 10);
 
@@ -45,7 +53,10 @@ public sealed class PdfFileReaderPlugin(IFileReadResultBuilder fileReadResultBui
     public async Task<IDataEnvelope> ReadAsync(IDocumentContext documentContext, CancellationToken ct)
     {
         ct.ThrowIfCancellationRequested();
-        CtxcConfig cfg = cfgProvider.GetConfigOrDefault(null);
+        logger.LogInformation("Start reading PDF document at path: {Path}", documentContext.FullPath);
+
+
+        ICtxcConfig cfg = cfgProvider.GetConfigOrDefault(null);
 
         //var fileExtracts = new List<(string match, PdfDefaults? defaults, List<PdfExtractConfig> extracts)>();
         //foreach (var f in cfg.Files)
@@ -105,7 +116,7 @@ public sealed class PdfFileReaderPlugin(IFileReadResultBuilder fileReadResultBui
         }
 
 
-
+        logger.LogInformation("Finished reading PDF document at path: {Path}. Extracted {PartCount} parts.", documentContext.FullPath, parts.Count);
 
         return dataEnvelopeBuilder.InitNew()
                                     .WithDataShape(DataShape.Linear)

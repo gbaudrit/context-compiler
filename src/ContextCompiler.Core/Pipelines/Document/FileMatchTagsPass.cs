@@ -1,8 +1,8 @@
 using ContextCompiler.Abstractions.Configuration;
-using ContextCompiler.Abstractions.Pipelines;
 using ContextCompiler.Abstractions.Pipelines.Document;
 using ContextCompiler.Abstractions.ReasoningIR;
 using ContextCompiler.Abstractions.Tags;
+using ContextCompiler.Plugins.Abstractions;
 
 using Microsoft.Extensions.FileSystemGlobbing;
 using Microsoft.Extensions.Logging;
@@ -18,7 +18,7 @@ namespace ContextCompiler.Core.Pipelines.Document
         public async ValueTask ExecuteAsync(IDocumentContext ctx, CancellationToken ct)
         {
 
-            foreach (FileConfig cfgMatch in cfgProvider.Current.Files)
+            foreach (IFileConfig cfgMatch in cfgProvider.Current.Files)
             {
                 IReadOnlyList<ITag> cfgFilesMatchTags = [];
                 Matcher cfgMatcher = new();
@@ -28,7 +28,7 @@ namespace ContextCompiler.Core.Pipelines.Document
                     logger.LogDebug("Apply config tags {Tags} on file {FilePath}", string.Join(',', cfgMatch.Tags), ctx.FullPath);
                     ctx.AddTags(cfgMatch.Tags);
 
-                    foreach (SubFilesMatchConfig sub in cfgMatch.Subs)
+                    foreach (ISubFilesMatchConfig sub in cfgMatch.Subs)
                     {
                         Matcher subMatcher = new();
                         subMatcher.AddIncludePatterns(sub.Includes);

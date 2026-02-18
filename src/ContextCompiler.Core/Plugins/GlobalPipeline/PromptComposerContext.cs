@@ -1,5 +1,5 @@
 using ContextCompiler.Abstractions.Output;
-using ContextCompiler.Abstractions.Plugins.GlobalPipeline;
+using ContextCompiler.Plugins.Abstractions.GlobalPipeline;
 
 namespace ContextCompiler.Core.Plugins.GlobalPipeline
 {

@@ -1,4 +1,4 @@
-using ContextCompiler.Abstractions.Plugins;
+using ContextCompiler.Plugins.Abstractions;
 
 using Microsoft.Extensions.DependencyInjection;
 

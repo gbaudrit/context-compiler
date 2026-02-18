@@ -1,4 +1,4 @@
-using ContextCompiler.Abstractions.Plugins.Prompts;
+using ContextCompiler.Plugins.Abstractions.Prompts;
 using ContextCompiler.Plugins.BuiltIn.Templates.Scriban.Templates;
 
 using Microsoft.Extensions.DependencyInjection;

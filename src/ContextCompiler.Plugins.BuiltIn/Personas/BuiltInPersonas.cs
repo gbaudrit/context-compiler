@@ -1,5 +1,5 @@
 using ContextCompiler.Abstractions.Personas;
-using ContextCompiler.Abstractions.Plugins;
+using ContextCompiler.Plugins.Abstractions;
 
 namespace ContextCompiler.Plugins.BuiltIn.Personas;
 
