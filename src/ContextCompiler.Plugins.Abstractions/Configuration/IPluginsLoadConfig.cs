@@ -10,4 +10,5 @@ public interface IPluginsLoadConfig
     string QuarantineRoot { get; set; }
     List<PluginSource> Sources { get; set; }
     TrustConfig Trust { get; set; }
+    string ConfigurationModule { get; set; }
 }

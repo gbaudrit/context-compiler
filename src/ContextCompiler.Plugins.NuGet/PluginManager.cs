@@ -27,6 +27,10 @@ public sealed class PluginManager(ICtxcWorkingFolder ctxcWorkingFolder,
     {
         PluginLockFile lockFile = new() { FormatVersion = 1, GeneratedAt = DateTime.UnixEpoch, Packages = [] };
         List<string> pluginSchemaPaths = [];
+        string mainSchemaPath = "";
+
+        List<PluginPackageRequest> toRestore = cfg.Current.Packages;
+
         foreach (PluginPackageRequest req in cfg.Current.Packages)
         {
             try
@@ -39,12 +43,30 @@ public sealed class PluginManager(ICtxcWorkingFolder ctxcWorkingFolder,
                 _policy.ValidateSignature(isSigned, note);
                 string extractedRoot = store.ExtractToImmutableCache(nupkg, req.Id, req.Version, sha);
 
-                IEnumerable<string> currentPluginSchemaPaths = Directory.GetFiles(extractedRoot, "ctxc.config.schema.*", SearchOption.AllDirectories);
-                foreach (string candidate in currentPluginSchemaPaths)
+                if (req.Id == cfg.Current.ConfigurationModule)
                 {
-                    if (File.Exists(candidate))
+                    string candidateMainSchemaPath = Directory.GetFiles(extractedRoot, "ctxc.config.schema.*", SearchOption.AllDirectories).FirstOrDefault() ?? "";
+                    if (File.Exists(candidateMainSchemaPath))
                     {
-                        pluginSchemaPaths.Add(candidate);
+                        mainSchemaPath = candidateMainSchemaPath;
+                        logger.LogInformation("Configuration module {Module} main schema found at {Path}", req.Id, candidateMainSchemaPath);
+                    }
+                    else
+                    {
+                        logger.LogWarning("Configuration module {Module} does not contain a main schema at expected path {Path}", req.Id, candidateMainSchemaPath);
+                    }
+                }
+                else
+                {
+
+
+                    IEnumerable<string> currentPluginSchemaPaths = Directory.GetFiles(extractedRoot, "ctxc.config.schema.*", SearchOption.AllDirectories);
+                    foreach (string candidate in currentPluginSchemaPaths)
+                    {
+                        if (File.Exists(candidate))
+                        {
+                            pluginSchemaPaths.Add(candidate);
+                        }
                     }
                 }
                 lockFile.Packages.Add(new PluginLockFile.LockedPlugin
@@ -74,11 +96,22 @@ public sealed class PluginManager(ICtxcWorkingFolder ctxcWorkingFolder,
             }
         }
 
-        IAggregatedSchema aggregatedSchema = await configurationSchemasAggregator.AggregateSchemas(schema1, [.. pluginSchemaPaths.Select(p => schemaBuilder.InitNew()
+        if (!string.IsNullOrEmpty(mainSchemaPath))
+        {
+            ISchema mainSchema = schemaBuilder.InitNew()
+                                          .WithName(Path.GetFileNameWithoutExtension(mainSchemaPath))
+                                          .WithContent(File.ReadAllText(mainSchemaPath))
+                                          .WithPath(mainSchemaPath)
+                                          .Build();
+
+            IAggregatedSchema aggregatedSchema = await configurationSchemasAggregator.AggregateSchemas(mainSchema, [.. pluginSchemaPaths.Select(p => schemaBuilder.InitNew()
                                           .WithName(Path.GetFileNameWithoutExtension(p))
                                           .WithContent(File.ReadAllText(p))
                                           .WithPath(p)
                                           .Build())]);
+
+            File.WriteAllText(Path.Combine(ctxcWorkingFolder.Path, "schemas", "ctxc.config.schema.json"), aggregatedSchema.Content);
+        }
 
         //await TryWriteAggregatedSchema(pluginSchemaPaths);
         return lockFile;

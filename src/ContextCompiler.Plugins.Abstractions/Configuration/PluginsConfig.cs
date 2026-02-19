@@ -7,6 +7,7 @@ public class PluginsConfig : IPluginsLoadConfig
     public bool Offline { get; set; }
     public string LockFile { get; set; } = ".ctxc/ctxc.plugins.lock.json";
     public string QuarantineRoot { get; set; } = ".ctxc/quarantine";
+    public string ConfigurationModule { get; set; } = "ContextCompiler.Modules.Configuration";
     public List<PluginSource> Sources { get; set; } = [];
     public TrustConfig Trust { get; set; } = new();
     public List<PluginPackageRequest> Packages { get; set; } = [];

@@ -8,14 +8,22 @@ using ContextCompiler.Plugins.Cli.Handlers;
 using ContextCompiler.Plugins.Loader;
 using ContextCompiler.Plugins.NuGet;
 
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
+
+builder.Configuration.SetBasePath(AppContext.BaseDirectory)
+                     .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                     .AddEnvironmentVariables(prefix: "CTXC_");
 
 GlobalCommandLineOptions globals = CliCommandFactory.ParseGlobals(args);
 
 IWorkingFolder workingFolder = new WorkingFolder(globals.InputPath);
+
+builder.Logging.ClearProviders().AddConfiguration(builder.Configuration.GetSection("Logging")).AddSimpleConsole(o => o.SingleLine = true);
 
 builder.Services.AddSingleton(workingFolder)
                 .AddCoreServices()
