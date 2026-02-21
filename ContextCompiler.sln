@@ -8,7 +8,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.Core", "src
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.Infrastructure", "src\ContextCompiler.Infrastructure\ContextCompiler.Infrastructure.csproj", "{33333333-3333-3333-3333-333333333333}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.Plugins.BuiltIn", "src\ContextCompiler.Plugins.BuiltIn\ContextCompiler.Plugins.BuiltIn.csproj", "{44444444-4444-4444-4444-444444444444}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.Modules.BuiltIn", "src\ContextCompiler.Modules.BuiltIn\ContextCompiler.Modules.BuiltIn.csproj", "{44444444-4444-4444-4444-444444444444}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.Host.Cli", "src\ContextCompiler.Host.Cli\ContextCompiler.Host.Cli.csproj", "{55555555-5555-5555-5555-555555555555}"
 EndProject
@@ -20,7 +20,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.Sdk", "src\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.Core.Tests", "tests\ContextCompiler.Core.Tests\ContextCompiler.Core.Tests.csproj", "{99999999-9999-9999-9999-999999999999}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.Plugins.BuiltIn.Tests", "tests\ContextCompiler.Plugins.BuiltIn.Tests\ContextCompiler.Plugins.BuiltIn.Tests.csproj", "{AAAAAAAA-AAAA-AAAA-AAAA-AAAAAAAAAAAA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.Modules.BuiltIn.Tests", "tests\ContextCompiler.Modules.BuiltIn.Tests\ContextCompiler.Modules.BuiltIn.Tests.csproj", "{AAAAAAAA-AAAA-AAAA-AAAA-AAAAAAAAAAAA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A5065593-A2C0-4970-A3C6-0EC3C6464EA9}"
 	ProjectSection(SolutionItems) = preProject
@@ -58,37 +58,21 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agent", "agent\Agent\Agent.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AI", "AI", "{DEEF50A3-E5A2-4A19-94CB-23640FCBB2D8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.Plugins.BuiltIn.Templates.Scriban", "src\ContextCompiler.Plugins.BuiltIn.Templates.Scriban\ContextCompiler.Plugins.BuiltIn.Templates.Scriban.csproj", "{9C8CCC78-EC7C-47E1-92D6-B78A5C0E6492}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.Modules.BuiltIn.Templates.Scriban", "src\ContextCompiler.Modules.BuiltIn.Templates.Scriban\ContextCompiler.Modules.BuiltIn.Templates.Scriban.csproj", "{9C8CCC78-EC7C-47E1-92D6-B78A5C0E6492}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.Plugins.BuiltIn.Agents.Copilot", "src\ContextCompiler.Plugins.BuiltIn.Agents.Copilot\ContextCompiler.Plugins.BuiltIn.Agents.Copilot.csproj", "{632DF03C-F6CA-4D5D-9336-D4FD863A6B6E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.Modules.BuiltIn.Agents.Copilot", "src\ContextCompiler.Modules.BuiltIn.Agents.Copilot\ContextCompiler.Modules.BuiltIn.Agents.Copilot.csproj", "{632DF03C-F6CA-4D5D-9336-D4FD863A6B6E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.Plugins.Readers.Pdf", "src\ContextCompiler.Plugins.Readers.PDF\ContextCompiler.Plugins.Readers.Pdf.csproj", "{540FD63D-DD05-CDF9-1B84-87176A51E721}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.Modules.Readers.Pdf", "src\ContextCompiler.Modules.Readers.PDF\ContextCompiler.Modules.Readers.Pdf.csproj", "{540FD63D-DD05-CDF9-1B84-87176A51E721}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "schemas", "schemas", "{996D7E4B-0047-43A2-BE58-DC0C7E6622D1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.Modules.Readers.Excel", "src\ContextCompiler.Modules.Readers.Excel\ContextCompiler.Modules.Readers.Excel.csproj", "{4870759E-7CD4-97DE-2491-39C9F8F22470}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "v0.0.1", "v0.0.1", "{F73141AC-1392-4956-954A-CC23BECAE804}"
-	ProjectSection(SolutionItems) = preProject
-		schemas\core\v0.0.1\ctxc.config.schema.json = schemas\core\v0.0.1\ctxc.config.schema.json
-	EndProjectSection
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.Modules.Abstractions", "src\ContextCompiler.Modules.Abstractions\ContextCompiler.Modules.Abstractions.csproj", "{05017D74-1F57-B9FE-CC5A-B8217FFE598F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.Plugins.Readers.Excel", "src\ContextCompiler.Plugins.Readers.Excel\ContextCompiler.Plugins.Readers.Excel.csproj", "{4870759E-7CD4-97DE-2491-39C9F8F22470}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.Modules.Loader", "src\ContextCompiler.Modules.Loader\ContextCompiler.Modules.Loader.csproj", "{B1B3C114-FC1F-04F4-4BB3-CB6EABD14D54}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "core", "core", "{85DADA78-42BE-4A8F-A644-261B19F53DF7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.Modules.NuGet", "src\ContextCompiler.Modules.NuGet\ContextCompiler.Modules.NuGet.csproj", "{93789DDF-677A-3647-BADF-9467A1D478D6}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "plugin.readers.excel", "plugin.readers.excel", "{EAFD2B32-ED81-4DD8-B711-32B05A6557E9}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "v0.0.1", "v0.0.1", "{AC5D71FE-DA1C-490F-AC13-CE82B25FC1B7}"
-	ProjectSection(SolutionItems) = preProject
-		schemas\plugin.readers.excel\v0.0.1\ctxc.config.schema.json = schemas\plugin.readers.excel\v0.0.1\ctxc.config.schema.json
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.Plugins.Abstractions", "src\ContextCompiler.Plugins.Abstractions\ContextCompiler.Plugins.Abstractions.csproj", "{05017D74-1F57-B9FE-CC5A-B8217FFE598F}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.Plugins.Loader", "src\ContextCompiler.Plugins.Loader\ContextCompiler.Plugins.Loader.csproj", "{B1B3C114-FC1F-04F4-4BB3-CB6EABD14D54}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.Plugins.NuGet", "src\ContextCompiler.Plugins.NuGet\ContextCompiler.Plugins.NuGet.csproj", "{93789DDF-677A-3647-BADF-9467A1D478D6}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.Plugins.Cli", "src\ContextCompiler.Plugins.Cli\ContextCompiler.Plugins.Cli.csproj", "{9445B1DA-6A0B-901F-B851-43FD3E922E6C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.Modules.Cli", "src\ContextCompiler.Modules.Cli\ContextCompiler.Modules.Cli.csproj", "{9445B1DA-6A0B-901F-B851-43FD3E922E6C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.Configuration.Json", "src\ContextCompiler.Configuration.Json\ContextCompiler.Configuration.Json.csproj", "{628D7286-18BF-4625-9760-BF5827AC24A5}"
 EndProject
@@ -232,11 +216,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{99A3087A-DCE3-4F65-BA47-5E52B5DFED6A} = {A5065593-A2C0-4970-A3C6-0EC3C6464EA9}
 		{09D92C29-0D37-42D4-A2F3-F0CCCFA55FC3} = {DEEF50A3-E5A2-4A19-94CB-23640FCBB2D8}
-		{996D7E4B-0047-43A2-BE58-DC0C7E6622D1} = {A5065593-A2C0-4970-A3C6-0EC3C6464EA9}
-		{F73141AC-1392-4956-954A-CC23BECAE804} = {85DADA78-42BE-4A8F-A644-261B19F53DF7}
-		{85DADA78-42BE-4A8F-A644-261B19F53DF7} = {996D7E4B-0047-43A2-BE58-DC0C7E6622D1}
-		{EAFD2B32-ED81-4DD8-B711-32B05A6557E9} = {996D7E4B-0047-43A2-BE58-DC0C7E6622D1}
-		{AC5D71FE-DA1C-490F-AC13-CE82B25FC1B7} = {EAFD2B32-ED81-4DD8-B711-32B05A6557E9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E59B7756-7651-4176-ABF1-8E66BF843C28}

@@ -1,5 +1,5 @@
 using ContextCompiler.Host.Cli.Services;
-using ContextCompiler.Infrastructure.PluginLoading;
+using ContextCompiler.Infrastructure.ModuleLoading;
 using ContextCompiler.Host.Cli.Handlers;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -11,6 +11,6 @@ internal static class DependencyInjection
     {
         return services.AddSingleton<IOutputPathResolver, OutputPathResolver>()
             .AddTransient<ICtxcConfigFilesAddHandler, ConfigFilesAddHandler>()
-            .AddPluginLoadingServices();
+            .AddModuleLoadingServices();
     }
 }

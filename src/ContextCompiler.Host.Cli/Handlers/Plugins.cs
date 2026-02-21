@@ -1,10 +1,10 @@
-using ContextCompiler.Plugins.Abstractions;
+using ContextCompiler.Modules.Abstractions;
 
 using Microsoft.Extensions.Logging;
 
 namespace ContextCompiler.Host.Cli.Handlers;
 
-internal sealed class CtxcPluginsListHandler(IPluginRegistry registry, ILogger<CtxcPluginsListHandler> logger) : ICtxcPluginsListHandler
+internal sealed class CtxcModulesListHandler(IModulesRegistry registry, ILogger<CtxcModulesListHandler> logger) : ICtxcModulesListHandler
 {
     private readonly System.Text.Json.JsonSerializerOptions jsonSerializerOptions = new() { WriteIndented = true };
 
@@ -45,20 +45,20 @@ internal sealed class CtxcPluginsListHandler(IPluginRegistry registry, ILogger<C
     }
 }
 
-internal sealed class CtxcPluginsAddHandler(ILogger<CtxcPluginsAddHandler> logger) : ICtxcPluginsAddHandler
+internal sealed class CtxcModulesAddHandler(ILogger<CtxcModulesAddHandler> logger) : ICtxcModulesAddHandler
 {
     public Task<int> HandleAsync(string packageId, string? version, string? source)
     {
-        logger.LogInformation("Plugins add stub: {PackageId} {Version} {Source}", packageId, version, source);
+        logger.LogInformation("Modules add stub: {PackageId} {Version} {Source}", packageId, version, source);
         return Task.FromResult(0);
     }
 }
 
-internal sealed class CtxcPluginsRemoveHandler(ILogger<CtxcPluginsRemoveHandler> logger) : ICtxcPluginsRemoveHandler
+internal sealed class CtxcModulesRemoveHandler(ILogger<CtxcModulesRemoveHandler> logger) : ICtxcModulesRemoveHandler
 {
     public Task<int> HandleAsync(string packageId)
     {
-        logger.LogInformation("Plugins remove stub: {PackageId}", packageId);
+        logger.LogInformation("Modules remove stub: {PackageId}", packageId);
         return Task.FromResult(0);
     }
 }

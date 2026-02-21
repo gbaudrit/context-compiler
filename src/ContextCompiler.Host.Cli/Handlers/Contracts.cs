@@ -40,17 +40,17 @@ public interface ICtxcGuardsReportHandler
     Task<int> HandleAsync(string input, string format, string? outFile);
 }
 
-public interface ICtxcPluginsListHandler
+public interface ICtxcModulesListHandler
 {
     Task<int> HandleAsync(bool json);
 }
 
-public interface ICtxcPluginsAddHandler
+public interface ICtxcModulesAddHandler
 {
     Task<int> HandleAsync(string packageId, string? version, string? source);
 }
 
-public interface ICtxcPluginsRemoveHandler
+public interface ICtxcModulesRemoveHandler
 {
     Task<int> HandleAsync(string packageId);
 }

@@ -1,9 +1,9 @@
 using ContextCompiler.Abstractions.Pipelines.Document;
-using ContextCompiler.Plugins.Abstractions;
+using ContextCompiler.Modules.Abstractions;
 
 namespace ContextCompiler.Core.Pipelines.Document
 {
-    internal sealed class DiscoveryScopeGuardsPass(IPluginRegistry plugins) : IDocumentPass
+    internal sealed class DiscoveryScopeGuardsPass(IModulesRegistry modules) : IDocumentPass
     {
         public string Id => "guards.discovery";
         public int Priority => 100;
@@ -11,9 +11,9 @@ namespace ContextCompiler.Core.Pipelines.Document
 
         public async ValueTask ExecuteAsync(IDocumentContext ctx, CancellationToken ct)
         {
-            List<IGuardPlugin> guards = [.. plugins.Guards.Where(g => g.Stage == Stage).OrderBy(g => g.Metadata.Priority)];
+            List<IGuardModule> guards = [.. modules.Guards.Where(g => g.Stage == Stage).OrderBy(g => g.Metadata.Priority)];
             List<IPipelineFinding> findings = [];
-            foreach (IGuardPlugin? g in guards)
+            foreach (IGuardModule? g in guards)
             {
                 IReadOnlyList<IPipelineFinding> f = await g.EvaluateAsync(new GuardContext(ctx), ct);
                 if (f.Count > 0)

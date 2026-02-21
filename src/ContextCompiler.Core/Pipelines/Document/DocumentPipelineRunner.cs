@@ -7,7 +7,7 @@ using ContextCompiler.Abstractions.Pipelines.Document;
 using ContextCompiler.Abstractions.Ports;
 using ContextCompiler.Abstractions.ReasoningIR;
 using ContextCompiler.Abstractions.Tags;
-using ContextCompiler.Plugins.Abstractions;
+using ContextCompiler.Modules.Abstractions;
 
 using Microsoft.Extensions.FileSystemGlobbing;
 using Microsoft.Extensions.FileSystemGlobbing.Abstractions;
@@ -25,7 +25,7 @@ public sealed class DocumentPipelineRunner(
     ILogger<DocumentPipelineRunner> logger,
     IFileSystem fs,
     IHasher hasher,
-    IPluginRegistry plugins,
+    IModulesRegistry modules,
     IFragmentBuilder fragmentBuilder,
     ITagsBuilder tagsBuilder,
     ICtxcConfigProvider cfgProvider,

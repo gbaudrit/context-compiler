@@ -2,14 +2,14 @@ using ContextCompiler.Abstractions.Configuration;
 using ContextCompiler.Abstractions.Pipelines.Document;
 using ContextCompiler.Abstractions.ReasoningIR;
 using ContextCompiler.Abstractions.Tags;
-using ContextCompiler.Plugins.Abstractions;
+using ContextCompiler.Modules.Abstractions;
 
 using Microsoft.Extensions.FileSystemGlobbing;
 using Microsoft.Extensions.Logging;
 
 namespace ContextCompiler.Core.Pipelines.Document
 {
-    internal sealed class FileMatchTagsPass(IPluginRegistry plugins, ICtxcConfigProvider cfgProvider, ITagsBuilder tagsBuilder, ILogger<FileMatchTagsPass> logger) : IDocumentPass
+    internal sealed class FileMatchTagsPass(IModulesRegistry modules, ICtxcConfigProvider cfgProvider, ITagsBuilder tagsBuilder, ILogger<FileMatchTagsPass> logger) : IDocumentPass
     {
         public string Id => "pass.filematchtags";
         public int Priority => 100;

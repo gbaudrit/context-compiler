@@ -188,43 +188,43 @@ public static class CliCommandFactory
         guards.AddCommand(guardsReport);
         root.AddCommand(guards);
 
-        // plugins group (stubs phase 1)
-        Command plugins = new("plugins", "Plugins management");
-        Command pluginsList = new("list", "List loaded plugins");
-        Option<bool> plJson = new("--json");
-        pluginsList.AddOption(plJson);
-        pluginsList.SetHandler(async (json) =>
+        // modules group (stubs phase 1)
+        Command modules = new("modules", "Modules management");
+        Command modulesList = new("list", "List loaded modules");
+        Option<bool> mlJson = new("--json");
+        modulesList.AddOption(mlJson);
+        modulesList.SetHandler(async (json) =>
         {
-            ICtxcPluginsListHandler handler = sp.GetRequiredService<ICtxcPluginsListHandler>();
+            ICtxcModulesListHandler handler = sp.GetRequiredService<ICtxcModulesListHandler>();
             Environment.ExitCode = await handler.HandleAsync(json);
-        }, plJson);
+        }, mlJson);
 
-        Command pluginsAdd = new("add", "Install plugin (stub)");
-        Argument<string> paId = new("packageId");
-        Option<string?> paVer = new("--version");
-        Option<string?> paSrc = new("--source");
-        pluginsAdd.AddArgument(paId);
-        pluginsAdd.AddOption(paVer);
-        pluginsAdd.AddOption(paSrc);
-        pluginsAdd.SetHandler(async (packageId, version, source) =>
+        Command modulesAdd = new("add", "Install module (stub)");
+        Argument<string> maId = new("packageId");
+        Option<string?> maVer = new("--version");
+        Option<string?> maSrc = new("--source");
+        modulesAdd.AddArgument(maId);
+        modulesAdd.AddOption(maVer);
+        modulesAdd.AddOption(maSrc);
+        modulesAdd.SetHandler(async (packageId, version, source) =>
         {
-            ICtxcPluginsAddHandler handler = sp.GetRequiredService<ICtxcPluginsAddHandler>();
+            ICtxcModulesAddHandler handler = sp.GetRequiredService<ICtxcModulesAddHandler>();
             Environment.ExitCode = await handler.HandleAsync(packageId, version, source);
-        }, paId, paVer, paSrc);
+        }, maId, maVer, maSrc);
 
-        Command pluginsRemove = new("remove", "Uninstall plugin (stub)");
-        Argument<string> prId = new("packageId");
-        pluginsRemove.AddArgument(prId);
-        pluginsRemove.SetHandler(async (packageId) =>
+        Command modulesRemove = new("remove", "Uninstall module (stub)");
+        Argument<string> mrId = new("packageId");
+        modulesRemove.AddArgument(mrId);
+        modulesRemove.SetHandler(async (packageId) =>
         {
-            ICtxcPluginsRemoveHandler handler = sp.GetRequiredService<ICtxcPluginsRemoveHandler>();
+            ICtxcModulesRemoveHandler handler = sp.GetRequiredService<ICtxcModulesRemoveHandler>();
             Environment.ExitCode = await handler.HandleAsync(packageId);
-        }, prId);
+        }, mrId);
 
-        plugins.AddCommand(pluginsList);
-        plugins.AddCommand(pluginsAdd);
-        plugins.AddCommand(pluginsRemove);
-        root.AddCommand(plugins);
+        modules.AddCommand(modulesList);
+        modules.AddCommand(modulesAdd);
+        modules.AddCommand(modulesRemove);
+        root.AddCommand(modules);
 
         // graph group
         Command graph = new("graph", "Graph commands");

@@ -83,7 +83,7 @@
       "minItems": 1,
       "items": {
         "type": "object",
-        "description": "File selection + independent plugin options.",
+        "description": "File selection + independent module options.",
         "additionalProperties": false,
         "properties": {
           "includes": {
@@ -96,7 +96,7 @@
             "description": "Glob-like pattern to match files (e.g., tools/UBL-Invoice-*.yaml)."
           },
           "options": {
-            "$ref": "#/$defs/pluginOptions"
+            "$ref": "#/$defs/moduleOptions"
           }
         },
         "anyOf": [
@@ -149,9 +149,9 @@
         }
       }
     },
-    "pluginOptions": {
+    "moduleOptions": {
       "type": "object",
-      "description": "Independent plugin configuration container. Each plugin defines its own shapes.",
+      "description": "Independent module configuration container. Each module defines its own shapes.",
       "additionalProperties": false
     }
   }

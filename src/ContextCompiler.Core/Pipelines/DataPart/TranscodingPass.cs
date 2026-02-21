@@ -2,11 +2,11 @@ using ContextCompiler.Abstractions.Pipelines.DataPart;
 using ContextCompiler.Abstractions.Pipelines.Document;
 using ContextCompiler.Abstractions.ReasoningIR;
 using ContextCompiler.Abstractions.Tags;
-using ContextCompiler.Plugins.Abstractions;
+using ContextCompiler.Modules.Abstractions;
 
 namespace ContextCompiler.Core.Pipelines.DataPart
 {
-    internal sealed class TranscodingPass(IPluginRegistry plugins, IFragmentBuilder fragmentBuilder, ITagsBuilder tagsBuilder) : IDataPartPass
+    internal sealed class TranscodingPass(IModulesRegistry modules, IFragmentBuilder fragmentBuilder, ITagsBuilder tagsBuilder) : IDataPartPass
     {
         public string Id => "pass.transcoding";
         public int Priority => 100;
@@ -24,7 +24,7 @@ namespace ContextCompiler.Core.Pipelines.DataPart
                 return;
             }
 
-            ITranscoderPlugin? transcoder = plugins.Transcoders.FirstOrDefault(t => t.CanTranscode(ctx.Data));
+            ITranscoderModule? transcoder = modules.Transcoders.FirstOrDefault(t => t.CanTranscode(ctx.Data));
 
             if (transcoder is null)
             {

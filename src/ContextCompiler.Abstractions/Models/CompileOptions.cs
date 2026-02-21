@@ -4,7 +4,7 @@ public sealed record CompileOptions(
     int MaxCharacters = 100_000_000,
     string OutputFolderName = "out",
     string CacheFolderName = ".ctxboost/cache",
-    string PluginsFolderName = ".ctxboost/plugins",
+    string ModulesFolderName = ".ctxboost/modules",
     string[]? IncludeGlobs = null,
     string[]? ExcludeGlobs = null,
     string? ConfigPath = null,

@@ -25,7 +25,7 @@
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\ContextCompiler.Abstractions\ContextCompiler.Abstractions.csproj" />
-		<ProjectReference Include="..\ContextCompiler.Plugins.Abstractions\ContextCompiler.Plugins.Abstractions.csproj" />
+		<ProjectReference Include="..\ContextCompiler.Modules.Abstractions\ContextCompiler.Modules.Abstractions.csproj" />
 	</ItemGroup>
 	<ItemGroup>
 	  <None Update="schemas\ctxc.config.schema.json">

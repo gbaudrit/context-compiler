@@ -7,7 +7,7 @@ using ContextCompiler.Abstractions.Pipelines.Document;
 using ContextCompiler.Abstractions.Ports;
 using ContextCompiler.Abstractions.ReasoningIR;
 using ContextCompiler.Core.Pipelines.Document;
-using ContextCompiler.Plugins.Abstractions;
+using ContextCompiler.Modules.Abstractions;
 
 using Microsoft.Extensions.Logging;
 
@@ -25,7 +25,7 @@ public sealed class CompilerEngine(
     IGlobalPipelineRunner globalPipelineRunner,
     IFileSystem fs,
     IHasher hasher,
-    IPluginRegistry plugins,
+    IModulesRegistry modules,
     ICtxcConfigProvider configProvider,
     IConfigLocator configLocator,
     IDocumentPipelineRunner documentPipelineRunner,

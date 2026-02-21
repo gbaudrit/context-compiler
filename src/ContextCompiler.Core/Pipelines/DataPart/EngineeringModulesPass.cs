@@ -1,10 +1,10 @@
 using ContextCompiler.Abstractions.Pipelines.DataPart;
 using ContextCompiler.Abstractions.Pipelines.Document;
-using ContextCompiler.Plugins.Abstractions;
+using ContextCompiler.Modules.Abstractions;
 
 namespace ContextCompiler.Core.Pipelines.DataPart
 {
-    internal sealed class EngineeringModulesPass(IPluginRegistry plugins) : IDataPartPass
+    internal sealed class EngineeringModulesPass(IModulesRegistry modules) : IDataPartPass
     {
         public string Id => "pass.engineeringmodules";
         public int Priority => 100;
@@ -22,7 +22,7 @@ namespace ContextCompiler.Core.Pipelines.DataPart
                 return;
             }
 
-            foreach (IEngineeringModulePlugin? mod in plugins.EngineeringModules.OrderBy(m => m.Metadata.Priority))
+            foreach (IEngineeringModule? mod in modules.EngineeringModules.OrderBy(m => m.Metadata.Priority))
             {
                 _ = await mod.ApplyAsync(ctx.Data, ct);
             }

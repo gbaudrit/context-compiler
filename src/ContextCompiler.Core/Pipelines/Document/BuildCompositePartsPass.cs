@@ -1,10 +1,10 @@
 using ContextCompiler.Abstractions.Pipelines.DataPart;
 using ContextCompiler.Abstractions.Pipelines.Document;
-using ContextCompiler.Plugins.Abstractions;
+using ContextCompiler.Modules.Abstractions;
 
 namespace ContextCompiler.Core.Pipelines.Document
 {
-    internal sealed class BuildCompositePartsPass(IPluginRegistry plugins, IDataPartPipelineRunner dataPartPipelineRunner) : IDocumentPass
+    internal sealed class BuildCompositePartsPass(IModulesRegistry modules, IDataPartPipelineRunner dataPartPipelineRunner) : IDocumentPass
     {
         public string Id => "pass.buildcompositeparts";
         public int Priority => 100;

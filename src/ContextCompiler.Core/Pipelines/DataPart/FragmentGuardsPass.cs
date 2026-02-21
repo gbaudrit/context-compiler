@@ -1,10 +1,10 @@
 using ContextCompiler.Abstractions.Pipelines.DataPart;
 using ContextCompiler.Abstractions.Pipelines.Document;
-using ContextCompiler.Plugins.Abstractions;
+using ContextCompiler.Modules.Abstractions;
 
 namespace ContextCompiler.Core.Pipelines.DataPart
 {
-    internal sealed class FragmentGuardsPass(IPluginRegistry plugins) : IDataPartPass
+    internal sealed class FragmentGuardsPass(IModulesRegistry modules) : IDataPartPass
     {
         public string Id => "guards.fragment";
         public int Priority => 100;
@@ -12,9 +12,9 @@ namespace ContextCompiler.Core.Pipelines.DataPart
 
         public async ValueTask ExecuteAsync(IDocumentContext ctx, IDataPart part, CancellationToken ct)
         {
-            List<IGuardPlugin> guards = [.. plugins.Guards.Where(g => g.Stage == Stage).OrderBy(g => g.Metadata.Priority)];
+            List<IGuardModule> guards = [.. modules.Guards.Where(g => g.Stage == Stage).OrderBy(g => g.Metadata.Priority)];
             List<IPipelineFinding> findings = [];
-            foreach (IGuardPlugin? g in guards)
+            foreach (IGuardModule? g in guards)
             {
                 IReadOnlyList<IPipelineFinding> f = await g.EvaluateAsync(new GuardContext(ctx, part), ct);
                 if (f.Count > 0)

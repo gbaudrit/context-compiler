@@ -1,9 +1,9 @@
 using ContextCompiler.Abstractions.Pipelines.Document;
-using ContextCompiler.Plugins.Abstractions;
+using ContextCompiler.Modules.Abstractions;
 
 namespace ContextCompiler.Core.Pipelines.Document
 {
-    internal sealed class ReadDocumentPass(IPluginRegistry plugins) : IDocumentPass
+    internal sealed class ReadDocumentPass(IModulesRegistry modules) : IDocumentPass
     {
         public string Id => "pass.read";
         public int Priority => 200;
@@ -11,7 +11,7 @@ namespace ContextCompiler.Core.Pipelines.Document
 
         public async ValueTask ExecuteAsync(IDocumentContext ctx, CancellationToken ct)
         {
-            IFileReaderPlugin? reader = plugins.FileReaders.FirstOrDefault(r => r.CanRead(ctx.FullPath));
+            IFileReaderModule? reader = modules.FileReaders.FirstOrDefault(r => r.CanRead(ctx.FullPath));
             if (reader is null)
             {
                 return;

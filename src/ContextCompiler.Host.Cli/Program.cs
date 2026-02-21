@@ -14,8 +14,8 @@ using ContextCompiler.Host.Cli.Handlers;
 using ContextCompiler.Infrastructure.Configuration;
 using ContextCompiler.Infrastructure.FileSystem;
 using ContextCompiler.Infrastructure.Hashing;
-using ContextCompiler.Plugins.Abstractions.Loading;
-using ContextCompiler.Plugins.Loader;
+using ContextCompiler.Modules.Abstractions.Loading;
+using ContextCompiler.Modules.Loader;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -34,9 +34,9 @@ Assembly[] assemblies =
     [
         typeof(CompilerEngine).Assembly,
         typeof(PhysicalFileSystem).Assembly,
-        typeof(ContextCompiler.Plugins.BuiltIn.BuiltInMetadata).Assembly,
-        typeof(ContextCompiler.Plugins.BuiltIn.Templates.Scriban.DependencyInjection).Assembly,
-        typeof(ContextCompiler.Plugins.Readers.Excel.ExcelFileReaderPlugin).Assembly
+        typeof(ContextCompiler.Modules.BuiltIn.BuiltInMetadata).Assembly,
+        typeof(ContextCompiler.Modules.BuiltIn.Templates.Scriban.DependencyInjection).Assembly,
+        typeof(ContextCompiler.Modules.Readers.Excel.ExcelFileReaderModule).Assembly
     ];
 
 IHostEnvironment env = builder.Environment;
@@ -58,13 +58,13 @@ builder.Services
         .AddSingleton<ICtxcViewsListHandler, CtxcViewsListHandler>()
         .AddSingleton<ICtxcViewsRenderHandler, CtxcViewsRenderHandler>()
         .AddSingleton<ICtxcGuardsReportHandler, CtxcGuardsReportHandler>()
-        .AddSingleton<ICtxcPluginsListHandler, CtxcPluginsListHandler>()
-        .AddSingleton<ICtxcPluginsAddHandler, CtxcPluginsAddHandler>()
-        .AddSingleton<ICtxcPluginsRemoveHandler, CtxcPluginsRemoveHandler>()
+        .AddSingleton<ICtxcModulesListHandler, CtxcModulesListHandler>()
+        .AddSingleton<ICtxcModulesAddHandler, CtxcModulesAddHandler>()
+        .AddSingleton<ICtxcModulesRemoveHandler, CtxcModulesRemoveHandler>()
         .AddSingleton<ICtxcGraphExportHandler, CtxcGraphExportHandler>()
         .AddSingleton<ICtxcConfigFilesAddHandler, ConfigFilesAddHandler>()
         .AddCompileCoreServices()
-        .AddPluginsLoaderServices();
+        .AddModulesLoaderServices();
 
 ContextCompiler.Host.Cli.DependencyInjection.AddHostCliServices(builder.Services);
 
@@ -87,15 +87,15 @@ if (!string.IsNullOrEmpty(globals.InputPath))
 IWorkingFolder workingFolder = new WorkingFolder(globals.InputPath);
 _ = builder.Services.AddSingleton(workingFolder);
 
-IServiceCollection pluginsLoaderServices = new ServiceCollection();
-pluginsLoaderServices.AddLogging(x => x.AddConfiguration(builder.Configuration.GetSection("Logging")).AddSimpleConsole(o => o.SingleLine = true))
-                     .AddPluginsLoaderServices()
+IServiceCollection modulesLoaderServices = new ServiceCollection();
+modulesLoaderServices.AddLogging(x => x.AddConfiguration(builder.Configuration.GetSection("Logging")).AddSimpleConsole(o => o.SingleLine = true))
+                     .AddModulesLoaderServices()
                      .AddSingleton(workingFolder);
 
-IServiceProvider pluginsLoaderServicesProvider = pluginsLoaderServices.BuildServiceProvider();
-IPluginsLoader pluginsLoader = pluginsLoaderServicesProvider.GetRequiredService<IPluginsLoader>();
+IServiceProvider modulesLoaderServicesProvider = modulesLoaderServices.BuildServiceProvider();
+IModulesLoader modulesLoader = modulesLoaderServicesProvider.GetRequiredService<IModulesLoader>();
 
-await pluginsLoader.LoadFromFolder(Path.Combine(globals.InputPath, ".ctxc", "plugins"), builder.Services, CancellationToken.None);
+await modulesLoader.LoadFromFolder(Path.Combine(globals.InputPath, ".ctxc", "modules"), builder.Services, CancellationToken.None);
 
 
 using IHost host = builder.Build();
