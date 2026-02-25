@@ -2,6 +2,7 @@ using System.Text;
 using System.Text.Json;
 
 using ContextCompiler.Abstractions.Configuration;
+using ContextCompiler.Abstractions.Configuration.Sections;
 using ContextCompiler.Abstractions.Files;
 using ContextCompiler.Abstractions.Models;
 using ContextCompiler.Abstractions.Pipelines.Document;
@@ -24,7 +25,7 @@ namespace ContextCompiler.Modules.Readers.PDF;
 
 public sealed class PdfFileReaderModule(IFileReadResultBuilder fileReadResultBuilder,
                                         IFileContentBuilder fileContentBuilder,
-                                        ICtxcConfigProvider cfgProvider,
+                                        IConfigProvider cfgProvider,
                                         IDataEnvelopeBuilder dataEnvelopeBuilder,
                                         IDataPartBuilder dataPartBuilder,
                                         ITagsBuilder tagsBuilder,
@@ -56,7 +57,7 @@ public sealed class PdfFileReaderModule(IFileReadResultBuilder fileReadResultBui
         logger.LogInformation("Start reading PDF document at path: {Path}", documentContext.FullPath);
 
 
-        ICtxcConfig cfg = cfgProvider.GetConfigOrDefault(null);
+        IRootConfigSection cfg = cfgProvider.GetConfigOrDefault(null);
 
         //var fileExtracts = new List<(string match, PdfDefaults? defaults, List<PdfExtractConfig> extracts)>();
         //foreach (var f in cfg.Files)

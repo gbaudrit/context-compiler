@@ -6,7 +6,7 @@ using ContextCompiler.Modules.Abstractions.GlobalPipeline;
 
 namespace ContextCompiler.Modules.BuiltIn.GlobalPipeline.PrompComposer
 {
-    internal sealed class GeneralPromptComposer(IPrompt prompt, IOutput output, ICtxcConfigProvider ctxcConfig, IModulesRegistry modules, IReasoningIr ir) : IPromptComposerModule
+    internal sealed class GeneralPromptComposer(IPrompt prompt, IOutput output, IConfigProvider ctxcConfig, IModulesRegistry modules, IReasoningIr ir) : IPromptComposerModule
     {
         public ModuleMetadata Metadata => BuiltInMetadata.Meta("builtin.prompt.composer.general", GlobalPipelineModuleKinds.PromptComposer, priority: 10);
 

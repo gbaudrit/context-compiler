@@ -1,9 +1,9 @@
 using System.ComponentModel;
 using System.Text.Json.Serialization;
 
-namespace ContextCompiler.Abstractions.Configuration;
+namespace ContextCompiler.Abstractions.Configuration.Sections;
 
-public sealed class PersonasConfig : IPersonasConfig
+public sealed class PersonasConfigSection : IPersonasConfigSection
 {
     [JsonPropertyName("active")] public List<string> Active { get; set; } = [];
     [JsonPropertyName("mode"), DefaultValue("append")] public string Mode { get; set; } = "append"; // append|prepend|replace

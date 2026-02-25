@@ -1,10 +1,11 @@
 using ContextCompiler.Abstractions.Configuration;
+using ContextCompiler.Abstractions.Configuration.Sections;
 
 using Microsoft.Extensions.Logging;
 
 namespace ContextCompiler.Host.Cli.Handlers;
 
-internal sealed class ConfigFilesAddHandler(ICtxcConfigSerializer ctxcConfigSerializer, ILogger<ConfigFilesAddHandler> logger) : ICtxcConfigFilesAddHandler
+internal sealed class ConfigFilesAddHandler(IConfigSerializer ctxcConfigSerializer, ILogger<ConfigFilesAddHandler> logger) : ICtxcConfigFilesAddHandler
 {
 
     public Task<int> HandleAsync(string path, string relativePath)
@@ -25,7 +26,7 @@ internal sealed class ConfigFilesAddHandler(ICtxcConfigSerializer ctxcConfigSeri
             }
 
             string json = File.ReadAllText(configPath);
-            ICtxcConfig cfg = ctxcConfigSerializer.Deserialize(json);
+            IRootConfigSection cfg = ctxcConfigSerializer.Deserialize(json);
 
             string normalized = NormalizeRelativePath(relativePath);
 
@@ -45,12 +46,12 @@ internal sealed class ConfigFilesAddHandler(ICtxcConfigSerializer ctxcConfigSeri
                         [],
                         null);
 
-            cfg.Files =
-            [
-                .. cfg.Files.OrderBy(
-                    f => f.Includes is { Length: > 0 } ? NormalizeRelativePath(f.Includes[0]) : string.Empty,
-                    StringComparer.OrdinalIgnoreCase)
-            ];
+            //cfg.Files =
+            //[
+            //    .. cfg.Files.OrderBy(
+            //        f => f.Includes is { Length: > 0 } ? NormalizeRelativePath(f.Includes[0]) : string.Empty,
+            //        StringComparer.OrdinalIgnoreCase)
+            //];
 
             string outJson = ctxcConfigSerializer.Serialize(cfg);
             File.WriteAllText(configPath, outJson);

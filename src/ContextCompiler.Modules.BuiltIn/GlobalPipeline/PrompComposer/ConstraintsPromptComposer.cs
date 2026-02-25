@@ -6,7 +6,7 @@ using ContextCompiler.Modules.Abstractions.GlobalPipeline;
 
 namespace ContextCompiler.Modules.BuiltIn.GlobalPipeline.PrompComposer
 {
-    internal sealed class ConstraintsPromptComposer(IPrompt prompt, IMustConstraintBuilder mustConstraintBuilder, IMustNotConstraintBuilder mustNotConstraintBuilder, ICtxcConfigProvider ctxcConfig) : IPromptComposerModule
+    internal sealed class ConstraintsPromptComposer(IPrompt prompt, IMustConstraintBuilder mustConstraintBuilder, IMustNotConstraintBuilder mustNotConstraintBuilder, IConfigProvider ctxcConfig) : IPromptComposerModule
     {
         public ModuleMetadata Metadata => BuiltInMetadata.Meta("builtin.prompt.composer.constraints", GlobalPipelineModuleKinds.PromptComposer, priority: 10);
 

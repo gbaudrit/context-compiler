@@ -3,6 +3,7 @@ using System.Text.Json;
 using ClosedXML.Excel;
 
 using ContextCompiler.Abstractions.Configuration;
+using ContextCompiler.Abstractions.Configuration.Sections;
 using ContextCompiler.Abstractions.Files;
 using ContextCompiler.Abstractions.Models;
 using ContextCompiler.Abstractions.Pipelines.Document;
@@ -15,7 +16,7 @@ namespace ContextCompiler.Modules.Readers.Excel;
 public sealed class ExcelFileReaderModule(
     IFileReadResultBuilder fileReadResultBuilder,
     IFileContentBuilder fileContentBuilder,
-    ICtxcConfigProvider cfgProvider,
+    IConfigProvider cfgProvider,
     IDataEnvelopeBuilder dataEnvelopeBuilder,
     IDataPartBuilder dataPartBuilder,
     ITagsBuilder tagsBuilder) : IFileReaderModule
@@ -42,8 +43,8 @@ public sealed class ExcelFileReaderModule(
     public async Task<IDataEnvelope> ReadAsync(IDocumentContext documentContext, CancellationToken ct)
     {
         ct.ThrowIfCancellationRequested();
-        ICtxcConfig cfg = cfgProvider.GetConfigOrDefault(null);
-        ExcelFileSection options = documentContext.ExtractOptions.Deserialize<ExcelFileSection>() ?? new ExcelFileSection();
+        IRootConfigSection cfg = cfgProvider.GetConfigOrDefault(null);
+        ExcelFileSection options = documentContext.ExtractOptions.GetProperty(Metadata.Id).Deserialize<ExcelFileSection>() ?? new ExcelFileSection();
 
         //var fileExtracts = new List<(string match, ExcelDefaults? defaults, List<ExcelExtractConfig> extracts)>();
         //foreach (var f in cfg.Files)

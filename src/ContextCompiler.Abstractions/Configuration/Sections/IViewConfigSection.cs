@@ -1,6 +1,6 @@
-namespace ContextCompiler.Abstractions.Configuration;
+namespace ContextCompiler.Abstractions.Configuration.Sections;
 
-public interface IViewConfig
+public interface IViewConfigSection
 {
     string[] Exclude { get; set; }
     string Id { get; set; }

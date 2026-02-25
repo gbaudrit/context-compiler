@@ -1,6 +1,6 @@
-namespace ContextCompiler.Abstractions.Configuration;
+namespace ContextCompiler.Abstractions.Configuration.Sections;
 
-public interface IPersonasConfig
+public interface IPersonasConfigSection
 {
     List<string> Active { get; set; }
     string Mode { get; set; }

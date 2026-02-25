@@ -1,12 +1,12 @@
 using System.Text.Json;
 
-namespace ContextCompiler.Abstractions.Configuration;
+namespace ContextCompiler.Abstractions.Configuration.Sections;
 
-public interface IFileConfig
+public interface IFileConfigSection
 {
     string[] Includes { get; set; }
     string[] Excludes { get; set; }
-    ISubFilesMatchConfig[] Subs { get; set; }
+    ISubFilesMatchConfigSection[] Subs { get; set; }
     string[] Tags { get; set; }
     JsonElement? Options { get; set; }
 }

@@ -1,4 +1,5 @@
 using ContextCompiler.Abstractions.Configuration;
+using ContextCompiler.Abstractions.Configuration.Sections;
 using ContextCompiler.Abstractions.Pipelines.Document;
 using ContextCompiler.Abstractions.ReasoningIR;
 using ContextCompiler.Abstractions.Tags;
@@ -9,7 +10,7 @@ using Microsoft.Extensions.Logging;
 
 namespace ContextCompiler.Core.Pipelines.Document
 {
-    internal sealed class FileMatchTagsPass(IModulesRegistry modules, ICtxcConfigProvider cfgProvider, ITagsBuilder tagsBuilder, ILogger<FileMatchTagsPass> logger) : IDocumentPass
+    internal sealed class FileMatchTagsPass(IModulesRegistry modules, IConfigProvider cfgProvider, ITagsBuilder tagsBuilder, ILogger<FileMatchTagsPass> logger) : IDocumentPass
     {
         public string Id => "pass.filematchtags";
         public int Priority => 100;
@@ -18,7 +19,7 @@ namespace ContextCompiler.Core.Pipelines.Document
         public async ValueTask ExecuteAsync(IDocumentContext ctx, CancellationToken ct)
         {
 
-            foreach (IFileConfig cfgMatch in cfgProvider.Current.Files)
+            foreach (IFileConfigSection cfgMatch in cfgProvider.Current.Files)
             {
                 IReadOnlyList<ITag> cfgFilesMatchTags = [];
                 Matcher cfgMatcher = new();
@@ -28,7 +29,7 @@ namespace ContextCompiler.Core.Pipelines.Document
                     logger.LogDebug("Apply config tags {Tags} on file {FilePath}", string.Join(',', cfgMatch.Tags), ctx.FullPath);
                     ctx.AddTags(cfgMatch.Tags);
 
-                    foreach (ISubFilesMatchConfig sub in cfgMatch.Subs)
+                    foreach (ISubFilesMatchConfigSection sub in cfgMatch.Subs)
                     {
                         Matcher subMatcher = new();
                         subMatcher.AddIncludePatterns(sub.Includes);

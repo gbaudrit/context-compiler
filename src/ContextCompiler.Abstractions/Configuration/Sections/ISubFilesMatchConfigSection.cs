@@ -1,6 +1,6 @@
-namespace ContextCompiler.Abstractions.Configuration;
+namespace ContextCompiler.Abstractions.Configuration.Sections;
 
-public interface ISubFilesMatchConfig
+public interface ISubFilesMatchConfigSection
 {
     string[] Includes { get; set; }
     string[] Excludes { get; set; }

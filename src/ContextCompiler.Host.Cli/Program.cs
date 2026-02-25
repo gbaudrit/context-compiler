@@ -47,7 +47,7 @@ builder.Services
         .AddJsonConfiguration()
         .AddSingleton<IFileSystem, PhysicalFileSystem>()
         .AddSingleton<IHasher, DefaultHasher>()
-        .AddSingleton<ICtxcConfigProvider, JsonCtxcConfigProvider>()
+        .AddSingleton<IConfigProvider, JsonCtxcConfigProvider>()
         .AddSingleton<IConfigLocator, DefaultConfigLocator>()
         .AddSingleton<ICompilerEngine, CompilerEngine>()
         .AddSingleton<ICtxcCompileHandler, CtxcCompileHandler>()
@@ -96,6 +96,7 @@ IServiceProvider modulesLoaderServicesProvider = modulesLoaderServices.BuildServ
 IModulesLoader modulesLoader = modulesLoaderServicesProvider.GetRequiredService<IModulesLoader>();
 
 await modulesLoader.LoadFromFolder(Path.Combine(globals.InputPath, ".ctxc", "modules"), builder.Services, CancellationToken.None);
+await modulesLoader.LoadFromAssemblies(assemblies, builder.Services);
 
 
 using IHost host = builder.Build();

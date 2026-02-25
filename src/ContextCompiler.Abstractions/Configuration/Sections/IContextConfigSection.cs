@@ -1,6 +1,6 @@
-namespace ContextCompiler.Abstractions.Configuration;
+namespace ContextCompiler.Abstractions.Configuration.Sections;
 
-public interface IContextConfig
+public interface IContextConfigSection
 {
     bool Enabled { get; set; }
     string? Name { get; set; }
@@ -9,7 +9,7 @@ public interface IContextConfig
     Dictionary<string, string>? Audiences { get; set; }
     List<string>? Objectives { get; set; }
     List<string>? Assumptions { get; set; }
-    IConstraintsInfo? Constraints { get; set; }
+    IConstraintsInfo? Constraints { get; }
     Dictionary<string, string>? Glossary { get; set; }
-    IOutputContract? OutputContract { get; set; }
+    IOutputContract? OutputContract { get; }
 }

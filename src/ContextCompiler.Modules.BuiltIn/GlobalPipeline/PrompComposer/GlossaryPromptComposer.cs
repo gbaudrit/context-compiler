@@ -6,7 +6,7 @@ using ContextCompiler.Modules.Abstractions.GlobalPipeline;
 
 namespace ContextCompiler.Modules.BuiltIn.GlobalPipeline.PrompComposer
 {
-    internal sealed class GlossaryPromptComposer(IPrompt prompt, IGlossaryTermBuilder termBuilder, ICtxcConfigProvider ctxcConfig) : IPromptComposerModule
+    internal sealed class GlossaryPromptComposer(IPrompt prompt, IGlossaryTermBuilder termBuilder, IConfigProvider ctxcConfig) : IPromptComposerModule
     {
         public ModuleMetadata Metadata => BuiltInMetadata.Meta("builtin.prompt.composer.glossary", GlobalPipelineModuleKinds.PromptComposer, priority: 10);
 

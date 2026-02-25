@@ -8,7 +8,7 @@ using ContextCompiler.Modules.Abstractions.GlobalPipeline;
 
 namespace ContextCompiler.Modules.BuiltIn.Personas;
 
-public sealed class ActivatedPersonasIndexArtifact(IPrompt prompt, IOutput output, IReasoningIr ir, ICtxcConfigProvider cfgProvider) : IOutputArtifactComposerModule
+public sealed class ActivatedPersonasIndexArtifact(IPrompt prompt, IOutput output, IReasoningIr ir, IConfigProvider cfgProvider) : IOutputArtifactComposerModule
 {
     private readonly JsonSerializerOptions jsonSerializerOptions = new() { WriteIndented = true };
 

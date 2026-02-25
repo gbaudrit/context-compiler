@@ -10,7 +10,7 @@
     "moduleOptions": {
       "type": "object",
       "properties": {
-        "excel": {
+        "readers.excel": {
           "type": "object",
           "additionalProperties": false,
           "properties": {

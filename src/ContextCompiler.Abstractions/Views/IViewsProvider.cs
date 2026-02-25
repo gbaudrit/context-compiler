@@ -1,11 +1,11 @@
-using ContextCompiler.Abstractions.Configuration;
+using ContextCompiler.Abstractions.Configuration.Sections;
 
 namespace ContextCompiler.Abstractions.Views
 {
     public interface IViewsProvider
     {
 
-        IReadOnlyList<IViewConfig> Views { get; }
+        IReadOnlyList<IViewConfigSection> Views { get; }
 
     }
 }

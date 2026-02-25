@@ -1,6 +1,6 @@
 using System.Text.Json;
 
-using ContextCompiler.Abstractions.Configuration;
+using ContextCompiler.Abstractions.Configuration.Sections;
 using ContextCompiler.Abstractions.ReasoningIR;
 using ContextCompiler.Modules.Abstractions.Views.Renderers;
 
@@ -15,7 +15,7 @@ namespace ContextCompiler.Modules.BuiltIn.Views.Renderers
             WriteIndented = true
         };
 
-        public bool CanRender(IViewConfig def)
+        public bool CanRender(IViewConfigSection def)
         {
             return def.Renderer.Contains("index.json");
         }
@@ -23,7 +23,7 @@ namespace ContextCompiler.Modules.BuiltIn.Views.Renderers
         public string OutputFileExtension => ".json";
         public string OutputMimeType => "application/json";
 
-        public Task<string> RenderAsync(IViewConfig def, IReadOnlyList<IFragment> fragments, CancellationToken ct)
+        public Task<string> RenderAsync(IViewConfigSection def, IReadOnlyList<IFragment> fragments, CancellationToken ct)
         {
             logger.LogInformation("Rendering JSON index view for '{ViewId}' with {FragmentCount} fragments", def.Id, fragments.Count);
 

@@ -14,7 +14,7 @@ namespace ContextCompiler.Modules.BuiltIn.Personas
     internal sealed class PersonasPromptComposer(IPrompt prompt,
                                                  IOutput output,
                                                  IAssumptionBuilder assumptionBuilder,
-                                                 ICtxcConfigProvider ctxcConfig,
+                                                 IConfigProvider ctxcConfig,
                                                  IModulesRegistry modules,
                                                  ILogger<PersonasPromptComposer> logger) : IPromptComposerModule
     {

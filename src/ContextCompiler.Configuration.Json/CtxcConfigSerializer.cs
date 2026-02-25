@@ -3,10 +3,12 @@ using System.Text.Json.Serialization;
 using System.Text.Json.Serialization.Metadata;
 
 using ContextCompiler.Abstractions.Configuration;
+using ContextCompiler.Abstractions.Configuration.Sections;
+using ContextCompiler.Configuration.Json.Sections;
 
 namespace ContextCompiler.Configuration.Json
 {
-    internal sealed class CtxcConfigSerializer : ICtxcConfigSerializer
+    internal sealed class CtxcConfigSerializer : IConfigSerializer
     {
 
         private static readonly JsonSerializerOptions JsonOptions = new()
@@ -21,7 +23,7 @@ namespace ContextCompiler.Configuration.Json
             }
         };
 
-        public string Serialize(ICtxcConfig config)
+        public string Serialize(IRootConfigSection config)
         {
             return JsonSerializer.Serialize(config, JsonOptions);
         }
@@ -46,9 +48,9 @@ namespace ContextCompiler.Configuration.Json
             }
         }
 
-        public ICtxcConfig Deserialize(string json)
+        public IRootConfigSection Deserialize(string json)
         {
-            return JsonSerializer.Deserialize<CtxcConfig>(json, JsonOptions) ?? new CtxcConfig();
+            return JsonSerializer.Deserialize<RootConfigSection>(json, JsonOptions) ?? new RootConfigSection();
         }
 
     }

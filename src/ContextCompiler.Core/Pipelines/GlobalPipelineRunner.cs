@@ -1,4 +1,5 @@
 using ContextCompiler.Abstractions.Configuration;
+using ContextCompiler.Abstractions.Configuration.Sections;
 using ContextCompiler.Abstractions.Guards;
 using ContextCompiler.Abstractions.Models;
 using ContextCompiler.Abstractions.Output;
@@ -24,7 +25,7 @@ public sealed class GlobalPipelineRunner(
     IFileSystem fs,
     IHasher hasher,
     IModulesRegistry modules,
-    ICtxcConfigProvider cfgProvider,
+    IConfigProvider cfgProvider,
     IPrompt prompt,
     IOutput output,
     IGuardian guardian) : IGlobalPipelineRunner
@@ -43,7 +44,7 @@ public sealed class GlobalPipelineRunner(
         ct.ThrowIfCancellationRequested();
         fs.EnsureDirectory(outputPath, cleanOutput);
 
-        ICtxcConfig cfg = cfgProvider.Current;
+        IRootConfigSection cfg = cfgProvider.Current;
 
         await Task.WhenAll(modules.GlobalPipelineModules.OrderBy(c => c.Metadata.Kind).Select(async p =>
         {

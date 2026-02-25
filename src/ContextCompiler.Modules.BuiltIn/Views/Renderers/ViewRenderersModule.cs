@@ -1,4 +1,4 @@
-using ContextCompiler.Abstractions.Configuration;
+using ContextCompiler.Abstractions.Configuration.Sections;
 using ContextCompiler.Abstractions.ReasoningIR;
 using ContextCompiler.Abstractions.Views;
 using ContextCompiler.Modules.Abstractions;
@@ -8,7 +8,7 @@ namespace ContextCompiler.Modules.BuiltIn.Views.Renderers
 {
     internal sealed class ViewRenderersModule(IModulesRegistry modulesRegistry, IViewResultBuilder viewResultBuilder) : IViewRenderersModule
     {
-        public async ValueTask<IReadOnlyList<IViewResult>> RenderAsync(IViewConfig def, IReadOnlyList<IFragment> fragments, CancellationToken ct)
+        public async ValueTask<IReadOnlyList<IViewResult>> RenderAsync(IViewConfigSection def, IReadOnlyList<IFragment> fragments, CancellationToken ct)
         {
             List<Task<IViewResult>> tasks = [];
             foreach (IViewRendererModule renderer in modulesRegistry.ViewRenderers)

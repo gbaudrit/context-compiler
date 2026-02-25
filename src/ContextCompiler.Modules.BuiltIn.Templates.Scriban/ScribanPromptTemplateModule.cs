@@ -11,7 +11,7 @@ using Scriban;
 
 namespace ContextCompiler.Modules.BuiltIn.Templates.Scriban
 {
-    internal sealed class ScribanPromptTemplateModule(IPrompt prompt, ITemplateProvider templateProvider, IOutput output, ICtxcConfigProvider ctxcConfigProvider) : IPromptRenderingModule
+    internal sealed class ScribanPromptTemplateModule(IPrompt prompt, ITemplateProvider templateProvider, IOutput output, IConfigProvider ctxcConfigProvider) : IPromptRenderingModule
     {
         public ModuleMetadata Metadata => new("builtin.prompt.render", GlobalPipelineModuleKinds.Template, ModuleApiVersion.Current, 0);
 

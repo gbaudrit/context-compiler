@@ -6,7 +6,7 @@ using ContextCompiler.Modules.Abstractions.GlobalPipeline;
 
 namespace ContextCompiler.Modules.BuiltIn.GlobalPipeline.PrompComposer
 {
-    internal sealed class AssumptionsPromptComposer(IPrompt prompt, IAssumptionBuilder assumptionBuilder, ICtxcConfigProvider ctxcConfig) : IPromptComposerModule
+    internal sealed class AssumptionsPromptComposer(IPrompt prompt, IAssumptionBuilder assumptionBuilder, IConfigProvider ctxcConfig) : IPromptComposerModule
     {
         public ModuleMetadata Metadata => BuiltInMetadata.Meta("builtin.prompt.composer.assumptions", GlobalPipelineModuleKinds.PromptComposer, priority: 10);
 

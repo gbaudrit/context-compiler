@@ -1,4 +1,5 @@
 using ContextCompiler.Abstractions.Configuration;
+using ContextCompiler.Abstractions.Configuration.Sections;
 using ContextCompiler.Abstractions.Guards;
 using ContextCompiler.Abstractions.Models;
 using ContextCompiler.Abstractions.Output;
@@ -26,7 +27,7 @@ public sealed class CompilerEngine(
     IFileSystem fs,
     IHasher hasher,
     IModulesRegistry modules,
-    ICtxcConfigProvider configProvider,
+    IConfigProvider configProvider,
     IConfigLocator configLocator,
     IDocumentPipelineRunner documentPipelineRunner,
     IReasoningIr reasoningIr,
@@ -38,7 +39,7 @@ public sealed class CompilerEngine(
     {
         CompileOptions options = request.Options ?? new CompileOptions();
         string? configPath = configLocator.Locate(request.InputPath, options.ConfigPath, request.Name);
-        ICtxcConfig cfg = configProvider.GetConfigOrDefault(configPath);
+        IRootConfigSection cfg = configProvider.GetConfigOrDefault(configPath);
         logger.LogInformation("Compile requested. Input={Input} Output={Output}", request.InputPath, request.OutputPath);
 
         if (options.InlineViews == null)

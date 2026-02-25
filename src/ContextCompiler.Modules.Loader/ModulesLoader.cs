@@ -1,3 +1,5 @@
+using System.Reflection;
+
 using ContextCompiler.Modules.Abstractions.Loading;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -17,6 +19,16 @@ namespace ContextCompiler.Modules.Loader
             logger.LogInformation("Discovered {Count} module(s) in folder: {Path}", moduleTypes.Count(), path);
 
             moduleRegistryBuilder.RegisterModuleServices(services, moduleTypes);
+        }
+
+        public async Task LoadFromAssemblies(Assembly[] assemblies, IServiceCollection services)
+        {
+            logger.LogInformation("Starting module discovery in assemblies: {Assemblies}", string.Join(", ", assemblies.Select(a => a.GetName().Name)));
+
+            foreach (Assembly assembly in assemblies)
+            {
+                moduleRegistryBuilder.RegisterModuleServices(services, assembly.GetTypes().Where(t => t.IsClass && !t.IsAbstract));
+            }
         }
 
     }

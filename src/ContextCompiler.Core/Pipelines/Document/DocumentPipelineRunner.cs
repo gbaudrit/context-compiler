@@ -1,6 +1,7 @@
 using System.Text.Json;
 
 using ContextCompiler.Abstractions.Configuration;
+using ContextCompiler.Abstractions.Configuration.Sections;
 using ContextCompiler.Abstractions.Diagnostics;
 using ContextCompiler.Abstractions.Pipelines;
 using ContextCompiler.Abstractions.Pipelines.Document;
@@ -28,7 +29,7 @@ public sealed class DocumentPipelineRunner(
     IModulesRegistry modules,
     IFragmentBuilder fragmentBuilder,
     ITagsBuilder tagsBuilder,
-    ICtxcConfigProvider cfgProvider,
+    IConfigProvider cfgProvider,
     IEnumerable<IDocumentPass> passes,
     IDocumentContextBuilder documentContextBuilder,
     IServiceProvider serviceProvider) : IDocumentPipelineRunner
@@ -54,7 +55,7 @@ public sealed class DocumentPipelineRunner(
         //    .Where(p => !p.Contains(Path.DirectorySeparatorChar + ".ctxc" + Path.DirectorySeparatorChar))
         //    .ToList();
 
-        foreach (IFileConfig s in cfgProvider.Current.Files)
+        foreach (IFileConfigSection s in cfgProvider.Current.Files)
         {
             Matcher matcher = new();
             matcher.AddExcludePatterns(["**/.git/**", "**/bin/**", "**/obj/**", "**/.ctxc/**"]);
