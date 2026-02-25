@@ -11,7 +11,8 @@ public static class DependencyInjection
     {
         return services.AddSingleton<ICtxcConfigSerializer, CtxcConfigSerializer>()
             .AddTransient<IConfigurationSchemaAggregator, SchemaAggregator>()
-            .AddSingleton<IConfigurationSchemaProvider, JsonConfigurationSchemaProvider>();
+            .AddSingleton<IConfigurationSchemaProvider, JsonConfigurationSchemaProvider>()
+            .AddTransient<IConfigurationSchemasDiscoverer, JsonConfigurationSchemasDiscoverer>();
     }
 
 }

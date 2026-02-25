@@ -1,6 +1,7 @@
+using ContextCompiler.Modules.Abstractions;
 using ContextCompiler.Modules.Abstractions.Configuration;
 
-namespace ContextCompiler.Modules.NuGet;
+namespace ContextCompiler.Modules;
 
 public sealed class TrustPolicy(IModulesLoadConfigProvider cfg) : ITrustPolicy
 {
@@ -8,7 +9,7 @@ public sealed class TrustPolicy(IModulesLoadConfigProvider cfg) : ITrustPolicy
     {
         if (cfg.Current.Trust.RequireTrustedSource && !source.Trusted)
         {
-            throw new InvalidOperationException($"Untrusted NuGet source is not allowed: {source.Name}");
+            throw new InvalidOperationException($"Untrusted source is not allowed: {source.Name}");
         }
     }
     public void ValidatePackageId(string packageId)
@@ -23,7 +24,7 @@ public sealed class TrustPolicy(IModulesLoadConfigProvider cfg) : ITrustPolicy
             throw new InvalidOperationException($"Package is not allowlisted: {packageId}");
         }
     }
-    public void ValidateNuspec(string authors, string? repoUrl)
+    public void ValidateAuthorsAndRepositoryUrl(string authors, string? repoUrl)
     {
         if (cfg.Current.Trust.AllowedAuthors.Count > 0)
         {

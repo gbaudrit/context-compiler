@@ -10,10 +10,18 @@ public class ModulesConfig : IModulesLoadConfig
     public string ConfigurationModule { get; set; } = "ContextCompiler.Modules.Configuration";
     public List<ModuleSource> Sources { get; set; } = [];
     public TrustConfig Trust { get; set; } = new();
-    public List<ModulePackageRequest> Packages { get; set; } = [];
+    public Dictionary<string, string> Packages { get; set; } = [];
 }
 
-public sealed class ModuleSource { public string Name { get; set; } = default!; public string Url { get; set; } = default!; public bool Trusted { get; set; } }
+public sealed class ModuleSource
+{
+    public string Name { get; set; } = default!;
+    public string Url { get; set; } = default!;
+    public bool Trusted { get; set; }
+    public string Provider { get; set; } = "nuget";
+}
+
+
 public sealed class TrustConfig
 {
     public bool RequireTrustedSource { get; set; } = true;
@@ -23,15 +31,14 @@ public sealed class TrustConfig
     public List<string> AllowedAuthors { get; set; } = [];
     public List<string> AllowedRepositoryPrefixes { get; set; } = [];
 }
-public sealed class ModulePackageRequest
-{
-    public string Id { get; set; } = default!;
-    public string Version { get; set; } = default!;
-    public string Source { get; set; } = default!;
-    public string? Sha256 { get; set; }
-    public string? MinModuleApiVersion { get; set; }
-    public List<string> Capabilities { get; set; } = [];
-}
+//public sealed class ModulePackageRequest
+//{
+//    public string Id { get; set; } = default!;
+//    public string Version { get; set; } = default!;
+//    public string Source { get; set; } = default!;
+//    public string? Sha256 { get; set; }
+//    public string? MinModuleApiVersion { get; set; }
+//}
 public sealed class ModuleLockFile
 {
     public int FormatVersion { get; set; } = 1;
@@ -42,13 +49,14 @@ public sealed class ModuleLockFile
         public string Id { get; set; } = default!;
         public string Version { get; set; } = default!;
         public string Source { get; set; } = default!;
-        public string Sha256 { get; set; } = default!;
-        public NuspecInfo Nuspec { get; set; } = new();
+        public string Checksum { get; set; } = default!;
+
         public SignatureInfo Signature { get; set; } = new();
         public List<DependencyInfo> Dependencies { get; set; } = [];
         public List<string> Files { get; set; } = [];
+        public string[] Authors { get; set; } = [];
+        public string? RepositoryUrl { get; set; }
     }
-    public sealed class NuspecInfo { public string Authors { get; set; } = ""; public string? RepositoryUrl { get; set; } }
     public sealed class SignatureInfo { public bool Required { get; set; } public bool IsSigned { get; set; } public string? SignerFingerprint { get; set; } public string? Note { get; set; } }
     public sealed class DependencyInfo { public string Id { get; set; } = default!; public string Version { get; set; } = default!; }
 }

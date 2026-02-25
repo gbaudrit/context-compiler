@@ -35,7 +35,7 @@ internal sealed class VerifyHandler(
                 }
 
                 string sha = Loader.Integrity.ComputeSha256Base64(nupkg);
-                if (!string.Equals(sha, p.Sha256, StringComparison.Ordinal))
+                if (!string.Equals(sha, p.Checksum, StringComparison.Ordinal))
                 {
                     throw new InvalidOperationException($"SHA mismatch for {p.Id} {p.Version}");
                 }

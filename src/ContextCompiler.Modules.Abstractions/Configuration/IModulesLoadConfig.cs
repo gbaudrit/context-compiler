@@ -6,7 +6,7 @@ public interface IModulesLoadConfig
     string LockFile { get; set; }
     string Mode { get; set; }
     bool Offline { get; set; }
-    List<ModulePackageRequest> Packages { get; set; }
+    Dictionary<string, string> Packages { get; set; }
     string QuarantineRoot { get; set; }
     List<ModuleSource> Sources { get; set; }
     TrustConfig Trust { get; set; }

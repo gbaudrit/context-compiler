@@ -1,4 +1,4 @@
-namespace ContextCompiler.Modules.NuGet;
+namespace ContextCompiler.Modules;
 
 public static class Wildcard
 {

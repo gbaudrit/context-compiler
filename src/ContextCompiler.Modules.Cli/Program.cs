@@ -3,6 +3,7 @@ using System.CommandLine;
 using ContextCompiler.Abstractions;
 using ContextCompiler.Configuration.Json;
 using ContextCompiler.Core;
+using ContextCompiler.Modules;
 using ContextCompiler.Modules.Cli;
 using ContextCompiler.Modules.Cli.Handlers;
 using ContextCompiler.Modules.Loader;
@@ -29,6 +30,7 @@ builder.Services.AddSingleton(workingFolder)
                 .AddCoreServices()
                 .AddJsonConfiguration()
                 .AddModulesNuGetRestoreServices()
+                .AddModules()
                 .AddModulesLoaderServices();
 
 builder.Services
