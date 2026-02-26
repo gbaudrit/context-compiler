@@ -9,7 +9,9 @@ public static class DependencyInjection
 
     public static IServiceCollection AddModulesNuGetRestoreServices(this IServiceCollection services)
     {
-        return services.AddKeyedSingleton<IModulesStore, NuGetModuleStore>("nuget");
+        return services.AddKeyedSingleton<IModulesStore, NuGetModuleStore>("nuget")
+                       .AddSingleton<IPackageDownloader, PackageDownloader>()
+                       .AddSingleton<INuGetMetadatasExtractor, NuGetMetadatasExtractor>();
     }
 
 }

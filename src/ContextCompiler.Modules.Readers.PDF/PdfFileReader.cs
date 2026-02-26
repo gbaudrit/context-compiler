@@ -69,7 +69,7 @@ public sealed class PdfFileReaderModule(IFileReadResultBuilder fileReadResultBui
         //    }
 
         //}
-        PdfExtractsConfig options = documentContext.ExtractOptions.Deserialize<PdfExtractsConfig>() ?? new PdfExtractsConfig();
+        PdfExtractsConfig options = documentContext.ExtractOptions.GetProperty(Metadata.Id).Deserialize<PdfExtractsConfig>() ?? new PdfExtractsConfig();
 
         using PdfDocument pdfDocument = PdfDocument.Open(documentContext.FullPath!, new ParsingOptions() { ClipPaths = true });
         string sourcePath = documentContext.FullPath ?? string.Empty;
