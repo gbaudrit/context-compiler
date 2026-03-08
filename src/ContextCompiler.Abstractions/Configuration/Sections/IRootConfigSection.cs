@@ -12,5 +12,6 @@ namespace ContextCompiler.Abstractions.Configuration.Sections
         List<string> Renderers { get; set; }
 
         void AddFile(string[] Includes, string[] Excludes, ISubFilesMatchConfigSection[] Subs, string[] Tags, JsonElement? Options);
+        void AddView(string Id, string? title, string[] selectTags, string[] Excludes, string[] order, string[] renderers);
     }
 }

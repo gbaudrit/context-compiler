@@ -1,3 +1,4 @@
+using ContextCompiler.Abstractions.Commands;
 using ContextCompiler.Abstractions.Configuration;
 using ContextCompiler.Abstractions.Output;
 using ContextCompiler.Abstractions.Prompt;
@@ -6,7 +7,7 @@ using ContextCompiler.Modules.Abstractions.GlobalPipeline;
 
 namespace ContextCompiler.Modules.BuiltIn.GlobalPipeline.PrompComposer
 {
-    internal sealed class CommandsPromptComposer(IPrompt prompt, ICommandBuilder commandBuilder, IConfigProvider ctxcConfig) : IPromptComposerModule
+    internal sealed class CommandsPromptComposer(IPrompt prompt, ICommandBuilder commandBuilder, IConfigProvider ctxcConfig, ICommandsProvider commandsProvider) : IPromptComposerModule
     {
 
         public ModuleMetadata Metadata => BuiltInMetadata.Meta("builtin.prompt.composer.commands", GlobalPipelineModuleKinds.PromptComposer, priority: 10);
@@ -33,7 +34,7 @@ namespace ContextCompiler.Modules.BuiltIn.GlobalPipeline.PrompComposer
                                     .Build()
             ];
 
-            if (ctxcConfig.Current.Views.Views.Length != 0)
+            if (ctxcConfig.Current.Views.Views.Count > 0)
             {
                 commands.Add(commandBuilder.InitNew()
                                     .WithName("view <name>")
@@ -41,6 +42,10 @@ namespace ContextCompiler.Modules.BuiltIn.GlobalPipeline.PrompComposer
                                     .Build());
             }
 
+            foreach (ICommand cmd in commandsProvider.Commands)
+            {
+                commands.Add(cmd);
+            }
 
             prompt.Commands = commands;
             return Task.CompletedTask;

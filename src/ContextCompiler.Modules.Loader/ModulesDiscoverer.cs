@@ -23,7 +23,7 @@ internal sealed class ModulesDiscoverer(IModuleAssemblyLoader moduleAssemblyLoad
                     ILoadModuleAssemblyResult loadResult = await moduleAssemblyLoader.LoadFromAssembly(path, ct);
                     if (loadResult.Success)
                     {
-                        discoveredModuleTypes.Add(loadResult.ModuleType);
+                        discoveredModuleTypes.AddRange(loadResult.Types);
                     }
                 }
                 catch (Exception ex)

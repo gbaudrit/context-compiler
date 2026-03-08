@@ -6,7 +6,6 @@ using ContextCompiler.Abstractions.Output;
 using ContextCompiler.Abstractions.Pipelines;
 using ContextCompiler.Abstractions.Pipelines.Document;
 using ContextCompiler.Abstractions.Ports;
-using ContextCompiler.Abstractions.ReasoningIR;
 using ContextCompiler.Modules.Abstractions;
 
 using Microsoft.Extensions.Logging;
@@ -35,9 +34,6 @@ public sealed class GlobalPipelineRunner(
         string rootPath,
         string outputPath,
         bool cleanOutput,
-        IReasoningIr ir,
-        IReadOnlyList<IPipelineFinding> findings,
-        CompileOptions options,
         IOutput output,
         CancellationToken ct)
     {

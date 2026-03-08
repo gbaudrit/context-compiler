@@ -12,7 +12,7 @@ namespace ContextCompiler.Modules.BuiltIn.Views.Renderers
 
         public bool CanRender(IViewConfigSection def)
         {
-            return def.Renderer.Contains("md");
+            return def.Renderers.Contains("md");
         }
 
         public string OutputFileExtension => ".md";

@@ -49,4 +49,20 @@ public sealed class RootConfigSection : IRootConfigSection
         };
         FilesValue.Add(fileConfig);
     }
+
+    public void AddView(string Id, string? title, string[] selectTags, string[] Excludes, string[] order, string[] renderers)
+    {
+        ViewConfigSection viewConfig = new()
+        {
+            Id = Id,
+            Title = title ?? "",
+            SelectTags = selectTags,
+            Excludes = Excludes,
+            Order = order,
+            IncludeFragmentContent = false,
+            MaxContentChars = null,
+            Renderers = renderers.Length > 0 ? renderers : ["yaml", "index.json"]
+        };
+        ViewsValue.AddView(viewConfig);
+    }
 }

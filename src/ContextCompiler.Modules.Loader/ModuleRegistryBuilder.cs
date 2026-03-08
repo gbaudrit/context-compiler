@@ -17,7 +17,7 @@ public sealed class ModuleRegistryBuilder : IModuleRegistryBuilder
 
         foreach (Type t in types)
         {
-            if (t.IsAbstract || t.IsInterface)
+            if (t is null || t.IsAbstract || t.IsInterface)
             {
                 continue;
             }
@@ -104,6 +104,16 @@ public sealed class ModuleRegistryBuilder : IModuleRegistryBuilder
             if (typeof(IOutputArtifactComposerModule).IsAssignableFrom(t))
             {
                 _ = services.AddTransient(typeof(IOutputArtifactComposerModule), t);
+            }
+
+            if (typeof(IDocumentsModule).IsAssignableFrom(t))
+            {
+                _ = services.AddTransient(typeof(IDocumentsModule), t);
+            }
+
+            if (typeof(IConfigurationModule).IsAssignableFrom(t))
+            {
+                _ = services.AddTransient(typeof(IConfigurationModule), t);
             }
         }
     }

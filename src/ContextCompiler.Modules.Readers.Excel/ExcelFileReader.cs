@@ -69,6 +69,9 @@ public sealed class ExcelFileReaderModule(
                 continue;
             }
 
+            sheet = sheet.ExpandRows();
+            sheet = sheet.ExpandColumns();
+
             IXLRange range = sheet.RangeUsed()!;
             if (!string.IsNullOrEmpty(x.Range))
             {
@@ -93,10 +96,19 @@ public sealed class ExcelFileReaderModule(
                 rows = [.. rows.Skip(toSkip)];
             }
 
-            int headerRowIndex = x.HeaderRowIndex ?? 0;
-            if (headerRowIndex < 0)
+            int[]? headerRowIndices = x.HeaderRowIndex;
+            if (headerRowIndices is null || headerRowIndices.Length == 0)
             {
-                headerRowIndex = 0;
+                headerRowIndices = [0];
+            }
+
+            // Normaliser les indices négatifs
+            for (int i = 0; i < headerRowIndices.Length; i++)
+            {
+                if (headerRowIndices[i] < 0)
+                {
+                    headerRowIndices[i] = 0;
+                }
             }
 
             if (rows.Count == 0)
@@ -104,8 +116,36 @@ public sealed class ExcelFileReaderModule(
                 continue;
             }
 
-            string[] header = [.. rows[Math.Min(headerRowIndex, rows.Count - 1)]];
-            List<List<string>> body = [.. rows.Skip(Math.Min(headerRowIndex + 1, rows.Count))];
+            // Construire l'en-tête en combinant les lignes d'en-tête multiples
+            List<string> headerParts = [];
+            int maxHeaderIndex = headerRowIndices.Max();
+
+            if (maxHeaderIndex >= rows.Count)
+            {
+                maxHeaderIndex = rows.Count - 1;
+            }
+
+            // Pour chaque colonne, combiner les valeurs des lignes d'en-tête
+            int columnCount = rows[Math.Min(headerRowIndices[0], rows.Count - 1)].Count;
+            for (int col = 0; col < columnCount; col++)
+            {
+                List<string> headerValues = [];
+                foreach (int headerIdx in headerRowIndices)
+                {
+                    if (headerIdx < rows.Count && col < rows[headerIdx].Count)
+                    {
+                        string value = rows[headerIdx][col];
+                        if (!string.IsNullOrWhiteSpace(value))
+                        {
+                            headerValues.Add(value);
+                        }
+                    }
+                }
+                headerParts.Add(string.Join("_", headerValues));
+            }
+
+            string[] header = [.. headerParts];
+            List<List<string>> body = [.. rows.Skip(Math.Min(maxHeaderIndex + 1, rows.Count))];
 
             if (x.Where is not null && x.Where.Count > 0)
             {
@@ -144,7 +184,7 @@ public sealed class ExcelFileReaderModule(
                 locatorPrefix += $"/range:{x.Range}";
             }
 
-            var payload = new { headerRowIndex, rows };
+            var payload = new { headerRowIndices, rows };
             //var env = dataEnvelopeBuilder.InitNew()
             //                             .WithDataShape(DataShape.Tabular)
             //                             .WithPayload(payload)

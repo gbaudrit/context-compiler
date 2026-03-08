@@ -2,6 +2,7 @@ using ContextCompiler.Abstractions;
 using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Abstractions.Models;
 using ContextCompiler.Abstractions.Output;
+using ContextCompiler.Core.Commands;
 using ContextCompiler.Core.Common;
 using ContextCompiler.Core.Configuration;
 using ContextCompiler.Core.Files;
@@ -34,6 +35,7 @@ namespace ContextCompiler.Core
                     .AddTags()
                     .AddGuards()
                     .AddFraming()
+                    .AddCommands()
                     .AddSingleton<IPrompt, Prompt>()
                     .AddTransient<ISourceRefBuilder, SourceRefBuilder>()
                     .AddSingleton<ICtxcWorkingFolder, CtxcWorkingFolder>();

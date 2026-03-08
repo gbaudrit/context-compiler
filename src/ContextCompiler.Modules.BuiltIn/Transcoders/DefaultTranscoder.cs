@@ -35,7 +35,7 @@ public sealed class DefaultTranscoder(ILogger<DefaultTranscoder> logger, ITagBui
             }
             else if (dataPart.Payload is string s)
             {
-                locator = "text:full";
+                locator = dataPart.Source.Locator ?? "text:full";
                 content = s;
             }
 

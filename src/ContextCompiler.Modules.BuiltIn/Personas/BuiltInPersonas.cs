@@ -216,3 +216,35 @@ public sealed class DevBadPersona(IPersonaResultBuilder personaResultBuilder) : 
         return Task.FromResult(res);
     }
 }
+
+public sealed class FunctionalTesterPersona(IPersonaResultBuilder personaResultBuilder) : IPersonaModule
+{
+    public ModuleMetadata Metadata => BuiltInMetadata.Meta("builtin.persona.functional_tester", GlobalPipelineModuleKinds.Persona, priority: 10);
+    public string PersonaId => "functional_tester";
+
+    public Task<IPersonaResult> BuildAsync(PersonaContext ctx, CancellationToken ct)
+    {
+        IReadOnlyDictionary<string, object>? inputs = ctx.Inputs;
+        string domain = inputs?.TryGetValue("domain", out object? d) == true ? d?.ToString() ?? "general" : "general";
+        string audience = inputs?.TryGetValue("audience", out object? a) == true ? a?.ToString() ?? "stakeholders" : "stakeholders";
+        string format = inputs?.TryGetValue("format", out object? f) == true ? f?.ToString() ?? "markdown" : "markdown";
+        string md = "" +
+        "## Persona: Functional Tester (id: {PersonaId})\n\n" +
+        $"- Domaine: {domain}\n" +
+        $"- Audience: {audience}\n" +
+        "- Objectif: valider fonctionnalités, performances, et sécurité\n\n" +
+        "### Cadre d'analyse\n\n" +
+        "- Contexte métier\n- Problème à résoudre\n- Parties prenantes\n- KPI / Impact attendu\n- Contraintes / Risques\n";
+        IPersonaResult res = personaResultBuilder
+            .InitNew()
+            .WithPersonaId(PersonaId)
+            .WithTitle("Functional Tester Persona")
+            .WithFramingMarkdown(md)
+            .WithMetadata(new Dictionary<string, string> { { "domain", domain }, { "audience", audience }, { "format", format } })
+            .WithRole("Testeur fonctionnel")
+            .WithMust(["Valider les fonctionnalités, performances, et sécurité"])
+            .WithMustNot(Array.Empty<string>())
+            .Build();
+        return Task.FromResult(res);
+    }
+}

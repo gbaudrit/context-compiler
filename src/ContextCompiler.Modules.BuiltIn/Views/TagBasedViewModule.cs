@@ -128,7 +128,7 @@ internal static class ViewSelector
     public static IReadOnlyList<IFragment> SelectFragments(IReasoningIr ir, IViewConfigSection def)
     {
         string[] include = def.SelectTags ?? [];
-        string[] exclude = def.Exclude ?? [];
+        string[] exclude = def.Excludes ?? [];
 
         IEnumerable<IFragment> selected = ir.Fragments
             .Where(f =>

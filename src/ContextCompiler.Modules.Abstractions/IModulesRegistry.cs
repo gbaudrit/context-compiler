@@ -6,6 +6,8 @@ namespace ContextCompiler.Modules.Abstractions;
 
 public interface IModulesRegistry
 {
+    IReadOnlyList<IConfigurationModule> ConfigurationModules { get; }
+    IReadOnlyList<IDocumentsModule> DocumentsModules { get; }
     IReadOnlyList<IFileReaderModule> FileReaders { get; }
     IReadOnlyList<IDataReaderModule> DataReaders { get; }
     IReadOnlyList<IEngineeringModule> EngineeringModules { get; }

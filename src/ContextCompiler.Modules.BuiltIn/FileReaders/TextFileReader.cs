@@ -12,7 +12,7 @@ public sealed class TextFileReaderModule(IFileReadResultBuilder fileReadResultBu
 
     private static readonly HashSet<string> Extensions = new(StringComparer.OrdinalIgnoreCase)
     {
-        ".md",".txt",".cs",".json",".yaml",".yml",".xml",".config",".sln",".csproj",".props"
+        ".md",".txt",".cs",".json",".yaml",".yml",".xml",".config",".sln",".props"
     };
 
     public bool CanRead(string path)

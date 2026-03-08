@@ -22,9 +22,9 @@ public sealed class ExcelExtractConfig
     // source selector: one-of
     [JsonPropertyName("table")] public string? Table { get; set; }
     [JsonPropertyName("range")] public string? Range { get; set; }
-    [JsonPropertyName("headerRowIndex")] public int? HeaderRowIndex { get; set; }
+    [JsonPropertyName("headerRowIndex")] public int[]? HeaderRowIndex { get; set; }
     [JsonPropertyName("skip")] public int? Skip { get; set; } // skip leading phantom lines before header/rows
-                                                              // projection
+    // projection
     [JsonPropertyName("select")] public List<string>? Select { get; set; }
     [JsonPropertyName("exclude")] public List<string>? Exclude { get; set; }
     [JsonPropertyName("rename")] public Dictionary<string, string>? Rename { get; set; }

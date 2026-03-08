@@ -17,7 +17,7 @@ namespace ContextCompiler.Modules.BuiltIn.Views.Renderers
 
         public bool CanRender(IViewConfigSection def)
         {
-            return def.Renderer.Contains("index.json");
+            return def.Renderers.Contains("index.json");
         }
 
         public string OutputFileExtension => ".json";

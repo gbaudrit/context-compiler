@@ -13,7 +13,7 @@ namespace ContextCompiler.Modules.BuiltIn.Views.Renderers
     {
         public bool CanRender(IViewConfigSection def)
         {
-            return def.Renderer.Contains("yaml");
+            return def.Renderers.Contains("yaml");
         }
 
         public string OutputFileExtension => ".yaml";
@@ -31,7 +31,7 @@ namespace ContextCompiler.Modules.BuiltIn.Views.Renderers
             foreach (IFragment f in fragments)
             {
                 _ = sb.AppendLine(CultureInfo.InvariantCulture, $"    - ek: \"{f.Evidence.EvidenceKey}\"  ");
-                _ = sb.AppendLine(CultureInfo.InvariantCulture, $"      ek: \"{f.Evidence.EvidenceRevision}\"  ");
+                _ = sb.AppendLine(CultureInfo.InvariantCulture, $"      er: \"{f.Evidence.EvidenceRevision}\"  ");
                 _ = sb.AppendLine(CultureInfo.InvariantCulture, $"      source: \"{f.Source.Path.Replace("\\", "/")}#{f.Source.Locator}\"  ");
 
                 if (def.IncludeFragmentContent)
