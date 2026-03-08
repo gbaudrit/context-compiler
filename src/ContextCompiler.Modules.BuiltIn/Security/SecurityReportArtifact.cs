@@ -7,7 +7,7 @@ using ContextCompiler.Modules.Abstractions.GlobalPipeline;
 
 namespace ContextCompiler.Modules.BuiltIn.Security;
 
-public sealed class SecurityReportArtifact(IPrompt prompt, IOutput output, IGuardian guardian) : IOutputArtifactComposerModule
+public sealed class SecurityReportArtifact(IPrompt prompt, IGuardian guardian) : IOutputArtifactComposerModule
 {
     private readonly JsonSerializerOptions jsonSerializerOptions = new() { WriteIndented = true };
 
@@ -23,7 +23,7 @@ public sealed class SecurityReportArtifact(IPrompt prompt, IOutput output, IGuar
         string secMd = "# Security Report\n\n" + (guardian.Findings.Count == 0 ? "No findings." :
             string.Join("\n", guardian.Findings.Select(f => $"- **{f.Severity}** `{f.PassId}` ({f.Action}): {f.Message} — `{f.EvidenceRef?.Path}`")));
 
-        output.AddArtifact(builder =>
+        prompt.AddArtifact(builder =>
         {
             return builder.WithFileName("security.report.md")
                           .WithContent(secMd);

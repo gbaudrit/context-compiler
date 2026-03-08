@@ -6,5 +6,6 @@ namespace ContextCompiler.Abstractions.Output
         IOutputArtifactBuilder WithFileName(string fileName);
         IOutputArtifactBuilder WithContent(string content);
         IOutputArtifact Build();
+        IOutputArtifactBuilder WithDescription(string description);
     }
 }

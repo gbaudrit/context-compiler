@@ -5,7 +5,7 @@ namespace ContextCompiler.Modules.Abstractions;
 public interface IPersonaModule : IModule
 {
     string PersonaId { get; }
-    Task<IPersonaResult> BuildAsync(PersonaContext ctx, CancellationToken ct);
+    Task<IPersona> BuildAsync(PersonaContext ctx, CancellationToken ct);
 }
 
 public sealed record PersonaContext(

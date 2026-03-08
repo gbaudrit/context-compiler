@@ -73,10 +73,19 @@ public sealed class NuGetModuleStore(IModulesLoadConfigProvider cfg,
     private string ExtractToImmutableCache(string nupkgPath, string packageId, string version, string shaBase64)
     {
         string hashDir = shaBase64.Replace("/", "_").Replace("+", "-");
-        string dest = Path.Combine(Path.GetFullPath(cfg.Current.InstallRoot), packageId, version, hashDir);
+        string packageDir = Path.Combine(Path.GetFullPath(cfg.Current.InstallRoot), packageId);
+
+        string dest = Path.Combine(packageDir, version, hashDir);
         if (Directory.Exists(dest))
         {
+            //Already the good version, no need to extract again
             return dest;
+        }
+
+        if (Directory.Exists(packageDir))
+        {
+            // Another version exists, remove it
+            Directory.Delete(packageDir, true);
         }
 
         _ = Directory.CreateDirectory(dest);

@@ -7,7 +7,7 @@ using ContextCompiler.Modules.Abstractions.GlobalPipeline;
 
 namespace ContextCompiler.Modules.BuiltIn.GlobalPipeline.PrompComposer
 {
-    internal sealed class ViewsPromptComposer(IOutput output, IConfigProvider ctxcConfig, IModulesRegistry modules, IReasoningIr ir) : IPromptComposerModule
+    internal sealed class ViewsPromptComposer(IPrompt prompt, IConfigProvider ctxcConfig, IModulesRegistry modules, IReasoningIr ir) : IPromptComposerModule
     {
         public ModuleMetadata Metadata => BuiltInMetadata.Meta("builtin.prompt.composer.views", GlobalPipelineModuleKinds.PromptComposer, priority: 10);
 
@@ -20,7 +20,7 @@ namespace ContextCompiler.Modules.BuiltIn.GlobalPipeline.PrompComposer
             }
             views.ForEach(v =>
             {
-                output.AddArtifact((builder) =>
+                prompt.AddArtifact((builder) =>
                 {
                     return builder.WithFileName(v.Filename)
                                   .WithContent(v.Content);

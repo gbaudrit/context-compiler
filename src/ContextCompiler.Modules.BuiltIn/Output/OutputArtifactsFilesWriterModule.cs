@@ -7,13 +7,13 @@ using Microsoft.Extensions.Logging;
 
 namespace ContextCompiler.Modules.BuiltIn.Output
 {
-    internal sealed class OutputArtifactsFilesWriterModule(IOutput output, IFileSystem fs, ILogger<OutputArtifactsFilesWriterModule> logger) : IOutputArtifactsFilesWriterModule
+    internal sealed class OutputArtifactsFilesWriterModule(IPrompt prompt, IOutput output, IFileSystem fs, ILogger<OutputArtifactsFilesWriterModule> logger) : IOutputArtifactsFilesWriterModule
     {
         public ModuleMetadata Metadata => BuiltInMetadata.Meta("builtin.output.writer", GlobalPipelineModuleKinds.OutputWriter, priority: 10);
 
         public Task Run(CancellationToken ct)
         {
-            foreach (IOutputArtifact artifact in output.Artifacts)
+            foreach (IOutputArtifact artifact in prompt.Artifacts)
             {
                 string p = Path.Combine(output.Path, artifact.FileName);
                 fs.WriteAllText(p, artifact.Content);

@@ -3,12 +3,12 @@ using ContextCompiler.Modules.Abstractions;
 
 namespace ContextCompiler.Modules.BuiltIn.Personas;
 
-public sealed class DevArchitectPersona(IPersonaResultBuilder personaResultBuilder) : IPersonaModule
+public sealed class DevArchitectPersona(IPersonaBuilder personaResultBuilder) : IPersonaModule
 {
     public ModuleMetadata Metadata => BuiltInMetadata.Meta("builtin.persona.dev_architect", GlobalPipelineModuleKinds.Persona, priority: 10);
     public string PersonaId => "dev_architect";
 
-    public Task<IPersonaResult> BuildAsync(PersonaContext ctx, CancellationToken ct)
+    public Task<IPersona> BuildAsync(PersonaContext ctx, CancellationToken ct)
     {
         IReadOnlyDictionary<string, object>? inputs = ctx.Inputs;
         string language = inputs?.TryGetValue("language", out object? l) == true ? l?.ToString() ?? "fr" : "fr";
@@ -22,7 +22,7 @@ public sealed class DevArchitectPersona(IPersonaResultBuilder personaResultBuild
         "### Exigences globales\n\n" +
         "- Respecter les invariants\n" +
         "- Code déterministe et testable\n";
-        IPersonaResult res = personaResultBuilder
+        IPersona res = personaResultBuilder
             .InitNew()
             .WithPersonaId(PersonaId)
             .WithTitle("Dev Architect Persona")
@@ -36,12 +36,12 @@ public sealed class DevArchitectPersona(IPersonaResultBuilder personaResultBuild
     }
 }
 
-public sealed class SecurityReviewerPersona(IPersonaResultBuilder personaResultBuilder) : IPersonaModule
+public sealed class SecurityReviewerPersona(IPersonaBuilder personaResultBuilder) : IPersonaModule
 {
     public ModuleMetadata Metadata => BuiltInMetadata.Meta("builtin.persona.security_reviewer", GlobalPipelineModuleKinds.Persona, priority: 10);
     public string PersonaId => "security_reviewer";
 
-    public Task<IPersonaResult> BuildAsync(PersonaContext ctx, CancellationToken ct)
+    public Task<IPersona> BuildAsync(PersonaContext ctx, CancellationToken ct)
     {
         IReadOnlyDictionary<string, object>? inputs = ctx.Inputs;
         string severity = inputs?.TryGetValue("severityBias", out object? b) == true ? b?.ToString() ?? "high" : "high";
@@ -58,7 +58,7 @@ public sealed class SecurityReviewerPersona(IPersonaResultBuilder personaResultB
         "- Sortie: checklist + recommandations\n\n" +
         "### Checklist\n\n" +
         "- [ ] Secrets exposés\n- [ ] Injection\n- [ ] Permissions, ...\n";
-        IPersonaResult res = personaResultBuilder
+        IPersona res = personaResultBuilder
             .InitNew()
             .WithPersonaId(PersonaId)
             .WithTitle("Security Reviewer Persona")
@@ -72,12 +72,12 @@ public sealed class SecurityReviewerPersona(IPersonaResultBuilder personaResultB
     }
 }
 
-public sealed class DeepSecurityReviewerPersona(IPersonaResultBuilder personaResultBuilder) : IPersonaModule
+public sealed class DeepSecurityReviewerPersona(IPersonaBuilder personaResultBuilder) : IPersonaModule
 {
     public ModuleMetadata Metadata => BuiltInMetadata.Meta("builtin.persona.deep_security_reviewer", GlobalPipelineModuleKinds.Persona, priority: 10);
     public string PersonaId => "deep_security_reviewer";
 
-    public Task<IPersonaResult> BuildAsync(PersonaContext ctx, CancellationToken ct)
+    public Task<IPersona> BuildAsync(PersonaContext ctx, CancellationToken ct)
     {
         IReadOnlyDictionary<string, object>? inputs = ctx.Inputs;
         string severity = inputs?.TryGetValue("severityBias", out object? b) == true ? b?.ToString() ?? "high" : "high";
@@ -88,7 +88,7 @@ public sealed class DeepSecurityReviewerPersona(IPersonaResultBuilder personaRes
         "### Engagements — MUST\n\n" +
         "- Respecter les engagements du Security Reviewer (security_reviewer)\n\n" +
         "- Analyser en profondeur le code\n";
-        IPersonaResult res = personaResultBuilder
+        IPersona res = personaResultBuilder
             .InitNew()
             .WithPersonaId(PersonaId)
             .WithTitle("Security Reviewer Persona")
@@ -102,12 +102,12 @@ public sealed class DeepSecurityReviewerPersona(IPersonaResultBuilder personaRes
     }
 }
 
-public sealed class BusinessAnalystPersona(IPersonaResultBuilder personaResultBuilder) : IPersonaModule
+public sealed class BusinessAnalystPersona(IPersonaBuilder personaResultBuilder) : IPersonaModule
 {
     public ModuleMetadata Metadata => BuiltInMetadata.Meta("builtin.persona.business_analyst", GlobalPipelineModuleKinds.Persona, priority: 10);
     public string PersonaId => "business_analyst";
 
-    public Task<IPersonaResult> BuildAsync(PersonaContext ctx, CancellationToken ct)
+    public Task<IPersona> BuildAsync(PersonaContext ctx, CancellationToken ct)
     {
         IReadOnlyDictionary<string, object>? inputs = ctx.Inputs;
         string domain = inputs?.TryGetValue("domain", out object? d) == true ? d?.ToString() ?? "general" : "general";
@@ -120,7 +120,7 @@ public sealed class BusinessAnalystPersona(IPersonaResultBuilder personaResultBu
         "- Objectif: clarifier besoins, contraintes, et KPI\n\n" +
         "### Cadre d'analyse\n\n" +
         "- Contexte métier\n- Problème à résoudre\n- Parties prenantes\n- KPI / Impact attendu\n- Contraintes / Risques\n";
-        IPersonaResult res = personaResultBuilder
+        IPersona res = personaResultBuilder
             .InitNew()
             .WithPersonaId(PersonaId)
             .WithTitle("Business Analyst Persona")
@@ -134,12 +134,12 @@ public sealed class BusinessAnalystPersona(IPersonaResultBuilder personaResultBu
     }
 }
 
-public sealed class DevSeniorPersona(IPersonaResultBuilder personaResultBuilder) : IPersonaModule
+public sealed class DevSeniorPersona(IPersonaBuilder personaResultBuilder) : IPersonaModule
 {
     public ModuleMetadata Metadata => BuiltInMetadata.Meta("builtin.persona.dev_senior", GlobalPipelineModuleKinds.Persona, priority: 10);
     public string PersonaId => "dev_senior";
 
-    public Task<IPersonaResult> BuildAsync(PersonaContext ctx, CancellationToken ct)
+    public Task<IPersona> BuildAsync(PersonaContext ctx, CancellationToken ct)
     {
         IReadOnlyDictionary<string, object>? inputs = ctx.Inputs;
         string language = inputs?.TryGetValue("language", out object? l) == true ? l?.ToString() ?? "fr" : "fr";
@@ -152,7 +152,7 @@ public sealed class DevSeniorPersona(IPersonaResultBuilder personaResultBuilder)
         "- Bonnes pratiques: tests, lisibilité, performance, sécurité, DI\n\n" +
         "### Engagements — MUST\n\n" +
         "- Respect des conventions de code\n- Respect des conventions de nommage\n- Respect du typage\n- Couverture de tests adéquate\n- Gestion des erreurs robuste\n- Simplicité et maintenabilité\n- Commentaires dans le code\n";
-        IPersonaResult res = personaResultBuilder
+        IPersona res = personaResultBuilder
             .InitNew()
             .WithPersonaId(PersonaId)
             .WithTitle("Dev Senior Persona")
@@ -176,12 +176,12 @@ public sealed class DevSeniorPersona(IPersonaResultBuilder personaResultBuilder)
     }
 }
 
-public sealed class DevBadPersona(IPersonaResultBuilder personaResultBuilder) : IPersonaModule
+public sealed class DevBadPersona(IPersonaBuilder personaResultBuilder) : IPersonaModule
 {
     public ModuleMetadata Metadata => BuiltInMetadata.Meta("builtin.persona.dev_bad", GlobalPipelineModuleKinds.Persona, priority: 10);
     public string PersonaId => "dev_bad";
 
-    public Task<IPersonaResult> BuildAsync(PersonaContext ctx, CancellationToken ct)
+    public Task<IPersona> BuildAsync(PersonaContext ctx, CancellationToken ct)
     {
         IReadOnlyDictionary<string, object>? inputs = ctx.Inputs;
         string language = inputs?.TryGetValue("language", out object? l) == true ? l?.ToString() ?? "fr" : "fr";
@@ -194,7 +194,7 @@ public sealed class DevBadPersona(IPersonaResultBuilder personaResultBuilder) : 
         "- Mauvaises pratiques: code illisible, manque de tests, mauvaise gestion des erreurs\n\n" +
         "### Engagements — MUST\n\n" +
         "- Ne respecte pas les conventions de code\n- Ne respecte pas les conventions de nommage\n- Ne respecte pas le typage\n- Mauvaise gestion d'erreurs\n- Compléxité et défaut de maintenabilité\n";
-        IPersonaResult res = personaResultBuilder
+        IPersona res = personaResultBuilder
             .InitNew()
             .WithPersonaId(PersonaId)
             .WithTitle("Dev Bad Persona")
@@ -217,12 +217,12 @@ public sealed class DevBadPersona(IPersonaResultBuilder personaResultBuilder) : 
     }
 }
 
-public sealed class FunctionalTesterPersona(IPersonaResultBuilder personaResultBuilder) : IPersonaModule
+public sealed class FunctionalTesterPersona(IPersonaBuilder personaResultBuilder) : IPersonaModule
 {
     public ModuleMetadata Metadata => BuiltInMetadata.Meta("builtin.persona.functional_tester", GlobalPipelineModuleKinds.Persona, priority: 10);
     public string PersonaId => "functional_tester";
 
-    public Task<IPersonaResult> BuildAsync(PersonaContext ctx, CancellationToken ct)
+    public Task<IPersona> BuildAsync(PersonaContext ctx, CancellationToken ct)
     {
         IReadOnlyDictionary<string, object>? inputs = ctx.Inputs;
         string domain = inputs?.TryGetValue("domain", out object? d) == true ? d?.ToString() ?? "general" : "general";
@@ -235,7 +235,7 @@ public sealed class FunctionalTesterPersona(IPersonaResultBuilder personaResultB
         "- Objectif: valider fonctionnalités, performances, et sécurité\n\n" +
         "### Cadre d'analyse\n\n" +
         "- Contexte métier\n- Problème à résoudre\n- Parties prenantes\n- KPI / Impact attendu\n- Contraintes / Risques\n";
-        IPersonaResult res = personaResultBuilder
+        IPersona res = personaResultBuilder
             .InitNew()
             .WithPersonaId(PersonaId)
             .WithTitle("Functional Tester Persona")

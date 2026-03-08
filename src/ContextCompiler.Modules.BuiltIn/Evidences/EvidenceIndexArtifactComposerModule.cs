@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 
 namespace ContextCompiler.Modules.BuiltIn.Evidences
 {
-    internal sealed class EvidenceIndexArtifactComposerModule(ILogger<EvidenceIndexArtifactComposerModule> logger, IReasoningIr ir, IOutput output) : IOutputArtifactComposerModule
+    internal sealed class EvidenceIndexArtifactComposerModule(ILogger<EvidenceIndexArtifactComposerModule> logger, IReasoningIr ir, IPrompt prompt) : IOutputArtifactComposerModule
     {
         public ModuleMetadata Metadata => BuiltInMetadata.Meta("builtin.output.evidence.index.json", GlobalPipelineModuleKinds.OutputArtifactComposer, priority: 10);
 
@@ -34,22 +34,26 @@ namespace ContextCompiler.Modules.BuiltIn.Evidences
                 tags = f.Tags
             }).ToList();
 
-            var evidenceIndex = new
+            var evidencesStats = new
             {
-                summary = new
-                {
-                    totalDistinctEvidences = distinctEvidenceCount,
-                    totalEvidencesByTag = evidencesCountByTag
-                },
-                evidences
+                totalDistinctEvidences = distinctEvidenceCount,
+                totalEvidencesByTag = evidencesCountByTag
             };
 
             logger.LogInformation("Writing {Count} evidence items to index.", evidences.Count);
 
-            output.AddArtifact(builder =>
+            prompt.AddArtifact(builder =>
             {
-                return builder.WithFileName("evidence.index.json")
-                              .WithContent(JsonSerializer.Serialize(evidenceIndex, s_jsonIndentedOptions));
+                return builder.WithFileName("evidences.index.json")
+                              .WithContent(JsonSerializer.Serialize(evidences, s_jsonIndentedOptions))
+                              .WithDescription("Evidences index file");
+            });
+
+            prompt.AddArtifact(builder =>
+            {
+                return builder.WithFileName("evidences.stats.json")
+                              .WithContent(JsonSerializer.Serialize(evidencesStats, s_jsonIndentedOptions))
+                              .WithDescription("Evidences statistics file");
             });
 
             return Task.CompletedTask;

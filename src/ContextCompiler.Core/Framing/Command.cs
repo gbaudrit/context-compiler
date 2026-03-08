@@ -9,5 +9,7 @@ namespace ContextCompiler.Core.Framing
         public required string Description { get; init; }
 
         public List<ICommand> Subs { get; init; } = [];
+
+        public string PersonaId { get; init; } = string.Empty;
     }
 }

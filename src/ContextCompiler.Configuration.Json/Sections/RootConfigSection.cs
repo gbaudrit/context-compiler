@@ -12,7 +12,7 @@ public sealed class RootConfigSection : IRootConfigSection
     [JsonIgnore]
     public IContextConfigSection Context => ContextValue;
 
-    [JsonPropertyName("personas")] public PersonasConfigSection? PersonasValue { get; set; }
+    [JsonPropertyName("personas")] public PersonasConfigSection? PersonasValue { get; set; } = new PersonasConfigSection();
     [JsonIgnore]
     public IPersonasConfigSection? Personas => PersonasValue;
 

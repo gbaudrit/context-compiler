@@ -7,7 +7,7 @@ namespace ContextCompiler.Abstractions.Output
     public interface IPrompt
     {
         //string Global { get; set; }
-        IReadOnlyList<IPersonaResult> Personas { get; set; }
+        IReadOnlyList<IPersona> Personas { get; set; }
         IReadOnlyList<IViewResult> Views { get; set; }
         IReadOnlyList<IMustConstraint> MustConstraints { get; set; }
         IReadOnlyList<IMustNotConstraint> MustNotConstraints { get; set; }
@@ -19,5 +19,9 @@ namespace ContextCompiler.Abstractions.Output
         IReadOnlyList<IAssumption> Assumptions { get; set; }
         IReadOnlyList<IGlossaryTerm> Glossary { get; set; }
         IReadOnlyList<ICommand> Commands { get; set; }
+        IReadOnlyList<IOutputArtifact> Artifacts { get; }
+
+        void AddArtifact(IOutputArtifact artifact);
+        void AddArtifact(Func<IOutputArtifactBuilder, IOutputArtifactBuilder> builder);
     }
 }

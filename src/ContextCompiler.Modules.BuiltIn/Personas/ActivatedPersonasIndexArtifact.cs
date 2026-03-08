@@ -21,7 +21,7 @@ public sealed class ActivatedPersonasIndexArtifact(IPrompt prompt, IOutput outpu
 
     public async Task Run(CancellationToken cancellationToken)
     {
-        output.AddArtifact(builder =>
+        prompt.AddArtifact(builder =>
         {
             return builder.WithFileName("personas.active.json")
                           .WithContent(JsonSerializer.Serialize(new { active = cfgProvider.Current.Personas!.Active, mode = cfgProvider.Current.Personas.Mode, results = prompt.Personas }, jsonSerializerOptions));

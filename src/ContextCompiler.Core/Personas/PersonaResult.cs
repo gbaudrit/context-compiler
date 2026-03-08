@@ -11,5 +11,5 @@ namespace ContextCompiler.Core.Personas
         IReadOnlyDictionary<string, string> Metadata,
         IReadOnlyList<IMustConstraint> Must,
         IReadOnlyList<IMustNotConstraint> MustNot
-    ) : IPersonaResult;
+    ) : IPersona;
 }

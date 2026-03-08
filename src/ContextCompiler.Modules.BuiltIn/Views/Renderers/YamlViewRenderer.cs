@@ -32,6 +32,8 @@ namespace ContextCompiler.Modules.BuiltIn.Views.Renderers
             {
                 _ = sb.AppendLine(CultureInfo.InvariantCulture, $"    - ek: \"{f.Evidence.EvidenceKey}\"  ");
                 _ = sb.AppendLine(CultureInfo.InvariantCulture, $"      er: \"{f.Evidence.EvidenceRevision}\"  ");
+                _ = sb.AppendLine(CultureInfo.InvariantCulture, $"      rek: \"{f.Evidence.RelativeEvidenceKey}\"  ");
+                _ = sb.AppendLine(CultureInfo.InvariantCulture, $"      rer: \"{f.Evidence.RelativeEvidenceRevision}\"  ");
                 _ = sb.AppendLine(CultureInfo.InvariantCulture, $"      source: \"{f.Source.Path.Replace("\\", "/")}#{f.Source.Locator}\"  ");
 
                 if (def.IncludeFragmentContent)

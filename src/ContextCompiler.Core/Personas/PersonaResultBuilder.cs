@@ -3,7 +3,7 @@ using ContextCompiler.Abstractions.Prompt;
 
 namespace ContextCompiler.Core.Personas
 {
-    internal sealed class PersonaResultBuilder(IMustConstraintBuilder mustConstraintBuilder, IMustNotConstraintBuilder mustNotConstraintBuilder) : IPersonaResultBuilder
+    internal sealed class PersonaResultBuilder(IMustConstraintBuilder mustConstraintBuilder, IMustNotConstraintBuilder mustNotConstraintBuilder) : IPersonaBuilder
     {
 
         private string? _personaId;
@@ -15,7 +15,7 @@ namespace ContextCompiler.Core.Personas
         private IReadOnlyList<IMustNotConstraint>? _mustNot;
 
 
-        public IPersonaResultBuilder InitNew()
+        public IPersonaBuilder InitNew()
         {
             _personaId = null;
             _title = null;
@@ -27,42 +27,42 @@ namespace ContextCompiler.Core.Personas
             return this;
         }
 
-        public IPersonaResultBuilder WithPersonaId(string personaId)
+        public IPersonaBuilder WithPersonaId(string personaId)
         {
             _personaId = personaId;
             return this;
         }
 
-        public IPersonaResultBuilder WithTitle(string title)
+        public IPersonaBuilder WithTitle(string title)
         {
             _title = title;
             return this;
         }
 
-        public IPersonaResultBuilder WithRole(string role)
+        public IPersonaBuilder WithRole(string role)
         {
             _role = role;
             return this;
         }
 
-        public IPersonaResultBuilder WithFramingMarkdown(string framingMarkdown)
+        public IPersonaBuilder WithFramingMarkdown(string framingMarkdown)
         {
             _framingMarkdown = framingMarkdown;
             return this;
         }
-        public IPersonaResultBuilder WithMetadata(IReadOnlyDictionary<string, string> metadata)
+        public IPersonaBuilder WithMetadata(IReadOnlyDictionary<string, string> metadata)
         {
             _metadata = metadata;
             return this;
         }
 
-        public IPersonaResultBuilder WithMust(IReadOnlyList<IMustConstraint> must)
+        public IPersonaBuilder WithMust(IReadOnlyList<IMustConstraint> must)
         {
             _must = must;
             return this;
         }
 
-        public IPersonaResultBuilder WithMust(IReadOnlyList<string> must)
+        public IPersonaBuilder WithMust(IReadOnlyList<string> must)
         {
             int index = 0;
             List<IMustConstraint> mustConstraints = [];
@@ -77,13 +77,13 @@ namespace ContextCompiler.Core.Personas
             return this;
         }
 
-        public IPersonaResultBuilder WithMustNot(IReadOnlyList<IMustNotConstraint> mustNot)
+        public IPersonaBuilder WithMustNot(IReadOnlyList<IMustNotConstraint> mustNot)
         {
             _mustNot = mustNot;
             return this;
         }
 
-        public IPersonaResultBuilder WithMustNot(IReadOnlyList<string> mustNot)
+        public IPersonaBuilder WithMustNot(IReadOnlyList<string> mustNot)
         {
             int index = 0;
             List<IMustNotConstraint> mustNotConstraints = [];
@@ -98,16 +98,15 @@ namespace ContextCompiler.Core.Personas
             return this;
         }
 
-        public IPersonaResult Build()
+        public IPersona Build()
         {
             ArgumentNullException.ThrowIfNull(_personaId);
             ArgumentNullException.ThrowIfNull(_title);
-            ArgumentNullException.ThrowIfNull(_framingMarkdown);
             return new PersonaResult(
                 _personaId,
                 _title,
                 _role ?? string.Empty,
-                _framingMarkdown,
+                _framingMarkdown ?? string.Empty,
                 _metadata ?? new Dictionary<string, string>(),
                 _must ?? [],
                 _mustNot ?? []);

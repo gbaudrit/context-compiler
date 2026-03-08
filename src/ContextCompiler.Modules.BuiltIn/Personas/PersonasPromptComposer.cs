@@ -16,6 +16,7 @@ namespace ContextCompiler.Modules.BuiltIn.Personas
                                                  IAssumptionBuilder assumptionBuilder,
                                                  IConfigProvider ctxcConfig,
                                                  IModulesRegistry modules,
+                                                 IPersonasProvider personasProvider,
                                                  ILogger<PersonasPromptComposer> logger) : IPromptComposerModule
     {
         public ModuleMetadata Metadata => BuiltInMetadata.Meta("builtin.prompt.composer.personas", GlobalPipelineModuleKinds.PromptComposer, priority: 10);
@@ -23,7 +24,7 @@ namespace ContextCompiler.Modules.BuiltIn.Personas
         public async Task Run(CancellationToken cancellationToken)
         {
             // Personas (existing integration)
-            List<IPersonaResult> personasMeta = [];
+            List<IPersona> personasMeta = [];
             if (ctxcConfig.Current.Personas is not null && ctxcConfig.Current.Personas.Active.Count > 0)
             {
                 foreach (string id in ctxcConfig.Current.Personas.Active)
@@ -51,6 +52,12 @@ namespace ContextCompiler.Modules.BuiltIn.Personas
                     personasMeta.Add(await module.BuildAsync(new PersonaContext(inputs), cancellationToken));
                 }
             }
+
+            foreach (IPersona persona in personasProvider.Personas)
+            {
+                personasMeta.Add(persona);
+            }
+
             prompt.Personas = personasMeta;
         }
     }

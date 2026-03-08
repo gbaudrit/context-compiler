@@ -8,7 +8,7 @@ using ContextCompiler.Modules.Abstractions.GlobalPipeline;
 
 namespace ContextCompiler.Modules.BuiltIn.GraphExporters;
 
-public sealed class DotGraphExporter(IOutput output, IReasoningIr ir) : IOutputArtifactComposerModule
+public sealed class DotGraphExporter(IPrompt prompt, IReasoningIr ir) : IOutputArtifactComposerModule
 {
     public ModuleMetadata Metadata => BuiltInMetadata.Meta("builtin.output.evidence.graph.dot", GlobalPipelineModuleKinds.OutputArtifactComposer, priority: 10);
 
@@ -29,7 +29,7 @@ public sealed class DotGraphExporter(IOutput output, IReasoningIr ir) : IOutputA
 
         _ = sb.AppendLine("}");
 
-        output.AddArtifact(builder =>
+        prompt.AddArtifact(builder =>
         {
             return builder.WithFileName("reasoning.graph.dot")
                           .WithContent(sb.ToString());

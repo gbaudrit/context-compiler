@@ -82,6 +82,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.Modules", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.Modules.Engineering.DotNet", "src\ContextCompiler.Modules.Engineering.DotNet\ContextCompiler.Modules.Engineering.DotNet.csproj", "{D1AE2AAB-5FCC-44E9-8A3E-E32C977E6CCD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.Modules.Personas.Analysts.Business", "src\ContextCompiler.Modules.Personas.Analysts.Business\ContextCompiler.Modules.Personas.Analysts.Business.csproj", "{65B4D16F-5FF5-B92D-5EC7-66BEC541227C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.Modules.Personas.Testers.Analyst", "src\ContextCompiler.Modules.Personas.Testers.Analyst\ContextCompiler.Modules.Personas.Testers.Analyst.csproj", "{A12A3C51-045E-544E-270B-F7BD59459D2C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.Modules.Personas.Developers.DotNet", "src\ContextCompiler.Modules.Personas.Developers.DotNet\ContextCompiler.Modules.Personas.Developers.DotNet.csproj", "{AFCDB6AB-7A00-06E5-33BA-72568F42F950}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.Modules.Personas.Developers.Python", "src\ContextCompiler.Modules.Personas.Developers.Python\ContextCompiler.Modules.Personas.Developers.Python.csproj", "{CBDD21C6-3A93-C3BB-E15E-19BBAD6CCA08}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -225,6 +233,30 @@ Global
 		{D1AE2AAB-5FCC-44E9-8A3E-E32C977E6CCD}.DebugLocal|Any CPU.Build.0 = DebugLocal|Any CPU
 		{D1AE2AAB-5FCC-44E9-8A3E-E32C977E6CCD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D1AE2AAB-5FCC-44E9-8A3E-E32C977E6CCD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65B4D16F-5FF5-B92D-5EC7-66BEC541227C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65B4D16F-5FF5-B92D-5EC7-66BEC541227C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65B4D16F-5FF5-B92D-5EC7-66BEC541227C}.DebugLocal|Any CPU.ActiveCfg = DebugLocal|Any CPU
+		{65B4D16F-5FF5-B92D-5EC7-66BEC541227C}.DebugLocal|Any CPU.Build.0 = DebugLocal|Any CPU
+		{65B4D16F-5FF5-B92D-5EC7-66BEC541227C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65B4D16F-5FF5-B92D-5EC7-66BEC541227C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A12A3C51-045E-544E-270B-F7BD59459D2C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A12A3C51-045E-544E-270B-F7BD59459D2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A12A3C51-045E-544E-270B-F7BD59459D2C}.DebugLocal|Any CPU.ActiveCfg = DebugLocal|Any CPU
+		{A12A3C51-045E-544E-270B-F7BD59459D2C}.DebugLocal|Any CPU.Build.0 = DebugLocal|Any CPU
+		{A12A3C51-045E-544E-270B-F7BD59459D2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A12A3C51-045E-544E-270B-F7BD59459D2C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AFCDB6AB-7A00-06E5-33BA-72568F42F950}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFCDB6AB-7A00-06E5-33BA-72568F42F950}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFCDB6AB-7A00-06E5-33BA-72568F42F950}.DebugLocal|Any CPU.ActiveCfg = DebugLocal|Any CPU
+		{AFCDB6AB-7A00-06E5-33BA-72568F42F950}.DebugLocal|Any CPU.Build.0 = DebugLocal|Any CPU
+		{AFCDB6AB-7A00-06E5-33BA-72568F42F950}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFCDB6AB-7A00-06E5-33BA-72568F42F950}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBDD21C6-3A93-C3BB-E15E-19BBAD6CCA08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBDD21C6-3A93-C3BB-E15E-19BBAD6CCA08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBDD21C6-3A93-C3BB-E15E-19BBAD6CCA08}.DebugLocal|Any CPU.ActiveCfg = DebugLocal|Any CPU
+		{CBDD21C6-3A93-C3BB-E15E-19BBAD6CCA08}.DebugLocal|Any CPU.Build.0 = DebugLocal|Any CPU
+		{CBDD21C6-3A93-C3BB-E15E-19BBAD6CCA08}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBDD21C6-3A93-C3BB-E15E-19BBAD6CCA08}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

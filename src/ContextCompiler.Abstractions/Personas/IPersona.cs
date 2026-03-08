@@ -2,7 +2,7 @@ using ContextCompiler.Abstractions.Prompt;
 
 namespace ContextCompiler.Abstractions.Personas
 {
-    public interface IPersonaResult
+    public interface IPersona
     {
         string PersonaId { get; }
         string Title { get; }

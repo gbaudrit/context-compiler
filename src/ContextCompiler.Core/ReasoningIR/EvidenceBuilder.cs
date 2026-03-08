@@ -19,7 +19,9 @@ namespace ContextCompiler.Core.ReasoningIR
         public IEvidence Build()
         {
             return new Evidence("E-" + hasher.Sha256Hex(_filePath + "|" + _transcodedFragment?.Locator)[..12],
-                                "R-" + hasher.Sha256Hex(_filePath + "|" + _transcodedFragment?.Locator + "|" + _transcodedFragment?.Content)[..12]);
+                                "R-" + hasher.Sha256Hex(_filePath + "|" + _transcodedFragment?.Locator + "|" + _transcodedFragment?.Content)[..12],
+                                "RE-" + hasher.Sha256Hex(_transcodedFragment?.Locator ?? "")[..12],
+                                "RR-" + hasher.Sha256Hex(_transcodedFragment?.Locator + "|" + _transcodedFragment?.Content)[..12]);
         }
 
         public IEvidenceBuilder ForFile(string filePath)

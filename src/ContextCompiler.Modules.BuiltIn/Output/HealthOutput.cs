@@ -13,7 +13,7 @@ namespace ContextCompiler.Modules.BuiltIn.Output
         IReasoningIr ir,
         IGuardian guardian,
         IViewsProvider viewsProvider,
-        IOutput output) : IOutputArtifactComposerModule
+        IPrompt prompt) : IOutputArtifactComposerModule
     {
         public ModuleMetadata Metadata => BuiltInMetadata.Meta("builtin.output.health", GlobalPipelineModuleKinds.Output, priority: 10);
 
@@ -29,7 +29,7 @@ namespace ContextCompiler.Modules.BuiltIn.Output
                 score = Math.Max(0, 100 - (guardian.Findings.Count * 5))
             };
 
-            output.AddArtifact(builder =>
+            prompt.AddArtifact(builder =>
             {
                 return builder.WithFileName("context.health.json")
                               .WithContent(JsonSerializer.Serialize(health, jsonSerializerOptions));

@@ -7,7 +7,7 @@ using ContextCompiler.Modules.Abstractions.GlobalPipeline;
 
 namespace ContextCompiler.Modules.BuiltIn.GraphExporters;
 
-public sealed class PersonasActiveArtifact(IOutput output, IReasoningIr ir) : IOutputArtifactComposerModule
+public sealed class PersonasActiveArtifact(IPrompt prompt, IReasoningIr ir) : IOutputArtifactComposerModule
 {
     private readonly JsonSerializerOptions jsonSerializerOptions = new() { WriteIndented = true };
 
@@ -21,7 +21,7 @@ public sealed class PersonasActiveArtifact(IOutput output, IReasoningIr ir) : IO
     public async Task Run(CancellationToken cancellationToken)
     {
         IGraph graph = await ir.Graph(cancellationToken);
-        output.AddArtifact(builder =>
+        prompt.AddArtifact(builder =>
         {
             return builder.WithFileName("reasoning.graph.json")
                           .WithContent(JsonSerializer.Serialize(graph, jsonSerializerOptions));

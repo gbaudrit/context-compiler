@@ -10,7 +10,9 @@ public static class DependencyInjection
     public static IServiceCollection AddPersonas(this IServiceCollection services)
     {
         // Register core services here
-        return services.AddSingleton<IPersonaResultBuilder, PersonaResultBuilder>();
+        return services
+            .AddSingleton<IPersonasProvider, PersonasProvider>()
+            .AddSingleton<IPersonaBuilder, PersonaResultBuilder>();
     }
 
 }

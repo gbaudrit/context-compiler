@@ -24,12 +24,13 @@ namespace ContextCompiler.Modules.BuiltIn.Templates.Scriban.Extensions
                     must = o.MustConstraints.Select(x => x.ToTemplateModel()).ToList(),
                     mustNot = o.MustNotConstraints.Select(x => x.ToTemplateModel()).ToList(),
                     glossary = o.Glossary.Select(x => x.ToTemplateModel()).ToList(),
-                    commands = o.Commands.Select(x => x.ToTemplateModel()).ToList()
+                    commands = o.Commands.GroupBy(x => x.PersonaId).ToDictionary(g => g.Key, g => g.Select(x => x.ToTemplateModel()).ToList()),
+                    artifacts = o.Artifacts.Select(x => x.ToTemplateModel()).ToList(),
                 }
             };
         }
 
-        public static object ToTemplateModel(this IPersonaResult o)
+        public static object ToTemplateModel(this IPersona o)
         {
             return new
             {
@@ -75,6 +76,15 @@ namespace ContextCompiler.Modules.BuiltIn.Templates.Scriban.Extensions
             return new
             {
                 name = o.Name,
+                description = o.Description
+            };
+        }
+
+        public static object ToTemplateModel(this IOutputArtifact o)
+        {
+            return new
+            {
+                filename = o.FileName,
                 description = o.Description
             };
         }

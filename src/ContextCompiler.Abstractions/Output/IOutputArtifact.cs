@@ -5,6 +5,6 @@ namespace ContextCompiler.Abstractions.Output
 
         string FileName { get; init; }
         string Content { get; init; }
-
+        string Description { get; init; }
     }
 }
