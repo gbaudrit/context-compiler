@@ -7,6 +7,7 @@ namespace ContextCompiler.Abstractions.Views
         string Filename { get; }
         string Content { get; }
         string Mime { get; }
+        Type RenderType { get; }
         IReadOnlyDictionary<string, string>? Metadata { get; }
     }
 }

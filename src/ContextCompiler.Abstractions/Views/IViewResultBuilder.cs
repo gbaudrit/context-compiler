@@ -1,3 +1,4 @@
+
 namespace ContextCompiler.Abstractions.Views
 {
     public interface IViewResultBuilder
@@ -10,5 +11,6 @@ namespace ContextCompiler.Abstractions.Views
         IViewResultBuilder WithTitle(string title);
         IViewResult Build();
         IViewResultBuilder WithContent(string content);
+        IViewResultBuilder WithRendererType(Type rendererType);
     }
 }

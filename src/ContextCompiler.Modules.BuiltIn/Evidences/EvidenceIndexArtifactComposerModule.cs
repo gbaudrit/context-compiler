@@ -46,14 +46,16 @@ namespace ContextCompiler.Modules.BuiltIn.Evidences
             {
                 return builder.WithFileName("evidences.index.json")
                               .WithContent(JsonSerializer.Serialize(evidences, s_jsonIndentedOptions))
-                              .WithDescription("Evidences index file");
+                              .WithDescription("Evidences index file")
+                              .WithGeneratedBy(GetType());
             });
 
             prompt.AddArtifact(builder =>
             {
                 return builder.WithFileName("evidences.stats.json")
                               .WithContent(JsonSerializer.Serialize(evidencesStats, s_jsonIndentedOptions))
-                              .WithDescription("Evidences statistics file");
+                              .WithDescription("Evidences statistics file")
+                              .WithGeneratedBy(GetType());
             });
 
             return Task.CompletedTask;

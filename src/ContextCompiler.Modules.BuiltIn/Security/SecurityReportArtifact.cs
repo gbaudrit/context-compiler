@@ -26,7 +26,8 @@ public sealed class SecurityReportArtifact(IPrompt prompt, IGuardian guardian) :
         prompt.AddArtifact(builder =>
         {
             return builder.WithFileName("security.report.md")
-                          .WithContent(secMd);
+                          .WithContent(secMd)
+                          .WithGeneratedBy(GetType());
 
         });
     }

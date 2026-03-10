@@ -32,7 +32,8 @@ namespace ContextCompiler.Modules.BuiltIn.Output
             prompt.AddArtifact(builder =>
             {
                 return builder.WithFileName("context.health.json")
-                              .WithContent(JsonSerializer.Serialize(health, jsonSerializerOptions));
+                              .WithContent(JsonSerializer.Serialize(health, jsonSerializerOptions))
+                              .WithGeneratedBy(GetType());
             });
 
             return Task.CompletedTask;

@@ -9,11 +9,19 @@ namespace ContextCompiler.Core.Views
         private string? _filename;
         private string? _content;
         private string? _mime;
+        private Type? _rendererType;
 
         private IReadOnlyDictionary<string, string>? _metadata;
 
         public IViewResultBuilder InitNew()
         {
+            _id = null;
+            _title = null;
+            _filename = null;
+            _content = null;
+            _mime = null;
+            _metadata = null;
+            _rendererType = null;
             return this;
         }
 
@@ -46,6 +54,14 @@ namespace ContextCompiler.Core.Views
             _mime = mime;
             return this;
         }
+
+        public IViewResultBuilder WithRendererType(Type rendererType)
+        {
+            _rendererType = rendererType;
+            return this;
+        }
+
+
 
         //public IViewResultBuilder AsMarkdown()
         //{
@@ -80,6 +96,7 @@ namespace ContextCompiler.Core.Views
                 _filename,
                 _content,
                 _mime,
+                _rendererType ?? throw new InvalidOperationException("Renderer type must be specified."),
                 _metadata ?? new Dictionary<string, string>());
 
         }

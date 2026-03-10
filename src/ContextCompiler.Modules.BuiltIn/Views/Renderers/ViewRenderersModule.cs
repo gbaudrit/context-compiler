@@ -25,6 +25,7 @@ namespace ContextCompiler.Modules.BuiltIn.Views.Renderers
                                                .WithContent(content)
                                                .WithFilename($"view.{def.Id}{renderer.OutputFileExtension}")
                                                .WithMime(renderer.OutputMimeType)
+                                               .WithRendererType(renderer.GetType())
                                                .Build();
                     }
 

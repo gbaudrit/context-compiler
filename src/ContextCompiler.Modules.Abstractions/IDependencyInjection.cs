@@ -2,7 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace ContextCompiler.Modules.Abstractions
 {
-    public interface IModuleRegistration
+    public interface IDependencyInjection
     {
         IServiceCollection RegisterServices(IServiceCollection services);
     }

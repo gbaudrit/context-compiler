@@ -63,6 +63,7 @@ builder.Services
         .AddSingleton<ICtxcModulesRemoveHandler, CtxcModulesRemoveHandler>()
         .AddSingleton<ICtxcGraphExportHandler, CtxcGraphExportHandler>()
         .AddSingleton<ICtxcConfigFilesAddHandler, ConfigFilesAddHandler>()
+        .AddSingleton<IServeHandler, ServeHandler>()
         .AddCompileCoreServices()
         .AddModulesLoaderServices();
 

@@ -11,6 +11,7 @@ indent_style = space
 indent_size = 4
 dotnet_sort_system_directives_first = true
 dotnet_separate_import_directive_groups = true
+namespace_declarations = file_scoped
 
 # Style suggestions (keep noise low, enforce through analyzers as needed)
 dotnet_style_qualification_for_field = false:suggestion

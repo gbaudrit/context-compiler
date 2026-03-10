@@ -37,7 +37,8 @@ namespace ContextCompiler.Modules.BuiltIn.Templates.Scriban
             prompt.AddArtifact(builder =>
             {
                 return builder.WithFileName(outputFilename)
-                              .WithContent(result);
+                              .WithContent(result)
+                              .WithGeneratedBy(GetType());
             });
 
             //new ScribanRenderedPromptResult() { Filename = outputFilename, RenderedText = result };

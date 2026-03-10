@@ -8,5 +8,6 @@ public sealed record ViewResult(
     string Filename,
     string Content,
     string Mime,
+    Type RenderType,
     IReadOnlyDictionary<string, string>? Metadata = null
 ) : IViewResult;

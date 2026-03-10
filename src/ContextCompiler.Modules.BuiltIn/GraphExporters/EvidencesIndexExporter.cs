@@ -22,7 +22,8 @@ namespace ContextCompiler.Modules.BuiltIn.GraphExporters
             prompt.AddArtifact(builder =>
             {
                 return builder.WithFileName("reasoning.graph.json")
-                              .WithContent(JsonSerializer.Serialize(graph, s_jsonIndentedOptions));
+                              .WithContent(JsonSerializer.Serialize(graph, s_jsonIndentedOptions))
+                              .WithGeneratedBy(GetType());
             });
 
         }

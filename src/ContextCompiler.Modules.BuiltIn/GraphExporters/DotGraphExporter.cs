@@ -32,7 +32,8 @@ public sealed class DotGraphExporter(IPrompt prompt, IReasoningIr ir) : IOutputA
         prompt.AddArtifact(builder =>
         {
             return builder.WithFileName("reasoning.graph.dot")
-                          .WithContent(sb.ToString());
+                          .WithContent(sb.ToString())
+                          .WithGeneratedBy(GetType());
         });
     }
 

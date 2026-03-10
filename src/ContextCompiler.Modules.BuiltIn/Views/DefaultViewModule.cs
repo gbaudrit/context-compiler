@@ -36,6 +36,7 @@ public sealed class DefaultViewModule(IViewResultBuilder viewResultBuilder) : IV
                                                                                          .WithContent(sb.ToString())
                                                                                          .WithMime("text/markdown")
                                                                                          .WithFilename("view.default.md")
+                                                                                         .WithRendererType(GetType())
                                                                                          .Build() ]);
     }
 }

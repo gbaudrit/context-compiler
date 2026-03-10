@@ -50,6 +50,7 @@ public static class CliCommandFactory
         Option<string?> configOpt = new("--config", description: "Config file path");
         Option<bool> jsonOpt = new("--json", description: "Emit summary JSON");
         Option<bool> cleanOpt = new("--clean", description: "Clean output directory");
+        Option<bool> serveOpt = new("--serve", description: "Serve MCP");
         compile.AddOption(inputOpt);
         compile.AddOption(outputOpt);
         compile.AddOption(contextOpt);
@@ -60,6 +61,7 @@ public static class CliCommandFactory
         compile.AddOption(configOpt);
         compile.AddOption(jsonOpt);
         compile.AddOption(cleanOpt);
+        compile.AddOption(serveOpt);
         compile.SetHandler(async context =>
         {
             string input = context.ParseResult.GetValueForOption(inputOpt) ?? ".";
@@ -80,6 +82,12 @@ public static class CliCommandFactory
 
             ICtxcCompileHandler handler = sp.GetRequiredService<ICtxcCompileHandler>();
             Environment.ExitCode = await handler.HandleAsync(compileCommandLine);
+
+            if (context.ParseResult.GetValueForOption(serveOpt))
+            {
+                IServeHandler serveHandler = sp.GetRequiredService<IServeHandler>();
+                _ = await serveHandler.HandleAsync(new());
+            }
         });
         root.AddCommand(compile);
 

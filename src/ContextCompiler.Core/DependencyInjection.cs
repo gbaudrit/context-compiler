@@ -14,6 +14,7 @@ using ContextCompiler.Core.Pipelines;
 using ContextCompiler.Core.ReasoningIR;
 using ContextCompiler.Core.Tags;
 using ContextCompiler.Core.Views;
+using ContextCompiler.Core.Workspace;
 
 using Microsoft.Extensions.DependencyInjection;
 
@@ -46,7 +47,9 @@ namespace ContextCompiler.Core
             // Register core services here
             return services
                     .AddConfiguration()
-                    .AddSingleton<ICtxcWorkingFolder, CtxcWorkingFolder>();
+                    .AddWorkspace()
+                    .AddSingleton<ICtxcWorkingFolder, CtxcWorkingFolder>()
+                    .AddSingleton<ICompiledWorkingFolder, CompiledWorkingFolder>();
         }
 
     }

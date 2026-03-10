@@ -1,3 +1,4 @@
+
 namespace ContextCompiler.Abstractions.Output
 {
     public interface IOutputArtifact
@@ -6,5 +7,8 @@ namespace ContextCompiler.Abstractions.Output
         string FileName { get; init; }
         string Content { get; init; }
         string Description { get; init; }
+        Type GeneratedBy { get; init; }
+        string MimeType { get; init; }
+        long Size { get; init; }
     }
 }

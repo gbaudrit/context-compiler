@@ -1,17 +1,30 @@
+using System.Diagnostics;
+using System.Reflection;
+
+using ContextCompiler.Abstractions;
+using ContextCompiler.Abstractions.Configuration;
+using ContextCompiler.Abstractions.Ports;
+using ContextCompiler.Abstractions.Workspace;
+using ContextCompiler.Configuration.Json;
+using ContextCompiler.Core;
+using ContextCompiler.Core.Engine;
+using ContextCompiler.Host.Mcp;
+using ContextCompiler.Host.Mcp.Extensions;
+using ContextCompiler.Host.Mcp.Handlers;
+using ContextCompiler.Infrastructure.Configuration;
+using ContextCompiler.Infrastructure.FileSystem;
+using ContextCompiler.Infrastructure.Hashing;
+using ContextCompiler.Modules.Abstractions.Loading;
+using ContextCompiler.Modules.Abstractions.MCP;
+using ContextCompiler.Modules.Loader;
+
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using ModelContextProtocol.Protocol;
-using ModelContextProtocol.Server;
 
-using ContextCompiler.Abstractions.Models;
-using ContextCompiler.Abstractions.Ports;
-using ContextCompiler.Core.Engine;
-using ContextCompiler.Core.Pipelines;
-using ContextCompiler.Infrastructure.FileSystem;
-using ContextCompiler.Infrastructure.Hashing;
-using ContextCompiler.Infrastructure.PluginLoading;
 using ModelContextProtocol;
+using ModelContextProtocol.Protocol;
+
 
 // Context Compiler MCP Server (stdio)
 // Exposes:
@@ -19,200 +32,196 @@ using ModelContextProtocol;
 // - resources: ctxc://artifact/<name> , ctxc://view/<id>
 // Designed for VS Code / Copilot MCP consumption.
 
-var builder = Host.CreateApplicationBuilder(args);
+HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
 builder.Logging.AddConsole(o => o.LogToStandardErrorThreshold = LogLevel.Information);
 
-var assemblies = new[]
-{
-    typeof(ContextCompiler.Core.Engine.CompilerEngine).Assembly,
-    typeof(ContextCompiler.Infrastructure.FileSystem.PhysicalFileSystem).Assembly,
-    typeof(ContextCompiler.Plugins.BuiltIn.BuiltInMetadata).Assembly
-};
+Assembly[] assemblies =
+    [
+        typeof(CompilerEngine).Assembly,
+        typeof(PhysicalFileSystem).Assembly,
+        typeof(ContextCompiler.Modules.BuiltIn.BuiltInMetadata).Assembly
+    ];
 
 builder.Services
     .AddSingleton<IFileSystem, PhysicalFileSystem>()
     .AddSingleton<IHasher, DefaultHasher>()
-    .AddSingleton<IPluginRegistry>(PluginRegistryBuilder.FromAssemblies(assemblies))
+    .AddSingleton<IConfigProvider, JsonCtxcConfigProvider>()
+    .AddSingleton<IConfigLocator, DefaultConfigLocator>()
     .AddSingleton<ICompilerEngine, CompilerEngine>()
-    .AddSingleton<WorkspaceState>();
+    .AddSingleton<ICompilerEngine, CompilerEngine>()
+    .AddSingleton<WorkspaceState>()
+    .AddTransient<IMCPListResourceResultBuilder, MCPListResourceResultBuilder>()
+    .AddTransient<IMCPResourceBuilder, MCPResourceBuilder>()
+    .AddCoreServices()
+    .AddModulesLoaderServices()
+    .AddHandlers();
 
-builder.Services
-    .AddMcpServer()
-    .WithStdioServerTransport()
-    .WithToolsFromAssembly()
-    .WithListResourcesHandler((ctx, ct) =>
+GlobalCommandLineOptions globals = CliCommandFactory.ParseGlobals(args);
+
+if (globals.Debug)
+{
+    _ = Debugger.Launch();
+    Debugger.Break();
+}
+
+if (!string.IsNullOrEmpty(globals.InputPath))
+{
+    if (globals.InputPath == ".")
     {
-        var state = ctx.Services.GetRequiredService<WorkspaceState>();
-        var resources = new List<Resource>();
-        foreach (var kv in state.Artifacts)
+        globals = globals with { InputPath = Environment.CurrentDirectory };
+    }
+}
+
+
+IWorkingFolder workingFolder = new WorkingFolder(globals.InputPath);
+_ = builder.Services.AddSingleton(workingFolder);
+
+IServiceCollection modulesLoaderServices = new ServiceCollection();
+modulesLoaderServices.AddLogging(x => x.AddConfiguration(builder.Configuration.GetSection("Logging")).AddSimpleConsole(o => o.SingleLine = true))
+                     .AddModulesLoaderServices()
+                     .AddSingleton(workingFolder);
+
+IServiceProvider modulesLoaderServicesProvider = modulesLoaderServices.BuildServiceProvider();
+IModulesLoader modulesLoader = modulesLoaderServicesProvider.GetRequiredService<IModulesLoader>();
+
+IEnumerable<Type> moduleTypes = await modulesLoader.LoadFromFolder(Path.Combine(globals.InputPath, ".ctxc", "modules"), builder.Services, CancellationToken.None);
+await modulesLoader.LoadFromAssemblies(assemblies, builder.Services);
+
+IMcpServerBuilder mcpServerBuilder = builder.Services
+    .AddMcpServer()
+    .WithStdioServerTransport();
+
+foreach (Type moduleType in moduleTypes)
+{
+    if (typeof(IMCPTool).IsAssignableFrom(moduleType))
+    {
+        _ = mcpServerBuilder.WithTools(moduleType);
+    }
+
+}
+
+mcpServerBuilder
+    .WithToolsFromAssembly()
+    .WithListResourcesHandler(async (ctx, ct) =>
+    {
+        if (ctx.Services is null)
         {
-            resources.Add(new Resource
-            {
-                Name = kv.Key,
-                Description = "Context Compiler artifact",
-                MimeType = GuessMime(kv.Key),
-                Uri = $"ctxc://artifact/{kv.Key}"
-            });
+            throw new InvalidOperationException("Services not available in context");
         }
 
-        foreach (var v in state.Views)
+        IMCPPListResourceRequestContext mcpRequestContext = new MCPRequestContext(ctx);
+
+        List<Resource> resources = [];
+        IEnumerable<IMCPListResourcesHandler> services = ctx.Services.GetServices<IMCPListResourcesHandler>();
+        foreach (IMCPListResourcesHandler handler in services)
         {
-            resources.Add(new Resource
-            {
-                Name = $"view.{v.Key}",
-                Description = "Context Compiler view",
-                MimeType = "text/markdown",
-                Uri = $"ctxc://view/{v.Key}"
-            });
+            IMCPListResourceResult resourcesResult = await handler.GetResources(mcpRequestContext, ct);
+            resources.AddRange(resourcesResult.Resources.Select(x => x.ToResource()));
         }
 
-        return ValueTask.FromResult(new ListResourcesResult { Resources = resources });
+        //WorkspaceState state = ctx.Services.GetRequiredService<WorkspaceState>();
+
+        //foreach (KeyValuePair<string, string> kv in state.Artifacts)
+        //{
+        //    resources.Add(new Resource
+        //    {
+        //        Name = kv.Key,
+        //        Description = "Context Compiler artifact",
+        //        MimeType = GuessMime(kv.Key),
+        //        Uri = $"ctxc://artifact/{kv.Key}"
+        //    });
+        //}
+
+        IWorkspaceLoader workspaceLoader = ctx.Services.GetRequiredService<IWorkspaceLoader>();
+        IWorkspace workspace = await workspaceLoader.Load();
+
+        resources.AddRange(workspace.Views.Select(x => x.ToResource()));
+
+        return new ListResourcesResult { Resources = resources };
     })
     .WithReadResourceHandler((ctx, ct) =>
     {
-        var state = ctx.Services.GetRequiredService<WorkspaceState>();
-        var uri = ctx.Params?.Uri;
-        if (string.IsNullOrWhiteSpace(uri))
-            throw new McpException(new McpError { Code = -32602, Message = "Missing uri" });
-
-        if (uri.StartsWith("ctxc://artifact/", StringComparison.OrdinalIgnoreCase))
+        if (ctx.Services is null)
         {
-            var name = uri["ctxc://artifact/".Length..];
-            if (!state.Artifacts.TryGetValue(name, out var path) || !File.Exists(path))
-                throw new McpException(new McpError { Code = -32004, Message = $"Artifact not found: {name}" });
-
-            var text = File.ReadAllText(path);
-            return Task.FromResult(new ReadResourceResult
-            {
-                Contents =
-                [
-                    new ResourceContents
-                    {
-                        Uri = uri,
-                        MimeType = GuessMime(name),
-                        Text = text
-                    }
-                ]
-            });
+            throw new InvalidOperationException("Services not available in context");
         }
 
-        if (uri.StartsWith("ctxc://view/", StringComparison.OrdinalIgnoreCase))
-        {
-            var id = uri["ctxc://view/".Length..];
-            if (!state.Views.TryGetValue(id, out var md))
-                throw new McpException(new McpError { Code = -32004, Message = $"View not found: {id}" });
+        IEnumerable<IReadResourceHandler> services = ctx.Services.GetServices<IReadResourceHandler>();
 
-            return Task.FromResult(new ReadResourceResult
-            {
-                Contents =
-                [
-                    new ResourceContents
-                    {
-                        Uri = uri,
-                        MimeType = "text/markdown",
-                        Text = md
-                    }
-                ]
-            });
+        IReadResourceHandler? handler = services.FirstOrDefault(x => x.CanProcess(ctx));
+
+        if (handler != null)
+        {
+            return handler.Process(ctx, ct);
         }
 
-        throw new McpException(new McpError { Code = -32601, Message = $"Unsupported uri scheme: {uri}" });
+        //WorkspaceState state = ctx.Services.GetRequiredService<WorkspaceState>();
+        //string? uri = ctx.Params?.Uri;
+        //if (string.IsNullOrWhiteSpace(uri))
+        //{
+        //    throw new McpProtocolException("Missing uri", McpErrorCode.InvalidParams);
+        //}
+
+        //if (uri.StartsWith("ctxc://artifact/", StringComparison.OrdinalIgnoreCase))
+        //{
+        //    string name = uri["ctxc://artifact/".Length..];
+        //    if (!state.Artifacts.TryGetValue(name, out string? path) || !File.Exists(path))
+        //    {
+        //        throw new McpProtocolException($"Artifact not found: {name}", McpErrorCode.ResourceNotFound);
+        //    }
+
+        //    string text = File.ReadAllText(path);
+        //    return ValueTask.FromResult(new ReadResourceResult
+        //    {
+        //        Contents =
+        //        [
+        //            new TextResourceContents
+        //            {
+        //                Uri = uri,
+        //                MimeType = GuessMime(name),
+        //                Text = text
+        //            }
+        //        ]
+        //    });
+        //}
+
+        //if (uri.StartsWith("ctxc://view/", StringComparison.OrdinalIgnoreCase))
+        //{
+        //    string id = uri["ctxc://view/".Length..];
+        //    return !state.Views.TryGetValue(id, out string? md)
+        //        ? throw new McpProtocolException($"View not found: {id}", McpErrorCode.ResourceNotFound)
+        //        : ValueTask.FromResult(new ReadResourceResult
+        //        {
+        //            Contents =
+        //        [
+        //            new TextResourceContents
+        //            {
+        //                Uri = uri,
+        //                MimeType = "text/markdown",
+        //                Text = md
+        //            }
+        //        ]
+        //        });
+        //}
+
+        throw new McpProtocolException($"Unsupported uri scheme: {ctx.Params?.Uri}", McpErrorCode.MethodNotFound);
     });
 
 await builder.Build().RunAsync();
 
-static string GuessMime(string name)
-{
-    var ext = Path.GetExtension(name).ToLowerInvariant();
-    return ext switch
-    {
-        ".md" => "text/markdown",
-        ".json" => "application/json",
-        ".dot" => "text/vnd.graphviz",
-        ".txt" => "text/plain",
-        _ => "text/plain"
-    };
-}
+//static string GuessMime(string name)
+//{
+//    string ext = Path.GetExtension(name).ToLowerInvariant();
+//    return ext switch
+//    {
+//        ".md" => "text/markdown",
+//        ".json" => "application/json",
+//        ".dot" => "text/vnd.graphviz",
+//        ".txt" => "text/plain",
+//        _ => "text/plain"
+//    };
+//}
 
-[McpServerToolType]
-public static class ContextCompilerTools
-{
-    [McpServerTool, System.ComponentModel.Description("Compile a folder into Context Compiler artifacts (prompt, evidence index, graph, views). Returns a summary with output paths.")]
-    public static async Task<string> CompileContext(
-        IServiceProvider services,
-        string inputPath,
-        string outputPath,
-        int maxChars = 120000)
-    {
-        var engine = services.GetRequiredService<ICompilerEngine>();
-        var state = services.GetRequiredService<WorkspaceState>();
 
-        Directory.CreateDirectory(outputPath);
 
-        var rc = await engine.CompileAsync(
-            new CompileRequest(inputPath, outputPath, new CompileOptions(MaxCharacters: maxChars)),
-            CancellationToken.None);
 
-        // Refresh state (for resources)
-        state.LoadFromOutput(outputPath);
-
-        var summary = new
-        {
-            exitCode = rc,
-            inputPath,
-            outputPath,
-            artifacts = state.Artifacts.Keys.OrderBy(k => k).ToArray(),
-            views = state.Views.Keys.OrderBy(k => k).ToArray()
-        };
-        return System.Text.Json.JsonSerializer.Serialize(summary, new System.Text.Json.JsonSerializerOptions { WriteIndented = true });
-    }
-
-    [McpServerTool, System.ComponentModel.Description("List current artifacts produced by the last compileContext call (names + absolute paths).")]
-    public static string ListArtifacts(IServiceProvider services)
-    {
-        var state = services.GetRequiredService<WorkspaceState>();
-        return System.Text.Json.JsonSerializer.Serialize(state.Artifacts, new System.Text.Json.JsonSerializerOptions { WriteIndented = true });
-    }
-
-    [McpServerTool, System.ComponentModel.Description("Read an artifact content by name (e.g. prompt.context.md). Prefer resources/read via ctxc://artifact/<name> for large content.")]
-    public static string ReadArtifact(IServiceProvider services, string name)
-    {
-        var state = services.GetRequiredService<WorkspaceState>();
-        if (!state.Artifacts.TryGetValue(name, out var path) || !File.Exists(path))
-            throw new InvalidOperationException($"Artifact not found: {name}");
-        return File.ReadAllText(path);
-    }
-
-    [McpServerTool, System.ComponentModel.Description("List current views produced by the last compileContext call (ids).")]
-    public static string ListViews(IServiceProvider services)
-    {
-        var state = services.GetRequiredService<WorkspaceState>();
-        return System.Text.Json.JsonSerializer.Serialize(state.Views.Keys.OrderBy(k => k).ToArray(), new System.Text.Json.JsonSerializerOptions { WriteIndented = true });
-    }
-}
-
-public sealed class WorkspaceState
-{
-    public Dictionary<string, string> Artifacts { get; } = new(StringComparer.OrdinalIgnoreCase);
-    public Dictionary<string, string> Views { get; } = new(StringComparer.OrdinalIgnoreCase);
-
-    public void LoadFromOutput(string outputPath)
-    {
-        Artifacts.Clear();
-        Views.Clear();
-
-        if (!Directory.Exists(outputPath)) return;
-
-        foreach (var f in Directory.EnumerateFiles(outputPath))
-        {
-            var name = Path.GetFileName(f);
-            Artifacts[name] = Path.GetFullPath(f);
-
-            if (name.StartsWith("view.", StringComparison.OrdinalIgnoreCase) && name.EndsWith(".md", StringComparison.OrdinalIgnoreCase))
-            {
-                var id = name["view.".Length..^".md".Length];
-                Views[id] = File.ReadAllText(f);
-            }
-        }
-    }
-}

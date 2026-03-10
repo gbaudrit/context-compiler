@@ -23,7 +23,8 @@ namespace ContextCompiler.Modules.BuiltIn.GlobalPipeline.PrompComposer
                 prompt.AddArtifact((builder) =>
                 {
                     return builder.WithFileName(v.Filename)
-                                  .WithContent(v.Content);
+                                  .WithContent(v.Content)
+                                  .WithGeneratedBy(GetType());
                 });
             });
         }

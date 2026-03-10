@@ -1,22 +1,22 @@
 <Project>
   <ItemGroup>
     <!-- Microsoft.Extensions -->
-    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="10.0.1" />
-    <PackageVersion Include="Microsoft.Extensions.Hosting" Version="10.0.1" />
-    <PackageVersion Include="Microsoft.Extensions.Logging" Version="10.0.1" />
-    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.1" />
-    <PackageVersion Include="Microsoft.Extensions.Logging.Configuration" Version="10.0.1" />
-    <PackageVersion Include="Microsoft.Extensions.Logging.Console" Version="10.0.1" />
-    <PackageVersion Include="Microsoft.Extensions.Options" Version="10.0.1" />
-    <PackageVersion Include="Microsoft.Extensions.Configuration" Version="10.0.1" />
-    <PackageVersion Include="Microsoft.Extensions.Configuration.Json" Version="10.0.1" />
-    <PackageVersion Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="10.0.1" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="10.0.3" />
+    <PackageVersion Include="Microsoft.Extensions.Hosting" Version="10.0.3" />
+    <PackageVersion Include="Microsoft.Extensions.Logging" Version="10.0.3" />
+    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.3" />
+    <PackageVersion Include="Microsoft.Extensions.Logging.Configuration" Version="10.0.3" />
+    <PackageVersion Include="Microsoft.Extensions.Logging.Console" Version="10.0.3" />
+    <PackageVersion Include="Microsoft.Extensions.Options" Version="10.0.3" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration" Version="10.0.3" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration.Json" Version="10.0.3" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="10.0.3" />
     <!-- CLI -->
     <PackageVersion Include="PdfPig" Version="0.1.13" />
     <PackageVersion Include="Scriban" Version="6.5.2" />
     <PackageVersion Include="System.CommandLine" Version="2.0.0-beta4.22272.1" />
     <!-- Globbing -->
-    <PackageVersion Include="Microsoft.Extensions.FileSystemGlobbing" Version="10.0.1" />
+    <PackageVersion Include="Microsoft.Extensions.FileSystemGlobbing" Version="10.0.3" />
     <!-- Excel -->
     <PackageVersion Include="ClosedXML" Version="0.104.2" />
     <!-- NuGet (runtime installer) -->
@@ -25,9 +25,9 @@
     <PackageVersion Include="NuGet.Configuration" Version="6.10.0" />
     <PackageVersion Include="NuGet.Versioning" Version="6.10.0" />
     <!-- JSON -->
-    <PackageVersion Include="System.Text.Json" Version="10.0.1" />
+    <PackageVersion Include="System.Text.Json" Version="10.0.3" />
     <!-- MCP -->
-    <PackageVersion Include="ModelContextProtocol" Version="0.5.0-preview.1" />
+    <PackageVersion Include="ModelContextProtocol" Version="1.1.0" />
     <PackageVersion Include="Tabula" Version="0.1.5" />
     <PackageVersion Include="Tabula.Json" Version="0.1.5" />
   </ItemGroup>

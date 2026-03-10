@@ -24,7 +24,8 @@ public sealed class PersonasActiveArtifact(IPrompt prompt, IReasoningIr ir) : IO
         prompt.AddArtifact(builder =>
         {
             return builder.WithFileName("reasoning.graph.json")
-                          .WithContent(JsonSerializer.Serialize(graph, jsonSerializerOptions));
+                          .WithContent(JsonSerializer.Serialize(graph, jsonSerializerOptions))
+                          .WithGeneratedBy(GetType());
 
         });
     }

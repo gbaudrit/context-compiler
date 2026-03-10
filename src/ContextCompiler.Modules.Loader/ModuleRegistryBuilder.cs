@@ -1,7 +1,10 @@
 using ContextCompiler.Abstractions.Files;
+using ContextCompiler.Abstractions.Output;
 using ContextCompiler.Modules.Abstractions;
 using ContextCompiler.Modules.Abstractions.GlobalPipeline;
 using ContextCompiler.Modules.Abstractions.Loading;
+using ContextCompiler.Modules.Abstractions.MCP;
+using ContextCompiler.Modules.Abstractions.Views;
 using ContextCompiler.Modules.Abstractions.Views.Renderers;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -22,9 +25,9 @@ public sealed class ModuleRegistryBuilder : IModuleRegistryBuilder
                 continue;
             }
 
-            if (typeof(IModuleRegistration).IsAssignableFrom(t))
+            if (typeof(IDependencyInjection).IsAssignableFrom(t))
             {
-                IModuleRegistration registration = (IModuleRegistration)Activator.CreateInstance(t)!;
+                IDependencyInjection registration = (IDependencyInjection)Activator.CreateInstance(t)!;
                 _ = registration.RegisterServices(services);
             }
             if (typeof(IGlobalPipelineModule).IsAssignableFrom(t))
@@ -72,6 +75,11 @@ public sealed class ModuleRegistryBuilder : IModuleRegistryBuilder
                 _ = services.AddTransient(typeof(IViewRendererModule), t);
             }
 
+            if (typeof(IViewDescriberModule).IsAssignableFrom(t))
+            {
+                _ = services.AddTransient(typeof(IViewDescriberModule), t);
+            }
+
             if (typeof(IViewRenderersModule).IsAssignableFrom(t))
             {
                 _ = services.AddTransient(typeof(IViewRenderersModule), t);
@@ -96,6 +104,11 @@ public sealed class ModuleRegistryBuilder : IModuleRegistryBuilder
                 _ = services.AddTransient(typeof(IPromptComposerModule), t);
             }
 
+            if (typeof(IOutputArtifactSerializer).IsAssignableFrom(t))
+            {
+                _ = services.AddTransient(typeof(IOutputArtifactSerializer), t);
+            }
+
             if (typeof(IOutputArtifactsFilesWriterModule).IsAssignableFrom(t))
             {
                 _ = services.AddTransient(typeof(IOutputArtifactsFilesWriterModule), t);
@@ -114,6 +127,10 @@ public sealed class ModuleRegistryBuilder : IModuleRegistryBuilder
             if (typeof(IConfigurationModule).IsAssignableFrom(t))
             {
                 _ = services.AddTransient(typeof(IConfigurationModule), t);
+            }
+            if (typeof(IMCPListResourcesHandler).IsAssignableFrom(t))
+            {
+                _ = services.AddTransient(typeof(IMCPListResourcesHandler), t);
             }
         }
     }

@@ -24,7 +24,8 @@ public sealed class ActivatedPersonasIndexArtifact(IPrompt prompt, IOutput outpu
         prompt.AddArtifact(builder =>
         {
             return builder.WithFileName("personas.active.json")
-                          .WithContent(JsonSerializer.Serialize(new { active = cfgProvider.Current.Personas!.Active, mode = cfgProvider.Current.Personas.Mode, results = prompt.Personas }, jsonSerializerOptions));
+                          .WithContent(JsonSerializer.Serialize(new { active = cfgProvider.Current.Personas!.Active, mode = cfgProvider.Current.Personas.Mode, results = prompt.Personas }, jsonSerializerOptions))
+                          .WithGeneratedBy(GetType());
 
         });
     }

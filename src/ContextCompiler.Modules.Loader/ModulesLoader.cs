@@ -10,7 +10,7 @@ namespace ContextCompiler.Modules.Loader
     public class ModulesLoader(IModulesDiscoverer modulesDiscoverer, IModuleRegistryBuilder moduleRegistryBuilder, ILogger<ModulesLoader> logger) : IModulesLoader
     {
 
-        public async Task LoadFromFolder(string path, IServiceCollection services, CancellationToken cancellationToken)
+        public async Task<IEnumerable<Type>> LoadFromFolder(string path, IServiceCollection services, CancellationToken cancellationToken)
         {
             logger.LogInformation("Starting module discovery in folder: {Path}", path);
 
@@ -19,6 +19,8 @@ namespace ContextCompiler.Modules.Loader
             logger.LogInformation("Discovered {Count} module(s) in folder: {Path}", moduleTypes.Count(), path);
 
             moduleRegistryBuilder.RegisterModuleServices(services, moduleTypes);
+
+            return moduleTypes;
         }
 
         public async Task LoadFromAssemblies(Assembly[] assemblies, IServiceCollection services)
