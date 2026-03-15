@@ -2,7 +2,7 @@ namespace ContextCompiler.Modules.Abstractions.MCP;
 
 public interface IMCPListResourcesHandler
 {
-    bool CanProcess(IMCPPListResourceRequestContext context);
+    bool CanProcess(IMCPListResourcesRequestContext context);
 
-    Task<IMCPListResourceResult> GetResources(IMCPPListResourceRequestContext context, CancellationToken cancellationToken);
+    Task<IMCPListResourcesResult> GetResources(IMCPListResourcesRequestContext context, CancellationToken cancellationToken);
 }

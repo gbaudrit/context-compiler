@@ -50,8 +50,10 @@ builder.Services
     .AddSingleton<ICompilerEngine, CompilerEngine>()
     .AddSingleton<ICompilerEngine, CompilerEngine>()
     .AddSingleton<WorkspaceState>()
-    .AddTransient<IMCPListResourceResultBuilder, MCPListResourceResultBuilder>()
+    .AddTransient<IMCPListResourceResultBuilder, ListResourceResultBuilder>()
     .AddTransient<IMCPResourceBuilder, MCPResourceBuilder>()
+    .AddTransient<IMCPReadResourceResultBuilder, ReadResourceResultBuilder>()
+    .AddTransient<IMCPResourceContentsBuilder, ResourceContentsBuilder>()
     .AddCoreServices()
     .AddModulesLoaderServices()
     .AddHandlers();
@@ -109,13 +111,13 @@ mcpServerBuilder
             throw new InvalidOperationException("Services not available in context");
         }
 
-        IMCPPListResourceRequestContext mcpRequestContext = new MCPRequestContext(ctx);
+        IMCPListResourcesRequestContext mcpRequestContext = new ListResourcesRequestContext(ctx);
 
         List<Resource> resources = [];
         IEnumerable<IMCPListResourcesHandler> services = ctx.Services.GetServices<IMCPListResourcesHandler>();
         foreach (IMCPListResourcesHandler handler in services)
         {
-            IMCPListResourceResult resourcesResult = await handler.GetResources(mcpRequestContext, ct);
+            IMCPListResourcesResult resourcesResult = await handler.GetResources(mcpRequestContext, ct);
             resources.AddRange(resourcesResult.Resources.Select(x => x.ToResource()));
         }
 
@@ -139,7 +141,7 @@ mcpServerBuilder
 
         return new ListResourcesResult { Resources = resources };
     })
-    .WithReadResourceHandler((ctx, ct) =>
+    .WithReadResourceHandler(async (ctx, ct) =>
     {
         if (ctx.Services is null)
         {
@@ -148,12 +150,35 @@ mcpServerBuilder
 
         IEnumerable<IMCPReadResourceHandler> services = ctx.Services.GetServices<IMCPReadResourceHandler>();
 
-        //IMCPReadResourceHandler? handler = services.FirstOrDefault(x => x.CanProcess(ctx));
+        IMCPReadResourceRequestContext mcpRequestContext = new ReadResourceRequestContext(ctx);
 
-        //if (handler != null)
-        //{
-        //    return handler.Process(ctx, ct);
-        //}
+        IMCPReadResourceHandler? handler = services.FirstOrDefault(x => x.CanProcess(mcpRequestContext));
+
+        if (handler != null)
+        {
+            IMCPReadResourceResult readResourceResult = await handler.Process(mcpRequestContext, ct);
+
+            if (readResourceResult.Contents.Count == 0)
+            {
+                throw new McpProtocolException($"Resource not found: {ctx.Params?.Uri}", McpErrorCode.ResourceNotFound);
+            }
+
+            IMCPResourceContents? contents = readResourceResult.Contents[0];
+            if (contents is IMCPTextResourceContents textContents)
+            {
+                return new ReadResourceResult
+                {
+                    Contents = [new TextResourceContents()
+                    {
+                        Uri = textContents.Uri,
+                        MimeType = textContents.MimeType,
+                        Text = textContents.Text
+                    }
+                    ]
+                };
+
+            }
+        }
 
         //WorkspaceState state = ctx.Services.GetRequiredService<WorkspaceState>();
         //string? uri = ctx.Params?.Uri;

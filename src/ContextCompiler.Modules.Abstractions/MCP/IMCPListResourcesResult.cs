@@ -1,6 +1,6 @@
 namespace ContextCompiler.Modules.Abstractions.MCP;
 
-public interface IMCPListResourceResult
+public interface IMCPListResourcesResult
 {
     IReadOnlyList<IMCPResource> Resources { get; }
 }

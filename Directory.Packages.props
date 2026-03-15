@@ -31,6 +31,7 @@
     <PackageVersion Include="ModelContextProtocol" Version="1.1.0" />
     <PackageVersion Include="Tabula" Version="0.1.5" />
     <PackageVersion Include="Tabula.Json" Version="0.1.5" />
+	  <PackageVersion Include="SmartComponents.LocalEmbeddings" Version="0.1.0-preview10148" />
   </ItemGroup>
   <ItemGroup>
     <!-- Testing -->

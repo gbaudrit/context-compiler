@@ -35,8 +35,7 @@ Assembly[] assemblies =
         typeof(CompilerEngine).Assembly,
         typeof(PhysicalFileSystem).Assembly,
         typeof(ContextCompiler.Modules.BuiltIn.BuiltInMetadata).Assembly,
-        typeof(ContextCompiler.Modules.BuiltIn.Templates.Scriban.DependencyInjection).Assembly,
-        typeof(ContextCompiler.Modules.Readers.Excel.ExcelFileReaderModule).Assembly
+        typeof(ContextCompiler.Modules.BuiltIn.Templates.Scriban.DependencyInjection).Assembly
     ];
 
 IHostEnvironment env = builder.Environment;

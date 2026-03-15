@@ -2,7 +2,7 @@ using ContextCompiler.Modules.Abstractions.MCP;
 
 namespace ContextCompiler.Host.Mcp;
 
-internal sealed class MCPListResourceResultBuilder : IMCPListResourceResultBuilder
+internal sealed class ListResourceResultBuilder : IMCPListResourceResultBuilder
 {
 
     private IReadOnlyList<IMCPResource>? _resources;
@@ -21,7 +21,7 @@ internal sealed class MCPListResourceResultBuilder : IMCPListResourceResultBuild
 
     public IMCPListResourcesResult Build()
     {
-        return new MCPListResourcesResult
+        return new ListResourceResult
         {
             Resources = _resources ?? throw new InvalidOperationException("Resources is not set")
         };

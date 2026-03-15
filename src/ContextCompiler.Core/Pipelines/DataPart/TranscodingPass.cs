@@ -37,6 +37,9 @@ namespace ContextCompiler.Core.Pipelines.DataPart
             }
 
             IReadOnlyList<TranscodedFragment> transcoded = await transcoder.TranscodeAsync(ctx.Data, part, ct);
+
+            IEnumerable<IFragmentProcessorModule> fragmentProcessorModules = modules.FragmentProcessors;
+
             foreach (TranscodedFragment tf in transcoded)
             {
                 string locator = CombineLocator(part.Source.Locator ?? string.Empty, tf.Locator);
@@ -54,7 +57,13 @@ namespace ContextCompiler.Core.Pipelines.DataPart
                     _ = tagsBuilder.Add("extractLabel", part.Label);
                 }
 
-                ctx.AddFragment(fragmentBuilder.InitNew().WithTranscodedFragment(tf).WithFilePath(ctx.FullPath).WithLocator(locator).WithTags(tagsBuilder.Build()).Build());
+                IFragment fragment = fragmentBuilder.InitNew().WithTranscodedFragment(tf).WithFilePath(ctx.FullPath).WithLocator(locator).WithTags(tagsBuilder.Build()).Build();
+                ctx.AddFragment(fragment);
+
+                foreach (IFragmentProcessorModule fragmentProcessorModule in fragmentProcessorModules)
+                {
+                    await fragmentProcessorModule.Process(fragment, part, ct);
+                }
             }
             ;
 

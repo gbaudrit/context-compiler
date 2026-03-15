@@ -6,6 +6,7 @@ namespace ContextCompiler.Core.Output
     {
         private string? _fileName;
         private string? _content;
+        public bool _isStreamed;
         private string? _description;
         private Type? _generatedBy;
         private string? _mimeType;
@@ -15,6 +16,7 @@ namespace ContextCompiler.Core.Output
         {
             _fileName = null;
             _content = null;
+            _isStreamed = false;
             _description = null;
             _generatedBy = null;
             _mimeType = null;
@@ -33,6 +35,13 @@ namespace ContextCompiler.Core.Output
             _content = content;
             return this;
         }
+
+        public IOutputArtifactBuilder IsStreamedContent()
+        {
+            _isStreamed = true;
+            return this;
+        }
+
 
         public IOutputArtifactBuilder WithDescription(string description)
         {
@@ -60,10 +69,11 @@ namespace ContextCompiler.Core.Output
 
         public IOutputArtifact Build()
         {
+            string content = _content ?? (!_isStreamed ? throw new InvalidOperationException("Content is not set") : string.Empty);
             return new OutputArtifact
             {
                 FileName = _fileName ?? throw new InvalidOperationException("FileName is not set"),
-                Content = _content ?? throw new InvalidOperationException("Content is not set"),
+                Content = content,
                 Description = _description ?? string.Empty,
                 GeneratedBy = _generatedBy ?? throw new InvalidOperationException("GeneratedBy is not set"),
                 MimeType = _mimeType ?? Path.GetExtension(_fileName) switch
@@ -72,7 +82,7 @@ namespace ContextCompiler.Core.Output
                     ".txt" => "text/plain",
                     _ => "application/octet-stream"
                 },
-                Size = _size ?? _content.Length,
+                Size = _size ?? content.Length,
             };
         }
     }

@@ -1,11 +1,10 @@
-namespace ContextCompiler.Modules.Abstractions.MCP
+namespace ContextCompiler.Modules.Abstractions.MCP;
+
+public interface IMCPReadResourceHandler
 {
-    public interface IMCPReadResourceHandler
-    {
 
-        //bool CanProcess(RequestContext<ReadResourceRequestParams> context);
+    bool CanProcess(IMCPReadResourceRequestContext context);
 
-        //ValueTask<ReadResourceResult> Process(RequestContext<ReadResourceRequestParams> context, CancellationToken cancellationToken);
+    Task<IMCPReadResourceResult> Process(IMCPReadResourceRequestContext context, CancellationToken cancellationToken);
 
-    }
 }

@@ -6,7 +6,7 @@ namespace ContextCompiler.Modules.Artifacts.Registry.MCP.Handlers;
 
 internal sealed class ListArtifacts(IArtifactsStore artifactsStore) : IListArtifacts, IMCPListResourcesHandler
 {
-    public bool CanProcess(IMCPPListResourceRequestContext context)
+    public bool CanProcess(IMCPListResourcesRequestContext context)
     {
         return true;
     }
@@ -16,7 +16,7 @@ internal sealed class ListArtifacts(IArtifactsStore artifactsStore) : IListArtif
         return await artifactsStore.List(cancellationToken);
     }
 
-    public async Task<IMCPListResourceResult> GetResources(IMCPPListResourceRequestContext context, CancellationToken cancellationToken)
+    public async Task<IMCPListResourcesResult> GetResources(IMCPListResourcesRequestContext context, CancellationToken cancellationToken)
     {
         IReadOnlyList<Artifact> artifacts = await artifactsStore.List(cancellationToken);
 

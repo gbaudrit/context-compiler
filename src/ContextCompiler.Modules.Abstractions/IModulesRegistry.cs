@@ -23,4 +23,5 @@ public interface IModulesRegistry
     IReadOnlyList<IOutputArtifactsFilesWriterModule> OutputArtifactWriters { get; }
     IReadOnlyList<IOutputArtifactComposerModule> OutputArtifactComposers { get; }
     IReadOnlyList<IGlobalPipelineModule> GlobalPipelineModules { get; }
+    IReadOnlyList<IFragmentProcessorModule> FragmentProcessors { get; }
 }

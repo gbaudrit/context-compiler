@@ -1,4 +1,7 @@
+using System.Diagnostics.CodeAnalysis;
+
 using ContextCompiler.Abstractions;
+using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Modules.Artifacts.Registry.Abstractions;
 using ContextCompiler.Modules.Artifacts.Registry.Models;
 
@@ -11,7 +14,7 @@ namespace ContextCompiler.Modules.Artifacts.Registry
 
         private ArtifactsIndex? _index;
 
-        [System.Diagnostics.CodeAnalysis.MemberNotNull(nameof(_index))]
+        [MemberNotNull(nameof(_index))]
         private void EnsureLoaded()
         {
             string filename = Path.Combine(compiledWorkingFolder.Path(), _filename);
@@ -31,5 +34,12 @@ namespace ContextCompiler.Modules.Artifacts.Registry
             return Task.FromResult(_index.Artifacts);
         }
 
+        public Task<IResult<Artifact>> TryGet(string id, CancellationToken cancellationToken)
+        {
+            EnsureLoaded();
+
+            Artifact? artifact = _index.Artifacts.FirstOrDefault(a => a.Filename == id);
+            return artifact is null ? Task.FromResult(IResult.Failure<Artifact>("Not found")) : Task.FromResult(IResult.Success(artifact));
+        }
     }
 }
