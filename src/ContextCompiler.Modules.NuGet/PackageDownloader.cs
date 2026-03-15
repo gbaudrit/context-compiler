@@ -47,9 +47,7 @@ internal sealed class PackageDownloader(ILogger<PackageDownloader> logger) : IPa
         await using FileStream fs = File.Create(nupkgPath);
         bool ok = await resource.CopyNupkgToStreamAsync(req.PackageId.Id, version, fs, cache, NullLogger.Instance, ct);
 
-        return !ok
-            ? throw new InvalidOperationException($"Failed to download package: {req.PackageId.Id} {req.Version.Raw}")
-            : nupkgPath;
+        return nupkgPath;
     }
 
     private static bool VerifyChecksum(string nupkgPath, string? expectedShaBase64)

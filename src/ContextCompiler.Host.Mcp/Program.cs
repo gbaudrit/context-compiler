@@ -146,14 +146,14 @@ mcpServerBuilder
             throw new InvalidOperationException("Services not available in context");
         }
 
-        IEnumerable<IReadResourceHandler> services = ctx.Services.GetServices<IReadResourceHandler>();
+        IEnumerable<IMCPReadResourceHandler> services = ctx.Services.GetServices<IMCPReadResourceHandler>();
 
-        IReadResourceHandler? handler = services.FirstOrDefault(x => x.CanProcess(ctx));
+        //IMCPReadResourceHandler? handler = services.FirstOrDefault(x => x.CanProcess(ctx));
 
-        if (handler != null)
-        {
-            return handler.Process(ctx, ct);
-        }
+        //if (handler != null)
+        //{
+        //    return handler.Process(ctx, ct);
+        //}
 
         //WorkspaceState state = ctx.Services.GetRequiredService<WorkspaceState>();
         //string? uri = ctx.Params?.Uri;

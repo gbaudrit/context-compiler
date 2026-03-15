@@ -13,6 +13,10 @@
 			   Text="Package introuvable: @(_MainNupkg). (PackageOutputPath=$(PackageOutputPath), PackageId=$(PackageId), PackageVersion=$(PackageVersion))" />
 
 		<Message Importance="High" Text="Pushing @(_MainNupkg) to NuGet source 'Locale'..." />
+		
+		<!--<Exec Command="nuget add &quot;@(_MainNupkg)&quot; -Source C:\.localnugetsource"
+			  WorkingDirectory="$(MSBuildProjectDirectory)" />-->
+
 		<Exec Command="dotnet nuget push &quot;@(_MainNupkg)&quot; --source Locale --skip-duplicate"
 			  WorkingDirectory="$(MSBuildProjectDirectory)" />
 

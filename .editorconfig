@@ -22,6 +22,7 @@ dotnet_style_qualification_for_event = false:suggestion
 # CS9113: Parameter is unread.
 dotnet_diagnostic.CS9113.severity = none
 dotnet_diagnostic.CA1848.severity = none
+dotnet_diagnostic.CA1873.severity = none
 
 # Default severity for all analyzer diagnostics
 dotnet_analyzer_diagnostic.severity = error

@@ -51,7 +51,7 @@ namespace ContextCompiler.Core.Pipelines.DataPart
 
                 if (!string.IsNullOrWhiteSpace(part.Label))
                 {
-                    _ = tagsBuilder.Add("extractLabel", part.Label!);
+                    _ = tagsBuilder.Add("extractLabel", part.Label);
                 }
 
                 ctx.AddFragment(fragmentBuilder.InitNew().WithTranscodedFragment(tf).WithFilePath(ctx.FullPath).WithLocator(locator).WithTags(tagsBuilder.Build()).Build());
