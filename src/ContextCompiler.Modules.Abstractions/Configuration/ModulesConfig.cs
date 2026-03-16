@@ -47,7 +47,7 @@ public sealed class ModuleLockFile
     public sealed class LockedModule
     {
         public string Id { get; set; } = default!;
-        public string Version { get; set; } = default!;
+        public Version Version { get; set; } = default!;
         public string Source { get; set; } = default!;
         public string Checksum { get; set; } = default!;
 
@@ -57,6 +57,26 @@ public sealed class ModuleLockFile
         public string[] Authors { get; set; } = [];
         public string? RepositoryUrl { get; set; }
     }
+
+    public sealed class Version
+    {
+        public string Raw { get; set; } = "";
+        public string Min { get; set; } = "";
+        public string Max { get; set; } = "";
+        public BoundOperator MinBoundOperator { get; set; } = BoundOperator.Exactly;
+        public BoundOperator MaxBoundOperator { get; set; } = BoundOperator.Exactly;
+    }
+
+    public enum BoundOperator
+    {
+        Exactly,
+        GreaterThan,
+        GreaterThanOrEqual,
+        LessThan,
+        LessThanOrEqual,
+        Unbounded
+    }
+
     public sealed class SignatureInfo { public bool Required { get; set; } public bool IsSigned { get; set; } public string? SignerFingerprint { get; set; } public string? Note { get; set; } }
     public sealed class DependencyInfo { public string Id { get; set; } = default!; public string Version { get; set; } = default!; }
 }

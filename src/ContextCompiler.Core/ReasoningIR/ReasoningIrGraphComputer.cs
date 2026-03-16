@@ -1,9 +1,8 @@
-using ContextCompiler.Abstractions.Ports;
 using ContextCompiler.Abstractions.ReasoningIR;
 
 namespace ContextCompiler.Core.ReasoningIR
 {
-    internal sealed class ReasoningIrGraphComputer(IHasher hasher) : IReasoningIrGraphComputer
+    internal sealed class ReasoningIrGraphComputer() : IReasoningIrGraphComputer
     {
         public ValueTask<IGraph> Compute(IReasoningIr ir, CancellationToken ct)
         {
@@ -16,7 +15,7 @@ namespace ContextCompiler.Core.ReasoningIR
                     ["source"] = frag.Source.Path,
                     ["locator"] = frag.Source.Locator ?? ""
                 }));
-                string srcId = "S-" + hasher.Sha256Hex(frag.Source.Path)[..10];
+                string srcId = frag.Source.Id;
                 if (!nodes.Any(n => n.Id == srcId))
                 {
                     nodes.Add(new GraphNode(srcId, "Source", Path.GetFileName(frag.Source.Path), new Dictionary<string, string> { { "path", frag.Source.Path } }));

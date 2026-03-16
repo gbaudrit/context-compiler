@@ -1,9 +1,8 @@
-using System.Text.Json;
-
 using ContextCompiler.Abstractions;
 using ContextCompiler.Abstractions.Configuration;
 using ContextCompiler.Modules.Abstractions;
 using ContextCompiler.Modules.Abstractions.Configuration;
+using ContextCompiler.Modules.Abstractions.Loading;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -12,6 +11,7 @@ namespace ContextCompiler.Modules;
 public sealed class ModulesManager(ICtxcWorkingFolder ctxcWorkingFolder,
                                   IModulesLoadConfigProvider cfg,
                                   IModulesToRestoreProvider modulesToRestoreProvider,
+                                  IModulesLoader modulesLoader,
                                   IServiceProvider serviceProvider,
                                   IConfigurationSchemasAggregator configurationSchemasAggregator,
                                   ISchemaBuilder schemaBuilder,
@@ -20,10 +20,12 @@ public sealed class ModulesManager(ICtxcWorkingFolder ctxcWorkingFolder,
                                   ISourcesProvider sourcesProvider,
                                   ILogger<ModulesManager> logger) : IModulesManager
 {
-    private static readonly JsonSerializerOptions JsonOptions = new()
+
+    public Task<IEnumerable<string>> LoadableModules()
     {
-        WriteIndented = true
-    };
+        IEnumerable<IModuleRestoreRequest> restoreRequests = modulesToRestoreProvider.ModulesToRestore();
+        return Task.FromResult(restoreRequests.Select(r => r.PackageId.Id));
+    }
 
     public async Task<ModuleLockFile> RestoreAndLockAsync(CancellationToken ct)
     {
@@ -92,7 +94,14 @@ public sealed class ModulesManager(ICtxcWorkingFolder ctxcWorkingFolder,
                     lockFile.Packages.Add(new ModuleLockFile.LockedModule
                     {
                         Id = req.PackageId.Id,
-                        Version = req.Version.ToString() ?? "",
+                        Version = new()
+                        {
+                            Raw = req.Version.Raw,
+                            Min = req.Version.Min,
+                            Max = req.Version.Max,
+                            MinBoundOperator = Enum.Parse<ModuleLockFile.BoundOperator>(req.Version.MinBoundOperator.ToString()),
+                            MaxBoundOperator = Enum.Parse<ModuleLockFile.BoundOperator>(req.Version.MaxBoundOperator.ToString()),
+                        },
                         Source = req.PackageId.Source.ToString() ?? "",
                         Checksum = restoreResult.Metadatas.Checksum,
                         Files = restoreResult.Metadatas.Files.ToList() ?? [],
@@ -143,19 +152,7 @@ public sealed class ModulesManager(ICtxcWorkingFolder ctxcWorkingFolder,
         return lockFile;
     }
 
-    public ModuleLockFile LoadLockFile()
-    {
-        string path = Path.GetFullPath(cfg.Current.LockFile);
-        return !File.Exists(path)
-            ? throw new InvalidOperationException($"Lock file not found: {path}")
-            : JsonSerializer.Deserialize<ModuleLockFile>(File.ReadAllText(path), JsonOptions)!;
-    }
-    public void SaveLockFile(ModuleLockFile lockFile)
-    {
-        string path = Path.GetFullPath(cfg.Current.LockFile);
-        _ = Directory.CreateDirectory(Path.GetDirectoryName(path)!);
-        File.WriteAllText(path, JsonSerializer.Serialize(lockFile, JsonOptions));
-    }
+
     public IEnumerable<(string id, string version, string shaDir)> ListInstalled()
     {
         string root = Path.GetFullPath(cfg.Current.InstallRoot);
@@ -193,11 +190,11 @@ public sealed class ModulesManager(ICtxcWorkingFolder ctxcWorkingFolder,
         HashSet<(string id, string ver, string sha)> keep = [];
         if (keepLockfilePinned && File.Exists(Path.GetFullPath(cfg.Current.LockFile)))
         {
-            ModuleLockFile lf = LoadLockFile();
+            ModuleLockFile lf = modulesLoader.LoadLockFile();
             foreach (ModuleLockFile.LockedModule p in lf.Packages)
             {
                 string shaDir = p.Checksum.Replace("/", "_").Replace("+", "-");
-                _ = keep.Add((p.Id, p.Version, shaDir));
+                _ = keep.Add((p.Id, p.Version.Raw, shaDir));
             }
         }
         foreach (string idDir in Directory.GetDirectories(installRoot))

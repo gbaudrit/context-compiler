@@ -11,6 +11,6 @@ public sealed record GuardFinding(
     GuardSeverity Severity,
     GuardActionKind Action,
     string Message,
-    SourceRef Source,
+    ISourceRef Source,
     IReadOnlyDictionary<string, object>? Data = null
 );

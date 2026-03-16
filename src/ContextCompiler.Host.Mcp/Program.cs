@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Reflection;
 
@@ -14,6 +15,7 @@ using ContextCompiler.Host.Mcp.Handlers;
 using ContextCompiler.Infrastructure.Configuration;
 using ContextCompiler.Infrastructure.FileSystem;
 using ContextCompiler.Infrastructure.Hashing;
+using ContextCompiler.Modules.Abstractions.Configuration;
 using ContextCompiler.Modules.Abstractions.Loading;
 using ContextCompiler.Modules.Abstractions.MCP;
 using ContextCompiler.Modules.Loader;
@@ -24,6 +26,7 @@ using Microsoft.Extensions.Logging;
 
 using ModelContextProtocol;
 using ModelContextProtocol.Protocol;
+using ModelContextProtocol.Server;
 
 
 // Context Compiler MCP Server (stdio)
@@ -86,6 +89,12 @@ modulesLoaderServices.AddLogging(x => x.AddConfiguration(builder.Configuration.G
 IServiceProvider modulesLoaderServicesProvider = modulesLoaderServices.BuildServiceProvider();
 IModulesLoader modulesLoader = modulesLoaderServicesProvider.GetRequiredService<IModulesLoader>();
 
+IModulesLoadConfigLocator modulesLoadConfigLocator = modulesLoaderServicesProvider.GetRequiredService<IModulesLoadConfigLocator>();
+IModulesLoadConfigProvider modulesLoadConfigProvider = modulesLoaderServicesProvider.GetRequiredService<IModulesLoadConfigProvider>();
+
+string? configPath = modulesLoadConfigLocator.Locate(globals.InputPath, "", "");
+_ = modulesLoadConfigProvider.GetConfigOrDefault(configPath);
+
 IEnumerable<Type> moduleTypes = await modulesLoader.LoadFromFolder(Path.Combine(globals.InputPath, ".ctxc", "modules"), builder.Services, CancellationToken.None);
 await modulesLoader.LoadFromAssemblies(assemblies, builder.Services);
 
@@ -95,11 +104,31 @@ IMcpServerBuilder mcpServerBuilder = builder.Services
 
 foreach (Type moduleType in moduleTypes)
 {
-    if (typeof(IMCPTool).IsAssignableFrom(moduleType))
+    string moduleTypeName = moduleType.Name;
+    if (moduleType.GetCustomAttribute<ContextCompiler.Modules.Abstractions.MCP.McpServerToolTypeAttribute>() != null)
     {
         _ = mcpServerBuilder.WithTools(moduleType);
-    }
 
+        List<McpServerTool> mcpServerTools = [];
+        IEnumerable<MethodInfo> methods = moduleType.GetMethods();
+        foreach (MethodInfo method in methods)
+        {
+            ContextCompiler.Modules.Abstractions.MCP.McpServerToolAttribute? mcpServerToolAttribute = method.GetCustomAttribute<ContextCompiler.Modules.Abstractions.MCP.McpServerToolAttribute>();
+            DescriptionAttribute? descriptionAttribute = method.GetCustomAttribute<DescriptionAttribute>();
+
+            if (mcpServerToolAttribute != null)
+            {
+                McpServerTool tool = McpServerTool.Create(method, ctx =>
+                {
+                    return ctx.Services?.GetRequiredService(moduleType) ?? throw new InvalidOperationException($"Service not found for type {moduleType.FullName}");
+                });
+                mcpServerTools.Add(tool);
+            }
+        }
+
+        _ = mcpServerBuilder.WithTools(mcpServerTools);
+        //}
+    }
 }
 
 mcpServerBuilder
@@ -231,6 +260,8 @@ mcpServerBuilder
 
         throw new McpProtocolException($"Unsupported uri scheme: {ctx.Params?.Uri}", McpErrorCode.MethodNotFound);
     });
+
+
 
 await builder.Build().RunAsync();
 

@@ -1,12 +1,12 @@
+using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Abstractions.Files;
-using ContextCompiler.Abstractions.Models;
 using ContextCompiler.Abstractions.Pipelines.Document;
 
 using Microsoft.Extensions.Logging;
 
 namespace ContextCompiler.Core.Files;
 
-public sealed class LinearDataReader(IDataEnvelopeBuilder dataEnvelopeBuilder, IDataPartBuilder dataPartBuilder, ILogger<LinearDataReader> logger) : ILinearFileReader
+public sealed class LinearDataReader(IDataEnvelopeBuilder dataEnvelopeBuilder, IDataPartBuilder dataPartBuilder, ISourceRefBuilder sourceRefBuilder, ILogger<LinearDataReader> logger) : ILinearFileReader
 {
     private bool disposedValue;
 
@@ -25,7 +25,7 @@ public sealed class LinearDataReader(IDataEnvelopeBuilder dataEnvelopeBuilder, I
                                                   .WithDataShape(DataShape.Linear)
                                                   //.WithMetadata(new Dictionary<string, string> { { "mediaType", documentContext.FileInfos.MediaType } })
                                                   .WithSinglePart(dataPartBuilder.InitNew()
-                                                                                   .WithSource(new SourceRef(documentContext.FullPath))
+                                                                                   .WithSource(sourceRefBuilder.InitNew().WithPath(documentContext.FullPath).Build())
                                                                                    //.WithPayload(documentContext.FileInfos)
                                                                                    .WithTags(documentContext.Tags)
                                                                                    .Build())

@@ -30,7 +30,10 @@ namespace ContextCompiler.Modules.Abstractions.Configuration
             return new LockedModule
             {
                 Id = moduleMetadatas.Id,
-                Version = moduleMetadatas.Version.Value,
+                Version = new()
+                {
+                    Raw = moduleMetadatas.Version.Value
+                },
                 Source = moduleMetadatas.Source,
                 Checksum = moduleMetadatas.Checksum,
                 Files = moduleMetadatas.Files.ToList() ?? [],

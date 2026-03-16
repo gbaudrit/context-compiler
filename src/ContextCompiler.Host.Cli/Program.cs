@@ -14,6 +14,7 @@ using ContextCompiler.Host.Cli.Handlers;
 using ContextCompiler.Infrastructure.Configuration;
 using ContextCompiler.Infrastructure.FileSystem;
 using ContextCompiler.Infrastructure.Hashing;
+using ContextCompiler.Modules.Abstractions.Configuration;
 using ContextCompiler.Modules.Abstractions.Loading;
 using ContextCompiler.Modules.Loader;
 
@@ -64,6 +65,7 @@ builder.Services
         .AddSingleton<ICtxcConfigFilesAddHandler, ConfigFilesAddHandler>()
         .AddSingleton<IServeHandler, ServeHandler>()
         .AddCompileCoreServices()
+        .AddCoreServices()
         .AddModulesLoaderServices();
 
 ContextCompiler.Host.Cli.DependencyInjection.AddHostCliServices(builder.Services);
@@ -94,6 +96,11 @@ modulesLoaderServices.AddLogging(x => x.AddConfiguration(builder.Configuration.G
 
 IServiceProvider modulesLoaderServicesProvider = modulesLoaderServices.BuildServiceProvider();
 IModulesLoader modulesLoader = modulesLoaderServicesProvider.GetRequiredService<IModulesLoader>();
+IModulesLoadConfigLocator modulesLoadConfigLocator = modulesLoaderServicesProvider.GetRequiredService<IModulesLoadConfigLocator>();
+IModulesLoadConfigProvider modulesLoadConfigProvider = modulesLoaderServicesProvider.GetRequiredService<IModulesLoadConfigProvider>();
+
+string? configPath = modulesLoadConfigLocator.Locate(globals.InputPath, "", "");
+_ = modulesLoadConfigProvider.GetConfigOrDefault(configPath);
 
 await modulesLoader.LoadFromFolder(Path.Combine(globals.InputPath, ".ctxc", "modules"), builder.Services, CancellationToken.None);
 await modulesLoader.LoadFromAssemblies(assemblies, builder.Services);

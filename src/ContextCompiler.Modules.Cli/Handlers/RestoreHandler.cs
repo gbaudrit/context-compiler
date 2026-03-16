@@ -1,5 +1,6 @@
 using ContextCompiler.Modules.Abstractions;
 using ContextCompiler.Modules.Abstractions.Configuration;
+using ContextCompiler.Modules.Abstractions.Loading;
 
 using Microsoft.Extensions.Logging;
 
@@ -7,6 +8,7 @@ namespace ContextCompiler.Modules.Cli.Handlers;
 
 internal sealed class RestoreHandler(
     IModulesManager modulesManager,
+    IModulesLoader modulesLoader,
     IModulesLoadConfigLocator modulesLoadConfigLocator,
     IModulesLoadConfigProvider modulesLoadConfigProvider,
     ILogger<RestoreHandler> logger
@@ -26,7 +28,7 @@ internal sealed class RestoreHandler(
             _ = modulesLoadConfigProvider.GetConfigOrDefault(configPath);
 
             ModuleLockFile lf = await modulesManager.RestoreAndLockAsync(CancellationToken.None);
-            modulesManager.SaveLockFile(lf);
+            modulesLoader.SaveLockFile(lf);
             Console.WriteLine($"Lock file written: {Path.GetFullPath(cfgFile)}");
             return 0;
         }

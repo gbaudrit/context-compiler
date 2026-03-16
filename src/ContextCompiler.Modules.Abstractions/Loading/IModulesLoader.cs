@@ -1,5 +1,7 @@
 using System.Reflection;
 
+using ContextCompiler.Modules.Abstractions.Configuration;
+
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ContextCompiler.Modules.Abstractions.Loading
@@ -8,5 +10,7 @@ namespace ContextCompiler.Modules.Abstractions.Loading
     {
         Task LoadFromAssemblies(Assembly[] assemblies, IServiceCollection services);
         Task<IEnumerable<Type>> LoadFromFolder(string path, IServiceCollection services, CancellationToken cancellationToken);
+        ModuleLockFile LoadLockFile();
+        void SaveLockFile(ModuleLockFile lockFile);
     }
 }

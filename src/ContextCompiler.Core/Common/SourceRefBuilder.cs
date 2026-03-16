@@ -1,9 +1,10 @@
 using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Abstractions.Models;
+using ContextCompiler.Abstractions.Ports;
 
 namespace ContextCompiler.Core.Common
 {
-    internal sealed class SourceRefBuilder : ISourceRefBuilder
+    internal sealed class SourceRefBuilder(IHasher hasher) : ISourceRefBuilder
     {
         private string? _path;
         private string _locator = string.Empty;
@@ -31,7 +32,7 @@ namespace ContextCompiler.Core.Common
         {
             ArgumentNullException.ThrowIfNull(_path);
 
-            return new SourceRef(_path, _locator);
+            return new SourceRef("S-" + hasher.Sha256Hex(_path)[..10], _path, _locator);
         }
     }
 }

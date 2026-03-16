@@ -1,12 +1,12 @@
-using ContextCompiler.Modules.Abstractions;
 using ContextCompiler.Modules.Abstractions.Configuration;
+using ContextCompiler.Modules.Abstractions.Loading;
 
 using Microsoft.Extensions.Logging;
 
 namespace ContextCompiler.Modules.Cli.Handlers;
 
 internal sealed class VerifyHandler(
-    IModulesManager moduleManager,
+    IModulesLoader moduleLoader,
     IModulesLoadConfigProvider cfgProvider,
     ILogger<VerifyHandler> logger
 ) : IVerifyHandler
@@ -17,7 +17,7 @@ internal sealed class VerifyHandler(
         {
             _ = cfgFile;
 
-            ModuleLockFile lf = moduleManager.LoadLockFile();
+            ModuleLockFile lf = moduleLoader.LoadLockFile();
 
             foreach (ModuleLockFile.LockedModule p in lf.Packages)
             {
@@ -25,7 +25,7 @@ internal sealed class VerifyHandler(
                     Path.GetFullPath(cfgProvider.Current.InstallRoot),
                     "_nupkg",
                     p.Id,
-                    p.Version,
+                    p.Version.Raw,
                     $"{p.Id}.{p.Version}.nupkg"
                 );
 

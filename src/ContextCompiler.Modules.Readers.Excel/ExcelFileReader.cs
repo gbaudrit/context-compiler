@@ -2,10 +2,10 @@ using System.Text.Json;
 
 using ClosedXML.Excel;
 
+using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Abstractions.Configuration;
 using ContextCompiler.Abstractions.Configuration.Sections;
 using ContextCompiler.Abstractions.Files;
-using ContextCompiler.Abstractions.Models;
 using ContextCompiler.Abstractions.Pipelines.Document;
 using ContextCompiler.Abstractions.Tags;
 using ContextCompiler.Modules.Abstractions;
@@ -19,7 +19,8 @@ public sealed class ExcelFileReaderModule(
     IConfigProvider cfgProvider,
     IDataEnvelopeBuilder dataEnvelopeBuilder,
     IDataPartBuilder dataPartBuilder,
-    ITagsBuilder tagsBuilder) : IFileReaderModule
+    ITagsBuilder tagsBuilder,
+    ISourceRefBuilder sourceRefBuilder) : IFileReaderModule
 {
     public ModuleMetadata Metadata => IModule.Meta("readers.excel", GlobalPipelineModuleKinds.FileReader, priority: 10);
 
@@ -40,7 +41,7 @@ public sealed class ExcelFileReaderModule(
     //                                                                               .Build()).Build());
     //}
 
-    public async Task<IDataEnvelope> ReadAsync(IDocumentContext documentContext, CancellationToken ct)
+    public Task<IDataEnvelope> ReadAsync(IDocumentContext documentContext, CancellationToken ct)
     {
         ct.ThrowIfCancellationRequested();
         IRootConfigSection cfg = cfgProvider.GetConfigOrDefault(null);
@@ -192,7 +193,7 @@ public sealed class ExcelFileReaderModule(
             //                             .Build();
             parts.Add(dataPartBuilder.InitNew()
                                       .WithId(x.Id)
-                                      .WithSource(new SourceRef(sourcePath, locatorPrefix))
+                                      .WithSource(sourceRefBuilder.InitNew().WithPath(sourcePath).WithLocator(locatorPrefix).Build())
                                       .WithLabel(x.Label)
                                       .WithPayload(payload)
                                       .WithTags(tagsBuilder.InitNew().AddRange(x.Tags).Build())
@@ -200,10 +201,10 @@ public sealed class ExcelFileReaderModule(
         }
 
 
-        return dataEnvelopeBuilder.InitNew()
+        return Task.FromResult(dataEnvelopeBuilder.InitNew()
                                     .WithDataShape(DataShape.Tabular)
                                     .WithParts(parts)
-                                    .Build();
+                                    .Build());
     }
 
     private static bool ApplyWhere(string value, WhereClause w)

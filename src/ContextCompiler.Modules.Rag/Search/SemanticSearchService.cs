@@ -1,47 +1,50 @@
-//using ContextCompiler.Modules.Rag.Abstractions;
-//using ContextCompiler.Modules.Rag.Models;
+using ContextCompiler.Modules.Rag.Abstractions;
+using ContextCompiler.Modules.Rag.Models;
 
-//using SmartComponents.LocalEmbeddings;
+using SmartComponents.LocalEmbeddings;
 
-//namespace ContextCompiler.Modules.Rag.Search;
+namespace ContextCompiler.Modules.Rag.Search;
 
-//public sealed class SemanticSearchService(
-//    LocalEmbedder embedder,
-//    IRagStore ragStore) : ISemanticSearchService
-//{
-//    public async ValueTask<IReadOnlyList<SearchHit>> SearchAsync(
-//        string query,
-//        int maxResults = 5,
-//        float? minSimilarity = null,
-//        CancellationToken cancellationToken = default)
-//    {
-//        RagSnapshot? snapshot = await ragStore.LoadAsync(cancellationToken);
-//        if (snapshot is null || snapshot.Chunks.Count == 0 || snapshot.Embeddings.Count == 0)
-//        {
-//            return [];
-//        }
+public sealed class SemanticSearchService(
+    LocalEmbedder embedder,
+    IRagStoreReader ragStoreReader) : ISemanticSearchService
+{
+    public async ValueTask<IReadOnlyList<SearchHit>> SearchAsync(
+        string query,
+        int maxResults = 5,
+        float? minSimilarity = null,
+        CancellationToken cancellationToken = default)
+    {
+        IReadOnlyList<TextChunk> chunks = await ragStoreReader.ReadChunksAsync(cancellationToken);
+        IReadOnlyList<EmbeddingRecord> embeddings = await ragStoreReader.ReadEmbeddingsAsync(cancellationToken);
 
-//        EmbeddingI8 target = embedder.Embed<EmbeddingI8>(query);
+        if (chunks.Count == 0 || embeddings.Count == 0)
+        {
+            return [];
+        }
 
-//        Dictionary<string, TextChunk> chunksById = snapshot.Chunks.ToDictionary(x => x.Id, x => x);
+        Dictionary<string, TextChunk> chunksById = chunks.ToDictionary(x => x.Id, x => x);
 
-//        IEnumerable<(TextChunk Item, EmbeddingI8 Embedding)> candidates = snapshot.Embeddings
-//            .Where(x => chunksById.ContainsKey(x.ChunkId))
-//            .Select(x => (
-//                Item: chunksById[x.ChunkId],
-//                Embedding: new EmbeddingI8(x.Buffer)));
+        EmbeddingI8 target = embedder.Embed<EmbeddingI8>(query);
 
-//        SimilarityScore<TextChunk>[] closest = LocalEmbedder.FindClosestWithScore(
-//            target,
-//            candidates,
-//            maxResults,
-//            minSimilarity);
+        IEnumerable<(TextChunk Item, EmbeddingI8 Embedding)> candidates = embeddings
+            .Where(x => x.EmbeddingType == nameof(EmbeddingI8))
+            .Where(x => chunksById.ContainsKey(x.ChunkId))
+            .Select(x => (
+                Item: chunksById[x.ChunkId],
+                Embedding: new EmbeddingI8(x.Buffer)));
 
-//        return [.. closest
-//            .Select(x => new SearchHit(
-//                ChunkId: x.Item.Id,
-//                ArtifactId: x.Item.ArtifactId,
-//                Text: x.Item.Text,
-//                Similarity: x.Similarity))];
-//    }
-//}
+        SimilarityScore<TextChunk>[] closest = LocalEmbedder.FindClosestWithScore(
+            target,
+            candidates,
+            maxResults,
+            minSimilarity);
+
+        return [.. closest
+            .Select(x => new SearchHit(
+                ChunkId: x.Item.Id,
+                ArtifactId: x.Item.ArtifactId,
+                Text: x.Item.Text,
+                Similarity: x.Similarity))];
+    }
+}

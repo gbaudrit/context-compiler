@@ -13,7 +13,7 @@ namespace ContextCompiler.Modules.Views.View.Index.Json
             return def.Renderers.Contains("index.json");
         }
 
-        public string OutputFileExtension => "index.json";
+        public string OutputFileExtension => ".index.json";
         public string OutputMimeType => "application/json";
 
         public Task<string> RenderAsync(IViewConfigSection def, IReadOnlyList<IFragment> fragments, CancellationToken ct)

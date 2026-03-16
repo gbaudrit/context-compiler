@@ -5,5 +5,9 @@ namespace ContextCompiler.Modules.NuGet;
 
 public interface IPackageDownloader
 {
-    Task<string> DownloadPackageAsync(IModuleRestoreRequest req, ModuleSource source, string installRootAbs, CancellationToken ct);
+    Task<PackageDownloadResult> DownloadPackageAsync(IModuleRestoreRequest req, ModuleSource source, string installRootAbs, CancellationToken ct);
 }
+
+public record PackageDownloadResult(string MainPackagePath, List<DownloadedPackageInfo> AllPackages);
+
+public record DownloadedPackageInfo(string PackageId, string Version, string NupkgPath);

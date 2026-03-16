@@ -1,11 +1,11 @@
 using System.Text.RegularExpressions;
 
+using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Abstractions.Diagnostics;
-using ContextCompiler.Abstractions.Models;
 
 namespace ContextCompiler.Modules.BuiltIn.Guards;
 
-public sealed partial class InjectionGuard : IInjectionGuard
+public sealed partial class InjectionGuard(ISourceRefBuilder sourceRefBuilder) : IInjectionGuard
 {
     private static readonly Regex HardIgnore = PromptInjectionPattern();
 
@@ -18,7 +18,7 @@ public sealed partial class InjectionGuard : IInjectionGuard
             Severity: GuardSeverity.Error,
             Action: GuardActionKind.Quarantine,
             Message: "Prompt-injection-like instruction detected.",
-            Source: new SourceRef(path),
+            Source: sourceRefBuilder.InitNew().WithPath(path).Build(),
             Data: new Dictionary<string, object> { ["match"] = "ignore previous instructions" }
         );
     }

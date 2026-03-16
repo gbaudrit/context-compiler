@@ -1,5 +1,5 @@
+using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Abstractions.Guards;
-using ContextCompiler.Abstractions.Models;
 using ContextCompiler.Abstractions.Pipelines.Document;
 using ContextCompiler.Modules.Abstractions;
 
@@ -7,7 +7,7 @@ using Microsoft.Extensions.FileSystemGlobbing;
 
 namespace ContextCompiler.Modules.BuiltIn.Guards;
 
-public sealed class ScopeGuardModule : IGuardModule
+public sealed class ScopeGuardModule(ISourceRefBuilder sourceRefBuilder) : IGuardModule
 {
     public ModuleMetadata Metadata => BuiltInMetadata.Meta("builtin.guard.scope", GlobalPipelineModuleKinds.Guard, priority: -100);
     public DocumentStage Stage => DocumentStage.Discovery;
@@ -41,7 +41,7 @@ public sealed class ScopeGuardModule : IGuardModule
             ? Task.FromResult<IReadOnlyList<IPipelineFinding>>(
             [
                 ctx.DocumentContext.AddFinding(FindingSeverity.Info, FindingAction.Skip,"CtxGuard.Scope",
-                    "File excluded by scope rules.", new SourceRef(ctx.DocumentContext.FullPath))
+                    "File excluded by scope rules.", sourceRefBuilder.InitNew().WithPath(ctx.DocumentContext.FullPath).Build())
             ])
             : Task.FromResult<IReadOnlyList<IPipelineFinding>>([]);
     }

@@ -6,7 +6,7 @@ public sealed class DefaultConfigLocator : IModulesLoadConfigLocator
 {
     public string? Locate(string inputPath, string? providedPath, string name)
     {
-        string fileName = $"ctxc{(!string.IsNullOrEmpty(name) ? $".{name}" : "")}.Modules.config.json";
+        string fileName = $"ctxc{(!string.IsNullOrEmpty(name) ? $".{name}" : "")}.modules.config.json";
 
         if (!string.IsNullOrWhiteSpace(providedPath))
         {

@@ -4,4 +4,4 @@ public sealed record TextChunk(
     string Id,
     string ArtifactId,
     string Text,
-    string Source);
+    string Locator);

@@ -1,10 +1,10 @@
 using System.Text;
 using System.Text.Json;
 
+using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Abstractions.Configuration;
 using ContextCompiler.Abstractions.Configuration.Sections;
 using ContextCompiler.Abstractions.Files;
-using ContextCompiler.Abstractions.Models;
 using ContextCompiler.Abstractions.Pipelines.Document;
 using ContextCompiler.Abstractions.Tags;
 using ContextCompiler.Modules.Abstractions;
@@ -29,6 +29,7 @@ public sealed class PdfFileReaderModule(IFileReadResultBuilder fileReadResultBui
                                         IDataEnvelopeBuilder dataEnvelopeBuilder,
                                         IDataPartBuilder dataPartBuilder,
                                         ITagsBuilder tagsBuilder,
+                                        ISourceRefBuilder sourceRefBuilder,
                                         ILogger<PdfFileReaderModule> logger) : IFileReaderModule
 {
     public ModuleMetadata Metadata => IModule.Meta("readers.pdf", GlobalPipelineModuleKinds.FileReader, priority: 10);
@@ -51,7 +52,7 @@ public sealed class PdfFileReaderModule(IFileReadResultBuilder fileReadResultBui
     //                                                                               .Build()).Build());
     //}
 
-    public async Task<IDataEnvelope> ReadAsync(IDocumentContext documentContext, CancellationToken ct)
+    public Task<IDataEnvelope> ReadAsync(IDocumentContext documentContext, CancellationToken ct)
     {
         ct.ThrowIfCancellationRequested();
         logger.LogInformation("Start reading PDF document at path: {Path}", documentContext.FullPath);
@@ -108,7 +109,7 @@ public sealed class PdfFileReaderModule(IFileReadResultBuilder fileReadResultBui
                 string locatorPrefix = $"page:{page.Number}";
                 parts.Add(dataPartBuilder.InitNew()
                                              .WithId(extract.Id)
-                                             .WithSource(new SourceRef(sourcePath, locatorPrefix))
+                                             .WithSource(sourceRefBuilder.InitNew().WithPath(sourcePath).WithLocator(locatorPrefix).Build())
                                              .WithLabel("Page " + page.Number)
                                              .WithPayload(payload)
                                              .WithTags(tagsBuilder.InitNew().AddRange(extract.Tags).Build())
@@ -119,10 +120,10 @@ public sealed class PdfFileReaderModule(IFileReadResultBuilder fileReadResultBui
 
         logger.LogInformation("Finished reading PDF document at path: {Path}. Extracted {PartCount} parts.", documentContext.FullPath, parts.Count);
 
-        return dataEnvelopeBuilder.InitNew()
+        return Task.FromResult(dataEnvelopeBuilder.InitNew()
                                     .WithDataShape(DataShape.Linear)
                                     .WithParts(parts)
-                                    .Build();
+                                    .Build());
 
     }
 }

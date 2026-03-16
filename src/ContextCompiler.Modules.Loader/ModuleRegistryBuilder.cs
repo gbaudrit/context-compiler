@@ -60,6 +60,11 @@ public sealed class ModuleRegistryBuilder : IModuleRegistryBuilder
                 _ = services.AddTransient(typeof(ITranscoderModule), t);
             }
 
+            if (typeof(IFragmentProcessorModule).IsAssignableFrom(t))
+            {
+                _ = services.AddTransient(typeof(IFragmentProcessorModule), t);
+            }
+
             if (typeof(IGuardModule).IsAssignableFrom(t))
             {
                 _ = services.AddTransient(typeof(IGuardModule), t);

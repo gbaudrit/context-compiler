@@ -2,15 +2,15 @@ using ContextCompiler.Modules.Rag.Models;
 
 namespace ContextCompiler.Modules.Rag.Abstractions
 {
-    internal interface IRagStoreReader
+    public interface IRagStoreReader
     {
         ValueTask<RagManifest?> ReadManifestAsync(
-        CancellationToken cancellationToken = default);
+         CancellationToken cancellationToken = default);
 
-        IAsyncEnumerable<TextChunk> ReadChunksAsync(
+        ValueTask<IReadOnlyList<TextChunk>> ReadChunksAsync(
             CancellationToken cancellationToken = default);
 
-        IAsyncEnumerable<EmbeddingIndexEntry> ReadEmbeddingsAsync(
+        ValueTask<IReadOnlyList<EmbeddingRecord>> ReadEmbeddingsAsync(
             CancellationToken cancellationToken = default);
     }
 }

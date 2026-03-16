@@ -1,13 +1,13 @@
 using System.Text.RegularExpressions;
 
+using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Abstractions.Guards;
-using ContextCompiler.Abstractions.Models;
 using ContextCompiler.Abstractions.Pipelines.Document;
 using ContextCompiler.Modules.Abstractions;
 
 namespace ContextCompiler.Modules.BuiltIn.Guards;
 
-public sealed partial class SensitivityGuardModule : IGuardModule
+public sealed partial class SensitivityGuardModule(ISourceRefBuilder sourceRefBuilder) : IGuardModule
 {
     public ModuleMetadata Metadata => BuiltInMetadata.Meta("builtin.guard.sensitivity", GlobalPipelineModuleKinds.Guard, priority: 10);
     public DocumentStage Stage => DocumentStage.ContentGuards;
@@ -15,18 +15,18 @@ public sealed partial class SensitivityGuardModule : IGuardModule
     private static readonly Regex Email = EmailPattern();
     private static readonly Regex SecretLike = SecretPattern();
 
-    public async Task<IReadOnlyList<IPipelineFinding>> EvaluateAsync(IGuardContext ctx, CancellationToken ct)
+    public Task<IReadOnlyList<IPipelineFinding>> EvaluateAsync(IGuardContext ctx, CancellationToken ct)
     {
         ct.ThrowIfCancellationRequested();
         if (ctx.DocumentContext is null || string.IsNullOrWhiteSpace(ctx.DocumentContext.InputRoot))
         {
-            return [];
+            return Task.FromResult<IReadOnlyList<IPipelineFinding>>([]);
         }
 
         List<IPipelineFinding> findings = [];
         if (ctx.DocumentContext.Data is null)
         {
-            return findings;
+            return Task.FromResult<IReadOnlyList<IPipelineFinding>>(findings);
         }
 
         foreach (IDataPart part in ctx.DocumentContext.Data.Parts)
@@ -34,17 +34,17 @@ public sealed partial class SensitivityGuardModule : IGuardModule
             if (Email.IsMatch(part.Payload.ToString() ?? ""))
             {
                 findings.Add(ctx.DocumentContext.AddFinding(FindingSeverity.Warning, FindingAction.Warn, "CtxGuard.Sensitivity",
-                    "Potential email address detected in context.", new SourceRef(ctx.DocumentContext.FullPath)));
+                    "Potential email address detected in context.", sourceRefBuilder.InitNew().WithPath(ctx.DocumentContext.FullPath).Build()));
             }
 
             if (SecretLike.IsMatch(part.Payload.ToString() ?? ""))
             {
                 findings.Add(ctx.DocumentContext.AddFinding(FindingSeverity.Critical, FindingAction.Redact, "CtxGuard.Sensitivity",
-                    "Potential secret/token detected in context.", new SourceRef(ctx.DocumentContext.FullPath)));
+                    "Potential secret/token detected in context.", sourceRefBuilder.InitNew().WithPath(ctx.DocumentContext.FullPath).Build()));
             }
         }
 
-        return findings;
+        return Task.FromResult<IReadOnlyList<IPipelineFinding>>(findings);
     }
 
     [GeneratedRegex(@"[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}", RegexOptions.IgnoreCase | RegexOptions.Compiled, "fr-FR")]

@@ -2,6 +2,7 @@
   <ItemGroup>
     <!-- Microsoft.Extensions -->
     <PackageVersion Include="ContextCompiler.Modules.Artifacts.Registry" Version="1.0.0-alpha202603122211" />
+    <PackageVersion Include="FastBertTokenizer" Version="1.0.28" />
     <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="10.0.3" />
     <PackageVersion Include="Microsoft.Extensions.Hosting" Version="10.0.3" />
     <PackageVersion Include="Microsoft.Extensions.Logging" Version="10.0.3" />
@@ -31,7 +32,7 @@
     <PackageVersion Include="ModelContextProtocol" Version="1.1.0" />
     <PackageVersion Include="Tabula" Version="0.1.5" />
     <PackageVersion Include="Tabula.Json" Version="0.1.5" />
-	  <PackageVersion Include="SmartComponents.LocalEmbeddings" Version="0.1.0-preview10148" />
+    <PackageVersion Include="SmartComponents.LocalEmbeddings" Version="0.1.0-preview10148" />
   </ItemGroup>
   <ItemGroup>
     <!-- Testing -->

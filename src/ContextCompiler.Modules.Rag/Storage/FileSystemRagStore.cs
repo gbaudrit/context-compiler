@@ -12,7 +12,7 @@ public sealed class FileSystemRagStore : IRagStore, IAsyncDisposable
 {
     private static readonly JsonSerializerOptions JsonOptions = new(JsonSerializerDefaults.Web)
     {
-        WriteIndented = true
+        WriteIndented = false
     };
 
     private readonly string _rootPath;
