@@ -1,10 +1,11 @@
 using ContextCompiler.Modules.Rag.Abstractions;
+using ContextCompiler.Modules.Rag.Models;
 
 using FastBertTokenizerImpl = FastBertTokenizer.BertTokenizer;
 
 namespace ContextCompiler.Modules.Rag.Tokenizers
 {
-    internal class BertTokenizer : ITokenizer
+    internal sealed class BertTokenizer : ITokenizer
     {
 
         private readonly FastBertTokenizerImpl _bertTokenizer;
@@ -23,9 +24,16 @@ namespace ContextCompiler.Modules.Rag.Tokenizers
             return !File.Exists(text) ? throw new InvalidOperationException("Required file " + text + " does not exist") : text;
         }
 
-        public Task Encode(string text)
+        public Task<TokenizedText> Encode(string text)
         {
-            _bertTokenizer.Encode(text);
+            (ReadOnlyMemory<long> InputIds, ReadOnlyMemory<long> AttentionMask, ReadOnlyMemory<long> TokenTypeIds) = _bertTokenizer.Encode(text);
+
+            return Task.FromResult(new TokenizedText
+            {
+                InputIds = InputIds,
+                AttentionMask = AttentionMask,
+                TokenTypeIds = TokenTypeIds
+            });
         }
 
     }

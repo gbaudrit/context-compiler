@@ -23,15 +23,15 @@
 		<PackageReference Include="SmartComponents.LocalEmbeddings" />
 	</ItemGroup>
 
-	<!--<ItemGroup>
-		<Content Include="bin\$(Configuration)\net10.0\LocalEmbeddingsModel\default\model.onnx">
-			<PackagePath>contentFiles/any/LocalEmbeddingsModel/default/model.onnx</PackagePath>
+	<ItemGroup>
+		<Content Include="onnx\all-MiniLM-L6-v2.onnx">
+			<PackagePath>content/all-MiniLM-L6-v2.onnx</PackagePath>
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Content>
-		<Content Include="bin\$(Configuration)\net10.0\LocalEmbeddingsModel\default\vocab.txt">
-			<PackagePath>contentFiles/any/LocalEmbeddingsModel/default/vocab.txt</PackagePath>
+		<Content Include="onnx\all-MiniLM-L6-v2_vocab.txt">
+			<PackagePath>content/all-MiniLM-L6-v2_vocab.txt</PackagePath>
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Content>
-	</ItemGroup>-->
+	</ItemGroup>
 
 </Project>

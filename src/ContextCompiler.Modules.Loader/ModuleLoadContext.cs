@@ -1,15 +1,23 @@
 using System.Reflection;
 using System.Runtime.Loader;
 
+using ContextCompiler.Modules.Abstractions.Loading;
+
 namespace ContextCompiler.Modules.Loader;
 
-public sealed class ModuleLoadContext(string moduleMainAssemblyPath, string? installRoot = null) : AssemblyLoadContext(isCollectible: false)
+public sealed class ModuleLoadContext(IDependenciesChecker dependenciesChecker, string moduleMainAssemblyPath, string? installRoot = null) : AssemblyLoadContext(isCollectible: false)
 {
     private readonly AssemblyDependencyResolver _resolver = new(moduleMainAssemblyPath);
     private readonly string _moduleDirectory = Path.GetDirectoryName(moduleMainAssemblyPath) ?? throw new ArgumentException("Invalid assembly path", nameof(moduleMainAssemblyPath));
 
     protected override Assembly? Load(AssemblyName assemblyName)
     {
+        // laisser le runtime / contexte par défaut gérer les assemblies système et partagées
+        if (!dependenciesChecker.IsRequired(assemblyName))
+        {
+            return null;
+        }
+
         Assembly? alreadyLoaded = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(x => x.FullName == assemblyName.FullName);
         if (alreadyLoaded != null)
         {

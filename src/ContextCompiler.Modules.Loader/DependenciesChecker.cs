@@ -1,3 +1,5 @@
+using System.Reflection;
+
 using ContextCompiler.Modules.Abstractions.Loading;
 
 namespace ContextCompiler.Modules.Loader;
@@ -25,6 +27,17 @@ internal sealed class DependenciesChecker : IDependenciesChecker
     public bool IsRequired(string dependencyId, string dependencyVersion)
     {
         return _builtinDependencies.FirstOrDefault(d => d.Equals(dependencyId, StringComparison.OrdinalIgnoreCase)) == null;
+    }
+
+    public bool IsRequired(AssemblyName assemblyName)
+    {
+        string name = assemblyName.Name!;
+
+        return !((name.StartsWith("System.", StringComparison.InvariantCultureIgnoreCase) && !name.Equals("System.Numerics.Tensors", StringComparison.Ordinal) && !name.Equals("System.IO.Packaging", StringComparison.Ordinal))
+            || (name.StartsWith("Microsoft.", StringComparison.InvariantCultureIgnoreCase) && (!name.StartsWith("Microsoft.ML.", StringComparison.Ordinal)) && !name.Equals("Microsoft.Extensions.ObjectPool", StringComparison.Ordinal))
+            || name == "netstandard"
+            || name == "ContextCompiler.Abstractions"
+            || name == "ContextCompiler.Modules.Abstractions");
     }
 
 }

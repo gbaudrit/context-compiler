@@ -57,7 +57,8 @@ public sealed class DependencyInjection : IDependencyInjection
             .AddSingleton<IRagStoreReader, FileSystemRagStoreReader>()
             .AddTransient<ISemanticSearchService, SemanticSearchService>()
             .AddSingleton<RagMCPTools>()
-            .AddSingleton<ITokenizer, BertTokenizer>();
+            .AddSingleton<ITokenizer, BertTokenizer>()
+            .AddTransient<ITokenChunker, TokenChunker>();
         //.AddSingleton<ISemanticSearchService, SemanticSearchService>();
     }
 }

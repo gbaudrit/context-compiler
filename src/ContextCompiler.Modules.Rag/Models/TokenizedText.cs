@@ -1,10 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
+namespace ContextCompiler.Modules.Rag.Models;
 
-namespace ContextCompiler.Modules.Rag.Models
+internal sealed record TokenizedText
 {
-    internal class TokenizedText
-    {
-    }
+
+    public required ReadOnlyMemory<long> InputIds { get; init; }
+    public required ReadOnlyMemory<long> AttentionMask { get; init; }
+    public required ReadOnlyMemory<long> TokenTypeIds { get; init; }
+
 }

@@ -5,21 +5,21 @@ using ContextCompiler.Modules.Abstractions.Configuration;
 using ContextCompiler.Modules.Abstractions.Loading;
 namespace ContextCompiler.Modules.Loader;
 
-public sealed class ModuleAssemblyLoader(IModulesLoadConfigProvider configProvider, IWorkingFolder workingFolder) : IModuleAssemblyLoader
+public sealed class ModuleAssemblyLoader(IModulesLoadConfigProvider configProvider, IWorkingFolder workingFolder, IDependenciesChecker dependenciesChecker) : IModuleAssemblyLoader
 {
     public ValueTask<ILoadModuleAssemblyResult> LoadFromAssembly(string assemblyPath, CancellationToken ct)
     {
         string? installRoot = null;
         try
         {
-            installRoot = Path.Combine(workingFolder.Path, configProvider.Current.InstallRoot);
+            installRoot = Path.Combine(workingFolder.Path, configProvider.Current.InstallRoot.Replace('/', Path.DirectorySeparatorChar));
         }
         catch
         {
             // If we can't get install root, continue without it
         }
 
-        ModuleLoadContext alc = new(assemblyPath, installRoot);
+        ModuleLoadContext alc = new(dependenciesChecker, assemblyPath, installRoot);
         Assembly asm = alc.LoadFromAssemblyPath(assemblyPath);
         IEnumerable<Type> types = asm.GetTypes();
         return !types.Any()

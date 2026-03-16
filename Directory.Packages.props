@@ -2,7 +2,7 @@
   <ItemGroup>
     <!-- Microsoft.Extensions -->
     <PackageVersion Include="ContextCompiler.Modules.Artifacts.Registry" Version="1.0.0-alpha202603122211" />
-    <PackageVersion Include="FastBertTokenizer" Version="1.0.28" />
+    <PackageVersion Include="FastBertTokenizer" Version="0.4.67" />
     <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="10.0.3" />
     <PackageVersion Include="Microsoft.Extensions.Hosting" Version="10.0.3" />
     <PackageVersion Include="Microsoft.Extensions.Logging" Version="10.0.3" />

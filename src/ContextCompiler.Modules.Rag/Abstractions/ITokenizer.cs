@@ -1,10 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
+using ContextCompiler.Modules.Rag.Models;
 
-namespace ContextCompiler.Modules.Rag.Abstractions
+namespace ContextCompiler.Modules.Rag.Abstractions;
+
+internal interface ITokenizer
 {
-    internal interface ITokenizer
-    {
-    }
+    Task<TokenizedText> Encode(string text);
 }
