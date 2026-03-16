@@ -17,7 +17,7 @@ public sealed class RagEmbeddingsGeneratorModule(IRagIndexer ragIndexer, IPrompt
     public async Task Process(IFragment fragment, IDataPart dataPart, CancellationToken ct)
     {
 
-        IReadOnlyList<string> chunks = await tokenChunker.SplitChunksByToken(fragment.Content, cancellationToken: ct);
+        IReadOnlyList<string> chunks = await tokenChunker.SplitChunksByToken(fragment.Content, 256, 64, cancellationToken: ct);
 
         int index = 0;
         foreach (string chunk in chunks)
@@ -28,6 +28,7 @@ public sealed class RagEmbeddingsGeneratorModule(IRagIndexer ragIndexer, IPrompt
                 chunk,
                 fragment.Source.Locator ?? ""
             ), ct);
+            index++;
         }
 
         //await ragIndexer.IndexAsync(new(

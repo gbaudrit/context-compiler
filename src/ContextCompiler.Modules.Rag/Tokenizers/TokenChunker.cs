@@ -9,7 +9,7 @@ internal sealed class TokenChunker(ITokenizer tokenizer) : ITokenChunker
 {
     public async Task<IReadOnlyList<string>> SplitChunksByToken(
         string text,
-        int maxTokens = 512,
+        int maxTokens = 128,
         int overlapTokens = 64,
         CancellationToken cancellationToken = default)
     {
