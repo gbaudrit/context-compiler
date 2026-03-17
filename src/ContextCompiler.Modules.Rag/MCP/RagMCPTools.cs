@@ -12,11 +12,11 @@ public class RagMCPTools(ISemanticSearchService semanticSearchService)
 {
     private static readonly JsonSerializerOptions _jsonOptions = new(JsonSerializerDefaults.Web) { WriteIndented = true };
 
-    [McpServerTool, System.ComponentModel.Description("List current artifacts produced by the last compileContext call (names + absolute paths).")]
-    public async Task<string> RagSearch(string query)
+    [McpServerTool, System.ComponentModel.Description("RAG search on evidence content.")]
+    public async Task<string> RagSearch(string query, int maxResults = 5, float minSimilarity = 0.15f)
     {
         //ISemanticSearchService semanticSearchService = services.GetRequiredService<ISemanticSearchService>();
-        return JsonSerializer.Serialize(await semanticSearchService.SearchAsync(query), _jsonOptions);
+        return JsonSerializer.Serialize(await semanticSearchService.SearchAsync(query, maxResults, minSimilarity), _jsonOptions);
     }
 
     //[McpServerTool, System.ComponentModel.Description("Read an artifact content by name (e.g. prompt.context.md). Prefer resources/read via ctxc://artifact/<name> for large content.")]

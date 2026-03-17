@@ -44,6 +44,7 @@ public sealed class SemanticSearchService(
             .Select(x => new SearchHit(
                 ChunkId: x.Item.Id,
                 ArtifactId: x.Item.ArtifactId,
+                Locator: x.Item.Locator,
                 Text: x.Item.Text,
                 Similarity: x.Similarity))];
     }

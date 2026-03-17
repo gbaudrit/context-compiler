@@ -42,11 +42,45 @@ public sealed class GlobalPipelineRunner(
 
         IRootConfigSection cfg = cfgProvider.Current;
 
-        await Task.WhenAll(modules.GlobalPipelineModules.OrderBy(c => c.Metadata.Kind).Select(async p =>
+        IOrderedEnumerable<IGlobalPipelineModule> orderedModules = modules.GlobalPipelineModules.OrderBy(c => c.Metadata.Kind);
+
+        logger.LogDebug("Will running global pipeline with {ModuleCount} modules in order :", orderedModules.Count());
+        int index = 1;
+        foreach (IGlobalPipelineModule module in orderedModules)
         {
-            logger.LogInformation("Running global pipeline module: {ModuleName} (Kind: {ModuleKind}, Priority: {ModulePriority})",
-                p.Metadata.Id, p.Metadata.Kind, p.Metadata.Priority);
-            await p.Run(ct);
-        }));
+            logger.LogDebug("{Index}: {ModuleName} (Kind: {ModuleKind} ({ModuleKindValue}), Priority: {ModulePriority})",
+                index, module.Metadata.Id, module.Metadata.Kind, module.Metadata.Kind.ToString("D"), module.Metadata.Priority);
+            index++;
+        }
+
+        //await Task.WhenAll(orderedModules.Select(async p =>
+        //{
+        //    logger.LogInformation("Running global pipeline module: {ModuleName} (Kind: {ModuleKind}, Priority: {ModulePriority})",
+        //        p.Metadata.Id, p.Metadata.Kind, p.Metadata.Priority);
+        //    await p.Run(ct);
+        //}));
+
+        // Exécution par groupe de Kind, chaque groupe en parallèle,
+        // mais les groupes s'exécutent séquentiellement
+        IOrderedEnumerable<IGrouping<int, IGlobalPipelineModule>> groups = orderedModules
+            .GroupBy(m => (int)m.Metadata.Kind)
+            .OrderBy(g => g.Key);
+
+        foreach (IGrouping<int, IGlobalPipelineModule> group in groups)
+        {
+            logger.LogInformation("Running global pipeline group Kind={Kind} with {Count} modules",
+                group.Key, group.Count());
+
+            await Task.WhenAll(group.Select(async module =>
+            {
+                logger.LogInformation(
+                    "Running global pipeline module: {ModuleName} (Kind: {ModuleKind}, Priority: {ModulePriority})",
+                    module.Metadata.Id,
+                    module.Metadata.Kind,
+                    module.Metadata.Priority);
+
+                await module.Run(ct);
+            }));
+        }
     }
 }

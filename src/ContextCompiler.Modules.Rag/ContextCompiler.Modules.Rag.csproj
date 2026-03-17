@@ -19,7 +19,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="FastBertTokenizer" />
+		<!--<PackageReference Include="FastBertTokenizer" />-->
+		<PackageReference Include="Microsoft.Bcl.Memory" />
+		<PackageReference Include="Microsoft.ML.Tokenizers" />
+		<PackageReference Include="Microsoft.ML.Tokenizers.Data.Cl100kBase" />
 		<PackageReference Include="SmartComponents.LocalEmbeddings" />
 	</ItemGroup>
 

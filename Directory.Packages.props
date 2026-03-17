@@ -3,6 +3,7 @@
     <!-- Microsoft.Extensions -->
     <PackageVersion Include="ContextCompiler.Modules.Artifacts.Registry" Version="1.0.0-alpha202603122211" />
     <PackageVersion Include="FastBertTokenizer" Version="0.4.67" />
+    <PackageVersion Include="Microsoft.Bcl.Memory" Version="9.0.14" />
     <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="10.0.3" />
     <PackageVersion Include="Microsoft.Extensions.Hosting" Version="10.0.3" />
     <PackageVersion Include="Microsoft.Extensions.Logging" Version="10.0.3" />
@@ -14,6 +15,8 @@
     <PackageVersion Include="Microsoft.Extensions.Configuration.Json" Version="10.0.3" />
     <PackageVersion Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="10.0.3" />
     <!-- CLI -->
+    <PackageVersion Include="Microsoft.ML.Tokenizers" Version="3.0.0-preview.26160.2" />
+    <PackageVersion Include="Microsoft.ML.Tokenizers.Data.Cl100kBase" Version="3.0.0-preview.26160.2" />
     <PackageVersion Include="PdfPig" Version="0.1.13" />
     <PackageVersion Include="Scriban" Version="6.5.2" />
     <PackageVersion Include="System.CommandLine" Version="2.0.0-beta4.22272.1" />
