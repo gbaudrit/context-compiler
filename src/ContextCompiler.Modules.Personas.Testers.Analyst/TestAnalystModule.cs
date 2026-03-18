@@ -23,7 +23,7 @@ public sealed class TestAnalystModule(IConfigProvider cfgProvider,
     public Task Run(CancellationToken cancellationToken)
     {
         commandsProvider.AddCommand(commandBuilder.InitNew()
-                                    .WithName("testcase write")
+                                    .WithName("tester write testcase")
                                     .WithDescription("write all required test case for actual context")
                                     .ForPersona(PersonaId)
                                     .Build());
