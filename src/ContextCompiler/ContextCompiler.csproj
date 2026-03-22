@@ -1,22 +1,25 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+
 	<PropertyGroup>
 		<TargetFramework>net10.0</TargetFramework>
 		<Configurations>Debug;Release;DebugLocal</Configurations>
 		<IsPackable>true</IsPackable>
-		<PackageId>ContextCompiler.Modules.Abstractions</PackageId>
+		<PackageId>ContextCompiler</PackageId>
 		<Description>
-			Package d'abstractions des modules de ContextCompiler.
+			ContextCompiler.
 		</Description>
 		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
+
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)' == 'DebugLocal'">
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	</PropertyGroup>
-	
+
+
 	<ItemGroup>
-		<ProjectReference Include="..\ContextCompiler.Abstractions\ContextCompiler.Abstractions.csproj" />
+		<ProjectReference Include="..\ContextCompiler.Modules.Abstractions\ContextCompiler.Modules.Abstractions.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -10,10 +10,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.Infrastruct
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.Modules.BuiltIn", "src\ContextCompiler.Modules.BuiltIn\ContextCompiler.Modules.BuiltIn.csproj", "{44444444-4444-4444-4444-444444444444}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.Host.Cli", "src\ContextCompiler.Host.Cli\ContextCompiler.Host.Cli.csproj", "{55555555-5555-5555-5555-555555555555}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.Host.Mcp", "src\ContextCompiler.Host.Mcp\ContextCompiler.Host.Mcp.csproj", "{66666666-6666-6666-6666-666666666666}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.DevKit", "src\ContextCompiler.DevKit\ContextCompiler.DevKit.csproj", "{77777777-7777-7777-7777-777777777777}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.Sdk", "src\ContextCompiler.Sdk\ContextCompiler.Sdk.csproj", "{88888888-8888-8888-8888-888888888888}"
@@ -99,6 +95,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.Modules.Rag
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.Modules.Commands.Registry", "src\ContextCompiler.Modules.Commands.Registry\ContextCompiler.Modules.Commands.Registry.csproj", "{77CBF0A4-CE68-E147-A742-9BBB8843A004}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.Cli", "src\ContextCompiler.Cli\ContextCompiler.Cli.csproj", "{763A8883-89AE-723D-AB06-571B02090103}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.Mcp.Core", "src\ContextCompiler.Mcp.Core\ContextCompiler.Mcp.Core.csproj", "{630098B6-57D4-4282-8404-484B1F39E494}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.Mcp.Infrastructure", "src\ContextCompiler.Mcp.Infrastructure\ContextCompiler.Mcp.Infrastructure.csproj", "{AFAAF29E-209A-44D4-9AA9-95BB7971E1D6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.Mcp.Cli", "src\ContextCompiler.Mcp.Cli\ContextCompiler.Mcp.Cli.csproj", "{831FC12A-0060-81FD-F3FC-1A326ED465FD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mcp", "Mcp", "{C926E43C-C6B1-4BA7-97F9-56D811E28DC6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler", "src\ContextCompiler\ContextCompiler.csproj", "{BC85AA9D-168A-4775-B6EF-9C557948196A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -130,17 +138,6 @@ Global
 		{44444444-4444-4444-4444-444444444444}.DebugLocal|Any CPU.Build.0 = DebugLocal|Any CPU
 		{44444444-4444-4444-4444-444444444444}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{44444444-4444-4444-4444-444444444444}.Release|Any CPU.Build.0 = Release|Any CPU
-		{55555555-5555-5555-5555-555555555555}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{55555555-5555-5555-5555-555555555555}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{55555555-5555-5555-5555-555555555555}.DebugLocal|Any CPU.ActiveCfg = DebugLocal|Any CPU
-		{55555555-5555-5555-5555-555555555555}.DebugLocal|Any CPU.Build.0 = DebugLocal|Any CPU
-		{55555555-5555-5555-5555-555555555555}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{55555555-5555-5555-5555-555555555555}.Release|Any CPU.Build.0 = Release|Any CPU
-		{66666666-6666-6666-6666-666666666666}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{66666666-6666-6666-6666-666666666666}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{66666666-6666-6666-6666-666666666666}.DebugLocal|Any CPU.ActiveCfg = Debug|Any CPU
-		{66666666-6666-6666-6666-666666666666}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{66666666-6666-6666-6666-666666666666}.Release|Any CPU.Build.0 = Release|Any CPU
 		{77777777-7777-7777-7777-777777777777}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{77777777-7777-7777-7777-777777777777}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{77777777-7777-7777-7777-777777777777}.DebugLocal|Any CPU.ActiveCfg = DebugLocal|Any CPU
@@ -290,6 +287,36 @@ Global
 		{77CBF0A4-CE68-E147-A742-9BBB8843A004}.DebugLocal|Any CPU.Build.0 = DebugLocal|Any CPU
 		{77CBF0A4-CE68-E147-A742-9BBB8843A004}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{77CBF0A4-CE68-E147-A742-9BBB8843A004}.Release|Any CPU.Build.0 = Release|Any CPU
+		{763A8883-89AE-723D-AB06-571B02090103}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{763A8883-89AE-723D-AB06-571B02090103}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{763A8883-89AE-723D-AB06-571B02090103}.DebugLocal|Any CPU.ActiveCfg = DebugLocal|Any CPU
+		{763A8883-89AE-723D-AB06-571B02090103}.DebugLocal|Any CPU.Build.0 = DebugLocal|Any CPU
+		{763A8883-89AE-723D-AB06-571B02090103}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{763A8883-89AE-723D-AB06-571B02090103}.Release|Any CPU.Build.0 = Release|Any CPU
+		{630098B6-57D4-4282-8404-484B1F39E494}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{630098B6-57D4-4282-8404-484B1F39E494}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{630098B6-57D4-4282-8404-484B1F39E494}.DebugLocal|Any CPU.ActiveCfg = Debug|Any CPU
+		{630098B6-57D4-4282-8404-484B1F39E494}.DebugLocal|Any CPU.Build.0 = Debug|Any CPU
+		{630098B6-57D4-4282-8404-484B1F39E494}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{630098B6-57D4-4282-8404-484B1F39E494}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AFAAF29E-209A-44D4-9AA9-95BB7971E1D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFAAF29E-209A-44D4-9AA9-95BB7971E1D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFAAF29E-209A-44D4-9AA9-95BB7971E1D6}.DebugLocal|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFAAF29E-209A-44D4-9AA9-95BB7971E1D6}.DebugLocal|Any CPU.Build.0 = Debug|Any CPU
+		{AFAAF29E-209A-44D4-9AA9-95BB7971E1D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFAAF29E-209A-44D4-9AA9-95BB7971E1D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{831FC12A-0060-81FD-F3FC-1A326ED465FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{831FC12A-0060-81FD-F3FC-1A326ED465FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{831FC12A-0060-81FD-F3FC-1A326ED465FD}.DebugLocal|Any CPU.ActiveCfg = Debug|Any CPU
+		{831FC12A-0060-81FD-F3FC-1A326ED465FD}.DebugLocal|Any CPU.Build.0 = Debug|Any CPU
+		{831FC12A-0060-81FD-F3FC-1A326ED465FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{831FC12A-0060-81FD-F3FC-1A326ED465FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC85AA9D-168A-4775-B6EF-9C557948196A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC85AA9D-168A-4775-B6EF-9C557948196A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC85AA9D-168A-4775-B6EF-9C557948196A}.DebugLocal|Any CPU.ActiveCfg = DebugLocal|Any CPU
+		{BC85AA9D-168A-4775-B6EF-9C557948196A}.DebugLocal|Any CPU.Build.0 = DebugLocal|Any CPU
+		{BC85AA9D-168A-4775-B6EF-9C557948196A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC85AA9D-168A-4775-B6EF-9C557948196A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -297,6 +324,9 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{99A3087A-DCE3-4F65-BA47-5E52B5DFED6A} = {A5065593-A2C0-4970-A3C6-0EC3C6464EA9}
 		{09D92C29-0D37-42D4-A2F3-F0CCCFA55FC3} = {DEEF50A3-E5A2-4A19-94CB-23640FCBB2D8}
+		{630098B6-57D4-4282-8404-484B1F39E494} = {C926E43C-C6B1-4BA7-97F9-56D811E28DC6}
+		{AFAAF29E-209A-44D4-9AA9-95BB7971E1D6} = {C926E43C-C6B1-4BA7-97F9-56D811E28DC6}
+		{831FC12A-0060-81FD-F3FC-1A326ED465FD} = {C926E43C-C6B1-4BA7-97F9-56D811E28DC6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E59B7756-7651-4176-ABF1-8E66BF843C28}

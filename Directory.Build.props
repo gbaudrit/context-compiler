@@ -1,5 +1,16 @@
 <Project>
 	<PropertyGroup>
+		<VersionPrefix>0.1.0</VersionPrefix>
+		<VersionSuffix>alpha.1</VersionSuffix>
+
+		<Authors>Guillaume Baudrit</Authors>
+		<Company>Guillaume Baudrit</Company>
+		<Copyright>Copyright 2026 Guillaume Baudrit</Copyright>
+		<RepositoryUrl>https://github.com/gbaudrit/context-compiler</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageProjectUrl>https://github.com/gbaudrit/context-compiler</PackageProjectUrl>
+		<PackageTags>context;compiler;pipeline;llm;pre-llm;deterministic;ir;modular</PackageTags>
+		
 		<!-- Target framework -->
 		<TargetFramework>net10.0</TargetFramework>
 
@@ -31,9 +42,7 @@
 
 		<!-- Recommandé pour éviter des comportements de pack implicites -->
 		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-		<!-- timestamp UTC -->
-		<AlphaTimestamp>$([System.DateTime]::UtcNow.ToString('yyyyMMddHHmm'))</AlphaTimestamp>
-		<VersionSuffix>alpha$(AlphaTimestamp)</VersionSuffix>
+		
 
 		<!-- sort le nupkg dans bin\DebugLocal\... -->
 		<PackageOutputPath>$(OutputPath)</PackageOutputPath>
