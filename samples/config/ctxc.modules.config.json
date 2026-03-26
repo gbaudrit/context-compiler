@@ -1,0 +1,36 @@
+{
+    "mode": "Install",
+    "installRoot": ".ctxc/modules",
+    "lockFile": ".ctxc/ctxc.modules.lock.json",
+    "offline": false,
+    "quarantineRoot": ".ctxc/quarantine",
+    "sources": [
+      {
+        "name": "locale",
+        "url": "C:\\.localenugetsource",
+        "trusted": true,
+        "provider": "nuget"
+      }
+    ],
+    "trust": {
+      "requireTrustedSource": true,
+      "requireSignedPackages": false,
+      "allowedPackageIds": [
+        "ContextCompiler.Plugins.*",
+        "ContextCompiler.Modules.*"
+      ],
+      "blockedPackageIds": []
+    },
+    "packages": {
+      "ContextCompiler.Modules.Configuration@locale":"1.0.0-alpha202603201052",
+      "ContextCompiler.Modules.Readers.Excel@locale":"1.0.0-alpha202603201052",
+      "ContextCompiler.Modules.Readers.Pdf@locale":"1.0.0-alpha202603201052",
+      "ContextCompiler.Modules.Personas.Analysts.Business@locale":"1.0.0-alpha202603201052",
+      "ContextCompiler.Modules.Personas.Developers.DotNet@locale":"1.0.0-alpha202603201052",
+      "ContextCompiler.Modules.Personas.Developers.Python@locale":"1.0.0-alpha202603201052",
+      "ContextCompiler.Modules.Personas.Testers.Analyst@locale":"1.0.0-alpha202603201052",
+      "ContextCompiler.Modules.Views.View.Index.Json@locale":"1.0.0-alpha202603201052",
+      "ContextCompiler.Modules.Artifacts.Registry@locale":"1.0.0-alpha202603201052",
+      "ContextCompiler.Modules.Rag@locale":"1.0.0-alpha202603201052"
+    }
+  }
