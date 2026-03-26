@@ -2,7 +2,7 @@
 
 **Status:** Authoritative  
 **Date:** 2025-12-26  
-**Pipeline:** Document Pipeline stage 4 (Excel DataReader)
+**Pipeline:** Document Pipeline stages `DataRead` and `DataPart` (Excel DataReader)
 
 Excel Multi-Extract is a declarative, deterministic mechanism to extract multiple
 logical datasets from a single `.xlsx` and emit them as `CompositeDataEnvelope` parts.

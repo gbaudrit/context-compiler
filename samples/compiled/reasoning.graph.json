@@ -1,0 +1,4396 @@
+{
+  "Nodes": [
+    {
+      "Id": "E-8ad333757aec",
+      "Kind": "Evidence",
+      "Label": "E-8ad333757aec",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:1/page:1"
+      }
+    },
+    {
+      "Id": "S-7cedb1912e",
+      "Kind": "Source",
+      "Label": "0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+      "Props": {
+        "path": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf"
+      }
+    },
+    {
+      "Id": "E-ed90deb02e34",
+      "Kind": "Evidence",
+      "Label": "E-ed90deb02e34",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:2/page:2"
+      }
+    },
+    {
+      "Id": "E-bdc7cd6d7f81",
+      "Kind": "Evidence",
+      "Label": "E-bdc7cd6d7f81",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:3/page:3"
+      }
+    },
+    {
+      "Id": "E-2d0c0d6c7e2d",
+      "Kind": "Evidence",
+      "Label": "E-2d0c0d6c7e2d",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:4/page:4"
+      }
+    },
+    {
+      "Id": "E-6ad4d4e01d64",
+      "Kind": "Evidence",
+      "Label": "E-6ad4d4e01d64",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:5/page:5"
+      }
+    },
+    {
+      "Id": "E-8c800c2ace24",
+      "Kind": "Evidence",
+      "Label": "E-8c800c2ace24",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:6/page:6"
+      }
+    },
+    {
+      "Id": "E-2af786c802be",
+      "Kind": "Evidence",
+      "Label": "E-2af786c802be",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:7/page:7"
+      }
+    },
+    {
+      "Id": "E-ec84c0e9c049",
+      "Kind": "Evidence",
+      "Label": "E-ec84c0e9c049",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:8/page:8"
+      }
+    },
+    {
+      "Id": "E-83af806c8174",
+      "Kind": "Evidence",
+      "Label": "E-83af806c8174",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:9/page:9"
+      }
+    },
+    {
+      "Id": "E-958199ea9624",
+      "Kind": "Evidence",
+      "Label": "E-958199ea9624",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:10/page:10"
+      }
+    },
+    {
+      "Id": "E-e9a0a623965a",
+      "Kind": "Evidence",
+      "Label": "E-e9a0a623965a",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:11/page:11"
+      }
+    },
+    {
+      "Id": "E-2b64ec8f4f24",
+      "Kind": "Evidence",
+      "Label": "E-2b64ec8f4f24",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:12/page:12"
+      }
+    },
+    {
+      "Id": "E-2cb95fd3894f",
+      "Kind": "Evidence",
+      "Label": "E-2cb95fd3894f",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:13/page:13"
+      }
+    },
+    {
+      "Id": "E-0a3c4c1ea466",
+      "Kind": "Evidence",
+      "Label": "E-0a3c4c1ea466",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:14/page:14"
+      }
+    },
+    {
+      "Id": "E-f214a17c7cd0",
+      "Kind": "Evidence",
+      "Label": "E-f214a17c7cd0",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:15/page:15"
+      }
+    },
+    {
+      "Id": "E-0f913ad54ff4",
+      "Kind": "Evidence",
+      "Label": "E-0f913ad54ff4",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:16/page:16"
+      }
+    },
+    {
+      "Id": "E-041b7e594a64",
+      "Kind": "Evidence",
+      "Label": "E-041b7e594a64",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:17/page:17"
+      }
+    },
+    {
+      "Id": "E-098550d37830",
+      "Kind": "Evidence",
+      "Label": "E-098550d37830",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:18/page:18"
+      }
+    },
+    {
+      "Id": "E-967e654a3496",
+      "Kind": "Evidence",
+      "Label": "E-967e654a3496",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:19/page:19"
+      }
+    },
+    {
+      "Id": "E-5ed69af2a8cc",
+      "Kind": "Evidence",
+      "Label": "E-5ed69af2a8cc",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:20/page:20"
+      }
+    },
+    {
+      "Id": "E-79703533d233",
+      "Kind": "Evidence",
+      "Label": "E-79703533d233",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:21/page:21"
+      }
+    },
+    {
+      "Id": "E-6683cb0f44b6",
+      "Kind": "Evidence",
+      "Label": "E-6683cb0f44b6",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:22/page:22"
+      }
+    },
+    {
+      "Id": "E-ae51d289b8c1",
+      "Kind": "Evidence",
+      "Label": "E-ae51d289b8c1",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:23/page:23"
+      }
+    },
+    {
+      "Id": "E-c40769823269",
+      "Kind": "Evidence",
+      "Label": "E-c40769823269",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:24/page:24"
+      }
+    },
+    {
+      "Id": "E-998917c109b1",
+      "Kind": "Evidence",
+      "Label": "E-998917c109b1",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:25/page:25"
+      }
+    },
+    {
+      "Id": "E-923c12bce129",
+      "Kind": "Evidence",
+      "Label": "E-923c12bce129",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:26/page:26"
+      }
+    },
+    {
+      "Id": "E-bf012003855e",
+      "Kind": "Evidence",
+      "Label": "E-bf012003855e",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:27/page:27"
+      }
+    },
+    {
+      "Id": "E-cf4da1585931",
+      "Kind": "Evidence",
+      "Label": "E-cf4da1585931",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:28/page:28"
+      }
+    },
+    {
+      "Id": "E-8570e88c630c",
+      "Kind": "Evidence",
+      "Label": "E-8570e88c630c",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:29/page:29"
+      }
+    },
+    {
+      "Id": "E-d5b55c273dad",
+      "Kind": "Evidence",
+      "Label": "E-d5b55c273dad",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:30/page:30"
+      }
+    },
+    {
+      "Id": "E-8b5a83ab2348",
+      "Kind": "Evidence",
+      "Label": "E-8b5a83ab2348",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:31/page:31"
+      }
+    },
+    {
+      "Id": "E-dc3475dc35f2",
+      "Kind": "Evidence",
+      "Label": "E-dc3475dc35f2",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:32/page:32"
+      }
+    },
+    {
+      "Id": "E-f2bf5409e58f",
+      "Kind": "Evidence",
+      "Label": "E-f2bf5409e58f",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:33/page:33"
+      }
+    },
+    {
+      "Id": "E-fb6b80687556",
+      "Kind": "Evidence",
+      "Label": "E-fb6b80687556",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:34/page:34"
+      }
+    },
+    {
+      "Id": "E-925543716134",
+      "Kind": "Evidence",
+      "Label": "E-925543716134",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:35/page:35"
+      }
+    },
+    {
+      "Id": "E-46bb7953280d",
+      "Kind": "Evidence",
+      "Label": "E-46bb7953280d",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:36/page:36"
+      }
+    },
+    {
+      "Id": "E-1dc476b37743",
+      "Kind": "Evidence",
+      "Label": "E-1dc476b37743",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:37/page:37"
+      }
+    },
+    {
+      "Id": "E-90d89e329744",
+      "Kind": "Evidence",
+      "Label": "E-90d89e329744",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:38/page:38"
+      }
+    },
+    {
+      "Id": "E-15aeb012c40c",
+      "Kind": "Evidence",
+      "Label": "E-15aeb012c40c",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:39/page:39"
+      }
+    },
+    {
+      "Id": "E-e2866fdcdb18",
+      "Kind": "Evidence",
+      "Label": "E-e2866fdcdb18",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:40/page:40"
+      }
+    },
+    {
+      "Id": "E-3fec1aa9be6b",
+      "Kind": "Evidence",
+      "Label": "E-3fec1aa9be6b",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:41/page:41"
+      }
+    },
+    {
+      "Id": "E-642fbe5fbb89",
+      "Kind": "Evidence",
+      "Label": "E-642fbe5fbb89",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:42/page:42"
+      }
+    },
+    {
+      "Id": "E-f7e476b4695b",
+      "Kind": "Evidence",
+      "Label": "E-f7e476b4695b",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:43/page:43"
+      }
+    },
+    {
+      "Id": "E-bed5a0e937ae",
+      "Kind": "Evidence",
+      "Label": "E-bed5a0e937ae",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:44/page:44"
+      }
+    },
+    {
+      "Id": "E-3ac89fc5e9b0",
+      "Kind": "Evidence",
+      "Label": "E-3ac89fc5e9b0",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:45/page:45"
+      }
+    },
+    {
+      "Id": "E-f7b8f591b9d1",
+      "Kind": "Evidence",
+      "Label": "E-f7b8f591b9d1",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:46/page:46"
+      }
+    },
+    {
+      "Id": "E-56f6ac3ba3e5",
+      "Kind": "Evidence",
+      "Label": "E-56f6ac3ba3e5",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:47/page:47"
+      }
+    },
+    {
+      "Id": "E-ba78f8c2812c",
+      "Kind": "Evidence",
+      "Label": "E-ba78f8c2812c",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:48/page:48"
+      }
+    },
+    {
+      "Id": "E-0373cebf2d15",
+      "Kind": "Evidence",
+      "Label": "E-0373cebf2d15",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:49/page:49"
+      }
+    },
+    {
+      "Id": "E-a25faa9e5028",
+      "Kind": "Evidence",
+      "Label": "E-a25faa9e5028",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:50/page:50"
+      }
+    },
+    {
+      "Id": "E-affa2156b075",
+      "Kind": "Evidence",
+      "Label": "E-affa2156b075",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:51/page:51"
+      }
+    },
+    {
+      "Id": "E-fc594b8bce4a",
+      "Kind": "Evidence",
+      "Label": "E-fc594b8bce4a",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:52/page:52"
+      }
+    },
+    {
+      "Id": "E-cc2165320e97",
+      "Kind": "Evidence",
+      "Label": "E-cc2165320e97",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:53/page:53"
+      }
+    },
+    {
+      "Id": "E-d7ccbc4a0d5e",
+      "Kind": "Evidence",
+      "Label": "E-d7ccbc4a0d5e",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:54/page:54"
+      }
+    },
+    {
+      "Id": "E-22b60236ff88",
+      "Kind": "Evidence",
+      "Label": "E-22b60236ff88",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:55/page:55"
+      }
+    },
+    {
+      "Id": "E-5e99699b1d36",
+      "Kind": "Evidence",
+      "Label": "E-5e99699b1d36",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:56/page:56"
+      }
+    },
+    {
+      "Id": "E-d338a7a968ea",
+      "Kind": "Evidence",
+      "Label": "E-d338a7a968ea",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:57/page:57"
+      }
+    },
+    {
+      "Id": "E-432db0f85a9a",
+      "Kind": "Evidence",
+      "Label": "E-432db0f85a9a",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:58/page:58"
+      }
+    },
+    {
+      "Id": "E-14d66b71fada",
+      "Kind": "Evidence",
+      "Label": "E-14d66b71fada",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:59/page:59"
+      }
+    },
+    {
+      "Id": "E-bb3f406e6a1d",
+      "Kind": "Evidence",
+      "Label": "E-bb3f406e6a1d",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:60/page:60"
+      }
+    },
+    {
+      "Id": "E-2dc711d84524",
+      "Kind": "Evidence",
+      "Label": "E-2dc711d84524",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:61/page:61"
+      }
+    },
+    {
+      "Id": "E-1926c302ac13",
+      "Kind": "Evidence",
+      "Label": "E-1926c302ac13",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:62/page:62"
+      }
+    },
+    {
+      "Id": "E-bb1894e12cd7",
+      "Kind": "Evidence",
+      "Label": "E-bb1894e12cd7",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:63/page:63"
+      }
+    },
+    {
+      "Id": "E-5b276d260dd2",
+      "Kind": "Evidence",
+      "Label": "E-5b276d260dd2",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:64/page:64"
+      }
+    },
+    {
+      "Id": "E-bccf81b26d8e",
+      "Kind": "Evidence",
+      "Label": "E-bccf81b26d8e",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:65/page:65"
+      }
+    },
+    {
+      "Id": "E-f9d47a74679c",
+      "Kind": "Evidence",
+      "Label": "E-f9d47a74679c",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:66/page:66"
+      }
+    },
+    {
+      "Id": "E-c00194e9d818",
+      "Kind": "Evidence",
+      "Label": "E-c00194e9d818",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:67/page:67"
+      }
+    },
+    {
+      "Id": "E-0f65dfb16e03",
+      "Kind": "Evidence",
+      "Label": "E-0f65dfb16e03",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:68/page:68"
+      }
+    },
+    {
+      "Id": "E-6e8868f0c846",
+      "Kind": "Evidence",
+      "Label": "E-6e8868f0c846",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:69/page:69"
+      }
+    },
+    {
+      "Id": "E-6f7247da093d",
+      "Kind": "Evidence",
+      "Label": "E-6f7247da093d",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:70/page:70"
+      }
+    },
+    {
+      "Id": "E-5e64a9d5f0cb",
+      "Kind": "Evidence",
+      "Label": "E-5e64a9d5f0cb",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:71/page:71"
+      }
+    },
+    {
+      "Id": "E-d04381b85d4b",
+      "Kind": "Evidence",
+      "Label": "E-d04381b85d4b",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:72/page:72"
+      }
+    },
+    {
+      "Id": "E-18768678a007",
+      "Kind": "Evidence",
+      "Label": "E-18768678a007",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:73/page:73"
+      }
+    },
+    {
+      "Id": "E-e934c6f80f59",
+      "Kind": "Evidence",
+      "Label": "E-e934c6f80f59",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:74/page:74"
+      }
+    },
+    {
+      "Id": "E-5d44dcb80baf",
+      "Kind": "Evidence",
+      "Label": "E-5d44dcb80baf",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:75/page:75"
+      }
+    },
+    {
+      "Id": "E-bdfde449eeb0",
+      "Kind": "Evidence",
+      "Label": "E-bdfde449eeb0",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:76/page:76"
+      }
+    },
+    {
+      "Id": "E-d2b4fae7924c",
+      "Kind": "Evidence",
+      "Label": "E-d2b4fae7924c",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/dgfip/0- Dossier de specifications externes FE - Dossier g\u00E9n\u00E9ral.pdf",
+        "locator": "page:77/page:77"
+      }
+    },
+    {
+      "Id": "E-ed908605abc7",
+      "Kind": "Evidence",
+      "Label": "E-ed908605abc7",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:1/page:1"
+      }
+    },
+    {
+      "Id": "S-3adfa05376",
+      "Kind": "Source",
+      "Label": "XP_Z12-012.pdf",
+      "Props": {
+        "path": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf"
+      }
+    },
+    {
+      "Id": "E-8ff132e73de4",
+      "Kind": "Evidence",
+      "Label": "E-8ff132e73de4",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:2/page:2"
+      }
+    },
+    {
+      "Id": "E-03889cfbb9b3",
+      "Kind": "Evidence",
+      "Label": "E-03889cfbb9b3",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:3/page:3"
+      }
+    },
+    {
+      "Id": "E-5b618ce5b019",
+      "Kind": "Evidence",
+      "Label": "E-5b618ce5b019",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:4/page:4"
+      }
+    },
+    {
+      "Id": "E-3489a215019a",
+      "Kind": "Evidence",
+      "Label": "E-3489a215019a",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:5/page:5"
+      }
+    },
+    {
+      "Id": "E-09ad910bc8b5",
+      "Kind": "Evidence",
+      "Label": "E-09ad910bc8b5",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:6/page:6"
+      }
+    },
+    {
+      "Id": "E-3236892d0fff",
+      "Kind": "Evidence",
+      "Label": "E-3236892d0fff",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:7/page:7"
+      }
+    },
+    {
+      "Id": "E-c521c3dd079f",
+      "Kind": "Evidence",
+      "Label": "E-c521c3dd079f",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:8/page:8"
+      }
+    },
+    {
+      "Id": "E-2bd91da9de7d",
+      "Kind": "Evidence",
+      "Label": "E-2bd91da9de7d",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:9/page:9"
+      }
+    },
+    {
+      "Id": "E-f9e7ae82b97c",
+      "Kind": "Evidence",
+      "Label": "E-f9e7ae82b97c",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:10/page:10"
+      }
+    },
+    {
+      "Id": "E-f9b3403977a8",
+      "Kind": "Evidence",
+      "Label": "E-f9b3403977a8",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:11/page:11"
+      }
+    },
+    {
+      "Id": "E-a0bf0416299b",
+      "Kind": "Evidence",
+      "Label": "E-a0bf0416299b",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:12/page:12"
+      }
+    },
+    {
+      "Id": "E-9fcced72e20f",
+      "Kind": "Evidence",
+      "Label": "E-9fcced72e20f",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:13/page:13"
+      }
+    },
+    {
+      "Id": "E-877c9caba866",
+      "Kind": "Evidence",
+      "Label": "E-877c9caba866",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:14/page:14"
+      }
+    },
+    {
+      "Id": "E-d5e7b6df8e09",
+      "Kind": "Evidence",
+      "Label": "E-d5e7b6df8e09",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:15/page:15"
+      }
+    },
+    {
+      "Id": "E-393f27637659",
+      "Kind": "Evidence",
+      "Label": "E-393f27637659",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:16/page:16"
+      }
+    },
+    {
+      "Id": "E-cfa1b72a8a8d",
+      "Kind": "Evidence",
+      "Label": "E-cfa1b72a8a8d",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:17/page:17"
+      }
+    },
+    {
+      "Id": "E-38082b37b236",
+      "Kind": "Evidence",
+      "Label": "E-38082b37b236",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:18/page:18"
+      }
+    },
+    {
+      "Id": "E-914b05c1dc60",
+      "Kind": "Evidence",
+      "Label": "E-914b05c1dc60",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:19/page:19"
+      }
+    },
+    {
+      "Id": "E-63ff489af953",
+      "Kind": "Evidence",
+      "Label": "E-63ff489af953",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:20/page:20"
+      }
+    },
+    {
+      "Id": "E-a54750386c82",
+      "Kind": "Evidence",
+      "Label": "E-a54750386c82",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:21/page:21"
+      }
+    },
+    {
+      "Id": "E-2fb007062d54",
+      "Kind": "Evidence",
+      "Label": "E-2fb007062d54",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:22/page:22"
+      }
+    },
+    {
+      "Id": "E-1ce77fb6a0fb",
+      "Kind": "Evidence",
+      "Label": "E-1ce77fb6a0fb",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:23/page:23"
+      }
+    },
+    {
+      "Id": "E-91fe0a109134",
+      "Kind": "Evidence",
+      "Label": "E-91fe0a109134",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:24/page:24"
+      }
+    },
+    {
+      "Id": "E-f341adefde1e",
+      "Kind": "Evidence",
+      "Label": "E-f341adefde1e",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:25/page:25"
+      }
+    },
+    {
+      "Id": "E-00c9b776f1de",
+      "Kind": "Evidence",
+      "Label": "E-00c9b776f1de",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:26/page:26"
+      }
+    },
+    {
+      "Id": "E-1b035c294475",
+      "Kind": "Evidence",
+      "Label": "E-1b035c294475",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:27/page:27"
+      }
+    },
+    {
+      "Id": "E-8e344d05ffc4",
+      "Kind": "Evidence",
+      "Label": "E-8e344d05ffc4",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:28/page:28"
+      }
+    },
+    {
+      "Id": "E-5b6ea53f33b0",
+      "Kind": "Evidence",
+      "Label": "E-5b6ea53f33b0",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:29/page:29"
+      }
+    },
+    {
+      "Id": "E-215a2eb5712a",
+      "Kind": "Evidence",
+      "Label": "E-215a2eb5712a",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:30/page:30"
+      }
+    },
+    {
+      "Id": "E-1987d416c029",
+      "Kind": "Evidence",
+      "Label": "E-1987d416c029",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:31/page:31"
+      }
+    },
+    {
+      "Id": "E-2b0c48064763",
+      "Kind": "Evidence",
+      "Label": "E-2b0c48064763",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:32/page:32"
+      }
+    },
+    {
+      "Id": "E-fe48530e408c",
+      "Kind": "Evidence",
+      "Label": "E-fe48530e408c",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:33/page:33"
+      }
+    },
+    {
+      "Id": "E-8aaa0deead13",
+      "Kind": "Evidence",
+      "Label": "E-8aaa0deead13",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:34/page:34"
+      }
+    },
+    {
+      "Id": "E-09c35ded2d97",
+      "Kind": "Evidence",
+      "Label": "E-09c35ded2d97",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:35/page:35"
+      }
+    },
+    {
+      "Id": "E-da60bbf2fa12",
+      "Kind": "Evidence",
+      "Label": "E-da60bbf2fa12",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:36/page:36"
+      }
+    },
+    {
+      "Id": "E-e7868b3c8c38",
+      "Kind": "Evidence",
+      "Label": "E-e7868b3c8c38",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:37/page:37"
+      }
+    },
+    {
+      "Id": "E-efde18552405",
+      "Kind": "Evidence",
+      "Label": "E-efde18552405",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:38/page:38"
+      }
+    },
+    {
+      "Id": "E-b506b7b9ed2e",
+      "Kind": "Evidence",
+      "Label": "E-b506b7b9ed2e",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:39/page:39"
+      }
+    },
+    {
+      "Id": "E-1da16d780020",
+      "Kind": "Evidence",
+      "Label": "E-1da16d780020",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:40/page:40"
+      }
+    },
+    {
+      "Id": "E-9dc123a9a10a",
+      "Kind": "Evidence",
+      "Label": "E-9dc123a9a10a",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:41/page:41"
+      }
+    },
+    {
+      "Id": "E-a58ca3d21211",
+      "Kind": "Evidence",
+      "Label": "E-a58ca3d21211",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:42/page:42"
+      }
+    },
+    {
+      "Id": "E-b7d12bd0d37c",
+      "Kind": "Evidence",
+      "Label": "E-b7d12bd0d37c",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:43/page:43"
+      }
+    },
+    {
+      "Id": "E-1e896d633d6d",
+      "Kind": "Evidence",
+      "Label": "E-1e896d633d6d",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:44/page:44"
+      }
+    },
+    {
+      "Id": "E-350b795615e7",
+      "Kind": "Evidence",
+      "Label": "E-350b795615e7",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:45/page:45"
+      }
+    },
+    {
+      "Id": "E-b1dffd74f365",
+      "Kind": "Evidence",
+      "Label": "E-b1dffd74f365",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:46/page:46"
+      }
+    },
+    {
+      "Id": "E-8cff8fcfabd6",
+      "Kind": "Evidence",
+      "Label": "E-8cff8fcfabd6",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:47/page:47"
+      }
+    },
+    {
+      "Id": "E-dda2c7ec8009",
+      "Kind": "Evidence",
+      "Label": "E-dda2c7ec8009",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:48/page:48"
+      }
+    },
+    {
+      "Id": "E-d8379f38a3a2",
+      "Kind": "Evidence",
+      "Label": "E-d8379f38a3a2",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:49/page:49"
+      }
+    },
+    {
+      "Id": "E-ab431e041e33",
+      "Kind": "Evidence",
+      "Label": "E-ab431e041e33",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:50/page:50"
+      }
+    },
+    {
+      "Id": "E-2aa90f8a82d4",
+      "Kind": "Evidence",
+      "Label": "E-2aa90f8a82d4",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:51/page:51"
+      }
+    },
+    {
+      "Id": "E-a0a3222beebc",
+      "Kind": "Evidence",
+      "Label": "E-a0a3222beebc",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:52/page:52"
+      }
+    },
+    {
+      "Id": "E-2da0d84c54f7",
+      "Kind": "Evidence",
+      "Label": "E-2da0d84c54f7",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:53/page:53"
+      }
+    },
+    {
+      "Id": "E-24490704e989",
+      "Kind": "Evidence",
+      "Label": "E-24490704e989",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:54/page:54"
+      }
+    },
+    {
+      "Id": "E-29797f6da69e",
+      "Kind": "Evidence",
+      "Label": "E-29797f6da69e",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:55/page:55"
+      }
+    },
+    {
+      "Id": "E-a87a31153792",
+      "Kind": "Evidence",
+      "Label": "E-a87a31153792",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:56/page:56"
+      }
+    },
+    {
+      "Id": "E-076064b34864",
+      "Kind": "Evidence",
+      "Label": "E-076064b34864",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:57/page:57"
+      }
+    },
+    {
+      "Id": "E-e5edc7f69d21",
+      "Kind": "Evidence",
+      "Label": "E-e5edc7f69d21",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:58/page:58"
+      }
+    },
+    {
+      "Id": "E-bc007415b397",
+      "Kind": "Evidence",
+      "Label": "E-bc007415b397",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:59/page:59"
+      }
+    },
+    {
+      "Id": "E-35bae1ba5ea5",
+      "Kind": "Evidence",
+      "Label": "E-35bae1ba5ea5",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:60/page:60"
+      }
+    },
+    {
+      "Id": "E-70cc79be22a5",
+      "Kind": "Evidence",
+      "Label": "E-70cc79be22a5",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:61/page:61"
+      }
+    },
+    {
+      "Id": "E-bd494331c66d",
+      "Kind": "Evidence",
+      "Label": "E-bd494331c66d",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:62/page:62"
+      }
+    },
+    {
+      "Id": "E-1a0e8ed79e02",
+      "Kind": "Evidence",
+      "Label": "E-1a0e8ed79e02",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:63/page:63"
+      }
+    },
+    {
+      "Id": "E-9b344c0d5a64",
+      "Kind": "Evidence",
+      "Label": "E-9b344c0d5a64",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:64/page:64"
+      }
+    },
+    {
+      "Id": "E-9f515a323ce6",
+      "Kind": "Evidence",
+      "Label": "E-9f515a323ce6",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:65/page:65"
+      }
+    },
+    {
+      "Id": "E-d7974b0d088a",
+      "Kind": "Evidence",
+      "Label": "E-d7974b0d088a",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:66/page:66"
+      }
+    },
+    {
+      "Id": "E-f1108aeea2f1",
+      "Kind": "Evidence",
+      "Label": "E-f1108aeea2f1",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:67/page:67"
+      }
+    },
+    {
+      "Id": "E-d339456a6fc1",
+      "Kind": "Evidence",
+      "Label": "E-d339456a6fc1",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:68/page:68"
+      }
+    },
+    {
+      "Id": "E-8e52e31a9ff8",
+      "Kind": "Evidence",
+      "Label": "E-8e52e31a9ff8",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:69/page:69"
+      }
+    },
+    {
+      "Id": "E-99ab7690fe37",
+      "Kind": "Evidence",
+      "Label": "E-99ab7690fe37",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:70/page:70"
+      }
+    },
+    {
+      "Id": "E-395daf1dd30f",
+      "Kind": "Evidence",
+      "Label": "E-395daf1dd30f",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:71/page:71"
+      }
+    },
+    {
+      "Id": "E-b637becf57d2",
+      "Kind": "Evidence",
+      "Label": "E-b637becf57d2",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:72/page:72"
+      }
+    },
+    {
+      "Id": "E-9521d6e6daf1",
+      "Kind": "Evidence",
+      "Label": "E-9521d6e6daf1",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:73/page:73"
+      }
+    },
+    {
+      "Id": "E-7a037009b011",
+      "Kind": "Evidence",
+      "Label": "E-7a037009b011",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:74/page:74"
+      }
+    },
+    {
+      "Id": "E-ec55fc4a17ff",
+      "Kind": "Evidence",
+      "Label": "E-ec55fc4a17ff",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:75/page:75"
+      }
+    },
+    {
+      "Id": "E-4626c71d0bef",
+      "Kind": "Evidence",
+      "Label": "E-4626c71d0bef",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:76/page:76"
+      }
+    },
+    {
+      "Id": "E-3b25b0b234da",
+      "Kind": "Evidence",
+      "Label": "E-3b25b0b234da",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:77/page:77"
+      }
+    },
+    {
+      "Id": "E-dd1a8bf042fc",
+      "Kind": "Evidence",
+      "Label": "E-dd1a8bf042fc",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:78/page:78"
+      }
+    },
+    {
+      "Id": "E-0db31b190b60",
+      "Kind": "Evidence",
+      "Label": "E-0db31b190b60",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:79/page:79"
+      }
+    },
+    {
+      "Id": "E-f00650cb96d8",
+      "Kind": "Evidence",
+      "Label": "E-f00650cb96d8",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:80/page:80"
+      }
+    },
+    {
+      "Id": "E-5c8fdb16a527",
+      "Kind": "Evidence",
+      "Label": "E-5c8fdb16a527",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:81/page:81"
+      }
+    },
+    {
+      "Id": "E-b0e028cf7c99",
+      "Kind": "Evidence",
+      "Label": "E-b0e028cf7c99",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:82/page:82"
+      }
+    },
+    {
+      "Id": "E-eb881e525fb9",
+      "Kind": "Evidence",
+      "Label": "E-eb881e525fb9",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:83/page:83"
+      }
+    },
+    {
+      "Id": "E-d140140b52a6",
+      "Kind": "Evidence",
+      "Label": "E-d140140b52a6",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:84/page:84"
+      }
+    },
+    {
+      "Id": "E-45a63135c6c7",
+      "Kind": "Evidence",
+      "Label": "E-45a63135c6c7",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:85/page:85"
+      }
+    },
+    {
+      "Id": "E-8b524f6371e3",
+      "Kind": "Evidence",
+      "Label": "E-8b524f6371e3",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:86/page:86"
+      }
+    },
+    {
+      "Id": "E-429b3f1acbb6",
+      "Kind": "Evidence",
+      "Label": "E-429b3f1acbb6",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:87/page:87"
+      }
+    },
+    {
+      "Id": "E-e1b7aab088a1",
+      "Kind": "Evidence",
+      "Label": "E-e1b7aab088a1",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:88/page:88"
+      }
+    },
+    {
+      "Id": "E-a42131e60681",
+      "Kind": "Evidence",
+      "Label": "E-a42131e60681",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:89/page:89"
+      }
+    },
+    {
+      "Id": "E-f94dfc1209af",
+      "Kind": "Evidence",
+      "Label": "E-f94dfc1209af",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:90/page:90"
+      }
+    },
+    {
+      "Id": "E-46e7fd7a5885",
+      "Kind": "Evidence",
+      "Label": "E-46e7fd7a5885",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:91/page:91"
+      }
+    },
+    {
+      "Id": "E-cf8ded641500",
+      "Kind": "Evidence",
+      "Label": "E-cf8ded641500",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:92/page:92"
+      }
+    },
+    {
+      "Id": "E-543001d4ce88",
+      "Kind": "Evidence",
+      "Label": "E-543001d4ce88",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:93/page:93"
+      }
+    },
+    {
+      "Id": "E-66c107379c3b",
+      "Kind": "Evidence",
+      "Label": "E-66c107379c3b",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:1/page:1"
+      }
+    },
+    {
+      "Id": "S-da44f24ca4",
+      "Kind": "Source",
+      "Label": "XP_Z12-012.pdf",
+      "Props": {
+        "path": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf"
+      }
+    },
+    {
+      "Id": "E-55924590626b",
+      "Kind": "Evidence",
+      "Label": "E-55924590626b",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:2/page:2"
+      }
+    },
+    {
+      "Id": "E-d9498b131b22",
+      "Kind": "Evidence",
+      "Label": "E-d9498b131b22",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:3/page:3"
+      }
+    },
+    {
+      "Id": "E-ad7b1a133151",
+      "Kind": "Evidence",
+      "Label": "E-ad7b1a133151",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:4/page:4"
+      }
+    },
+    {
+      "Id": "E-9e57b45177c2",
+      "Kind": "Evidence",
+      "Label": "E-9e57b45177c2",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:5/page:5"
+      }
+    },
+    {
+      "Id": "E-6b401450f2f4",
+      "Kind": "Evidence",
+      "Label": "E-6b401450f2f4",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:6/page:6"
+      }
+    },
+    {
+      "Id": "E-4cbcd1fe4ac1",
+      "Kind": "Evidence",
+      "Label": "E-4cbcd1fe4ac1",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:7/page:7"
+      }
+    },
+    {
+      "Id": "E-d0f3d8b3e580",
+      "Kind": "Evidence",
+      "Label": "E-d0f3d8b3e580",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:8/page:8"
+      }
+    },
+    {
+      "Id": "E-0c29c1cea306",
+      "Kind": "Evidence",
+      "Label": "E-0c29c1cea306",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:9/page:9"
+      }
+    },
+    {
+      "Id": "E-616010f523a3",
+      "Kind": "Evidence",
+      "Label": "E-616010f523a3",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:10/page:10"
+      }
+    },
+    {
+      "Id": "E-5c53fe711426",
+      "Kind": "Evidence",
+      "Label": "E-5c53fe711426",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:11/page:11"
+      }
+    },
+    {
+      "Id": "E-12b7f2860372",
+      "Kind": "Evidence",
+      "Label": "E-12b7f2860372",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:12/page:12"
+      }
+    },
+    {
+      "Id": "E-ae002d5e5910",
+      "Kind": "Evidence",
+      "Label": "E-ae002d5e5910",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:13/page:13"
+      }
+    },
+    {
+      "Id": "E-e4dcca0ec0cf",
+      "Kind": "Evidence",
+      "Label": "E-e4dcca0ec0cf",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:14/page:14"
+      }
+    },
+    {
+      "Id": "E-c8a5261849c9",
+      "Kind": "Evidence",
+      "Label": "E-c8a5261849c9",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:15/page:15"
+      }
+    },
+    {
+      "Id": "E-25b61376e50a",
+      "Kind": "Evidence",
+      "Label": "E-25b61376e50a",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:16/page:16"
+      }
+    },
+    {
+      "Id": "E-9d9d6f3477e7",
+      "Kind": "Evidence",
+      "Label": "E-9d9d6f3477e7",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:17/page:17"
+      }
+    },
+    {
+      "Id": "E-80632409d651",
+      "Kind": "Evidence",
+      "Label": "E-80632409d651",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:18/page:18"
+      }
+    },
+    {
+      "Id": "E-d35f426c72d2",
+      "Kind": "Evidence",
+      "Label": "E-d35f426c72d2",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:19/page:19"
+      }
+    },
+    {
+      "Id": "E-79f0e6b48b36",
+      "Kind": "Evidence",
+      "Label": "E-79f0e6b48b36",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:20/page:20"
+      }
+    },
+    {
+      "Id": "E-2d2a5ed63c9e",
+      "Kind": "Evidence",
+      "Label": "E-2d2a5ed63c9e",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:21/page:21"
+      }
+    },
+    {
+      "Id": "E-9d11ae910281",
+      "Kind": "Evidence",
+      "Label": "E-9d11ae910281",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:22/page:22"
+      }
+    },
+    {
+      "Id": "E-100760e2d4d5",
+      "Kind": "Evidence",
+      "Label": "E-100760e2d4d5",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:23/page:23"
+      }
+    },
+    {
+      "Id": "E-a2e2685bf320",
+      "Kind": "Evidence",
+      "Label": "E-a2e2685bf320",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:24/page:24"
+      }
+    },
+    {
+      "Id": "E-d8c58ef3d49d",
+      "Kind": "Evidence",
+      "Label": "E-d8c58ef3d49d",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:25/page:25"
+      }
+    },
+    {
+      "Id": "E-851b0bfcb92e",
+      "Kind": "Evidence",
+      "Label": "E-851b0bfcb92e",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:26/page:26"
+      }
+    },
+    {
+      "Id": "E-eed7a8be6b2b",
+      "Kind": "Evidence",
+      "Label": "E-eed7a8be6b2b",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:27/page:27"
+      }
+    },
+    {
+      "Id": "E-6f182011f79c",
+      "Kind": "Evidence",
+      "Label": "E-6f182011f79c",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:28/page:28"
+      }
+    },
+    {
+      "Id": "E-ef9142c93653",
+      "Kind": "Evidence",
+      "Label": "E-ef9142c93653",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:29/page:29"
+      }
+    },
+    {
+      "Id": "E-65f940d0b75b",
+      "Kind": "Evidence",
+      "Label": "E-65f940d0b75b",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:30/page:30"
+      }
+    },
+    {
+      "Id": "E-f7a26ee23564",
+      "Kind": "Evidence",
+      "Label": "E-f7a26ee23564",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:31/page:31"
+      }
+    },
+    {
+      "Id": "E-369a43af77c6",
+      "Kind": "Evidence",
+      "Label": "E-369a43af77c6",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:32/page:32"
+      }
+    },
+    {
+      "Id": "E-df57285d381c",
+      "Kind": "Evidence",
+      "Label": "E-df57285d381c",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:33/page:33"
+      }
+    },
+    {
+      "Id": "E-c28a20807ce5",
+      "Kind": "Evidence",
+      "Label": "E-c28a20807ce5",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:34/page:34"
+      }
+    },
+    {
+      "Id": "E-4ae57fc5a20c",
+      "Kind": "Evidence",
+      "Label": "E-4ae57fc5a20c",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:35/page:35"
+      }
+    },
+    {
+      "Id": "E-2d23328dfc62",
+      "Kind": "Evidence",
+      "Label": "E-2d23328dfc62",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:36/page:36"
+      }
+    },
+    {
+      "Id": "E-6e7ecfac8c1c",
+      "Kind": "Evidence",
+      "Label": "E-6e7ecfac8c1c",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:37/page:37"
+      }
+    },
+    {
+      "Id": "E-9be06bffc5b6",
+      "Kind": "Evidence",
+      "Label": "E-9be06bffc5b6",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:38/page:38"
+      }
+    },
+    {
+      "Id": "E-517ea158e42f",
+      "Kind": "Evidence",
+      "Label": "E-517ea158e42f",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:39/page:39"
+      }
+    },
+    {
+      "Id": "E-f60ce6726add",
+      "Kind": "Evidence",
+      "Label": "E-f60ce6726add",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:40/page:40"
+      }
+    },
+    {
+      "Id": "E-52dcd3f692ef",
+      "Kind": "Evidence",
+      "Label": "E-52dcd3f692ef",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:41/page:41"
+      }
+    },
+    {
+      "Id": "E-6a0deb5394d9",
+      "Kind": "Evidence",
+      "Label": "E-6a0deb5394d9",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:42/page:42"
+      }
+    },
+    {
+      "Id": "E-865a5e5b58e8",
+      "Kind": "Evidence",
+      "Label": "E-865a5e5b58e8",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:43/page:43"
+      }
+    },
+    {
+      "Id": "E-b959868349f0",
+      "Kind": "Evidence",
+      "Label": "E-b959868349f0",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:44/page:44"
+      }
+    },
+    {
+      "Id": "E-7aa21cca073c",
+      "Kind": "Evidence",
+      "Label": "E-7aa21cca073c",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:45/page:45"
+      }
+    },
+    {
+      "Id": "E-0f3fba03dfce",
+      "Kind": "Evidence",
+      "Label": "E-0f3fba03dfce",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:46/page:46"
+      }
+    },
+    {
+      "Id": "E-146bdb4c118c",
+      "Kind": "Evidence",
+      "Label": "E-146bdb4c118c",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:47/page:47"
+      }
+    },
+    {
+      "Id": "E-a775b8d51181",
+      "Kind": "Evidence",
+      "Label": "E-a775b8d51181",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:48/page:48"
+      }
+    },
+    {
+      "Id": "E-bea9272f5f69",
+      "Kind": "Evidence",
+      "Label": "E-bea9272f5f69",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:49/page:49"
+      }
+    },
+    {
+      "Id": "E-1c91c6e5f5a4",
+      "Kind": "Evidence",
+      "Label": "E-1c91c6e5f5a4",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:50/page:50"
+      }
+    },
+    {
+      "Id": "E-0d4c4d4dbcfb",
+      "Kind": "Evidence",
+      "Label": "E-0d4c4d4dbcfb",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:51/page:51"
+      }
+    },
+    {
+      "Id": "E-368e3eca8bb5",
+      "Kind": "Evidence",
+      "Label": "E-368e3eca8bb5",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:52/page:52"
+      }
+    },
+    {
+      "Id": "E-d4921518d653",
+      "Kind": "Evidence",
+      "Label": "E-d4921518d653",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:53/page:53"
+      }
+    },
+    {
+      "Id": "E-0b363a495c9d",
+      "Kind": "Evidence",
+      "Label": "E-0b363a495c9d",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:54/page:54"
+      }
+    },
+    {
+      "Id": "E-c675e653d280",
+      "Kind": "Evidence",
+      "Label": "E-c675e653d280",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:55/page:55"
+      }
+    },
+    {
+      "Id": "E-78e211eb51b1",
+      "Kind": "Evidence",
+      "Label": "E-78e211eb51b1",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:56/page:56"
+      }
+    },
+    {
+      "Id": "E-87d1182ea8af",
+      "Kind": "Evidence",
+      "Label": "E-87d1182ea8af",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:57/page:57"
+      }
+    },
+    {
+      "Id": "E-d549255ef3f5",
+      "Kind": "Evidence",
+      "Label": "E-d549255ef3f5",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:58/page:58"
+      }
+    },
+    {
+      "Id": "E-1bd699a4e02d",
+      "Kind": "Evidence",
+      "Label": "E-1bd699a4e02d",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:59/page:59"
+      }
+    },
+    {
+      "Id": "E-55caab608194",
+      "Kind": "Evidence",
+      "Label": "E-55caab608194",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:60/page:60"
+      }
+    },
+    {
+      "Id": "E-525b78d2e7a4",
+      "Kind": "Evidence",
+      "Label": "E-525b78d2e7a4",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:61/page:61"
+      }
+    },
+    {
+      "Id": "E-3ba18ed7a506",
+      "Kind": "Evidence",
+      "Label": "E-3ba18ed7a506",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:62/page:62"
+      }
+    },
+    {
+      "Id": "E-031eb642d121",
+      "Kind": "Evidence",
+      "Label": "E-031eb642d121",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:63/page:63"
+      }
+    },
+    {
+      "Id": "E-750daa6c9d42",
+      "Kind": "Evidence",
+      "Label": "E-750daa6c9d42",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:64/page:64"
+      }
+    },
+    {
+      "Id": "E-bea720d7a977",
+      "Kind": "Evidence",
+      "Label": "E-bea720d7a977",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:65/page:65"
+      }
+    },
+    {
+      "Id": "E-351c60a1c75f",
+      "Kind": "Evidence",
+      "Label": "E-351c60a1c75f",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:66/page:66"
+      }
+    },
+    {
+      "Id": "E-dec098ff4682",
+      "Kind": "Evidence",
+      "Label": "E-dec098ff4682",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:67/page:67"
+      }
+    },
+    {
+      "Id": "E-2aad5a0b3d31",
+      "Kind": "Evidence",
+      "Label": "E-2aad5a0b3d31",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:68/page:68"
+      }
+    },
+    {
+      "Id": "E-904305837dc5",
+      "Kind": "Evidence",
+      "Label": "E-904305837dc5",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:69/page:69"
+      }
+    },
+    {
+      "Id": "E-9380790ca163",
+      "Kind": "Evidence",
+      "Label": "E-9380790ca163",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:70/page:70"
+      }
+    },
+    {
+      "Id": "E-e24ffe8a0457",
+      "Kind": "Evidence",
+      "Label": "E-e24ffe8a0457",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:71/page:71"
+      }
+    },
+    {
+      "Id": "E-2fcb3241d1a4",
+      "Kind": "Evidence",
+      "Label": "E-2fcb3241d1a4",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:72/page:72"
+      }
+    },
+    {
+      "Id": "E-c3fddfa9f42a",
+      "Kind": "Evidence",
+      "Label": "E-c3fddfa9f42a",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:73/page:73"
+      }
+    },
+    {
+      "Id": "E-fc6355790d27",
+      "Kind": "Evidence",
+      "Label": "E-fc6355790d27",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:74/page:74"
+      }
+    },
+    {
+      "Id": "E-fac48bc24014",
+      "Kind": "Evidence",
+      "Label": "E-fac48bc24014",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:75/page:75"
+      }
+    },
+    {
+      "Id": "E-1463d8404445",
+      "Kind": "Evidence",
+      "Label": "E-1463d8404445",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:76/page:76"
+      }
+    },
+    {
+      "Id": "E-8859ee93ca16",
+      "Kind": "Evidence",
+      "Label": "E-8859ee93ca16",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:77/page:77"
+      }
+    },
+    {
+      "Id": "E-96e40577968b",
+      "Kind": "Evidence",
+      "Label": "E-96e40577968b",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:78/page:78"
+      }
+    },
+    {
+      "Id": "E-a5e0aaf11b1e",
+      "Kind": "Evidence",
+      "Label": "E-a5e0aaf11b1e",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:79/page:79"
+      }
+    },
+    {
+      "Id": "E-0896228207a3",
+      "Kind": "Evidence",
+      "Label": "E-0896228207a3",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:80/page:80"
+      }
+    },
+    {
+      "Id": "E-cf09411bec02",
+      "Kind": "Evidence",
+      "Label": "E-cf09411bec02",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:81/page:81"
+      }
+    },
+    {
+      "Id": "E-c9e91009e038",
+      "Kind": "Evidence",
+      "Label": "E-c9e91009e038",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:82/page:82"
+      }
+    },
+    {
+      "Id": "E-ab83eddb8c02",
+      "Kind": "Evidence",
+      "Label": "E-ab83eddb8c02",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:83/page:83"
+      }
+    },
+    {
+      "Id": "E-06942bd7ae11",
+      "Kind": "Evidence",
+      "Label": "E-06942bd7ae11",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:84/page:84"
+      }
+    },
+    {
+      "Id": "E-9a29a6700862",
+      "Kind": "Evidence",
+      "Label": "E-9a29a6700862",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:85/page:85"
+      }
+    },
+    {
+      "Id": "E-d3221c35f807",
+      "Kind": "Evidence",
+      "Label": "E-d3221c35f807",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:86/page:86"
+      }
+    },
+    {
+      "Id": "E-b0773dfa432b",
+      "Kind": "Evidence",
+      "Label": "E-b0773dfa432b",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:87/page:87"
+      }
+    },
+    {
+      "Id": "E-c56a9a359cf8",
+      "Kind": "Evidence",
+      "Label": "E-c56a9a359cf8",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:88/page:88"
+      }
+    },
+    {
+      "Id": "E-b2dc572bb123",
+      "Kind": "Evidence",
+      "Label": "E-b2dc572bb123",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:89/page:89"
+      }
+    },
+    {
+      "Id": "E-79a77f97e655",
+      "Kind": "Evidence",
+      "Label": "E-79a77f97e655",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:90/page:90"
+      }
+    },
+    {
+      "Id": "E-b736e5939d0e",
+      "Kind": "Evidence",
+      "Label": "E-b736e5939d0e",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:91/page:91"
+      }
+    },
+    {
+      "Id": "E-66d1c1ecb722",
+      "Kind": "Evidence",
+      "Label": "E-66d1c1ecb722",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf",
+        "locator": "page:92/page:92"
+      }
+    },
+    {
+      "Id": "E-abcd66e3bba7",
+      "Kind": "Evidence",
+      "Label": "E-abcd66e3bba7",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf",
+        "locator": "page:1/page:1"
+      }
+    },
+    {
+      "Id": "S-c89c70c95b",
+      "Kind": "Source",
+      "Label": "XP_Z12-012_cdar.pdf",
+      "Props": {
+        "path": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf"
+      }
+    },
+    {
+      "Id": "E-40903c7367ee",
+      "Kind": "Evidence",
+      "Label": "E-40903c7367ee",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf",
+        "locator": "page:2/page:2"
+      }
+    },
+    {
+      "Id": "E-1350843c3f1b",
+      "Kind": "Evidence",
+      "Label": "E-1350843c3f1b",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf",
+        "locator": "page:3/page:3"
+      }
+    },
+    {
+      "Id": "E-ad196e643392",
+      "Kind": "Evidence",
+      "Label": "E-ad196e643392",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf",
+        "locator": "page:4/page:4"
+      }
+    },
+    {
+      "Id": "E-d7908016dcdc",
+      "Kind": "Evidence",
+      "Label": "E-d7908016dcdc",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf",
+        "locator": "page:5/page:5"
+      }
+    },
+    {
+      "Id": "E-a91e84078776",
+      "Kind": "Evidence",
+      "Label": "E-a91e84078776",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf",
+        "locator": "page:6/page:6"
+      }
+    },
+    {
+      "Id": "E-a2a9f1e61dc1",
+      "Kind": "Evidence",
+      "Label": "E-a2a9f1e61dc1",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf",
+        "locator": "page:7/page:7"
+      }
+    },
+    {
+      "Id": "E-155179deb772",
+      "Kind": "Evidence",
+      "Label": "E-155179deb772",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf",
+        "locator": "page:8/page:8"
+      }
+    },
+    {
+      "Id": "E-38ecf8bc3f77",
+      "Kind": "Evidence",
+      "Label": "E-38ecf8bc3f77",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf",
+        "locator": "page:9/page:9"
+      }
+    },
+    {
+      "Id": "E-e8f03c3b2ec7",
+      "Kind": "Evidence",
+      "Label": "E-e8f03c3b2ec7",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf",
+        "locator": "page:10/page:10"
+      }
+    },
+    {
+      "Id": "E-af5347699cb5",
+      "Kind": "Evidence",
+      "Label": "E-af5347699cb5",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf",
+        "locator": "page:11/page:11"
+      }
+    },
+    {
+      "Id": "E-f238fb371aef",
+      "Kind": "Evidence",
+      "Label": "E-f238fb371aef",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf",
+        "locator": "page:12/page:12"
+      }
+    },
+    {
+      "Id": "E-2af243255709",
+      "Kind": "Evidence",
+      "Label": "E-2af243255709",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf",
+        "locator": "page:13/page:13"
+      }
+    },
+    {
+      "Id": "E-c0bfe9c7905b",
+      "Kind": "Evidence",
+      "Label": "E-c0bfe9c7905b",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf",
+        "locator": "page:14/page:14"
+      }
+    },
+    {
+      "Id": "E-092c7256c4c9",
+      "Kind": "Evidence",
+      "Label": "E-092c7256c4c9",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf",
+        "locator": "page:15/page:15"
+      }
+    },
+    {
+      "Id": "E-cd60817df995",
+      "Kind": "Evidence",
+      "Label": "E-cd60817df995",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf",
+        "locator": "page:16/page:16"
+      }
+    },
+    {
+      "Id": "E-f037473cd2c6",
+      "Kind": "Evidence",
+      "Label": "E-f037473cd2c6",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf",
+        "locator": "page:17/page:17"
+      }
+    },
+    {
+      "Id": "E-cde968b19a15",
+      "Kind": "Evidence",
+      "Label": "E-cde968b19a15",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf",
+        "locator": "page:18/page:18"
+      }
+    },
+    {
+      "Id": "E-1d661d2d0fe0",
+      "Kind": "Evidence",
+      "Label": "E-1d661d2d0fe0",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf",
+        "locator": "page:19/page:19"
+      }
+    },
+    {
+      "Id": "E-b79575cab2ab",
+      "Kind": "Evidence",
+      "Label": "E-b79575cab2ab",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf",
+        "locator": "page:20/page:20"
+      }
+    },
+    {
+      "Id": "E-cd63199b3acb",
+      "Kind": "Evidence",
+      "Label": "E-cd63199b3acb",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf",
+        "locator": "page:21/page:21"
+      }
+    },
+    {
+      "Id": "E-8d7e0916bf58",
+      "Kind": "Evidence",
+      "Label": "E-8d7e0916bf58",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf",
+        "locator": "page:22/page:22"
+      }
+    },
+    {
+      "Id": "E-dc531e4ef767",
+      "Kind": "Evidence",
+      "Label": "E-dc531e4ef767",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf",
+        "locator": "page:23/page:23"
+      }
+    },
+    {
+      "Id": "E-0674475d79fb",
+      "Kind": "Evidence",
+      "Label": "E-0674475d79fb",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf",
+        "locator": "page:24/page:24"
+      }
+    },
+    {
+      "Id": "E-abd5631f4215",
+      "Kind": "Evidence",
+      "Label": "E-abd5631f4215",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf",
+        "locator": "page:25/page:25"
+      }
+    },
+    {
+      "Id": "E-d276abeaa42a",
+      "Kind": "Evidence",
+      "Label": "E-d276abeaa42a",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.xlsx",
+        "locator": "extract:cdar/sheet:CDV FE - CDAR/table:json"
+      }
+    },
+    {
+      "Id": "S-40171979f2",
+      "Kind": "Source",
+      "Label": "XP_Z12-012.xlsx",
+      "Props": {
+        "path": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.xlsx"
+      }
+    },
+    {
+      "Id": "E-d276abeaa42a",
+      "Kind": "Evidence",
+      "Label": "E-d276abeaa42a",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.xlsx",
+        "locator": "extract:flux2_ubl_ext_ctc_fr/sheet:Flux 2 UBL EXT-CTC-FR/table:json"
+      }
+    },
+    {
+      "Id": "E-d276abeaa42a",
+      "Kind": "Evidence",
+      "Label": "E-d276abeaa42a",
+      "Props": {
+        "source": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.xlsx",
+        "locator": "extract:flux2_ubl_ext_ctc_fr_rules/sheet:BR-France CTC/table:json"
+      }
+    }
+  ],
+  "Edges": [
+    {
+      "FromId": "E-8ad333757aec",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-ed90deb02e34",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-bdc7cd6d7f81",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-2d0c0d6c7e2d",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-6ad4d4e01d64",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-8c800c2ace24",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-2af786c802be",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-ec84c0e9c049",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-83af806c8174",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-958199ea9624",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-e9a0a623965a",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-2b64ec8f4f24",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-2cb95fd3894f",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-0a3c4c1ea466",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-f214a17c7cd0",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-0f913ad54ff4",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-041b7e594a64",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-098550d37830",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-967e654a3496",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-5ed69af2a8cc",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-79703533d233",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-6683cb0f44b6",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-ae51d289b8c1",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-c40769823269",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-998917c109b1",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-923c12bce129",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-bf012003855e",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-cf4da1585931",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-8570e88c630c",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-d5b55c273dad",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-8b5a83ab2348",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-dc3475dc35f2",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-f2bf5409e58f",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-fb6b80687556",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-925543716134",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-46bb7953280d",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-1dc476b37743",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-90d89e329744",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-15aeb012c40c",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-e2866fdcdb18",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-3fec1aa9be6b",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-642fbe5fbb89",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-f7e476b4695b",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-bed5a0e937ae",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-3ac89fc5e9b0",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-f7b8f591b9d1",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-56f6ac3ba3e5",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-ba78f8c2812c",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-0373cebf2d15",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-a25faa9e5028",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-affa2156b075",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-fc594b8bce4a",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-cc2165320e97",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-d7ccbc4a0d5e",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-22b60236ff88",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-5e99699b1d36",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-d338a7a968ea",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-432db0f85a9a",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-14d66b71fada",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-bb3f406e6a1d",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-2dc711d84524",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-1926c302ac13",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-bb1894e12cd7",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-5b276d260dd2",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-bccf81b26d8e",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-f9d47a74679c",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-c00194e9d818",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-0f65dfb16e03",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-6e8868f0c846",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-6f7247da093d",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-5e64a9d5f0cb",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-d04381b85d4b",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-18768678a007",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-e934c6f80f59",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-5d44dcb80baf",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-bdfde449eeb0",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-d2b4fae7924c",
+      "ToId": "S-7cedb1912e",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-ed908605abc7",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-8ff132e73de4",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-03889cfbb9b3",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-5b618ce5b019",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-3489a215019a",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-09ad910bc8b5",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-3236892d0fff",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-c521c3dd079f",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-2bd91da9de7d",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-f9e7ae82b97c",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-f9b3403977a8",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-a0bf0416299b",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-9fcced72e20f",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-877c9caba866",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-d5e7b6df8e09",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-393f27637659",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-cfa1b72a8a8d",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-38082b37b236",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-914b05c1dc60",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-63ff489af953",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-a54750386c82",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-2fb007062d54",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-1ce77fb6a0fb",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-91fe0a109134",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-f341adefde1e",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-00c9b776f1de",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-1b035c294475",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-8e344d05ffc4",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-5b6ea53f33b0",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-215a2eb5712a",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-1987d416c029",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-2b0c48064763",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-fe48530e408c",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-8aaa0deead13",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-09c35ded2d97",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-da60bbf2fa12",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-e7868b3c8c38",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-efde18552405",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-b506b7b9ed2e",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-1da16d780020",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-9dc123a9a10a",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-a58ca3d21211",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-b7d12bd0d37c",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-1e896d633d6d",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-350b795615e7",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-b1dffd74f365",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-8cff8fcfabd6",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-dda2c7ec8009",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-d8379f38a3a2",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-ab431e041e33",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-2aa90f8a82d4",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-a0a3222beebc",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-2da0d84c54f7",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-24490704e989",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-29797f6da69e",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-a87a31153792",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-076064b34864",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-e5edc7f69d21",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-bc007415b397",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-35bae1ba5ea5",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-70cc79be22a5",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-bd494331c66d",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-1a0e8ed79e02",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-9b344c0d5a64",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-9f515a323ce6",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-d7974b0d088a",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-f1108aeea2f1",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-d339456a6fc1",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-8e52e31a9ff8",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-99ab7690fe37",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-395daf1dd30f",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-b637becf57d2",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-9521d6e6daf1",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-7a037009b011",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-ec55fc4a17ff",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-4626c71d0bef",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-3b25b0b234da",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-dd1a8bf042fc",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-0db31b190b60",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-f00650cb96d8",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-5c8fdb16a527",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-b0e028cf7c99",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-eb881e525fb9",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-d140140b52a6",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-45a63135c6c7",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-8b524f6371e3",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-429b3f1acbb6",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-e1b7aab088a1",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-a42131e60681",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-f94dfc1209af",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-46e7fd7a5885",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-cf8ded641500",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-543001d4ce88",
+      "ToId": "S-3adfa05376",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-66c107379c3b",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-55924590626b",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-d9498b131b22",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-ad7b1a133151",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-9e57b45177c2",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-6b401450f2f4",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-4cbcd1fe4ac1",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-d0f3d8b3e580",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-0c29c1cea306",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-616010f523a3",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-5c53fe711426",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-12b7f2860372",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-ae002d5e5910",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-e4dcca0ec0cf",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-c8a5261849c9",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-25b61376e50a",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-9d9d6f3477e7",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-80632409d651",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-d35f426c72d2",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-79f0e6b48b36",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-2d2a5ed63c9e",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-9d11ae910281",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-100760e2d4d5",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-a2e2685bf320",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-d8c58ef3d49d",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-851b0bfcb92e",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-eed7a8be6b2b",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-6f182011f79c",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-ef9142c93653",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-65f940d0b75b",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-f7a26ee23564",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-369a43af77c6",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-df57285d381c",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-c28a20807ce5",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-4ae57fc5a20c",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-2d23328dfc62",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-6e7ecfac8c1c",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-9be06bffc5b6",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-517ea158e42f",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-f60ce6726add",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-52dcd3f692ef",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-6a0deb5394d9",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-865a5e5b58e8",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-b959868349f0",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-7aa21cca073c",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-0f3fba03dfce",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-146bdb4c118c",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-a775b8d51181",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-bea9272f5f69",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-1c91c6e5f5a4",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-0d4c4d4dbcfb",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-368e3eca8bb5",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-d4921518d653",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-0b363a495c9d",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-c675e653d280",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-78e211eb51b1",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-87d1182ea8af",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-d549255ef3f5",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-1bd699a4e02d",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-55caab608194",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-525b78d2e7a4",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-3ba18ed7a506",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-031eb642d121",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-750daa6c9d42",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-bea720d7a977",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-351c60a1c75f",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-dec098ff4682",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-2aad5a0b3d31",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-904305837dc5",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-9380790ca163",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-e24ffe8a0457",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-2fcb3241d1a4",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-c3fddfa9f42a",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-fc6355790d27",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-fac48bc24014",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-1463d8404445",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-8859ee93ca16",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-96e40577968b",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-a5e0aaf11b1e",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-0896228207a3",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-cf09411bec02",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-c9e91009e038",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-ab83eddb8c02",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-06942bd7ae11",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-9a29a6700862",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-d3221c35f807",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-b0773dfa432b",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-c56a9a359cf8",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-b2dc572bb123",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-79a77f97e655",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-b736e5939d0e",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-66d1c1ecb722",
+      "ToId": "S-da44f24ca4",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-abcd66e3bba7",
+      "ToId": "S-c89c70c95b",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-40903c7367ee",
+      "ToId": "S-c89c70c95b",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-1350843c3f1b",
+      "ToId": "S-c89c70c95b",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-ad196e643392",
+      "ToId": "S-c89c70c95b",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-d7908016dcdc",
+      "ToId": "S-c89c70c95b",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-a91e84078776",
+      "ToId": "S-c89c70c95b",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-a2a9f1e61dc1",
+      "ToId": "S-c89c70c95b",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-155179deb772",
+      "ToId": "S-c89c70c95b",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-38ecf8bc3f77",
+      "ToId": "S-c89c70c95b",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-e8f03c3b2ec7",
+      "ToId": "S-c89c70c95b",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-af5347699cb5",
+      "ToId": "S-c89c70c95b",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-f238fb371aef",
+      "ToId": "S-c89c70c95b",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-2af243255709",
+      "ToId": "S-c89c70c95b",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-c0bfe9c7905b",
+      "ToId": "S-c89c70c95b",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-092c7256c4c9",
+      "ToId": "S-c89c70c95b",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-cd60817df995",
+      "ToId": "S-c89c70c95b",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-f037473cd2c6",
+      "ToId": "S-c89c70c95b",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-cde968b19a15",
+      "ToId": "S-c89c70c95b",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-1d661d2d0fe0",
+      "ToId": "S-c89c70c95b",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-b79575cab2ab",
+      "ToId": "S-c89c70c95b",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-cd63199b3acb",
+      "ToId": "S-c89c70c95b",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-8d7e0916bf58",
+      "ToId": "S-c89c70c95b",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-dc531e4ef767",
+      "ToId": "S-c89c70c95b",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-0674475d79fb",
+      "ToId": "S-c89c70c95b",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-abd5631f4215",
+      "ToId": "S-c89c70c95b",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-d276abeaa42a",
+      "ToId": "S-40171979f2",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-d276abeaa42a",
+      "ToId": "S-40171979f2",
+      "Kind": "DerivedFrom",
+      "Props": null
+    },
+    {
+      "FromId": "E-d276abeaa42a",
+      "ToId": "S-40171979f2",
+      "Kind": "DerivedFrom",
+      "Props": null
+    }
+  ]
+}

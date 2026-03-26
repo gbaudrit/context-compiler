@@ -2,7 +2,7 @@
 
 **Status:** Authoritative  
 **Date:** 2025-12-26  
-**Pipeline:** Global Pipeline stage 2 (after IR assembly)
+**Pipeline:** Global Pipeline module kind `View`
 
 A **Context View** is a deterministic projection of the Reasoning IR, designed to present the same evidence
 from different “angles” (perspectives) without mutating the underlying IR.

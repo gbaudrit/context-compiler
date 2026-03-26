@@ -2,7 +2,7 @@
 
 **Status:** Authoritative  
 **Date:** 2025-12-26  
-**Pipeline:** Document Pipeline stage 3 (after discovery + read-scope guards)
+**Pipeline:** Document Pipeline stage `FileRead`
 
 ---
 

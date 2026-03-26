@@ -1,0 +1,683 @@
+{
+  "contractVersion": "1.0",
+  "viewId": "cdar",
+  "title": "",
+  "fragments": [
+    {
+      "ek": "E-abcd66e3bba7",
+      "er": "R-9648b5b1cca4",
+      "source": {
+        "path": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf",
+        "locator": "page:1/page:1"
+      },
+      "tags": [
+        {
+          "name": "shape",
+          "value": "linear"
+        },
+        {
+          "name": "concern",
+          "value": "cdar"
+        },
+        {
+          "name": "extractId",
+          "value": "afnor_norme_xp_z12_012_cdar"
+        },
+        {
+          "name": "extractLabel",
+          "value": "Page 1"
+        }
+      ]
+    },
+    {
+      "ek": "E-40903c7367ee",
+      "er": "R-aa9993bb530e",
+      "source": {
+        "path": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf",
+        "locator": "page:2/page:2"
+      },
+      "tags": [
+        {
+          "name": "shape",
+          "value": "linear"
+        },
+        {
+          "name": "concern",
+          "value": "cdar"
+        },
+        {
+          "name": "extractId",
+          "value": "afnor_norme_xp_z12_012_cdar"
+        },
+        {
+          "name": "extractLabel",
+          "value": "Page 2"
+        }
+      ]
+    },
+    {
+      "ek": "E-1350843c3f1b",
+      "er": "R-a8ffdf4225b7",
+      "source": {
+        "path": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf",
+        "locator": "page:3/page:3"
+      },
+      "tags": [
+        {
+          "name": "shape",
+          "value": "linear"
+        },
+        {
+          "name": "concern",
+          "value": "cdar"
+        },
+        {
+          "name": "extractId",
+          "value": "afnor_norme_xp_z12_012_cdar"
+        },
+        {
+          "name": "extractLabel",
+          "value": "Page 3"
+        }
+      ]
+    },
+    {
+      "ek": "E-ad196e643392",
+      "er": "R-b5c948f3f435",
+      "source": {
+        "path": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf",
+        "locator": "page:4/page:4"
+      },
+      "tags": [
+        {
+          "name": "shape",
+          "value": "linear"
+        },
+        {
+          "name": "concern",
+          "value": "cdar"
+        },
+        {
+          "name": "extractId",
+          "value": "afnor_norme_xp_z12_012_cdar"
+        },
+        {
+          "name": "extractLabel",
+          "value": "Page 4"
+        }
+      ]
+    },
+    {
+      "ek": "E-d7908016dcdc",
+      "er": "R-96b69241c525",
+      "source": {
+        "path": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf",
+        "locator": "page:5/page:5"
+      },
+      "tags": [
+        {
+          "name": "shape",
+          "value": "linear"
+        },
+        {
+          "name": "concern",
+          "value": "cdar"
+        },
+        {
+          "name": "extractId",
+          "value": "afnor_norme_xp_z12_012_cdar"
+        },
+        {
+          "name": "extractLabel",
+          "value": "Page 5"
+        }
+      ]
+    },
+    {
+      "ek": "E-a91e84078776",
+      "er": "R-a60a7ab06933",
+      "source": {
+        "path": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf",
+        "locator": "page:6/page:6"
+      },
+      "tags": [
+        {
+          "name": "shape",
+          "value": "linear"
+        },
+        {
+          "name": "concern",
+          "value": "cdar"
+        },
+        {
+          "name": "extractId",
+          "value": "afnor_norme_xp_z12_012_cdar"
+        },
+        {
+          "name": "extractLabel",
+          "value": "Page 6"
+        }
+      ]
+    },
+    {
+      "ek": "E-a2a9f1e61dc1",
+      "er": "R-51106fc496f0",
+      "source": {
+        "path": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf",
+        "locator": "page:7/page:7"
+      },
+      "tags": [
+        {
+          "name": "shape",
+          "value": "linear"
+        },
+        {
+          "name": "concern",
+          "value": "cdar"
+        },
+        {
+          "name": "extractId",
+          "value": "afnor_norme_xp_z12_012_cdar"
+        },
+        {
+          "name": "extractLabel",
+          "value": "Page 7"
+        }
+      ]
+    },
+    {
+      "ek": "E-155179deb772",
+      "er": "R-da0ec8d28143",
+      "source": {
+        "path": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf",
+        "locator": "page:8/page:8"
+      },
+      "tags": [
+        {
+          "name": "shape",
+          "value": "linear"
+        },
+        {
+          "name": "concern",
+          "value": "cdar"
+        },
+        {
+          "name": "extractId",
+          "value": "afnor_norme_xp_z12_012_cdar"
+        },
+        {
+          "name": "extractLabel",
+          "value": "Page 8"
+        }
+      ]
+    },
+    {
+      "ek": "E-38ecf8bc3f77",
+      "er": "R-9c5cf46bb413",
+      "source": {
+        "path": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf",
+        "locator": "page:9/page:9"
+      },
+      "tags": [
+        {
+          "name": "shape",
+          "value": "linear"
+        },
+        {
+          "name": "concern",
+          "value": "cdar"
+        },
+        {
+          "name": "extractId",
+          "value": "afnor_norme_xp_z12_012_cdar"
+        },
+        {
+          "name": "extractLabel",
+          "value": "Page 9"
+        }
+      ]
+    },
+    {
+      "ek": "E-e8f03c3b2ec7",
+      "er": "R-8be8f3fe4082",
+      "source": {
+        "path": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf",
+        "locator": "page:10/page:10"
+      },
+      "tags": [
+        {
+          "name": "shape",
+          "value": "linear"
+        },
+        {
+          "name": "concern",
+          "value": "cdar"
+        },
+        {
+          "name": "extractId",
+          "value": "afnor_norme_xp_z12_012_cdar"
+        },
+        {
+          "name": "extractLabel",
+          "value": "Page 10"
+        }
+      ]
+    },
+    {
+      "ek": "E-af5347699cb5",
+      "er": "R-5cf1cf651ea4",
+      "source": {
+        "path": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf",
+        "locator": "page:11/page:11"
+      },
+      "tags": [
+        {
+          "name": "shape",
+          "value": "linear"
+        },
+        {
+          "name": "concern",
+          "value": "cdar"
+        },
+        {
+          "name": "extractId",
+          "value": "afnor_norme_xp_z12_012_cdar"
+        },
+        {
+          "name": "extractLabel",
+          "value": "Page 11"
+        }
+      ]
+    },
+    {
+      "ek": "E-f238fb371aef",
+      "er": "R-8e592781f5bf",
+      "source": {
+        "path": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf",
+        "locator": "page:12/page:12"
+      },
+      "tags": [
+        {
+          "name": "shape",
+          "value": "linear"
+        },
+        {
+          "name": "concern",
+          "value": "cdar"
+        },
+        {
+          "name": "extractId",
+          "value": "afnor_norme_xp_z12_012_cdar"
+        },
+        {
+          "name": "extractLabel",
+          "value": "Page 12"
+        }
+      ]
+    },
+    {
+      "ek": "E-2af243255709",
+      "er": "R-918c01e63130",
+      "source": {
+        "path": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf",
+        "locator": "page:13/page:13"
+      },
+      "tags": [
+        {
+          "name": "shape",
+          "value": "linear"
+        },
+        {
+          "name": "concern",
+          "value": "cdar"
+        },
+        {
+          "name": "extractId",
+          "value": "afnor_norme_xp_z12_012_cdar"
+        },
+        {
+          "name": "extractLabel",
+          "value": "Page 13"
+        }
+      ]
+    },
+    {
+      "ek": "E-c0bfe9c7905b",
+      "er": "R-44946b6800d9",
+      "source": {
+        "path": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf",
+        "locator": "page:14/page:14"
+      },
+      "tags": [
+        {
+          "name": "shape",
+          "value": "linear"
+        },
+        {
+          "name": "concern",
+          "value": "cdar"
+        },
+        {
+          "name": "extractId",
+          "value": "afnor_norme_xp_z12_012_cdar"
+        },
+        {
+          "name": "extractLabel",
+          "value": "Page 14"
+        }
+      ]
+    },
+    {
+      "ek": "E-092c7256c4c9",
+      "er": "R-eb052efe8b90",
+      "source": {
+        "path": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf",
+        "locator": "page:15/page:15"
+      },
+      "tags": [
+        {
+          "name": "shape",
+          "value": "linear"
+        },
+        {
+          "name": "concern",
+          "value": "cdar"
+        },
+        {
+          "name": "extractId",
+          "value": "afnor_norme_xp_z12_012_cdar"
+        },
+        {
+          "name": "extractLabel",
+          "value": "Page 15"
+        }
+      ]
+    },
+    {
+      "ek": "E-cd60817df995",
+      "er": "R-49e76a53dac7",
+      "source": {
+        "path": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf",
+        "locator": "page:16/page:16"
+      },
+      "tags": [
+        {
+          "name": "shape",
+          "value": "linear"
+        },
+        {
+          "name": "concern",
+          "value": "cdar"
+        },
+        {
+          "name": "extractId",
+          "value": "afnor_norme_xp_z12_012_cdar"
+        },
+        {
+          "name": "extractLabel",
+          "value": "Page 16"
+        }
+      ]
+    },
+    {
+      "ek": "E-f037473cd2c6",
+      "er": "R-ccfe0b699d23",
+      "source": {
+        "path": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf",
+        "locator": "page:17/page:17"
+      },
+      "tags": [
+        {
+          "name": "shape",
+          "value": "linear"
+        },
+        {
+          "name": "concern",
+          "value": "cdar"
+        },
+        {
+          "name": "extractId",
+          "value": "afnor_norme_xp_z12_012_cdar"
+        },
+        {
+          "name": "extractLabel",
+          "value": "Page 17"
+        }
+      ]
+    },
+    {
+      "ek": "E-cde968b19a15",
+      "er": "R-9f443482f63d",
+      "source": {
+        "path": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf",
+        "locator": "page:18/page:18"
+      },
+      "tags": [
+        {
+          "name": "shape",
+          "value": "linear"
+        },
+        {
+          "name": "concern",
+          "value": "cdar"
+        },
+        {
+          "name": "extractId",
+          "value": "afnor_norme_xp_z12_012_cdar"
+        },
+        {
+          "name": "extractLabel",
+          "value": "Page 18"
+        }
+      ]
+    },
+    {
+      "ek": "E-1d661d2d0fe0",
+      "er": "R-effd69f09609",
+      "source": {
+        "path": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf",
+        "locator": "page:19/page:19"
+      },
+      "tags": [
+        {
+          "name": "shape",
+          "value": "linear"
+        },
+        {
+          "name": "concern",
+          "value": "cdar"
+        },
+        {
+          "name": "extractId",
+          "value": "afnor_norme_xp_z12_012_cdar"
+        },
+        {
+          "name": "extractLabel",
+          "value": "Page 19"
+        }
+      ]
+    },
+    {
+      "ek": "E-b79575cab2ab",
+      "er": "R-d8786fb0f1a5",
+      "source": {
+        "path": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf",
+        "locator": "page:20/page:20"
+      },
+      "tags": [
+        {
+          "name": "shape",
+          "value": "linear"
+        },
+        {
+          "name": "concern",
+          "value": "cdar"
+        },
+        {
+          "name": "extractId",
+          "value": "afnor_norme_xp_z12_012_cdar"
+        },
+        {
+          "name": "extractLabel",
+          "value": "Page 20"
+        }
+      ]
+    },
+    {
+      "ek": "E-cd63199b3acb",
+      "er": "R-e3a89d899107",
+      "source": {
+        "path": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf",
+        "locator": "page:21/page:21"
+      },
+      "tags": [
+        {
+          "name": "shape",
+          "value": "linear"
+        },
+        {
+          "name": "concern",
+          "value": "cdar"
+        },
+        {
+          "name": "extractId",
+          "value": "afnor_norme_xp_z12_012_cdar"
+        },
+        {
+          "name": "extractLabel",
+          "value": "Page 21"
+        }
+      ]
+    },
+    {
+      "ek": "E-8d7e0916bf58",
+      "er": "R-b4276d95870f",
+      "source": {
+        "path": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf",
+        "locator": "page:22/page:22"
+      },
+      "tags": [
+        {
+          "name": "shape",
+          "value": "linear"
+        },
+        {
+          "name": "concern",
+          "value": "cdar"
+        },
+        {
+          "name": "extractId",
+          "value": "afnor_norme_xp_z12_012_cdar"
+        },
+        {
+          "name": "extractLabel",
+          "value": "Page 22"
+        }
+      ]
+    },
+    {
+      "ek": "E-dc531e4ef767",
+      "er": "R-939f3d777254",
+      "source": {
+        "path": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf",
+        "locator": "page:23/page:23"
+      },
+      "tags": [
+        {
+          "name": "shape",
+          "value": "linear"
+        },
+        {
+          "name": "concern",
+          "value": "cdar"
+        },
+        {
+          "name": "extractId",
+          "value": "afnor_norme_xp_z12_012_cdar"
+        },
+        {
+          "name": "extractLabel",
+          "value": "Page 23"
+        }
+      ]
+    },
+    {
+      "ek": "E-0674475d79fb",
+      "er": "R-a056cac7d5cf",
+      "source": {
+        "path": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf",
+        "locator": "page:24/page:24"
+      },
+      "tags": [
+        {
+          "name": "shape",
+          "value": "linear"
+        },
+        {
+          "name": "concern",
+          "value": "cdar"
+        },
+        {
+          "name": "extractId",
+          "value": "afnor_norme_xp_z12_012_cdar"
+        },
+        {
+          "name": "extractLabel",
+          "value": "Page 24"
+        }
+      ]
+    },
+    {
+      "ek": "E-abd5631f4215",
+      "er": "R-2d91ed9f3840",
+      "source": {
+        "path": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf",
+        "locator": "page:25/page:25"
+      },
+      "tags": [
+        {
+          "name": "shape",
+          "value": "linear"
+        },
+        {
+          "name": "concern",
+          "value": "cdar"
+        },
+        {
+          "name": "extractId",
+          "value": "afnor_norme_xp_z12_012_cdar"
+        },
+        {
+          "name": "extractLabel",
+          "value": "Page 25"
+        }
+      ]
+    },
+    {
+      "ek": "E-d276abeaa42a",
+      "er": "R-0492d534abd1",
+      "source": {
+        "path": "c:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\conf-aimer-votre-llm\\demo\\ctxc-sample-spec\\with-ctxc\\spec/afnor/XP_Z12-012/XP_Z12-012.xlsx",
+        "locator": "extract:cdar/sheet:CDV FE - CDAR/table:json"
+      },
+      "tags": [
+        {
+          "name": "shape",
+          "value": "tabular"
+        },
+        {
+          "name": "concern",
+          "value": "cdar"
+        },
+        {
+          "name": "extractId",
+          "value": "cdar"
+        },
+        {
+          "name": "extractLabel",
+          "value": "CDV FE - CDAR"
+        }
+      ]
+    }
+  ]
+}

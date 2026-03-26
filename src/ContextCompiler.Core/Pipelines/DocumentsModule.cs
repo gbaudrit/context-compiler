@@ -16,7 +16,7 @@ internal sealed class DocumentsModule(
     IWorkingFolder workingFolder,
     IReasoningIr reasoningIr) : IDocumentsModule
 {
-    public ModuleMetadata Metadata => BuiltInMetadata.Meta("documents", GlobalPipelineModuleKinds.Transcoder, priority: 10);
+    public ModuleMetadata Metadata => BuiltInMetadata.Meta("documents", GlobalPipelineModuleKinds.Documents, priority: 10);
 
     public async Task Run(CancellationToken cancellationToken)
     {

@@ -1,0 +1,3497 @@
+- id: cdar
+  title: 
+  - evidences:
+    - ek: "E-abcd66e3bba7"  
+      er: "R-9648b5b1cca4"  
+      rek: "RE-00f081779b83"  
+      rer: "RR-b992c15b4a54"  
+      source: "c:/Users/g.baudrit/source/repos/gbaudrit/conf-aimer-votre-llm/demo/ctxc-sample-spec/with-ctxc/spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf#page:1/page:1"  
+      content: |
+          XP Z12-012 - Formats et Profils des messages Factures et Statuts de cycle de vie, constitutifs du socle
+        minimal applicable à la Réforme Facture Électronique en France.
+        ANNEXE B (normative) : Exemples de factures (flux 2) et de messages CDAR de cycle de vie
+        Page 1/25 
+        Commission de Normalisation AFNOR Facture Électronique
+        XP Z12-014 
+        
+        Annexe B
+        Exemples de factures (flux 2) et de messages CDAR de cycle de vie 
+        
+        Version 1.3 du 26 février 2026 
+        
+        Rédacteur : FNFE-MPE, sur la base des travaux initiaux de la DPFE de la DGFIP et l’AIFE et en application des travaux de la
+        Commission de Normalisation AFNOR Facture Électronique, de l’ensemble de ses membres et des réunions de travail des
+        sous-groupes. 
+        
+        GESTION DE VERSION
+        
+        N° de Version Date de Version Description des évolutions
+        
+        V1.0 2025 07 31 Version initiale
+        
+        V1.2 2025 10 31
+        Modification PDP => PA
+        
+        Correction de quelques erreurs sur les exemples de cycle de vie :
+        
+        • Gestion dépendante des CDV PPF des CDV entre PA : MDT-2, MDT-3
+        • Présence de MDT-4 (dépendante aussi des CDV PPF / PA)
+        
+        Suppression d’espace dans certains MOTIFS
+        
+        V1.3 2026 02 26
+        Ajout d’exemples UBL EXTENDED
+        
+        Ajout d’exemples de factures avec sous-ligne (UBL, CII, Factur-x)
+        
+        Ajout de factures Multi-Vendeur (UBL, CII, Factur-X)  
+    - ek: "E-40903c7367ee"  
+      er: "R-aa9993bb530e"  
+      rek: "RE-4950184b9187"  
+      rer: "RR-a8aae44574cb"  
+      source: "c:/Users/g.baudrit/source/repos/gbaudrit/conf-aimer-votre-llm/demo/ctxc-sample-spec/with-ctxc/spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf#page:2/page:2"  
+      content: |
+          XP Z12-012 - Formats et Profils des messages Factures et Statuts de cycle de vie, constitutifs du socle
+        minimal applicable à la Réforme Facture Électronique en France.
+        ANNEXE B (normative) : Exemples de factures (flux 2) et de messages CDAR de cycle de vie
+        Page 2/25 
+        Table des matières
+        
+        1 Présentation générale .................................................................................................... 3
+        1.1 Factures .................................................................................................................................................... 3
+        1.2 Cycle de Vie - CDAR .................................................................................................................................. 4
+        
+        2 Exemples ........................................................................................................................ 6
+        2.1 Exemples de factures ............................................................................................................................... 6
+        2.2 Exemples de messages CDV en CDAR ..................................................................................................... 23
+        2.2.1 Cas Nominal ...................................................................................................................................................... 23
+        2.2.2 Cas d’une facture en erreur pour illustrer un statut de litige ........................................................................... 25  
+    - ek: "E-1350843c3f1b"  
+      er: "R-a8ffdf4225b7"  
+      rek: "RE-999e9ebe39e2"  
+      rer: "RR-6a47a4e759e0"  
+      source: "c:/Users/g.baudrit/source/repos/gbaudrit/conf-aimer-votre-llm/demo/ctxc-sample-spec/with-ctxc/spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf#page:3/page:3"  
+      content: |
+          XP Z12-012 - Formats et Profils des messages Factures et Statuts de cycle de vie, constitutifs du socle
+        minimal applicable à la Réforme Facture Électronique en France.
+        ANNEXE B (normative) : Exemples de factures (flux 2) et de messages CDAR de cycle de vie
+        Page 3/25 
+        1 Présentation générale
+        
+        1.1 Factures
+        
+        Les exemples de factures sont présentés sous les trois formats du socle minimum, tels que décrits dans la norme XP Z12-
+        012, à ce stade uniquement pour le profil EN16931 :
+        
+        • Le format UN/CEFACT CII contient des commentaires sur chaque ligne comportant une donnée, permettant de
+        rappeler le code identifiant (BT-XX).
+        • Le format Factur-x permet d’avoir une représentation lisible, ce qui donne l’ensemble des données de la facture
+        sous forme lisible. Le factur-x.xml joint dans le Factur-x est l’UNCEFACT/CII ci-dessus, mais sans les commentaires.
+        • Le format UBL a été créé à partir du même jeu de données avec des commentaires sur chaque ligne comportant
+        une donnée, permettant de rappeler le code identifiant (BT-XX).
+        
+        Comme expliqué dans la documentation, les syntaxes ont leur propre structure sémantique de données, ce qui conduit à
+        certains choix d’implémentation qu’il convient de garder en tête :
+        
+        • La gestion des Notes est composée d’un contenu (BT-22) et d’un code sujet (BT-21). Si cette structure existe bien
+        en CII, ce n’est pas le cas en UBL. Il a été alors choisi de faire précéder le contenu de la Note de son code sujet entre
+        #. Exemple
+        ü #PMT#Indemnité forfaitaire pour frais de recouvrement en cas de retard de paiement : 40 €.
+        De plus, la norme autorise une cardinalité multiple pour les Notes (plusieurs Note). Si la cardinalité de la Note est
+        multiple en UBL, c’est pour permettre de la fournir en plusieurs langue. Par conséquent, bien que l’xsd et les
+        schematrons acceptent des Notes UBL multiples, un respect strict d’UBL voudrait qu’il n’y ait qu’une seule note par
+        facture. Il est donc possible de voir des factures UBL avec une concaténation de toutes les notes. En cas d’absence
+        de code sujet, il convient alors de séparer avec un double #. Exemple :
+        ü #Code#Texte#Code2#texte2##texte3 … 
+        Ceci n’est pas fait dans les exemples UBL, ce qui permet quand même une meilleure visibilité.
+        • La gestion des Identifiants des Parties, qui peut soit être privé (juste un Identifiant), soit être un Identifiant qualifié
+        par un schemeID (0009 pour SIRET, 0088 pour un GLN, …). La gestion est différente suivant qu’on est en UBL ou en
+        CII :
+        ü En UBL, on utilise un élément ID, avec son schemeID qui est optionnel (cardinalité 0..1). Donc comme la Norme
+        EN16931.
+        ü En CII, il existe 2 identifiants : 
+        § ID, qui est sans schemeID, uniquement pour un ID privé non qualifié.
+        § GlobalID qui oblige un @schemeID.
+        • Utilisation du bloc BG-24 (Documents Additionnels) pour les BT-17 (Référence à l’Appel d’offre ou au lot,
+        uniquement en CII) et de la BT-18 (Objet facturé, en CII et en UBL). Pour ce faire, une donnée additionnelle est
+        nécessaire dans le bloc BG-24 pour distinguer les 2 ou 3 BT :
+        ü Document TypeCode, qui prend les valeurs :
+        § En UBL : en cac:AdditionalDocumentReference/cbc:ID : valeur 130 pour qualifier une donnée BT-18 (Objet
+        Facturé), le schemeID de l’OBjet facturé à choisir en litse 1153 devant être positionné en
+        cac:AdditionalDocumentReference/cbc:ID/@schemeID. Et aucune valeur dans ce champ pour un BG-24
+        § En CII : en /ram:AdditionalReferencedDocument/ram:TypeCode avec les valeurs 130 pour un BT-18, 50 pour
+        un BT-17 et 916 pour un BG-24. Le qualifiant d’Objet facturé est quand à lui inscrit en
+        AdditionalReferencedDocument/ram:ReferenceTypeCode, à choisir dans la liste 1153.
+        
+        Exemple en CII : 
+        
+        <ram:AdditionalReferencedDocument> 
+        <ram:IssuerAssignedID>REF_ANNEXE_009875</ram:IssuerAssignedID>  <!-- BT-122 (Identifiant de document justificatif) : REF_ANNEXE_009875 --> 
+        <ram:URIID>url:gffter</ram:URIID>  <!-- BT-124 (Emplacement de document externe) : url:gffter --> 
+        <ram:TypeCode>916</ram:TypeCode>  <!-- BT-122-0 (Code type (916)) : 916 --> 
+        <ram:Name>DOCUMENT_ANNEXE</ram:Name>  <!-- BT-123 (Description de document justificatif) : DOCUMENT_ANNEXE -->
+        </ram:AdditionalReferencedDocument> 
+        
+        <ram:AdditionalReferencedDocument> 
+    - ek: "E-ad196e643392"  
+      er: "R-b5c948f3f435"  
+      rek: "RE-a197b6338994"  
+      rer: "RR-ff23b0421d85"  
+      source: "c:/Users/g.baudrit/source/repos/gbaudrit/conf-aimer-votre-llm/demo/ctxc-sample-spec/with-ctxc/spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf#page:4/page:4"  
+      content: |
+          XP Z12-012 - Formats et Profils des messages Factures et Statuts de cycle de vie, constitutifs du socle
+        minimal applicable à la Réforme Facture Électronique en France.
+        ANNEXE B (normative) : Exemples de factures (flux 2) et de messages CDAR de cycle de vie
+        Page 4/25 
+        <ram:IssuerAssignedID>APPEL_OFFRE-FRE0087</ram:IssuerAssignedID>  <!-- BT-17 (Identifiant d'appel d'offres ou de lot) : APPEL_OFFRE-FRE0087 --> 
+        <ram:TypeCode>50</ram:TypeCode>  <!-- BT-17-0 (Code type (50)) : 50 -->
+        </ram:AdditionalReferencedDocument> 
+        
+        <ram:AdditionalReferencedDocument> 
+        <ram:IssuerAssignedID>REF_CLIENT2514</ram:IssuerAssignedID>  <!-- BT-18 (Identifiant d'objet facturé) : REF_CLIENT2514 --> 
+        <ram:TypeCode>130</ram:TypeCode>  <!-- BT-18-0 (Code type (130)) : 130 --> 
+        <ram:ReferenceTypeCode>IT</ram:ReferenceTypeCode>  <!-- BT-18-1 (Identifiant du schéma) : IT -->
+        </ram:AdditionalReferencedDocument> 
+        
+        • Gestion de la BT-8 (TVA à l’encaissement ou au débit) :
+        ü En UBL, cette donnée est gérée au niveau document, comme une donnée unique, avec l’utilisation d’une liste
+        de code qui n’est pas la même qu’en UN/CEAT CII : 432 pour signifier une TVA à l’encaissement et 3 (date de
+        facture) pour indiquer une TVA au Débit.
+        ü En CII, la donnée est dans la ventilation de TVA (BG-23), qui est de cardinalité 0..n (car plusieurs taux ou
+        d’exemption sont possibles), ce qui implique soit de la fournir dans une des occurrences de la BG-23, soit de
+        fournir la même valeur dans chaque itération du bloc BG-23 en CII. Les valeurs à utiliser sont 72 pour exprimer
+        une TVA à l’encaissement, et 5 (date de facture) pour indiquer une TVA au débit.
+        
+        A NOTER : en UBL, il y a un message dédié pour les avoir (Credit Note), qui est très proche du message INVOICE, mais avec
+        quelques différences.
+        
+        1.2 Cycle de Vie - CDAR
+        
+        Les exemples de cycle de vie sont présentés pour le cas nominal, partant de la facture UC1_F202500003_00-INV_20250701.
+        
+        Tous les statuts sont présentés, avec 2 fichiers pour les statuts « Obligatoires » car le cycle de vie transmis au PPF diffère
+        légèrement de celui échangé entre Plateformes Agréées. En effet, les Plateformes Agréées sont identifiées et nommées
+        dans les messages de Cycle de Vie transmis au PPF alors qu’ils sont juste qualifiés (WK en CodeRole) pour les statuts échangés
+        entre Plateformes Agréées.
+        
+        La raison est que les messages de cycle de vie ont vocation à être échangés tels quels avec les Émetteurs et Destinataires,
+        ce qui oblige à conserver l’anonymat des PDP utilisées par les uns vis-à-vis des autres.
+        
+        Pour rappel, le message CDAR se décompose de la façon suivante (Exemple avec un message de statut d’encaissée, un des
+        plus complet) :
+        
+        • Un entête donnant le contexte de l’échange
+        ü Le type de processus métier : REGULATED pour les factures relevant du e-invoicing en MDT-2 (rien n’est exigé
+        par le PPF et cette donnée est limitée à 3 caractères.
+        ü Un type de profil (MDT-3) : ici, il n’y en n’a qu’un seul qui signifie que c’est un flux 6 (CDV sur facture Flux 2 ou
+        Flux 3) : 
+        § urn.cpro.gouv.fr:1p0:CDV:invoice pour les CDV entre Plateformes Agréées.
+        § urn.cpro.gouv.fr:1p0:CDV:einvoicingF2 pour les CDV à destination du PPF.
+        
+        Exemple pour un CDV à destination des Plateformes Agréées : 
+        
+        <rsm:ExchangedDocumentContext>          
+        <ram:BusinessProcessSpecifiedDocumentContextParameter>               
+        <ram:ID>REGULATED</ram:ID>  <!-- MDT-2 (Type de processus métier (cadre de facturation)) : REGULATED -->          
+        </ram:BusinessProcessSpecifiedDocumentContextParameter>          
+        <ram:GuidelineSpecifiedDocumentContextParameter>               
+        <ram:ID>urn.cpro.gouv.fr:1p0:CDV:invoice</ram:ID>  <!-- MDT-3 (Type de profil (e-invoicing, e-reporting, facture etc..)) : urn.cpro.gouv.fr:1p0:CDV:invoice -->          
+        </ram:GuidelineSpecifiedDocumentContextParameter>     
+        </rsm:ExchangedDocumentContext> 
+        
+        • Un entête de Document, qui indique :
+        ü Un Identifiant du Document (MDT-4) : avec une construction spécifique pour les CDV à destination du PPF.
+        ü Le nom du document (MDT-5).
+        ü La date et heure de création du Message de Cycle de vie : MDT-8 
+    - ek: "E-d7908016dcdc"  
+      er: "R-96b69241c525"  
+      rek: "RE-a189b12825c1"  
+      rer: "RR-f3165bda5140"  
+      source: "c:/Users/g.baudrit/source/repos/gbaudrit/conf-aimer-votre-llm/demo/ctxc-sample-spec/with-ctxc/spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf#page:5/page:5"  
+      content: |
+          XP Z12-012 - Formats et Profils des messages Factures et Statuts de cycle de vie, constitutifs du socle
+        minimal applicable à la Réforme Facture Électronique en France.
+        ANNEXE B (normative) : Exemples de factures (flux 2) et de messages CDAR de cycle de vie
+        Page 5/25 
+        ü Les parties : le créateur du statut, l’émetteur du statut et le ou les destinataires. Voir la feuille « Acteurs CDV »
+        de l’Annexe A pour voir qui doit être identifié et comment, pour chaque statut.
+        
+        Exemple : 
+        
+        <rsm:ExchangedDocument>          
+        <ram:ID>F202500003_200_20250701151000#380_20250701</ram:ID>  <!-- MDT-4 (Id document) : F202500003_200_20250701151000#380_20250701 -->          
+        <ram:Name>UC1_F202500003_07-CDV-212_Encaissée</ram:Name>  <!-- MDT-5 (Nom document) : UC1_F202500003_07-CDV-212_Encaissée -->          
+        <ram:IssueDateTime>               
+        <udt:DateTimeString format="204">20250802100500</udt:DateTimeString>  <!-- MDT-8 (Date-heure de création du CDV) : 20250802100500 -->          
+        </ram:IssueDateTime>          
+        <ram:SenderTradeParty>               
+        <ram:RoleCode>WK</ram:RoleCode>  <!-- MDT-21 (Code rôle) : WK -->          
+        </ram:SenderTradeParty>          
+        <ram:IssuerTradeParty>               
+        <ram:GlobalID schemeID="0002">100000009</ram:GlobalID>  <!-- MDT-38 (ID émetteur document (global)) : 100000009 -->               
+        <ram:Name>VENDEUR</ram:Name>  <!-- MDT-39 (Raison sociale) : VENDEUR -->               
+        <ram:RoleCode>SE</ram:RoleCode>  <!-- MDT-40 (Code rôle) : SE -->          
+        </ram:IssuerTradeParty>          
+        <ram:RecipientTradeParty>               
+        <ram:GlobalID schemeID="0002">200000008</ram:GlobalID>  <!-- MDT-57 (ID destinataire (global)) : 200000008 -->               
+        <ram:Name>ACHETEUR</ram:Name>  <!-- MDT-58 (Raison sociale) : ACHETEUR -->               
+        <ram:RoleCode>BY</ram:RoleCode>  <!-- MDT-59 (Code rôle) : BY -->          
+        </ram:RecipientTradeParty>          
+        <ram:RecipientTradeParty>               
+        <ram:GlobalID schemeID="0238">9998</ram:GlobalID>  <!-- MDT-57t (-) : 9998 -->               
+        <ram:Name>PPF</ram:Name>  <!-- MDT-58t (-) : PPF -->               
+        <ram:RoleCode>DFH</ram:RoleCode>  <!-- MDT-59t (-) : DFH -->          
+        </ram:RecipientTradeParty>     
+        </rsm:ExchangedDocument> 
+        
+        • Un bloc de regroupement de cycle de vie, qui n’est pas utilisé (un seul document par CDV, sauf cas très particulier),
+        qui contient :
+        ü Une information indiquant si c’est un statut de transmission (305) ou de traitement (23) : MDT-77
+        ü Une date et heure de dépôt du statut (par l’utilisateur) : MDT-78
+        ü Un bloc détaillant les caractéristiques de la facture Objet du message de cycle de vie, ainsi que le statut codifiée
+        2xx (212 pour un statut « Encaissé »), puis : 
+        § Un bloc de détail de statut dans lequel est indiqué un motif de statut, une action requise, puis un dernier
+        sous-bloc de détail de données (par exemple le montant encaissé, avec taux de TVA applicable).
+        
+        Exemple : 
+        
+        <rsm:AcknowledgementDocument>          
+        <ram:MultipleReferencesIndicator>               
+        <udt:Indicator>false</udt:Indicator>  <!-- MDT-74 (Indicateur CDV MONO (false) ou MULTI (true) Document) : false -->          
+        </ram:MultipleReferencesIndicator>          
+        <ram:TypeCode>23</ram:TypeCode>  <!-- MDT-77 (Code type document) : 23 -->          
+        <ram:IssueDateTime>               
+        <udt:DateTimeString format="204">20250802100000</udt:DateTimeString>  <!-- MDT-78 (Date-heure de dépôt du statut CDV) : 20250802100000 -->          
+        </ram:IssueDateTime> 
+        
+        <ram:ReferenceReferencedDocument>               
+        <ram:IssuerAssignedID>F202500003</ram:IssuerAssignedID>  <!-- MDT-87 (ID objet (BT-1 d'une facture)) : F202500003 -->               
+        <ram:StatusCode>47</ram:StatusCode>  <!-- MDT-88 (Code statut) : 47 -->               
+        <ram:TypeCode>380</ram:TypeCode>  <!-- MDT-91 (Code type de l'objet (BT-3 de la facture)) : 380 -->               
+        <ram:ReceiptDateTime>                    
+        <udt:DateTimeString format="204">20250701151000</udt:DateTimeString>  <!-- MDT-95 (Date-heure de réception de l'objet (pour une facture : date statut
+        Déposée / Rejetée pour l'Emetteur ; date statut Reçue / Rejetée pour le Destinataire)) : 20250701151000 -->               
+        </ram:ReceiptDateTime>               
+        <ram:FormattedIssueDateTime>                    
+        <qdt:DateTimeString format="102">20250701</qdt:DateTimeString>  <!-- MDT-100 (Date-heure (Date de facture BT-2)) : 20250701 -->               
+        </ram:FormattedIssueDateTime>               
+        <ram:ProcessConditionCode>212</ram:ProcessConditionCode>  <!-- MDT-105 (Code statut traitement) : 212 -->               
+        <ram:ProcessCondition>Encaissée</ram:ProcessCondition>  <!-- MDT-106 (Libellé statut traitement) : Encaissée -->               
+        <ram:IssuerTradeParty>                    
+        <ram:GlobalID schemeID="0002">100000009</ram:GlobalID>  <!-- MDT-129 ( Id émetteur document référencé (global)) : 100000009 -->               
+        </ram:IssuerTradeParty> 
+        
+        <ram:SpecifiedDocumentStatus> 
+        
+        <ram:SpecifiedDocumentCharacteristic>                         
+        <ram:TypeCode>MEN </ram:TypeCode>  <!-- MDT-207 ( Code du type de donnée) : MEN  -->                         
+        <ram:ValueChangedIndicator>                              
+        <udt:IndicatorString>false</udt:IndicatorString>  <!-- MDT-209 ( Indicateur) : false -->                         
+        </ram:ValueChangedIndicator> 
+    - ek: "E-a91e84078776"  
+      er: "R-a60a7ab06933"  
+      rek: "RE-b544ad80e8c0"  
+      rer: "RR-cb0f09f18261"  
+      source: "c:/Users/g.baudrit/source/repos/gbaudrit/conf-aimer-votre-llm/demo/ctxc-sample-spec/with-ctxc/spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf#page:6/page:6"  
+      content: |
+          XP Z12-012 - Formats et Profils des messages Factures et Statuts de cycle de vie, constitutifs du socle
+        minimal applicable à la Réforme Facture Électronique en France.
+        ANNEXE B (normative) : Exemples de factures (flux 2) et de messages CDAR de cycle de vie
+        Page 6/25 
+        <ram:ValueAmount currencyID="EUR">12000</ram:ValueAmount>  <!-- MDT-215 ( Montant (par exemple Encaissé)) : 12000 -->                         
+        <ram:ValuePercent>20.00</ram:ValuePercent>  <!-- MDT-224 ( Pourcentage (par exemple TVA pour un Encaissée)) : 20.00 -->                    
+        </ram:SpecifiedDocumentCharacteristic> 
+        
+        </ram:SpecifiedDocumentStatus> 
+        
+        </ram:ReferenceReferencedDocument> 
+        
+        </rsm:AcknowledgementDocument> 
+        
+        Un point d’attention particulier sur les dates et heures, qui sont multiples :
+        
+        • La date du statut (MDT-8) : correspond à la date et heure de création du message Cycle de Vie.
+        • La date de dépôt du statut (MDT-78) : correspond à la date et heure où le statut est créé (par exemple lorsqu’un
+        statut est posé par un utilisateur dans une application, avant que l’application crée le message CDV qui sera ensuite
+        transmis).
+        • La date de réception de l’objet (MDT-95) : correspond à la date et heure de réception de la facture pour celui qui
+        pose le statut.
+        ü Pour les statuts posés par l’Émetteur ou sa PA-E : il s’agit de la date et heure du statut « Déposée » ou
+        « Rejetée » à l’émission (MDT-8 de ces statuts).
+        ü Pour les statuts posés par le Destinataire ou sa PA-R : il s’agit de la date et heure du statut « Reçue » ou
+        « Rejetée » (MDT-8 de ces statuts). 
+        ü Pour une facture et un acteur (émetteur/destinataire du CDV) donnés, ce champ donnera donc toujours la
+        même date et heure tout au long du cycle de vie.
+        • La date de l’objet (ici la facture) (MDT-100) : correspond à la date de la facture (BT-2) sur laquelle porte le CDV.
+        
+        Le bloc « Données à reporter ou valeur attendue (« ram:SpecifiedDocumentCharacteristic ») se gère de la façon suivante :
+        
+        • MDT-207 (ram:TypeCode) permet d’indiquer de quel type d’utilisation il s’agit : voir BR-FR-CDV-CL-11
+        • MDT-206 (ram :ID) permet de donner le ID de la donnée en erreur ou à corriger
+        • MDT-211 (ram:Name) donne le nom de la donnée
+        • MDT-213 (ram:Location) donne l’Xpath de la donnée
+        • Et ensuite les données sont proposées par type.
+        
+        Pour le statut « Encaissée », le code du type de donnée est MEN, (Montant TTC encaissé), le montant est en MDT-215
+        (ram:ValueAmount) et le taux de TVA est MDT-224 (ram:ValuePercent).
+        
+        2 Exemples
+        
+        2.1 Exemples de factures
+        
+        Les exemples de facture proposés sont les suivants :
+        
+        • Facture F202500001_INV_20250201 : est une facture qui vise à disposer de la plupart des données possibles dans
+        une facture. Ceci implique quelques incohérences fonctionnelles (données de virement et de prélèvement par
+        exemple), mais permet de voir comment chaque donnée se positionne dans les syntaxes.
+        • Facture UC1_F202500003_00-INV_20250701 : est une facture simple, de service (Cadre de facturation S1), qui sert
+        de support aux exemples de statuts de Cycle de Vie.
+        • Facture UC5_F202500007_00-INV_20250702 et l’Avoir qui l’annule UC5b_F202500011_00-CN_20250703 (pour
+        cause de TVA erronée)
+        • Facture UC4_F202500006_00-INV_20250701 et Facture rectificative qui l’annule et la remplace
+        UC4b_F202500010_00-INVCORR_20250702.
+        • Facture UC12_F202600025_SOUS-LIGNE est une facture avec sous-ligne illustrant la vente d’un livre-jouet.
+        • Facture UC10_F202600004_MULTI-VENDEUR est une facture Multi-vendeur. 
+    - ek: "E-a2a9f1e61dc1"  
+      er: "R-51106fc496f0"  
+      rek: "RE-c285111f3a49"  
+      rer: "RR-960dd8680425"  
+      source: "c:/Users/g.baudrit/source/repos/gbaudrit/conf-aimer-votre-llm/demo/ctxc-sample-spec/with-ctxc/spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf#page:7/page:7"  
+      content: |
+          XP Z12-012 - Formats et Profils des messages Factures et Statuts de cycle de vie, constitutifs du socle
+        minimal applicable à la Réforme Facture Électronique en France.
+        ANNEXE B (normative) : Exemples de factures (flux 2) et de messages CDAR de cycle de vie
+        Page 7/25 
+        • Facture UC11_F202600022_MULTI-VENDEUR est une facture multi-vendeur reprenant un exemple de facture de
+        distribution d’eau.
+        
+        Les version CII cet UBL commentée ainsi que le lisible Factur-X permettent de voir l’ensemble des données présentes.
+        
+        Les données de l’exemple F202500001_INV_20250201 sont listées ci-dessous. Comme la BT-46 est de cardinalité 0..1 pour
+        l’instant dans le profil EN16931, une version en profil EXTENDED-CTC-FR a été produite en CII et UBL pour voir la multiplicité
+        de la BT-46. 
+    - ek: "E-155179deb772"  
+      er: "R-da0ec8d28143"  
+      rek: "RE-6d9969b2016d"  
+      rer: "RR-4e1c4df6e20f"  
+      source: "c:/Users/g.baudrit/source/repos/gbaudrit/conf-aimer-votre-llm/demo/ctxc-sample-spec/with-ctxc/spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf#page:8/page:8"  
+      content: |
+          XP Z12-012 - Formats et Profils des messages Factures et Statuts de cycle de vie, constitutifs du socle
+        minimal applicable à la Réforme Facture Électronique en France.
+        ANNEXE B (normative) : Exemples de factures (flux 2) et de messages CDAR de cycle de vie
+        Page 8/25 
+        BT Désignation Donnée Ligne 2 Ligne 3 Ligne 4
+        
+        BT-1 Numéro de facture F202500001   
+        
+        BT-2 Date d'émission facture
+        initiale / facture rectificative 01/02/2025   
+        
+        BT-3 Code de type de facture 380   
+        
+        BT-5 Code de devise de la facture EUR   
+        
+        BT-6 Code de devise de
+        comptabilisation de la TVA    
+        
+        BT-7 Date d'exigibilité de la taxe sur
+        la valeur ajoutée    
+        
+        BT-8 Code de date d'exigibilité de la
+        taxe sur la valeur ajoutée 5   
+        
+        BT-9 Date d'échéance / Date de
+        versement en cas d'acompte 45719   
+        
+        BT-10 Référence de l'acheteur SERVEXEC   
+        
+        BT-11 Référence de projet PROJET_2547   
+        
+        BT-12 Référence du contrat CT2018120802   
+        
+        BT-13 Référence du bon de
+        commande PO201925478   
+        
+        BT-14 Numéro d’ordre de vente BON VENTE REF 2547   
+        
+        BT-15 Référence d'avis de réception BON_RECEPT_002   
+        
+        BT-16 Référence d'avis d'expédition AVISLIVRAISON_007654   
+        
+        BT-17 Référence de l'appel d'offres
+        ou du lot APPEL_OFFRE-FRE0087   
+        
+        BT-18 Identifiant d'objet facturé REF_CLIENT2514   
+        
+        BT-18-1 Identifiant du schéma IT   
+        
+        BT-19 Référence comptable de
+        l'acheteur REF COMPTABLE ACHETEUR   
+        
+        BT-20 Conditions de paiement PAIEMENT 30 JOURS NET   
+        
+        BG-1 NOTE DE FACTURE     
+    - ek: "E-38ecf8bc3f77"  
+      er: "R-9c5cf46bb413"  
+      rek: "RE-3add425e7956"  
+      rer: "RR-9642df7391ed"  
+      source: "c:/Users/g.baudrit/source/repos/gbaudrit/conf-aimer-votre-llm/demo/ctxc-sample-spec/with-ctxc/spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf#page:9/page:9"  
+      content: |
+          XP Z12-012 - Formats et Profils des messages Factures et Statuts de cycle de vie, constitutifs du socle
+        minimal applicable à la Réforme Facture Électronique en France.
+        ANNEXE B (normative) : Exemples de factures (flux 2) et de messages CDAR de cycle de vie
+        Page 9/25 
+        BT-21 Code du sujet de la note de
+        facture REG   
+        
+        BT-22 Note de facture VENDEUR SARL au capital de
+        50 000 EUR   
+        
+        BT-21 Code du sujet de la note de
+        facture ABL   
+        
+        BT-22 Note de facture RCS MAVILLE 100 000 009   
+        
+        BT-21 Code du sujet de la note de
+        facture AAI   
+        
+        BT-22 Note de facture
+        35 ma rue a moi,75018 PARIS,
+        FR – contact@vendeur.fr -
+        www.levendeur.fr  – N° TVA :
+        FR88 100 000 009   
+        
+        BT-21 Code du sujet de la note de
+        facture PMD   
+        
+        BT-22 Note de facture
+        Tout retard de paiement
+        engendre une pénalité
+        exigible à compter de la date
+        d'échéance, calculée sur la
+        base de trois fois le taux
+        d'intérêt légal. 
+        
+        BT-21 Code du sujet de la note de
+        facture PMT   
+        
+        BT-22 Note de facture
+        Indemnité forfaitaire pour
+        frais de recouvrement en cas
+        de retard de paiement : 40 €.   
+        
+        BT-21 Code du sujet de la note de
+        facture AAB   
+        
+        BT-22 Note de facture
+        Les réglements reçus avant la
+        date d'échéance ne
+        donneront pas lieu à
+        escompte.   
+        
+        BT-21 Code du sujet de la note de
+        facture TXD   
+        
+        BT-22 Note de facture MEMBRE_ASSUJETTI_UNIQUE   
+        
+        BG-2 CONTROLE DU PROCESSUS    
+        
+        BT-23 Type de processus métier
+        (cadre de facturation) B1   
+        
+        BT-24 Type de profil (e-invoicing, e-
+        reporting, facture etc..) urn:cen.eu:en16931:2017   
+        
+        BG-3 RÉFÉRENCE À UNE FACTURE
+        ANTÉRIEURE    
+        
+        BT-25 Référence à une facture
+        antérieure    
+        
+        BT-26 Date d'émission de facture
+        antérieure     
+    - ek: "E-e8f03c3b2ec7"  
+      er: "R-8be8f3fe4082"  
+      rek: "RE-9a02ff42af9a"  
+      rer: "RR-1b26ab291bec"  
+      source: "c:/Users/g.baudrit/source/repos/gbaudrit/conf-aimer-votre-llm/demo/ctxc-sample-spec/with-ctxc/spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf#page:10/page:10"  
+      content: |
+          XP Z12-012 - Formats et Profils des messages Factures et Statuts de cycle de vie, constitutifs du socle
+        minimal applicable à la Réforme Facture Électronique en France.
+        ANNEXE B (normative) : Exemples de factures (flux 2) et de messages CDAR de cycle de vie
+        Page 10/25 
+        BG-4 VENDEUR    
+        
+        BT-27 Raison sociale du vendeur LE VENDEUR   
+        
+        BT-28 Appellation commerciale du
+        vendeur
+        VENDEUR NOM
+        COMMERCIAL   
+        
+        BT-29 Identifiant privé du vendeur PRIVATE_123   
+        
+        BT-29 Identifiant du schéma 587451236587   
+        
+        BT-29-1 Identifiant du schéma 0088   
+        
+        BT-29b Identifiant du vendeur (SIRET) 10000000900017   
+        
+        BT-29b-1 Identifiant du schéma (SIRET) 0009   
+        
+        BT-29c Identifiant du vendeur
+        (routage) DUNS1235487   
+        
+        BT-29c-1 Identifiant du schéma
+        (routage) 0060   
+        
+        BT-29d Identifiant du vendeur
+        (Assujetti unique) 500000005   
+        
+        BT-29d-1 Identifiant du schéma
+        (Assujetti unique) 0231   
+        
+        BT-30 Numéro de SIREN 100000009   
+        
+        BT-30-1 Identifiant du schéma 0002   
+        
+        BT-31 Identifiant à la TVA du
+        vendeur FR88100000009   
+        
+        BT-31-0 Qualifiant d'Identifiant à la
+        TVA du Vendeur    
+        
+        BT-32 Identifiant fiscal du vendeur    
+        
+        BT-32-0 Qualifiant d'Identifiant fiscal
+        du Vendeur    
+        
+        BT-33 Forme juridique et capital
+        social pour les sociétés
+        SARL AU CAPITAL DE 50 000
+        EUROS   
+        
+        BT-34 Adresse électronique du
+        vendeur 100000009_STATUTS   
+        
+        BT-34-1 Identifiant du schéma 0225   
+        
+        BG-5 ADRESSE POSTALE DU
+        VENDEUR     
+    - ek: "E-af5347699cb5"  
+      er: "R-5cf1cf651ea4"  
+      rek: "RE-5fc549093a71"  
+      rer: "RR-2d51b4fb8127"  
+      source: "c:/Users/g.baudrit/source/repos/gbaudrit/conf-aimer-votre-llm/demo/ctxc-sample-spec/with-ctxc/spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf#page:11/page:11"  
+      content: |
+          XP Z12-012 - Formats et Profils des messages Factures et Statuts de cycle de vie, constitutifs du socle
+        minimal applicable à la Réforme Facture Électronique en France.
+        ANNEXE B (normative) : Exemples de factures (flux 2) et de messages CDAR de cycle de vie
+        Page 11/25 
+        BT-35 Adresse du vendeur - Ligne 1 35 rue d'ici   
+        
+        BT-36 Adresse du vendeur - Ligne 2 ligne 2 vendeur   
+        
+        BT-162 Adresse du vendeur - Ligne 3    
+        
+        BT-37 Localité du vendeur PARIS   
+        
+        BT-38 Code postal du vendeur 75018   
+        
+        BT-39 Subdivision du pays du
+        vendeur    
+        
+        BT-40 Code de pays du vendeur FR   
+        
+        BG-6 CONTACT DU VENDEUR    
+        
+        BT-41 Point de contact du vendeur MME CONTACT   
+        
+        BT-42 Numéro de téléphone du
+        contact du vendeur 01 02 03 54 87   
+        
+        BT-43 Adresse électronique du
+        contact du vendeur contact@vendeur.fr   
+        
+        BG-7 ACHETEUR    
+        
+        BT-44 Raison sociale de l'acheteur LE CLIENT   
+        
+        BT-45 Appellation commerciale de
+        l'acheteur CLIENT NOM COMMERCIAL   
+        
+        BT-46 Identifiant complémentaire de
+        l'acheteur privateID   
+        
+        BT-46 Identifiant complémentaire de
+        l'acheteur 3654789851   
+        
+        BT-46-1 Identifiant du schéma 0088   
+        
+        BT-46b
+        Identifiant de l'acheteur
+        (SIRET)
+        PROFIL EXTENDED
+        20000000800025   
+        
+        BT-46b-1 Identifiant du schéma (SIRET)
+        PROFIL EXTENDED 0009   
+        
+        BT-46c
+        Identifiant de l'acheteur
+        (routage)
+        PROFIL EXTENDED
+        CDROUT1   
+        
+        BT-46c-1
+        Identifiant du schéma
+        (routage) 
+        PROFIL EXTENDED
+        0224    
+    - ek: "E-f238fb371aef"  
+      er: "R-8e592781f5bf"  
+      rek: "RE-3c2fa650872d"  
+      rer: "RR-bd8f47836d59"  
+      source: "c:/Users/g.baudrit/source/repos/gbaudrit/conf-aimer-votre-llm/demo/ctxc-sample-spec/with-ctxc/spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf#page:12/page:12"  
+      content: |
+          XP Z12-012 - Formats et Profils des messages Factures et Statuts de cycle de vie, constitutifs du socle
+        minimal applicable à la Réforme Facture Électronique en France.
+        ANNEXE B (normative) : Exemples de factures (flux 2) et de messages CDAR de cycle de vie
+        Page 12/25 
+        BT-47 Numéro de SIREN 200000008   
+        
+        BT-47-1 Identifiant du schéma 0002   
+        
+        BT-48 Identifiant à la TVA  de
+        l'acheteur FR37200000008   
+        
+        BT-48-0 Qualifiant d'Identifiant fiscal
+        de l'acheteur    
+        
+        BT-49 Identifiant d'adressage 200000008   
+        
+        BT-49-1 Identifiant du schéma de
+        l'identifiant d'adressage 0225   
+        
+        BG-8 ADRESSE POSTALE DE
+        L'ACHETEUR    
+        
+        BT-50 Adresse de l'acheteur - Ligne 1 MON ADRESSE LIGNE 1   
+        
+        BT-51 Adresse de l'acheteur - Ligne 2 acheteur ligne 2   
+        
+        BT-163 Adresse de l'acheteur - Ligne 3 acheteur ligne 3   
+        
+        BT-52 Localité de l'acheteur MA VILLE   
+        
+        BT-53 Code postal de l'acheteur 06000   
+        
+        BT-54 Subdivision du pays de
+        l'acheteur    
+        
+        BT-55 Code de pays de l'acheteur FR   
+        
+        BG-9 CONTACT DE L’ACHETEUR    
+        
+        BT-56 Point de contact de l’acheteur Contact ACHETEUR   
+        
+        BT-57 Numéro de téléphone du
+        contact de l’acheteur 01 01 25 45 87   
+        
+        BT-58 Adresse électronique du
+        contact de l’acheteur contact@acheteur.fr   
+        
+        BG-10 BÉNÉFICIAIRE    
+        
+        BT-59 Nom du bénéficiaire TIERS Bénéficiaire   
+        
+        BT-60 Identifiant du complémentaire
+        du bénéficiaire    
+        
+        BT-60-1 Identifiant du schéma 0088    
+    - ek: "E-2af243255709"  
+      er: "R-918c01e63130"  
+      rek: "RE-6bffeeef5306"  
+      rer: "RR-8a0068fd109d"  
+      source: "c:/Users/g.baudrit/source/repos/gbaudrit/conf-aimer-votre-llm/demo/ctxc-sample-spec/with-ctxc/spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf#page:13/page:13"  
+      content: |
+          XP Z12-012 - Formats et Profils des messages Factures et Statuts de cycle de vie, constitutifs du socle
+        minimal applicable à la Réforme Facture Électronique en France.
+        ANNEXE B (normative) : Exemples de factures (flux 2) et de messages CDAR de cycle de vie
+        Page 13/25 
+        BT-61 Identifiant d’enregistrement
+        légal du bénéficiaire 300000007   
+        
+        BT-61-1 Identifiant du schéma 0002   
+        
+        BG-11 REPRÉSENTANT FISCAL DU
+        VENDEUR    
+        
+        BT-62 Nom du représentant fiscal du
+        vendeur ASSUJETTI UNIQUE VENDEUR   
+        
+        BT-63 Identifiant à la TVA du
+        représentant fiscal du vendeur FR78500000005   
+        
+        BT-63-1
+        Identifiant du schéma de
+        l'identifiant TVA du
+        représentant fiscal 
+        
+        BG-12
+        ADRESSE POSTALE DU
+        REPRÉSENTANT FISCAL DU
+        VENDEUR    
+        
+        BT-64 Adresse du représentant fiscal
+        - Ligne 1 75 rue labas   
+        
+        BT-65 Adresse du représentant fiscal
+        - Ligne 2 Assujetti Unique ligne 2   
+        
+        BT-164 Adresse du représentant fiscal
+        - Ligne 3    
+        
+        BT-66 Localité du représentant fiscal PARIS   
+        
+        BT-67 Code postal du représentant
+        fiscal 75007   
+        
+        BT-68 Subdivision du pays du
+        représentant fiscal    
+        
+        BT-69 Code de pays du représentant
+        fiscal FR   
+        
+        BG-13 INFORMATIONS DE LIVRAISON    
+        
+        BT-70 Livré à NOM LIVRé   
+        
+        BT-71 Identifiant de l'établissement
+        de livraison PRIVATE_ID_DELIVERY   
+        
+        BT-71-1 Identifiant du schéma de
+        l'établissement de livraison    
+        
+        BT-72 Date effective de livraison 31/01/2025   
+        
+        BG-14 PERIODE DE FACTURATION    
+        
+        BT-73 Date de début de période de
+        facturation 01/01/2025   
+        
+        BT-74 Date de fin de période de
+        facturation 31/01/2025    
+    - ek: "E-c0bfe9c7905b"  
+      er: "R-44946b6800d9"  
+      rek: "RE-33ed285b8ca4"  
+      rer: "RR-d028597f9f91"  
+      source: "c:/Users/g.baudrit/source/repos/gbaudrit/conf-aimer-votre-llm/demo/ctxc-sample-spec/with-ctxc/spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf#page:14/page:14"  
+      content: |
+          XP Z12-012 - Formats et Profils des messages Factures et Statuts de cycle de vie, constitutifs du socle
+        minimal applicable à la Réforme Facture Électronique en France.
+        ANNEXE B (normative) : Exemples de factures (flux 2) et de messages CDAR de cycle de vie
+        Page 14/25 
+        BG-15 ADRESSE DE LIVRAISON    
+        
+        BT-75 Adresse de livraison  - Ligne 1 ADRESSE LIVRAISON LIGNE 1   
+        
+        BT-76 Adresse de livraison - Ligne 2 AD LIV ligne 2   
+        
+        BT-165 Adresse de livraison - Ligne 3    
+        
+        BT-77 Localité Adresse de livraison NICE   
+        
+        BT-78 Code postal Adresse de
+        livraison 06000   
+        
+        BT-79 Subdivision du pays     
+        
+        BT-80 Code de pays FR   
+        
+        BG-16 INSTRUCTIONS DE PAIEMENT    
+        
+        BT-81 Code de type de moyen de
+        paiement 30   
+        
+        BT-82 Libellé du moyen de paiement Virement   
+        
+        BT-83 Avis de paiement F202500001_200000008   
+        
+        BG-17 VIREMENT    
+        
+        BT-84 Identifiant de compte de
+        paiement
+        FR20 1254 2547 2569 8542
+        5874 698   
+        
+        BT-85 Nom de compte de paiement MON COMPTE BANCAIRE   
+        
+        BT-86 Identifiant de prestataire de
+        services de paiement BIC_MONCOMPTE   
+        
+        BG-18 INFORMATIONS CONCERNANT
+        LA CARTE DE PAIEMENT    
+        
+        BT-87 Identifiant de compte de
+        paiement    
+        
+        BT-88 Nom de compte de paiement    
+        
+        BG-19 PRÉLÈVEMENT    
+        
+        BT-89 Identifiant de référence de
+        mandat REF MANDAT ICS   
+        
+        BT-90 Identifiant bancaire du
+        créancier     
+    - ek: "E-092c7256c4c9"  
+      er: "R-eb052efe8b90"  
+      rek: "RE-2069a4d2f930"  
+      rer: "RR-ecefe4d75c61"  
+      source: "c:/Users/g.baudrit/source/repos/gbaudrit/conf-aimer-votre-llm/demo/ctxc-sample-spec/with-ctxc/spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf#page:15/page:15"  
+      content: |
+          XP Z12-012 - Formats et Profils des messages Factures et Statuts de cycle de vie, constitutifs du socle
+        minimal applicable à la Réforme Facture Électronique en France.
+        ANNEXE B (normative) : Exemples de factures (flux 2) et de messages CDAR de cycle de vie
+        Page 15/25 
+        BT-91 Identifiant de compte débité
+        (IBAN) CPTE DEBIT   
+        
+        BG-20 REMISES AU NIVEAU DU
+        DOCUMENT    
+        
+        BT-92 Montant de la remise au
+        niveau document 5   
+        
+        BT-93 Assiette de la remise au
+        niveau du document 100   
+        
+        BT-94 Pourcentage de remise au
+        niveau du document 5   
+        
+        BT-95
+        Code de type de TVA de la
+        remise au niveau du
+        document
+        S   
+        
+        BT-96 Taux de TVA de la remise au
+        niveau du document 20   
+        
+        BT-97 Motif de la remise au niveau
+        du document REMISE COMMERCIALE_1   
+        
+        BT-98 Code de motif de la remise au
+        niveau du document 95   
+        
+        BG-20 REMISES AU NIVEAU DU
+        DOCUMENT -2ème    
+        
+        BT-92 Montant de la remise au
+        niveau document 1   
+        
+        BT-93 Assiette de la remise au
+        niveau du document 100   
+        
+        BT-94 Pourcentage de remise au
+        niveau du document 1   
+        
+        BT-95
+        Code de type de TVA de la
+        remise au niveau du
+        document
+        S   
+        
+        BT-96 Taux de TVA de la remise au
+        niveau du document 20   
+        
+        BT-97 Motif de la remise au niveau
+        du document REMISE COMMERCIALE_2   
+        
+        BT-98 Code de motif de la remise au
+        niveau du document 100   
+        
+        BG-20 REMISES AU NIVEAU DU
+        DOCUMENT 3ème    
+        
+        BT-92 Montant de la remise au
+        niveau document 1   
+        
+        BT-93 Assiette de la remise au
+        niveau du document 100   
+        
+        BT-94 Pourcentage de remise au
+        niveau du document 1   
+        
+        BT-95
+        Code de type de TVA de la
+        remise au niveau du
+        document
+        S    
+    - ek: "E-cd60817df995"  
+      er: "R-49e76a53dac7"  
+      rek: "RE-edc5730e7c89"  
+      rer: "RR-efd748b23b58"  
+      source: "c:/Users/g.baudrit/source/repos/gbaudrit/conf-aimer-votre-llm/demo/ctxc-sample-spec/with-ctxc/spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf#page:16/page:16"  
+      content: |
+          XP Z12-012 - Formats et Profils des messages Factures et Statuts de cycle de vie, constitutifs du socle
+        minimal applicable à la Réforme Facture Électronique en France.
+        ANNEXE B (normative) : Exemples de factures (flux 2) et de messages CDAR de cycle de vie
+        Page 16/25 
+        BT-96 Taux de TVA de la remise au
+        niveau du document 20   
+        
+        BT-97 Motif de la remise au niveau
+        du document REMISE COMMERCIALE_3   
+        
+        BT-98 Code de motif de la remise au
+        niveau du document 100   
+        
+        BG-20 REMISES AU NIVEAU DU
+        DOCUMENT 4ème    
+        
+        BT-92 Montant de la remise au
+        niveau document 2   
+        
+        BT-93 Assiette de la remise au
+        niveau du document 100   
+        
+        BT-94 Pourcentage de remise au
+        niveau du document 2   
+        
+        BT-95
+        Code de type de TVA de la
+        remise au niveau du
+        document
+        S   
+        
+        BT-96 Taux de TVA de la remise au
+        niveau du document 10   
+        
+        BT-97 Motif de la remise au niveau
+        du document REMISE COMMERCIALE_4   
+        
+        BT-98 Code de motif de la remise au
+        niveau du document    
+        
+        BG-21 CHARGES OU FRAIS AU
+        NIVEAU DU DOCUMENT    
+        
+        BT-99 Montant des charges 10   
+        
+        BT-100 Assiette des charges ou frais
+        au niveau du document 100   
+        
+        BT-101 Pourcentage de charges ou
+        frais au niveau du document 10   
+        
+        BT-102 Code de type de TVA des
+        charges S   
+        
+        BT-103 Taux de TVA des charges ou
+        frais au niveau du document 20   
+        
+        BT-104 Motif des charges ou frais au
+        niveau du document FRAIS DEPLACEMENT_1   
+        
+        BT-105 Code de motif des charges ou
+        frais au niveau du document FC   
+        
+        BG-21 CHARGES OU FRAIS AU
+        NIVEAU DU DOCUMENT 2ème    
+        
+        BT-99 Montant des charges 1   
+        
+        BT-100 Assiette des charges ou frais
+        au niveau du document 100    
+    - ek: "E-f037473cd2c6"  
+      er: "R-ccfe0b699d23"  
+      rek: "RE-a9edd3f8e04f"  
+      rer: "RR-acc660e667f3"  
+      source: "c:/Users/g.baudrit/source/repos/gbaudrit/conf-aimer-votre-llm/demo/ctxc-sample-spec/with-ctxc/spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf#page:17/page:17"  
+      content: |
+          XP Z12-012 - Formats et Profils des messages Factures et Statuts de cycle de vie, constitutifs du socle
+        minimal applicable à la Réforme Facture Électronique en France.
+        ANNEXE B (normative) : Exemples de factures (flux 2) et de messages CDAR de cycle de vie
+        Page 17/25 
+        BT-101 Pourcentage de charges ou
+        frais au niveau du document 1   
+        
+        BT-102 Code de type de TVA des
+        charges S   
+        
+        BT-103 Taux de TVA des charges ou
+        frais au niveau du document 20   
+        
+        BT-104 Motif des charges ou frais au
+        niveau du document AUTRE CHARGE   
+        
+        BT-105 Code de motif des charges ou
+        frais au niveau du document ADR   
+        
+        BG-21 CHARGES OU FRAIS AU
+        NIVEAU DU DOCUMENT 3ème    
+        
+        BT-99 Montant des charges 2   
+        
+        BT-100 Assiette des charges ou frais
+        au niveau du document    
+        
+        BT-101 Pourcentage de charges ou
+        frais au niveau du document    
+        
+        BT-102 Code de type de TVA des
+        charges K   
+        
+        BT-103 Taux de TVA des charges ou
+        frais au niveau du document 0   
+        
+        BT-104 Motif des charges ou frais au
+        niveau du document FRAIS DEPLACEMENT_2   
+        
+        BT-105 Code de motif des charges ou
+        frais au niveau du document FC   
+        
+        BG-21 CHARGES OU FRAIS AU
+        NIVEAU DU DOCUMENT 4ème    
+        
+        BT-99 Montant des charges 1   
+        
+        BT-100 Assiette des charges ou frais
+        au niveau du document    
+        
+        BT-101 Pourcentage de charges ou
+        frais au niveau du document    
+        
+        BT-102 Code de type de TVA des
+        charges S   
+        
+        BT-103 Taux de TVA des charges ou
+        frais au niveau du document 10   
+        
+        BT-104 Motif des charges ou frais au
+        niveau du document FRAIS DEPLACEMENT_3   
+        
+        BT-105 Code de motif des charges ou
+        frais au niveau du document FC   
+        
+        BG-22 TOTAUX DU DOCUMENT     
+    - ek: "E-cde968b19a15"  
+      er: "R-9f443482f63d"  
+      rek: "RE-1b6582dc7466"  
+      rer: "RR-550c00b52582"  
+      source: "c:/Users/g.baudrit/source/repos/gbaudrit/conf-aimer-votre-llm/demo/ctxc-sample-spec/with-ctxc/spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf#page:18/page:18"  
+      content: |
+          XP Z12-012 - Formats et Profils des messages Factures et Statuts de cycle de vie, constitutifs du socle
+        minimal applicable à la Réforme Facture Électronique en France.
+        ANNEXE B (normative) : Exemples de factures (flux 2) et de messages CDAR de cycle de vie
+        Page 18/25 
+        BT-106 Somme des montants nets des
+        lignes de facture 105   
+        
+        BT-107 Somme des remises au niveau
+        du document 9   
+        
+        BT-108 Somme des charges ou frais
+        au niveau du document 14   
+        
+        BT-109 Montant total de la facture
+        hors TVA 110   
+        
+        BT-110 Montant total de TVA de la
+        facture 8,7   
+        
+        BT-110-1 Code devise    
+        
+        BT-111
+        Montant total de TVA de la
+        facture exprimée (devise de
+        comptabilisation)    
+        
+        BT-111-1 Code devise    
+        
+        BT-112 Montant total de la Facture,
+        avec la TVA. 118,7   
+        
+        BT-113 Montant payé 0   
+        
+        BT-114 Montant arrondi 0   
+        
+        BT-115 Montant à payer 118,7   
+        
+        BG-23 VENTILATION DE LA TVA    
+        
+        BT-116 Base d'imposition du type de
+        TVA 39   
+        
+        BT-117 Montant de la TVA pour
+        chaque type de TVA 7,8   
+        
+        BT-118 Code de type de TVA S   
+        
+        BT-119 Taux de type de TVA 20   
+        
+        BT-120 Motif d'exonération de la TVA    
+        
+        BT-121 Code de motif d'exonération
+        de la TVA    
+        
+        BG-23 VENTILATION DE LA TVA 2ème    
+        
+        BT-116 Base d'imposition du type de
+        TVA 60   
+        
+        BT-117 Montant de la TVA pour
+        chaque type de TVA 0    
+    - ek: "E-1d661d2d0fe0"  
+      er: "R-effd69f09609"  
+      rek: "RE-261cadd37060"  
+      rer: "RR-5f5ff6879f33"  
+      source: "c:/Users/g.baudrit/source/repos/gbaudrit/conf-aimer-votre-llm/demo/ctxc-sample-spec/with-ctxc/spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf#page:19/page:19"  
+      content: |
+          XP Z12-012 - Formats et Profils des messages Factures et Statuts de cycle de vie, constitutifs du socle
+        minimal applicable à la Réforme Facture Électronique en France.
+        ANNEXE B (normative) : Exemples de factures (flux 2) et de messages CDAR de cycle de vie
+        Page 19/25 
+        BT-118 Code de type de TVA E   
+        
+        BT-119 Taux de type de TVA 0   
+        
+        BT-120 Motif d'exonération de la TVA REMBOURSEMENT   
+        
+        BT-121 Code de motif d'exonération
+        de la TVA VATEX-EU-79-C   
+        
+        BG-23 VENTILATION DE LA TVA 3ème    
+        
+        BT-116 Base d'imposition du type de
+        TVA    
+        
+        BT-117 Montant de la TVA pour
+        chaque type de TVA 0,9   
+        
+        BT-118 Code de type de TVA S   
+        
+        BT-119 Taux de type de TVA 10   
+        
+        BT-120 Motif d'exonération de la TVA    
+        
+        BT-121 Code de motif d'exonération
+        de la TVA    
+        
+        BG-23 VENTILATION DE LA TVA 4ème    
+        
+        BT-116 Base d'imposition du type de
+        TVA 2   
+        
+        BT-117 Montant de la TVA pour
+        chaque type de TVA 0   
+        
+        BT-118 Code de type de TVA K   
+        
+        BT-119 Taux de type de TVA 0   
+        
+        BT-120 Motif d'exonération de la TVA LIVRAISON
+        INTRACOMMUNAUTAIRE   
+        
+        BT-121 Code de motif d'exonération
+        de la TVA VATEX-EU-IC   
+        
+        BG-24 DOCUMENTS JUSTIFICATIFS
+        ADDITIONNELS    
+        
+        BT-122 Référence de document
+        justificatif REF_ANNEXE_009875   
+        
+        BT-123 Description de document
+        justificatif DOCUMENT_ANNEXE   
+        
+        BT-124 Emplacement de document
+        externe url:gffter    
+    - ek: "E-b79575cab2ab"  
+      er: "R-d8786fb0f1a5"  
+      rek: "RE-6b4649db4894"  
+      rer: "RR-54bfda90e84a"  
+      source: "c:/Users/g.baudrit/source/repos/gbaudrit/conf-aimer-votre-llm/demo/ctxc-sample-spec/with-ctxc/spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf#page:20/page:20"  
+      content: |
+          XP Z12-012 - Formats et Profils des messages Factures et Statuts de cycle de vie, constitutifs du socle
+        minimal applicable à la Réforme Facture Électronique en France.
+        ANNEXE B (normative) : Exemples de factures (flux 2) et de messages CDAR de cycle de vie
+        Page 20/25 
+        BT-125 Document joint    
+        
+        BT-125-1 Code MIME du document joint    
+        
+        BT-125-2 Nom de fichier du document
+        joint    
+        
+        BG-25 LIGNE DE FACTURE        
+        
+        BT-126 Identifiant de ligne de facture 1 2 3 4
+        
+        BT-127-
+        00 Note de ligne de facture    
+        
+        BT-127 Note de ligne de facture  DONT 0,50 EUR de DEEE  
+        
+        BT-128 Identifiant d'objet de ligne de
+        facture  TARIF_2022  
+        
+        BT-128-1 Identifiant du schéma  AFG  
+        
+        BT-129 Quantité facturée 1 30 1 2
+        
+        BT-130 Code de l'unité de mesure de
+        la quantité facturée C62 C62 C62 HUR
+        
+        BT-131 Montant net de ligne de
+        facture 60 21 10 14
+        
+        BT-132 Référence de ligne de bon de
+        commande référencée 1 4 3 2
+        
+        BT-133
+        Référence comptable de
+        l'acheteur de la ligne de
+        facture
+        BUY_ACC_REF BUY_ACC_REF1 BUY_ACC_REF2 BUY_ACC_REF3
+        
+        BG-26 PERIODE DE FACTURATION
+        D'UNE LIGNE    
+        
+        BT-134 Date de début de période de
+        facturation d'une ligne 01/01/2025 01/01/2025 01/01/2025 01/01/2025
+        
+        BT-135 Date de fin de période de
+        facturation d'une ligne 31/01/2025 31/01/2025 31/01/2025 31/01/2025
+        
+        BG-27 REMISE DE LIGNE DE FACTURE    
+        
+        BT-136 Montant d'une remise, hors
+        TVA  1  
+        
+        BT-137 Assiette de la remise de ligne
+        de facture  100  
+        
+        BT-138 Pourcentage de remise de
+        ligne de facture  1  
+        
+        BT-139 Motif de la remise de ligne de
+        facture  REMISE VOLUME   
+    - ek: "E-cd63199b3acb"  
+      er: "R-e3a89d899107"  
+      rek: "RE-b73028f277e0"  
+      rer: "RR-26b63b5e1a0f"  
+      source: "c:/Users/g.baudrit/source/repos/gbaudrit/conf-aimer-votre-llm/demo/ctxc-sample-spec/with-ctxc/spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf#page:21/page:21"  
+      content: |
+          XP Z12-012 - Formats et Profils des messages Factures et Statuts de cycle de vie, constitutifs du socle
+        minimal applicable à la Réforme Facture Électronique en France.
+        ANNEXE B (normative) : Exemples de factures (flux 2) et de messages CDAR de cycle de vie
+        Page 21/25 
+        BT-140 Code de motif de la remise de
+        ligne de facture  71  
+        
+        BG-28 CHARGE OU FRAIS D'UNE
+        LIGNE DE FACTURE    
+        
+        BT-141 Montant des charges ou frais  1  
+        
+        BT-142
+        Assiette des charges ou frais
+        applicables à la ligne de
+        facture    
+        
+        BT-143
+        Pourcentage de charges ou
+        frais applicable à la ligne de
+        facture    
+        
+        BT-144
+        Motif des charges ou frais
+        applicables à la ligne de
+        facture 
+        FRAIS PREPARATION  
+        
+        BT-145
+        Code de motif des charges ou
+        frais applicables à la ligne de
+        facture    
+        
+        BG-29 DÉTAIL DU PRIX    
+        
+        BT-146 Prix net de l'article 60 0,7 30 7
+        
+        BT-147 Rabais sur le prix de l'article  0,1  3
+        
+        BT-148 Prix brut de l'article 60 0,8 30 10
+        
+        BT-149 Quantité de base du prix de
+        l'article 1 1 3 1
+        
+        BT-150
+        Code de l'unité de mesure de
+        la quantité de base du prix de
+        l'article
+        C62 C62 C62 HUR
+        
+        BG-30 INFORMATION SUR LA TVA    
+        
+        BT-151 Code de type de TVA de
+        l'article facturé E S S S
+        
+        BT-152 Taux de TVA de l'article
+        facturé 0 20 10 20
+        
+        BG-31 INFORMATION SUR L'ARTICLE    
+        
+        BT-153 Nom de l'article REMBOURSEMENT COMPOSANT FOURNITURES MOULE SUPPORT TEL
+        
+        BT-154 Description de l'article Description du
+        remboursement Description de l'article Description du moule
+        Description de la
+        prestation de support
+        associée
+        
+        BT-155 Identifiant vendeur de l'article  ART_1254 ART_9874 
+        
+        BT-156 Identifiant acheteur de l'article  REF5487 REF9854  
+    - ek: "E-8d7e0916bf58"  
+      er: "R-b4276d95870f"  
+      rek: "RE-e7942fdf8a29"  
+      rer: "RR-f987f08b1dcd"  
+      source: "c:/Users/g.baudrit/source/repos/gbaudrit/conf-aimer-votre-llm/demo/ctxc-sample-spec/with-ctxc/spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf#page:22/page:22"  
+      content: |
+          XP Z12-012 - Formats et Profils des messages Factures et Statuts de cycle de vie, constitutifs du socle
+        minimal applicable à la Réforme Facture Électronique en France.
+        ANNEXE B (normative) : Exemples de factures (flux 2) et de messages CDAR de cycle de vie
+        Page 22/25 
+        BT-157 Identifiant standard de l'article  598785412598745 598785414325437 
+        
+        BT-157-1 Identifiant du schéma  0160 0160 
+        
+        BT-158 Identifiant de la classification
+        de l'article  SKU2578  
+        
+        BT-158-1 Identifiant du schéma  SK  
+        
+        BT-158-2 Identifiant version du schéma    
+        
+        BT-159 Pays d'origine de l'article  FR  
+        
+        BG-32 ATTRIBUTS D'ARTICLE    
+        
+        BT-160 Nom d'attribut d'article  CO2(g) COULEUR 
+        
+        BT-161 Valeur d'attribut d'article  12 BLANC 
+        
+        BT-160 Nom d'attribut d'article   CO2(g) 
+        
+        BT-161 Valeur d'attribut d'article   30  
+    - ek: "E-dc531e4ef767"  
+      er: "R-939f3d777254"  
+      rek: "RE-3ee1eb8e5c1c"  
+      rer: "RR-d61a0ab231da"  
+      source: "c:/Users/g.baudrit/source/repos/gbaudrit/conf-aimer-votre-llm/demo/ctxc-sample-spec/with-ctxc/spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf#page:23/page:23"  
+      content: |
+          XP Z12-012 - Formats et Profils des messages Factures et Statuts de cycle de vie, constitutifs du socle
+        minimal applicable à la Réforme Facture Électronique en France.
+        ANNEXE B (normative) : Exemples de factures (flux 2) et de messages CDAR de cycle de vie
+        Page 23/25 
+        2.2 Exemples de messages CDV en CDAR
+        
+        2.2.1 Cas Nominal
+        
+        Le cas proposé est basé sur une facture échangée sans Rejet, refus, litige.
+        
+        Les données principales de la facture sont les suivantes :
+        
+        Caractéristique Remplissage
+        
+        Nom des fichiers de facture (3 formats) Factur-X : UC1_F202500003_00-INV_20250701.pdf
+        CII : UC1_F202500003_00-INV_20250701_CII.xml
+        UBL : UC1_F202500003_00-INV_20250701_UBL.xml
+        
+        Identifiant de facture F202500003
+        
+        Date 01/07/2025
+        
+        Type Facture e-invoicing (code type : 380)
+        
+        Nom Vendeur LE VENDEUR
+        
+        ID légal du Vendeur 100000009
+        
+        Adresse électronique Vendeur (schemeId 0225) 100000009_STATUTS
+        
+        Nom Acheteur LE CLIENT
+        
+        ID légal de l’Acheteur 200000008
+        
+        Adresse électronique Acheteur (schemeId 0225) 200000008
+        
+        Nombre de lignes 2
+        
+        Taux TVA (%) 20
+        
+        Prix unitaire ligne 1 (€) 40,00
+        
+        Unité pour P.U. ligne 1 HEURE
+        
+        Quantité ligne 1 200
+        
+        Prix unitaire ligne 2 (€) 400
+        
+        Unité pour P.U. ligne 2 JOUR
+        
+        Quantité ligne 2 5
+        
+        Total HT ligne 1 (€) 8 000
+        
+        Total HT ligne 2 (€) 2 000
+        
+        Total document HT (€) 10 000
+        
+        Total TVA (€) 2 000
+        
+        Total document TTC (€) 12 000  
+    - ek: "E-0674475d79fb"  
+      er: "R-a056cac7d5cf"  
+      rek: "RE-8df15194264c"  
+      rer: "RR-50171a59c294"  
+      source: "c:/Users/g.baudrit/source/repos/gbaudrit/conf-aimer-votre-llm/demo/ctxc-sample-spec/with-ctxc/spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf#page:24/page:24"  
+      content: |
+          XP Z12-012 - Formats et Profils des messages Factures et Statuts de cycle de vie, constitutifs du socle
+        minimal applicable à la Réforme Facture Électronique en France.
+        ANNEXE B (normative) : Exemples de factures (flux 2) et de messages CDAR de cycle de vie
+        Page 24/25 
+        La cinématique du cycle de vie est la suivante :
+        
+        Étape DATE Heure Évènement
+        
+        UC1_00 01/07/2025 15:00:00 Le VENDEUR transmet sa facture à PA-E du Vendeur
+        
+        UC1_01
+        01/07/2025 15:10:00 PA-E fait les contrôles et pose statut Déposée
+        
+        01/07/2025 15:15:00 PA-E constitue le CDV « Déposée ». Statut disponible pour LE VENDEUR.
+        Transmission sous 24h au PPF.
+        
+        01/07/2025 16:00:00 PA-E transmet la facture (flux 2) à PA-R
+        
+        UC1_02
+        01/07/2025 16:10:00 PA-R fait les contrôles et pose statut Reçue
+        
+        01/07/2025 16:15:00 PA-R Constitue CDV Reçue pour le VENDEUR et le transmet à PA-E. Statut mis à
+        disposition de l’ACHETEUR
+        
+        01/07/2025 16:20:00 PA-R transmet la facture à l’ACHETEUR ou lui notifie sa disponibilité
+        
+        UC1_03
+        01/07/2025 16:25:00 PA-R pose Statut MAD (Mise à Disposition), pour l’ACHETEUR
+        
+        01/07/2025 16:30:00 PA-R Constitue CDV MAD pour le VENDEUR et le transmet à PA-E. Statut mis à
+        disposition de l’ACHETEUR
+        
+        01/07/2025 16:40:00 PA-E met à disposition le statut MAD pour le VENDEUR
+        
+        UC1_04
+        01/07/2025 18:00:00 L’ACHETEUR pose un statut PEC (Prise en Charge)
+        
+        01/07/2025 18:10:00 PA-R (ou ACHETEUR) constitue le statut PEC et le transmet au VENDEUR via sa
+        PA-E
+        
+        01/07/2025 18:15:00 PA-E met à disposition le statut PEC pour le VENDEUR
+        
+        UC1_05
+        02/07/2025 10:00:00 L’ACHETEUR pose un statut « Approuvée »
+        
+        02/07/2025 10:05:00 PA-R (ou ACHETEUR) constitue le statut Approuvée et le transmet à VE via sa
+        PA-E
+        
+        02/07/2025 10:10:00 PA-E met à disposition le statut Approuvée au VENDEUR
+        
+        UC1_06
+        30/07/2025 10:00:00 ACHETEUR pose un statut Paiement transmis
+        
+        30/07/2025 10:05:00 PA-R (ou ACHETEUR) constitue le statut Paiement transmis et le transmet à VE
+        via sa PA-E
+        
+        30/07/2025 10:10:00 PA-E met à disposition le statut Paiement transmis au VENDEUR
+        
+        UC1_07
+        02/08/2025 10:00:00 VENDEUR pose un statut « Encaissée »
+        
+        02/08/2025 10:05:00 PA-E (ou VE) constitue le statut Encaissée et le transmet à l’ACHETEUR via sa
+        PA-R
+        Transmission au PPF.
+        
+        02/08/2025 10:10:00 PA-R met à disposition le statut « Encaissée » à l’ACHETEUR. 
+    - ek: "E-abd5631f4215"  
+      er: "R-2d91ed9f3840"  
+      rek: "RE-66682b5a2c57"  
+      rer: "RR-9891b0d8bdf7"  
+      source: "c:/Users/g.baudrit/source/repos/gbaudrit/conf-aimer-votre-llm/demo/ctxc-sample-spec/with-ctxc/spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf#page:25/page:25"  
+      content: |
+          XP Z12-012 - Formats et Profils des messages Factures et Statuts de cycle de vie, constitutifs du socle
+        minimal applicable à la Réforme Facture Électronique en France.
+        ANNEXE B (normative) : Exemples de factures (flux 2) et de messages CDAR de cycle de vie
+        Page 25/25 
+        Les fichiers des différents statuts de cycle de vie sont les suivants (et contiennent des commentaires pour identifier les codes
+        des données MDT-XXX) :
+        
+        Statut Nom du fichier XML
+        
+        Déposée UC1_F202500003_01-CDV-200_Déposé
+        
+        UC1_F202500003_01-CDV-200_Déposée_POUR_PPF
+        
+        Reçue UC1_F202500003_02-CDV-202_Reçue
+        
+        Mise à disposition  UC1_F202500003_03-CDV-203_Mise_à_disposition
+        
+        Prise en charge UC1_F202500003_04-CDV-204_Prise_en_charge
+        
+        Approuvée UC1_F202500003_05-CDV-205_Approuvée
+        
+        Paiement transmis UC1_F202500003_06-CDV-211_Paiement_transmis
+        
+        12 000 € le 30/07/2025
+        
+        Encaissée UC1_F202500003_07-CDV-212_Encaissée
+        
+        UC1_F202500003_07-CDV-212_Encaissée_POUR_PPF 
+        
+        2.2.2 Cas d’une facture en erreur pour illustrer un statut de litige
+        
+        Pour les factures UC4_F202500006_00-INV_20250701 et UC5_F202500007_00-INV_20250702 qui sont semblables, les
+        statuts de mise en litige permettent d’illustrer comment indiquer un litige, avec un MOTIF (en MDT-113 en code et MDT-
+        114 en texte, ici Taux de TVA erroné), puis comment indiquer une action attendue (facture rectificative ou Avoir) en MDT-
+        121 et MDT-122, et enfin comment indiquer une donnée invalide et celle qui est attendue à la place :
+        
+        • UC4_F202500006_04-CDV-207_En_litige.xml
+        • UC5_F202500007_04-CDV-207_En_litige.xml 
+    - ek: "E-d276abeaa42a"  
+      er: "R-0492d534abd1"  
+      rek: "RE-96598c9d3e11"  
+      rer: "RR-c114f7c4fcfd"  
+      source: "c:/Users/g.baudrit/source/repos/gbaudrit/conf-aimer-votre-llm/demo/ctxc-sample-spec/with-ctxc/spec/afnor/XP_Z12-012/XP_Z12-012.xlsx#extract:cdar/sheet:CDV FE - CDAR/table:json"  
+      content: |
+        {
+          "headerRowIndices": [
+            0,
+            1
+          ],
+          "rows": [
+            [
+              "Cardinalit\u00E9  CDAR",
+              "Chemin",
+              "ID",
+              "Level",
+              "N2",
+              "N3",
+              "N4",
+              "N5"
+            ],
+            [
+              "0..1",
+              "/rsm:ExchangedDocument/ram:TypeCode",
+              "MDT-6",
+              "2",
+              "Code type document",
+              "",
+              "",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:ExchangedDocument/ram:StatusCode",
+              "MDT-7",
+              "2",
+              "Code statut",
+              "",
+              "",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:ExchangedDocument/ram:VersionID",
+              "MDT-10",
+              "2",
+              "Version document",
+              "",
+              "",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:ExchangedDocument/ram:GlobalID",
+              "MDT-11",
+              "2",
+              "Id document (global)",
+              "",
+              "",
+              ""
+            ],
+            [
+              "1..1",
+              "/rsm:ExchangedDocument/ram:GlobalID/@schemeID",
+              "MDT-11-1",
+              "3",
+              "",
+              "Attribut Type Id",
+              "",
+              ""
+            ],
+            [
+              "0..n",
+              "/rsm:ExchangedDocument/ram:IncludedNote",
+              "MDG-5",
+              "2",
+              "Note",
+              "",
+              "",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:ExchangedDocument/ram:IncludedNote/ram:ContentCode",
+              "MDT-12",
+              "3",
+              "",
+              "Code contenu",
+              "",
+              ""
+            ],
+            [
+              "0..n",
+              "/rsm:ExchangedDocument/ram:IncludedNote/ram:Content",
+              "MDT-13",
+              "3",
+              "",
+              "Contenu",
+              "",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:ExchangedDocument/ram:IncludedNote/ram:Content/@languageID",
+              "MDT-13-1",
+              "4",
+              "",
+              "",
+              "Attribut Langue",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:ExchangedDocument/ram:IncludedNote/ram:SubjectCode",
+              "MDT-14",
+              "3",
+              "",
+              "Sujet",
+              "",
+              ""
+            ],
+            [
+              "0..n",
+              "/rsm:ExchangedDocument/ram:EffectiveSpecifiedPeriod",
+              "MDG-6",
+              "2",
+              "P\u00E9riode d\u0027application",
+              "",
+              "",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:ExchangedDocument/ram:EffectiveSpecifiedPeriod/ram:StartDateTime",
+              "MDG-7",
+              "3",
+              "",
+              "Date d\u00E9but",
+              "",
+              ""
+            ],
+            [
+              "1..1",
+              "/rsm:ExchangedDocument/ram:EffectiveSpecifiedPeriod/ram:StartDateTime/udt:DateTimeString",
+              "MDT-15",
+              "4",
+              "",
+              "",
+              "Date-heure",
+              ""
+            ],
+            [
+              "1..1",
+              "/rsm:ExchangedDocument/ram:EffectiveSpecifiedPeriod/ram:StartDateTime/udt:DateTimeString/@format",
+              "MDT-15-1",
+              "5",
+              "",
+              "",
+              "Attribut Format",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:ExchangedDocument/ram:EffectiveSpecifiedPeriod/ram:EndDateTime",
+              "MDG-8",
+              "3",
+              "",
+              "Date fin",
+              "",
+              ""
+            ],
+            [
+              "1..1",
+              "/rsm:ExchangedDocument/ram:EffectiveSpecifiedPeriod/ram:EndDateTime/udt:DateTimeString",
+              "MDT-16",
+              "4",
+              "",
+              "",
+              "Date-heure",
+              ""
+            ],
+            [
+              "1..1",
+              "/rsm:ExchangedDocument/ram:EffectiveSpecifiedPeriod/ram:EndDateTime/udt:DateTimeString/@format",
+              "MDT-16-1",
+              "5",
+              "",
+              "",
+              "Attribut Format",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:ExchangedDocument/ram:SenderTradeParty/ram:DefinedTradeContact/ram:TypeCode",
+              "MDT-24",
+              "4",
+              "",
+              "",
+              "Type contact",
+              ""
+            ],
+            [
+              "0..n",
+              "/rsm:ExchangedDocument/ram:SenderTradeParty/ram:DefinedTradeContact/ram:FaxUniversalCommunication",
+              "MDG-12",
+              "4",
+              "",
+              "",
+              "Fax",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:ExchangedDocument/ram:SenderTradeParty/ram:DefinedTradeContact/ram:FaxUniversalCommunication/ram:CompleteNumber",
+              "MDT-26",
+              "5",
+              "",
+              "",
+              "",
+              "Num\u00E9ro fax"
+            ],
+            [
+              "0..1",
+              "/rsm:ExchangedDocument/ram:SenderTradeParty/ram:PostalTradeAddress",
+              "MDG-14",
+              "3",
+              "",
+              "Adresse postale \u00E9metteur",
+              "",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:ExchangedDocument/ram:SenderTradeParty/ram:PostalTradeAddress/ram:PostcodeCode",
+              "MDT-32",
+              "4",
+              "",
+              "",
+              "Code postal",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:ExchangedDocument/ram:SenderTradeParty/ram:PostalTradeAddress/ram:LineOne",
+              "MDT-28",
+              "4",
+              "",
+              "",
+              "Ligne d\u0027adresse 1",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:ExchangedDocument/ram:SenderTradeParty/ram:PostalTradeAddress/ram:LineTwo",
+              "MDT-29",
+              "4",
+              "",
+              "",
+              "Ligne d\u0027adresse 2",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:ExchangedDocument/ram:SenderTradeParty/ram:PostalTradeAddress/ram:LineThree",
+              "MDT-30",
+              "4",
+              "",
+              "",
+              "Ligne d\u0027adresse 3",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:ExchangedDocument/ram:SenderTradeParty/ram:PostalTradeAddress/ram:CityName",
+              "MDT-31",
+              "4",
+              "",
+              "",
+              "Ville",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:ExchangedDocument/ram:SenderTradeParty/ram:PostalTradeAddress/ram:CountryID",
+              "MDT-34",
+              "4",
+              "",
+              "",
+              "Code pays",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:ExchangedDocument/ram:SenderTradeParty/ram:PostalTradeAddress/ram:CountrySubDivisionName",
+              "MDT-33",
+              "4",
+              "",
+              "",
+              "R\u00E9gion",
+              ""
+            ],
+            [
+              "0..n",
+              "/rsm:ExchangedDocument/ram:IssuerTradeParty/ram:DefinedTradeContact",
+              "MDG-17",
+              "3",
+              "",
+              "Contact \u00E9metteur",
+              "",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:ExchangedDocument/ram:IssuerTradeParty/ram:DefinedTradeContact/ram:PersonName",
+              "MDT-41",
+              "4",
+              "",
+              "",
+              "Nom",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:ExchangedDocument/ram:IssuerTradeParty/ram:DefinedTradeContact/ram:DepartmentName",
+              "MDT-42",
+              "4",
+              "",
+              "",
+              "Service ",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:ExchangedDocument/ram:IssuerTradeParty/ram:DefinedTradeContact/ram:TypeCode",
+              "MDT-43",
+              "4",
+              "",
+              "",
+              "Type contact",
+              ""
+            ],
+            [
+              "0..n",
+              "/rsm:ExchangedDocument/ram:IssuerTradeParty/ram:DefinedTradeContact/ram:TelephoneUniversalCommunication",
+              "MDG-18",
+              "4",
+              "",
+              "",
+              "T\u00E9l\u00E9phone",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:ExchangedDocument/ram:IssuerTradeParty/ram:DefinedTradeContact/ram:TelephoneUniversalCommunication/ram:CompleteNumber",
+              "MDT-44",
+              "5",
+              "",
+              "",
+              "",
+              "Num\u00E9ro t\u00E9l\u00E9phone"
+            ],
+            [
+              "0..n",
+              "/rsm:ExchangedDocument/ram:IssuerTradeParty/ram:DefinedTradeContact/ram:FaxUniversalCommunication",
+              "MDG-19",
+              "4",
+              "",
+              "",
+              "Fax",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:ExchangedDocument/ram:IssuerTradeParty/ram:DefinedTradeContact/ram:FaxUniversalCommunication/ram:CompleteNumber",
+              "MDT-45",
+              "5",
+              "",
+              "",
+              "",
+              "Num\u00E9ro fax"
+            ],
+            [
+              "0..1",
+              "/rsm:ExchangedDocument/ram:IssuerTradeParty/ram:PostalTradeAddress",
+              "MDG-21",
+              "3",
+              "",
+              "Adresse postale \u00E9metteur",
+              "",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:ExchangedDocument/ram:IssuerTradeParty/ram:PostalTradeAddress/ram:PostcodeCode",
+              "MDT-51",
+              "4",
+              "",
+              "",
+              "Code postal",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:ExchangedDocument/ram:IssuerTradeParty/ram:PostalTradeAddress/ram:LineOne",
+              "MDT-47",
+              "4",
+              "",
+              "",
+              "Ligne d\u0027adresse 1",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:ExchangedDocument/ram:IssuerTradeParty/ram:PostalTradeAddress/ram:LineTwo",
+              "MDT-48",
+              "4",
+              "",
+              "",
+              "Ligne d\u0027adresse 2",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:ExchangedDocument/ram:IssuerTradeParty/ram:PostalTradeAddress/ram:LineThree",
+              "MDT-49",
+              "4",
+              "",
+              "",
+              "Ligne d\u0027adresse 3",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:ExchangedDocument/ram:IssuerTradeParty/ram:PostalTradeAddress/ram:CityName",
+              "MDT-50",
+              "4",
+              "",
+              "",
+              "Ville",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:ExchangedDocument/ram:IssuerTradeParty/ram:PostalTradeAddress/ram:CountryID",
+              "MDT-53",
+              "4",
+              "",
+              "",
+              "Code pays",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:ExchangedDocument/ram:IssuerTradeParty/ram:PostalTradeAddress/ram:CountrySubDivisionName",
+              "MDT-52",
+              "4",
+              "",
+              "",
+              "R\u00E9gion",
+              ""
+            ],
+            [
+              "0..n",
+              "/rsm:ExchangedDocument/ram:RecipientTradeParty/ram:DefinedTradeContact",
+              "MDG-24",
+              "3",
+              "",
+              "Contact destinataire",
+              "",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:ExchangedDocument/ram:RecipientTradeParty/ram:DefinedTradeContact/ram:PersonName",
+              "MDT-60",
+              "4",
+              "",
+              "",
+              "Nom",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:ExchangedDocument/ram:RecipientTradeParty/ram:DefinedTradeContact/ram:DepartmentName",
+              "MDT-61",
+              "4",
+              "",
+              "",
+              "Service ",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:ExchangedDocument/ram:RecipientTradeParty/ram:DefinedTradeContact/ram:TypeCode",
+              "MDT-62",
+              "4",
+              "",
+              "",
+              "Type contact",
+              ""
+            ],
+            [
+              "0..n",
+              "/rsm:ExchangedDocument/ram:RecipientTradeParty/ram:DefinedTradeContact/ram:TelephoneUniversalCommunication",
+              "MDG-25",
+              "4",
+              "",
+              "",
+              "T\u00E9l\u00E9phone",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:ExchangedDocument/ram:RecipientTradeParty/ram:DefinedTradeContact/ram:TelephoneUniversalCommunication/ram:CompleteNumber",
+              "MDT-63",
+              "5",
+              "",
+              "",
+              "",
+              "Num\u00E9ro t\u00E9l\u00E9phone"
+            ],
+            [
+              "0..n",
+              "/rsm:ExchangedDocument/ram:RecipientTradeParty/ram:DefinedTradeContact/ram:FaxUniversalCommunication",
+              "MDG-26",
+              "4",
+              "",
+              "",
+              "Fax",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:ExchangedDocument/ram:RecipientTradeParty/ram:DefinedTradeContact/ram:FaxUniversalCommunication/ram:CompleteNumber",
+              "MDT-64",
+              "5",
+              "",
+              "",
+              "",
+              "Num\u00E9ro fax"
+            ],
+            [
+              "0..1",
+              "/rsm:ExchangedDocument/ram:RecipientTradeParty/ram:DefinedTradeContact/ram:EmailURIUniversalCommunication",
+              "MDG-27",
+              "4",
+              "",
+              "",
+              "Courriel",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:ExchangedDocument/ram:RecipientTradeParty/ram:DefinedTradeContact/ram:EmailURIUniversalCommunication/ram:URIID",
+              "MDT-65",
+              "5",
+              "",
+              "",
+              "",
+              "Adresse courriel"
+            ],
+            [
+              "0..1",
+              "/rsm:ExchangedDocument/ram:RecipientTradeParty/ram:PostalTradeAddress/ram:PostcodeCode",
+              "MDT-70",
+              "4",
+              "",
+              "",
+              "Code postal",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:ExchangedDocument/ram:RecipientTradeParty/ram:PostalTradeAddress/ram:LineOne",
+              "MDT-66",
+              "4",
+              "",
+              "",
+              "Ligne d\u0027adresse 1",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:ExchangedDocument/ram:RecipientTradeParty/ram:PostalTradeAddress/ram:LineTwo",
+              "MDT-67",
+              "4",
+              "",
+              "",
+              "Ligne d\u0027adresse 2",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:ExchangedDocument/ram:RecipientTradeParty/ram:PostalTradeAddress/ram:LineThree",
+              "MDT-68",
+              "4",
+              "",
+              "",
+              "Ligne d\u0027adresse 3",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:ExchangedDocument/ram:RecipientTradeParty/ram:PostalTradeAddress/ram:CityName",
+              "MDT-69",
+              "4",
+              "",
+              "",
+              "Ville",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:ExchangedDocument/ram:RecipientTradeParty/ram:PostalTradeAddress/ram:CountrySubDivisionName",
+              "MDT-71",
+              "4",
+              "",
+              "",
+              "R\u00E9gion",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:TypeCode",
+              "MDT-77",
+              "2",
+              "Code type document",
+              "",
+              "",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:StatusCode",
+              "MDT-79",
+              "2",
+              "Code statut r\u00E9ception",
+              "",
+              "",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:AcknowledgementStatusCode",
+              "MDT-81",
+              "2",
+              "Code acquittement",
+              "",
+              "",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ItemIdentificationID",
+              "MDT-82",
+              "2",
+              "ID de l\u0027objet concern\u00E9",
+              "",
+              "",
+              ""
+            ],
+            [
+              "0..n",
+              "/rsm:AcknowledgementDocument/ram:ReasonInformation",
+              "MDT-83",
+              "2",
+              "Motif",
+              "",
+              "",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReasonInformation/@languageID",
+              "MDT-83-1",
+              "3",
+              "",
+              "Attribut Langue",
+              "",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ChannelCode",
+              "MDT-84",
+              "2",
+              "Code canal d\u0027origine",
+              "",
+              "",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ProcessConditionCode",
+              "MDT-85",
+              "2",
+              "Code statut traitement",
+              "",
+              "",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ProcessConditionCode/@listName",
+              "MDT-85-1",
+              "3",
+              "",
+              "Attribut Nom liste",
+              "",
+              ""
+            ],
+            [
+              "0..n",
+              "/rsm:AcknowledgementDocument/ram:ProcessCondition",
+              "MDT-86",
+              "2",
+              "D\u00E9tail statut traitement",
+              "",
+              "",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ProcessCondition/@languageID",
+              "MDT-86-1",
+              "3",
+              "",
+              "Attribut Langue",
+              "",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:Status",
+              "MDT-80",
+              "2",
+              "D\u00E9tail statut r\u00E9ception",
+              "",
+              "",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:Status/@languageID",
+              "MDT-80-1",
+              "3",
+              "",
+              "Attribut Langue",
+              "",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:StatusCode",
+              "MDT-88",
+              "3",
+              "",
+              "Code statut",
+              "",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:CopyIndicator",
+              "MDG-33",
+              "3",
+              "",
+              "Indicateur copie",
+              "",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:CopyIndicator/udt:Indicator",
+              "MDT-89",
+              "4",
+              "",
+              "",
+              "Flag copie",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:LineID",
+              "MDT-90",
+              "3",
+              "",
+              "Identifiant ligne",
+              "",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:GlobalID",
+              "MDT-92",
+              "3",
+              "",
+              "Id objet (global)",
+              "",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:GlobalID/@schemeID",
+              "MDT-92-1",
+              "4",
+              "",
+              "",
+              "Attribut Type Id",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:RevisionID",
+              "MDT-93",
+              "3",
+              "",
+              "Id r\u00E9vision objet",
+              "",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:LanguageID",
+              "MDT-98",
+              "3",
+              "",
+              "ID langue",
+              "",
+              ""
+            ],
+            [
+              "0..n",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:Description",
+              "MDT-99",
+              "3",
+              "",
+              "Description",
+              "",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:Description/@languageID",
+              "MDT-99-1",
+              "4",
+              "",
+              "",
+              "Attribut Langue",
+              ""
+            ],
+            [
+              "0..n",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:IncludedAmount",
+              "MDT-101",
+              "3",
+              "",
+              "Montant",
+              "",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:IncludedAmount/@currencyID",
+              "MDT-101-1",
+              "4",
+              "",
+              "",
+              "Attribut Devise",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:VersionID",
+              "MDT-102",
+              "3",
+              "",
+              "Id version objet",
+              "",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:TotalIssueCountNumeric",
+              "MDT-103",
+              "3",
+              "",
+              "Nombre total d\u0027anomalies",
+              "",
+              ""
+            ],
+            [
+              "0..n",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:Status",
+              "MDT-104",
+              "3",
+              "",
+              "Libell\u00E9 statut",
+              "",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:Status/@languageID",
+              "MDT-104-1",
+              "4",
+              "",
+              "",
+              "Attribut Langue",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:ProcessCondition/@languageID",
+              "MDT-106-1",
+              "4",
+              "",
+              "",
+              "Attribut Langue",
+              ""
+            ],
+            [
+              "0..n",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:IssuerTradeParty/ram:ID",
+              "MDT-128",
+              "4",
+              "",
+              "\u00A0",
+              "Id \u00E9metteur document r\u00E9f\u00E9renc\u00E9",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:IssuerTradeParty/ram:Name",
+              "MDT-131",
+              "4",
+              "",
+              "\u00A0",
+              "Raison sociale",
+              ""
+            ],
+            [
+              "0..n",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:IssuerTradeParty/ram:DefinedTradeContact",
+              "MDT-133",
+              "4",
+              "",
+              "\u00A0",
+              "Contact \u00E9metteur document r\u00E9f\u00E9renc\u00E9",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:IssuerTradeParty/ram:DefinedTradeContact/ram:PersonName",
+              "MDT-134",
+              "5",
+              "",
+              "\u00A0",
+              "\u00A0",
+              "Nom"
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:IssuerTradeParty/ram:DefinedTradeContact/ram:DepartmentName",
+              "MDT-135",
+              "5",
+              "",
+              "\u00A0",
+              "\u00A0",
+              "Service\u00A0"
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:IssuerTradeParty/ram:DefinedTradeContact/ram:TypeCode",
+              "MDT-136",
+              "5",
+              "",
+              "\u00A0",
+              "\u00A0",
+              "Type contact"
+            ],
+            [
+              "0..n",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:IssuerTradeParty/ram:DefinedTradeContact/ram:TelephoneUniversalCommunication",
+              "MDT-137",
+              "5",
+              "",
+              "\u00A0",
+              "\u00A0",
+              "T\u00E9l\u00E9phone"
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:IssuerTradeParty/ram:DefinedTradeContact/ram:TelephoneUniversalCommunication/ram:CompleteNumber",
+              "MDT-138",
+              "6",
+              "",
+              "\u00A0",
+              "\u00A0",
+              "Num\u00E9ro t\u00E9l\u00E9phone"
+            ],
+            [
+              "0..n",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:IssuerTradeParty/ram:DefinedTradeContact/ram:FaxUniversalCommunication",
+              "MDT-139",
+              "5",
+              "",
+              "\u00A0",
+              "\u00A0",
+              "Fax"
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:IssuerTradeParty/ram:DefinedTradeContact/ram:FaxUniversalCommunication/ram:CompleteNumber",
+              "MDT-140",
+              "6",
+              "",
+              "\u00A0",
+              "\u00A0",
+              "Num\u00E9ro fax"
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:IssuerTradeParty/ram:DefinedTradeContact/ram:EmailURIUniversalCommunication",
+              "MDT-141",
+              "5",
+              "",
+              "\u00A0",
+              "\u00A0",
+              "Courriel"
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:IssuerTradeParty/ram:DefinedTradeContact/ram:EmailURIUniversalCommunication/ram:URIID",
+              "MDT-142",
+              "6",
+              "",
+              "\u00A0",
+              "\u00A0",
+              "Adresse courriel"
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:IssuerTradeParty/ram:PostalTradeAddress",
+              "MDT-143",
+              "4",
+              "",
+              "\u00A0",
+              "Adresse postale \u00E9metteur",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:IssuerTradeParty/ram:PostalTradeAddress/ram:PostcodeCode",
+              "MDT-144",
+              "5",
+              "",
+              "\u00A0",
+              "\u00A0",
+              "Code postal"
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:IssuerTradeParty/ram:PostalTradeAddress/ram:LineOne",
+              "MDT-145",
+              "5",
+              "",
+              "\u00A0",
+              "\u00A0",
+              "Ligne d\u0027adresse 1"
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:IssuerTradeParty/ram:PostalTradeAddress/ram:LineTwo",
+              "MDT-146",
+              "5",
+              "",
+              "\u00A0",
+              "\u00A0",
+              "Ligne d\u0027adresse 2"
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:IssuerTradeParty/ram:PostalTradeAddress/ram:LineThree",
+              "MDT-147",
+              "5",
+              "",
+              "\u00A0",
+              "\u00A0",
+              "Ligne d\u0027adresse 3"
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:IssuerTradeParty/ram:PostalTradeAddress/ram:CityName",
+              "MDT-148",
+              "5",
+              "",
+              "\u00A0",
+              "\u00A0",
+              "Ville"
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:IssuerTradeParty/ram:PostalTradeAddress/ram:CountryID",
+              "MDT-149",
+              "5",
+              "",
+              "\u00A0",
+              "\u00A0",
+              "Code pays"
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:IssuerTradeParty/ram:PostalTradeAddress/ram:CountrySubDivisionName",
+              "MDT-150",
+              "5",
+              "",
+              "\u00A0",
+              "\u00A0",
+              "R\u00E9gion"
+            ],
+            [
+              "0..n",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:RecipientTradeParty/ram:ID",
+              "MDT-154",
+              "4",
+              "",
+              "\u00A0",
+              "Id destinataire document",
+              ""
+            ],
+            [
+              "0..n",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:RecipientTradeParty/ram:DefinedTradeContact",
+              "MDT-159",
+              "4",
+              "",
+              "\u00A0",
+              "Contact destinataire",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:RecipientTradeParty/ram:DefinedTradeContact/ram:PersonName",
+              "MDT-160",
+              "5",
+              "",
+              "\u00A0",
+              "\u00A0",
+              "Nom"
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:RecipientTradeParty/ram:DefinedTradeContact/ram:DepartmentName",
+              "MDT-161",
+              "5",
+              "",
+              "\u00A0",
+              "\u00A0",
+              "Service\u00A0"
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:RecipientTradeParty/ram:DefinedTradeContact/ram:TypeCode",
+              "MDT-162",
+              "5",
+              "",
+              "\u00A0",
+              "\u00A0",
+              "Type contact"
+            ],
+            [
+              "0..n",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:RecipientTradeParty/ram:DefinedTradeContact/ram:TelephoneUniversalCommunication",
+              "MDT-163",
+              "5",
+              "",
+              "\u00A0",
+              "\u00A0",
+              "T\u00E9l\u00E9phone"
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:RecipientTradeParty/ram:DefinedTradeContact/ram:TelephoneUniversalCommunication/ram:CompleteNumber",
+              "MDT-164",
+              "6",
+              "",
+              "\u00A0",
+              "\u00A0",
+              "Num\u00E9ro t\u00E9l\u00E9phone"
+            ],
+            [
+              "0..n",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:RecipientTradeParty/ram:DefinedTradeContact/ram:FaxUniversalCommunication",
+              "MDT-165",
+              "5",
+              "",
+              "\u00A0",
+              "\u00A0",
+              "Fax"
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:RecipientTradeParty/ram:DefinedTradeContact/ram:FaxUniversalCommunication/ram:CompleteNumber",
+              "MDT-166",
+              "6",
+              "",
+              "\u00A0",
+              "\u00A0",
+              "Num\u00E9ro fax"
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:RecipientTradeParty/ram:DefinedTradeContact/ram:EmailURIUniversalCommunication",
+              "MDT-167",
+              "5",
+              "",
+              "\u00A0",
+              "\u00A0",
+              "Courriel"
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:RecipientTradeParty/ram:DefinedTradeContact/ram:EmailURIUniversalCommunication/ram:URIID",
+              "MDT-168",
+              "6",
+              "",
+              "\u00A0",
+              "\u00A0",
+              "Adresse courriel"
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:RecipientTradeParty/ram:PostalTradeAddress",
+              "MDT-169",
+              "4",
+              "",
+              "\u00A0",
+              "Adresse postale destinataire du Document R\u00E9f\u00E9renc\u00E9",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:RecipientTradeParty/ram:PostalTradeAddress/ram:PostcodeCode",
+              "MDT-170",
+              "5",
+              "",
+              "\u00A0",
+              "\u00A0",
+              "Code postal"
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:RecipientTradeParty/ram:PostalTradeAddress/ram:LineOne",
+              "MDT-171",
+              "5",
+              "",
+              "\u00A0",
+              "\u00A0",
+              "Ligne d\u0027adresse 1"
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:RecipientTradeParty/ram:PostalTradeAddress/ram:LineTwo",
+              "MDT-172",
+              "5",
+              "",
+              "\u00A0",
+              "\u00A0",
+              "Ligne d\u0027adresse 2"
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:RecipientTradeParty/ram:PostalTradeAddress/ram:LineThree",
+              "MDT-173",
+              "5",
+              "",
+              "\u00A0",
+              "\u00A0",
+              "Ligne d\u0027adresse 3"
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:RecipientTradeParty/ram:PostalTradeAddress/ram:CityName",
+              "MDT-174",
+              "5",
+              "",
+              "\u00A0",
+              "\u00A0",
+              "Ville"
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:RecipientTradeParty/ram:PostalTradeAddress/ram:CountryID",
+              "MDT-175",
+              "5",
+              "",
+              "\u00A0",
+              "\u00A0",
+              "Code pays"
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:RecipientTradeParty/ram:PostalTradeAddress/ram:CountrySubDivisionName",
+              "MDT-176",
+              "5",
+              "",
+              "\u00A0",
+              "\u00A0",
+              "R\u00E9gion"
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:SenderTradeParty",
+              "MDG-42",
+              "3",
+              "",
+              "Emetteur du flux Document R\u00E9f\u00E9renc\u00E9",
+              "",
+              ""
+            ],
+            [
+              "0..n",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:SenderTradeParty/ram:ID",
+              "MDT-180",
+              "4",
+              "",
+              "\u00A0",
+              "ID de l\u0027\u00E9metteur du Document r\u00E9f\u00E9renc\u00E9",
+              ""
+            ],
+            [
+              "0..n",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:SenderTradeParty/ram:GlobalID",
+              "MDT-181",
+              "4",
+              "",
+              "\u00A0",
+              "Global ID de l\u0027emetteur du Document r\u00E9f\u00E9renc\u00E9",
+              ""
+            ],
+            [
+              "1..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:SenderTradeParty/ram:GlobalID/@schemeID",
+              "MDT-182",
+              "5",
+              "",
+              "\u00A0",
+              "",
+              "Attribut Type Id du Global ID de l\u0027emetteur du Document r\u00E9f\u00E9renc\u00E9"
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:SenderTradeParty/ram:Name",
+              "MDT-183",
+              "4",
+              "",
+              "\u00A0",
+              "Raison sociale",
+              "\u00A0"
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:SenderTradeParty/ram:RoleCode",
+              "MDT-184",
+              "4",
+              "",
+              "\u00A0",
+              "Code r\u00F4le",
+              "\u00A0"
+            ],
+            [
+              "0..n",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:SenderTradeParty/ram:DefinedTradeContact",
+              "MDT-185",
+              "4",
+              "",
+              "\u00A0",
+              "Contact du flux Document R\u00E9f\u00E9renc\u00E9",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:SenderTradeParty/ram:DefinedTradeContact/ram:PersonName",
+              "MDT-186",
+              "5",
+              "",
+              "\u00A0",
+              "\u00A0",
+              "Nom"
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:SenderTradeParty/ram:DefinedTradeContact/ram:DepartmentName",
+              "MDT-187",
+              "5",
+              "",
+              "\u00A0",
+              "\u00A0",
+              "Service\u00A0"
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:SenderTradeParty/ram:DefinedTradeContact/ram:TypeCode",
+              "MDT-188",
+              "5",
+              "",
+              "\u00A0",
+              "\u00A0",
+              "Type contact"
+            ],
+            [
+              "0..n",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:SenderTradeParty/ram:DefinedTradeContact/ram:TelephoneUniversalCommunication",
+              "MDT-189",
+              "5",
+              "",
+              "\u00A0",
+              "\u00A0",
+              "T\u00E9l\u00E9phone"
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:SenderTradeParty/ram:DefinedTradeContact/ram:TelephoneUniversalCommunication/ram:CompleteNumber",
+              "MDT-190",
+              "6",
+              "",
+              "\u00A0",
+              "\u00A0",
+              "Num\u00E9ro t\u00E9l\u00E9phone"
+            ],
+            [
+              "0..n",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:SenderTradeParty/ram:DefinedTradeContact/ram:FaxUniversalCommunication",
+              "MDT-191",
+              "5",
+              "",
+              "\u00A0",
+              "\u00A0",
+              "Fax"
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:SenderTradeParty/ram:DefinedTradeContact/ram:FaxUniversalCommunication/ram:CompleteNumber",
+              "MDT-192",
+              "6",
+              "",
+              "\u00A0",
+              "\u00A0",
+              "Num\u00E9ro fax"
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:SenderTradeParty/ram:DefinedTradeContact/ram:EmailURIUniversalCommunication",
+              "MDT-193",
+              "5",
+              "",
+              "\u00A0",
+              "\u00A0",
+              "Courriel"
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:SenderTradeParty/ram:DefinedTradeContact/ram:EmailURIUniversalCommunication/ram:URIID",
+              "MDT-194",
+              "6",
+              "",
+              "\u00A0",
+              "\u00A0",
+              "Adresse courriel"
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:SenderTradeParty/ram:PostalTradeAddress",
+              "MDT-195",
+              "4",
+              "",
+              "\u00A0",
+              "Adresse postale du flux Document R\u00E9f\u00E9renc\u00E9",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:SenderTradeParty/ram:PostalTradeAddress/ram:PostcodeCode",
+              "MDT-196",
+              "5",
+              "",
+              "\u00A0",
+              "\u00A0",
+              "Code postal"
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:SenderTradeParty/ram:PostalTradeAddress/ram:LineOne",
+              "MDT-197",
+              "5",
+              "",
+              "\u00A0",
+              "\u00A0",
+              "Ligne d\u0027adresse 1"
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:SenderTradeParty/ram:PostalTradeAddress/ram:LineTwo",
+              "MDT-198",
+              "5",
+              "",
+              "\u00A0",
+              "\u00A0",
+              "Ligne d\u0027adresse 2"
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:SenderTradeParty/ram:PostalTradeAddress/ram:LineThree",
+              "MDT-199",
+              "5",
+              "",
+              "\u00A0",
+              "\u00A0",
+              "Ligne d\u0027adresse 3"
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:SenderTradeParty/ram:PostalTradeAddress/ram:CityName",
+              "MDT-200",
+              "5",
+              "",
+              "\u00A0",
+              "\u00A0",
+              "Ville"
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:SenderTradeParty/ram:PostalTradeAddress/ram:CountryID",
+              "MDT-201",
+              "5",
+              "",
+              "\u00A0",
+              "\u00A0",
+              "Code pays"
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:SenderTradeParty/ram:PostalTradeAddress/ram:CountrySubDivisionName",
+              "MDT-202",
+              "5",
+              "",
+              "\u00A0",
+              "\u00A0",
+              "R\u00E9gion"
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:SenderTradeParty/ram:URIUniversalCommunication",
+              "MDT-203",
+              "4",
+              "",
+              "\u00A0",
+              "Adresse \u00E9lectronique du flux Document R\u00E9f\u00E9renc\u00E9",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:SenderTradeParty/ram:URIUniversalCommunication/ram:URIID",
+              "MDT-204",
+              "5",
+              "",
+              "\u00A0",
+              "\u00A0",
+              "Adresse \u00E9lectronique (r\u00E9seau CEF)"
+            ],
+            [
+              "1..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:SenderTradeParty/ram:URIUniversalCommunication/ram:URIID/@schemeID",
+              "MDT-204-1",
+              "6",
+              "",
+              "",
+              "",
+              "Attribut Type Id"
+            ],
+            [
+              "0..n",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:IncludedNote",
+              "MDG-36",
+              "3",
+              "",
+              "Montants",
+              "",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:IncludedNote/ram:ContentCode",
+              "MDT-107",
+              "4",
+              "",
+              "",
+              "Code montant",
+              ""
+            ],
+            [
+              "0..n",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:IncludedNote/ram:Content",
+              "MDT-108",
+              "4",
+              "",
+              "",
+              "Valeur montant",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:IncludedNote/ram:Content/@languageID",
+              "MDT-108-1",
+              "5",
+              "",
+              "",
+              "",
+              "Attribut Langue"
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:IncludedNote/ram:SubjectCode",
+              "MDT-109",
+              "4",
+              "",
+              "",
+              "Sujet",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:SpecifiedDocumentStatus/ram:ConditionCode",
+              "MDT-111",
+              "4",
+              "",
+              "",
+              "Code statut",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:SpecifiedDocumentStatus/ram:ConditionCode/@listName",
+              "MDT-111-1",
+              "5",
+              "",
+              "",
+              "",
+              "Attribut Nom liste"
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:SpecifiedDocumentStatus/ram:Reason/@languageID",
+              "MDT-114-1",
+              "5",
+              "",
+              "",
+              "",
+              "Attribut Langue"
+            ],
+            [
+              "0..n",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:SpecifiedDocumentStatus/ram:Condition",
+              "MDT-112",
+              "4",
+              "",
+              "",
+              "Libell\u00E9 statut",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:SpecifiedDocumentStatus/ram:Condition/@languageID",
+              "MDT-112-1",
+              "5",
+              "",
+              "",
+              "",
+              "Attribut Langue"
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:SpecifiedDocumentStatus/ram:ProcessConditionCode/@listName",
+              "MDT-115-1",
+              "5",
+              "",
+              "",
+              "",
+              "Attribut Nom liste"
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:SpecifiedDocumentStatus/ram:ProcessCondition/@languageID",
+              "MDT-116-1",
+              "5",
+              "",
+              "",
+              "",
+              "Attribut Langue"
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:SpecifiedDocumentStatus/ram:ReasonInformationCode",
+              "MDT-117",
+              "4",
+              "",
+              "",
+              "Code information motif",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:SpecifiedDocumentStatus/ram:ReasonInformationCode/@listName",
+              "MDT-117-1",
+              "5",
+              "",
+              "",
+              "",
+              "Attribut Nom liste"
+            ],
+            [
+              "0..n",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:SpecifiedDocumentStatus/ram:ReasonInformation",
+              "MDT-118",
+              "4",
+              "",
+              "",
+              "Information motif",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:SpecifiedDocumentStatus/ram:ReasonInformation/@languageID",
+              "MDT-118-1",
+              "5",
+              "",
+              "",
+              "",
+              "Attribut Langue"
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:SpecifiedDocumentStatus/ram:ReasonClassificationCode",
+              "MDT-119",
+              "4",
+              "",
+              "",
+              "Code niveau erreur",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:SpecifiedDocumentStatus/ram:ReasonClassificationCode/@listName",
+              "MDT-119-1",
+              "5",
+              "",
+              "",
+              "",
+              "Attribut Nom liste"
+            ],
+            [
+              "0..n",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:SpecifiedDocumentStatus/ram:ReasonClassification",
+              "MDT-120",
+              "4",
+              "",
+              "",
+              "Niveau erreur",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:SpecifiedDocumentStatus/ram:ReasonClassification/@languageID",
+              "MDT-120-1",
+              "5",
+              "",
+              "",
+              "",
+              "Attribut Langue"
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:SpecifiedDocumentStatus/ram:RequestedActionCode/@listName",
+              "MDT-121-1",
+              "5",
+              "",
+              "",
+              "",
+              "Attribut Nom liste"
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:SpecifiedDocumentStatus/ram:RequestedAction/@languageID",
+              "MDT-122-1",
+              "5",
+              "",
+              "",
+              "",
+              "Attribut Langue"
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:SpecifiedDocumentStatus/ram:InvalidInformation",
+              "MDT-123",
+              "4",
+              "",
+              "",
+              "Donn\u00E9es invalides",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:SpecifiedDocumentStatus/ram:InvalidInformation/@languageID",
+              "MDT-123-1",
+              "5",
+              "",
+              "",
+              "",
+              "Attribut Langue"
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:SpecifiedDocumentStatus/ram:ValidInformation",
+              "MDT-124",
+              "4",
+              "",
+              "",
+              "Donn\u00E9es valides",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:SpecifiedDocumentStatus/ram:ValidInformation/@languageID",
+              "MDT-124-1",
+              "5",
+              "",
+              "",
+              "",
+              "Attribut Langue"
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:SpecifiedDocumentStatus/ram:IncludedNote/ram:Content/@languageID",
+              "MDT-126-1",
+              "6",
+              "",
+              "",
+              "",
+              "Attribut Langue"
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:ValiditySpecifiedPeriod",
+              "MDT-225",
+              "3",
+              "",
+              "P\u00E9riode de validit\u00E9 du Document R\u00E9f\u00E9renc\u00E9",
+              "",
+              ""
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:ValiditySpecifiedPeriod/ram:StartDateTime",
+              "MDT-226",
+              "4",
+              "",
+              "",
+              "Date de d\u00E9but",
+              ""
+            ],
+            [
+              "1..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:ValiditySpecifiedPeriod/ram:StartDateTime/udt:DateTimeString",
+              "MDT-227",
+              "5",
+              "",
+              "",
+              "",
+              "Date-heure"
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:ValiditySpecifiedPeriod/ram:StartDateTime/udt:DateTimeString/@format",
+              "MDT-228",
+              "6",
+              "",
+              "",
+              "",
+              "Attribut Format"
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:ValiditySpecifiedPeriod/ram:EndDateTime",
+              "MDT-229",
+              "4",
+              "",
+              "",
+              "Date de fin",
+              ""
+            ],
+            [
+              "1..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:ValiditySpecifiedPeriod/ram:EndDateTime/udt:DateTimeString",
+              "MDT-230",
+              "5",
+              "",
+              "",
+              "",
+              "Date-heure"
+            ],
+            [
+              "0..1",
+              "/rsm:AcknowledgementDocument/ram:ReferenceReferencedDocument/ram:ValiditySpecifiedPeriod/ram:EndDateTime/udt:DateTimeString/@format",
+              "MDT-231",
+              "6",
+              "",
+              "",
+              "",
+              "Attribut Format"
+            ]
+          ]
+        }

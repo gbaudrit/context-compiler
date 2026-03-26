@@ -2,7 +2,7 @@
 
 **Status:** Authoritative  
 **Date:** 2025-12-26  
-**Pipeline:** Global Pipeline stage 5
+**Pipeline:** Global Pipeline module kinds `Template` and `PromptRenderer`
 
 Templates assemble:
 - Views output

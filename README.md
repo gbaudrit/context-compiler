@@ -2,21 +2,21 @@
 
 Compilateur **pré‑LLM** et **déterministe** qui transforme un ensemble d’entrées hétérogènes (répertoires/fichiers) en **artefacts de contexte gouvernés et auditables**.
 
-Le projet est conçu comme un **pipeline de compilation** : il assemble un **Reasoning IR** canonique (avec système de preuves), puis produit des projections (views) et des sorties (prompt, index, graph, rapports) via un système **plugin-first**.
+Le projet est conçu comme un **pipeline de compilation** piloté par **modules** : le **pipeline global** orchestre des groupes de modules ordonnés, et l’étape **Documents** exécute le **pipeline document** pour produire les fragments qui alimentent le **Reasoning IR**.
 
 ## Objectifs
 
 - Fournir une chaîne **reproductible** : mêmes entrées → mêmes sorties (octet pour octet).
 - Préparer le contexte **sans appeler de LLM**.
 - Préserver la **traçabilité** (Evidence IDs) et l’auditabilité.
-- Permettre l’extensibilité via des plugins (readers, transcoders, guards, views, templates, exporters).
+- Permettre l’extensibilité via des modules (readers, transcoders, guards, views, templates, exporters).
 
 ## Principes
 
 - **Pré‑LLM uniquement** (aucune requête vers des services externes/LLM)
 - **Déterminisme**
 - **IR immuable**
-- **Plugin-first** (toute logique au‑delà de l’orchestration est dans des plugins.)
+- **Module-first** (toute logique au‑delà de l’orchestration est portée par des modules ordonnés.)
 - **Guards** non contournables.
 
 ## Système de preuves (Evidence)
@@ -54,14 +54,17 @@ Tous les artefacts sont **déterministes**, versionnés et régénérables.
 
 Modèle compilateur :
 
-Entrée (dossier) → **Document Pipeline** (par fichier) → **Reasoning IR** (canonique) → **Global Pipeline** → Artefacts
+Entrée (dossier) → **Global Pipeline**
+→ étape **Documents** (contient le **Document Pipeline** par document)
+→ enrichissement / composition globale
+→ **Reasoning IR** + artefacts
 
 Couches :
 
-- `Abstractions` : contrats/ports/interfaces plugins (pas d’IO)
+- `Abstractions` : contrats/ports/interfaces modules (pas d’IO)
 - `Core` : pipelines, IR, evidence system, orchestration déterministe
-- `Infrastructure` : filesystem, hashing, discovery/loading plugins, sérialisation/écriture d’artefacts
-- `Plugins` : readers, transcoders, guards, views, templates, exporters
+- `Infrastructure` : filesystem, hashing, discovery/loading modules, sérialisation/écriture d’artefacts
+- `Modules` : readers, transcoders, guards, views, templates, exporters
 - `Hosts` : CLI `ctxc` et host MCP
 
 

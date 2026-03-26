@@ -2,7 +2,7 @@
 
 **Status:** Authoritative  
 **Date:** 2025-12-26  
-**Pipeline:** Document Pipeline stages 2 & 6, Global Pipeline stage 9 (preflight)
+**Pipeline:** Document Pipeline stages `ReadScopeGuards`, `ContentGuards`, `Preflight`, plus Global Pipeline kind `Guard`
 
 Guards are deterministic safety checks that protect downstream LLM usage and protect the compiler itself
 from unsafe, irrelevant, or policy-violating data.

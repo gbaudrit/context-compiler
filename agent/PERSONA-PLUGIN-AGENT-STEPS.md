@@ -1,6 +1,6 @@
 # PersonaPlugin — Guide d’implémentation pour agent (Agent-Ultra)
 **Date:** 2025-12-26  
-**But:** fournir à un agent (Copilot/Codex) un plan d’actions *exécutable* pour implémenter un système de **Persona Plugins** + **configuration** dans `ctxc.config.json`, en respectant l’architecture Context Compiler (plugin-first, déterministe, testable).
+**But:** fournir à un agent (Copilot/Codex) un plan d’actions *exécutable* pour implémenter un système de **Persona Plugins** + **configuration** dans `ctxc.config.json`, en respectant l’architecture Context Compiler (module-first, déterministe, testable).
 
 ---
 
@@ -8,7 +8,7 @@
 
 - **Pré-LLM** : aucune interaction LLM.
 - **Déterminisme** : ordering stable, pas d’aléatoire, pas de dépendance au temps.
-- **Plugin-first** : la logique persona est implémentée via plugins, pas en dur.
+- **Module-first** : la logique persona est portée par des modules, pas en dur.
 - **Traçabilité** : la persona appliquée doit être visible dans les artefacts (metadata + prompt).
 - **Testabilité** : MSTest + Moq + FluentAssertions.
 - **Compatibilité** : si aucune persona n’est configurée, comportement identique à aujourd’hui.
@@ -116,7 +116,7 @@ Sinon, créer :
 ## 4) Intégration Pipeline (Global)
 
 ### 4.1 Où appliquer la persona ?
-La persona doit être appliquée **dans le Global Pipeline**, après génération des views mais **avant** génération de `prompt.context.md`.
+La persona doit être appliquée **dans le Global Pipeline**, dans la phase de framing global, après l’étape `View` et avant le rendu final du prompt.
 
 Recommandation :
 - Le template `FramingTemplatePlugin` doit accepter un bloc “persona framing”.

@@ -1,68 +1,59 @@
 # Pipelines (Agent-Ultra)
 
-## A) Document Pipeline (per-file)
+## A) Global Pipeline
+
+Le **pipeline global** est la cinématique de référence.  
+Il exécute les modules par groupe de `Kind`, ordonnés selon `GlobalPipelineModuleKinds`, puis par `Priority` à l’intérieur d’un même groupe.
+
+### Stages (ordonnées)
+1. **Configuration**
+2. **Documents**
+   - lance le **Document Pipeline** pour chaque document
+   - collecte les findings
+   - alimente le Reasoning IR avec les fragments produits
+3. **FileReader**
+4. **EngineeringModule**
+5. **Transcoder**
+6. **FragmentProcessor**
+7. **Guard**
+8. **PromptComposer**
+9. **View**
+10. **Persona**
+11. **Validation**
+12. **Compression**
+13. **GraphExporter**
+14. **Output**
+15. **OutputArtifactComposer**
+16. **Template**
+17. **OutputWriter**
+18. **PromptRenderer**
+
+---
+
+## B) Document Pipeline (per document, inside Global Pipeline.Documents)
 
 ### Input
 - rootPath
 - filePath
 
 ### Stages (ordonnées)
-1. **Discovery**
-   - enumerate candidates
-   - ignore patterns (.git, .ctxboost, bin/obj)
-2. **Read scope guards**
-   - action: Skip/Block si violation
-3. **FileReader selection**
-   - by extension/mime/signature
-   - output: DocumentContent (bytes + optional text + metadata)
-4. **DataReader selection**
-   - by content/media/heuristics
-   - output: DataEnvelope (shape + payload)
-5. **Engineering modules**
-   - deterministic list ordered by priority
-   - output: transformed DataEnvelope
-6. **Fragment guards**
-   - injection, sensitivity, policy checks
-   - action can Redact/Quarantine/Block
-7. **Transcoding**
-   - DataEnvelope → TranscodedFragments (locator+content+tags)
-8. **Evidence assignment**
-   - EK: stable key from (sourcePath|locator)
-   - ER: content revision from (sourcePath|locator|contentHash)
+1. **StartProcess**
+2. **Discovery**
+3. **ReadScopeGuards**
+4. **FileRead**
+5. **DataRead**
+6. **DataPart**
+7. **Engineering**
+8. **Fragment**
+9. **ContentGuards**
+10. **TranscodeFragment**
+11. **EvidenceAssign**
+12. **Preflight**
+13. **EndProcess**
 
 ### Output
 - list of Fragments
 - list of GuardFindings
-
----
-
-## B) Global Pipeline (once)
-
-### Input
-- Reasoning IR (all fragments)
-- Findings aggregated
-- CompileOptions (budget, etc.)
-
-### Stages (ordonnées)
-1. **IR assembly**
-   - enforce invariants
-   - stable ordering
-2. **Views build**
-   - for each IViewPlugin
-   - output: ViewResult (markdown)
-3. **Template application**
-   - apply single chosen template (priority)
-4. **Compression**
-   - enforce budget (max-chars) deterministically
-5. **Graph build**
-   - nodes: evidence, sources (option: views)
-6. **Reports**
-   - security.report.md
-   - context.health.json
-7. **Preflight guards**
-   - validate final prompt for agent usage
-8. **Artifacts emission**
-   - write all outputs to output folder
 
 ---
 

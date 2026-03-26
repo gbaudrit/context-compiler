@@ -2,7 +2,7 @@
 
 **Status:** Authoritative  
 **Date:** 2025-12-26  
-**Pipeline:** Document Pipeline stage 4
+**Pipeline:** Document Pipeline stage `DataRead`
 
 DataReader plugins transform raw `FileContent` (bytes) into a typed `DataEnvelope`
 (or a `CompositeDataEnvelope` for multi-part sources like Excel multi-extract).

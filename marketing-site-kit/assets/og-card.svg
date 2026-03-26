@@ -1,0 +1,22 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#081018"/>
+  <circle cx="196" cy="120" r="180" fill="#0E2A2A" fill-opacity="0.9"/>
+  <circle cx="1020" cy="90" r="140" fill="#4A3420" fill-opacity="0.7"/>
+  <circle cx="1050" cy="520" r="180" fill="#152736" fill-opacity="0.9"/>
+  <path d="M134 180H252L338 315L252 450H134L220 315L134 180Z" fill="url(#paint0_linear_1_3)"/>
+  <path d="M310 180H428L342 315L428 450H310L224 315L310 180Z" fill="url(#paint1_linear_1_3)"/>
+  <text x="500" y="220" fill="#8DF2DF" font-family="Verdana, sans-serif" font-size="28" letter-spacing="5">PRE-LLM • DETERMINISTIC • PLUGIN-FIRST</text>
+  <text x="500" y="330" fill="#ECF4EF" font-family="Georgia, serif" font-size="76" font-weight="700">Context Compiler</text>
+  <text x="500" y="400" fill="#A8BBB5" font-family="Verdana, sans-serif" font-size="32">Compilez votre contexte avant le LLM.</text>
+  <text x="500" y="468" fill="#A8BBB5" font-family="Verdana, sans-serif" font-size="26">Artefacts gouvernés, traçables et auditables pour agents et IDEs.</text>
+  <defs>
+    <linearGradient id="paint0_linear_1_3" x1="134" y1="180" x2="370" y2="444" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#8DF2DF"/>
+      <stop offset="1" stop-color="#49C9B2"/>
+    </linearGradient>
+    <linearGradient id="paint1_linear_1_3" x1="428" y1="450" x2="192" y2="186" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFC477"/>
+      <stop offset="1" stop-color="#FF8F70"/>
+    </linearGradient>
+  </defs>
+</svg>

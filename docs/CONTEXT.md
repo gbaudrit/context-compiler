@@ -23,11 +23,11 @@ Il transforme un dossier de fichiers hétérogènes en un **contexte de raisonne
 
 ## 2. Ce que le système garantit
 
-1) **Déterminisme** : mêmes inputs + même config + mêmes plugins => mêmes outputs  
+1) **Déterminisme** : mêmes inputs + même config + mêmes modules => mêmes outputs  
 2) **Traçabilité** : chaque information est reliée à une source (path+locator)  
 3) **Preuve** : chaque fragment possède un EvidenceKey (EK) et EvidenceRevision (ER)  
 4) **Sécurité** : les guards sont évalués avant production et avant usage (preflight)  
-5) **Extensibilité** : tout comportement = plugin
+5) **Extensibilité** : tout comportement = module
 
 ---
 

@@ -2,7 +2,7 @@
 
 **Status:** Authoritative  
 **Date:** 2025-12-26  
-**Pipeline:** Document Pipeline stage 7/Transcoding output shaping
+**Pipeline:** Document Pipeline stages `Fragment` and `TranscodeFragment`
 
 Fragmenting controls the **granularity** of emitted IR fragments to:
 - fit token budgets

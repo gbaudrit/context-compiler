@@ -2,7 +2,7 @@
 
 **Status:** Authoritative  
 **Date:** 2025-12-26  
-**Pipeline:** Document Pipeline stage 7
+**Pipeline:** Document Pipeline stage `TranscodeFragment`
 
 Transcoding converts `DataEnvelope`(s) into Reasoning IR fragments with stable content normalization.
 

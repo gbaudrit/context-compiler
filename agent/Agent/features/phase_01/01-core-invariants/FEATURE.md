@@ -49,7 +49,7 @@ Rejected: agents and contributors need an explicit spec corpus.
 ### 4.1 MUST be true
 1. **Pre-LLM only**: the compiler never calls an LLM.
 2. **Deterministic outputs** for identical inputs/config/plugins.
-3. **Plugin-first**: behavior lives in plugins, not hardcoded in Core.
+3. **Module-first**: behavior lives in modules, not hardcoded in Core.
 4. **Traceability**: every emitted fact originates from a source and has Evidence IDs.
 5. **Guards enforce safety** and cannot be silently bypassed.
 6. **Testability**: every stage can be unit-tested with mocks.

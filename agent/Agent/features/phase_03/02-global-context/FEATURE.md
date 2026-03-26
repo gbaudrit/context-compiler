@@ -2,7 +2,7 @@
 
 **Status:** Authoritative  
 **Date:** 2025-12-26  
-**Pipeline:** Global Pipeline stage 3 (after Views, before Personas)
+**Pipeline:** Global Pipeline framing composition, before `Persona` and `Template`
 
 Global Context is a **static, declarative framing layer** containing general project-wide information.
 It is not derived from files and is configured explicitly.

@@ -3,20 +3,21 @@
 ## 1) Modèle compilateur
 
 Entrée (dossier)
-→ (A) Document Pipeline (par fichier)
-→ (B) Reasoning IR (canonique)
-→ (C) Global Pipeline
+→ (A) Global Pipeline
+→ (B) étape Documents
+→ (C) Document Pipeline (par document)
+→ (D) Reasoning IR (canonique)
 → Artefacts
 
 ## 2) Couches
 
 ### Abstractions
-- Contrats purs : modèles, ports, interfaces plugins
+- Contrats purs : modèles, ports, interfaces modules
 - Aucune dépendance IO
 - Surface stable versionnée (PluginApiVersion)
 
 ### Core
-- Pipelines (Document + Global)
+- Pipeline global + pipeline document imbriqué
 - Reasoning IR
 - Evidence system
 - Orchestration (deterministic ordering)
@@ -25,10 +26,10 @@ Entrée (dossier)
 ### Infrastructure
 - IFileSystem (PhysicalFileSystem)
 - IHasher (sha256 + simhash)
-- Plugin discovery/loading (Phase 1: assemblies; Phase 2: NuGet + ALC)
+- Module discovery/loading (Phase 1: assemblies; Phase 2: NuGet + ALC)
 - Serialization / artifact writing
 
-### Plugins
+### Modules
 - FileReaders (type fichier)
 - DataReaders (shape de données)
 - EngineeringModules (nettoyage, normalisation, enrichissement)
@@ -45,7 +46,7 @@ Entrée (dossier)
 ## 3) Invariants architecturaux
 
 - Core ne doit pas connaître le filesystem concret
-- Plugins stateless (pas d’état global)
+- Modules stateless (pas d’état global)
 - Tout ordering explicite (priority + stable sort)
 - Les guards ne doivent jamais être “silencieux”
 - Outputs déterministes (snapshots testables)

@@ -38,7 +38,7 @@ This system is:
 
 - ✅ **Pre-LLM only** (NO LLM calls anywhere in the compiler)
 - ✅ **Deterministic** (identical inputs → identical outputs, byte-for-byte)
-- ✅ **Plugin-first** (all behavior via plugins)
+- ✅ **Module-first** (all behavior beyond orchestration is carried by ordered modules)
 - ✅ **Auditable** (Evidence IDs EK/ER everywhere)
 - ✅ **Guard-enforced** (Critical + Block = exit code 2)
 
@@ -68,34 +68,49 @@ This system is **not allowed** to:
 - Use randomness, timestamps, locale-dependent behavior.
 - Modify input files.
 - Emit artifacts without traceability.
-- Allow plugin execution order to depend on discovery order.
+- Allow module execution order to depend on discovery order.
 - Mutate Reasoning IR after assembly.
 
 ---
 
 ## PIPELINE (FIXED ORDER)
 
-### Document Pipeline (per file)
-1. Discovery (sorted)
-2. Read-Scope Guards
+### Global Pipeline (authoritative)
+1. **Configuration**
+2. **Documents**
+   - runs the **Document Pipeline** for each document
+   - loads fragments into the Reasoning IR
 3. **FileReader**
-4. **DataReader**
-5. **Engineering Modules**
-6. Content Guards
-7. **Transcoding + Fragmenting**
-8. Evidence assignment (EK / ER)
+4. **EngineeringModule**
+5. **Transcoder**
+6. **FragmentProcessor**
+7. **Guard**
+8. **PromptComposer**
+9. **View**
+10. **Persona**
+11. **Validation**
+12. **Compression**
+13. **GraphExporter**
+14. **Output**
+15. **OutputArtifactComposer**
+16. **Template**
+17. **OutputWriter**
+18. **PromptRenderer**
 
-### Global Pipeline (once)
-1. IR assembly
-2. **Views**
-3. **Global Context**
-4. **Personas**
-5. **Templates**
-6. Budgeting (deterministic)
-7. **Graph build**
-8. Reports
-9. Preflight Guards
-10. Artifact emission
+### Document Pipeline (inside Global Pipeline.Documents)
+1. StartProcess
+2. Discovery
+3. ReadScopeGuards
+4. FileRead
+5. DataRead
+6. DataPart
+7. Engineering
+8. Fragment
+9. ContentGuards
+10. TranscodeFragment
+11. EvidenceAssign
+12. Preflight
+13. EndProcess
 
 ---
 
@@ -116,7 +131,7 @@ All fragments MUST carry:
 
 ## PLUGIN SYSTEM (MANDATORY)
 
-Everything beyond orchestration is a plugin:
+Everything beyond orchestration is a module:
 
 - FileReaders
 - DataReaders
@@ -128,7 +143,7 @@ Everything beyond orchestration is a plugin:
 - Templates
 - Exporters
 
-Plugins:
+Modules:
 - Have Id, Kind, Priority
 - Are stateless
 - Are ordered deterministically

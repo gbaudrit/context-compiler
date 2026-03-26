@@ -1,0 +1,17 @@
+{
+  "name": "Context Compiler",
+  "short_name": "ctxc",
+  "description": "Compilez votre contexte avant le LLM.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0f14",
+  "theme_color": "#0a0f14",
+  "icons": [
+    {
+      "src": "assets/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
+

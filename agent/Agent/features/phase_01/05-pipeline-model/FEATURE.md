@@ -19,9 +19,10 @@ Without an explicit pipeline model:
 
 ## 2. Problem it solves
 
-Defines two pipelines:
-- **Document Pipeline** (per file)
-- **Global Pipeline** (once per compilation)
+Defines the authoritative relationship between:
+- the **Global Pipeline** (once per compilation)
+- the **Documents** global stage
+- the nested **Document Pipeline** (per document)
 
 and the *invariant boundaries* between stages.
 
@@ -29,34 +30,48 @@ and the *invariant boundaries* between stages.
 
 ## 3. Pipeline Overview (Authoritative)
 
-### 3.1 Document Pipeline (per file)
+### 3.1 Global Pipeline (once)
+Input: rootPath + config + loaded modules
+
+Stages (fixed order):
+1. Configuration
+2. Documents
+3. FileReader
+4. EngineeringModule
+5. Transcoder
+6. FragmentProcessor
+7. Guard
+8. PromptComposer
+9. View
+10. Persona
+11. Validation
+12. Compression
+13. GraphExporter
+14. Output
+15. OutputArtifactComposer
+16. Template
+17. OutputWriter
+18. PromptRenderer
+
+### 3.2 Document Pipeline (inside Global Pipeline.Documents)
 Input: (rootPath, filePath, config)
 
 Stages (fixed order):
-1. Discovery / enumeration (sorted)
-2. Read-scope guards (path allow/deny)
-3. FileReader (bytes)
-4. DataReader (typed envelope)
-5. Engineering Modules (envelope transforms)
-6. Fragment Guards (content safety; can redact/quarantine/block)
-7. Transcoding (envelope → IR fragments)
-8. Evidence assignment (EK/ER + stable locators)
-Output: fragments + findings
+1. StartProcess
+2. Discovery
+3. ReadScopeGuards
+4. FileRead
+5. DataRead
+6. DataPart
+7. Engineering
+8. Fragment
+9. ContentGuards
+10. TranscodeFragment
+11. EvidenceAssign
+12. Preflight
+13. EndProcess
 
-### 3.2 Global Pipeline (once)
-Input: all fragments + findings + config
-
-Stages (fixed order):
-1. IR assembly & invariant validation
-2. Views generation
-3. Global Context injection (named schema)
-4. Personas application
-5. Template/framing assembly
-6. Budgeting / compression (deterministic)
-7. Graph build
-8. Reports (security/health)
-9. Preflight guards (final prompt checks)
-10. Artifact emission
+Output: fragments + findings, then load into Reasoning IR from the Documents global stage
 
 Output: artifact set in output folder
 
