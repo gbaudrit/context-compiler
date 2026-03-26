@@ -1,0 +1,310 @@
+:root {
+  --bg: #080a0f;
+  --panel: #121722;
+  --panel-2: #171d2b;
+  --line: rgba(196, 196, 201, 0.14);
+  --text: #eef2f7;
+  --muted: #aeb8c6;
+  --violet: #7c3aed;
+  --green: #22c55e;
+  --accent: #f89f0a;
+  --shadow: 0 20px 60px rgba(0, 0, 0, 0.28);
+  --radius: 24px;
+  --radius-sm: 16px;
+  --container: 1400px;
+  --mono: "IBM Plex Mono", "Cascadia Code", Consolas, monospace;
+  --sans: "Segoe UI", "Avenir Next", sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: var(--sans);
+  color: var(--text);
+  background:
+    radial-gradient(circle at top left, rgba(124, 58, 237, 0.25), transparent 25%),
+    radial-gradient(circle at 85% 10%, rgba(34, 197, 94, 0.18), transparent 20%),
+    linear-gradient(180deg, #090b10 0%, #0f1420 100%);
+}
+
+a { color: inherit; }
+code, pre, textarea {
+  font-family: var(--mono);
+}
+
+.page-shell {
+  width: min(calc(100% - 2rem), var(--container));
+  margin: 0 auto;
+  padding: 2rem 0 3rem;
+}
+
+.hero {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  align-items: end;
+  padding: 1rem 0 2rem;
+}
+
+.eyebrow {
+  margin: 0 0 0.75rem;
+  color: var(--green);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.76rem;
+}
+
+h1, h2, h3 {
+  margin: 0;
+}
+
+h1 {
+  font-size: clamp(2.2rem, 5vw, 4.6rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+h2 {
+  font-size: 1.35rem;
+}
+
+h3 {
+  font-size: 1rem;
+}
+
+.hero-copy {
+  max-width: 70ch;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.hero-links {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.hero-links a {
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.studio-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+.studio-card,
+.preview-card {
+  border: 1px solid var(--line);
+  background: linear-gradient(180deg, rgba(23, 29, 43, 0.94), rgba(18, 23, 34, 0.98));
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.25rem;
+}
+
+.section-stack {
+  display: grid;
+  gap: 1rem;
+}
+
+.form-section {
+  border: 1px solid rgba(196, 196, 201, 0.08);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.02);
+  padding: 1rem;
+}
+
+.section-title {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.section-title p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.5;
+  font-size: 0.92rem;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.card-header.lower {
+  margin-top: 1rem;
+}
+
+.card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+button {
+  min-height: 40px;
+  padding: 0.65rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text);
+  cursor: pointer;
+}
+
+button:hover {
+  border-color: rgba(124, 58, 237, 0.4);
+}
+
+button.danger {
+  color: #ffd7d1;
+}
+
+label {
+  display: grid;
+  gap: 0.45rem;
+}
+
+label > span {
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+input,
+textarea,
+select {
+  width: 100%;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text);
+  padding: 0.8rem 0.9rem;
+}
+
+textarea {
+  resize: vertical;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.full {
+  grid-column: 1 / -1;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.checkbox input {
+  width: auto;
+}
+
+.checkbox.compact {
+  margin-bottom: 0.8rem;
+}
+
+.top-gap {
+  margin-top: 0.75rem;
+}
+
+.two-col {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.editor-block {
+  margin-top: 1rem;
+}
+
+.compact-block {
+  margin-top: 0;
+}
+
+.editor-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 0.7rem;
+}
+
+.hint {
+  margin: 0.45rem 0 0;
+  color: var(--muted);
+  font-size: 0.84rem;
+}
+
+.map-list,
+.stack-list {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.inline-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.stack-card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.025);
+  padding: 0.9rem;
+  display: grid;
+  gap: 0.8rem;
+}
+
+.form-section .editor-head {
+  margin-bottom: 0.9rem;
+}
+
+.form-section > .two-col,
+.form-section > .form-grid {
+  margin-top: 0.2rem;
+}
+
+.where-grid {
+  display: grid;
+  grid-template-columns: 1fr 180px;
+  gap: 0.75rem;
+}
+
+.preview-card pre {
+  margin: 0;
+  min-height: 320px;
+  overflow: auto;
+  padding: 1rem;
+  border-radius: 18px;
+  border: 1px solid rgba(196, 196, 201, 0.12);
+  background: rgba(8, 10, 15, 0.9);
+  color: #e9ebff;
+  line-height: 1.6;
+}
+
+@media (max-width: 1100px) {
+  .two-col,
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero,
+  .card-header,
+  .inline-row,
+  .where-grid {
+    grid-template-columns: 1fr;
+    display: grid;
+  }
+}
