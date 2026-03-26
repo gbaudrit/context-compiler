@@ -35,10 +35,12 @@
       </button>
 
       <nav id="site-nav" class="site-nav" aria-label="Navigation principale">
+        <a href="#architecture">Pipeline</a>
         <a href="#why">Pourquoi</a>
         <a href="#artifacts">Artefacts</a>
-        <a href="#architecture">Architecture</a>
+        <a href="#stack">Stack</a>
         <a href="#faq">FAQ</a>
+        <a href="https://github.com/gbaudrit/context-compiler/releases">Télécharger</a>
         <a class="button button-ghost button-with-icon" href="https://github.com/gbaudrit/context-compiler">
           <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
             <path d="M12 1.5C6.201 1.5 1.5 6.347 1.5 12.326c0 4.783 3.008 8.839 7.18 10.271.525.101.717-.233.717-.519 0-.257-.01-1.105-.015-2.003-2.921.651-3.537-1.451-3.537-1.451-.477-1.25-1.166-1.582-1.166-1.582-.954-.671.072-.658.072-.658 1.055.076 1.61 1.119 1.61 1.119.938 1.647 2.46 1.171 3.06.896.095-.699.367-1.171.667-1.44-2.332-.272-4.784-1.204-4.784-5.357 0-1.183.41-2.151 1.082-2.91-.108-.273-.469-1.37.103-2.856 0 0 .882-.29 2.89 1.111A9.81 9.81 0 0 1 12 7.103c.87.004 1.747.12 2.565.353 2.007-1.4 2.887-1.111 2.887-1.111.574 1.486.213 2.583.105 2.856.674.759 1.08 1.727 1.08 2.91 0 4.163-2.456 5.081-4.794 5.348.377.333.713.988.713 1.992 0 1.439-.013 2.599-.013 2.953 0 .288.189.625.722.518 4.169-1.434 7.174-5.489 7.174-10.27C22.5 6.347 17.799 1.5 12 1.5Z" fill="currentColor"/>
@@ -51,7 +53,7 @@
     <main id="top">
       <section class="hero section">
         <div class="hero-copy reveal">
-          <p class="eyebrow">Pre-LLM • Deterministic • Module-based</p>
+          <p class="eyebrow">Pre-LLM • Traceable • Module-based</p>
           <h1>Compilez votre contexte avant le LLM.</h1>
           <p class="hero-lead">
             Context Compiler absorbe la partie ETL liée à l’hétérogénéité des entrants pour
@@ -59,15 +61,6 @@
             vérifiées et transformées en artefacts gouvernés, traçables et auditables avant
             toute consommation par un modèle.
           </p>
-          <div class="hero-actions">
-            <a class="button button-primary button-with-icon" href="https://github.com/gbaudrit/context-compiler">
-              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                <path d="M12 1.5C6.201 1.5 1.5 6.347 1.5 12.326c0 4.783 3.008 8.839 7.18 10.271.525.101.717-.233.717-.519 0-.257-.01-1.105-.015-2.003-2.921.651-3.537-1.451-3.537-1.451-.477-1.25-1.166-1.582-1.166-1.582-.954-.671.072-.658.072-.658 1.055.076 1.61 1.119 1.61 1.119.938 1.647 2.46 1.171 3.06.896.095-.699.367-1.171.667-1.44-2.332-.272-4.784-1.204-4.784-5.357 0-1.183.41-2.151 1.082-2.91-.108-.273-.469-1.37.103-2.856 0 0 .882-.29 2.89 1.111A9.81 9.81 0 0 1 12 7.103c.87.004 1.747.12 2.565.353 2.007-1.4 2.887-1.111 2.887-1.111.574 1.486.213 2.583.105 2.856.674.759 1.08 1.727 1.08 2.91 0 4.163-2.456 5.081-4.794 5.348.377.333.713.988.713 1.992 0 1.439-.013 2.599-.013 2.953 0 .288.189.625.722.518 4.169-1.434 7.174-5.489 7.174-10.27C22.5 6.347 17.799 1.5 12 1.5Z" fill="currentColor"/>
-              </svg>
-              <span>Explorer le repo</span>
-            </a>
-            <a class="button button-secondary" href="#architecture">Voir le pipeline</a>
-          </div>
           <ul class="hero-points">
             <li>Mêmes entrées, mêmes sorties</li>
             <li>Evidence IDs stables pour chaque fragment utile</li>
@@ -146,33 +139,64 @@ Output ........................... artifacts generated</code></pre>
         <div class="card-grid">
           <article class="feature-card reveal">
             <div class="feature-icon" aria-hidden="true">◎</div>
-            <h3>Pré-LLM par design</h3>
+            <h3>Pré-LLM</h3>
             <p>Le compilateur ne contacte jamais de modèle. Il prépare un contexte fiable avant toute exécution agentique.</p>
           </article>
           <article class="feature-card reveal">
-            <div class="feature-icon" aria-hidden="true">◈</div>
-            <h3>Déterminisme strict</h3>
+            <div class="feature-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false">
+                <path d="M6 7.5h10M6 12h12M6 16.5h9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                <path d="m15.5 5.5 3 2.5-3 2.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="m18.5 11 3 2.5-3 2.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <h3>Entrée maîtrisée pour le modèle</h3>
             <p>Le déterminisme porte sur la partie entrante dans le LLM. Plus cette entrée est grande, stable et non ambiguë, plus le raisonnement du modèle est contraint et moins il ouvre de chemins d’interprétation inutiles.</p>
           </article>
           <article class="feature-card reveal">
-            <div class="feature-icon" aria-hidden="true">EK</div>
+            <div class="feature-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false">
+                <path d="M8.5 8.5h-3a3 3 0 1 0 0 6h3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                <path d="M15.5 8.5h3a3 3 0 1 1 0 6h-3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                <path d="M8 12h8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+              </svg>
+            </div>
             <h3>Traçabilité native</h3>
-            <p>Chaque fragment conserve sa source, son locator et ses Evidence IDs pour relier le résultat à l'origine.</p>
+            <p>Chaque fragment devient une évidence, conserve sa source, son localisateur et ses identifiants de preuve pour relier le résultat à son origine.</p>
           </article>
           <article class="feature-card reveal">
-            <div class="feature-icon" aria-hidden="true">◌</div>
+            <div class="feature-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false">
+                <path d="M12 2 5 5v6c0 4.8 2.9 9.2 7 11 4.1-1.8 7-6.2 7-11V5l-7-3Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                <path d="M9.4 12.1 11.2 14l3.7-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
             <h3>Protection des données sensibles</h3>
             <p>Des modules dédiés peuvent garantir que des données sensibles ne se retrouvent pas dans le contexte compilé avant d’être exposées au modèle.</p>
           </article>
           <article class="feature-card reveal">
-            <div class="feature-icon" aria-hidden="true">▣</div>
+            <div class="feature-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false">
+                <rect x="3" y="3" width="7" height="7" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.8"/>
+                <rect x="14" y="3" width="7" height="7" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.8"/>
+                <rect x="8.5" y="14" width="7" height="7" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.8"/>
+                <path d="M10 6.5h4M12 10v4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+              </svg>
+            </div>
             <h3>Architecture modulaire</h3>
             <p>Readers, transcoders, guards, views, personas, templates et exporters s'ajoutent comme modules de runtime.</p>
           </article>
           <article class="feature-card reveal">
-            <div class="feature-icon" aria-hidden="true">↳</div>
+            <div class="feature-icon feature-icon-audit" aria-hidden="true">
+              <svg viewBox="0 0 32 32" focusable="false">
+                <path d="M9 5h9l5 5v5" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                <path d="M18 5v6h6" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                <circle cx="13.5" cy="20" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/>
+                <path d="m17 23.5 4 3.8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
             <h3>Artefacts auditables</h3>
-            <p>Prompt, index, graph et rapports peuvent être supprimés puis régénérés à l'identique à partir des mêmes entrées.</p>
+            <p>Prompt, index, graph et rapports peuvent être supprimés puis régénérés à l'identique à partir des mêmes entrées. Deux contextes compilés peuvent ainsi être comparés facilement, et la preuve finale peut s’appuyer sur les statistiques d’usage des évidences.</p>
           </article>
         </div>
       </section>
@@ -383,7 +407,7 @@ Output ........................... artifacts generated</code></pre>
         </div>
       </section>
 
-      <section class="section">
+      <section id="stack" class="section">
         <div class="section-heading reveal">
           <p class="eyebrow">Stack</p>
           <h2>Construit sur .NET 10, cross-platform et extensible via NuGet.</h2>
@@ -396,7 +420,9 @@ Output ........................... artifacts generated</code></pre>
 
         <div class="card-grid">
           <article class="feature-card reveal">
-            <div class="feature-icon" aria-hidden="true">.NET</div>
+            <div class="feature-icon" aria-hidden="true">
+              <img src="assets/logo_net.svg" alt="" width="42" height="42">
+            </div>
             <h3>.NET 10</h3>
             <p>Une base moderne pour industrialiser la compilation de contexte dans des environnements d’entreprise et de production.</p>
           </article>
@@ -406,7 +432,9 @@ Output ........................... artifacts generated</code></pre>
             <p>Grâce à .NET, le compilateur peut être exécuté dans des environnements Windows, Linux ou macOS sans changer de stack.</p>
           </article>
           <article class="feature-card reveal">
-            <div class="feature-icon" aria-hidden="true">N</div>
+            <div class="feature-icon" aria-hidden="true">
+              <img src="assets/nuget.png" alt="" width="42" height="42">
+            </div>
             <h3>Modules via NuGet</h3>
             <p>Les modules peuvent être packagés, versionnés et distribués comme des packages NuGet, avec un cycle de vie propre.</p>
           </article>
@@ -421,8 +449,21 @@ Output ........................... artifacts generated</code></pre>
     </main>
 
     <footer class="site-footer">
-      <p>Context Compiler • Pré-LLM • Déterministe • Module-based</p>
-      <p>&copy; <span id="year"></span> Context Compiler • contextcompiler.io</p>
+      <p class="footer-links">
+        <a class="contact-link" href="mailto:contact@contextcompiler.io">Contact</a>
+        <a class="contact-link footer-linkedin" href="https://fr.linkedin.com/in/guillaume-baudrit-185762171">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M6.94 8.5H3.56V20h3.38V8.5ZM5.25 3A1.97 1.97 0 1 0 5.3 6.94 1.97 1.97 0 0 0 5.25 3ZM20 12.76c0-3.46-1.85-5.07-4.32-5.07-1.99 0-2.88 1.09-3.37 1.86V8.5H8.94c.05.69 0 11.5 0 11.5h3.37v-6.42c0-.34.03-.68.12-.92.27-.68.88-1.39 1.9-1.39 1.34 0 1.88 1.02 1.88 2.52V20H20v-7.24Z" fill="currentColor"/>
+          </svg>
+          <span>Guillaume Baudrit</span>
+        </a>
+        <a class="contact-link" href="https://github.com/gbaudrit/context-compiler">GitHub</a>
+        <a class="contact-link" href="https://github.com/gbaudrit/context-compiler/releases">Releases</a>
+        <a class="contact-link" href="https://contextcompiler.studio">contextcompiler.studio</a>
+      </p>
+      <p class="footer-links">
+        <span>&copy; <span id="year"></span> Context Compiler • contextcompiler.io</span>
+      </p>
     </footer>
   </div>
 
