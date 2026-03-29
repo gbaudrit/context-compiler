@@ -1,0 +1,718 @@
+﻿{
+    "generatedAt":  "2026-03-29T23:28:13Z",
+    "source":  {
+                   "modulesRoot":  "src/Modules",
+                   "packsRoot":  "src/Packs"
+               },
+    "stats":  {
+                  "modules":  33,
+                  "packs":  6
+              },
+    "families":  {
+                     "modules":  [
+                                     "Artifacts",
+                                     "Commands",
+                                     "Configuration",
+                                     "Engineering",
+                                     "Evidences",
+                                     "Health",
+                                     "Personas",
+                                     "Prompt",
+                                     "Rag",
+                                     "Readers",
+                                     "Security",
+                                     "Views"
+                                 ],
+                     "packs":  [
+                                   "Artifacts",
+                                   "Personas",
+                                   "Prompt",
+                                   "Readers",
+                                   "Starter",
+                                   "Views"
+                               ]
+                 },
+    "modules":  [
+                    {
+                        "kind":  "module",
+                        "packageId":  "ContextCompiler.Modules.Artifacts.Registry",
+                        "shortName":  "Artifacts.Registry",
+                        "family":  "Artifacts",
+                        "description":  "Génère un index au format json des artefacts du contexte",
+                        "authors":  "ContextCompiler",
+                        "targetFramework":  "net10.0",
+                        "path":  "src/Modules/ContextCompiler.Modules.Artifacts.Registry",
+                        "projectFile":  "src/Modules/ContextCompiler.Modules.Artifacts.Registry/ContextCompiler.Modules.Artifacts.Registry.csproj",
+                        "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Modules.Artifacts.Registry",
+                        "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Modules/ContextCompiler.Modules.Artifacts.Registry",
+                        "compositionKind":  null,
+                        "includes":  [
+                                         "ContextCompiler.Modules.Abstractions"
+                                     ]
+                    },
+                    {
+                        "kind":  "module",
+                        "packageId":  "ContextCompiler.Modules.Artifacts.Writer",
+                        "shortName":  "Artifacts.Writer",
+                        "family":  "Artifacts",
+                        "description":  "Module d\u0027écriture d\u0027artéfacts pour ContextCompiler. Fournit des modules pour l\u0027écriture d\u0027artéfacts de sortie dans le système de fichiers et la création d\u0027artéfacts de vue.",
+                        "authors":  null,
+                        "targetFramework":  "net10.0",
+                        "path":  "src/Modules/ContextCompiler.Modules.Artifacts.Writer",
+                        "projectFile":  "src/Modules/ContextCompiler.Modules.Artifacts.Writer/ContextCompiler.Modules.Artifacts.Writer.csproj",
+                        "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Modules.Artifacts.Writer",
+                        "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Modules/ContextCompiler.Modules.Artifacts.Writer",
+                        "compositionKind":  null,
+                        "includes":  [
+                                         "ContextCompiler.Modules.Abstractions"
+                                     ]
+                    },
+                    {
+                        "kind":  "module",
+                        "packageId":  "ContextCompiler.Modules.Commands.Registry",
+                        "shortName":  "Commands.Registry",
+                        "family":  "Commands",
+                        "description":  "Génère un index au format json des commandes exposées par le contexte.",
+                        "authors":  "ContextCompiler",
+                        "targetFramework":  "net10.0",
+                        "path":  "src/Modules/ContextCompiler.Modules.Commands.Registry",
+                        "projectFile":  "src/Modules/ContextCompiler.Modules.Commands.Registry/ContextCompiler.Modules.Commands.Registry.csproj",
+                        "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Modules.Commands.Registry",
+                        "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Modules/ContextCompiler.Modules.Commands.Registry",
+                        "compositionKind":  null,
+                        "includes":  [
+                                         "ContextCompiler.Modules.Abstractions"
+                                     ]
+                    },
+                    {
+                        "kind":  "module",
+                        "packageId":  "ContextCompiler.Modules.Configuration",
+                        "shortName":  "Configuration",
+                        "family":  "Configuration",
+                        "description":  "Module de configuration.",
+                        "authors":  "ContextCompiler",
+                        "targetFramework":  "net10.0",
+                        "path":  "src/Modules/ContextCompiler.Modules.Configuration",
+                        "projectFile":  "src/Modules/ContextCompiler.Modules.Configuration/ContextCompiler.Modules.Configuration.csproj",
+                        "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Modules.Configuration",
+                        "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Modules/ContextCompiler.Modules.Configuration",
+                        "compositionKind":  null,
+                        "includes":  [
+                                         "ContextCompiler.Modules.Abstractions"
+                                     ]
+                    },
+                    {
+                        "kind":  "module",
+                        "packageId":  "ContextCompiler.Modules.Engineering.DotNet",
+                        "shortName":  "Engineering.DotNet",
+                        "family":  "Engineering",
+                        "description":  "Module d\u0027ingénierie compiler une solution DotNet via ContextCompiler.",
+                        "authors":  "ContextCompiler",
+                        "targetFramework":  "net10.0",
+                        "path":  "src/Modules/ContextCompiler.Modules.Engineering.DotNet",
+                        "projectFile":  "src/Modules/ContextCompiler.Modules.Engineering.DotNet/ContextCompiler.Modules.Engineering.DotNet.csproj",
+                        "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Modules.Engineering.DotNet",
+                        "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Modules/ContextCompiler.Modules.Engineering.DotNet",
+                        "compositionKind":  null,
+                        "includes":  [
+                                         "ContextCompiler.Modules.Abstractions"
+                                     ]
+                    },
+                    {
+                        "kind":  "module",
+                        "packageId":  "ContextCompiler.Modules.Evidences.Graph.Dot",
+                        "shortName":  "Evidences.Graph.Dot",
+                        "family":  "Evidences",
+                        "description":  "Module d\u0027export du graphe de raisonnement au format DOT pour ContextCompiler. Génère un fichier au format Graphviz DOT permettant la visualisation du graphe de raisonnement intermédiaire avec ses nœuds et ses arêtes.",
+                        "authors":  "ContextCompiler",
+                        "targetFramework":  "net10.0",
+                        "path":  "src/Modules/ContextCompiler.Modules.Evidences.Graph.Dot",
+                        "projectFile":  "src/Modules/ContextCompiler.Modules.Evidences.Graph.Dot/ContextCompiler.Modules.Evidences.Graph.Dot.csproj",
+                        "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Modules.Evidences.Graph.Dot",
+                        "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Modules/ContextCompiler.Modules.Evidences.Graph.Dot",
+                        "compositionKind":  null,
+                        "includes":  [
+                                         "ContextCompiler.Modules.Abstractions"
+                                     ]
+                    },
+                    {
+                        "kind":  "module",
+                        "packageId":  "ContextCompiler.Modules.Evidences.Graph.Json",
+                        "shortName":  "Evidences.Graph.Json",
+                        "family":  "Evidences",
+                        "description":  "Module d\u0027export du graphe de raisonnement au format JSON pour ContextCompiler. Génère un fichier JSON structuré contenant le graphe de raisonnement intermédiaire avec ses nœuds et ses arêtes.",
+                        "authors":  "ContextCompiler",
+                        "targetFramework":  "net10.0",
+                        "path":  "src/Modules/ContextCompiler.Modules.Evidences.Graph.Json",
+                        "projectFile":  "src/Modules/ContextCompiler.Modules.Evidences.Graph.Json/ContextCompiler.Modules.Evidences.Graph.Json.csproj",
+                        "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Modules.Evidences.Graph.Json",
+                        "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Modules/ContextCompiler.Modules.Evidences.Graph.Json",
+                        "compositionKind":  null,
+                        "includes":  [
+                                         "ContextCompiler.Modules.Abstractions"
+                                     ]
+                    },
+                    {
+                        "kind":  "module",
+                        "packageId":  "ContextCompiler.Modules.Evidences.Index.Json",
+                        "shortName":  "Evidences.Index.Json",
+                        "family":  "Evidences",
+                        "description":  "Module d\u0027index JSON des évidences pour ContextCompiler. Génère des artéfacts JSON contenant l\u0027index des évidences et leurs statistiques, facilitant l\u0027analyse et la traçabilité du graphe de raisonnement intermédiaire.",
+                        "authors":  "ContextCompiler",
+                        "targetFramework":  "net10.0",
+                        "path":  "src/Modules/ContextCompiler.Modules.Evidences.Index.Json",
+                        "projectFile":  "src/Modules/ContextCompiler.Modules.Evidences.Index.Json/ContextCompiler.Modules.Evidences.Index.Json.csproj",
+                        "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Modules.Evidences.Index.Json",
+                        "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Modules/ContextCompiler.Modules.Evidences.Index.Json",
+                        "compositionKind":  null,
+                        "includes":  [
+                                         "ContextCompiler.Modules.Abstractions"
+                                     ]
+                    },
+                    {
+                        "kind":  "module",
+                        "packageId":  "ContextCompiler.Modules.Health",
+                        "shortName":  "Health",
+                        "family":  "Health",
+                        "description":  "Module de santé pour ContextCompiler. Génère des rapports de santé détaillés sur le contexte compilé, incluant le nombre de fragments, les résultats des analyses de sécurité, les vues générées et un score de qualité global.",
+                        "authors":  null,
+                        "targetFramework":  "net10.0",
+                        "path":  "src/Modules/ContextCompiler.Modules.Health",
+                        "projectFile":  "src/Modules/ContextCompiler.Modules.Health/ContextCompiler.Modules.Health.csproj",
+                        "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Modules.Health",
+                        "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Modules/ContextCompiler.Modules.Health",
+                        "compositionKind":  null,
+                        "includes":  [
+                                         "ContextCompiler.Modules.Abstractions"
+                                     ]
+                    },
+                    {
+                        "kind":  "module",
+                        "packageId":  "ContextCompiler.Modules.Personas.Analysts.Business",
+                        "shortName":  "Personas.Analysts.Business",
+                        "family":  "Personas",
+                        "description":  "Analyste métier pour ContextCompiler.",
+                        "authors":  "ContextCompiler",
+                        "targetFramework":  "net10.0",
+                        "path":  "src/Modules/ContextCompiler.Modules.Personas.Analysts.Business",
+                        "projectFile":  "src/Modules/ContextCompiler.Modules.Personas.Analysts.Business/ContextCompiler.Modules.Personas.Analysts.Business.csproj",
+                        "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Modules.Personas.Analysts.Business",
+                        "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Modules/ContextCompiler.Modules.Personas.Analysts.Business",
+                        "compositionKind":  null,
+                        "includes":  [
+                                         "ContextCompiler.Modules.Abstractions"
+                                     ]
+                    },
+                    {
+                        "kind":  "module",
+                        "packageId":  "ContextCompiler.Modules.Personas.BuiltIn",
+                        "shortName":  "Personas.BuiltIn",
+                        "family":  "Personas",
+                        "description":  "Module de personas intégrés pour ContextCompiler. Fournit des personas prédéfinis tels que l\u0027architecte .NET senior (dev_architect), le reviewer de sécurité (security_reviewer), et le reviewer de sécurité en profondeur (deep_security_reviewer).",
+                        "authors":  null,
+                        "targetFramework":  "net10.0",
+                        "path":  "src/Modules/ContextCompiler.Modules.Personas.BuiltIn",
+                        "projectFile":  "src/Modules/ContextCompiler.Modules.Personas.BuiltIn/ContextCompiler.Modules.Personas.BuiltIn.csproj",
+                        "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Modules.Personas.BuiltIn",
+                        "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Modules/ContextCompiler.Modules.Personas.BuiltIn",
+                        "compositionKind":  null,
+                        "includes":  [
+                                         "ContextCompiler.Abstractions"
+                                     ]
+                    },
+                    {
+                        "kind":  "module",
+                        "packageId":  "ContextCompiler.Modules.Personas.Composer",
+                        "shortName":  "Personas.Composer",
+                        "family":  "Personas",
+                        "description":  "Module de composition de prompt pour les personas. Orchestre l\u0027activation et la composition des personas dans le prompt, en gérant leurs paramètres et leurs résultats.",
+                        "authors":  null,
+                        "targetFramework":  "net10.0",
+                        "path":  "src/Modules/ContextCompiler.Modules.Personas.Composer",
+                        "projectFile":  "src/Modules/ContextCompiler.Modules.Personas.Composer/ContextCompiler.Modules.Personas.Composer.csproj",
+                        "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Modules.Personas.Composer",
+                        "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Modules/ContextCompiler.Modules.Personas.Composer",
+                        "compositionKind":  null,
+                        "includes":  [
+                                         "ContextCompiler.Modules.Abstractions"
+                                     ]
+                    },
+                    {
+                        "kind":  "module",
+                        "packageId":  "ContextCompiler.Modules.Personas.Developers.DotNet",
+                        "shortName":  "Personas.Developers.DotNet",
+                        "family":  "Personas",
+                        "description":  "Développeur DotNet pour ContextCompiler.",
+                        "authors":  "ContextCompiler",
+                        "targetFramework":  "net10.0",
+                        "path":  "src/Modules/ContextCompiler.Modules.Personas.Developers.DotNet",
+                        "projectFile":  "src/Modules/ContextCompiler.Modules.Personas.Developers.DotNet/ContextCompiler.Modules.Personas.Developers.DotNet.csproj",
+                        "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Modules.Personas.Developers.DotNet",
+                        "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Modules/ContextCompiler.Modules.Personas.Developers.DotNet",
+                        "compositionKind":  null,
+                        "includes":  [
+                                         "ContextCompiler.Modules.Abstractions"
+                                     ]
+                    },
+                    {
+                        "kind":  "module",
+                        "packageId":  "ContextCompiler.Modules.Personas.Developers.Python",
+                        "shortName":  "Personas.Developers.Python",
+                        "family":  "Personas",
+                        "description":  "Développeur python pour ContextCompiler.",
+                        "authors":  "ContextCompiler",
+                        "targetFramework":  "net10.0",
+                        "path":  "src/Modules/ContextCompiler.Modules.Personas.Developers.Python",
+                        "projectFile":  "src/Modules/ContextCompiler.Modules.Personas.Developers.Python/ContextCompiler.Modules.Personas.Developers.Python.csproj",
+                        "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Modules.Personas.Developers.Python",
+                        "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Modules/ContextCompiler.Modules.Personas.Developers.Python",
+                        "compositionKind":  null,
+                        "includes":  [
+                                         "ContextCompiler.Modules.Abstractions"
+                                     ]
+                    },
+                    {
+                        "kind":  "module",
+                        "packageId":  "ContextCompiler.Modules.Personas.Index",
+                        "shortName":  "Personas.Index",
+                        "family":  "Personas",
+                        "description":  "Module d\u0027index des personas pour ContextCompiler. Génère un artéfact JSON listant les personas activés et leurs résultats, facilitant le suivi et l\u0027analyse des personas utilisés dans le processus de compilation de contexte.",
+                        "authors":  null,
+                        "targetFramework":  "net10.0",
+                        "path":  "src/Modules/ContextCompiler.Modules.Personas.Index",
+                        "projectFile":  "src/Modules/ContextCompiler.Modules.Personas.Index/ContextCompiler.Modules.Personas.Index.csproj",
+                        "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Modules.Personas.Index",
+                        "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Modules/ContextCompiler.Modules.Personas.Index",
+                        "compositionKind":  null,
+                        "includes":  [
+                                         "ContextCompiler.Modules.Abstractions"
+                                     ]
+                    },
+                    {
+                        "kind":  "module",
+                        "packageId":  "ContextCompiler.Modules.Personas.Testers.Analyst",
+                        "shortName":  "Personas.Testers.Analyst",
+                        "family":  "Personas",
+                        "description":  "Testeur fonctionnel pour ContextCompiler.",
+                        "authors":  "ContextCompiler",
+                        "targetFramework":  "net10.0",
+                        "path":  "src/Modules/ContextCompiler.Modules.Personas.Testers.Analyst",
+                        "projectFile":  "src/Modules/ContextCompiler.Modules.Personas.Testers.Analyst/ContextCompiler.Modules.Personas.Testers.Analyst.csproj",
+                        "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Modules.Personas.Testers.Analyst",
+                        "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Modules/ContextCompiler.Modules.Personas.Testers.Analyst",
+                        "compositionKind":  null,
+                        "includes":  [
+                                         "ContextCompiler.Modules.Abstractions"
+                                     ]
+                    },
+                    {
+                        "kind":  "module",
+                        "packageId":  "ContextCompiler.Modules.Prompt.Composers.Assumptions",
+                        "shortName":  "Prompt.Composers.Assumptions",
+                        "family":  "Prompt",
+                        "description":  "Module de composition des hypothèses (assumptions) pour le prompt. Extrait et structure les hypothèses depuis la configuration pour les intégrer dans le prompt final.",
+                        "authors":  "ContextCompiler",
+                        "targetFramework":  "net10.0",
+                        "path":  "src/Modules/ContextCompiler.Modules.Prompt.Composers.Assumptions",
+                        "projectFile":  "src/Modules/ContextCompiler.Modules.Prompt.Composers.Assumptions/ContextCompiler.Modules.Prompt.Composers.Assumptions.csproj",
+                        "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Modules.Prompt.Composers.Assumptions",
+                        "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Modules/ContextCompiler.Modules.Prompt.Composers.Assumptions",
+                        "compositionKind":  null,
+                        "includes":  [
+                                         "ContextCompiler.Modules.Abstractions"
+                                     ]
+                    },
+                    {
+                        "kind":  "module",
+                        "packageId":  "ContextCompiler.Modules.Prompt.Composers.Audiences",
+                        "shortName":  "Prompt.Composers.Audiences",
+                        "family":  "Prompt",
+                        "description":  "Module de composition des audiences pour le prompt. Extrait et structure les audiences cibles depuis la configuration pour les intégrer dans le prompt final.",
+                        "authors":  "ContextCompiler",
+                        "targetFramework":  "net10.0",
+                        "path":  "src/Modules/ContextCompiler.Modules.Prompt.Composers.Audiences",
+                        "projectFile":  "src/Modules/ContextCompiler.Modules.Prompt.Composers.Audiences/ContextCompiler.Modules.Prompt.Composers.Audiences.csproj",
+                        "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Modules.Prompt.Composers.Audiences",
+                        "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Modules/ContextCompiler.Modules.Prompt.Composers.Audiences",
+                        "compositionKind":  null,
+                        "includes":  [
+                                         "ContextCompiler.Modules.Abstractions"
+                                     ]
+                    },
+                    {
+                        "kind":  "module",
+                        "packageId":  "ContextCompiler.Modules.Prompt.Composers.Constraints",
+                        "shortName":  "Prompt.Composers.Constraints",
+                        "family":  "Prompt",
+                        "description":  "Module de composition des contraintes (constraints) pour le prompt. Extrait et structure les contraintes MUST et MUST NOT depuis la configuration pour les intégrer dans le prompt final.",
+                        "authors":  "ContextCompiler",
+                        "targetFramework":  "net10.0",
+                        "path":  "src/Modules/ContextCompiler.Modules.Prompt.Composers.Constraints",
+                        "projectFile":  "src/Modules/ContextCompiler.Modules.Prompt.Composers.Constraints/ContextCompiler.Modules.Prompt.Composers.Constraints.csproj",
+                        "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Modules.Prompt.Composers.Constraints",
+                        "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Modules/ContextCompiler.Modules.Prompt.Composers.Constraints",
+                        "compositionKind":  null,
+                        "includes":  [
+                                         "ContextCompiler.Modules.Abstractions"
+                                     ]
+                    },
+                    {
+                        "kind":  "module",
+                        "packageId":  "ContextCompiler.Modules.Prompt.Composers.General",
+                        "shortName":  "Prompt.Composers.General",
+                        "family":  "Prompt",
+                        "description":  "Module de composition des informations générales pour le prompt. Extrait et structure les métadonnées générales (nom, résumé, domaine) depuis la configuration pour les intégrer dans le prompt final.",
+                        "authors":  "ContextCompiler",
+                        "targetFramework":  "net10.0",
+                        "path":  "src/Modules/ContextCompiler.Modules.Prompt.Composers.General",
+                        "projectFile":  "src/Modules/ContextCompiler.Modules.Prompt.Composers.General/ContextCompiler.Modules.Prompt.Composers.General.csproj",
+                        "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Modules.Prompt.Composers.General",
+                        "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Modules/ContextCompiler.Modules.Prompt.Composers.General",
+                        "compositionKind":  null,
+                        "includes":  [
+                                         "ContextCompiler.Modules.Abstractions"
+                                     ]
+                    },
+                    {
+                        "kind":  "module",
+                        "packageId":  "ContextCompiler.Modules.Prompt.Composers.Glossary",
+                        "shortName":  "Prompt.Composers.Glossary",
+                        "family":  "Prompt",
+                        "description":  "Module de composition du glossaire pour le prompt. Extrait et structure les termes du glossaire depuis la configuration pour les intégrer dans le prompt final.",
+                        "authors":  "ContextCompiler",
+                        "targetFramework":  "net10.0",
+                        "path":  "src/Modules/ContextCompiler.Modules.Prompt.Composers.Glossary",
+                        "projectFile":  "src/Modules/ContextCompiler.Modules.Prompt.Composers.Glossary/ContextCompiler.Modules.Prompt.Composers.Glossary.csproj",
+                        "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Modules.Prompt.Composers.Glossary",
+                        "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Modules/ContextCompiler.Modules.Prompt.Composers.Glossary",
+                        "compositionKind":  null,
+                        "includes":  [
+                                         "ContextCompiler.Modules.Abstractions"
+                                     ]
+                    },
+                    {
+                        "kind":  "module",
+                        "packageId":  "ContextCompiler.Modules.Prompt.Composers.Objectives",
+                        "shortName":  "Prompt.Composers.Objectives",
+                        "family":  "Prompt",
+                        "description":  "Module de composition des objectifs pour le prompt. Extrait et structure les objectifs depuis la configuration pour les intégrer dans le prompt final.",
+                        "authors":  "ContextCompiler",
+                        "targetFramework":  "net10.0",
+                        "path":  "src/Modules/ContextCompiler.Modules.Prompt.Composers.Objectives",
+                        "projectFile":  "src/Modules/ContextCompiler.Modules.Prompt.Composers.Objectives/ContextCompiler.Modules.Prompt.Composers.Objectives.csproj",
+                        "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Modules.Prompt.Composers.Objectives",
+                        "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Modules/ContextCompiler.Modules.Prompt.Composers.Objectives",
+                        "compositionKind":  null,
+                        "includes":  [
+                                         "ContextCompiler.Modules.Abstractions"
+                                     ]
+                    },
+                    {
+                        "kind":  "module",
+                        "packageId":  "ContextCompiler.Modules.Prompt.Composers.Views",
+                        "shortName":  "Prompt.Composers.Views",
+                        "family":  "Prompt",
+                        "description":  "Module de composition des vues pour le prompt. Orchestre la génération des vues et les intègre comme artéfacts dans le prompt final.",
+                        "authors":  "ContextCompiler",
+                        "targetFramework":  "net10.0",
+                        "path":  "src/Modules/ContextCompiler.Modules.Prompt.Composers.Views",
+                        "projectFile":  "src/Modules/ContextCompiler.Modules.Prompt.Composers.Views/ContextCompiler.Modules.Prompt.Composers.Views.csproj",
+                        "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Modules.Prompt.Composers.Views",
+                        "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Modules/ContextCompiler.Modules.Prompt.Composers.Views",
+                        "compositionKind":  null,
+                        "includes":  [
+                                         "ContextCompiler.Modules.Abstractions"
+                                     ]
+                    },
+                    {
+                        "kind":  "module",
+                        "packageId":  "ContextCompiler.Modules.Prompt.Templates.Scriban",
+                        "shortName":  "Prompt.Templates.Scriban",
+                        "family":  "Prompt",
+                        "description":  "Module de templates Scriban pour la génération de prompts. Fournit un moteur de templates basé sur Scriban pour composer des prompts structurés et personnalisables.",
+                        "authors":  "ContextCompiler",
+                        "targetFramework":  "net10.0",
+                        "path":  "src/Modules/ContextCompiler.Modules.Prompt.Templates.Scriban",
+                        "projectFile":  "src/Modules/ContextCompiler.Modules.Prompt.Templates.Scriban/ContextCompiler.Modules.Prompt.Templates.Scriban.csproj",
+                        "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Modules.Prompt.Templates.Scriban",
+                        "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Modules/ContextCompiler.Modules.Prompt.Templates.Scriban",
+                        "compositionKind":  null,
+                        "includes":  [
+                                         "ContextCompiler.Modules.Abstractions"
+                                     ]
+                    },
+                    {
+                        "kind":  "module",
+                        "packageId":  "ContextCompiler.Modules.Rag",
+                        "shortName":  "Rag",
+                        "family":  "Rag",
+                        "description":  "Ajoute des capacités RAG locales au Context Compiler.",
+                        "authors":  null,
+                        "targetFramework":  "net10.0",
+                        "path":  "src/Modules/ContextCompiler.Modules.Rag",
+                        "projectFile":  "src/Modules/ContextCompiler.Modules.Rag/ContextCompiler.Modules.Rag.csproj",
+                        "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Modules.Rag",
+                        "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Modules/ContextCompiler.Modules.Rag",
+                        "compositionKind":  null,
+                        "includes":  [
+                                         "ContextCompiler.Modules.Abstractions"
+                                     ]
+                    },
+                    {
+                        "kind":  "module",
+                        "packageId":  "ContextCompiler.Modules.Readers.Excel",
+                        "shortName":  "Readers.Excel",
+                        "family":  "Readers",
+                        "description":  "Module de lecture de fichiers Excel pour ContextCompiler. Permet d\u0027extraire des données structurées à partir de feuilles de calcul, facilitant ainsi l\u0027intégration de données tabulaires dans les processus de compilation de contexte.",
+                        "authors":  null,
+                        "targetFramework":  "net10.0",
+                        "path":  "src/Modules/ContextCompiler.Modules.Readers.Excel",
+                        "projectFile":  "src/Modules/ContextCompiler.Modules.Readers.Excel/ContextCompiler.Modules.Readers.Excel.csproj",
+                        "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Modules.Readers.Excel",
+                        "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Modules/ContextCompiler.Modules.Readers.Excel",
+                        "compositionKind":  null,
+                        "includes":  [
+                                         "ContextCompiler.Modules.Abstractions"
+                                     ]
+                    },
+                    {
+                        "kind":  "module",
+                        "packageId":  "ContextCompiler.Modules.Readers.Markdown",
+                        "shortName":  "Readers.Markdown",
+                        "family":  "Readers",
+                        "description":  "Module de lecture de fichiers Markdown pour ContextCompiler. Permet d\u0027extraire et de traiter des fichiers Markdown (.md, .markdown) dans les processus de compilation de contexte.",
+                        "authors":  null,
+                        "targetFramework":  "net10.0",
+                        "path":  "src/Modules/ContextCompiler.Modules.Readers.Markdown",
+                        "projectFile":  "src/Modules/ContextCompiler.Modules.Readers.Markdown/ContextCompiler.Modules.Readers.Markdown.csproj",
+                        "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Modules.Readers.Markdown",
+                        "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Modules/ContextCompiler.Modules.Readers.Markdown",
+                        "compositionKind":  null,
+                        "includes":  [
+                                         "ContextCompiler.Modules.Abstractions"
+                                     ]
+                    },
+                    {
+                        "kind":  "module",
+                        "packageId":  "ContextCompiler.Modules.Readers.Pdf",
+                        "shortName":  "Readers.Pdf",
+                        "family":  "Readers",
+                        "description":  "Module de lecture de fichiers Pdf pour ContextCompiler.",
+                        "authors":  "ContextCompiler",
+                        "targetFramework":  "net10.0",
+                        "path":  "src/Modules/ContextCompiler.Modules.Readers.PDF",
+                        "projectFile":  "src/Modules/ContextCompiler.Modules.Readers.PDF/ContextCompiler.Modules.Readers.Pdf.csproj",
+                        "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Modules.Readers.Pdf",
+                        "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Modules/ContextCompiler.Modules.Readers.PDF",
+                        "compositionKind":  null,
+                        "includes":  [
+                                         "ContextCompiler.Modules.Abstractions"
+                                     ]
+                    },
+                    {
+                        "kind":  "module",
+                        "packageId":  "ContextCompiler.Modules.Readers.Text",
+                        "shortName":  "Readers.Text",
+                        "family":  "Readers",
+                        "description":  "Module de lecture de fichiers texte pour ContextCompiler. Supporte divers formats de fichiers texte (.txt, .cs, .json, .yaml, .yml, .xml, .config, .sln, .props) pour les intégrer dans les processus de compilation de contexte.",
+                        "authors":  null,
+                        "targetFramework":  "net10.0",
+                        "path":  "src/Modules/ContextCompiler.Modules.Readers.Text",
+                        "projectFile":  "src/Modules/ContextCompiler.Modules.Readers.Text/ContextCompiler.Modules.Readers.Text.csproj",
+                        "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Modules.Readers.Text",
+                        "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Modules/ContextCompiler.Modules.Readers.Text",
+                        "compositionKind":  null,
+                        "includes":  [
+                                         "ContextCompiler.Modules.Abstractions"
+                                     ]
+                    },
+                    {
+                        "kind":  "module",
+                        "packageId":  "ContextCompiler.Modules.Readers.Yaml",
+                        "shortName":  "Readers.Yaml",
+                        "family":  "Readers",
+                        "description":  "Module de lecture de fichiers YAML pour ContextCompiler. Permet d\u0027extraire et de traiter des fichiers YAML (.yaml, .yml) dans les processus de compilation de contexte.",
+                        "authors":  null,
+                        "targetFramework":  "net10.0",
+                        "path":  "src/Modules/ContextCompiler.Modules.Readers.Yaml",
+                        "projectFile":  "src/Modules/ContextCompiler.Modules.Readers.Yaml/ContextCompiler.Modules.Readers.Yaml.csproj",
+                        "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Modules.Readers.Yaml",
+                        "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Modules/ContextCompiler.Modules.Readers.Yaml",
+                        "compositionKind":  null,
+                        "includes":  [
+                                         "ContextCompiler.Modules.Abstractions"
+                                     ]
+                    },
+                    {
+                        "kind":  "module",
+                        "packageId":  "ContextCompiler.Modules.Security",
+                        "shortName":  "Security",
+                        "family":  "Security",
+                        "description":  "Module de sécurité pour ContextCompiler. Fournit des gardes de sécurité (prompt injection, sensibilité des données, scope) et génère des rapports détaillés sur les résultats des analyses de sécurité effectuées par le Guardian.",
+                        "authors":  null,
+                        "targetFramework":  "net10.0",
+                        "path":  "src/Modules/ContextCompiler.Modules.Security",
+                        "projectFile":  "src/Modules/ContextCompiler.Modules.Security/ContextCompiler.Modules.Security.csproj",
+                        "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Modules.Security",
+                        "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Modules/ContextCompiler.Modules.Security",
+                        "compositionKind":  null,
+                        "includes":  [
+                                         "ContextCompiler.Modules.Abstractions"
+                                     ]
+                    },
+                    {
+                        "kind":  "module",
+                        "packageId":  "ContextCompiler.Modules.Views.View.Index.Json",
+                        "shortName":  "Views.View.Index.Json",
+                        "family":  "Views",
+                        "description":  "Génère un index en Json pour une vue",
+                        "authors":  "ContextCompiler",
+                        "targetFramework":  "net10.0",
+                        "path":  "src/Modules/ContextCompiler.Modules.Views.View.Index.Json",
+                        "projectFile":  "src/Modules/ContextCompiler.Modules.Views.View.Index.Json/ContextCompiler.Modules.Views.View.Index.Json.csproj",
+                        "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Modules.Views.View.Index.Json",
+                        "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Modules/ContextCompiler.Modules.Views.View.Index.Json",
+                        "compositionKind":  null,
+                        "includes":  [
+                                         "ContextCompiler.Modules.Abstractions"
+                                     ]
+                    },
+                    {
+                        "kind":  "module",
+                        "packageId":  "ContextCompiler.Modules.Views",
+                        "shortName":  "Views",
+                        "family":  "Views",
+                        "description":  "Module de vues pour ContextCompiler. Fournit des modules de rendu de vues par défaut et basées sur des tags, permettant de générer des représentations structurées des données de raisonnement intermédiaire.",
+                        "authors":  null,
+                        "targetFramework":  "net10.0",
+                        "path":  "src/Modules/ContextCompiler.Modules.Views",
+                        "projectFile":  "src/Modules/ContextCompiler.Modules.Views/ContextCompiler.Modules.Views.csproj",
+                        "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Modules.Views",
+                        "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Modules/ContextCompiler.Modules.Views",
+                        "compositionKind":  null,
+                        "includes":  [
+                                         "ContextCompiler.Modules.Abstractions"
+                                     ]
+                    }
+                ],
+    "packs":  [
+                  {
+                      "kind":  "pack",
+                      "packageId":  "ContextCompiler.Packs.Artifacts.Standard",
+                      "shortName":  "Artifacts.Standard",
+                      "family":  "Artifacts",
+                      "description":  "Pack officiel d\u0027artifacts par defaut. Regroupe le registre d\u0027artifacts et le module d\u0027ecriture des artifacts.",
+                      "authors":  "ContextCompiler",
+                      "targetFramework":  "net10.0",
+                      "path":  "src/Packs/ContextCompiler.Packs.Artifacts.Standard",
+                      "projectFile":  "src/Packs/ContextCompiler.Packs.Artifacts.Standard/ContextCompiler.Packs.Artifacts.Standard.csproj",
+                      "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Packs.Artifacts.Standard",
+                      "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Packs/ContextCompiler.Packs.Artifacts.Standard",
+                      "compositionKind":  "pack-of-modules",
+                      "includes":  [
+                                       "ContextCompiler.Modules.Artifacts.Registry",
+                                       "ContextCompiler.Modules.Artifacts.Writer"
+                                   ]
+                  },
+                  {
+                      "kind":  "pack",
+                      "packageId":  "ContextCompiler.Packs.Personas.SoftwareEngineering.Standard",
+                      "shortName":  "Personas.SoftwareEngineering.Standard",
+                      "family":  "Personas",
+                      "description":  "Pack officiel de personas software engineering par defaut. Regroupe les personas transverses recommandes pour l\u0027analyse et le test sans inclure les personas developpeurs specialises par langage.",
+                      "authors":  "ContextCompiler",
+                      "targetFramework":  "net10.0",
+                      "path":  "src/Packs/ContextCompiler.Packs.Personas.SoftwareEngineering.Standard",
+                      "projectFile":  "src/Packs/ContextCompiler.Packs.Personas.SoftwareEngineering.Standard/ContextCompiler.Packs.Personas.SoftwareEngineering.Standard.csproj",
+                      "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Packs.Personas.SoftwareEngineering.Standard",
+                      "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Packs/ContextCompiler.Packs.Personas.SoftwareEngineering.Standard",
+                      "compositionKind":  "pack-of-modules",
+                      "includes":  [
+                                       "ContextCompiler.Modules.Personas.Analysts.Business",
+                                       "ContextCompiler.Modules.Personas.Testers.Analyst"
+                                   ]
+                  },
+                  {
+                      "kind":  "pack",
+                      "packageId":  "ContextCompiler.Packs.Prompt.Standard",
+                      "shortName":  "Prompt.Standard",
+                      "family":  "Prompt",
+                      "description":  "Pack officiel de prompt par defaut. Regroupe les modules de composition de prompt recommandes pour produire un prompt complet.",
+                      "authors":  "ContextCompiler",
+                      "targetFramework":  "net10.0",
+                      "path":  "src/Packs/ContextCompiler.Packs.Prompt.Standard",
+                      "projectFile":  "src/Packs/ContextCompiler.Packs.Prompt.Standard/ContextCompiler.Packs.Prompt.Standard.csproj",
+                      "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Packs.Prompt.Standard",
+                      "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Packs/ContextCompiler.Packs.Prompt.Standard",
+                      "compositionKind":  "pack-of-modules",
+                      "includes":  [
+                                       "ContextCompiler.Modules.Prompt.Composers.Assumptions",
+                                       "ContextCompiler.Modules.Prompt.Composers.Audiences",
+                                       "ContextCompiler.Modules.Prompt.Composers.Constraints",
+                                       "ContextCompiler.Modules.Prompt.Composers.General",
+                                       "ContextCompiler.Modules.Prompt.Composers.Glossary",
+                                       "ContextCompiler.Modules.Prompt.Composers.Objectives",
+                                       "ContextCompiler.Modules.Prompt.Composers.Views"
+                                   ]
+                  },
+                  {
+                      "kind":  "pack",
+                      "packageId":  "ContextCompiler.Packs.Readers.Standard",
+                      "shortName":  "Readers.Standard",
+                      "family":  "Readers",
+                      "description":  "Pack officiel de readers par defaut. Regroupe les modules de lecture recommandes pour couvrir les formats les plus courants.",
+                      "authors":  "ContextCompiler",
+                      "targetFramework":  "net10.0",
+                      "path":  "src/Packs/ContextCompiler.Packs.Readers.Standard",
+                      "projectFile":  "src/Packs/ContextCompiler.Packs.Readers.Standard/ContextCompiler.Packs.Readers.Standard.csproj",
+                      "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Packs.Readers.Standard",
+                      "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Packs/ContextCompiler.Packs.Readers.Standard",
+                      "compositionKind":  "pack-of-modules",
+                      "includes":  [
+                                       "ContextCompiler.Modules.Readers.Excel",
+                                       "ContextCompiler.Modules.Readers.Markdown",
+                                       "ContextCompiler.Modules.Readers.Pdf",
+                                       "ContextCompiler.Modules.Readers.Text",
+                                       "ContextCompiler.Modules.Readers.Yaml"
+                                   ]
+                  },
+                  {
+                      "kind":  "pack",
+                      "packageId":  "ContextCompiler.Packs.Starter.Standard",
+                      "shortName":  "Starter.Standard",
+                      "family":  "Starter",
+                      "description":  "Pack starter officiel standard. Agrège les packs standards de lecture, prompt, vues, artifacts et personas software engineering.",
+                      "authors":  "ContextCompiler",
+                      "targetFramework":  "net10.0",
+                      "path":  "src/Packs/ContextCompiler.Packs.Starter.Standard",
+                      "projectFile":  "src/Packs/ContextCompiler.Packs.Starter.Standard/ContextCompiler.Packs.Starter.Standard.csproj",
+                      "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Packs.Starter.Standard",
+                      "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Packs/ContextCompiler.Packs.Starter.Standard",
+                      "compositionKind":  "pack-of-packs",
+                      "includes":  [
+                                       "ContextCompiler.Packs.Artifacts.Standard",
+                                       "ContextCompiler.Packs.Prompt.Standard",
+                                       "ContextCompiler.Packs.Readers.Standard",
+                                       "ContextCompiler.Packs.Views.Standard"
+                                   ]
+                  },
+                  {
+                      "kind":  "pack",
+                      "packageId":  "ContextCompiler.Packs.Views.Standard",
+                      "shortName":  "Views.Standard",
+                      "family":  "Views",
+                      "description":  "Pack officiel de views par defaut. Regroupe les modules de vues recommandes pour la description et l\u0027index JSON.",
+                      "authors":  "ContextCompiler",
+                      "targetFramework":  "net10.0",
+                      "path":  "src/Packs/ContextCompiler.Packs.Views.Standard",
+                      "projectFile":  "src/Packs/ContextCompiler.Packs.Views.Standard/ContextCompiler.Packs.Views.Standard.csproj",
+                      "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Packs.Views.Standard",
+                      "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Packs/ContextCompiler.Packs.Views.Standard",
+                      "compositionKind":  "pack-of-modules",
+                      "includes":  [
+                                       "ContextCompiler.Modules.Views",
+                                       "ContextCompiler.Modules.Views.View.Index.Json"
+                                   ]
+                  }
+              ]
+}

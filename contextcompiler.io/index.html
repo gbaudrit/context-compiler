@@ -39,6 +39,7 @@
         <a href="#why">Pourquoi</a>
         <a href="#artifacts">Artefacts</a>
         <a href="#stack">Stack</a>
+        <a href="#packages">Packages</a>
         <a href="#faq">FAQ</a>
         <a href="https://github.com/gbaudrit/context-compiler/releases">Télécharger</a>
         <a class="button button-ghost button-with-icon" href="https://github.com/gbaudrit/context-compiler">
@@ -438,6 +439,43 @@ Output ........................... artifacts generated</code></pre>
             <h3>Modules via NuGet</h3>
             <p>Les modules peuvent être packagés, versionnés et distribués comme des packages NuGet, avec un cycle de vie propre.</p>
           </article>
+        </div>
+      </section>
+
+      <section id="packages" class="section">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Packages</p>
+          <h2>Une compilation adaptable à chaque besoin.</h2>
+          <p>
+            Context Compiler s’adapte à des usages très différents. Selon le besoin, il est possible
+            d’ajouter les briques utiles pour lire les bonnes sources, structurer le bon contexte et
+            produire les bons artefacts.
+          </p>
+          <p>
+            La galerie ci-dessous permet d’explorer les extensions disponibles, d’identifier celles qui
+            correspondent au besoin et d’accéder directement à leur publication NuGet.org ainsi qu’à leur code source.
+          </p>
+        </div>
+
+        <div class="packages-shell reveal">
+          <div class="packages-toolbar">
+            <div class="packages-kind-switch" role="tablist" aria-label="Type de packages">
+              <button type="button" class="packages-kind-button is-active" data-kind="packs" aria-pressed="true">Packs</button>
+              <button type="button" class="packages-kind-button" data-kind="modules" aria-pressed="false">Modules unitaires</button>
+            </div>
+
+            <label class="packages-search">
+              <span>Recherche</span>
+              <input id="packages-search" type="search" placeholder="Readers, Prompt, Security, Personas...">
+            </label>
+          </div>
+
+          <div class="packages-summary">
+            <p id="packages-summary-text">Chargement du catalogue...</p>
+            <div id="packages-family-filters" class="packages-family-filters" aria-label="Familles"></div>
+          </div>
+
+          <div id="packages-grid" class="packages-grid" aria-live="polite"></div>
         </div>
       </section>
 
