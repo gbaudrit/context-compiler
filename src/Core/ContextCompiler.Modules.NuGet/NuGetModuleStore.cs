@@ -1,6 +1,6 @@
 using ContextCompiler.Modules.Abstractions;
 using ContextCompiler.Modules.Abstractions.Configuration;
-using ContextCompiler.Modules.Loader;
+using ContextCompiler.Modules.Abstractions.Loading;
 
 using Microsoft.Extensions.Logging;
 
@@ -15,6 +15,7 @@ public sealed class NuGetModuleStore(IModulesLoadConfigProvider cfg,
                                      ITrustPolicy trustPolicy,
                                      IPackageDownloader packageDownloader,
                                      INuGetMetadatasExtractor metadatasExtractor,
+                                     IIntegrityChecker integrityChecker,
                                      ILogger<NuGetModuleStore> logger) : IModulesStore
 {
     private readonly ITrustPolicy _policy = trustPolicy;
@@ -44,7 +45,7 @@ public sealed class NuGetModuleStore(IModulesLoadConfigProvider cfg,
             {
                 logger.LogInformation("Extracting dependency {PackageId} {Version}", depInfo.PackageId, depInfo.Version);
                 NuGetPackageMetadata depMetadata = metadatasExtractor.ExtractMetadatas(depInfo.NupkgPath);
-                string depChecksum = Integrity.ComputeSha256Base64(depInfo.NupkgPath);
+                string depChecksum = integrityChecker.ComputeSha256Base64(depInfo.NupkgPath);
                 _ = ExtractToImmutableCache(depInfo.NupkgPath, depInfo.PackageId, depInfo.Version, depChecksum);
             }
         }

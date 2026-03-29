@@ -1,9 +1,11 @@
 using System.Security.Cryptography;
+
+using ContextCompiler.Modules.Abstractions.Loading;
 namespace ContextCompiler.Modules.Loader;
 
-public static class Integrity
+public class IntegrityChecker : IIntegrityChecker
 {
-    public static string ComputeSha256Base64(string filePath)
+    public string ComputeSha256Base64(string filePath)
     {
         using SHA256 sha = SHA256.Create();
         using FileStream fs = File.OpenRead(filePath);

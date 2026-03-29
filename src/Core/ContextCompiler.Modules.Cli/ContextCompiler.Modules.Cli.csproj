@@ -7,9 +7,9 @@
 		<Configurations>Debug;Release;DebugLocal</Configurations>
 	</PropertyGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\..\Core\ContextCompiler.Configuration.Json\ContextCompiler.Configuration.Json.csproj" />
-		<ProjectReference Include="..\..\Core\ContextCompiler.Core\ContextCompiler.Core.csproj" />
-		<ProjectReference Include="..\ContextCompiler.Modules.Abstractions\ContextCompiler.Modules.Abstractions.csproj" />
+		<ProjectReference Include="..\ContextCompiler.Configuration.Json\ContextCompiler.Configuration.Json.csproj" />
+		<ProjectReference Include="..\ContextCompiler.Core\ContextCompiler.Core.csproj" />
+		<ProjectReference Include="..\ContextCompiler.Modules.Loader\ContextCompiler.Modules.Loader.csproj" />
 		<ProjectReference Include="..\ContextCompiler.Modules.NuGet\ContextCompiler.Modules.NuGet.csproj" />
 		<ProjectReference Include="..\ContextCompiler.Modules\ContextCompiler.Modules.csproj" />
 	</ItemGroup>

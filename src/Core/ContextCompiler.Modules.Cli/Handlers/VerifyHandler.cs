@@ -8,6 +8,7 @@ namespace ContextCompiler.Modules.Cli.Handlers;
 internal sealed class VerifyHandler(
     IModulesLoader moduleLoader,
     IModulesLoadConfigProvider cfgProvider,
+    IIntegrityChecker integrityChecker,
     ILogger<VerifyHandler> logger
 ) : IVerifyHandler
 {
@@ -34,7 +35,7 @@ internal sealed class VerifyHandler(
                     throw new InvalidOperationException($"Missing cached nupkg: {nupkg}");
                 }
 
-                string sha = Loader.Integrity.ComputeSha256Base64(nupkg);
+                string sha = integrityChecker.ComputeSha256Base64(nupkg);
                 if (!string.Equals(sha, p.Checksum, StringComparison.Ordinal))
                 {
                     throw new InvalidOperationException($"SHA mismatch for {p.Id} {p.Version}");

@@ -1,7 +1,6 @@
 using ContextCompiler.Modules.Abstractions;
 using ContextCompiler.Modules.Abstractions.Configuration;
 using ContextCompiler.Modules.Abstractions.Loading;
-using ContextCompiler.Modules.Loader;
 
 using Microsoft.Extensions.Logging;
 
@@ -14,7 +13,10 @@ using NuGet.Versioning;
 
 namespace ContextCompiler.Modules.NuGet;
 
-internal sealed class PackageDownloader(IModulesLoadConfigProvider configProvider, IDependenciesChecker dependenciesChecker, ILogger<PackageDownloader> logger) : IPackageDownloader
+internal sealed class PackageDownloader(IModulesLoadConfigProvider configProvider,
+                                        IDependenciesChecker dependenciesChecker,
+                                        IIntegrityChecker integrityChecker,
+                                        ILogger<PackageDownloader> logger) : IPackageDownloader
 {
     private readonly HashSet<string> _downloadedPackages = [];
     private readonly List<DownloadedPackageInfo> _allDownloadedPackages = [];
@@ -267,9 +269,9 @@ internal sealed class PackageDownloader(IModulesLoadConfigProvider configProvide
         return await resource.GetAllVersionsAsync(packageId, cache, NullLogger.Instance, ct);
     }
 
-    private static bool VerifyChecksum(string nupkgPath, string? expectedShaBase64)
+    private bool VerifyChecksum(string nupkgPath, string? expectedShaBase64)
     {
-        string sha = Integrity.ComputeSha256Base64(nupkgPath);
+        string sha = integrityChecker.ComputeSha256Base64(nupkgPath);
         return string.IsNullOrWhiteSpace(expectedShaBase64) || string.Equals(sha, expectedShaBase64, StringComparison.Ordinal);
     }
 }

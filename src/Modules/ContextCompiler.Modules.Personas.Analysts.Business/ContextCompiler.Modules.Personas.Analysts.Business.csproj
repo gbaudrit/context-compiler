@@ -18,8 +18,7 @@
 	</PropertyGroup>
 	
 	<ItemGroup>
-		<ProjectReference Include="..\..\Core\ContextCompiler.Abstractions\ContextCompiler.Abstractions.csproj" />
-		<ProjectReference Include="..\ContextCompiler.Modules.Abstractions\ContextCompiler.Modules.Abstractions.csproj" />
+		<ProjectReference Include="..\..\Core\ContextCompiler.Modules.Abstractions\ContextCompiler.Modules.Abstractions.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

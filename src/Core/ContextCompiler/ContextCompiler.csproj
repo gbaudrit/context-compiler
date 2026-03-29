@@ -17,13 +17,12 @@
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	</PropertyGroup>
 
-
-	<ItemGroup>
-		<ProjectReference Include="..\..\Modules\ContextCompiler.Modules.Abstractions\ContextCompiler.Modules.Abstractions.csproj" />
-	</ItemGroup>
-
 	<ItemGroup>
 		<None Include="LICENSE.txt" Pack="true" PackagePath="" />
 		<None Include="README.md" Pack="true" PackagePath="" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\ContextCompiler.Modules.Abstractions\ContextCompiler.Modules.Abstractions.csproj" />
 	</ItemGroup>
 </Project>

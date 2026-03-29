@@ -17,7 +17,8 @@ public static class DependencyInjection
             .AddSingleton<IModulesDiscoverer, ModulesDiscoverer>()
             .AddSingleton<IModulesLoader, ModulesLoader>()
             .AddSingleton<IModuleRegistryBuilder, ModuleRegistryBuilder>()
-            .AddSingleton<IDependenciesChecker, DependenciesChecker>();
+            .AddSingleton<IDependenciesChecker, DependenciesChecker>()
+            .AddTransient<IIntegrityChecker, IntegrityChecker>();
     }
 
 }

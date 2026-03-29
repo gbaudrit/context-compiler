@@ -8,10 +8,9 @@
 		<ProjectReference Include="..\ContextCompiler.Abstractions\ContextCompiler.Abstractions.csproj" />
 		<ProjectReference Include="..\ContextCompiler.Configuration.Json\ContextCompiler.Configuration.Json.csproj" />
 		<ProjectReference Include="..\ContextCompiler.Infrastructure\ContextCompiler.Infrastructure.csproj" />
-		<ProjectReference Include="..\..\Modules\ContextCompiler.Modules.Abstractions\ContextCompiler.Modules.Abstractions.csproj" />
 		<ProjectReference Include="..\..\Modules\ContextCompiler.Modules.BuiltIn\ContextCompiler.Modules.BuiltIn.csproj" />
 		<ProjectReference Include="..\ContextCompiler.Core\ContextCompiler.Core.csproj" />
-		<ProjectReference Include="..\..\Modules\ContextCompiler.Modules.Loader\ContextCompiler.Modules.Loader.csproj" />
+		<ProjectReference Include="..\ContextCompiler.Modules.Loader\ContextCompiler.Modules.Loader.csproj" />
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Extensions.Configuration.Json" />
