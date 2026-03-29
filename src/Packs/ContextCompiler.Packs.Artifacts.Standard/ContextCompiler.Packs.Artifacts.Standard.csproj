@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<Configurations>Debug;Release;DebugLocal</Configurations>
+		<IsPackable>true</IsPackable>
+		<PackageId>ContextCompiler.Packs.Artifacts.Standard</PackageId>
+		<Description>Pack officiel d'artifacts par defaut. Regroupe le registre d'artifacts et le module d'ecriture des artifacts.</Description>
+		<Authors>ContextCompiler</Authors>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)' == 'DebugLocal'">
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\Modules\ContextCompiler.Modules.Artifacts.Registry\ContextCompiler.Modules.Artifacts.Registry.csproj" />
+		<ProjectReference Include="..\..\Modules\ContextCompiler.Modules.Artifacts.Writer\ContextCompiler.Modules.Artifacts.Writer.csproj" />
+	</ItemGroup>
+
+</Project>

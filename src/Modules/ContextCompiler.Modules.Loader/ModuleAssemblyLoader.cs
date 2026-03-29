@@ -21,7 +21,12 @@ public sealed class ModuleAssemblyLoader(IModulesLoadConfigProvider configProvid
 
         ModuleLoadContext alc = new(dependenciesChecker, assemblyPath, installRoot);
         Assembly asm = alc.LoadFromAssemblyPath(assemblyPath);
-        IEnumerable<Type> types = asm.GetTypes();
+        return LoadFromAssembly(asm, ct);
+    }
+
+    public ValueTask<ILoadModuleAssemblyResult> LoadFromAssembly(Assembly assembly, CancellationToken ct)
+    {
+        IEnumerable<Type> types = assembly.GetTypes();
         return !types.Any()
             ? ValueTask.FromResult<ILoadModuleAssemblyResult>(new LoadModuleAssemblyResult { Success = false, ErrorMessage = "No module type found in assembly.", Types = [] })
             : ValueTask.FromResult<ILoadModuleAssemblyResult>(new LoadModuleAssemblyResult { Success = true, ErrorMessage = null, Types = types });

@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <Configurations>Debug;Release;DebugLocal</Configurations>
+    <IsPackable>true</IsPackable>
+    <PackageId>ContextCompiler.Modules.Prompt.Templates.Scriban</PackageId>
+    <Description>
+      Module de templates Scriban pour la génération de prompts. Fournit un moteur de templates basé sur Scriban pour composer des prompts structurés et personnalisables.
+    </Description>
+    <Authors>ContextCompiler</Authors>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'DebugLocal'">
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="default.md" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Templates\prompt.context.md" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Scriban" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\ContextCompiler.Abstractions\ContextCompiler.Abstractions.csproj" />
+    <ProjectReference Include="..\ContextCompiler.Modules.Abstractions\ContextCompiler.Modules.Abstractions.csproj" />
+  </ItemGroup>
+
+</Project>

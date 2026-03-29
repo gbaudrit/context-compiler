@@ -200,7 +200,7 @@ namespace ContextCompiler.Modules.Loader
             }
         }
 
-        [GeneratedRegex(@"^\d+\.\d+\.\d+(-[a-zA-Z0-9]+)?$")]
+        [GeneratedRegex(@"^\d+\.\d+\.\d+(-[a-zA-Z0-9\.]+)?$")]
         private static partial Regex ExactVersionRegex();
         [GeneratedRegex(@"^~(\d+)\.(\d+)\.(\d+)$")]
         private static partial Regex TildeRangeRegex();

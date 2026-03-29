@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<Configurations>Debug;Release;DebugLocal</Configurations>
+		<IsPackable>true</IsPackable>
+		<PackageId>ContextCompiler.Packs.Prompt.Standard</PackageId>
+		<Description>Pack officiel de prompt par defaut. Regroupe les modules de composition de prompt recommandes pour produire un prompt complet.</Description>
+		<Authors>ContextCompiler</Authors>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)' == 'DebugLocal'">
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\Modules\ContextCompiler.Modules.Prompt.Composers.Assumptions\ContextCompiler.Modules.Prompt.Composers.Assumptions.csproj" />
+		<ProjectReference Include="..\..\Modules\ContextCompiler.Modules.Prompt.Composers.Audiences\ContextCompiler.Modules.Prompt.Composers.Audiences.csproj" />
+		<ProjectReference Include="..\..\Modules\ContextCompiler.Modules.Prompt.Composers.Constraints\ContextCompiler.Modules.Prompt.Composers.Constraints.csproj" />
+		<ProjectReference Include="..\..\Modules\ContextCompiler.Modules.Prompt.Composers.General\ContextCompiler.Modules.Prompt.Composers.General.csproj" />
+		<ProjectReference Include="..\..\Modules\ContextCompiler.Modules.Prompt.Composers.Glossary\ContextCompiler.Modules.Prompt.Composers.Glossary.csproj" />
+		<ProjectReference Include="..\..\Modules\ContextCompiler.Modules.Prompt.Composers.Objectives\ContextCompiler.Modules.Prompt.Composers.Objectives.csproj" />
+		<ProjectReference Include="..\..\Modules\ContextCompiler.Modules.Prompt.Composers.Views\ContextCompiler.Modules.Prompt.Composers.Views.csproj" />
+	</ItemGroup>
+
+</Project>

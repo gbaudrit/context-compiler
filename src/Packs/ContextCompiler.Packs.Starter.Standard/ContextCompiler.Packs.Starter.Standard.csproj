@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<Configurations>Debug;Release;DebugLocal</Configurations>
+		<IsPackable>true</IsPackable>
+		<PackageId>ContextCompiler.Packs.Starter.Standard</PackageId>
+		<Description>Pack starter officiel standard. Agrège les packs standards de lecture, prompt, vues, artifacts et personas software engineering.</Description>
+		<Authors>ContextCompiler</Authors>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)' == 'DebugLocal'">
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\ContextCompiler.Packs.Artifacts.Standard\ContextCompiler.Packs.Artifacts.Standard.csproj" />
+		<ProjectReference Include="..\ContextCompiler.Packs.Prompt.Standard\ContextCompiler.Packs.Prompt.Standard.csproj" />
+		<ProjectReference Include="..\ContextCompiler.Packs.Readers.Standard\ContextCompiler.Packs.Readers.Standard.csproj" />
+		<ProjectReference Include="..\ContextCompiler.Packs.Views.Standard\ContextCompiler.Packs.Views.Standard.csproj" />
+	</ItemGroup>
+
+</Project>

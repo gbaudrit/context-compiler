@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<Configurations>Debug;Release;DebugLocal</Configurations>
+		<IsPackable>true</IsPackable>
+		<PackageId>ContextCompiler.Packs.Personas.SoftwareEngineering.Standard</PackageId>
+		<Description>Pack officiel de personas software engineering par defaut. Regroupe les personas transverses recommandes pour l'analyse et le test sans inclure les personas developpeurs specialises par langage.</Description>
+		<Authors>ContextCompiler</Authors>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)' == 'DebugLocal'">
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\Modules\ContextCompiler.Modules.Personas.Analysts.Business\ContextCompiler.Modules.Personas.Analysts.Business.csproj" />
+		<ProjectReference Include="..\..\Modules\ContextCompiler.Modules.Personas.Testers.Analyst\ContextCompiler.Modules.Personas.Testers.Analyst.csproj" />
+	</ItemGroup>
+
+</Project>

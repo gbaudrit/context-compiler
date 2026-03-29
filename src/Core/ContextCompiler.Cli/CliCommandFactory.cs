@@ -45,15 +45,15 @@ public static class CliCommandFactory
     public static RootCommand Create(IServiceProvider sp)
     {
         RootCommand root = CreateRootCommand();
-        Option<bool> debugOpt = new(
-            aliases: ["--debug", "-d"],
-            description: "Enable debug"
-        );
-        root.AddGlobalOption(debugOpt);
+        //Option<bool> debugOpt = new(
+        //    aliases: ["--debug", "-d"],
+        //    description: "Enable debug"
+        //);
+        //root.AddGlobalOption(debugOpt);
 
         // compile
         Command compile = new("compile", "Compile context into reasoning artifacts");
-        Option<string> inputOpt = new("--input") { IsRequired = true };
+        //Option<string> inputOpt = new("--input") { IsRequired = true };
         Option<string> outputOpt = new("--output");
         Option<string?> contextOpt = new("--context");
         Option<int> maxChars = new("--max-chars", () => 1_000_000, "Maximum characters in prompt.context.md");
@@ -64,7 +64,7 @@ public static class CliCommandFactory
         Option<bool> jsonOpt = new("--json", description: "Emit summary JSON");
         Option<bool> cleanOpt = new("--clean", description: "Clean output directory");
         Option<bool> serveOpt = new("--serve", description: "Serve MCP");
-        compile.AddOption(inputOpt);
+        compile.AddOption(_inputOpt);
         compile.AddOption(outputOpt);
         compile.AddOption(contextOpt);
         compile.AddOption(maxChars);
@@ -77,7 +77,7 @@ public static class CliCommandFactory
         compile.AddOption(serveOpt);
         compile.SetHandler(async context =>
         {
-            string input = context.ParseResult.GetValueForOption(inputOpt) ?? ".";
+            string input = context.ParseResult.GetValueForOption(_inputOpt) ?? ".";
             string name = context.ParseResult.GetValueForOption(contextOpt) ?? "";
 
             CtxcCompileCommandLine compileCommandLine = new(

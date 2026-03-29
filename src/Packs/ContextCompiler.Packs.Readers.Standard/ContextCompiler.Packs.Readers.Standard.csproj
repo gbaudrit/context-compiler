@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<Configurations>Debug;Release;DebugLocal</Configurations>
+		<IsPackable>true</IsPackable>
+		<PackageId>ContextCompiler.Packs.Readers.Standard</PackageId>
+		<Description>Pack officiel de readers par defaut. Regroupe les modules de lecture recommandes pour couvrir les formats les plus courants.</Description>
+		<Authors>ContextCompiler</Authors>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)' == 'DebugLocal'">
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\Modules\ContextCompiler.Modules.Readers.Excel\ContextCompiler.Modules.Readers.Excel.csproj" />
+		<ProjectReference Include="..\..\Modules\ContextCompiler.Modules.Readers.Markdown\ContextCompiler.Modules.Readers.Markdown.csproj" />
+		<ProjectReference Include="..\..\Modules\ContextCompiler.Modules.Readers.PDF\ContextCompiler.Modules.Readers.PDF.csproj" />
+		<ProjectReference Include="..\..\Modules\ContextCompiler.Modules.Readers.Text\ContextCompiler.Modules.Readers.Text.csproj" />
+		<ProjectReference Include="..\..\Modules\ContextCompiler.Modules.Readers.Yaml\ContextCompiler.Modules.Readers.Yaml.csproj" />
+	</ItemGroup>
+
+</Project>
