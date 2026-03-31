@@ -1,5 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<TargetFramework>net10.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
@@ -7,17 +6,19 @@
 		<Configurations>Debug;Release;DebugLocal</Configurations>
 		<IsPackable>true</IsPackable>
 		<PackageId>ContextCompiler.Modules.Evidences.Graph.Json</PackageId>
-		<Description>
-			Module d'export du graphe de raisonnement au format JSON pour ContextCompiler. Génère un fichier JSON structuré contenant le graphe de raisonnement intermédiaire avec ses nœuds et ses arêtes.
-		</Description>
+		<Description>ContextCompiler module that exports the evidence graph in JSON format.</Description>
 		<Authors>ContextCompiler</Authors>
+		<Title>JSON evidence graph module</Title>
+		<PackageTags>context;compiler;module;evidence;graph;json</PackageTags>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
 	</PropertyGroup>
-
 	<PropertyGroup Condition="'$(Configuration)' == 'DebugLocal'">
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	</PropertyGroup>
-	
 	<ItemGroup>
 		<ProjectReference Include="..\..\Core\ContextCompiler.Modules.Abstractions\ContextCompiler.Modules.Abstractions.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="README.md" Pack="true" PackagePath="" />
 	</ItemGroup>
 </Project>

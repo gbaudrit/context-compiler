@@ -144,9 +144,11 @@ function Get-PackageMetadata {
   return [ordered]@{
     kind = $Kind
     packageId = $packageId
+    title = (Get-SingleNodeText -ProjectXml $projectXml -NodeName "Title")
     shortName = Get-ShortName -PackageId $packageId -Kind $Kind
     family = Get-Family -PackageId $packageId -Kind $Kind
     description = (Get-SingleNodeText -ProjectXml $projectXml -NodeName "Description")
+    tags = @((Get-SingleNodeText -ProjectXml $projectXml -NodeName "PackageTags") -split ";" | Where-Object { -not [string]::IsNullOrWhiteSpace($_) } | ForEach-Object { $_.Trim() })
     authors = (Get-SingleNodeText -ProjectXml $projectXml -NodeName "Authors")
     targetFramework = (Get-SingleNodeText -ProjectXml $projectXml -NodeName "TargetFramework")
     path = $directoryPath.Replace("\", "/")

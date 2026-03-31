@@ -1,5 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
 	<PropertyGroup>
 		<TargetFramework>net10.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
@@ -7,30 +6,30 @@
 		<Configurations>Debug;Release;DebugLocal</Configurations>
 		<IsPackable>true</IsPackable>
 		<PackageId>ContextCompiler.Modules.Readers.Pdf</PackageId>
-		<Description>
-			Module de lecture de fichiers Pdf pour ContextCompiler.
-		</Description>
+		<Description>ContextCompiler reader module for PDF inputs.</Description>
 		<Authors>ContextCompiler</Authors>
+		<Title>PDF reader module</Title>
+		<PackageTags>context;compiler;module;readers;input;pdf</PackageTags>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
 	</PropertyGroup>
-
 	<PropertyGroup Condition="'$(Configuration)' == 'DebugLocal'">
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	</PropertyGroup>
-
 	<ItemGroup>
 		<PackageReference Include="PdfPig" />
 		<PackageReference Include="Tabula" />
 		<PackageReference Include="Tabula.Json" />
 	</ItemGroup>
-
 	<ItemGroup>
 		<ProjectReference Include="..\..\Core\ContextCompiler.Modules.Abstractions\ContextCompiler.Modules.Abstractions.csproj" />
 	</ItemGroup>
-
 	<ItemGroup>
 		<Content Include="schemas\ctxc.config.schema.json">
 			<PackagePath>contentFiles/any/schemas/ctxc.config.schema.json</PackagePath>
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Content>
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="README.md" Pack="true" PackagePath="" />
 	</ItemGroup>
 </Project>

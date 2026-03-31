@@ -15,6 +15,14 @@ const packageKindButtons = document.querySelectorAll(".packages-kind-button");
 let packagesCatalog = null;
 let activePackageKind = "packs";
 let activePackageFamily = "all";
+let packageCopyToastTimeout = null;
+const ignoredPackageTags = new Set(["context", "compiler", "pack"]);
+
+const packageCopyToast = document.createElement("div");
+packageCopyToast.className = "package-copy-toast";
+packageCopyToast.setAttribute("aria-live", "polite");
+packageCopyToast.setAttribute("role", "status");
+document.body.appendChild(packageCopyToast);
 
 if (navToggle && siteNav) {
   navToggle.addEventListener("click", () => {
@@ -82,6 +90,19 @@ const escapeHtml = (value) =>
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#39;");
 
+const showPackageCopyToast = (message) => {
+  packageCopyToast.textContent = message;
+  packageCopyToast.classList.add("is-visible");
+
+  if (packageCopyToastTimeout) {
+    window.clearTimeout(packageCopyToastTimeout);
+  }
+
+  packageCopyToastTimeout = window.setTimeout(() => {
+    packageCopyToast.classList.remove("is-visible");
+  }, 1800);
+};
+
 const renderFamilyFilters = (families) => {
   if (!packagesFamilyFilters) {
     return;
@@ -115,9 +136,11 @@ const renderPackages = () => {
     const matchesFamily = activePackageFamily === "all" || item.family === activePackageFamily;
     const haystack = [
       item.packageId,
+      item.title,
       item.shortName,
       item.description,
       item.family,
+      ...(item.tags ?? []),
       ...(item.includes ?? []),
     ]
       .filter(Boolean)
@@ -142,6 +165,17 @@ const renderPackages = () => {
 
   packagesGrid.innerHTML = filteredItems
     .map((item) => {
+      const tags = item.tags?.length
+        ? `
+          <div class="package-tags">
+            ${item.tags
+              .filter((tag) => !ignoredPackageTags.has(String(tag).toLowerCase()))
+              .map((tag) => `<span class="package-tag">${escapeHtml(tag)}</span>`)
+              .join("")}
+          </div>
+        `
+        : "";
+
       const includes = item.includes?.length
         ? `
           <div class="package-includes">
@@ -163,8 +197,12 @@ const renderPackages = () => {
               ${item.compositionKind === "pack-of-modules" ? '<span class="package-subkind">Pack de modules</span>' : ""}
             </div>
           </div>
-          <h3><code>${escapeHtml(item.packageId)}</code></h3>
+          <h3 class="package-title">
+            <span>${escapeHtml(item.title || item.shortName || item.packageId)}</span>
+            <button type="button" class="package-id-tooltip" data-package-id="${escapeHtml(item.packageId)}" title="Copy package id: ${escapeHtml(item.packageId)}" aria-label="Copy package id: ${escapeHtml(item.packageId)}">id</button>
+          </h3>
           <p>${escapeHtml(item.description || "Description à compléter dans le package.")}</p>
+          ${tags}
           ${activePackageKind === "packs" ? includes : ""}
           <div class="package-links">
             <a class="package-link package-link-primary" href="${escapeHtml(item.nugetUrl)}" target="_blank" rel="noreferrer">
@@ -230,6 +268,36 @@ packagesFamilyFilters?.addEventListener("click", (event) => {
 
   activePackageFamily = button.dataset.family;
   renderPackages();
+});
+
+packagesGrid?.addEventListener("click", async (event) => {
+  const button = event.target.closest(".package-id-tooltip");
+  if (!button) {
+    return;
+  }
+
+  const packageId = button.dataset.packageId;
+  if (!packageId) {
+    return;
+  }
+
+  try {
+    await navigator.clipboard.writeText(packageId);
+    const previousTitle = button.title;
+    button.classList.add("is-copied");
+    button.title = `Copied: ${packageId}`;
+    button.setAttribute("aria-label", `Copied package id: ${packageId}`);
+    showPackageCopyToast(`Copié : ${packageId}`);
+
+    window.setTimeout(() => {
+      button.classList.remove("is-copied");
+      button.title = previousTitle;
+      button.setAttribute("aria-label", `Copy package id: ${packageId}`);
+    }, 1200);
+  } catch {
+    button.title = packageId;
+    showPackageCopyToast(`Copié : ${packageId}`);
+  }
 });
 
 packagesSearch?.addEventListener("input", renderPackages);

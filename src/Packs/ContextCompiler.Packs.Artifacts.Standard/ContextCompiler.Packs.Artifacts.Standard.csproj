@@ -7,7 +7,10 @@
 		<Configurations>Debug;Release;DebugLocal</Configurations>
 		<IsPackable>true</IsPackable>
 		<PackageId>ContextCompiler.Packs.Artifacts.Standard</PackageId>
-		<Description>Pack officiel d'artifacts par defaut. Regroupe le registre d'artifacts et le module d'ecriture des artifacts.</Description>
+		<Title>Standard artifacts pack</Title>
+		<Description>Standard artifacts pack with the artifacts registry and writer modules.</Description>
+		<PackageTags>context;compiler;pack;artifacts;registry;writer;outputs;standard</PackageTags>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<Authors>ContextCompiler</Authors>
 	</PropertyGroup>
 
@@ -16,6 +19,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<None Include="README.md" Pack="true" PackagePath="" />
 		<ProjectReference Include="..\..\Modules\ContextCompiler.Modules.Artifacts.Registry\ContextCompiler.Modules.Artifacts.Registry.csproj" />
 		<ProjectReference Include="..\..\Modules\ContextCompiler.Modules.Artifacts.Writer\ContextCompiler.Modules.Artifacts.Writer.csproj" />
 	</ItemGroup>

@@ -7,7 +7,10 @@
 		<Configurations>Debug;Release;DebugLocal</Configurations>
 		<IsPackable>true</IsPackable>
 		<PackageId>ContextCompiler.Packs.Personas.SoftwareEngineering.Standard</PackageId>
-		<Description>Pack officiel de personas software engineering par defaut. Regroupe les personas transverses recommandes pour l'analyse et le test sans inclure les personas developpeurs specialises par langage.</Description>
+		<Title>Standard software engineering personas pack</Title>
+		<Description>Standard software engineering personas pack for analysis and testing workflows.</Description>
+		<PackageTags>context;compiler;pack;personas;software-engineering;analysis;testing;standard</PackageTags>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<Authors>ContextCompiler</Authors>
 	</PropertyGroup>
 
@@ -16,6 +19,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<None Include="README.md" Pack="true" PackagePath="" />
 		<ProjectReference Include="..\..\Modules\ContextCompiler.Modules.Personas.Analysts.Business\ContextCompiler.Modules.Personas.Analysts.Business.csproj" />
 		<ProjectReference Include="..\..\Modules\ContextCompiler.Modules.Personas.Testers.Analyst\ContextCompiler.Modules.Personas.Testers.Analyst.csproj" />
 	</ItemGroup>

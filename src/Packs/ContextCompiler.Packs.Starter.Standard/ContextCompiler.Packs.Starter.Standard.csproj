@@ -7,7 +7,10 @@
 		<Configurations>Debug;Release;DebugLocal</Configurations>
 		<IsPackable>true</IsPackable>
 		<PackageId>ContextCompiler.Packs.Starter.Standard</PackageId>
-		<Description>Pack starter officiel standard. Agrège les packs standards de lecture, prompt, vues, artifacts et personas software engineering.</Description>
+		<Title>Standard starter pack</Title>
+		<Description>Standard starter pack combining readers, prompt, views, and artifacts packs.</Description>
+		<PackageTags>context;compiler;pack;starter;bundle;readers;prompt;views;artifacts;standard</PackageTags>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<Authors>ContextCompiler</Authors>
 	</PropertyGroup>
 
@@ -16,6 +19,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<None Include="README.md" Pack="true" PackagePath="" />
 		<ProjectReference Include="..\ContextCompiler.Packs.Artifacts.Standard\ContextCompiler.Packs.Artifacts.Standard.csproj" />
 		<ProjectReference Include="..\ContextCompiler.Packs.Prompt.Standard\ContextCompiler.Packs.Prompt.Standard.csproj" />
 		<ProjectReference Include="..\ContextCompiler.Packs.Readers.Standard\ContextCompiler.Packs.Readers.Standard.csproj" />

@@ -7,7 +7,10 @@
 		<Configurations>Debug;Release;DebugLocal</Configurations>
 		<IsPackable>true</IsPackable>
 		<PackageId>ContextCompiler.Packs.Prompt.Standard</PackageId>
-		<Description>Pack officiel de prompt par defaut. Regroupe les modules de composition de prompt recommandes pour produire un prompt complet.</Description>
+		<Title>Standard prompt pack</Title>
+		<Description>Standard prompt pack with the recommended prompt composer modules.</Description>
+		<PackageTags>context;compiler;pack;prompt;composers;generation;templates;standard</PackageTags>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<Authors>ContextCompiler</Authors>
 	</PropertyGroup>
 
@@ -16,6 +19,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<None Include="README.md" Pack="true" PackagePath="" />
 		<ProjectReference Include="..\..\Modules\ContextCompiler.Modules.Prompt.Composers.Assumptions\ContextCompiler.Modules.Prompt.Composers.Assumptions.csproj" />
 		<ProjectReference Include="..\..\Modules\ContextCompiler.Modules.Prompt.Composers.Audiences\ContextCompiler.Modules.Prompt.Composers.Audiences.csproj" />
 		<ProjectReference Include="..\..\Modules\ContextCompiler.Modules.Prompt.Composers.Constraints\ContextCompiler.Modules.Prompt.Composers.Constraints.csproj" />

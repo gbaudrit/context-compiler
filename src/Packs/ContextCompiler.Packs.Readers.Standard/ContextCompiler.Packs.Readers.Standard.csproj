@@ -7,7 +7,10 @@
 		<Configurations>Debug;Release;DebugLocal</Configurations>
 		<IsPackable>true</IsPackable>
 		<PackageId>ContextCompiler.Packs.Readers.Standard</PackageId>
-		<Description>Pack officiel de readers par defaut. Regroupe les modules de lecture recommandes pour couvrir les formats les plus courants.</Description>
+		<Title>Standard readers pack</Title>
+		<Description>Standard readers pack for the most common supported input formats.</Description>
+		<PackageTags>context;compiler;pack;readers;input;markdown;yaml;excel;pdf;standard</PackageTags>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<Authors>ContextCompiler</Authors>
 	</PropertyGroup>
 
@@ -16,6 +19,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<None Include="README.md" Pack="true" PackagePath="" />
 		<ProjectReference Include="..\..\Modules\ContextCompiler.Modules.Readers.Excel\ContextCompiler.Modules.Readers.Excel.csproj" />
 		<ProjectReference Include="..\..\Modules\ContextCompiler.Modules.Readers.Markdown\ContextCompiler.Modules.Readers.Markdown.csproj" />
 		<ProjectReference Include="..\..\Modules\ContextCompiler.Modules.Readers.PDF\ContextCompiler.Modules.Readers.PDF.csproj" />

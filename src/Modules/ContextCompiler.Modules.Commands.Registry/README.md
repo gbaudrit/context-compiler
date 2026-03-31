@@ -1,14 +1,9 @@
-# ContextCompiler.Modules.Commands.Registry
+﻿# Commands registry module
 
-Squelette inspiré de `ContextCompiler.Modules.Artifacts.Registry`.
+`ContextCompiler.Modules.Commands.Registry` is a ContextCompiler module.
 
-Contenu :
-- index `commands.index.json`
-- store de lecture du dernier index compilé
-- sérialisation JSON
-- outil MCP `ListCommands`
+ContextCompiler module that generates a JSON registry of available commands.
 
-## TODO
-- brancher la vraie source des commandes du noyau / des plugins dans `CommandIndexModule`
-- enrichir `CommandDescriptor` selon le contrat réel des commandes
-- ajouter éventuellement un handler `TryGetCommand`
+## When to use
+
+Use this module when you want the capabilities provided by `ContextCompiler.Modules.Commands.Registry`.

@@ -7,7 +7,10 @@
 		<Configurations>Debug;Release;DebugLocal</Configurations>
 		<IsPackable>true</IsPackable>
 		<PackageId>ContextCompiler.Packs.Views.Standard</PackageId>
-		<Description>Pack officiel de views par defaut. Regroupe les modules de vues recommandes pour la description et l'index JSON.</Description>
+		<Title>Standard views pack</Title>
+		<Description>Standard views pack with the core views and JSON index view modules.</Description>
+		<PackageTags>context;compiler;pack;views;json;index;projection;rendering;standard</PackageTags>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<Authors>ContextCompiler</Authors>
 	</PropertyGroup>
 
@@ -16,6 +19,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<None Include="README.md" Pack="true" PackagePath="" />
 		<ProjectReference Include="..\..\Modules\ContextCompiler.Modules.Views\ContextCompiler.Modules.Views.csproj" />
 		<ProjectReference Include="..\..\Modules\ContextCompiler.Modules.Views.View.Index.Json\ContextCompiler.Modules.Views.View.Index.Json.csproj" />
 	</ItemGroup>

@@ -1,12 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
-    <Configurations>Debug;Release;DebugLocal</Configurations>
-  </PropertyGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Core\ContextCompiler.Modules.Abstractions\ContextCompiler.Modules.Abstractions.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.FileSystemGlobbing" />
-  </ItemGroup>
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<Configurations>Debug;Release;DebugLocal</Configurations>
+		<PackageId>ContextCompiler.Modules.BuiltIn</PackageId>
+		<Title>Built-in modules bundle</Title>
+		<Description>ContextCompiler bundle module that groups built-in modules.</Description>
+		<PackageTags>context;compiler;module;builtin;bundle</PackageTags>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+	</PropertyGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\Core\ContextCompiler.Modules.Abstractions\ContextCompiler.Modules.Abstractions.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.FileSystemGlobbing" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="README.md" Pack="true" PackagePath="" />
+	</ItemGroup>
 </Project>

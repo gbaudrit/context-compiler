@@ -1,5 +1,5 @@
 ﻿{
-    "generatedAt":  "2026-03-29T23:28:13Z",
+    "generatedAt":  "2026-03-30T18:20:49Z",
     "source":  {
                    "modulesRoot":  "src/Modules",
                    "packsRoot":  "src/Packs"
@@ -36,9 +36,18 @@
                     {
                         "kind":  "module",
                         "packageId":  "ContextCompiler.Modules.Artifacts.Registry",
+                        "title":  "Artifacts registry module",
                         "shortName":  "Artifacts.Registry",
                         "family":  "Artifacts",
-                        "description":  "Génère un index au format json des artefacts du contexte",
+                        "description":  "ContextCompiler module that provides the artifacts registry.",
+                        "tags":  [
+                                     "context",
+                                     "compiler",
+                                     "module",
+                                     "artifacts",
+                                     "registry",
+                                     "outputs"
+                                 ],
                         "authors":  "ContextCompiler",
                         "targetFramework":  "net10.0",
                         "path":  "src/Modules/ContextCompiler.Modules.Artifacts.Registry",
@@ -53,9 +62,18 @@
                     {
                         "kind":  "module",
                         "packageId":  "ContextCompiler.Modules.Artifacts.Writer",
+                        "title":  "Artifacts writer module",
                         "shortName":  "Artifacts.Writer",
                         "family":  "Artifacts",
-                        "description":  "Module d\u0027écriture d\u0027artéfacts pour ContextCompiler. Fournit des modules pour l\u0027écriture d\u0027artéfacts de sortie dans le système de fichiers et la création d\u0027artéfacts de vue.",
+                        "description":  "ContextCompiler module that writes generated artifacts to disk.",
+                        "tags":  [
+                                     "context",
+                                     "compiler",
+                                     "module",
+                                     "artifacts",
+                                     "writer",
+                                     "outputs"
+                                 ],
                         "authors":  null,
                         "targetFramework":  "net10.0",
                         "path":  "src/Modules/ContextCompiler.Modules.Artifacts.Writer",
@@ -70,9 +88,18 @@
                     {
                         "kind":  "module",
                         "packageId":  "ContextCompiler.Modules.Commands.Registry",
+                        "title":  "Commands registry module",
                         "shortName":  "Commands.Registry",
                         "family":  "Commands",
-                        "description":  "Génère un index au format json des commandes exposées par le contexte.",
+                        "description":  "ContextCompiler module that generates a JSON registry of available commands.",
+                        "tags":  [
+                                     "context",
+                                     "compiler",
+                                     "module",
+                                     "commands",
+                                     "registry",
+                                     "json"
+                                 ],
                         "authors":  "ContextCompiler",
                         "targetFramework":  "net10.0",
                         "path":  "src/Modules/ContextCompiler.Modules.Commands.Registry",
@@ -87,9 +114,17 @@
                     {
                         "kind":  "module",
                         "packageId":  "ContextCompiler.Modules.Configuration",
+                        "title":  "Configuration module",
                         "shortName":  "Configuration",
                         "family":  "Configuration",
-                        "description":  "Module de configuration.",
+                        "description":  "ContextCompiler module that provides configuration capabilities and schema support.",
+                        "tags":  [
+                                     "context",
+                                     "compiler",
+                                     "module",
+                                     "configuration",
+                                     "schema"
+                                 ],
                         "authors":  "ContextCompiler",
                         "targetFramework":  "net10.0",
                         "path":  "src/Modules/ContextCompiler.Modules.Configuration",
@@ -104,9 +139,17 @@
                     {
                         "kind":  "module",
                         "packageId":  "ContextCompiler.Modules.Engineering.DotNet",
+                        "title":  ".NET engineering module",
                         "shortName":  "Engineering.DotNet",
                         "family":  "Engineering",
-                        "description":  "Module d\u0027ingénierie compiler une solution DotNet via ContextCompiler.",
+                        "description":  "ContextCompiler module with .NET engineering capabilities.",
+                        "tags":  [
+                                     "context",
+                                     "compiler",
+                                     "module",
+                                     "engineering",
+                                     "dotnet"
+                                 ],
                         "authors":  "ContextCompiler",
                         "targetFramework":  "net10.0",
                         "path":  "src/Modules/ContextCompiler.Modules.Engineering.DotNet",
@@ -121,9 +164,18 @@
                     {
                         "kind":  "module",
                         "packageId":  "ContextCompiler.Modules.Evidences.Graph.Dot",
+                        "title":  "DOT evidence graph module",
                         "shortName":  "Evidences.Graph.Dot",
                         "family":  "Evidences",
-                        "description":  "Module d\u0027export du graphe de raisonnement au format DOT pour ContextCompiler. Génère un fichier au format Graphviz DOT permettant la visualisation du graphe de raisonnement intermédiaire avec ses nœuds et ses arêtes.",
+                        "description":  "ContextCompiler module that exports the evidence graph in DOT format.",
+                        "tags":  [
+                                     "context",
+                                     "compiler",
+                                     "module",
+                                     "evidence",
+                                     "graph",
+                                     "dot"
+                                 ],
                         "authors":  "ContextCompiler",
                         "targetFramework":  "net10.0",
                         "path":  "src/Modules/ContextCompiler.Modules.Evidences.Graph.Dot",
@@ -138,9 +190,18 @@
                     {
                         "kind":  "module",
                         "packageId":  "ContextCompiler.Modules.Evidences.Graph.Json",
+                        "title":  "JSON evidence graph module",
                         "shortName":  "Evidences.Graph.Json",
                         "family":  "Evidences",
-                        "description":  "Module d\u0027export du graphe de raisonnement au format JSON pour ContextCompiler. Génère un fichier JSON structuré contenant le graphe de raisonnement intermédiaire avec ses nœuds et ses arêtes.",
+                        "description":  "ContextCompiler module that exports the evidence graph in JSON format.",
+                        "tags":  [
+                                     "context",
+                                     "compiler",
+                                     "module",
+                                     "evidence",
+                                     "graph",
+                                     "json"
+                                 ],
                         "authors":  "ContextCompiler",
                         "targetFramework":  "net10.0",
                         "path":  "src/Modules/ContextCompiler.Modules.Evidences.Graph.Json",
@@ -155,9 +216,18 @@
                     {
                         "kind":  "module",
                         "packageId":  "ContextCompiler.Modules.Evidences.Index.Json",
+                        "title":  "JSON evidence index module",
                         "shortName":  "Evidences.Index.Json",
                         "family":  "Evidences",
-                        "description":  "Module d\u0027index JSON des évidences pour ContextCompiler. Génère des artéfacts JSON contenant l\u0027index des évidences et leurs statistiques, facilitant l\u0027analyse et la traçabilité du graphe de raisonnement intermédiaire.",
+                        "description":  "ContextCompiler module that exports the evidence index in JSON format.",
+                        "tags":  [
+                                     "context",
+                                     "compiler",
+                                     "module",
+                                     "evidence",
+                                     "index",
+                                     "json"
+                                 ],
                         "authors":  "ContextCompiler",
                         "targetFramework":  "net10.0",
                         "path":  "src/Modules/ContextCompiler.Modules.Evidences.Index.Json",
@@ -172,9 +242,17 @@
                     {
                         "kind":  "module",
                         "packageId":  "ContextCompiler.Modules.Health",
+                        "title":  "Health module",
                         "shortName":  "Health",
                         "family":  "Health",
-                        "description":  "Module de santé pour ContextCompiler. Génère des rapports de santé détaillés sur le contexte compilé, incluant le nombre de fragments, les résultats des analyses de sécurité, les vues générées et un score de qualité global.",
+                        "description":  "ContextCompiler module that produces context health metrics and diagnostics.",
+                        "tags":  [
+                                     "context",
+                                     "compiler",
+                                     "module",
+                                     "health",
+                                     "diagnostics"
+                                 ],
                         "authors":  null,
                         "targetFramework":  "net10.0",
                         "path":  "src/Modules/ContextCompiler.Modules.Health",
@@ -189,9 +267,18 @@
                     {
                         "kind":  "module",
                         "packageId":  "ContextCompiler.Modules.Personas.Analysts.Business",
+                        "title":  "Business analyst persona module",
                         "shortName":  "Personas.Analysts.Business",
                         "family":  "Personas",
-                        "description":  "Analyste métier pour ContextCompiler.",
+                        "description":  "ContextCompiler persona module for business analysis workflows.",
+                        "tags":  [
+                                     "context",
+                                     "compiler",
+                                     "module",
+                                     "personas",
+                                     "analyst",
+                                     "business"
+                                 ],
                         "authors":  "ContextCompiler",
                         "targetFramework":  "net10.0",
                         "path":  "src/Modules/ContextCompiler.Modules.Personas.Analysts.Business",
@@ -206,9 +293,17 @@
                     {
                         "kind":  "module",
                         "packageId":  "ContextCompiler.Modules.Personas.BuiltIn",
+                        "title":  "Built-in personas module",
                         "shortName":  "Personas.BuiltIn",
                         "family":  "Personas",
-                        "description":  "Module de personas intégrés pour ContextCompiler. Fournit des personas prédéfinis tels que l\u0027architecte .NET senior (dev_architect), le reviewer de sécurité (security_reviewer), et le reviewer de sécurité en profondeur (deep_security_reviewer).",
+                        "description":  "ContextCompiler module that provides built-in personas.",
+                        "tags":  [
+                                     "context",
+                                     "compiler",
+                                     "module",
+                                     "personas",
+                                     "builtin"
+                                 ],
                         "authors":  null,
                         "targetFramework":  "net10.0",
                         "path":  "src/Modules/ContextCompiler.Modules.Personas.BuiltIn",
@@ -223,9 +318,18 @@
                     {
                         "kind":  "module",
                         "packageId":  "ContextCompiler.Modules.Personas.Composer",
+                        "title":  "Personas composer module",
                         "shortName":  "Personas.Composer",
                         "family":  "Personas",
-                        "description":  "Module de composition de prompt pour les personas. Orchestre l\u0027activation et la composition des personas dans le prompt, en gérant leurs paramètres et leurs résultats.",
+                        "description":  "ContextCompiler module that composes personas into the final prompt.",
+                        "tags":  [
+                                     "context",
+                                     "compiler",
+                                     "module",
+                                     "personas",
+                                     "composer",
+                                     "prompt"
+                                 ],
                         "authors":  null,
                         "targetFramework":  "net10.0",
                         "path":  "src/Modules/ContextCompiler.Modules.Personas.Composer",
@@ -240,9 +344,18 @@
                     {
                         "kind":  "module",
                         "packageId":  "ContextCompiler.Modules.Personas.Developers.DotNet",
+                        "title":  ".NET developer persona module",
                         "shortName":  "Personas.Developers.DotNet",
                         "family":  "Personas",
-                        "description":  "Développeur DotNet pour ContextCompiler.",
+                        "description":  "ContextCompiler persona module for .NET development workflows.",
+                        "tags":  [
+                                     "context",
+                                     "compiler",
+                                     "module",
+                                     "personas",
+                                     "developer",
+                                     "dotnet"
+                                 ],
                         "authors":  "ContextCompiler",
                         "targetFramework":  "net10.0",
                         "path":  "src/Modules/ContextCompiler.Modules.Personas.Developers.DotNet",
@@ -257,9 +370,18 @@
                     {
                         "kind":  "module",
                         "packageId":  "ContextCompiler.Modules.Personas.Developers.Python",
+                        "title":  "Python developer persona module",
                         "shortName":  "Personas.Developers.Python",
                         "family":  "Personas",
-                        "description":  "Développeur python pour ContextCompiler.",
+                        "description":  "ContextCompiler persona module for Python development workflows.",
+                        "tags":  [
+                                     "context",
+                                     "compiler",
+                                     "module",
+                                     "personas",
+                                     "developer",
+                                     "python"
+                                 ],
                         "authors":  "ContextCompiler",
                         "targetFramework":  "net10.0",
                         "path":  "src/Modules/ContextCompiler.Modules.Personas.Developers.Python",
@@ -274,9 +396,17 @@
                     {
                         "kind":  "module",
                         "packageId":  "ContextCompiler.Modules.Personas.Index",
+                        "title":  "Personas index module",
                         "shortName":  "Personas.Index",
                         "family":  "Personas",
-                        "description":  "Module d\u0027index des personas pour ContextCompiler. Génère un artéfact JSON listant les personas activés et leurs résultats, facilitant le suivi et l\u0027analyse des personas utilisés dans le processus de compilation de contexte.",
+                        "description":  "ContextCompiler module that produces an index of available personas.",
+                        "tags":  [
+                                     "context",
+                                     "compiler",
+                                     "module",
+                                     "personas",
+                                     "index"
+                                 ],
                         "authors":  null,
                         "targetFramework":  "net10.0",
                         "path":  "src/Modules/ContextCompiler.Modules.Personas.Index",
@@ -291,9 +421,19 @@
                     {
                         "kind":  "module",
                         "packageId":  "ContextCompiler.Modules.Personas.Testers.Analyst",
+                        "title":  "Test analyst persona module",
                         "shortName":  "Personas.Testers.Analyst",
                         "family":  "Personas",
-                        "description":  "Testeur fonctionnel pour ContextCompiler.",
+                        "description":  "ContextCompiler persona module for testing and quality analysis workflows.",
+                        "tags":  [
+                                     "context",
+                                     "compiler",
+                                     "module",
+                                     "personas",
+                                     "tester",
+                                     "analysis",
+                                     "quality"
+                                 ],
                         "authors":  "ContextCompiler",
                         "targetFramework":  "net10.0",
                         "path":  "src/Modules/ContextCompiler.Modules.Personas.Testers.Analyst",
@@ -308,9 +448,18 @@
                     {
                         "kind":  "module",
                         "packageId":  "ContextCompiler.Modules.Prompt.Composers.Assumptions",
+                        "title":  "Assumptions prompt composer module",
                         "shortName":  "Prompt.Composers.Assumptions",
                         "family":  "Prompt",
-                        "description":  "Module de composition des hypothèses (assumptions) pour le prompt. Extrait et structure les hypothèses depuis la configuration pour les intégrer dans le prompt final.",
+                        "description":  "ContextCompiler prompt composer module for the Assumptions section of the prompt.",
+                        "tags":  [
+                                     "context",
+                                     "compiler",
+                                     "module",
+                                     "prompt",
+                                     "composer",
+                                     "assumptions"
+                                 ],
                         "authors":  "ContextCompiler",
                         "targetFramework":  "net10.0",
                         "path":  "src/Modules/ContextCompiler.Modules.Prompt.Composers.Assumptions",
@@ -325,9 +474,18 @@
                     {
                         "kind":  "module",
                         "packageId":  "ContextCompiler.Modules.Prompt.Composers.Audiences",
+                        "title":  "Audiences prompt composer module",
                         "shortName":  "Prompt.Composers.Audiences",
                         "family":  "Prompt",
-                        "description":  "Module de composition des audiences pour le prompt. Extrait et structure les audiences cibles depuis la configuration pour les intégrer dans le prompt final.",
+                        "description":  "ContextCompiler prompt composer module for the Audiences section of the prompt.",
+                        "tags":  [
+                                     "context",
+                                     "compiler",
+                                     "module",
+                                     "prompt",
+                                     "composer",
+                                     "audiences"
+                                 ],
                         "authors":  "ContextCompiler",
                         "targetFramework":  "net10.0",
                         "path":  "src/Modules/ContextCompiler.Modules.Prompt.Composers.Audiences",
@@ -342,9 +500,18 @@
                     {
                         "kind":  "module",
                         "packageId":  "ContextCompiler.Modules.Prompt.Composers.Constraints",
+                        "title":  "Constraints prompt composer module",
                         "shortName":  "Prompt.Composers.Constraints",
                         "family":  "Prompt",
-                        "description":  "Module de composition des contraintes (constraints) pour le prompt. Extrait et structure les contraintes MUST et MUST NOT depuis la configuration pour les intégrer dans le prompt final.",
+                        "description":  "ContextCompiler prompt composer module for the Constraints section of the prompt.",
+                        "tags":  [
+                                     "context",
+                                     "compiler",
+                                     "module",
+                                     "prompt",
+                                     "composer",
+                                     "constraints"
+                                 ],
                         "authors":  "ContextCompiler",
                         "targetFramework":  "net10.0",
                         "path":  "src/Modules/ContextCompiler.Modules.Prompt.Composers.Constraints",
@@ -359,9 +526,18 @@
                     {
                         "kind":  "module",
                         "packageId":  "ContextCompiler.Modules.Prompt.Composers.General",
+                        "title":  "General prompt composer module",
                         "shortName":  "Prompt.Composers.General",
                         "family":  "Prompt",
-                        "description":  "Module de composition des informations générales pour le prompt. Extrait et structure les métadonnées générales (nom, résumé, domaine) depuis la configuration pour les intégrer dans le prompt final.",
+                        "description":  "ContextCompiler prompt composer module for the General section of the prompt.",
+                        "tags":  [
+                                     "context",
+                                     "compiler",
+                                     "module",
+                                     "prompt",
+                                     "composer",
+                                     "general"
+                                 ],
                         "authors":  "ContextCompiler",
                         "targetFramework":  "net10.0",
                         "path":  "src/Modules/ContextCompiler.Modules.Prompt.Composers.General",
@@ -376,9 +552,18 @@
                     {
                         "kind":  "module",
                         "packageId":  "ContextCompiler.Modules.Prompt.Composers.Glossary",
+                        "title":  "Glossary prompt composer module",
                         "shortName":  "Prompt.Composers.Glossary",
                         "family":  "Prompt",
-                        "description":  "Module de composition du glossaire pour le prompt. Extrait et structure les termes du glossaire depuis la configuration pour les intégrer dans le prompt final.",
+                        "description":  "ContextCompiler prompt composer module for the Glossary section of the prompt.",
+                        "tags":  [
+                                     "context",
+                                     "compiler",
+                                     "module",
+                                     "prompt",
+                                     "composer",
+                                     "glossary"
+                                 ],
                         "authors":  "ContextCompiler",
                         "targetFramework":  "net10.0",
                         "path":  "src/Modules/ContextCompiler.Modules.Prompt.Composers.Glossary",
@@ -393,9 +578,18 @@
                     {
                         "kind":  "module",
                         "packageId":  "ContextCompiler.Modules.Prompt.Composers.Objectives",
+                        "title":  "Objectives prompt composer module",
                         "shortName":  "Prompt.Composers.Objectives",
                         "family":  "Prompt",
-                        "description":  "Module de composition des objectifs pour le prompt. Extrait et structure les objectifs depuis la configuration pour les intégrer dans le prompt final.",
+                        "description":  "ContextCompiler prompt composer module for the Objectives section of the prompt.",
+                        "tags":  [
+                                     "context",
+                                     "compiler",
+                                     "module",
+                                     "prompt",
+                                     "composer",
+                                     "objectives"
+                                 ],
                         "authors":  "ContextCompiler",
                         "targetFramework":  "net10.0",
                         "path":  "src/Modules/ContextCompiler.Modules.Prompt.Composers.Objectives",
@@ -410,9 +604,18 @@
                     {
                         "kind":  "module",
                         "packageId":  "ContextCompiler.Modules.Prompt.Composers.Views",
+                        "title":  "Views prompt composer module",
                         "shortName":  "Prompt.Composers.Views",
                         "family":  "Prompt",
-                        "description":  "Module de composition des vues pour le prompt. Orchestre la génération des vues et les intègre comme artéfacts dans le prompt final.",
+                        "description":  "ContextCompiler prompt composer module for the Views section of the prompt.",
+                        "tags":  [
+                                     "context",
+                                     "compiler",
+                                     "module",
+                                     "prompt",
+                                     "composer",
+                                     "views"
+                                 ],
                         "authors":  "ContextCompiler",
                         "targetFramework":  "net10.0",
                         "path":  "src/Modules/ContextCompiler.Modules.Prompt.Composers.Views",
@@ -427,9 +630,19 @@
                     {
                         "kind":  "module",
                         "packageId":  "ContextCompiler.Modules.Prompt.Templates.Scriban",
+                        "title":  "Scriban prompt template module",
                         "shortName":  "Prompt.Templates.Scriban",
                         "family":  "Prompt",
-                        "description":  "Module de templates Scriban pour la génération de prompts. Fournit un moteur de templates basé sur Scriban pour composer des prompts structurés et personnalisables.",
+                        "description":  "ContextCompiler module that renders prompts with Scriban templates.",
+                        "tags":  [
+                                     "context",
+                                     "compiler",
+                                     "module",
+                                     "prompt",
+                                     "templates",
+                                     "scriban",
+                                     "rendering"
+                                 ],
                         "authors":  "ContextCompiler",
                         "targetFramework":  "net10.0",
                         "path":  "src/Modules/ContextCompiler.Modules.Prompt.Templates.Scriban",
@@ -444,9 +657,18 @@
                     {
                         "kind":  "module",
                         "packageId":  "ContextCompiler.Modules.Rag",
+                        "title":  "Local RAG module",
                         "shortName":  "Rag",
                         "family":  "Rag",
-                        "description":  "Ajoute des capacités RAG locales au Context Compiler.",
+                        "description":  "ContextCompiler module that adds local RAG capabilities.",
+                        "tags":  [
+                                     "context",
+                                     "compiler",
+                                     "module",
+                                     "rag",
+                                     "embeddings",
+                                     "search"
+                                 ],
                         "authors":  null,
                         "targetFramework":  "net10.0",
                         "path":  "src/Modules/ContextCompiler.Modules.Rag",
@@ -461,9 +683,18 @@
                     {
                         "kind":  "module",
                         "packageId":  "ContextCompiler.Modules.Readers.Excel",
+                        "title":  "Excel reader module",
                         "shortName":  "Readers.Excel",
                         "family":  "Readers",
-                        "description":  "Module de lecture de fichiers Excel pour ContextCompiler. Permet d\u0027extraire des données structurées à partir de feuilles de calcul, facilitant ainsi l\u0027intégration de données tabulaires dans les processus de compilation de contexte.",
+                        "description":  "ContextCompiler reader module for Excel inputs.",
+                        "tags":  [
+                                     "context",
+                                     "compiler",
+                                     "module",
+                                     "readers",
+                                     "input",
+                                     "excel"
+                                 ],
                         "authors":  null,
                         "targetFramework":  "net10.0",
                         "path":  "src/Modules/ContextCompiler.Modules.Readers.Excel",
@@ -478,9 +709,18 @@
                     {
                         "kind":  "module",
                         "packageId":  "ContextCompiler.Modules.Readers.Markdown",
+                        "title":  "Markdown reader module",
                         "shortName":  "Readers.Markdown",
                         "family":  "Readers",
-                        "description":  "Module de lecture de fichiers Markdown pour ContextCompiler. Permet d\u0027extraire et de traiter des fichiers Markdown (.md, .markdown) dans les processus de compilation de contexte.",
+                        "description":  "ContextCompiler reader module for Markdown inputs.",
+                        "tags":  [
+                                     "context",
+                                     "compiler",
+                                     "module",
+                                     "readers",
+                                     "input",
+                                     "markdown"
+                                 ],
                         "authors":  null,
                         "targetFramework":  "net10.0",
                         "path":  "src/Modules/ContextCompiler.Modules.Readers.Markdown",
@@ -495,9 +735,18 @@
                     {
                         "kind":  "module",
                         "packageId":  "ContextCompiler.Modules.Readers.Pdf",
+                        "title":  "PDF reader module",
                         "shortName":  "Readers.Pdf",
                         "family":  "Readers",
-                        "description":  "Module de lecture de fichiers Pdf pour ContextCompiler.",
+                        "description":  "ContextCompiler reader module for PDF inputs.",
+                        "tags":  [
+                                     "context",
+                                     "compiler",
+                                     "module",
+                                     "readers",
+                                     "input",
+                                     "pdf"
+                                 ],
                         "authors":  "ContextCompiler",
                         "targetFramework":  "net10.0",
                         "path":  "src/Modules/ContextCompiler.Modules.Readers.PDF",
@@ -512,9 +761,18 @@
                     {
                         "kind":  "module",
                         "packageId":  "ContextCompiler.Modules.Readers.Text",
+                        "title":  "Text reader module",
                         "shortName":  "Readers.Text",
                         "family":  "Readers",
-                        "description":  "Module de lecture de fichiers texte pour ContextCompiler. Supporte divers formats de fichiers texte (.txt, .cs, .json, .yaml, .yml, .xml, .config, .sln, .props) pour les intégrer dans les processus de compilation de contexte.",
+                        "description":  "ContextCompiler reader module for Text inputs.",
+                        "tags":  [
+                                     "context",
+                                     "compiler",
+                                     "module",
+                                     "readers",
+                                     "input",
+                                     "text"
+                                 ],
                         "authors":  null,
                         "targetFramework":  "net10.0",
                         "path":  "src/Modules/ContextCompiler.Modules.Readers.Text",
@@ -529,9 +787,18 @@
                     {
                         "kind":  "module",
                         "packageId":  "ContextCompiler.Modules.Readers.Yaml",
+                        "title":  "YAML reader module",
                         "shortName":  "Readers.Yaml",
                         "family":  "Readers",
-                        "description":  "Module de lecture de fichiers YAML pour ContextCompiler. Permet d\u0027extraire et de traiter des fichiers YAML (.yaml, .yml) dans les processus de compilation de contexte.",
+                        "description":  "ContextCompiler reader module for YAML inputs.",
+                        "tags":  [
+                                     "context",
+                                     "compiler",
+                                     "module",
+                                     "readers",
+                                     "input",
+                                     "yaml"
+                                 ],
                         "authors":  null,
                         "targetFramework":  "net10.0",
                         "path":  "src/Modules/ContextCompiler.Modules.Readers.Yaml",
@@ -546,9 +813,17 @@
                     {
                         "kind":  "module",
                         "packageId":  "ContextCompiler.Modules.Security",
+                        "title":  "Security module",
                         "shortName":  "Security",
                         "family":  "Security",
-                        "description":  "Module de sécurité pour ContextCompiler. Fournit des gardes de sécurité (prompt injection, sensibilité des données, scope) et génère des rapports détaillés sur les résultats des analyses de sécurité effectuées par le Guardian.",
+                        "description":  "ContextCompiler module that provides security checks and protections.",
+                        "tags":  [
+                                     "context",
+                                     "compiler",
+                                     "module",
+                                     "security",
+                                     "guards"
+                                 ],
                         "authors":  null,
                         "targetFramework":  "net10.0",
                         "path":  "src/Modules/ContextCompiler.Modules.Security",
@@ -563,9 +838,18 @@
                     {
                         "kind":  "module",
                         "packageId":  "ContextCompiler.Modules.Views.View.Index.Json",
+                        "title":  "JSON view index module",
                         "shortName":  "Views.View.Index.Json",
                         "family":  "Views",
-                        "description":  "Génère un index en Json pour une vue",
+                        "description":  "ContextCompiler module that generates the JSON view index.",
+                        "tags":  [
+                                     "context",
+                                     "compiler",
+                                     "module",
+                                     "views",
+                                     "json",
+                                     "index"
+                                 ],
                         "authors":  "ContextCompiler",
                         "targetFramework":  "net10.0",
                         "path":  "src/Modules/ContextCompiler.Modules.Views.View.Index.Json",
@@ -580,9 +864,18 @@
                     {
                         "kind":  "module",
                         "packageId":  "ContextCompiler.Modules.Views",
+                        "title":  "Views module",
                         "shortName":  "Views",
                         "family":  "Views",
-                        "description":  "Module de vues pour ContextCompiler. Fournit des modules de rendu de vues par défaut et basées sur des tags, permettant de générer des représentations structurées des données de raisonnement intermédiaire.",
+                        "description":  "ContextCompiler module that provides the core view capabilities.",
+                        "tags":  [
+                                     "context",
+                                     "compiler",
+                                     "module",
+                                     "views",
+                                     "rendering",
+                                     "projection"
+                                 ],
                         "authors":  null,
                         "targetFramework":  "net10.0",
                         "path":  "src/Modules/ContextCompiler.Modules.Views",
@@ -599,9 +892,20 @@
                   {
                       "kind":  "pack",
                       "packageId":  "ContextCompiler.Packs.Artifacts.Standard",
+                      "title":  "Standard artifacts pack",
                       "shortName":  "Artifacts.Standard",
                       "family":  "Artifacts",
-                      "description":  "Pack officiel d\u0027artifacts par defaut. Regroupe le registre d\u0027artifacts et le module d\u0027ecriture des artifacts.",
+                      "description":  "Standard artifacts pack with the artifacts registry and writer modules.",
+                      "tags":  [
+                                   "context",
+                                   "compiler",
+                                   "pack",
+                                   "artifacts",
+                                   "registry",
+                                   "writer",
+                                   "outputs",
+                                   "standard"
+                               ],
                       "authors":  "ContextCompiler",
                       "targetFramework":  "net10.0",
                       "path":  "src/Packs/ContextCompiler.Packs.Artifacts.Standard",
@@ -617,9 +921,20 @@
                   {
                       "kind":  "pack",
                       "packageId":  "ContextCompiler.Packs.Personas.SoftwareEngineering.Standard",
+                      "title":  "Standard software engineering personas pack",
                       "shortName":  "Personas.SoftwareEngineering.Standard",
                       "family":  "Personas",
-                      "description":  "Pack officiel de personas software engineering par defaut. Regroupe les personas transverses recommandes pour l\u0027analyse et le test sans inclure les personas developpeurs specialises par langage.",
+                      "description":  "Standard software engineering personas pack for analysis and testing workflows.",
+                      "tags":  [
+                                   "context",
+                                   "compiler",
+                                   "pack",
+                                   "personas",
+                                   "software-engineering",
+                                   "analysis",
+                                   "testing",
+                                   "standard"
+                               ],
                       "authors":  "ContextCompiler",
                       "targetFramework":  "net10.0",
                       "path":  "src/Packs/ContextCompiler.Packs.Personas.SoftwareEngineering.Standard",
@@ -635,9 +950,20 @@
                   {
                       "kind":  "pack",
                       "packageId":  "ContextCompiler.Packs.Prompt.Standard",
+                      "title":  "Standard prompt pack",
                       "shortName":  "Prompt.Standard",
                       "family":  "Prompt",
-                      "description":  "Pack officiel de prompt par defaut. Regroupe les modules de composition de prompt recommandes pour produire un prompt complet.",
+                      "description":  "Standard prompt pack with the recommended prompt composer modules.",
+                      "tags":  [
+                                   "context",
+                                   "compiler",
+                                   "pack",
+                                   "prompt",
+                                   "composers",
+                                   "generation",
+                                   "templates",
+                                   "standard"
+                               ],
                       "authors":  "ContextCompiler",
                       "targetFramework":  "net10.0",
                       "path":  "src/Packs/ContextCompiler.Packs.Prompt.Standard",
@@ -658,9 +984,22 @@
                   {
                       "kind":  "pack",
                       "packageId":  "ContextCompiler.Packs.Readers.Standard",
+                      "title":  "Standard readers pack",
                       "shortName":  "Readers.Standard",
                       "family":  "Readers",
-                      "description":  "Pack officiel de readers par defaut. Regroupe les modules de lecture recommandes pour couvrir les formats les plus courants.",
+                      "description":  "Standard readers pack for the most common supported input formats.",
+                      "tags":  [
+                                   "context",
+                                   "compiler",
+                                   "pack",
+                                   "readers",
+                                   "input",
+                                   "markdown",
+                                   "yaml",
+                                   "excel",
+                                   "pdf",
+                                   "standard"
+                               ],
                       "authors":  "ContextCompiler",
                       "targetFramework":  "net10.0",
                       "path":  "src/Packs/ContextCompiler.Packs.Readers.Standard",
@@ -679,9 +1018,22 @@
                   {
                       "kind":  "pack",
                       "packageId":  "ContextCompiler.Packs.Starter.Standard",
+                      "title":  "Standard starter pack",
                       "shortName":  "Starter.Standard",
                       "family":  "Starter",
-                      "description":  "Pack starter officiel standard. Agrège les packs standards de lecture, prompt, vues, artifacts et personas software engineering.",
+                      "description":  "Standard starter pack combining readers, prompt, views, and artifacts packs.",
+                      "tags":  [
+                                   "context",
+                                   "compiler",
+                                   "pack",
+                                   "starter",
+                                   "bundle",
+                                   "readers",
+                                   "prompt",
+                                   "views",
+                                   "artifacts",
+                                   "standard"
+                               ],
                       "authors":  "ContextCompiler",
                       "targetFramework":  "net10.0",
                       "path":  "src/Packs/ContextCompiler.Packs.Starter.Standard",
@@ -699,9 +1051,21 @@
                   {
                       "kind":  "pack",
                       "packageId":  "ContextCompiler.Packs.Views.Standard",
+                      "title":  "Standard views pack",
                       "shortName":  "Views.Standard",
                       "family":  "Views",
-                      "description":  "Pack officiel de views par defaut. Regroupe les modules de vues recommandes pour la description et l\u0027index JSON.",
+                      "description":  "Standard views pack with the core views and JSON index view modules.",
+                      "tags":  [
+                                   "context",
+                                   "compiler",
+                                   "pack",
+                                   "views",
+                                   "json",
+                                   "index",
+                                   "projection",
+                                   "rendering",
+                                   "standard"
+                               ],
                       "authors":  "ContextCompiler",
                       "targetFramework":  "net10.0",
                       "path":  "src/Packs/ContextCompiler.Packs.Views.Standard",
