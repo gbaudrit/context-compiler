@@ -21,7 +21,7 @@ internal sealed class PackageDownloader(IModulesLoadConfigProvider configProvide
     private readonly HashSet<string> _downloadedPackages = [];
     private readonly List<DownloadedPackageInfo> _allDownloadedPackages = [];
 
-    public async Task<PackageDownloadResult> DownloadPackageAsync(IModuleRestoreRequest req, ModuleSource source, string installRootAbs, CancellationToken ct)
+    public async Task<PackageDownloadResult> DownloadPackageAsync(IModuleRestoreRequest req, ModuleSource source, string installRootAbs, bool force, CancellationToken ct)
     {
         _downloadedPackages.Clear();
         _allDownloadedPackages.Clear();
@@ -38,6 +38,7 @@ internal sealed class PackageDownloader(IModulesLoadConfigProvider configProvide
             req.PackageId.Checksum,
             installRootAbs,
             cache,
+            force,
             ct);
 
         return new PackageDownloadResult(mainPackagePath, _allDownloadedPackages);
@@ -51,6 +52,7 @@ internal sealed class PackageDownloader(IModulesLoadConfigProvider configProvide
         string? checksum,
         string installRootAbs,
         SourceCacheContext cache,
+        bool force,
         CancellationToken ct)
     {
         string packageKey = $"{packageId}.{versionString}";
@@ -77,7 +79,7 @@ internal sealed class PackageDownloader(IModulesLoadConfigProvider configProvide
                     logger.LogInformation("Package already exists at {Path} with matching checksum {Sha}. Skipping download.", nupkgPath, checksum);
                     _ = _downloadedPackages.Add(packageKey);
                     _allDownloadedPackages.Add(new DownloadedPackageInfo(packageId, versionString, nupkgPath));
-                    await DownloadDependenciesAsync(repo, source, packageId, version, installRootAbs, cache, ct);
+                    await DownloadDependenciesAsync(repo, source, packageId, version, installRootAbs, cache, force, ct);
                     return nupkgPath;
                 }
 
@@ -89,7 +91,7 @@ internal sealed class PackageDownloader(IModulesLoadConfigProvider configProvide
                 logger.LogWarning("Package already exists at {Path} but no checksum provided for verification. Skipping download.", nupkgPath);
                 _ = _downloadedPackages.Add(packageKey);
                 _allDownloadedPackages.Add(new DownloadedPackageInfo(packageId, versionString, nupkgPath));
-                await DownloadDependenciesAsync(repo, source, packageId, version, installRootAbs, cache, ct);
+                await DownloadDependenciesAsync(repo, source, packageId, version, installRootAbs, cache, force, ct);
                 return nupkgPath;
             }
         }
@@ -102,7 +104,7 @@ internal sealed class PackageDownloader(IModulesLoadConfigProvider configProvide
 
         logger.LogInformation("Downloaded package {PackageId} {Version} to {Path}", packageId, versionString, nupkgPath);
 
-        await DownloadDependenciesAsync(repo, source, packageId, version, installRootAbs, cache, ct);
+        await DownloadDependenciesAsync(repo, source, packageId, version, installRootAbs, cache, force, ct);
 
         return nupkgPath;
     }
@@ -114,6 +116,7 @@ internal sealed class PackageDownloader(IModulesLoadConfigProvider configProvide
         NuGetVersion version,
         string installRootAbs,
         SourceCacheContext cache,
+        bool force,
         CancellationToken ct)
     {
         try
@@ -152,6 +155,7 @@ internal sealed class PackageDownloader(IModulesLoadConfigProvider configProvide
                     dependency.VersionRange,
                     installRootAbs,
                     cache,
+                    force,
                     ct);
             }
         }
@@ -167,6 +171,7 @@ internal sealed class PackageDownloader(IModulesLoadConfigProvider configProvide
         VersionRange versionRange,
         string installRootAbs,
         SourceCacheContext cache,
+        bool force,
         CancellationToken ct)
     {
         if (!dependenciesChecker.IsRequired(dependencyId, versionRange.OriginalString ?? ""))
@@ -215,6 +220,7 @@ internal sealed class PackageDownloader(IModulesLoadConfigProvider configProvide
                         null,
                         installRootAbs,
                         cache,
+                        force,
                         ct);
 
                     return; // Succès, on sort

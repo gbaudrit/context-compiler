@@ -20,7 +20,7 @@ public sealed class NuGetModuleStore(IModulesLoadConfigProvider cfg,
 {
     private readonly ITrustPolicy _policy = trustPolicy;
 
-    public async Task<IModuleRestoreRequestResult> RestoreAsync(IModuleRestoreRequest req, CancellationToken ct)
+    public async Task<IModuleRestoreRequestResult> RestoreAsync(IModuleRestoreRequest req, bool force, CancellationToken ct)
     {
         ModuleSource source = cfg.Current.Sources.Single(s => string.Equals(s.Name, req.PackageId.Source.Id, StringComparison.OrdinalIgnoreCase));
         _policy.ValidateSource(source);
@@ -33,27 +33,27 @@ public sealed class NuGetModuleStore(IModulesLoadConfigProvider cfg,
         {
             string nupkgPath = FindCachedNupkg(req.PackageId.Id, req.Version.Raw)
                 ?? throw new InvalidOperationException($"Offline mode: package not found in cache: {req.PackageId.Id} {req.Version.Raw}");
-            return BuildRestoreResult(nupkgPath, req.PackageId.Id, req.Version.Raw, req.PackageId.Checksum, validateSignature: !cfg.Current.Offline);
+            return BuildRestoreResult(nupkgPath, req.PackageId.Id, req.Version.Raw, req.PackageId.Checksum, validateSignature: !cfg.Current.Offline, force);
         }
 
-        PackageDownloadResult downloadResult = await packageDownloader.DownloadPackageAsync(req, source, installRootAbs, ct);
+        PackageDownloadResult downloadResult = await packageDownloader.DownloadPackageAsync(req, source, installRootAbs, force, ct);
 
         foreach (DownloadedPackageInfo depInfo in downloadResult.AllPackages)
         {
-            if (!string.Equals(depInfo.PackageId, req.PackageId.Id, StringComparison.OrdinalIgnoreCase) ||
+            if (force || !string.Equals(depInfo.PackageId, req.PackageId.Id, StringComparison.OrdinalIgnoreCase) ||
                 !string.Equals(depInfo.Version, req.Version.Raw, StringComparison.OrdinalIgnoreCase))
             {
                 logger.LogInformation("Extracting dependency {PackageId} {Version}", depInfo.PackageId, depInfo.Version);
                 NuGetPackageMetadata depMetadata = metadatasExtractor.ExtractMetadatas(depInfo.NupkgPath);
                 string depChecksum = integrityChecker.ComputeSha256Base64(depInfo.NupkgPath);
-                _ = ExtractToImmutableCache(depInfo.NupkgPath, depInfo.PackageId, depInfo.Version, depChecksum);
+                _ = ExtractToImmutableCache(depInfo.NupkgPath, depInfo.PackageId, depInfo.Version, depChecksum, force);
             }
         }
 
-        return BuildRestoreResult(downloadResult.MainPackagePath, req.PackageId.Id, req.Version.Raw, req.PackageId.Checksum, validateSignature: !cfg.Current.Offline);
+        return BuildRestoreResult(downloadResult.MainPackagePath, req.PackageId.Id, req.Version.Raw, req.PackageId.Checksum, validateSignature: !cfg.Current.Offline, force);
     }
 
-    private IModuleRestoreRequestResult BuildRestoreResult(string nupkgPath, string packageId, string version, string checksum, bool validateSignature)
+    private IModuleRestoreRequestResult BuildRestoreResult(string nupkgPath, string packageId, string version, string checksum, bool validateSignature, bool force)
     {
         NuGetPackageMetadata packageMetadata = metadatasExtractor.ExtractMetadatas(nupkgPath);
         (bool isSigned, string? note) = CheckSignedBestEffort(nupkgPath);
@@ -63,7 +63,7 @@ public sealed class NuGetModuleStore(IModulesLoadConfigProvider cfg,
             _policy.ValidateSignature(isSigned, note);
         }
 
-        string extractedRoot = ExtractToImmutableCache(nupkgPath, packageId, version, checksum);
+        string extractedRoot = ExtractToImmutableCache(nupkgPath, packageId, version, checksum, force);
 
         IModuleMetadatas metadatas = moduleMetadatasBuilder
             .InitNew()
@@ -90,13 +90,13 @@ public sealed class NuGetModuleStore(IModulesLoadConfigProvider cfg,
         return (hasSig, hasSig ? null : "No .signature.p7s found (best-effort check).");
     }
 
-    private string ExtractToImmutableCache(string nupkgPath, string packageId, string version, string shaBase64)
+    private string ExtractToImmutableCache(string nupkgPath, string packageId, string version, string shaBase64, bool force)
     {
         string hashDir = shaBase64.Replace("/", "_").Replace("+", "-");
         string packageDir = Path.Combine(Path.GetFullPath(cfg.Current.InstallRoot), packageId);
         string dest = Path.Combine(packageDir, version, hashDir);
 
-        if (Directory.Exists(dest))
+        if (!force && Directory.Exists(dest))
         {
             return dest;
         }

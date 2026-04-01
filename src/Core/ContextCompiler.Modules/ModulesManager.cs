@@ -27,7 +27,7 @@ public sealed class ModulesManager(ICtxcWorkingFolder ctxcWorkingFolder,
         return Task.FromResult(restoreRequests.Select(r => r.PackageId.Id));
     }
 
-    public async Task<ModuleLockFile> RestoreAndLockAsync(CancellationToken ct)
+    public async Task<ModuleLockFile> RestoreAndLockAsync(bool force, CancellationToken ct)
     {
         ModuleLockFile lockFile = new() { FormatVersion = 1, GeneratedAt = DateTime.UnixEpoch, Packages = [] };
         List<string> moduleSchemaPaths = [];
@@ -69,7 +69,7 @@ public sealed class ModulesManager(ICtxcWorkingFolder ctxcWorkingFolder,
                 IModulesStore? store = serviceProvider.GetKeyedService<IModulesStore>(source.Provider)
                                        ?? throw new InvalidOperationException($"No module store found for provider {source.Provider}");
 
-                IModuleRestoreRequestResult restoreResult = await store.RestoreAsync(req, ct);
+                IModuleRestoreRequestResult restoreResult = await store.RestoreAsync(req, force, ct);
 
                 if (restoreResult.Success)
                 {

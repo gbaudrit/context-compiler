@@ -14,7 +14,7 @@ internal sealed class RestoreHandler(
     ILogger<RestoreHandler> logger
 ) : IRestoreHandler
 {
-    public async Task<int> HandleAsync(bool debug, string cfgFile)
+    public async Task<int> HandleAsync(bool debug, string cfgFile, bool force)
     {
         try
         {
@@ -27,7 +27,7 @@ internal sealed class RestoreHandler(
             string? configPath = modulesLoadConfigLocator.Locate(cfgFile, "", "");
             _ = modulesLoadConfigProvider.GetConfigOrDefault(configPath);
 
-            ModuleLockFile lf = await modulesManager.RestoreAndLockAsync(CancellationToken.None);
+            ModuleLockFile lf = await modulesManager.RestoreAndLockAsync(force, CancellationToken.None);
             modulesLoader.SaveLockFile(lf);
             Console.WriteLine($"Lock file written: {Path.GetFullPath(cfgFile)}");
             return 0;

@@ -44,13 +44,14 @@ public static class CliCommandFactory
         RootCommand root = CreateRootCommand();
 
         Option<string> configOpt = new("--config", () => ".", "Path to ctxc.config.json");
+        Option<bool> forceOpt = new("--force", () => false, "Force operation");
 
-        Command restore = new("restore", "Restore modules from NuGet and generate/update lock file.") { configOpt };
-        restore.SetHandler(async (debug, cfgFile) =>
+        Command restore = new("restore", "Restore modules from NuGet and generate/update lock file.") { configOpt, forceOpt };
+        restore.SetHandler(async (debug, cfgFile, force) =>
         {
             Handlers.IRestoreHandler handler = sp.GetRequiredService<Handlers.IRestoreHandler>();
-            Environment.ExitCode = await handler.HandleAsync(debug, cfgFile);
-        }, _debugOpt, configOpt);
+            Environment.ExitCode = await handler.HandleAsync(debug, cfgFile, force);
+        }, _debugOpt, configOpt, forceOpt);
 
         Command verify = new("verify", "Verify lock file and cached packages integrity (sha256).") { configOpt };
         verify.SetHandler(async cfgFile =>

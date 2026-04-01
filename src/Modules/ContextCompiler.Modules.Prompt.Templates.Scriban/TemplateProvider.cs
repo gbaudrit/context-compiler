@@ -10,7 +10,7 @@ namespace ContextCompiler.Modules.Prompt.Templates.Scriban
         public ITemplateDefinition GetTemplate(string name)
         {
             Stream? resource = Assembly.GetExecutingAssembly()
-                .GetManifestResourceStream($"ContextCompiler.Modules.BuiltIn.Templates.Scriban.Templates.{name}") ?? throw new InvalidOperationException($"Template '{name}' not found as embedded resource.");
+                .GetManifestResourceStream($"{GetType().Namespace}.Templates.{name}") ?? throw new InvalidOperationException($"Template '{name}' not found as embedded resource.");
             using StreamReader reader = new(resource);
             return new TemplateDefinition() { Name = name, Content = reader.ReadToEnd() };
         }

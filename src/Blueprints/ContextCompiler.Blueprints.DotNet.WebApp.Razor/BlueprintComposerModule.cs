@@ -162,7 +162,7 @@ internal sealed class BlueprintComposerModule(
 
             // === STEPS ===
             .AddStep(stepBuilder.InitNew()
-                .WithContent("## Étape 1 : Initialisation du projet\n\nCréer le projet avec la commande `dotnet new webapp -n MonProjet` et configurer la structure de base.")
+                .WithContent("Initialisation du projet\n\nCréer le projet avec la commande `dotnet new webapp -n MonProjet` et configurer la structure de base.")
                 .AddMustConstraint(mustBuilder.InitNew()
                     .WithId("STEP1_MUST1")
                     .WithText("Créer un fichier .gitignore adapté à .NET")
@@ -178,7 +178,7 @@ internal sealed class BlueprintComposerModule(
                 .Build())
 
             .AddStep(stepBuilder.InitNew()
-                .WithContent("## Étape 2 : Configuration de Program.cs\n\nConfigurer les services, middleware et pipeline de requêtes dans Program.cs.")
+                .WithContent("Configuration de Program.cs\n\nConfigurer les services, middleware et pipeline de requêtes dans Program.cs.")
                 .AddMustConstraint(mustBuilder.InitNew()
                     .WithId("STEP2_MUST1")
                     .WithText("Enregistrer tous les services dans le conteneur DI")
@@ -202,7 +202,7 @@ internal sealed class BlueprintComposerModule(
                 .Build())
 
             .AddStep(stepBuilder.InitNew()
-                .WithContent("## Étape 3 : Création du Layout et pages partagées\n\nCréer _Layout.cshtml, _ViewStart.cshtml et _ViewImports.cshtml pour définir la structure commune.")
+                .WithContent("Création du Layout et pages partagées\n\nCréer _Layout.cshtml, _ViewStart.cshtml et _ViewImports.cshtml pour définir la structure commune.")
                 .AddMustConstraint(mustBuilder.InitNew()
                     .WithId("STEP3_MUST1")
                     .WithText("Créer Pages/Shared/_Layout.cshtml avec la structure HTML de base")
@@ -222,7 +222,7 @@ internal sealed class BlueprintComposerModule(
                 .Build())
 
             .AddStep(stepBuilder.InitNew()
-                .WithContent("## Étape 4 : Création des pages Razor\n\nCréer les pages Razor (.cshtml) avec leurs PageModel (.cshtml.cs) correspondants.")
+                .WithContent("Création des pages Razor\n\nCréer les pages Razor (.cshtml) avec leurs PageModel (.cshtml.cs) correspondants.")
                 .AddMustConstraint(mustBuilder.InitNew()
                     .WithId("STEP4_MUST1")
                     .WithText("Créer une page avec @page directive en haut")
@@ -250,7 +250,7 @@ internal sealed class BlueprintComposerModule(
                 .Build())
 
             .AddStep(stepBuilder.InitNew()
-                .WithContent("## Étape 5 : Implémentation des services\n\nCréer les services métier et les enregistrer dans le conteneur d'injection de dépendances.")
+                .WithContent("Implémentation des services\n\nCréer les services métier et les enregistrer dans le conteneur d'injection de dépendances.")
                 .AddMustConstraint(mustBuilder.InitNew()
                     .WithId("STEP5_MUST1")
                     .WithText("Créer des interfaces pour chaque service")
@@ -274,7 +274,7 @@ internal sealed class BlueprintComposerModule(
                 .Build())
 
             .AddStep(stepBuilder.InitNew()
-                .WithContent("## Étape 6 : Configuration de la validation\n\nMettre en place la validation des données avec Data Annotations et validation côté client.")
+                .WithContent("Configuration de la validation\n\nMettre en place la validation des données avec Data Annotations et validation côté client.")
                 .AddMustConstraint(mustBuilder.InitNew()
                     .WithId("STEP6_MUST1")
                     .WithText("Utiliser Data Annotations sur les InputModels ([Required], [StringLength], etc.)")
@@ -298,7 +298,7 @@ internal sealed class BlueprintComposerModule(
                 .Build())
 
             .AddStep(stepBuilder.InitNew()
-                .WithContent("## Étape 7 : Gestion des données avec Entity Framework Core\n\nConfigurer EF Core, créer le DbContext et implémenter les repositories si nécessaire.")
+                .WithContent("Gestion des données avec Entity Framework Core\n\nConfigurer EF Core, créer le DbContext et implémenter les repositories si nécessaire.")
                 .AddMustConstraint(mustBuilder.InitNew()
                     .WithId("STEP7_MUST1")
                     .WithText("Créer un DbContext dédié dans le dossier Data/")
@@ -326,7 +326,7 @@ internal sealed class BlueprintComposerModule(
                 .Build())
 
             .AddStep(stepBuilder.InitNew()
-                .WithContent("## Étape 8 : Implémentation de l'authentification et autorisation\n\nConfigurer ASP.NET Core Identity ou un système d'authentification personnalisé.")
+                .WithContent("Implémentation de l'authentification et autorisation\n\nConfigurer ASP.NET Core Identity ou un système d'authentification personnalisé.")
                 .AddMustConstraint(mustBuilder.InitNew()
                     .WithId("STEP8_MUST1")
                     .WithText("Configurer Identity avec AddIdentity ou AddDefaultIdentity")
@@ -354,7 +354,7 @@ internal sealed class BlueprintComposerModule(
                 .Build())
 
             .AddStep(stepBuilder.InitNew()
-                .WithContent("## Étape 9 : Gestion des ressources statiques et assets\n\nOrganiser et optimiser les fichiers CSS, JavaScript et images.")
+                .WithContent("Gestion des ressources statiques et assets\n\nOrganiser et optimiser les fichiers CSS, JavaScript et images.")
                 .AddMustConstraint(mustBuilder.InitNew()
                     .WithId("STEP9_MUST1")
                     .WithText("Placer les fichiers statiques dans wwwroot/")
@@ -374,7 +374,7 @@ internal sealed class BlueprintComposerModule(
                 .Build())
 
             .AddStep(stepBuilder.InitNew()
-                .WithContent("## Étape 10 : Gestion des erreurs et logging\n\nImplémenter une gestion robuste des erreurs et du logging.")
+                .WithContent("Gestion des erreurs et logging\n\nImplémenter une gestion robuste des erreurs et du logging.")
                 .AddMustConstraint(mustBuilder.InitNew()
                     .WithId("STEP10_MUST1")
                     .WithText("Créer une page Error.cshtml avec son ErrorModel")
@@ -398,7 +398,7 @@ internal sealed class BlueprintComposerModule(
                 .Build())
 
             .AddStep(stepBuilder.InitNew()
-                .WithContent("## Étape 11 : Formulaires et liaison de données\n\nImplémenter des formulaires avec Tag Helpers et liaison de données sécurisée.")
+                .WithContent("Formulaires et liaison de données\n\nImplémenter des formulaires avec Tag Helpers et liaison de données sécurisée.")
                 .AddMustConstraint(mustBuilder.InitNew()
                     .WithId("STEP11_MUST1")
                     .WithText("Utiliser <form method=\"post\"> avec asp-page pour les formulaires")
@@ -422,7 +422,7 @@ internal sealed class BlueprintComposerModule(
                 .Build())
 
             .AddStep(stepBuilder.InitNew()
-                .WithContent("## Étape 12 : Configuration de la sécurité\n\nAppliquer les bonnes pratiques de sécurité web.")
+                .WithContent("Configuration de la sécurité\n\nAppliquer les bonnes pratiques de sécurité web.")
                 .AddMustConstraint(mustBuilder.InitNew()
                     .WithId("STEP12_MUST1")
                     .WithText("Activer HTTPS Redirection et HSTS")
@@ -450,7 +450,7 @@ internal sealed class BlueprintComposerModule(
                 .Build())
 
             .AddStep(stepBuilder.InitNew()
-                .WithContent("## Étape 13 : Tests et validation\n\nCréer des tests unitaires et d'intégration pour valider le comportement.")
+                .WithContent("Tests et validation\n\nCréer des tests unitaires et d'intégration pour valider le comportement.")
                 .AddMustConstraint(mustBuilder.InitNew()
                     .WithId("STEP13_MUST1")
                     .WithText("Créer un projet de test avec dotnet new xunit")
@@ -470,7 +470,7 @@ internal sealed class BlueprintComposerModule(
                 .Build())
 
             .AddStep(stepBuilder.InitNew()
-                .WithContent("## Étape 14 : Déploiement et configuration\n\nPréparer l'application pour le déploiement.")
+                .WithContent("Déploiement et configuration\n\nPréparer l'application pour le déploiement.")
                 .AddMustConstraint(mustBuilder.InitNew()
                     .WithId("STEP14_MUST1")
                     .WithText("Configurer différents appsettings par environnement (Development, Staging, Production)")

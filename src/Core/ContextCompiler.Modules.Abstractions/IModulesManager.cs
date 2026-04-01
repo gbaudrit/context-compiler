@@ -7,6 +7,6 @@ namespace ContextCompiler.Modules.Abstractions
         IEnumerable<(string id, string version, string shaDir)> ListInstalled();
         Task<IEnumerable<string>> LoadableModules();
         void PurgeCache(bool keepLockfilePinned = true);
-        Task<ModuleLockFile> RestoreAndLockAsync(CancellationToken ct);
+        Task<ModuleLockFile> RestoreAndLockAsync(bool force, CancellationToken ct);
     }
 }

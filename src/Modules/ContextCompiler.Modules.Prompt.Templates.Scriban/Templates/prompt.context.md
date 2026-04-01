@@ -137,7 +137,7 @@
 ### Steps
 {{~ for step in blueprint.steps ~}}
 
-{{ step.content }}
+#### Étape {{ for.index + 1 }} : {{ step.content }}
 
 {{~ if step.mustConstraints && step.mustConstraints.size > 0 ~}}
 **MUST:**
@@ -145,16 +145,13 @@
 - {{ m.id }}: {{ m.text }}
 {{~ end ~}}
 {{~ end ~}}
-
 {{~ if step.mustNotConstraints && step.mustNotConstraints.size > 0 ~}}
 **MUST NOT:**
 {{~ for mn in step.mustNotConstraints ~}}
 - {{ mn.id }}: {{ mn.text }}
 {{~ end ~}}
 {{~ end ~}}
-
 {{~ end ~}}
 {{~ end ~}}
-
 {{~ end ~}}
 {{~ end ~}}
