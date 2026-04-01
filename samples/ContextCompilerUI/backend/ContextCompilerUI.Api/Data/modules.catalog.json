@@ -1,0 +1,98 @@
+[
+  {
+    "id": "ContextCompiler.Modules.Readers.Markdown",
+    "name": "Markdown Reader",
+    "description": "Lit les fichiers Markdown comme source d'entrée du pipeline.",
+    "category": "Readers",
+    "nuGetPackage": "ContextCompiler.Modules.Readers.Markdown",
+    "pipelinePhase": "Read"
+  },
+  {
+    "id": "ContextCompiler.Modules.Readers.Text",
+    "name": "Text Reader",
+    "description": "Lit les fichiers texte brut comme source d'entrée du pipeline.",
+    "category": "Readers",
+    "nuGetPackage": "ContextCompiler.Modules.Readers.Text",
+    "pipelinePhase": "Read"
+  },
+  {
+    "id": "ContextCompiler.Modules.Readers.Pdf",
+    "name": "PDF Reader",
+    "description": "Extrait le contenu des fichiers PDF comme source d'entrée.",
+    "category": "Readers",
+    "nuGetPackage": "ContextCompiler.Modules.Readers.Pdf",
+    "pipelinePhase": "Read"
+  },
+  {
+    "id": "ContextCompiler.Modules.Readers.Excel",
+    "name": "Excel Reader",
+    "description": "Lit les fichiers Excel (xls/xlsx) comme source d'entrée.",
+    "category": "Readers",
+    "nuGetPackage": "ContextCompiler.Modules.Readers.Excel",
+    "pipelinePhase": "Read"
+  },
+  {
+    "id": "ContextCompiler.Modules.Prompt.Composers.General",
+    "name": "General Prompt Composer",
+    "description": "Compose la section générale du prompt context.",
+    "category": "Prompt",
+    "nuGetPackage": "ContextCompiler.Modules.Prompt.Composers.General",
+    "pipelinePhase": "Compose"
+  },
+  {
+    "id": "ContextCompiler.Modules.Prompt.Composers.Objectives",
+    "name": "Objectives Prompt Composer",
+    "description": "Compose la section des objectifs dans le prompt context.",
+    "category": "Prompt",
+    "nuGetPackage": "ContextCompiler.Modules.Prompt.Composers.Objectives",
+    "pipelinePhase": "Compose"
+  },
+  {
+    "id": "ContextCompiler.Modules.Prompt.Composers.Constraints",
+    "name": "Constraints Prompt Composer",
+    "description": "Compose les sections MUST / MUST NOT / Assumptions du prompt.",
+    "category": "Prompt",
+    "nuGetPackage": "ContextCompiler.Modules.Prompt.Composers.Constraints",
+    "pipelinePhase": "Compose"
+  },
+  {
+    "id": "ContextCompiler.Modules.Views",
+    "name": "Views Module",
+    "description": "Structure et rend des vues dans le prompt context.",
+    "category": "Views",
+    "nuGetPackage": "ContextCompiler.Modules.Views",
+    "pipelinePhase": "Render"
+  },
+  {
+    "id": "ContextCompiler.Modules.Views.View.Index.Json",
+    "name": "Artifacts Index (JSON)",
+    "description": "Produit l'index des artefacts au format JSON.",
+    "category": "Views",
+    "nuGetPackage": "ContextCompiler.Modules.Views.View.Index.Json",
+    "pipelinePhase": "Render"
+  },
+  {
+    "id": "ContextCompiler.Modules.Personas.Developers.DotNet",
+    "name": ".NET Developer Persona",
+    "description": "Injecte les conventions, pratiques et posture d'un développeur .NET.",
+    "category": "Personas",
+    "nuGetPackage": "ContextCompiler.Modules.Personas.Developers.DotNet",
+    "pipelinePhase": "Engineer"
+  },
+  {
+    "id": "ContextCompiler.Modules.Personas.Analysts.Business",
+    "name": "Business Analyst Persona",
+    "description": "Injecte la posture et les pratiques d'un analyste métier.",
+    "category": "Personas",
+    "nuGetPackage": "ContextCompiler.Modules.Personas.Analysts.Business",
+    "pipelinePhase": "Engineer"
+  },
+  {
+    "id": "ContextCompiler.Modules.Engineering.DotNet",
+    "name": ".NET Engineering",
+    "description": "Applique les règles d'engineering et d'architecture .NET au contexte.",
+    "category": "Engineering",
+    "nuGetPackage": "ContextCompiler.Modules.Engineering.DotNet",
+    "pipelinePhase": "Engineer"
+  }
+]

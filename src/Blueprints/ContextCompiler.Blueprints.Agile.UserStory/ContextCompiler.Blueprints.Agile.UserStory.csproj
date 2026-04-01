@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<Configurations>Debug;Release;DebugLocal</Configurations>
+		<IsPackable>true</IsPackable>
+		<PackageId>ContextCompiler.Blueprints.Agile.UserStory</PackageId>
+		<Title>Agile User Story blueprint</Title>
+		<Description>Blueprint for writing high-quality Agile User Stories with acceptance criteria, INVEST principles, and Definition of Ready/Done.</Description>
+		<PackageTags>context;compiler;blueprint;agile;userstory;scrum;product;requirements;acceptance-criteria</PackageTags>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<Authors>ContextCompiler</Authors>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)' == 'DebugLocal'">
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="README.md" Pack="true" PackagePath="" />
+		<ProjectReference Include="..\..\Modules\ContextCompiler.Modules.Personas.Analysts.Business\ContextCompiler.Modules.Personas.Analysts.Business.csproj" />
+	</ItemGroup>
+
+</Project>

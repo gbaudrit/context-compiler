@@ -4,7 +4,7 @@ using ContextCompiler.Modules.Abstractions;
 
 namespace ContextCompiler.Blueprints.DotNet.WebApp.Razor;
 
-internal sealed class BlueprintComposerModule(
+internal sealed class DotNetWebAppRazorBlueprintComposer(
     IPrompt prompt,
     IBlueprintBuilder blueprintBuilder,
     IBlueprintStepBuilder stepBuilder,

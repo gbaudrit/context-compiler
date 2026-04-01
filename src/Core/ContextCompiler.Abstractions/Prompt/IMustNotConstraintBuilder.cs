@@ -4,7 +4,8 @@ namespace ContextCompiler.Abstractions.Prompt
     {
         IMustNotConstraint Build();
         IMustNotConstraintBuilder InitNew();
-        IMustNotConstraintBuilder WithText(string text);
         IMustNotConstraintBuilder WithId(string id);
+        IMustNotConstraintBuilder WithRationale(string rationale);
+        IMustNotConstraintBuilder WithText(string text);
     }
 }

@@ -4,13 +4,23 @@ namespace ContextCompiler.Core.Framing;
 
 internal sealed class AssumptionBuilder : IAssumptionBuilder
 {
+    private string? _id;
     private string? _name;
     private string? _description;
+    private string? _rationale;
 
     public IAssumptionBuilder InitNew()
     {
+        _id = null;
         _name = null;
         _description = null;
+        _rationale = null;
+        return this;
+    }
+
+    public IAssumptionBuilder WithId(string id)
+    {
+        _id = id;
         return this;
     }
 
@@ -26,12 +36,22 @@ internal sealed class AssumptionBuilder : IAssumptionBuilder
         return this;
     }
 
+    public IAssumptionBuilder WithRationale(string rationale)
+    {
+        _rationale = rationale;
+        return this;
+    }
+
     public IAssumption Build()
     {
-        return _name is null
-            ? throw new InvalidOperationException("Assumption name is required.")
-            : _description is null
+        return _description is null
             ? throw new InvalidOperationException("Assumption description is required.")
-            : (IAssumption)new Assumption { Name = _name, Description = _description };
+            : (IAssumption)new Assumption
+            {
+                Id = _id ?? string.Empty,
+                Name = _name ?? string.Empty,
+                Description = _description,
+                Rationale = _rationale ?? string.Empty
+            };
     }
 }

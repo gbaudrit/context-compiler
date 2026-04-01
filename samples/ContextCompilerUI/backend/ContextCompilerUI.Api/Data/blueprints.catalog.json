@@ -1,0 +1,99 @@
+[
+  {
+    "id": "ContextCompiler.Blueprints.Agile.UserStory",
+    "name": "Rédaction de User Story Agile",
+    "description": "Blueprint pour rédiger des User Stories Agile de haute qualité avec critères d'acceptation, principes INVEST et Definition of Ready/Done.",
+    "packIds": ["ContextCompiler.Packs.Starter.Standard"],
+    "steps": [
+      { "title": "Identifier le rôle utilisateur et le persona", "description": "Identifier clairement qui est l'utilisateur de cette fonctionnalité et quel persona il représente." },
+      { "title": "Définir la fonctionnalité désirée", "description": "Décrire clairement ce que l'utilisateur veut faire ou accomplir." },
+      { "title": "Articuler la valeur métier", "description": "Expliquer pourquoi cette fonctionnalité est importante et quelle valeur elle apporte." },
+      { "title": "Rédiger les critères d'acceptation", "description": "Définir les conditions précises (Given/When/Then) qui doivent être satisfaites." },
+      { "title": "Valider avec les critères INVEST", "description": "Vérifier que la User Story respecte les principes INVEST de qualité." },
+      { "title": "Définir la Definition of Ready", "description": "Établir les critères qui doivent être remplis avant de commencer le développement." },
+      { "title": "Définir la Definition of Done", "description": "Établir les critères de complétion qui valident que la User Story est terminée." },
+      { "title": "Ajouter les notes techniques et dépendances", "description": "Documenter les considérations techniques, contraintes et dépendances identifiées." },
+      { "title": "Estimer et dimensionner la User Story", "description": "Évaluer l'effort nécessaire et vérifier que la taille est appropriée." },
+      { "title": "Prioriser et placer dans le backlog", "description": "Déterminer la priorité de la User Story et la positionner dans le backlog produit." },
+      { "title": "Réviser et affiner avec les parties prenantes", "description": "Valider la User Story avec le Product Owner, l'équipe et les parties prenantes." }
+    ],
+    "commands": [
+      { "name": "write-story", "description": "Rédiger une nouvelle User Story complète", "example": "En tant que client enregistré, je veux pouvoir consulter mon historique de commandes" },
+      { "name": "review-story", "description": "Réviser une User Story existante selon les critères INVEST", "example": "Vérifier que la story US-123 respecte tous les critères INVEST" },
+      { "name": "split-epic", "description": "Décomposer une Epic en User Stories plus petites", "example": "Décomposer l'Epic 'Gestion des paiements' en User Stories réalisables en un sprint" },
+      { "name": "add-acceptance-criteria", "description": "Ajouter ou améliorer les critères d'acceptation", "example": "Given l'utilisateur est connecté, When il clique sur 'Mon compte', Then il accède à son profil" },
+      { "name": "validate-dor", "description": "Vérifier qu'une User Story respecte la Definition of Ready", "example": "Vérifier que US-456 a tous les critères d'acceptation" }
+    ]
+  },
+  {
+    "id": "ContextCompiler.Blueprints.DotNet.WebApp.Razor",
+    "name": ".NET Razor Web App",
+    "description": "Blueprint pour créer une application web .NET avec Razor Pages, architecture en couches, EF Core et les bonnes pratiques .NET.",
+    "packIds": ["ContextCompiler.Packs.Starter.Standard"],
+    "steps": [
+      { "title": "Initialiser la structure du projet", "description": "Créer le projet ASP.NET Core Razor Pages et établir l'architecture en couches." },
+      { "title": "Configurer Program.cs et l'injection de dépendances", "description": "Configurer le démarrage de l'application avec les services, le middleware et les préoccupations transversales." },
+      { "title": "Définir les modèles de domaine", "description": "Créer les entités de domaine représentant les concepts métier." },
+      { "title": "Configurer Entity Framework Core", "description": "Configurer EF Core avec le DbContext et la connexion à la base de données." },
+      { "title": "Implémenter le pattern Repository", "description": "Créer les interfaces et implémentations de repository pour l'abstraction de l'accès aux données." },
+      { "title": "Créer les Razor Pages", "description": "Implémenter les pages avec les PageModel correspondants." },
+      { "title": "Configurer l'authentification", "description": "Mettre en place l'authentification ASP.NET Core Identity ou JWT." },
+      { "title": "Implémenter la validation des entrées", "description": "Configurer la validation avec FluentValidation ou les Data Annotations." },
+      { "title": "Configurer la gestion globale des erreurs", "description": "Implémenter un middleware de gestion d'exceptions pour des réponses cohérentes." },
+      { "title": "Écrire les tests unitaires et d'intégration", "description": "Créer une suite de tests complète couvrant la logique métier et les pages." }
+    ],
+    "commands": [
+      { "name": "create-webapp", "description": "Créer un nouveau projet ASP.NET Core Razor Pages", "example": "dotnet new webapp -n MyApp" },
+      { "name": "add-page", "description": "Ajouter une nouvelle page Razor", "example": "dotnet new page -n Products -o Pages/Products" },
+      { "name": "add-migration", "description": "Créer une migration EF Core", "example": "dotnet ef migrations add InitialCreate" },
+      { "name": "run-tests", "description": "Exécuter les tests", "example": "dotnet test" }
+    ]
+  },
+  {
+    "id": "ContextCompiler.Blueprints.DotNet.Api.Backend",
+    "name": ".NET Core REST API Backend",
+    "description": "Comprehensive guide for building a professional, production-ready REST API backend using .NET Core with layered architecture and JWT authentication.",
+    "packIds": ["ContextCompiler.Packs.Starter.Standard"],
+    "steps": [
+      { "title": "Initialize API Project Structure", "description": "Create the .NET Core Web API project and establish the layered architecture." },
+      { "title": "Configure Program.cs and Dependency Injection", "description": "Set up application startup with service registrations and middleware pipeline." },
+      { "title": "Define Domain Models and Entities", "description": "Create domain entities representing core business concepts." },
+      { "title": "Configure EF Core and DbContext", "description": "Set up EF Core with DbContext, entity configurations, and database connection." },
+      { "title": "Implement Repository Pattern", "description": "Create generic repository interface and implementation for data access abstraction." },
+      { "title": "Create DTOs", "description": "Define request and response DTOs for API contracts." },
+      { "title": "Implement Service Layer", "description": "Create service classes containing business logic." },
+      { "title": "Create API Controllers", "description": "Implement controllers with CRUD endpoints following REST conventions." },
+      { "title": "Implement JWT Authentication", "description": "Configure JWT Bearer authentication with token generation and validation." },
+      { "title": "Configure Swagger/OpenAPI", "description": "Set up comprehensive API documentation." }
+    ],
+    "commands": [
+      { "name": "create-api", "description": "Create a new .NET Core Web API project", "example": "dotnet new webapi -n MyApi --use-controllers" },
+      { "name": "add-migration", "description": "Create a new EF Core migration", "example": "dotnet ef migrations add AddProductTable" },
+      { "name": "run-tests", "description": "Execute unit and integration tests", "example": "dotnet test" }
+    ]
+  },
+  {
+    "id": "ContextCompiler.Blueprints.React.Frontend",
+    "name": "React Frontend Application",
+    "description": "Comprehensive guide for building modern, production-ready React applications with TypeScript, component architecture, state management and API integration.",
+    "packIds": ["ContextCompiler.Packs.Starter.Standard"],
+    "steps": [
+      { "title": "Initialize React Project", "description": "Create the React application using Vite with TypeScript configuration." },
+      { "title": "Configure TypeScript and ESLint", "description": "Set up TypeScript configuration and linting rules." },
+      { "title": "Set Up Routing with React Router", "description": "Configure client-side routing for navigation between pages." },
+      { "title": "Design Component Architecture", "description": "Establish component patterns, naming conventions, and composition strategies." },
+      { "title": "Implement State Management", "description": "Set up state management using useState, Context API, or Redux/Zustand." },
+      { "title": "Create Custom Hooks", "description": "Develop reusable custom hooks for API calls and form handling." },
+      { "title": "Configure API Integration", "description": "Set up HTTP client and create service layer for API communication." },
+      { "title": "Handle Forms and Validation", "description": "Implement form handling with React Hook Form." },
+      { "title": "Configure Styling Solution", "description": "Set up styling approach (CSS Modules, Tailwind CSS, etc.)." },
+      { "title": "Write Tests", "description": "Create test suite using Jest and React Testing Library." }
+    ],
+    "commands": [
+      { "name": "create-vite-app", "description": "Create React app with Vite", "example": "npm create vite@latest my-app -- --template react-ts" },
+      { "name": "add-component", "description": "Create new React component with TypeScript", "example": "Create Button.tsx in components/ with Props interface" },
+      { "name": "run-dev", "description": "Start development server", "example": "npm run dev" },
+      { "name": "run-tests", "description": "Execute test suite", "example": "npm test" }
+    ]
+  }
+]

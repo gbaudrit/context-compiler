@@ -6,6 +6,7 @@ namespace ContextCompiler.Core.Framing
     {
         private string? _name;
         private string? _description;
+        private string? _example;
         private string? _personaId;
         private List<ICommand>? _subs;
 
@@ -13,6 +14,8 @@ namespace ContextCompiler.Core.Framing
         {
             _name = null;
             _description = null;
+            _example = null;
+            _personaId = null;
             _subs = [];
             return this;
         }
@@ -26,6 +29,12 @@ namespace ContextCompiler.Core.Framing
         public ICommandBuilder WithDescription(string description)
         {
             _description = description;
+            return this;
+        }
+
+        public ICommandBuilder WithExample(string example)
+        {
+            _example = example;
             return this;
         }
 
@@ -47,7 +56,14 @@ namespace ContextCompiler.Core.Framing
                 ? throw new InvalidOperationException("Command name is required.")
                 : _description is null
                 ? throw new InvalidOperationException("Command description is required.")
-                : (ICommand)new Command() { Id = _name, Description = _description, Subs = _subs ?? [], PersonaId = _personaId ?? string.Empty };
+                : (ICommand)new Command()
+                {
+                    Id = _name,
+                    Description = _description,
+                    Example = _example ?? string.Empty,
+                    Subs = _subs ?? [],
+                    PersonaId = _personaId ?? string.Empty
+                };
         }
     }
 }

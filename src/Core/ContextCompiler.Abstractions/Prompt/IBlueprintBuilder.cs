@@ -7,6 +7,8 @@ namespace ContextCompiler.Abstractions.Prompt
         IBlueprintBuilder WithId(string id);
         IBlueprintBuilder WithName(string name);
         IBlueprintBuilder WithDescription(string description);
+
+        // Existing methods
         IBlueprintBuilder AddMustConstraint(IMustConstraint constraint);
         IBlueprintBuilder AddMustConstraints(IEnumerable<IMustConstraint> constraints);
         IBlueprintBuilder AddMustNotConstraint(IMustNotConstraint constraint);
@@ -21,5 +23,14 @@ namespace ContextCompiler.Abstractions.Prompt
         IBlueprintBuilder AddCommands(IEnumerable<ICommand> commands);
         IBlueprintBuilder AddStep(IBlueprintStep blueprintStep);
         IBlueprintBuilder AddSteps(IEnumerable<IBlueprintStep> steps);
+
+        // Lambda-based fluent methods
+        IBlueprintBuilder WithObjective(Func<IObjectiveBuilder, IObjectiveBuilder> configure);
+        IBlueprintBuilder WithGlobalMustConstraint(Func<IMustConstraintBuilder, IMustConstraintBuilder> configure);
+        IBlueprintBuilder WithGlobalMustNotConstraint(Func<IMustNotConstraintBuilder, IMustNotConstraintBuilder> configure);
+        IBlueprintBuilder WithAssumption(Func<IAssumptionBuilder, IAssumptionBuilder> configure);
+        IBlueprintBuilder WithGlossaryTerm(Func<IGlossaryTermBuilder, IGlossaryTermBuilder> configure);
+        IBlueprintBuilder WithCommand(Func<ICommandBuilder, ICommandBuilder> configure);
+        IBlueprintBuilder WithStep(Func<IBlueprintStepBuilder, IBlueprintStepBuilder> configure);
     }
 }

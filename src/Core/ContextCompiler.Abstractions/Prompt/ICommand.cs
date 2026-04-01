@@ -4,6 +4,7 @@ namespace ContextCompiler.Abstractions.Prompt
     {
         string Id { get; }
         string Description { get; }
+        string Example { get; }
         List<ICommand> Subs { get; }
         string PersonaId { get; init; }
     }

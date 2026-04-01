@@ -1,0 +1,11 @@
+{
+  "artifacts": [
+    {
+      "filename": "view.default.md",
+      "description": "",
+      "mimeType": "application/octet-stream",
+      "size": 15,
+      "generatedBy": "ContextCompiler.Modules.Prompt.Composers.Views.ViewsPromptComposerModule"
+    }
+  ]
+}

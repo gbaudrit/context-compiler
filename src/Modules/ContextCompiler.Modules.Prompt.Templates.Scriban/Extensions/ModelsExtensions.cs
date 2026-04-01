@@ -66,6 +66,9 @@ namespace ContextCompiler.Modules.Prompt.Templates.Scriban.Extensions
         {
             return new
             {
+                title = o.Title,
+                description = o.Description,
+                expectedOutcome = o.ExpectedOutcome,
                 content = o.Content,
                 mustConstraints = o.MustConstraints.Select(m => m.ToTemplateModel()).ToList(),
                 mustNotConstraints = o.MustNotConstraints.Select(mn => mn.ToTemplateModel()).ToList()
@@ -76,8 +79,10 @@ namespace ContextCompiler.Modules.Prompt.Templates.Scriban.Extensions
         {
             return new
             {
+                id = o.Id,
                 name = o.Name,
-                description = o.Description
+                description = o.Description,
+                rationale = o.Rationale
             };
         }
 
@@ -85,8 +90,10 @@ namespace ContextCompiler.Modules.Prompt.Templates.Scriban.Extensions
         {
             return new
             {
+                id = o.Id,
                 name = o.Name,
-                description = o.Description
+                description = o.Description,
+                rationale = o.Rationale
             };
         }
 
@@ -95,6 +102,7 @@ namespace ContextCompiler.Modules.Prompt.Templates.Scriban.Extensions
             return new
             {
                 id = o.Id,
+                rationale = o.Rationale,
                 text = o.Text
             };
         }
@@ -104,6 +112,7 @@ namespace ContextCompiler.Modules.Prompt.Templates.Scriban.Extensions
             return new
             {
                 id = o.Id,
+                rationale = o.Rationale,
                 text = o.Text
             };
         }
@@ -122,7 +131,8 @@ namespace ContextCompiler.Modules.Prompt.Templates.Scriban.Extensions
             return new
             {
                 name = o.Id,
-                description = o.Description
+                description = o.Description,
+                example = o.Example
             };
         }
 

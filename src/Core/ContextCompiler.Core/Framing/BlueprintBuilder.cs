@@ -2,7 +2,14 @@ using ContextCompiler.Abstractions.Prompt;
 
 namespace ContextCompiler.Core.Framing
 {
-    internal sealed class BlueprintBuilder : IBlueprintBuilder
+    internal sealed class BlueprintBuilder(
+        IObjectiveBuilder objectiveBuilder,
+        IMustConstraintBuilder mustConstraintBuilder,
+        IMustNotConstraintBuilder mustNotConstraintBuilder,
+        IAssumptionBuilder assumptionBuilder,
+        IGlossaryTermBuilder glossaryTermBuilder,
+        ICommandBuilder commandBuilder,
+        IBlueprintStepBuilder stepBuilder) : IBlueprintBuilder
     {
         private string _id = string.Empty;
         private string _name = string.Empty;
@@ -147,6 +154,49 @@ namespace ContextCompiler.Core.Framing
         {
             _steps.AddRange(steps);
             return this;
+        }
+
+        // Lambda-based fluent methods
+        public IBlueprintBuilder WithObjective(Func<IObjectiveBuilder, IObjectiveBuilder> configure)
+        {
+            IObjective objective = configure(objectiveBuilder.InitNew()).Build();
+            return AddObjective(objective);
+        }
+
+        public IBlueprintBuilder WithGlobalMustConstraint(Func<IMustConstraintBuilder, IMustConstraintBuilder> configure)
+        {
+            IMustConstraint constraint = configure(mustConstraintBuilder.InitNew()).Build();
+            return AddMustConstraint(constraint);
+        }
+
+        public IBlueprintBuilder WithGlobalMustNotConstraint(Func<IMustNotConstraintBuilder, IMustNotConstraintBuilder> configure)
+        {
+            IMustNotConstraint constraint = configure(mustNotConstraintBuilder.InitNew()).Build();
+            return AddMustNotConstraint(constraint);
+        }
+
+        public IBlueprintBuilder WithAssumption(Func<IAssumptionBuilder, IAssumptionBuilder> configure)
+        {
+            IAssumption assumption = configure(assumptionBuilder.InitNew()).Build();
+            return AddAssumption(assumption);
+        }
+
+        public IBlueprintBuilder WithGlossaryTerm(Func<IGlossaryTermBuilder, IGlossaryTermBuilder> configure)
+        {
+            IGlossaryTerm term = configure(glossaryTermBuilder.InitNew()).Build();
+            return AddGlossaryTerm(term);
+        }
+
+        public IBlueprintBuilder WithCommand(Func<ICommandBuilder, ICommandBuilder> configure)
+        {
+            ICommand command = configure(commandBuilder.InitNew()).Build();
+            return AddCommand(command);
+        }
+
+        public IBlueprintBuilder WithStep(Func<IBlueprintStepBuilder, IBlueprintStepBuilder> configure)
+        {
+            IBlueprintStep step = configure(stepBuilder.InitNew()).Build();
+            return AddStep(step);
         }
     }
 }

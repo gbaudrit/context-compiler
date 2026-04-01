@@ -94,28 +94,40 @@
 {{~ if blueprint.objectives && blueprint.objectives.size > 0 ~}}
 ### Objectives
 {{~ for obj in blueprint.objectives ~}}
-- {{ obj.name }}: {{ obj.description }}
+- **{{ obj.id }}**: {{ obj.description }}
+  {{~ if obj.rationale && obj.rationale != "" ~}}
+  - *Rationale*: {{ obj.rationale }}
+  {{~ end ~}}
 {{~ end ~}}
 {{~ end ~}}
 
 {{~ if blueprint.mustConstraints && blueprint.mustConstraints.size > 0 ~}}
 ### MUST
 {{~ for m in blueprint.mustConstraints ~}}
-- {{ m.id }}: {{ m.text }}
+- **{{ m.id }}**: {{ m.text }}
+  {{~ if m.rationale && m.rationale != "" ~}}
+  - *Rationale*: {{ m.rationale }}
+  {{~ end ~}}
 {{~ end ~}}
 {{~ end ~}}
 
 {{~ if blueprint.mustNotConstraints && blueprint.mustNotConstraints.size > 0 ~}}
 ### MUST NOT
 {{~ for mn in blueprint.mustNotConstraints ~}}
-- {{ mn.id }}: {{ mn.text }}
+- **{{ mn.id }}**: {{ mn.text }}
+  {{~ if mn.rationale && mn.rationale != "" ~}}
+  - *Rationale*: {{ mn.rationale }}
+  {{~ end ~}}
 {{~ end ~}}
 {{~ end ~}}
 
 {{~ if blueprint.assumptions && blueprint.assumptions.size > 0 ~}}
 ### Assumptions
 {{~ for a in blueprint.assumptions ~}}
-- {{ a.name }}: {{ a.description }}
+- **{{ a.id }}**: {{ a.description }}
+  {{~ if a.rationale && a.rationale != "" ~}}
+  - *Rationale*: {{ a.rationale }}
+  {{~ end ~}}
 {{~ end ~}}
 {{~ end ~}}
 
@@ -129,7 +141,10 @@
 {{~ if blueprint.commands && blueprint.commands.size > 0 ~}}
 ### Commands
 {{~ for c in blueprint.commands ~}}
-- {{ c.name }}: {{ c.description }}
+- **{{ c.name }}**: {{ c.description }}
+  {{~ if c.example && c.example != "" ~}}
+  - *Example*: `{{ c.example }}`
+  {{~ end ~}}
 {{~ end ~}}
 {{~ end ~}}
 
@@ -137,18 +152,30 @@
 ### Steps
 {{~ for step in blueprint.steps ~}}
 
-#### Étape {{ for.index + 1 }} : {{ step.content }}
+#### Step {{ for.index + 1 }}: {{ step.title }}
+
+{{ step.description }}
+
+{{~ if step.expectedOutcome && step.expectedOutcome != "" ~}}
+**Expected Outcome**: {{ step.expectedOutcome }}
+{{~ end ~}}
 
 {{~ if step.mustConstraints && step.mustConstraints.size > 0 ~}}
 **MUST:**
 {{~ for m in step.mustConstraints ~}}
-- {{ m.id }}: {{ m.text }}
+- **{{ m.id }}**: {{ m.description }}
+  {{~ if m.rationale && m.rationale != "" ~}}
+  - *Rationale*: {{ m.rationale }}
+  {{~ end ~}}
 {{~ end ~}}
 {{~ end ~}}
 {{~ if step.mustNotConstraints && step.mustNotConstraints.size > 0 ~}}
 **MUST NOT:**
 {{~ for mn in step.mustNotConstraints ~}}
-- {{ mn.id }}: {{ mn.text }}
+- **{{ mn.id }}**: {{ mn.description }}
+  {{~ if mn.rationale && mn.rationale != "" ~}}
+  - *Rationale*: {{ mn.rationale }}
+  {{~ end ~}}
 {{~ end ~}}
 {{~ end ~}}
 {{~ end ~}}
