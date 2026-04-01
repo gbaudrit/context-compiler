@@ -69,8 +69,13 @@ Il transforme un dossier de fichiers hÃ©tÃ©rogÃ¨nes en un **contexte de raisonne
 
 ## 6. Terminologie stable
 
+- **Module** : capacité atomique, stateless, réutilisable, branchée dans un pipeline
+- **Pack** : regroupement cohérent de modules prêts à l'emploi
+- **Pipeline** : chaîne d'exécution ordonnée où chaque étape reçoit, transforme puis transmet des données
+- **Blueprint** : solution orientée use case qui combine packs, modules et pipeline pour produire un résultat final
 - **Fragment** : unitÃ© atomique dâ€™information
 - **Reasoning IR** : reprÃ©sentation interne canonique
 - **View** : projection (sÃ©lection + ordering + rendu)
 - **Guard** : contrÃ´le sÃ©curitÃ©/policy prÃ©-LLM
 - **EK/ER** : preuve stable/versionnÃ©e
+

@@ -21,6 +21,7 @@ namespace ContextCompiler.Abstractions.Models
         public IReadOnlyList<IPersona> Personas { get; set; } = [];
         public IReadOnlyList<IViewResult> Views { get; set; } = [];
         public IReadOnlyList<ICommand> Commands { get; set; } = [];
+        public IReadOnlyList<IBlueprint> Blueprints { get; set; } = [];
 
         private readonly List<IOutputArtifact> _artifacts = [];
 

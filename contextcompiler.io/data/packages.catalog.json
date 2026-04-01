@@ -1,12 +1,14 @@
 ﻿{
-    "generatedAt":  "2026-03-30T18:20:49Z",
+    "generatedAt":  "2026-04-01T11:44:16Z",
     "source":  {
                    "modulesRoot":  "src/Modules",
-                   "packsRoot":  "src/Packs"
+                   "packsRoot":  "src/Packs",
+                   "blueprintsRoot":  "src/Blueprints"
                },
     "stats":  {
-                  "modules":  33,
-                  "packs":  6
+                  "modules":  34,
+                  "packs":  6,
+                  "blueprints":  1
               },
     "families":  {
                      "modules":  [
@@ -30,7 +32,10 @@
                                    "Readers",
                                    "Starter",
                                    "Views"
-                               ]
+                               ],
+                     "blueprints":  [
+                                        "DotNet"
+                                    ]
                  },
     "modules":  [
                     {
@@ -495,6 +500,27 @@
                         "compositionKind":  null,
                         "includes":  [
                                          "ContextCompiler.Modules.Abstractions"
+                                     ]
+                    },
+                    {
+                        "kind":  "module",
+                        "packageId":  "ContextCompiler.Modules.Prompt.Composers.Blueprints",
+                        "title":  null,
+                        "shortName":  "Prompt.Composers.Blueprints",
+                        "family":  "Prompt",
+                        "description":  "Module de composition des blueprints pour le prompt. Extrait et structure les blueprints depuis la configuration ou les modules pour les intégrer dans le prompt final.",
+                        "tags":  [
+
+                                 ],
+                        "authors":  "ContextCompiler",
+                        "targetFramework":  "net10.0",
+                        "path":  "src/Modules/ContextCompiler.Modules.Prompt.Composers.Blueprints",
+                        "projectFile":  "src/Modules/ContextCompiler.Modules.Prompt.Composers.Blueprints/ContextCompiler.Modules.Prompt.Composers.Blueprints.csproj",
+                        "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Modules.Prompt.Composers.Blueprints",
+                        "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Modules/ContextCompiler.Modules.Prompt.Composers.Blueprints",
+                        "compositionKind":  null,
+                        "includes":  [
+                                         "ContextCompiler.Abstractions"
                                      ]
                     },
                     {
@@ -1078,5 +1104,39 @@
                                        "ContextCompiler.Modules.Views.View.Index.Json"
                                    ]
                   }
-              ]
+              ],
+    "blueprints":  [
+                       {
+                           "kind":  "blueprint",
+                           "packageId":  "ContextCompiler.Blueprints.DotNet.WebApp.Razor",
+                           "title":  "Razor web app blueprint",
+                           "shortName":  "DotNet.WebApp.Razor",
+                           "family":  "DotNet",
+                           "description":  "Blueprint for building a .NET Razor web app context with the standard packs, .NET engineering, developer persona, and Scriban rendering.",
+                           "tags":  [
+                                        "context",
+                                        "compiler",
+                                        "blueprint",
+                                        "dotnet",
+                                        "aspnetcore",
+                                        "razor",
+                                        "webapp",
+                                        "starter",
+                                        "scriban"
+                                    ],
+                           "authors":  "ContextCompiler",
+                           "targetFramework":  "net10.0",
+                           "path":  "src/Blueprints/ContextCompiler.Blueprints.DotNet.WebApp.Razor",
+                           "projectFile":  "src/Blueprints/ContextCompiler.Blueprints.DotNet.WebApp.Razor/ContextCompiler.Blueprints.DotNet.WebApp.Razor.csproj",
+                           "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Blueprints.DotNet.WebApp.Razor",
+                           "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Blueprints/ContextCompiler.Blueprints.DotNet.WebApp.Razor",
+                           "compositionKind":  "blueprint-of-packs-and-modules",
+                           "includes":  [
+                                            "ContextCompiler.Modules.Engineering.DotNet",
+                                            "ContextCompiler.Modules.Personas.Developers.DotNet",
+                                            "ContextCompiler.Modules.Prompt.Templates.Scriban",
+                                            "ContextCompiler.Packs.Starter.Standard"
+                                        ]
+                       }
+                   ]
 }

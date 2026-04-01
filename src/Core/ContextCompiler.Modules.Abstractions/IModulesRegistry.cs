@@ -24,4 +24,7 @@ public interface IModulesRegistry
     IReadOnlyList<IOutputArtifactComposerModule> OutputArtifactComposers { get; }
     IReadOnlyList<IGlobalPipelineModule> GlobalPipelineModules { get; }
     IReadOnlyList<IFragmentProcessorModule> FragmentProcessors { get; }
+    IReadOnlyList<IBlueprintComposerModule> Blueprints { get; }
+
+    IEnumerable<T> GetModules<T>() where T : IModule;
 }

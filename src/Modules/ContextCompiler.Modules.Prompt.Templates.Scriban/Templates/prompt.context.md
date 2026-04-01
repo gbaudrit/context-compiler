@@ -82,3 +82,79 @@
 {{~ end ~}}
 
 {{~ end ~}}
+
+{{~ if blueprints && blueprints.size > 0 ~}}
+# Blueprints
+
+{{~ for blueprint in blueprints ~}}
+## {{ blueprint.name }} ({{ blueprint.id }})
+
+{{ blueprint.description }}
+
+{{~ if blueprint.objectives && blueprint.objectives.size > 0 ~}}
+### Objectives
+{{~ for obj in blueprint.objectives ~}}
+- {{ obj.name }}: {{ obj.description }}
+{{~ end ~}}
+{{~ end ~}}
+
+{{~ if blueprint.mustConstraints && blueprint.mustConstraints.size > 0 ~}}
+### MUST
+{{~ for m in blueprint.mustConstraints ~}}
+- {{ m.id }}: {{ m.text }}
+{{~ end ~}}
+{{~ end ~}}
+
+{{~ if blueprint.mustNotConstraints && blueprint.mustNotConstraints.size > 0 ~}}
+### MUST NOT
+{{~ for mn in blueprint.mustNotConstraints ~}}
+- {{ mn.id }}: {{ mn.text }}
+{{~ end ~}}
+{{~ end ~}}
+
+{{~ if blueprint.assumptions && blueprint.assumptions.size > 0 ~}}
+### Assumptions
+{{~ for a in blueprint.assumptions ~}}
+- {{ a.name }}: {{ a.description }}
+{{~ end ~}}
+{{~ end ~}}
+
+{{~ if blueprint.glossary && blueprint.glossary.size > 0 ~}}
+### Glossary
+{{~ for g in blueprint.glossary ~}}
+- **{{ g.term }}**: {{ g.definition }}
+{{~ end ~}}
+{{~ end ~}}
+
+{{~ if blueprint.commands && blueprint.commands.size > 0 ~}}
+### Commands
+{{~ for c in blueprint.commands ~}}
+- {{ c.name }}: {{ c.description }}
+{{~ end ~}}
+{{~ end ~}}
+
+{{~ if blueprint.steps && blueprint.steps.size > 0 ~}}
+### Steps
+{{~ for step in blueprint.steps ~}}
+
+{{ step.content }}
+
+{{~ if step.mustConstraints && step.mustConstraints.size > 0 ~}}
+**MUST:**
+{{~ for m in step.mustConstraints ~}}
+- {{ m.id }}: {{ m.text }}
+{{~ end ~}}
+{{~ end ~}}
+
+{{~ if step.mustNotConstraints && step.mustNotConstraints.size > 0 ~}}
+**MUST NOT:**
+{{~ for mn in step.mustNotConstraints ~}}
+- {{ mn.id }}: {{ mn.text }}
+{{~ end ~}}
+{{~ end ~}}
+
+{{~ end ~}}
+{{~ end ~}}
+
+{{~ end ~}}
+{{~ end ~}}

@@ -19,6 +19,7 @@ namespace ContextCompiler.Abstractions.Output
         IReadOnlyList<IAssumption> Assumptions { get; set; }
         IReadOnlyList<IGlossaryTerm> Glossary { get; set; }
         IReadOnlyList<ICommand> Commands { get; set; }
+        IReadOnlyList<IBlueprint> Blueprints { get; set; }
         IReadOnlyList<IOutputArtifact> Artifacts { get; }
 
         void AddArtifact(IOutputArtifact artifact);

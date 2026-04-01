@@ -9,6 +9,16 @@ EntrÃ©e (dossier)
 â†’ (D) Reasoning IR (canonique)
 â†’ Artefacts
 
+## 1.1) Building blocks
+
+- **Module** = une capacité atomique branchée dans un pipeline
+- **Pack** = un regroupement cohérent de modules prêts à l'emploi
+- **Pipeline** = la cinématique d'exécution et de transformation des données
+- **Blueprint** = un assemblage orienté use case de packs, modules et pipeline
+
+En pratique, ContextCompiler assemble des modules en packs, exécute ces capacités dans un pipeline déterministe, puis produit une solution exploitable via un blueprint.
+
+
 ## 2) Couches
 
 ### Abstractions
@@ -57,3 +67,4 @@ EntrÃ©e (dossier)
 - Golden tests sur outputs dâ€™un dossier fixture
 - Snapshot tests sur JSON/MD
 - MSTest + Moq + FluentAssertions
+

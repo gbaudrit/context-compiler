@@ -99,10 +99,41 @@ Output ........................... artifacts generated</code></pre>
         <div class="section-heading reveal">
           <p class="eyebrow">Pipeline</p>
           <h2>Une vraie chaîne de compilation pour le contexte.</h2>
+          <p>
+            Context Compiler assemble des modules en packs, les exécute dans un pipeline
+            déterministe, puis les applique à des blueprints orientés cas d'usage pour produire
+            une solution prête à l'emploi.
+          </p>
         </div>
 
         <div class="process-visual reveal">
           <img src="assets/process.png" alt="Schéma du process de compilation du contexte depuis des sources hétérogènes vers le LLM.">
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Concepts</p>
+          <h2>Quatre briques pour comprendre le modèle.</h2>
+        </div>
+
+        <div class="card-grid">
+          <article class="feature-card reveal">
+            <h3>Module</h3>
+            <p>Une capacité atomique, stateless et réutilisable. Un module fait une seule chose dans le pipeline.</p>
+          </article>
+          <article class="feature-card reveal">
+            <h3>Pack</h3>
+            <p>Une composition cohérente de modules prête à l'emploi pour accélérer la configuration.</p>
+          </article>
+          <article class="feature-card reveal">
+            <h3>Pipeline</h3>
+            <p>La chaîne de transformation où chaque étape reçoit, transforme puis transmet les données.</p>
+          </article>
+          <article class="feature-card reveal">
+            <h3>Blueprint</h3>
+            <p>Une solution complète orientée use case qui combine packs, modules et pipeline pour produire un résultat final.</p>
+          </article>
         </div>
       </section>
 
@@ -452,6 +483,14 @@ Output ........................... artifacts generated</code></pre>
             produire les bons artefacts.
           </p>
           <p>
+            Les modules représentent des capacités atomiques. Les packs regroupent ces modules en
+            ensembles cohérents prêts à l'emploi.
+          </p>
+          <p>
+            Les blueprints vont un cran plus loin : ils assemblent packs, modules et rendu pour adresser
+            un use case prêt à l'emploi.
+          </p>
+          <p>
             La galerie ci-dessous permet d’explorer les extensions disponibles, d’identifier celles qui
             correspondent au besoin et d’accéder directement à leur publication NuGet.org ainsi qu’à leur code source.
           </p>
@@ -460,6 +499,7 @@ Output ........................... artifacts generated</code></pre>
         <div class="packages-shell reveal">
           <div class="packages-toolbar">
             <div class="packages-kind-switch" role="tablist" aria-label="Type de packages">
+              <button type="button" class="packages-kind-button" data-kind="blueprints" aria-pressed="false">Blueprints</button>
               <button type="button" class="packages-kind-button is-active" data-kind="packs" aria-pressed="true">Packs</button>
               <button type="button" class="packages-kind-button" data-kind="modules" aria-pressed="false">Modules unitaires</button>
             </div>
@@ -508,3 +548,5 @@ Output ........................... artifacts generated</code></pre>
   <script src="app.js"></script>
 </body>
 </html>
+
+

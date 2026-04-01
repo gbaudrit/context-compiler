@@ -50,7 +50,7 @@ internal sealed class ModulesDiscoverer(IModuleAssemblyLoader moduleAssemblyLoad
 
     private async Task DiscoverPack(List<Type> discoveredModuleTypes, ILoadModuleAssemblyResult loadResult, CancellationToken ct)
     {
-        IEnumerable<Type> packsType = loadResult.Types.Where(t => typeof(IPack).IsAssignableFrom(t));
+        IEnumerable<Type> packsType = loadResult.Types.Where(t => typeof(IPackModule).IsAssignableFrom(t));
         if (!packsType.Any())
         {
             return;
@@ -58,7 +58,7 @@ internal sealed class ModulesDiscoverer(IModuleAssemblyLoader moduleAssemblyLoad
         foreach (Type packType in packsType)
         {
             Console.WriteLine($"Discovered module pack: {packType.FullName}");
-            IPack packInstance = (IPack)Activator.CreateInstance(packType)!;
+            IPackModule packInstance = (IPackModule)Activator.CreateInstance(packType)!;
             IEnumerable<Assembly> packAssemblies = packInstance.Discover();
 
             foreach (Assembly packAssembly in packAssemblies)

@@ -26,6 +26,7 @@ namespace ContextCompiler.Modules.Prompt.Templates.Scriban.Extensions
                     glossary = o.Glossary.Select(x => x.ToTemplateModel()).ToList(),
                     commands = o.Commands.GroupBy(x => x.PersonaId).ToDictionary(g => g.Key, g => g.Select(x => x.ToTemplateModel()).ToList()),
                     artifacts = o.Artifacts.Select(x => x.ToTemplateModel()).ToList(),
+                    blueprints = o.Blueprints.Select(x => x.ToTemplateModel()).ToList(),
                 }
             };
         }
@@ -41,6 +42,51 @@ namespace ContextCompiler.Modules.Prompt.Templates.Scriban.Extensions
                 metadata = o.Metadata ?? new Dictionary<string, string>(),
                 must = o.Must.Select(m => m.ToTemplateModel()).ToList(),
                 mustNot = o.MustNot.Select(mn => mn.ToTemplateModel()).ToList()
+            };
+        }
+
+        public static object ToTemplateModel(this IBlueprint o)
+        {
+            return new
+            {
+                id = o.Id,
+                name = o.Name,
+                description = o.Description,
+                mustConstraints = o.MustConstraints.Select(m => m.ToTemplateModel()).ToList(),
+                mustNotConstraints = o.MustNotConstraints.Select(mn => mn.ToTemplateModel()).ToList(),
+                objectives = o.Objectives.Select(obj => obj.ToTemplateModel()).ToList(),
+                assumptions = o.Assumptions.Select(a => a.ToTemplateModel()).ToList(),
+                glossary = o.Glossary.Select(g => g.ToTemplateModel()).ToList(),
+                commands = o.Commands.Select(c => c.ToTemplateModel()).ToList(),
+                steps = o.Steps.Select(s => s.ToTemplateModel()).ToList()
+            };
+        }
+
+        public static object ToTemplateModel(this IBlueprintStep o)
+        {
+            return new
+            {
+                content = o.Content,
+                mustConstraints = o.MustConstraints.Select(m => m.ToTemplateModel()).ToList(),
+                mustNotConstraints = o.MustNotConstraints.Select(mn => mn.ToTemplateModel()).ToList()
+            };
+        }
+
+        public static object ToTemplateModel(this IObjective o)
+        {
+            return new
+            {
+                name = o.Name,
+                description = o.Description
+            };
+        }
+
+        public static object ToTemplateModel(this IAssumption o)
+        {
+            return new
+            {
+                name = o.Name,
+                description = o.Description
             };
         }
 

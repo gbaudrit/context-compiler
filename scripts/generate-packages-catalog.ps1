@@ -52,6 +52,7 @@ function Get-PackagePrefix {
   switch ($Kind) {
     "module" { return "ContextCompiler.Modules." }
     "pack" { return "ContextCompiler.Packs." }
+    "blueprint" { return "ContextCompiler.Blueprints." }
     default { throw "Unknown package kind '$Kind'." }
   }
 }
@@ -139,6 +140,19 @@ function Get-PackageMetadata {
     } else {
       $compositionKind = "pack"
     }
+  } elseif ($Kind -eq "blueprint") {
+    $includesPacks = @($references | Where-Object { $_ -like "ContextCompiler.Packs.*" }).Count -gt 0
+    $includesModules = @($references | Where-Object { $_ -like "ContextCompiler.Modules.*" }).Count -gt 0
+
+    if ($includesPacks -and $includesModules) {
+      $compositionKind = "blueprint-of-packs-and-modules"
+    } elseif ($includesPacks) {
+      $compositionKind = "blueprint-of-packs"
+    } elseif ($includesModules) {
+      $compositionKind = "blueprint-of-modules"
+    } else {
+      $compositionKind = "blueprint"
+    }
   }
 
   return [ordered]@{
@@ -178,23 +192,28 @@ function Get-CatalogItems {
 
 $modules = @(Get-CatalogItems -RootPath (Join-Path $repoRoot "src\Modules") -Kind "module")
 $packs = @(Get-CatalogItems -RootPath (Join-Path $repoRoot "src\Packs") -Kind "pack")
+$blueprints = @(Get-CatalogItems -RootPath (Join-Path $repoRoot "src\Blueprints") -Kind "blueprint")
 
 $catalog = [ordered]@{
   generatedAt = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ")
   source = [ordered]@{
     modulesRoot = "src/Modules"
     packsRoot = "src/Packs"
+    blueprintsRoot = "src/Blueprints"
   }
   stats = [ordered]@{
     modules = @($modules).Count
     packs = @($packs).Count
+    blueprints = @($blueprints).Count
   }
   families = [ordered]@{
     modules = @($modules | ForEach-Object { $_.family } | Sort-Object -Unique)
     packs = @($packs | ForEach-Object { $_.family } | Sort-Object -Unique)
+    blueprints = @($blueprints | ForEach-Object { $_.family } | Sort-Object -Unique)
   }
   modules = $modules
   packs = $packs
+  blueprints = $blueprints
 }
 
 $outputDir = Split-Path -Parent $outputPath

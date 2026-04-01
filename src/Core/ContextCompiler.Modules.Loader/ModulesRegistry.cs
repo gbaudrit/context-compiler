@@ -30,4 +30,10 @@ public sealed class ModulesRegistry(IServiceProvider services) : IModulesRegistr
     public IReadOnlyList<IDocumentsModule> DocumentsModules => [.. _services.GetServices<IDocumentsModule>()];
     public IReadOnlyList<IConfigurationModule> ConfigurationModules => [.. _services.GetServices<IConfigurationModule>()];
     public IReadOnlyList<IFragmentProcessorModule> FragmentProcessors => [.. _services.GetServices<IFragmentProcessorModule>()];
+    public IReadOnlyList<IBlueprintComposerModule> Blueprints => [.. _services.GetServices<IBlueprintComposerModule>()];
+
+    public IEnumerable<T> GetModules<T>() where T : IModule
+    {
+        return _services.GetServices<T>();
+    }
 }

@@ -16,7 +16,9 @@ namespace ContextCompiler.Core.Framing
                            .AddTransient<IGlossaryTermBuilder, GlossaryTermBuilder>()
                            .AddTransient<IMustConstraintBuilder, MustConstraintBuilder>()
                            .AddTransient<IMustNotConstraintBuilder, MustNotConstraintBuilder>()
-                           .AddTransient<ICommandBuilder, CommandBuilder>();
+                           .AddTransient<ICommandBuilder, CommandBuilder>()
+                           .AddTransient<IBlueprintBuilder, BlueprintBuilder>()
+                           .AddTransient<IBlueprintStepBuilder, BlueprintStepBuilder>();
         }
 
     }

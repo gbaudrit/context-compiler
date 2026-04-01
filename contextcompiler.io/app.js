@@ -16,7 +16,7 @@ let packagesCatalog = null;
 let activePackageKind = "packs";
 let activePackageFamily = "all";
 let packageCopyToastTimeout = null;
-const ignoredPackageTags = new Set(["context", "compiler", "pack"]);
+const ignoredPackageTags = new Set(["context", "compiler", "pack", "blueprint"]);
 
 const packageCopyToast = document.createElement("div");
 packageCopyToast.className = "package-copy-toast";
@@ -82,6 +82,46 @@ for (const tab of artifactTabs) {
 const formatPackageCount = (count, singular, plural) =>
   `${count} ${count > 1 ? plural : singular}`;
 
+const getPackageKindMeta = (kind) => {
+  switch (kind) {
+    case "modules":
+      return {
+        singular: "module",
+        plural: "modules",
+        cardLabel: "Module unitaire",
+      };
+    case "blueprints":
+      return {
+        singular: "blueprint",
+        plural: "blueprints",
+        cardLabel: "Blueprint",
+      };
+    default:
+      return {
+        singular: "pack",
+        plural: "packs",
+        cardLabel: "Pack",
+      };
+  }
+};
+
+const getCompositionKindLabel = (compositionKind) => {
+  switch (compositionKind) {
+    case "pack-of-packs":
+      return "Pack de packs";
+    case "pack-of-modules":
+      return "Pack de modules";
+    case "blueprint-of-packs-and-modules":
+      return "Blueprint";
+    case "blueprint-of-packs":
+      return "Blueprint";
+    case "blueprint-of-modules":
+      return "Blueprint";
+    default:
+      return "";
+  }
+};
+
 const escapeHtml = (value) =>
   String(value)
     .replaceAll("&", "&amp;")
@@ -125,6 +165,7 @@ const renderPackages = () => {
 
   const allItems = packagesCatalog[activePackageKind] ?? [];
   const query = packagesSearch?.value.trim().toLowerCase() ?? "";
+  const kindMeta = getPackageKindMeta(activePackageKind);
 
   const families = [...new Set(allItems.map((item) => item.family).filter(Boolean))].sort((a, b) =>
     a.localeCompare(b)
@@ -150,8 +191,7 @@ const renderPackages = () => {
     return matchesFamily && (!query || haystack.includes(query));
   });
 
-  const kindLabel = activePackageKind === "modules" ? "modules" : "packs";
-  packagesSummaryText.textContent = `${formatPackageCount(filteredItems.length, kindLabel === "modules" ? "module" : "pack", kindLabel)} affichés sur ${allItems.length}.`;
+  packagesSummaryText.textContent = `${formatPackageCount(filteredItems.length, kindMeta.singular, kindMeta.plural)} affichés sur ${allItems.length}.`;
 
   if (filteredItems.length === 0) {
     packagesGrid.innerHTML = `
@@ -165,13 +205,14 @@ const renderPackages = () => {
 
   packagesGrid.innerHTML = filteredItems
     .map((item) => {
-      const tags = item.tags?.length
+      const visibleTags = (item.tags ?? []).filter(
+        (tag) => !ignoredPackageTags.has(String(tag).toLowerCase())
+      );
+
+      const tags = visibleTags.length
         ? `
           <div class="package-tags">
-            ${item.tags
-              .filter((tag) => !ignoredPackageTags.has(String(tag).toLowerCase()))
-              .map((tag) => `<span class="package-tag">${escapeHtml(tag)}</span>`)
-              .join("")}
+            ${visibleTags.map((tag) => `<span class="package-tag">${escapeHtml(tag)}</span>`).join("")}
           </div>
         `
         : "";
@@ -179,7 +220,7 @@ const renderPackages = () => {
       const includes = item.includes?.length
         ? `
           <div class="package-includes">
-            <p class="package-meta-label">Contient</p>
+            <p class="package-meta-label">${activePackageKind === "blueprints" ? "Assemble" : "Contient"}</p>
             <ul>
               ${item.includes.map((entry) => `<li><code>${escapeHtml(entry)}</code></li>`).join("")}
             </ul>
@@ -187,14 +228,15 @@ const renderPackages = () => {
         `
         : "";
 
+      const compositionKindLabel = getCompositionKindLabel(item.compositionKind);
+
       return `
         <article class="package-card">
           <div class="package-card-top">
             <p class="package-family">${escapeHtml(item.family || "Other")}</p>
             <div class="package-kind-stack">
-              <span class="package-kind">${activePackageKind === "modules" ? "Module unitaire" : "Pack"}</span>
-              ${item.compositionKind === "pack-of-packs" ? '<span class="package-subkind">Pack de packs</span>' : ""}
-              ${item.compositionKind === "pack-of-modules" ? '<span class="package-subkind">Pack de modules</span>' : ""}
+              <span class="package-kind">${kindMeta.cardLabel}</span>
+              ${compositionKindLabel ? `<span class="package-subkind">${escapeHtml(compositionKindLabel)}</span>` : ""}
             </div>
           </div>
           <h3 class="package-title">
@@ -203,7 +245,7 @@ const renderPackages = () => {
           </h3>
           <p>${escapeHtml(item.description || "Description à compléter dans le package.")}</p>
           ${tags}
-          ${activePackageKind === "packs" ? includes : ""}
+          ${activePackageKind === "packs" || activePackageKind === "blueprints" ? includes : ""}
           <div class="package-links">
             <a class="package-link package-link-primary" href="${escapeHtml(item.nugetUrl)}" target="_blank" rel="noreferrer">
               <span>NuGet.org</span>
