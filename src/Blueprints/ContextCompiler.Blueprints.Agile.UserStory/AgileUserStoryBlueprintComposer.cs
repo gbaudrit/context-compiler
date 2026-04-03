@@ -7,13 +7,7 @@ namespace ContextCompiler.Blueprints.Agile.UserStory;
 internal sealed class AgileUserStoryBlueprintComposer(
     IPrompt prompt,
     IBlueprintBuilder blueprintBuilder,
-    IBlueprintStepBuilder stepBuilder,
-    IMustConstraintBuilder mustBuilder,
-    IMustNotConstraintBuilder mustNotBuilder,
-    IObjectiveBuilder objectiveBuilder,
-    IAssumptionBuilder assumptionBuilder,
-    IGlossaryTermBuilder glossaryBuilder,
-    ICommandBuilder commandBuilder) : IBlueprintComposerModule
+    IBlueprintStepBuilder stepBuilder) : IBlueprintComposerModule
 {
     public ModuleMetadata Metadata => IModule.Meta("blueprints.agile.userstory", GlobalPipelineModuleKinds.PromptComposer, priority: 10);
 
