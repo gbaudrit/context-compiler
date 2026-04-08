@@ -17,7 +17,7 @@ namespace ContextCompiler.Modules.Artifacts.Registry
         [MemberNotNull(nameof(_index))]
         private void EnsureLoaded()
         {
-            string filename = Path.Combine(compiledWorkingFolder.Path(), _filename);
+            string filename = Path.Combine(compiledWorkingFolder.Path, _filename);
 
             if (!Path.Exists(filename))
             {

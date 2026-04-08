@@ -22,7 +22,7 @@ public sealed class FileSystemRagStoreReader : IRagStoreReader
 
     public FileSystemRagStoreReader(ICompiledWorkingFolder compiledWorkingFolder)
     {
-        _rootPath = Path.Combine(compiledWorkingFolder.Path(), "rag");
+        _rootPath = compiledWorkingFolder.Combine("rag");
         _chunksPath = Path.Combine(_rootPath, "chunks.jsonl");
         _embeddingsPath = Path.Combine(_rootPath, "embeddings.bin");
         _embeddingIndexPath = Path.Combine(_rootPath, "embeddings.index.jsonl");

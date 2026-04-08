@@ -1,17 +1,14 @@
-﻿using ContextCompiler.Abstractions;
+using ContextCompiler.Abstractions;
 
 namespace ContextCompiler.Core;
 
 internal sealed class CompiledWorkingFolder(IWorkingFolder workingFolder) : ICompiledWorkingFolder
 {
-    public string Path(string name)
+    public string Combine(string relativePath)
     {
-        return workingFolder.EnsureFullyQualifiedPath(System.IO.Path.Combine(".ctxc", string.IsNullOrEmpty(name) ? "compiled" : $"compiled.{name}"));
+        return System.IO.Path.Combine(Path, relativePath);
     }
 
-    public string Path()
-    {
-        return Path("");
-    }
+    public string Path => workingFolder.EnsureFullyQualifiedPath(".ctxc");
 
 }

@@ -10,5 +10,10 @@ namespace ContextCompiler.Modules.Cli
         {
             return System.IO.Path.Combine(Path, relativePath);
         }
+
+        public string MakeRelative(string path)
+        {
+            return System.IO.Path.GetRelativePath(Path, path);
+        }
     }
 }

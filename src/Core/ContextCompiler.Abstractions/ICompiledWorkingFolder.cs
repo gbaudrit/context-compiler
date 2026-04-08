@@ -2,7 +2,8 @@ namespace ContextCompiler.Abstractions
 {
     public interface ICompiledWorkingFolder
     {
-        string Path();
-        string Path(string name);
+        string Path { get; }
+
+        string Combine(string relativePath);
     }
 }

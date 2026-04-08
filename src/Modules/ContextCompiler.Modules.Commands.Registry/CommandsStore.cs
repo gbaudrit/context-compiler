@@ -17,7 +17,7 @@ internal sealed class CommandsStore(
     [MemberNotNull(nameof(_index))]
     private void EnsureLoaded()
     {
-        string filename = Path.Combine(compiledWorkingFolder.Path(), Filename);
+        string filename = Path.Combine(compiledWorkingFolder.Path, Filename);
 
         if (!Path.Exists(filename))
         {

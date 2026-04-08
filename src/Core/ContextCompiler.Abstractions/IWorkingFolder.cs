@@ -6,5 +6,7 @@ namespace ContextCompiler.Abstractions
         string Path { get; }
 
         string EnsureFullyQualifiedPath(string relativePath);
+
+        string MakeRelative(string path);
     }
 }

@@ -33,7 +33,7 @@ public sealed class FileSystemRagStore : IRagStore, IAsyncDisposable
 
     public FileSystemRagStore(ICompiledWorkingFolder compiledWorkingFolder, IPrompt prompt)
     {
-        _rootPath = Path.Combine(compiledWorkingFolder.Path(), "rag");
+        _rootPath = compiledWorkingFolder.Combine("rag");
         _chunksPath = Path.Combine(_rootPath, "chunks.jsonl");
         _embeddingsPath = Path.Combine(_rootPath, "embeddings.bin");
         _embeddingIndexPath = Path.Combine(_rootPath, "embeddings.index.jsonl");

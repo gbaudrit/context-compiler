@@ -7,7 +7,7 @@ internal sealed class OutputArtifactReader(ICompiledWorkingFolder compiledWorkin
 {
     public Task<string> ReadAllText(string filename, CancellationToken cancellationToken)
     {
-        string path = Path.Combine(compiledWorkingFolder.Path(), filename);
+        string path = compiledWorkingFolder.Combine(filename);
         return Task.FromResult(File.ReadAllText(path));
     }
 }

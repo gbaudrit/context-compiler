@@ -15,7 +15,7 @@ internal sealed class WorkspaceLoader(IWorkingFolder workingFolder, IWorkspaceVi
         _current = new Workspace()
         {
             Path = workingFolder.Path,
-            Views = await workspaceViewsLoader.Load("")
+            Views = await workspaceViewsLoader.Load()
         };
         return _current;
     }

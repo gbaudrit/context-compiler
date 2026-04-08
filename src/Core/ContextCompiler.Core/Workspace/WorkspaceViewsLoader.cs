@@ -1,4 +1,4 @@
-﻿using ContextCompiler.Abstractions;
+using ContextCompiler.Abstractions;
 using ContextCompiler.Abstractions.Workspace;
 
 namespace ContextCompiler.Core.Workspace
@@ -6,10 +6,10 @@ namespace ContextCompiler.Core.Workspace
     internal sealed class WorkspaceViewLoader(ICompiledWorkingFolder compiledWorkingFolder) : IWorkspaceViewsLoader
     {
 
-        public Task<IReadOnlyList<IWorkspaceView>> Load(string name)
+        public Task<IReadOnlyList<IWorkspaceView>> Load()
         {
             List<IWorkspaceView> views = [];
-            string path = compiledWorkingFolder.Path(name);
+            string path = compiledWorkingFolder.Path;
 
 
             foreach (string file in Directory.EnumerateFiles(path, "view.*.json", SearchOption.AllDirectories))
