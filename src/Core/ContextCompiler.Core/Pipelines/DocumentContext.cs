@@ -1,8 +1,7 @@
-using System.Text.Json;
-
 using ContextCompiler.Abstractions.Models;
 using ContextCompiler.Abstractions.Pipelines.Document;
 using ContextCompiler.Abstractions.ReasoningIR;
+using ContextCompiler.Abstractions.Sources;
 using ContextCompiler.Abstractions.Tags;
 
 namespace ContextCompiler.Core.Pipelines
@@ -12,7 +11,7 @@ namespace ContextCompiler.Core.Pipelines
         public required string InputRoot { get; init; }
         public required string RelativePath { get; init; } // stable path key
         public required string FullPath { get; init; }
-        public required JsonElement ExtractOptions { get; init; }
+        public required ISource Source { get; init; }
 
         //// Data flowing through passes (write-once-ish)
         //public IFileReadResult? FileRead { get; private set; }

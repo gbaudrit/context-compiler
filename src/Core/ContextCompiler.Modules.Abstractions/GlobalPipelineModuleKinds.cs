@@ -19,5 +19,6 @@ public enum GlobalPipelineModuleKinds
     OutputArtifactComposer = 15000,
     Template = 16000,
     OutputWriter = 17000,
-    PromptRenderer = 18000
+    PromptRenderer = 18000,
+    EndTools = 19000
 }

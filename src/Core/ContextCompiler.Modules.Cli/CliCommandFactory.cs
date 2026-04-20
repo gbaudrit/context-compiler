@@ -45,13 +45,22 @@ public static class CliCommandFactory
 
         Option<string> configOpt = new("--config", () => ".", "Path to ctxc.config.json");
         Option<bool> forceOpt = new("--force", () => false, "Force operation");
+        Option<bool> cleanOpt = new("--clean", () => false, "Clean operation");
+        Option<bool> devToolsOpt = new("--dev-tools", () => false, "Add Dev tools modules");
 
-        Command restore = new("restore", "Restore modules from NuGet and generate/update lock file.") { configOpt, forceOpt };
-        restore.SetHandler(async (debug, cfgFile, force) =>
+        Command restore = new("restore", "Restore modules from NuGet and generate/update lock file.") { configOpt, forceOpt, cleanOpt, devToolsOpt };
+        restore.SetHandler(async (debug, cfgFile, force, clean, devTools) =>
         {
             Handlers.IRestoreHandler handler = sp.GetRequiredService<Handlers.IRestoreHandler>();
-            Environment.ExitCode = await handler.HandleAsync(debug, cfgFile, force);
-        }, _debugOpt, configOpt, forceOpt);
+
+            Dictionary<string, string> runModules = [];
+            if (devTools)
+            {
+                runModules["ContextCompiler.Modules.DevTools.SourcesConsole@locale"] = "0.1.0-alpha.1";
+            }
+
+            Environment.ExitCode = await handler.HandleAsync(debug, cfgFile, force, clean, runModules.AsReadOnly());
+        }, _debugOpt, configOpt, forceOpt, cleanOpt, devToolsOpt);
 
         Command verify = new("verify", "Verify lock file and cached packages integrity (sha256).") { configOpt };
         verify.SetHandler(async cfgFile =>

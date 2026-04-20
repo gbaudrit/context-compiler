@@ -1,20 +1,18 @@
-using System.Text.Json;
-
 using ContextCompiler.Abstractions;
 using ContextCompiler.Abstractions.Compilation;
-using ContextCompiler.Abstractions.Configuration;
-using ContextCompiler.Abstractions.Configuration.Sections;
 using ContextCompiler.Modules.Abstractions;
 using ContextCompiler.Modules.Abstractions.GlobalPipeline;
 using ContextCompiler.Modules.Connectors.Git.Configurations;
 
 using Microsoft.Extensions.Logging;
 
+using ISource = ContextCompiler.Abstractions.Sources.ISource;
+
 namespace ContextCompiler.Modules.Connectors.Git;
 
 public sealed class GitRepositoryConnectorModule(
     ICompilationContext compilationContext,
-    IConfigProvider configProvider,
+    ContextCompiler.Abstractions.Sources.ISourcesProvider sourcesProvider,
     ICompiledWorkingFolder compiledWorkingFolder,
     IGitProcessClient gitProcessClient,
     ILogger<GitRepositoryConnectorModule> logger) : IConfigurationModule
@@ -25,20 +23,13 @@ public sealed class GitRepositoryConnectorModule(
 
     public async Task Run(CancellationToken cancellationToken)
     {
-        IRootConfigSection rootConfig = configProvider.Current;
-        List<IFileConfigSection> files = [.. rootConfig.Files];
-
-        foreach (IFileConfigSection file in files)
+        foreach (ISource source in sourcesProvider.GetByOptionKey(ModuleOptionKey))
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            GitFetcherFileSection? section = TryReadSection(file.Options);
-            if (section is null)
-            {
-                continue;
-            }
+            GitFetcherFileSection sourceConfig = source.Config<GitFetcherFileSection>();
 
-            foreach (GitRepositoryFetchConfig repository in section.Repositories
+            foreach (GitRepositoryFetchConfig repository in sourceConfig.Repositories
                          .OrderBy(x => x.Id, StringComparer.Ordinal)
                          .ThenBy(x => x.Repository, StringComparer.Ordinal))
             {
@@ -63,32 +54,8 @@ public sealed class GitRepositoryConnectorModule(
                     result.TargetPath,
                     result.Cloned,
                     result.Updated);
-
-                string[] includes = PrefixPatterns(absoluteTarget, repository.Includes, defaultPattern: "**/*");
-                string[] excludes = PrefixPatterns(absoluteTarget, repository.Excludes, defaultPattern: null);
-                string[] tags = BuildTags(repository);
-
-                if (!ContainsMatchingFileEntry(rootConfig, includes, excludes, tags))
-                {
-                    rootConfig.AddFile(includes, excludes, [], tags, null);
-                }
             }
         }
-    }
-
-    private static GitFetcherFileSection? TryReadSection(JsonElement? options)
-    {
-        if (options is null)
-        {
-            return null;
-        }
-
-        JsonElement value = options.Value;
-        return value.ValueKind != JsonValueKind.Object
-            ? null
-            : !value.TryGetProperty(ModuleOptionKey, out JsonElement moduleSection)
-            ? null
-            : moduleSection.Deserialize<GitFetcherFileSection>();
     }
 
     private static string BuildRepositoryUrl(GitRepositoryFetchConfig repository)
@@ -146,48 +113,23 @@ public sealed class GitRepositoryConnectorModule(
         return new string(sanitized);
     }
 
-    private static string[] PrefixPatterns(string relativeTarget, string[]? patterns, string? defaultPattern)
-    {
-        string[] normalizedPatterns = patterns is { Length: > 0 }
-            ? patterns
-            : string.IsNullOrWhiteSpace(defaultPattern) ? [] : [defaultPattern];
+    //private static bool ContainsMatchingFileEntry(IRootConfigSection rootConfig, string[] includes, string[] excludes, string[] tags)
+    //{
+    //    return rootConfig.Files.Any(file =>
+    //        file.Options is null
+    //        && file.Includes.SequenceEqual(includes, StringComparer.Ordinal)
+    //        && file.Excludes.SequenceEqual(excludes, StringComparer.Ordinal)
+    //        && file.Tags.SequenceEqual(tags, StringComparer.Ordinal));
+    //}
 
-        return [.. normalizedPatterns
-            .Select(pattern => CombineGlob(relativeTarget, pattern))
-            .OrderBy(pattern => pattern, StringComparer.Ordinal)];
-    }
-
-    private static string[] BuildTags(GitRepositoryFetchConfig repository)
-    {
-        List<string> tags =
-        [
-            "source:git"
-        ];
-        tags.AddRange(repository.Tags ?? []);
-
-        return [.. tags
-            .Where(tag => !string.IsNullOrWhiteSpace(tag))
-            .Distinct(StringComparer.Ordinal)
-            .OrderBy(tag => tag, StringComparer.Ordinal)];
-    }
-
-    private static bool ContainsMatchingFileEntry(IRootConfigSection rootConfig, string[] includes, string[] excludes, string[] tags)
-    {
-        return rootConfig.Files.Any(file =>
-            file.Options is null
-            && file.Includes.SequenceEqual(includes, StringComparer.Ordinal)
-            && file.Excludes.SequenceEqual(excludes, StringComparer.Ordinal)
-            && file.Tags.SequenceEqual(tags, StringComparer.Ordinal));
-    }
-
-    private static string CombineGlob(string relativeTarget, string pattern)
-    {
-        string normalizedTarget = NormalizePath(relativeTarget);
-        string normalizedPattern = NormalizePath(pattern);
-        return string.IsNullOrWhiteSpace(normalizedPattern)
-            ? normalizedTarget
-            : $"{normalizedTarget}/{normalizedPattern}".Replace("//", "/", StringComparison.Ordinal);
-    }
+    //private static string CombineGlob(string relativeTarget, string pattern)
+    //{
+    //    string normalizedTarget = NormalizePath(relativeTarget);
+    //    string normalizedPattern = NormalizePath(pattern);
+    //    return string.IsNullOrWhiteSpace(normalizedPattern)
+    //        ? normalizedTarget
+    //        : $"{normalizedTarget}/{normalizedPattern}".Replace("//", "/", StringComparison.Ordinal);
+    //}
 
     private static string NormalizePath(string path)
     {

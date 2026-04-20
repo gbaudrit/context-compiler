@@ -6,7 +6,7 @@ namespace ContextCompiler.Abstractions.Configuration.Sections
     {
         string Schema { get; }
         IContextConfigSection Context { get; }
-        IEnumerable<IFileConfigSection> Files { get; }
+        IEnumerable<ISourceConfigSection> Sources { get; }
         IPersonasConfigSection? Personas { get; }
         IViewsConfigSection Views { get; }
         List<string> Renderers { get; set; }

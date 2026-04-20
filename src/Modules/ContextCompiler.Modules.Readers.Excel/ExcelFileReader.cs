@@ -1,5 +1,3 @@
-using System.Text.Json;
-
 using ClosedXML.Excel;
 
 using ContextCompiler.Abstractions.Common;
@@ -45,7 +43,7 @@ public sealed class ExcelFileReaderModule(
     {
         ct.ThrowIfCancellationRequested();
         IRootConfigSection cfg = cfgProvider.GetConfigOrDefault(null);
-        ExcelFileSection options = documentContext.ExtractOptions.GetProperty(Metadata.Id).Deserialize<ExcelFileSection>() ?? new ExcelFileSection();
+        ExcelFileSection options = documentContext.Source.Config<ExcelFileSection>() ?? new ExcelFileSection();
 
         //var fileExtracts = new List<(string match, ExcelDefaults? defaults, List<ExcelExtractConfig> extracts)>();
         //foreach (var f in cfg.Files)

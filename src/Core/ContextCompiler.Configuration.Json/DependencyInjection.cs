@@ -1,4 +1,5 @@
 using ContextCompiler.Abstractions.Configuration;
+using ContextCompiler.Abstractions.Sources;
 
 using Microsoft.Extensions.DependencyInjection;
 
@@ -12,7 +13,8 @@ public static class DependencyInjection
         return services.AddSingleton<IConfigSerializer, CtxcConfigSerializer>()
             .AddTransient<IConfigurationSchemaAggregator, SchemaAggregator>()
             .AddSingleton<IConfigurationSchemaProvider, JsonConfigurationSchemaProvider>()
-            .AddTransient<IConfigurationSchemasDiscoverer, JsonConfigurationSchemasDiscoverer>();
+            .AddTransient<IConfigurationSchemasDiscoverer, JsonConfigurationSchemasDiscoverer>()
+            .AddTransient<ISourceConfigSectionReader, JsonSourceConfigSectionReader>();
     }
 
 }

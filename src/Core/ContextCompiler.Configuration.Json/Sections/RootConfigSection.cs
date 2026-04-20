@@ -16,10 +16,10 @@ public sealed class RootConfigSection : IRootConfigSection
     [JsonIgnore]
     public IPersonasConfigSection? Personas => PersonasValue;
 
-    [JsonPropertyName("files")] public List<FileConfigSection> FilesValue { get; set; } = [];
+    [JsonPropertyName("files")] public List<SourceConfigSection> FilesValue { get; set; } = [];
 
     [JsonIgnore]
-    public IEnumerable<IFileConfigSection> Files => FilesValue;
+    public IEnumerable<ISourceConfigSection> Sources => FilesValue;
 
     [JsonPropertyName("views")] public ViewsConfigSection ViewsValue { get; set; } = new ViewsConfigSection();
 
@@ -34,7 +34,7 @@ public sealed class RootConfigSection : IRootConfigSection
                 string[] Tags,
                 System.Text.Json.JsonElement? Options)
     {
-        FileConfigSection fileConfig = new()
+        SourceConfigSection fileConfig = new()
         {
             Includes = Includes,
             Excludes = Excludes,

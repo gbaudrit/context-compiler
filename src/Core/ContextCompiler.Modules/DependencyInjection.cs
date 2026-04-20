@@ -23,7 +23,7 @@ public static class DependencyInjection
             .AddTransient<ISourceBuilder, SourceBuilder>()
             .AddSingleton<IModulesManager, ModulesManager>()
             .AddSingleton<IModulesToRestoreProvider, ModulesToRestoreProvider>()
-            .AddSingleton<ISourcesProvider, FromConfigurationSourcesProvider>();
+            .AddSingleton<IModulesSourcesProvider, FromConfigurationSourcesProvider>();
     }
 
 }

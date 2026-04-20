@@ -1,12 +1,10 @@
-using System.Text.Json;
-
 using ContextCompiler.Abstractions.Configuration;
-using ContextCompiler.Abstractions.Configuration.Sections;
 using ContextCompiler.Abstractions.Diagnostics;
 using ContextCompiler.Abstractions.Pipelines;
 using ContextCompiler.Abstractions.Pipelines.Document;
 using ContextCompiler.Abstractions.Ports;
 using ContextCompiler.Abstractions.ReasoningIR;
+using ContextCompiler.Abstractions.Sources;
 using ContextCompiler.Abstractions.Tags;
 using ContextCompiler.Modules.Abstractions;
 
@@ -32,6 +30,7 @@ public sealed class DocumentPipelineRunner(
     IConfigProvider cfgProvider,
     IEnumerable<IDocumentPass> passes,
     IDocumentContextBuilder documentContextBuilder,
+    ISourcesProvider sourcesProvider,
     IServiceProvider serviceProvider) : IDocumentPipelineRunner
 {
     public async ValueTask RunAsync(IDocumentsContext documentsContext, CancellationToken ct)
@@ -55,24 +54,24 @@ public sealed class DocumentPipelineRunner(
         //    .Where(p => !p.Contains(Path.DirectorySeparatorChar + ".ctxc" + Path.DirectorySeparatorChar))
         //    .ToList();
 
-        foreach (IFileConfigSection s in cfgProvider.Current.Files)
+        foreach (ISource s in sourcesProvider.GetAll())
         {
             Matcher matcher = new();
             matcher.AddExcludePatterns(["**/.git/**", "**/bin/**", "**/obj/**", "**/.ctxc/**"]);
             matcher.AddIncludePatterns(s.Includes);
             matcher.AddExcludePatterns(s.Excludes);
 
-            PatternMatchingResult result = matcher.Execute(new DirectoryInfoWrapper(new DirectoryInfo(documentsContext.RootPath)));
+            PatternMatchingResult result = matcher.Execute(new DirectoryInfoWrapper(new DirectoryInfo(s.RootPath)));
 
             foreach (FilePatternMatch filePatternMatch in result.Files)
             {
                 ct.ThrowIfCancellationRequested();
 
                 IDocumentContext docContext = documentContextBuilder.InitNew()
-                    .WithInputRoot(documentsContext.RootPath)
+                    .WithInputRoot(s.RootPath)
                     .WithRelativePath(filePatternMatch.Path)
-                    .WithFullPath(Path.Combine(documentsContext.RootPath, filePatternMatch.Path))
-                    .WithExtractOptions(s.Options ?? JsonElement.Parse("{}"))
+                    .WithFullPath(Path.Combine(s.RootPath, filePatternMatch.Path))
+                    .FromSource(s)
                     .Build();
                 documentsContext.AddDocument(docContext);
 

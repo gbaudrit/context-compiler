@@ -43,6 +43,7 @@ namespace ContextCompiler.Modules.Loader
                 ModuleLockFile lockFile = LoadLockFile();
                 string installRoot = path;
                 IEnumerable<string> configuredPackages = configProvider.Current.Packages.Select(x => x.Key.Split('@').First());
+                IEnumerable<string> runModules = LoadRunModulesFile().Keys.Select(x => x.Split('@').First());
 
                 HashSet<string> processedModules = [];
 
@@ -50,7 +51,7 @@ namespace ContextCompiler.Modules.Loader
                 {
                     // Only load packages that are explicitly configured as modules
                     // Skip dependencies - .NET runtime will resolve them automatically when needed
-                    if (!configuredPackages.Any(x => x == package.Id))
+                    if (!configuredPackages.Any(x => x == package.Id) && !runModules.Any(x => x == package.Id))
                     {
                         logger.LogDebug("Skipping {PackageId} - not a configured module (dependency will be loaded by runtime if needed)", package.Id);
                         continue;
@@ -69,7 +70,7 @@ namespace ContextCompiler.Modules.Loader
                     {
                         logger.LogInformation("Loading module {ModuleId} {Version} from {Path}", package.Id, package.Version, modulePath);
 
-                        IEnumerable<Type> discovered = await modulesDiscoverer.Discover(modulePath, cancellationToken);
+                        IEnumerable<Type> discovered = await modulesDiscoverer.Discover(modulePath, package.Id, cancellationToken);
 
                         logger.LogInformation("Discovered {Count} module type(s) in {ModuleId}", discovered.Count(), package.Id);
 
@@ -114,6 +115,29 @@ namespace ContextCompiler.Modules.Loader
             return Task.CompletedTask;
         }
 
+        public bool Clean()
+        {
+            try
+            {
+                string path = Path.Combine(workingFolder.Path, configProvider.Current.LockFile);
+                if (File.Exists(path))
+                {
+                    File.Delete(path);
+                    logger.LogInformation("Lock file deleted: {Path}", path);
+                }
+                else
+                {
+                    logger.LogInformation("No lock file to delete at: {Path}", path);
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Error while cleaning modules lock file");
+                return false;
+            }
+        }
+
         public ModuleLockFile LoadLockFile()
         {
             string path = Path.Combine(workingFolder.Path, configProvider.Current.LockFile);
@@ -128,5 +152,20 @@ namespace ContextCompiler.Modules.Loader
             File.WriteAllText(path, JsonSerializer.Serialize(lockFile, JsonOptions));
         }
 
+        public void SaveRunModules(IReadOnlyDictionary<string, string> runModules)
+        {
+            string path = Path.Combine(workingFolder.Path, configProvider.Current.RunModulesFile);
+            _ = Directory.CreateDirectory(Path.GetDirectoryName(path)!);
+            File.WriteAllText(path, JsonSerializer.Serialize(runModules, JsonOptions));
+
+        }
+
+        private IReadOnlyDictionary<string, string> LoadRunModulesFile()
+        {
+            string path = Path.Combine(workingFolder.Path, configProvider.Current.RunModulesFile);
+            return !File.Exists(path)
+                ? throw new InvalidOperationException($"Run modules file not found: {path}")
+                : JsonSerializer.Deserialize<IReadOnlyDictionary<string, string>>(File.ReadAllText(path), JsonOptions)!;
+        }
     }
 }

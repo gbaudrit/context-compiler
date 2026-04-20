@@ -5,7 +5,7 @@ namespace ContextCompiler.Modules;
 internal sealed class SourceBuilder : ISourceBuilder
 {
 
-    internal sealed record Source : ISource
+    internal sealed record Source : IModuleSource
     {
         public required string Id { get; init; }
         public required string Provider { get; init; }
@@ -42,7 +42,7 @@ internal sealed class SourceBuilder : ISourceBuilder
         return this;
     }
 
-    public ISource Build()
+    public IModuleSource Build()
     {
         return string.IsNullOrWhiteSpace(_id)
             ? throw new InvalidOperationException("Id must be set and non-empty.")
@@ -50,7 +50,7 @@ internal sealed class SourceBuilder : ISourceBuilder
             ? throw new InvalidOperationException("Provider must be set and non-empty.")
             : _url == null
             ? throw new InvalidOperationException("Url must be set.")
-            : (ISource)new Source
+            : (IModuleSource)new Source
             {
                 Id = _id,
                 Provider = _provider,

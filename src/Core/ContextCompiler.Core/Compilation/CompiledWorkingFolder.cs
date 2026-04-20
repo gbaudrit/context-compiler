@@ -1,6 +1,6 @@
 using ContextCompiler.Abstractions;
 
-namespace ContextCompiler.Core;
+namespace ContextCompiler.Core.Compilation;
 
 internal sealed class CompiledWorkingFolder(IWorkingFolder workingFolder) : ICompiledWorkingFolder
 {

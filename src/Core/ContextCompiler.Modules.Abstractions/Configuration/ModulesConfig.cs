@@ -6,6 +6,7 @@ public class ModulesConfig : IModulesLoadConfig
     public string InstallRoot { get; set; } = ".ctxc/modules";
     public bool Offline { get; set; }
     public string LockFile { get; set; } = ".ctxc/ctxc.modules.lock.json";
+    public string RunModulesFile { get; set; } = ".ctxc/ctxc.modules.run.json";
     public string QuarantineRoot { get; set; } = ".ctxc/quarantine";
     public string ConfigurationModule { get; set; } = "ContextCompiler.Modules.Configuration";
     public List<ModuleSource> Sources { get; set; } = [];

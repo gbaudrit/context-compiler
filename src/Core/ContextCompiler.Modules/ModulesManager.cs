@@ -17,7 +17,7 @@ public sealed class ModulesManager(ICtxcWorkingFolder ctxcWorkingFolder,
                                   ISchemaBuilder schemaBuilder,
                                   IModuleRestoreRequestBuilder moduleRestoreRequestBuilder,
                                   ITrustPolicy policy,
-                                  ISourcesProvider sourcesProvider,
+                                  IModulesSourcesProvider sourcesProvider,
                                   ILogger<ModulesManager> logger) : IModulesManager
 {
 
@@ -65,7 +65,7 @@ public sealed class ModulesManager(ICtxcWorkingFolder ctxcWorkingFolder,
                     throw new InvalidOperationException("Unknown source {req.Source.Id)}");
                 }
 
-                ISource source = sourcesProvider.GetById(req.PackageId.Source.Id);
+                IModuleSource source = sourcesProvider.GetById(req.PackageId.Source.Id);
                 IModulesStore? store = serviceProvider.GetKeyedService<IModulesStore>(source.Provider)
                                        ?? throw new InvalidOperationException($"No module store found for provider {source.Provider}");
 

@@ -3,11 +3,11 @@ using ContextCompiler.Modules.Abstractions.Configuration;
 
 namespace ContextCompiler.Modules
 {
-    internal sealed class FromConfigurationSourcesProvider(IModulesLoadConfigProvider cfg, ISourceBuilder sourceBuilder) : ISourcesProvider
+    internal sealed class FromConfigurationSourcesProvider(IModulesLoadConfigProvider cfg, ISourceBuilder sourceBuilder) : IModulesSourcesProvider
     {
         private bool _initialized;
 
-        private readonly List<ISource> _sources = [];
+        private readonly List<IModuleSource> _sources = [];
 
         private void EnsureInitialize()
         {
@@ -20,7 +20,7 @@ namespace ContextCompiler.Modules
             _initialized = true;
         }
 
-        public ISource GetById(string id)
+        public IModuleSource GetById(string id)
         {
             EnsureInitialize();
             return _sources.First(x => x.Id == id);

@@ -24,10 +24,10 @@
 
 
 	<ItemGroup>
-	  <ProjectReference Include="..\ContextCompiler.Infrastructure\ContextCompiler.Infrastructure.csproj" />
+	  <ProjectReference Include="..\..\Core\ContextCompiler.Infrastructure\ContextCompiler.Infrastructure.csproj" />
 	  <ProjectReference Include="..\ContextCompiler.Mcp.Core\ContextCompiler.Mcp.Core.csproj" />
-	  <ProjectReference Include="..\ContextCompiler.Modules.Abstractions\ContextCompiler.Modules.Abstractions.csproj" />
-	  <ProjectReference Include="..\ContextCompiler.Modules.Loader\ContextCompiler.Modules.Loader.csproj" />
+	  <ProjectReference Include="..\..\Core\ContextCompiler.Modules.Abstractions\ContextCompiler.Modules.Abstractions.csproj" />
+	  <ProjectReference Include="..\..\Core\ContextCompiler.Modules.Loader\ContextCompiler.Modules.Loader.csproj" />
 	</ItemGroup>
 
 </Project>

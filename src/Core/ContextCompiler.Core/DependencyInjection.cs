@@ -4,6 +4,7 @@ using ContextCompiler.Abstractions.Models;
 using ContextCompiler.Abstractions.Output;
 using ContextCompiler.Core.Commands;
 using ContextCompiler.Core.Common;
+using ContextCompiler.Core.Compilation;
 using ContextCompiler.Core.Configuration;
 using ContextCompiler.Core.Files;
 using ContextCompiler.Core.Framing;
@@ -12,6 +13,7 @@ using ContextCompiler.Core.Output;
 using ContextCompiler.Core.Personas;
 using ContextCompiler.Core.Pipelines;
 using ContextCompiler.Core.ReasoningIR;
+using ContextCompiler.Core.Sources;
 using ContextCompiler.Core.Tags;
 using ContextCompiler.Core.Views;
 using ContextCompiler.Core.Workspace;
@@ -27,6 +29,8 @@ namespace ContextCompiler.Core
         {
             // Register core services here
             return services
+                    .AddCompilation()
+                    .AddSources()
                     .AddPipelines()
                     .AddReasoningIR()
                     .AddPersonas()
@@ -49,7 +53,6 @@ namespace ContextCompiler.Core
                     .AddConfiguration()
                     .AddWorkspace()
                     .AddSingleton<ICtxcWorkingFolder, CtxcWorkingFolder>()
-                    .AddSingleton<ICompiledWorkingFolder, CompiledWorkingFolder>()
                     .AddTransient<IOutputArtifactReader, OutputArtifactReader>();
         }
 

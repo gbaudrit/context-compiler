@@ -1,7 +1,6 @@
-using System.Text.Json;
-
 using ContextCompiler.Abstractions.Models;
 using ContextCompiler.Abstractions.ReasoningIR;
+using ContextCompiler.Abstractions.Sources;
 
 namespace ContextCompiler.Abstractions.Pipelines.Document
 {
@@ -18,7 +17,7 @@ namespace ContextCompiler.Abstractions.Pipelines.Document
         string InputRoot { get; init; }
         string RelativePath { get; init; }
         IReadOnlyList<ITag> Tags { get; }
-        JsonElement ExtractOptions { get; init; }
+        ISource Source { get; init; }
 
         IPipelineFinding AddFinding(FindingSeverity Severity,
                                     FindingAction Action,

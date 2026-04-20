@@ -1,6 +1,6 @@
 namespace ContextCompiler.Modules.Abstractions;
 
-public interface ISource
+public interface IModuleSource
 {
 
     string Id { get; }

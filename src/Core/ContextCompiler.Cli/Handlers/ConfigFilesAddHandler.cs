@@ -30,7 +30,7 @@ internal sealed class ConfigFilesAddHandler(IConfigSerializer ctxcConfigSerializ
 
             string normalized = NormalizeRelativePath(relativePath);
 
-            bool exists = cfg.Files.Any(f =>
+            bool exists = cfg.Sources.Any(f =>
                 f.Includes.Length == 1 &&
                 string.Equals(NormalizeRelativePath(f.Includes[0]), normalized, StringComparison.OrdinalIgnoreCase));
 

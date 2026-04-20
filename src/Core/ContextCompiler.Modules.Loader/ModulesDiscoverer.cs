@@ -11,7 +11,7 @@ namespace ContextCompiler.Modules.Loader;
 internal sealed class ModulesDiscoverer(IModuleAssemblyLoader moduleAssemblyLoader, IModulesLoadConfigProvider modulesLoadConfigProvider) : IModulesDiscoverer
 {
 
-    public async Task<IEnumerable<Type>> Discover(string rootPath, CancellationToken ct)
+    public async Task<IEnumerable<Type>> Discover(string rootPath, string packageId, CancellationToken ct)
     {
         List<Type> discoveredModuleTypes = [];
         if (!Directory.Exists(rootPath))
@@ -20,7 +20,7 @@ internal sealed class ModulesDiscoverer(IModuleAssemblyLoader moduleAssemblyLoad
         }
 
         // Find the main module assemblies (in lib/ folders, not dependencies in the root)
-        string[] moduleDlls = FindModuleAssemblies(rootPath);
+        string[] moduleDlls = FindModuleAssemblies(rootPath, packageId);
 
         foreach (string path in moduleDlls)
         {
@@ -71,17 +71,10 @@ internal sealed class ModulesDiscoverer(IModuleAssemblyLoader moduleAssemblyLoad
         }
     }
 
-    private string[] FindModuleAssemblies(string rootPath)
+    private static string[] FindModuleAssemblies(string rootPath, string packageId)
     {
         Matcher matcher = new();
-
-
-        foreach (KeyValuePair<string, string> pair in modulesLoadConfigProvider.Current.Packages)
-        {
-            string id = pair.Key;
-            id = id.Split('@').First();
-            _ = matcher.AddInclude($"**/{id}.dll");
-        }
+        _ = matcher.AddInclude($"**/{packageId}.dll");
 
         PatternMatchingResult result = matcher.Execute(new DirectoryInfoWrapper(new DirectoryInfo(rootPath)));
 

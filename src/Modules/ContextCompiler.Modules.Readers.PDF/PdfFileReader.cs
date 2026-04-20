@@ -1,5 +1,4 @@
 using System.Text;
-using System.Text.Json;
 
 using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Abstractions.Configuration;
@@ -70,7 +69,7 @@ public sealed class PdfFileReaderModule(IFileReadResultBuilder fileReadResultBui
         //    }
 
         //}
-        PdfExtractsConfig options = documentContext.ExtractOptions.GetProperty(Metadata.Id).Deserialize<PdfExtractsConfig>() ?? new PdfExtractsConfig();
+        PdfExtractsConfig options = documentContext.Source.Config<PdfExtractsConfig>() ?? new PdfExtractsConfig();
 
         using PdfDocument pdfDocument = PdfDocument.Open(documentContext.FullPath!, new ParsingOptions() { ClipPaths = true });
         string sourcePath = documentContext.FullPath ?? string.Empty;

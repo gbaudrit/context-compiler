@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\ContextCompiler.Configuration.Json\ContextCompiler.Configuration.Json.csproj" />
+    <ProjectReference Include="..\..\Core\ContextCompiler.Core\ContextCompiler.Core.csproj" />
+    <ProjectReference Include="..\..\Core\ContextCompiler.Infrastructure\ContextCompiler.Infrastructure.csproj" />
+    <ProjectReference Include="..\ContextCompiler.Mcp.Core\ContextCompiler.Mcp.Core.csproj" />
+    <ProjectReference Include="..\ContextCompiler.Mcp.Infrastructure\ContextCompiler.Mcp.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Core\ContextCompiler.Modules.Loader\ContextCompiler.Modules.Loader.csproj" />
+  </ItemGroup>
+</Project>

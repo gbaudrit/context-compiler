@@ -4,13 +4,13 @@ using ContextCompiler.Abstractions.Configuration.Sections;
 
 namespace ContextCompiler.Core.Compilation;
 
-internal class CompilationContext(IConfigProvider configProvider, IInputFilesDefinitionBuilder inputFilesDefinitionBuilder) : ICompilationContext
+internal sealed class CompilationContext(IConfigProvider configProvider, ISourceFilesDefinitionBuilder inputFilesDefinitionBuilder) : ICompilationContext
 {
-    public ICompilationContext Add(Action<IInputFilesDefinitionBuilder> build)
+    public ICompilationContext Add(Func<ISourceFilesDefinitionBuilder, ISourceFilesDefinitionBuilder> build)
     {
         IRootConfigSection rootConfig = configProvider.Current;
 
-        build(inputFilesDefinitionBuilder.InitNew());
+        _ = build(inputFilesDefinitionBuilder.InitNew());
 
         IInputFilesDefinition inputFiles = inputFilesDefinitionBuilder.Build();
 

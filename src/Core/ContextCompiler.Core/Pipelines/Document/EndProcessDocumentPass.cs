@@ -10,9 +10,10 @@ namespace ContextCompiler.Core.Pipelines.Document
         public int Priority => 200;
         public DocumentStage Stage => DocumentStage.EndProcess;
 
-        public async ValueTask ExecuteAsync(IDocumentContext ctx, CancellationToken ct)
+        public ValueTask ExecuteAsync(IDocumentContext ctx, CancellationToken ct)
         {
             logger.LogInformation("Ending processing of document: {DocumentPath}", ctx.FullPath);
+            return ValueTask.CompletedTask;
         }
     }
 }

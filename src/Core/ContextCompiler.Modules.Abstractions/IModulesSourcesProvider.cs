@@ -1,7 +1,7 @@
 namespace ContextCompiler.Modules.Abstractions;
 
-public interface ISourcesProvider
+public interface IModulesSourcesProvider
 {
     bool Exists(string id);
-    ISource GetById(string id);
+    IModuleSource GetById(string id);
 }
