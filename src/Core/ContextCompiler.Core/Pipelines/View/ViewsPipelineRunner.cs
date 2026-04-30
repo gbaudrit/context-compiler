@@ -7,7 +7,7 @@ using ContextCompiler.Modules.BuiltIn;
 
 using Microsoft.Extensions.Logging;
 
-namespace ContextCompiler.Core.Pipelines;
+namespace ContextCompiler.Core.Pipelines.View;
 
 public sealed class ViewsPipelineRunner(
     ILogger<GlobalPipelineRunner> logger,

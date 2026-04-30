@@ -14,7 +14,6 @@ namespace ContextCompiler.Abstractions.Pipelines.Document
 
         IDocumentContextPatchBuilder WithFindings(IEnumerable<IPipelineFinding> findings);
         IDocumentContextPatchBuilder WithFragments(IEnumerable<IFragment> fragments);
-        IDocumentContextPatchBuilder WithTranscodedFragments(IEnumerable<ITranscodedFragment> fragments);
         IDocumentContextPatchBuilder WithTags(IEnumerable<ITag> tags);
         IDocumentContextPatchBuilder WithTags(IEnumerable<string> tags);
 

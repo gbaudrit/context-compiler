@@ -1,5 +1,6 @@
 using ContextCompiler.Abstractions.Files;
 using ContextCompiler.Abstractions.Pipelines.Document;
+using ContextCompiler.Abstractions.ReasoningIR;
 using ContextCompiler.Abstractions.Tags;
 using ContextCompiler.Modules.Abstractions;
 
@@ -7,7 +8,7 @@ using Microsoft.Extensions.Logging;
 
 namespace ContextCompiler.Modules.Datas.Transcoders.Linear;
 
-public sealed class LinearTranscoderModule(ILogger<LinearTranscoderModule> logger, ITagBuilder tagBuilder, ITagsBuilder tagsBuilder) : IDocumentPartPipelineModule
+public sealed class LinearTranscoderModule(ILogger<LinearTranscoderModule> logger, ITagBuilder tagBuilder, ITagsBuilder tagsBuilder, IFragmentBuilder fragmentBuilder) : IDocumentPartPipelineModule
 {
 
     public DocumentPartModuleMetadata Metadata => IDocumentPartPipelineModule.Meta("datas.transcoder.linear", DocumentPartPipelineModuleKinds.Transcoders, priority: 10);
@@ -37,15 +38,15 @@ public sealed class LinearTranscoderModule(ILogger<LinearTranscoderModule> logge
             content = s;
         }
 
-        return patcher.WithTranscodedFragments(
-        [
-            new TranscodedFragment(locator, content)
-            {
-                Tags = tagsBuilder
-                    .InitNewFrom([tagBuilder.Build("shape", "linear")])
-                    .AddRange(part.Tags)
-                    .Build()
-            }
-        ]).BuildAsTask();
+        return patcher.WithFragments(
+            [
+                fragmentBuilder.InitNew()
+                               .ForDataPart(part)
+                               .WithContent(content)
+                               .WithLocator(locator)
+                               .WithFilePath(part.Source.Path)
+                               .WithTags(tagsBuilder.InitNewFrom([tagBuilder.Build("shape", "linear")]).Build())
+                               .Build(),
+            ]).BuildAsTask();
     }
 }

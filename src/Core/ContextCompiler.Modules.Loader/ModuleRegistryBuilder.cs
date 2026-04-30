@@ -8,6 +8,7 @@ using ContextCompiler.Modules.Abstractions.Views;
 using ContextCompiler.Modules.Abstractions.Views.Renderers;
 
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace ContextCompiler.Modules.Loader;
 
@@ -33,6 +34,16 @@ public sealed class ModuleRegistryBuilder : IModuleRegistryBuilder
             if (typeof(IGlobalPipelineModule).IsAssignableFrom(t))
             {
                 _ = services.AddTransient(typeof(IGlobalPipelineModule), t);
+            }
+
+            if (typeof(IDocumentPipelineModule).IsAssignableFrom(t))
+            {
+                services.TryAddEnumerable(ServiceDescriptor.Transient(typeof(IDocumentPipelineModule), t));
+            }
+
+            if (typeof(IDocumentPartPipelineModule).IsAssignableFrom(t))
+            {
+                _ = services.AddTransient(typeof(IDocumentPartPipelineModule), t);
             }
 
             if (typeof(IFileReaderModule).IsAssignableFrom(t))

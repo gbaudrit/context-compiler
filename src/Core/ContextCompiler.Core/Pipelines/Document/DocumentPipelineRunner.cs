@@ -126,16 +126,27 @@ public sealed class DocumentPipelineRunner(
 
                         await Task.WhenAll(group.OrderBy(x => x.Metadata.Priority).Select(async module =>
                         {
-                            logger.LogInformation(
-                                "Running global pipeline module: {ModuleName} (Kind: {ModuleKind}, Priority: {ModulePriority})",
-                                module.Metadata.Id,
-                                module.Metadata.Kind,
-                                module.Metadata.Priority);
+                            if (module.CanProcess(docContext))
+                            {
+                                logger.LogInformation(
+                                    "Running document pipeline module: {ModuleName} (Kind: {ModuleKind}, Priority: {ModulePriority})",
+                                    module.Metadata.Id,
+                                    module.Metadata.Kind,
+                                    module.Metadata.Priority);
 
-                            IDocumentContextPatchBuilder modulePatcher = serviceProvider.GetRequiredService<IDocumentContextPatchBuilder>();
+                                IDocumentContextPatchBuilder modulePatcher = serviceProvider.GetRequiredService<IDocumentContextPatchBuilder>();
 
-                            IDocumentContextPatch patch = await module.Run(docContext, modulePatcher.InitNew(), ct);
-                            docContext = await documentContextPatcher.Patch(docContext, patch);
+                                IDocumentContextPatch patch = await module.Run(docContext, modulePatcher.InitNew(), ct);
+                                docContext = await documentContextPatcher.Patch(docContext, patch);
+                            }
+                            else
+                            {
+                                logger.LogInformation(
+                                    "Skipping document pipeline module (CanProcess returned false): {ModuleName} (Kind: {ModuleKind}, Priority: {ModulePriority})",
+                                    module.Metadata.Id,
+                                    module.Metadata.Kind,
+                                    module.Metadata.Priority);
+                            }
                         }));
                     }
 

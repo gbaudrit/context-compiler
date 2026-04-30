@@ -5,6 +5,7 @@ namespace ContextCompiler.Abstractions.ReasoningIR
         IEvidence Build();
         IEvidenceBuilder InitNew();
         IEvidenceBuilder ForFile(string filePath);
-        IEvidenceBuilder ForTranscodedFragment(ITranscodedFragment transcodedFragment);
+        IEvidenceBuilder WithLocator(string locator);
+        IEvidenceBuilder ForContent(string content);
     }
 }

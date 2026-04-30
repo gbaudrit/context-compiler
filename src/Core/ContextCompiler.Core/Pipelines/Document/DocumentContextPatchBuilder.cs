@@ -11,7 +11,6 @@ internal sealed class DocumentContextPatchBuilder(ITagBuilder tagBuilder) : IDoc
     private IDataEnvelope? _dataEnvelope;
     private List<IPipelineFinding> _findings = [];
     private List<IFragment> _fragments = [];
-    private List<ITranscodedFragment> _transcodedFragments = [];
     private List<ITag> _tags = [];
     private List<IDataPart> _parts = [];
 
@@ -20,7 +19,6 @@ internal sealed class DocumentContextPatchBuilder(ITagBuilder tagBuilder) : IDoc
         _dataEnvelope = null;
         _findings = [];
         _fragments = [];
-        _transcodedFragments = [];
         _tags = [];
         _parts = [];
         return this;
@@ -31,7 +29,6 @@ internal sealed class DocumentContextPatchBuilder(ITagBuilder tagBuilder) : IDoc
         _dataEnvelope = data.DataEnvelope;
         _findings = [.. data.Findings];
         _fragments = [.. data.Fragments];
-        _transcodedFragments = [];
         _tags = [.. data.Tags];
         _parts = data.DataEnvelope?.Parts?.ToList() ?? [];
         return this;
@@ -51,7 +48,6 @@ internal sealed class DocumentContextPatchBuilder(ITagBuilder tagBuilder) : IDoc
 
         _findings.AddRange(patch.Findings);
         _fragments.AddRange(patch.Fragments);
-        _transcodedFragments.AddRange(patch.TranscodedFragments);
         _tags.AddRange(patch.Tags);
         _parts.AddRange(patch.Parts);
 
@@ -67,12 +63,6 @@ internal sealed class DocumentContextPatchBuilder(ITagBuilder tagBuilder) : IDoc
     public IDocumentContextPatchBuilder WithFragments(IEnumerable<IFragment> fragments)
     {
         _fragments = [.. fragments];
-        return this;
-    }
-
-    public IDocumentContextPatchBuilder WithTranscodedFragments(IEnumerable<ITranscodedFragment> fragments)
-    {
-        _transcodedFragments = [.. fragments];
         return this;
     }
 
@@ -124,7 +114,6 @@ internal sealed class DocumentContextPatchBuilder(ITagBuilder tagBuilder) : IDoc
             DataEnvelope = _dataEnvelope,
             Findings = _findings.AsReadOnly(),
             Fragments = _fragments.AsReadOnly(),
-            TranscodedFragments = _transcodedFragments.AsReadOnly(),
             Tags = _tags.AsReadOnly(),
             Parts = _parts.AsReadOnly()
         };
@@ -147,7 +136,6 @@ internal sealed class DocumentContextPatchBuilder(ITagBuilder tagBuilder) : IDoc
             DataEnvelope = null,
             Findings = [],
             Fragments = [],
-            TranscodedFragments = [],
             Tags = [],
             Parts = []
         };

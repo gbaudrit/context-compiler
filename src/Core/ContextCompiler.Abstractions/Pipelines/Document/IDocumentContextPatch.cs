@@ -9,6 +9,5 @@ namespace ContextCompiler.Abstractions.Pipelines.Document
         IReadOnlyList<IFragment> Fragments { get; init; }
         IReadOnlyList<IDataPart> Parts { get; init; }
         IReadOnlyList<ITag> Tags { get; init; }
-        IReadOnlyList<ITranscodedFragment> TranscodedFragments { get; init; }
     }
 }

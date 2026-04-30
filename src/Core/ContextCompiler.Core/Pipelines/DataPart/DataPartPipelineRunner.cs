@@ -7,7 +7,6 @@ using Microsoft.Extensions.Logging;
 namespace ContextCompiler.Core.Pipelines.DataPart
 {
     internal sealed class DataPartPipelineRunner(IModulesRegistry modules,
-                                                 IDocumentContextPatchBuilder documentContextPatchBuilder,
                                                  IDocumentContextPatcher documentContextPatcher,
                                                  IServiceProvider serviceProvider,
                                                  ILogger<DataPartPipelineRunner> logger) : IDocumentPipelineModule
@@ -26,7 +25,7 @@ namespace ContextCompiler.Core.Pipelines.DataPart
             {
                 IOrderedEnumerable<IDocumentPartPipelineModule> orderedModules = modules.DocumentPartPipelineModules.OrderBy(c => c.Metadata.Kind);
 
-                logger.LogDebug("Will running document pipeline with {ModuleCount} modules in order :", orderedModules.Count());
+                logger.LogDebug("Will running document part pipeline with {ModuleCount} modules in order :", orderedModules.Count());
                 int index = 1;
                 foreach (IDocumentPartPipelineModule module in orderedModules)
                 {
@@ -52,21 +51,35 @@ namespace ContextCompiler.Core.Pipelines.DataPart
                 {
                     foreach (IGrouping<int, IDocumentPartPipelineModule> group in groups)
                     {
-                        logger.LogInformation("Running document pipeline group Kind={Kind} with {Count} modules",
+                        logger.LogInformation("Running document part pipeline group Kind={Kind} with {Count} modules",
                             group.Key, group.Count());
 
                         await Task.WhenAll(group.OrderBy(x => x.Metadata.Priority).Select(async module =>
                         {
-                            logger.LogInformation(
-                                "Running global pipeline module: {ModuleName} (Kind: {ModuleKind}, Priority: {ModulePriority})",
-                                module.Metadata.Id,
-                                module.Metadata.Kind,
-                                module.Metadata.Priority);
+                            if (module.CanProcess(documentContext, part))
+                            {
+                                logger.LogInformation(
+                                    "Running document part pipeline module: {ModuleName} (Kind: {ModuleKind}, Priority: {ModulePriority})",
+                                    module.Metadata.Id,
+                                    module.Metadata.Kind,
+                                    module.Metadata.Priority);
 
-                            IDocumentContextPatchBuilder modulePatcher = serviceProvider.GetRequiredService<IDocumentContextPatchBuilder>();
+                                IDocumentContextPatchBuilder modulePatcher = serviceProvider.GetRequiredService<IDocumentContextPatchBuilder>();
 
-                            IDocumentContextPatch patch = await module.Run(documentContext, modulePatcher.InitNew(), part, ct);
-                            documentContext = await documentContextPatcher.Patch(documentContext, patch);
+                                IDocumentContextPatch modulePatch = await module.Run(documentContext, modulePatcher.InitNew(), part, ct);
+                                documentContext = await documentContextPatcher.Patch(documentContext, modulePatch);
+
+                                _ = patcher.Combine(modulePatch);
+                            }
+                            else
+                            {
+                                logger.LogInformation(
+                                    "Skipping document part pipeline module: {ModuleName} (Kind: {ModuleKind}, Priority: {ModulePriority}) - Cannot process part with id {PartId}",
+                                    module.Metadata.Id,
+                                    module.Metadata.Kind,
+                                    module.Metadata.Priority,
+                                    part.PartId);
+                            }
                         }));
                     }
                 }
@@ -74,7 +87,7 @@ namespace ContextCompiler.Core.Pipelines.DataPart
             catch (OperationCanceledException) { throw; }
             catch (Exception ex)
             {
-                _ = documentContextPatchBuilder.AddFinding(
+                _ = patcher.AddFinding(
                     FindingSeverity.Critical,
                     FindingAction.Block,
                     PassId: "pipeline.runner",
@@ -82,7 +95,7 @@ namespace ContextCompiler.Core.Pipelines.DataPart
                 );
             }
 
-            return documentContextPatchBuilder.Build();
+            return patcher.Build();
         }
     }
 }
