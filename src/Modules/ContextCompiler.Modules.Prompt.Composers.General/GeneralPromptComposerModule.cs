@@ -8,7 +8,7 @@ namespace ContextCompiler.Modules.Prompt.Composers.General;
 
 public sealed class GeneralPromptComposerModule(IPrompt prompt, IOutput output, IConfigProvider ctxcConfig, IModulesRegistry modules, IReasoningIr ir) : IPromptComposerModule
 {
-    public ModuleMetadata Metadata => IModule.Meta("prompt.composers.general", GlobalPipelineModuleKinds.PromptComposer, priority: 10);
+    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("prompt.composers.general", GlobalPipelineModuleKinds.PromptComposer, priority: 10);
 
     public async Task Run(CancellationToken cancellationToken)
     {

@@ -9,7 +9,7 @@ public sealed class SourcesConsoleModule(
     ISourcesProvider sourcesProvider,
     ILogger<SourcesConsoleModule> logger) : IGlobalPipelineModule
 {
-    public ModuleMetadata Metadata => IModule.Meta("devtools.sources-console", GlobalPipelineModuleKinds.EndTools, priority: 1000);
+    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("devtools.sources-console", GlobalPipelineModuleKinds.EndTools, priority: 1000);
 
     public Task Run(CancellationToken cancellationToken)
     {

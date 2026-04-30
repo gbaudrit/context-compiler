@@ -1,4 +1,5 @@
 using ContextCompiler.Abstractions.Pipelines.DataPart;
+using ContextCompiler.Modules.Abstractions;
 
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,10 +11,9 @@ public static class DependencyInjection
     public static IServiceCollection AddDataPartPipeline(this IServiceCollection services)
     {
         // Register core services here
-        return services.AddSingleton<IDataPartPipelineRunner, DataPartPipelineRunner>()
-                       .AddSingleton<IDataPartPass, EngineeringModulesPass>()
-                       .AddSingleton<IDataPartPass, FragmentGuardsPass>()
-                       .AddSingleton<IDataPartPass, TranscodingPass>();
+        return services.AddSingleton<IDocumentPipelineModule, DataPartPipelineRunner>()
+                       .AddSingleton<IDataPartDescriptorBuilder, DataPartDescriptorBuilder>()
+                       .AddSingleton<IDataPartCatalog, DataPartCatalog>();
     }
 
 }

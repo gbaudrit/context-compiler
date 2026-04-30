@@ -1,4 +1,5 @@
 using ContextCompiler.Abstractions.Models;
+using ContextCompiler.Abstractions.Pipelines.DataPart;
 using ContextCompiler.Abstractions.Pipelines.Document;
 using ContextCompiler.Abstractions.ReasoningIR;
 
@@ -6,12 +7,13 @@ namespace ContextCompiler.Core.Pipelines.Document
 {
     internal sealed class DataPartBuilder : IDataPartBuilder
     {
-
         private string _id = string.Empty;
         private ISourceRef? _source;
         private string? _label;
         private object? _payload;
         private IReadOnlyList<ITag> _tags = [];
+        private DataPartType _type = DataPartType.Undefined;
+        private string? _groupId;
 
         public IDataPartBuilder InitNew()
         {
@@ -20,6 +22,8 @@ namespace ContextCompiler.Core.Pipelines.Document
             _label = null;
             _payload = null;
             _tags = [];
+            _type = DataPartType.Undefined;
+            _groupId = null;
             return this;
         }
 
@@ -53,14 +57,24 @@ namespace ContextCompiler.Core.Pipelines.Document
             return this;
         }
 
+        public IDataPartBuilder WithType(DataPartType type)
+        {
+            _type = type;
+            return this;
+        }
+
+        public IDataPartBuilder WithGroupId(string? groupId)
+        {
+            _groupId = groupId;
+            return this;
+        }
+
         public IDataPart Build()
         {
             ArgumentNullException.ThrowIfNull(_id);
             ArgumentNullException.ThrowIfNull(_source);
 
-            return new DataPart(_id, _source, _payload ?? "", _label, _tags);
+            return new DataPart(_id, _source, _payload ?? "", _type, _label, _tags, _groupId);
         }
-
     }
 }
-

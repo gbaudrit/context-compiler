@@ -11,8 +11,6 @@ public interface IModulesRegistry
     IReadOnlyList<IFileReaderModule> FileReaders { get; }
     IReadOnlyList<IDataReaderModule> DataReaders { get; }
     IReadOnlyList<IEngineeringModule> EngineeringModules { get; }
-    IReadOnlyList<ITranscoderModule> Transcoders { get; }
-    IReadOnlyList<IGuardModule> Guards { get; }
     IReadOnlyList<IViewModule> Views { get; }
     IReadOnlyList<ITemplateModule> Templates { get; }
     IReadOnlyList<IPromptRenderingModule> PromptRenderers { get; }
@@ -23,6 +21,8 @@ public interface IModulesRegistry
     IReadOnlyList<IOutputArtifactsFilesWriterModule> OutputArtifactWriters { get; }
     IReadOnlyList<IOutputArtifactComposerModule> OutputArtifactComposers { get; }
     IReadOnlyList<IGlobalPipelineModule> GlobalPipelineModules { get; }
+    IReadOnlyList<IDocumentPipelineModule> DocumentPipelineModules { get; }
+    IReadOnlyList<IDocumentPartPipelineModule> DocumentPartPipelineModules { get; }
     IReadOnlyList<IFragmentProcessorModule> FragmentProcessors { get; }
     IReadOnlyList<IBlueprintComposerModule> Blueprints { get; }
 

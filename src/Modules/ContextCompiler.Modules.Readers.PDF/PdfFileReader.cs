@@ -31,11 +31,11 @@ public sealed class PdfFileReaderModule(IFileReadResultBuilder fileReadResultBui
                                         ISourceRefBuilder sourceRefBuilder,
                                         ILogger<PdfFileReaderModule> logger) : IFileReaderModule
 {
-    public ModuleMetadata Metadata => IModule.Meta("readers.pdf", GlobalPipelineModuleKinds.FileReader, priority: 10);
+    public DocumentModuleMetadata Metadata => IDocumentPipelineModule.Meta("readers.pdf", DocumentPipelineModuleKinds.ReadDocument, priority: 10);
 
-    public bool CanRead(string path)
+    public bool CanProcess(IDocumentContext documentContext)
     {
-        string ext = Path.GetExtension(path);
+        string ext = Path.GetExtension(documentContext.FullPath);
         return ext.Equals(".pdf", StringComparison.OrdinalIgnoreCase);
     }
 
@@ -51,7 +51,7 @@ public sealed class PdfFileReaderModule(IFileReadResultBuilder fileReadResultBui
     //                                                                               .Build()).Build());
     //}
 
-    public Task<IDataEnvelope> ReadAsync(IDocumentContext documentContext, CancellationToken ct)
+    public Task<IDocumentContextPatch> Run(IDocumentContext documentContext, IDocumentContextPatchBuilder patcher, CancellationToken ct)
     {
         ct.ThrowIfCancellationRequested();
         logger.LogInformation("Start reading PDF document at path: {Path}", documentContext.FullPath);
@@ -119,10 +119,10 @@ public sealed class PdfFileReaderModule(IFileReadResultBuilder fileReadResultBui
 
         logger.LogInformation("Finished reading PDF document at path: {Path}. Extracted {PartCount} parts.", documentContext.FullPath, parts.Count);
 
-        return Task.FromResult(dataEnvelopeBuilder.InitNew()
+        return patcher.WithDataEnvelope(dataEnvelopeBuilder.InitNew()
                                     .WithDataShape(DataShape.Linear)
                                     .WithParts(parts)
-                                    .Build());
+                                    .Build()).BuildAsTask();
 
     }
 }

@@ -11,7 +11,7 @@ namespace ContextCompiler.Core.Guards
 
         public void Load(IDocumentsContext documents)
         {
-            _findings = [.. documents.Documents.SelectMany(r => r.Findings)];
+            _findings = [.. documents.Documents.SelectMany(r => r.Data.Findings)];
         }
 
         public bool HasBlockingCriticalFindings()

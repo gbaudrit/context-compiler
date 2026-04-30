@@ -16,7 +16,7 @@ internal sealed class JsonIndexModule(IConfigProvider cfgProvider,
                                         ILogger<JsonIndexModule> logger) : IConfigurationModule
 {
 
-    public ModuleMetadata Metadata => IModule.Meta($"artifacts.index.json", GlobalPipelineModuleKinds.OutputArtifactComposer, priority: 10000);
+    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta($"artifacts.index.json", GlobalPipelineModuleKinds.OutputArtifactComposer, priority: 10000);
 
     public Task Run(CancellationToken cancellationToken)
     {

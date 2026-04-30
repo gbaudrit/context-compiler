@@ -11,7 +11,7 @@ namespace ContextCompiler.Modules.Prompt.Templates.Scriban;
 
 internal sealed class ScribanPromptTemplateModule(IPrompt prompt, ITemplateProvider templateProvider, IConfigProvider ctxcConfigProvider) : IPromptRenderingModule
 {
-    public ModuleMetadata Metadata => IModule.Meta("prompt.templates.scriban", GlobalPipelineModuleKinds.Template, priority: 0);
+    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("prompt.templates.scriban", GlobalPipelineModuleKinds.Template, priority: 0);
 
     public async Task Run(CancellationToken ct)
     {

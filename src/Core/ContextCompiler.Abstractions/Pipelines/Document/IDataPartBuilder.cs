@@ -1,4 +1,5 @@
 using ContextCompiler.Abstractions.Models;
+using ContextCompiler.Abstractions.Pipelines.DataPart;
 using ContextCompiler.Abstractions.ReasoningIR;
 
 namespace ContextCompiler.Abstractions.Pipelines.Document
@@ -12,5 +13,7 @@ namespace ContextCompiler.Abstractions.Pipelines.Document
         IDataPartBuilder WithPayload(object? payload);
         IDataPartBuilder WithSource(ISourceRef source);
         IDataPartBuilder WithTags(IReadOnlyList<ITag> tags);
+        IDataPartBuilder WithType(DataPartType type);
+        IDataPartBuilder WithGroupId(string? groupId);
     }
 }

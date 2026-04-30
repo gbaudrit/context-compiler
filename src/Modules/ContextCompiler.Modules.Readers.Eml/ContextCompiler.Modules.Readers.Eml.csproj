@@ -1,15 +1,14 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<TargetFramework>net10.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-		<Configurations>Debug;Release;DebugLocal</Configurations>
+		<PackageId>ContextCompiler.Modules.Readers.Eml</PackageId>
+		<Description>ContextCompiler reader module for EML email sources.</Description>
 		<IsPackable>true</IsPackable>
-		<PackageId>ContextCompiler.Modules.Prompt.Composers.Views</PackageId>
-		<Description>ContextCompiler prompt composer module for the Views section of the prompt.</Description>
-		<Authors>ContextCompiler</Authors>
-		<Title>Views prompt composer module</Title>
-		<PackageTags>context;compiler;module;prompt;composer;views</PackageTags>
+		<Configurations>Debug;Release;DebugLocal</Configurations>
+		<Title>EML reader module</Title>
+		<PackageTags>context;compiler;module;readers;input;email;eml;mime</PackageTags>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)' == 'DebugLocal'">
@@ -17,6 +16,10 @@
 	</PropertyGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\..\Core\ContextCompiler.Modules.Abstractions\ContextCompiler.Modules.Abstractions.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="MimeKit" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
 	</ItemGroup>
 	<ItemGroup>
 		<None Include="README.md" Pack="true" PackagePath="" />

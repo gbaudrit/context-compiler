@@ -9,10 +9,10 @@ namespace ContextCompiler.Modules.Views;
 
 public sealed class DefaultViewModule(IViewResultBuilder viewResultBuilder) : IViewModule
 {
-    public ModuleMetadata Metadata => IModule.Meta("views.default", GlobalPipelineModuleKinds.View, priority: 0);
+    public ViewModuleMetadata Metadata => IViewModule.Meta("views.default", ViewModuleKinds.Renderer, priority: 0);
     public string ViewId => "default";
 
-    public ValueTask<IReadOnlyList<IViewResult>> BuildAsync(ViewContext ctx, CancellationToken ct)
+    public Task<IReadOnlyList<IViewResult>> Run(ViewContext ctx, CancellationToken ct)
     {
         ct.ThrowIfCancellationRequested();
         IReasoningIr ir = ctx.ReasoningIr;
@@ -30,13 +30,13 @@ public sealed class DefaultViewModule(IViewResultBuilder viewResultBuilder) : IV
             _ = sb.AppendLine();
         }
 
-        return ValueTask.FromResult<IReadOnlyList<IViewResult>>([ viewResultBuilder.InitNew()
-                                                                                         .WithId(ViewId)
-                                                                                         .WithTitle("Default View")
-                                                                                         .WithContent(sb.ToString())
-                                                                                         .WithMime("text/markdown")
-                                                                                         .WithFilename("view.default.md")
-                                                                                         .WithRendererType(GetType())
-                                                                                         .Build() ]);
+        return Task.FromResult<IReadOnlyList<IViewResult>>([ viewResultBuilder.InitNew()
+                                                                              .WithId(ViewId)
+                                                                              .WithTitle("Default View")
+                                                                              .WithContent(sb.ToString())
+                                                                              .WithMime("text/markdown")
+                                                                              .WithFilename("view.default.md")
+                                                                              .WithRendererType(GetType())
+                                                                              .Build() ]);
     }
 }

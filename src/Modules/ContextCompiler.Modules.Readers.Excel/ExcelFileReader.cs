@@ -20,11 +20,11 @@ public sealed class ExcelFileReaderModule(
     ITagsBuilder tagsBuilder,
     ISourceRefBuilder sourceRefBuilder) : IFileReaderModule
 {
-    public ModuleMetadata Metadata => IModule.Meta("readers.excel", GlobalPipelineModuleKinds.FileReader, priority: 10);
+    public DocumentModuleMetadata Metadata => IDocumentPipelineModule.Meta("readers.excel", DocumentPipelineModuleKinds.ReadDocument, priority: 10);
 
-    public bool CanRead(string path)
+    public bool CanProcess(IDocumentContext documentContext)
     {
-        string ext = Path.GetExtension(path);
+        string ext = Path.GetExtension(documentContext.FullPath);
         return ext.Equals(".xlsx", StringComparison.OrdinalIgnoreCase) || ext.Equals(".xlsm", StringComparison.OrdinalIgnoreCase);
     }
 
@@ -39,7 +39,7 @@ public sealed class ExcelFileReaderModule(
     //                                                                               .Build()).Build());
     //}
 
-    public Task<IDataEnvelope> ReadAsync(IDocumentContext documentContext, CancellationToken ct)
+    public Task<IDocumentContextPatch> Run(IDocumentContext documentContext, IDocumentContextPatchBuilder patcher, CancellationToken ct)
     {
         ct.ThrowIfCancellationRequested();
         IRootConfigSection cfg = cfgProvider.GetConfigOrDefault(null);
@@ -199,10 +199,10 @@ public sealed class ExcelFileReaderModule(
         }
 
 
-        return Task.FromResult(dataEnvelopeBuilder.InitNew()
+        return patcher.WithDataEnvelope(dataEnvelopeBuilder.InitNew()
                                     .WithDataShape(DataShape.Tabular)
                                     .WithParts(parts)
-                                    .Build());
+                                    .Build()).BuildAsTask();
     }
 
     private static bool ApplyWhere(string value, WhereClause w)

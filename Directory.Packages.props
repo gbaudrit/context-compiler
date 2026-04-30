@@ -25,11 +25,12 @@
     <PackageVersion Include="Microsoft.Extensions.FileSystemGlobbing" Version="10.0.3" />
     <!-- Excel -->
     <PackageVersion Include="ClosedXML" Version="0.104.2" />
+    <PackageVersion Include="MimeKit" Version="4.16.0" />
     <!-- NuGet (runtime installer) -->
-    <PackageVersion Include="NuGet.Protocol" Version="7.3.0" />
-    <PackageVersion Include="NuGet.Packaging" Version="7.3.0" />
-    <PackageVersion Include="NuGet.Configuration" Version="7.3.0" />
-    <PackageVersion Include="NuGet.Versioning" Version="7.3.0" />
+    <PackageVersion Include="NuGet.Protocol" Version="7.3.1" />
+    <PackageVersion Include="NuGet.Packaging" Version="7.3.1" />
+    <PackageVersion Include="NuGet.Configuration" Version="7.3.1" />
+    <PackageVersion Include="NuGet.Versioning" Version="7.3.1" />
     <!-- JSON -->
     <PackageVersion Include="System.Text.Json" Version="10.0.3" />
     <!-- MCP -->

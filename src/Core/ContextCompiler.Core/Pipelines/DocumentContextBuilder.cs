@@ -5,13 +5,14 @@ using ContextCompiler.Abstractions.Tags;
 
 namespace ContextCompiler.Core.Pipelines
 {
-    internal sealed class DocumentContextBuilder(ITagsBuilder tagsBuilder, IServiceProvider serviceProvider) : IDocumentContextBuilder
+    internal sealed class DocumentContextBuilder(IDocumentContextDataBuilder documentContextDataBuilder, ITagsBuilder tagsBuilder, IServiceProvider serviceProvider) : IDocumentContextBuilder
     {
 
         private string _inputRoot = "";
         private string _fullPath = "";
         private string _relativePath = "";
         private ISource? _source;
+        private IDocumentContextData? _data;
 
         public IDocumentContextBuilder InitNew()
         {
@@ -35,6 +36,12 @@ namespace ContextCompiler.Core.Pipelines
             return this;
         }
 
+        public IDocumentContextBuilder WithData(IDocumentContextData data)
+        {
+            _data = data;
+            return this;
+        }
+
         public IDocumentContextBuilder FromSource(ISource source)
         {
             _source = source;
@@ -44,13 +51,24 @@ namespace ContextCompiler.Core.Pipelines
         public IDocumentContext Build()
         {
             ArgumentNullException.ThrowIfNull(_source, nameof(_source));
-            return new DocumentContext(tagsBuilder, serviceProvider)
+
+            return new DocumentContext()
             {
                 InputRoot = _inputRoot,
                 FullPath = _fullPath,
                 RelativePath = _relativePath,
-                Source = _source
+                Source = _source,
+                Data = _data ?? documentContextDataBuilder.InitNew().Build()
             };
+        }
+
+        public IDocumentContextBuilder InitFrom(IDocumentContext context)
+        {
+            _inputRoot = context.InputRoot;
+            _fullPath = context.FullPath;
+            _relativePath = context.RelativePath;
+            _source = context.Source;
+            return this;
         }
     }
 }

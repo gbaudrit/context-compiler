@@ -1,39 +1,43 @@
 using System.Text.RegularExpressions;
 
 using ContextCompiler.Abstractions.Common;
-using ContextCompiler.Abstractions.Guards;
 using ContextCompiler.Abstractions.Pipelines.Document;
 using ContextCompiler.Modules.Abstractions;
 
 namespace ContextCompiler.Modules.Security.Guards;
 
-public sealed partial class PromptInjectionGuardModule(ISourceRefBuilder sourceRefBuilder) : IGuardModule
+public sealed partial class PromptInjectionGuardModule(ISourceRefBuilder sourceRefBuilder) : IDocumentPipelineModule
 {
-    public ModuleMetadata Metadata => IModule.Meta("security.guard.injection", GlobalPipelineModuleKinds.Guard, priority: 0);
-    public DocumentStage Stage => DocumentStage.ContentGuards;
+    public DocumentModuleMetadata Metadata => IDocumentPipelineModule.Meta("security.guard.injection", DocumentPipelineModuleKinds.ReadScopeGuards, priority: 0);
+    //public DocumentStage Stage => DocumentStage.ContentGuards;
 
     private static readonly Regex Pattern = PromptInjectionPattern();
 
-    public Task<IReadOnlyList<IPipelineFinding>> EvaluateAsync(IGuardContext ctx, CancellationToken ct)
+    public bool CanProcess(IDocumentContext documentContext)
+    {
+        return true;
+    }
+
+    public Task<IDocumentContextPatch> Run(IDocumentContext documentContext, IDocumentContextPatchBuilder patcher, CancellationToken ct)
     {
         ct.ThrowIfCancellationRequested();
 
         List<IPipelineFinding> findings = [];
-        if (ctx.DocumentContext.Data is null)
+        if (documentContext.Data.DataEnvelope is null)
         {
-            return Task.FromResult<IReadOnlyList<IPipelineFinding>>(findings);
+            return patcher.NoChangesAsTask();
         }
 
-        foreach (IDataPart part in ctx.DocumentContext.Data.Parts)
+        foreach (IDataPart part in documentContext.Data.DataEnvelope.Parts)
         {
             if (Pattern.IsMatch(part.Payload.ToString() ?? ""))
             {
-                _ = ctx.DocumentContext.AddFinding(FindingSeverity.Critical, FindingAction.Quarantine, "CtxGuard.Inject",
-                "Prompt-injection-like instruction detected.", sourceRefBuilder.InitNew().WithPath(ctx.DocumentContext.FullPath).Build());
+                _ = patcher.AddFinding(FindingSeverity.Critical, FindingAction.Quarantine, "CtxGuard.Inject",
+                "Prompt-injection-like instruction detected.", sourceRefBuilder.InitNew().WithPath(documentContext.FullPath).Build());
             }
         }
 
-        return Task.FromResult<IReadOnlyList<IPipelineFinding>>(findings);
+        return patcher.WithFindings(findings).BuildAsTask();
     }
 
     [GeneratedRegex(@"(?i)\b(ignore|disregard)\b.{0,60}\b(previous|all|any)\b.{0,30}\b(instructions|rules)\b", RegexOptions.Compiled | RegexOptions.CultureInvariant)]

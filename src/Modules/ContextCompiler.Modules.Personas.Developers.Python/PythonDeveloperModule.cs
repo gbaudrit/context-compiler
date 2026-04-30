@@ -18,7 +18,7 @@ public sealed class PythonDeveloperModule(IConfigProvider cfgProvider,
 {
     private const string PersonaId = "developer.python";
 
-    public ModuleMetadata Metadata => IModule.Meta($"personas.{PersonaId}", GlobalPipelineModuleKinds.Configuration, priority: 10);
+    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta($"personas.{PersonaId}", GlobalPipelineModuleKinds.Configuration, priority: 10);
 
     public Task Run(CancellationToken cancellationToken)
     {

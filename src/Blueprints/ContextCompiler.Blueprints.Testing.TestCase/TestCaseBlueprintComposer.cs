@@ -9,7 +9,7 @@ internal sealed class TestCaseBlueprintComposer(
     IBlueprintBuilder blueprintBuilder,
     IBlueprintStepBuilder stepBuilder) : IBlueprintComposerModule
 {
-    public ModuleMetadata Metadata => IModule.Meta("blueprints.testing.testcase", GlobalPipelineModuleKinds.PromptComposer, priority: 10);
+    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("blueprints.testing.testcase", GlobalPipelineModuleKinds.PromptComposer, priority: 10);
 
     public Task Run(CancellationToken cancellationToken)
     {

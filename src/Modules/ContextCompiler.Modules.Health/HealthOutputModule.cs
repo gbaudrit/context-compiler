@@ -15,7 +15,7 @@ public sealed class HealthOutputModule(
     IViewsProvider viewsProvider,
     IPrompt prompt) : IOutputArtifactComposerModule
 {
-    public ModuleMetadata Metadata => IModule.Meta("health.report", GlobalPipelineModuleKinds.Output, priority: 10);
+    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("health.report", GlobalPipelineModuleKinds.Output, priority: 10);
 
     private readonly JsonSerializerOptions jsonSerializerOptions = new() { WriteIndented = true };
 

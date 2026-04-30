@@ -2,7 +2,7 @@ using ContextCompiler.Modules.Abstractions;
 
 using Microsoft.Extensions.DependencyInjection;
 
-namespace ContextCompiler.Modules.Prompt.Composers.Views;
+namespace ContextCompiler.Modules.Readers.Eml;
 
 public sealed class DependencyInjection : IDependencyInjection
 {

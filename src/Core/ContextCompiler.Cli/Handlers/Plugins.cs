@@ -17,8 +17,6 @@ internal sealed class CtxcModulesListHandler(IModulesRegistry registry, ILogger<
                 new { Kind = "file-reader", registry.FileReaders.Count },
                 new { Kind = "data-reader", registry.DataReaders.Count },
                 new { Kind = "engineering", registry.EngineeringModules.Count },
-                new { Kind = "transcoder", registry.Transcoders.Count },
-                new { Kind = "guard", registry.Guards.Count },
                 new { Kind = "view", registry.Views.Count },
                 new { Kind = "template", registry.Templates.Count },
                 new { Kind = "graph-exporter", registry.GraphExporters.Count }

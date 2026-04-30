@@ -8,7 +8,7 @@ namespace ContextCompiler.Modules.Prompt.Composers.Audiences;
 
 public sealed class AudiencesPromptComposerModule(IPrompt prompt, IAudienceBuilder audienceBuilder, IConfigProvider ctxcConfig) : IPromptComposerModule
 {
-    public ModuleMetadata Metadata => IModule.Meta("prompt.composers.audiences", GlobalPipelineModuleKinds.PromptComposer, priority: 10);
+    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("prompt.composers.audiences", GlobalPipelineModuleKinds.PromptComposer, priority: 10);
 
     public Task Run(CancellationToken cancellationToken)
     {

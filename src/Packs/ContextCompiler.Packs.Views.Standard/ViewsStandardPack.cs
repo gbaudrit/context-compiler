@@ -4,7 +4,7 @@ using ContextCompiler.Modules.Abstractions.Loading;
 
 namespace ContextCompiler.Packs.Views.Standard
 {
-    public class Pack : IPackModule
+    public class ViewsStandardPack : IPackModule
     {
         public IEnumerable<Assembly> Discover()
         {

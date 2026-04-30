@@ -11,7 +11,7 @@ namespace ContextCompiler.Modules.Evidences.Index.Json;
 
 public sealed class EvidenceIndexArtifactComposerModule(ILogger<EvidenceIndexArtifactComposerModule> logger, IReasoningIr ir, IPrompt prompt) : IOutputArtifactComposerModule
 {
-    public ModuleMetadata Metadata => IModule.Meta("evidences.index.json", GlobalPipelineModuleKinds.OutputArtifactComposer, priority: 10);
+    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("evidences.index.json", GlobalPipelineModuleKinds.OutputArtifactComposer, priority: 10);
 
     private static readonly JsonSerializerOptions s_jsonIndentedOptions = new() { WriteIndented = true };
 

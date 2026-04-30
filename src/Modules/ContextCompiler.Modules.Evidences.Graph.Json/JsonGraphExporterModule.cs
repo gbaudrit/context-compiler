@@ -11,7 +11,7 @@ public sealed class JsonGraphExporterModule(IPrompt prompt, IReasoningIr ir) : I
 {
     private readonly JsonSerializerOptions jsonSerializerOptions = new() { WriteIndented = true };
 
-    public ModuleMetadata Metadata => IModule.Meta("evidences.graph.json", GlobalPipelineModuleKinds.OutputArtifactComposer, priority: 0);
+    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("evidences.graph.json", GlobalPipelineModuleKinds.OutputArtifactComposer, priority: 0);
 
     public string Export(object graphModel)
     {

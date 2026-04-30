@@ -7,45 +7,45 @@ using Microsoft.Extensions.Logging;
 
 namespace ContextCompiler.Modules.Datas.Transcoders.Linear;
 
-public sealed class LinearTranscoderModule(ILogger<LinearTranscoderModule> logger, ITagBuilder tagBuilder, ITagsBuilder tagsBuilder) : ITranscoderModule
+public sealed class LinearTranscoderModule(ILogger<LinearTranscoderModule> logger, ITagBuilder tagBuilder, ITagsBuilder tagsBuilder) : IDocumentPartPipelineModule
 {
 
-    public ModuleMetadata Metadata => IModule.Meta("datas.transcoder.linear", GlobalPipelineModuleKinds.Transcoder, priority: 10);
+    public DocumentPartModuleMetadata Metadata => IDocumentPartPipelineModule.Meta("datas.transcoder.linear", DocumentPartPipelineModuleKinds.Transcoders, priority: 10);
 
-    public bool CanTranscode(IDataEnvelope envelope)
+    public bool CanProcess(IDocumentContext documentContext, IDataPart part)
     {
-        return envelope.Shape is DataShape.Linear;
+        return documentContext.Data.DataEnvelope.Shape is DataShape.Linear;
     }
 
-    public Task<IReadOnlyList<TranscodedFragment>> TranscodeAsync(IDataEnvelope envelope, IDataPart dataPart, CancellationToken ct)
+    public Task<IDocumentContextPatch> Run(IDocumentContext documentContext, IDocumentContextPatchBuilder patcher, IDataPart part, CancellationToken ct)
     {
         ct.ThrowIfCancellationRequested();
 
-        logger.LogTrace("LinearTranscoder processing envelope from source {Source}", dataPart.Source.Path);
+        logger.LogTrace("LinearTranscoder processing envelope from source {Source}", part.Source.Path);
 
         string locator = "unknown";
         string content = "";
 
-        if (dataPart.Payload is IFileInfos fileInfos)
+        if (part.Payload is IFileInfos fileInfos)
         {
             locator = "file:full";
             content = fileInfos.Path;
         }
-        else if (dataPart.Payload is string s)
+        else if (part.Payload is string s)
         {
-            locator = dataPart.Source.Locator ?? "text:full";
+            locator = part.Source.Locator ?? "text:full";
             content = s;
         }
 
-        return Task.FromResult<IReadOnlyList<TranscodedFragment>>(
+        return patcher.WithTranscodedFragments(
         [
             new TranscodedFragment(locator, content)
             {
                 Tags = tagsBuilder
                     .InitNewFrom([tagBuilder.Build("shape", "linear")])
-                    .AddRange(dataPart.Tags)
+                    .AddRange(part.Tags)
                     .Build()
             }
-        ]);
+        ]).BuildAsTask();
     }
 }

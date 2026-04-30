@@ -9,7 +9,7 @@ internal sealed class ReactFrontendBlueprintComposer(
     IBlueprintBuilder blueprintBuilder,
     IBlueprintStepBuilder stepBuilder) : IBlueprintComposerModule
 {
-    public ModuleMetadata Metadata => IModule.Meta("blueprints.react.frontend", GlobalPipelineModuleKinds.PromptComposer, priority: 10);
+    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("blueprints.react.frontend", GlobalPipelineModuleKinds.PromptComposer, priority: 10);
 
     public Task Run(CancellationToken cancellationToken)
     {

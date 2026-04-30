@@ -5,7 +5,7 @@ namespace ContextCompiler.Modules.Rag;
 
 public sealed class RagModule : IConfigurationModule
 {
-    public ModuleMetadata Metadata => IModule.Meta(
+    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta(
         "rag",
         GlobalPipelineModuleKinds.Configuration,
         priority: 100);

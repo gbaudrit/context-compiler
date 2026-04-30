@@ -9,7 +9,7 @@ namespace ContextCompiler.Modules.Artifacts.Writer;
 
 public sealed class OutputArtifactsFilesWriterModule(IPrompt prompt, IOutput output, IFileSystem fs, ILogger<OutputArtifactsFilesWriterModule> logger) : IOutputArtifactsFilesWriterModule
 {
-    public ModuleMetadata Metadata => IModule.Meta("artifacts.writer", GlobalPipelineModuleKinds.OutputWriter, priority: 10);
+    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("artifacts.writer", GlobalPipelineModuleKinds.OutputWriter, priority: 10);
 
     public Task Run(CancellationToken cancellationToken)
     {

@@ -1,48 +1,88 @@
-using ContextCompiler.Abstractions.Pipelines.DataPart;
 using ContextCompiler.Abstractions.Pipelines.Document;
+using ContextCompiler.Modules.Abstractions;
+
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace ContextCompiler.Core.Pipelines.DataPart
 {
-    internal sealed class DataPartPipelineRunner(IEnumerable<IDataPartPass> passes) : IDataPartPipelineRunner
+    internal sealed class DataPartPipelineRunner(IModulesRegistry modules,
+                                                 IDocumentContextPatchBuilder documentContextPatchBuilder,
+                                                 IDocumentContextPatcher documentContextPatcher,
+                                                 IServiceProvider serviceProvider,
+                                                 ILogger<DataPartPipelineRunner> logger) : IDocumentPipelineModule
     {
 
-        public async ValueTask<IPipelineRunResult> RunAsync(IDocumentContext ctx, IDataPart part, CancellationToken ct)
-        {
-            passes = [.. passes
-                .OrderBy(p => (int)p.Stage)
-                .ThenBy(p => p.Priority)
-                .ThenBy(p => p.Id, StringComparer.Ordinal)];
+        public DocumentModuleMetadata Metadata => IDocumentPipelineModule.Meta("pipelines.document.datapart", DocumentPipelineModuleKinds.DataPartsProcessor, priority: 0);
 
+        public bool CanProcess(IDocumentContext documentContext)
+        {
+            return documentContext.Data.DataEnvelope.Parts.Count > 0;
+        }
+
+        public async Task<IDocumentContextPatch> Run(IDocumentContext documentContext, IDocumentContextPatchBuilder patcher, CancellationToken ct)
+        {
             try
             {
-                foreach (IDataPartPass pass in passes)
+                IOrderedEnumerable<IDocumentPartPipelineModule> orderedModules = modules.DocumentPartPipelineModules.OrderBy(c => c.Metadata.Kind);
+
+                logger.LogDebug("Will running document pipeline with {ModuleCount} modules in order :", orderedModules.Count());
+                int index = 1;
+                foreach (IDocumentPartPipelineModule module in orderedModules)
                 {
-                    ct.ThrowIfCancellationRequested();
-
-                    await pass.ExecuteAsync(ctx, part, ct);
-
-                    // hard stop rule
-                    bool blocked = ctx.Findings.Any(f => f.Severity == FindingSeverity.Critical && f.Action == FindingAction.Block);
-                    if (blocked)
-                    {
-                        return new PipelineRunResult(false, ExitCode: 2, ctx.Findings);
-                    }
+                    logger.LogDebug("{Index}: {ModuleName} (Kind: {ModuleKind} ({ModuleKindValue}), Priority: {ModulePriority})",
+                        index, module.Metadata.Id, module.Metadata.Kind, module.Metadata.Kind.ToString("D"), module.Metadata.Priority);
+                    index++;
                 }
 
-                return new PipelineRunResult(true, 0, ctx.Findings);
+                //await Task.WhenAll(orderedModules.Select(async p =>
+                //{
+                //    logger.LogInformation("Running global pipeline module: {ModuleName} (Kind: {ModuleKind}, Priority: {ModulePriority})",
+                //        p.Metadata.Id, p.Metadata.Kind, p.Metadata.Priority);
+                //    await p.Run(ct);
+                //}));
+
+                // Exécution par groupe de Kind, chaque groupe en parallèle,
+                // mais les groupes s'exécutent séquentiellement
+                IOrderedEnumerable<IGrouping<int, IDocumentPartPipelineModule>> groups = orderedModules
+                    .GroupBy(m => (int)m.Metadata.Kind)
+                    .OrderBy(g => g.Key);
+
+                foreach (IDataPart part in documentContext.Data.DataEnvelope.Parts)
+                {
+                    foreach (IGrouping<int, IDocumentPartPipelineModule> group in groups)
+                    {
+                        logger.LogInformation("Running document pipeline group Kind={Kind} with {Count} modules",
+                            group.Key, group.Count());
+
+                        await Task.WhenAll(group.OrderBy(x => x.Metadata.Priority).Select(async module =>
+                        {
+                            logger.LogInformation(
+                                "Running global pipeline module: {ModuleName} (Kind: {ModuleKind}, Priority: {ModulePriority})",
+                                module.Metadata.Id,
+                                module.Metadata.Kind,
+                                module.Metadata.Priority);
+
+                            IDocumentContextPatchBuilder modulePatcher = serviceProvider.GetRequiredService<IDocumentContextPatchBuilder>();
+
+                            IDocumentContextPatch patch = await module.Run(documentContext, modulePatcher.InitNew(), part, ct);
+                            documentContext = await documentContextPatcher.Patch(documentContext, patch);
+                        }));
+                    }
+                }
             }
             catch (OperationCanceledException) { throw; }
             catch (Exception ex)
             {
-                _ = ctx.AddFinding(
+                _ = documentContextPatchBuilder.AddFinding(
                     FindingSeverity.Critical,
                     FindingAction.Block,
                     PassId: "pipeline.runner",
                     Message: $"Internal error: {ex.GetType().Name}"
                 );
-
-                return new PipelineRunResult(false, ExitCode: 1, ctx.Findings);
             }
+
+            return documentContextPatchBuilder.Build();
         }
     }
 }

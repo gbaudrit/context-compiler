@@ -10,7 +10,7 @@ namespace ContextCompiler.Modules.Evidences.Graph.Dot;
 
 public sealed class DotGraphExporterModule(IPrompt prompt, IReasoningIr ir) : IOutputArtifactComposerModule
 {
-    public ModuleMetadata Metadata => IModule.Meta("evidences.graph.dot", GlobalPipelineModuleKinds.OutputArtifactComposer, priority: 10);
+    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("evidences.graph.dot", GlobalPipelineModuleKinds.OutputArtifactComposer, priority: 10);
 
     public async Task Run(CancellationToken cancellationToken)
     {

@@ -13,8 +13,9 @@ public class StarterStandardPack : IPackModule
             typeof(Artifacts.Standard.Pack).Assembly,
             typeof(Prompt.Standard.Pack).Assembly,
             typeof(Readers.Standard.Pack).Assembly,
-            typeof(Views.Standard.Pack).Assembly,
+            typeof(Views.Standard.ViewsStandardPack).Assembly,
             typeof(Datas.Transcoders.Standard.Pack).Assembly,
+            typeof(Security.Standard.Pack).Assembly,
         ];
     }
 }

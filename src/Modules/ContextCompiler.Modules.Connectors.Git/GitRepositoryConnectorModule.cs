@@ -19,7 +19,7 @@ public sealed class GitRepositoryConnectorModule(
 {
     private const string ModuleOptionKey = "connectors.git";
 
-    public ModuleMetadata Metadata => IModule.Meta("connectors.git", GlobalPipelineModuleKinds.Configuration, priority: -100);
+    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("connectors.git", GlobalPipelineModuleKinds.Configuration, priority: -100);
 
     public async Task Run(CancellationToken cancellationToken)
     {

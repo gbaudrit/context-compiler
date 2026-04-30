@@ -11,7 +11,7 @@ public sealed class SecurityReportArtifactModule(IPrompt prompt, IGuardian guard
 {
     private readonly JsonSerializerOptions jsonSerializerOptions = new() { WriteIndented = true };
 
-    public ModuleMetadata Metadata => IModule.Meta("security.report", GlobalPipelineModuleKinds.OutputArtifactComposer, priority: 0);
+    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("security.report", GlobalPipelineModuleKinds.OutputArtifactComposer, priority: 0);
 
     public string Export(object graphModel)
     {

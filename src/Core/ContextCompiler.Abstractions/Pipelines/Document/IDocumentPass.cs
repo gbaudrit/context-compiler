@@ -2,9 +2,16 @@ namespace ContextCompiler.Abstractions.Pipelines.Document
 {
     public interface IDocumentPass
     {
-        string Id { get; }
-        int Priority { get; }               // deterministic ordering inside a stage
-        DocumentStage Stage { get; }
+        static DocumentPassMetadata Meta(
+            string id,
+            DocumentPipelineModuleKinds kind,
+            DocumentStage stage,
+            int priority = 0)
+        {
+            return new(id, kind, stage, priority);
+        }
+
+        DocumentPassMetadata Metadata { get; }
         ValueTask ExecuteAsync(IDocumentContext ctx, CancellationToken ct);
     }
 }

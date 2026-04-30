@@ -13,7 +13,7 @@ public sealed class DotNetModule(IConfigProvider cfgProvider,
                                         ICommandBuilder commandBuilder,
                                         ILogger<DotNetModule> logger) : IConfigurationModule
 {
-    public ModuleMetadata Metadata => IModule.Meta("engineering.dotnet", GlobalPipelineModuleKinds.Configuration, priority: 10);
+    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("engineering.dotnet", GlobalPipelineModuleKinds.Configuration, priority: 10);
 
     public Task Run(CancellationToken cancellationToken)
     {

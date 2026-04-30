@@ -1,5 +1,4 @@
 using ContextCompiler.Abstractions.Common;
-using ContextCompiler.Abstractions.Guards;
 using ContextCompiler.Abstractions.Pipelines.Document;
 using ContextCompiler.Modules.Abstractions;
 
@@ -7,10 +6,10 @@ using Microsoft.Extensions.FileSystemGlobbing;
 
 namespace ContextCompiler.Modules.Security.Guards;
 
-public sealed class ScopeGuardModule(ISourceRefBuilder sourceRefBuilder) : IGuardModule
+public sealed class ScopeGuardModule(ISourceRefBuilder sourceRefBuilder) : IDocumentPipelineModule
 {
-    public ModuleMetadata Metadata => IModule.Meta("security.guard.scope", GlobalPipelineModuleKinds.Guard, priority: -100);
-    public DocumentStage Stage => DocumentStage.Discovery;
+    public DocumentModuleMetadata Metadata => IDocumentPipelineModule.Meta("security.guard.scope", DocumentPipelineModuleKinds.ReadScopeGuards, priority: -100);
+    //public DocumentStage Stage => DocumentStage.Discovery;
 
     private static readonly string[] Excludes =
     [
@@ -20,12 +19,17 @@ public sealed class ScopeGuardModule(ISourceRefBuilder sourceRefBuilder) : IGuar
         "**/obj/**"
     ];
 
-    public Task<IReadOnlyList<IPipelineFinding>> EvaluateAsync(IGuardContext ctx, CancellationToken ct)
+    public bool CanProcess(IDocumentContext documentContext)
+    {
+        return true;
+    }
+
+    public Task<IDocumentContextPatch> Run(IDocumentContext documentContext, IDocumentContextPatchBuilder patcher, CancellationToken ct)
     {
         ct.ThrowIfCancellationRequested();
-        if (ctx.DocumentContext is null)
+        if (documentContext.Data is null)
         {
-            return Task.FromResult<IReadOnlyList<IPipelineFinding>>([]);
+            return patcher.NoChangesAsTask();
         }
 
         Matcher matcher = new(StringComparison.OrdinalIgnoreCase);
@@ -35,14 +39,11 @@ public sealed class ScopeGuardModule(ISourceRefBuilder sourceRefBuilder) : IGuar
             _ = matcher.AddExclude(ex);
         }
 
-        string rel = Path.GetRelativePath(ctx.DocumentContext.InputRoot, ctx.DocumentContext.FullPath);
+        string rel = Path.GetRelativePath(documentContext.InputRoot, documentContext.FullPath);
         PatternMatchingResult match = matcher.Match(rel);
         return !match.HasMatches
-            ? Task.FromResult<IReadOnlyList<IPipelineFinding>>(
-            [
-                ctx.DocumentContext.AddFinding(FindingSeverity.Info, FindingAction.Skip,"CtxGuard.Scope",
-                    "File excluded by scope rules.", sourceRefBuilder.InitNew().WithPath(ctx.DocumentContext.FullPath).Build())
-            ])
-            : Task.FromResult<IReadOnlyList<IPipelineFinding>>([]);
+            ? patcher.AddFinding(FindingSeverity.Info, FindingAction.Skip, "CtxGuard.Scope",
+                    "File excluded by scope rules.", sourceRefBuilder.InitNew().WithPath(documentContext.FullPath).Build()).BuildAsTask()
+            : patcher.NoChangesAsTask();
     }
 }

@@ -33,7 +33,7 @@ internal sealed class DocumentsModule(
 
         foreach (IDocumentContext r in documentsContext.Documents)
         {
-            foreach (IFragment f in r.Fragments)
+            foreach (IFragment f in r.Data.Fragments)
             {
                 reasoningIr.Add(f);
             }

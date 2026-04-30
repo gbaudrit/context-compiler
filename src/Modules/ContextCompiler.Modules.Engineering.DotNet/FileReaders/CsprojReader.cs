@@ -8,20 +8,17 @@ namespace ContextCompiler.Modules.Engineering.DotNet.FileReaders;
 
 public sealed class TextFileReaderModule(IFileReadResultBuilder fileReadResultBuilder, IFileContentBuilder fileContentBuilder, ILinearFileReader linearFileReader, ILogger<TextFileReaderModule> logger) : IFileReaderModule
 {
-    public ModuleMetadata Metadata => IModule.Meta("engineering.dotnet.filereader.csproj", GlobalPipelineModuleKinds.FileReader, priority: 10);
+    public DocumentModuleMetadata Metadata => IDocumentPipelineModule.Meta("engineering.dotnet.filereader.csproj", DocumentPipelineModuleKinds.ReadDocument, priority: 10);
 
-    private static readonly HashSet<string> Extensions = new(StringComparer.OrdinalIgnoreCase)
-    {
-        ".csproj"
-    };
+    private static readonly List<string> Extensions = [".csproj"];
 
-    public bool CanRead(string path)
+    public bool CanProcess(IDocumentContext documentContext)
     {
-        return Extensions.Contains(Path.GetExtension(path));
+        return Extensions.Contains(Path.GetExtension(documentContext.FullPath));
     }
 
-    public async Task<IDataEnvelope> ReadAsync(IDocumentContext documentContext, CancellationToken ct)
+    public async Task<IDocumentContextPatch> Run(IDocumentContext documentContext, IDocumentContextPatchBuilder patcher, CancellationToken ct)
     {
-        return await linearFileReader.ReadAsync(documentContext, ct);
+        return await linearFileReader.ReadAsync(documentContext, patcher, ct);
     }
 }

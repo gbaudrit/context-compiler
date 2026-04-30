@@ -13,7 +13,6 @@ namespace ContextCompiler.Core.Pipelines
         {
             // Register core services here
             _ = services.AddSingleton<IGlobalPipelineRunner, GlobalPipelineRunner>()
-                .AddSingleton<IDocumentContextBuilder, DocumentContextBuilder>()
                 .AddDocumentPipeline()
                 .AddDataPartPipeline();
             return services;

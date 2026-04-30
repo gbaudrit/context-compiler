@@ -13,11 +13,11 @@ namespace ContextCompiler.Modules.Views;
 public sealed class TagBasedViewModule(IViewResultBuilder viewResultBuilder, IViewRenderersModule viewRenderersModule) : IViewModule
 {
 
-    public ModuleMetadata Metadata => IModule.Meta("views.tagbased", GlobalPipelineModuleKinds.View, priority: 100);
+    public ViewModuleMetadata Metadata => IViewModule.Meta("views.tagbased", ViewModuleKinds.Renderer, priority: 100);
 
     public string ViewId => "views.tagbased";
 
-    public async ValueTask<IReadOnlyList<IViewResult>> BuildAsync(ViewContext ctx, CancellationToken ct)
+    public async Task<IReadOnlyList<IViewResult>> Run(ViewContext ctx, CancellationToken ct)
     {
         ct.ThrowIfCancellationRequested();
 

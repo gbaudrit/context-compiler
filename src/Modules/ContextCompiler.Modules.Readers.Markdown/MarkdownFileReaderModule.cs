@@ -6,16 +6,16 @@ namespace ContextCompiler.Modules.Readers.Markdown;
 
 public sealed class MarkdownFileReaderModule(ILinearFileReader linearFileReader) : IFileReaderModule
 {
-    public ModuleMetadata Metadata => IModule.Meta("readers.markdown", GlobalPipelineModuleKinds.FileReader, priority: 9);
+    public DocumentModuleMetadata Metadata => IDocumentPipelineModule.Meta("readers.markdown", DocumentPipelineModuleKinds.ReadDocument, priority: 9);
 
-    public bool CanRead(string path)
+    public bool CanProcess(IDocumentContext documentContext)
     {
-        string ext = Path.GetExtension(path);
+        string ext = Path.GetExtension(documentContext.FullPath);
         return ext.Equals(".md", StringComparison.OrdinalIgnoreCase) || ext.Equals(".markdown", StringComparison.OrdinalIgnoreCase);
     }
 
-    public async Task<IDataEnvelope> ReadAsync(IDocumentContext documentContext, CancellationToken ct)
+    public async Task<IDocumentContextPatch> Run(IDocumentContext documentContext, IDocumentContextPatchBuilder patcher, CancellationToken ct)
     {
-        return await linearFileReader.ReadAsync(documentContext, ct);
+        return await linearFileReader.ReadAsync(documentContext, patcher, ct);
     }
 }

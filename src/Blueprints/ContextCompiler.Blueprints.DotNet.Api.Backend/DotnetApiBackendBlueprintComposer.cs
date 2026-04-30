@@ -9,7 +9,7 @@ internal sealed class DotNetApiBackendBlueprintComposerModule(
     IBlueprintBuilder blueprintBuilder,
     IBlueprintStepBuilder stepBuilder) : IBlueprintComposerModule
 {
-    public ModuleMetadata Metadata => IModule.Meta("blueprints.dotnet.api.backend", GlobalPipelineModuleKinds.PromptComposer, priority: 10);
+    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("blueprints.dotnet.api.backend", GlobalPipelineModuleKinds.PromptComposer, priority: 10);
 
     public Task Run(CancellationToken cancellationToken)
     {

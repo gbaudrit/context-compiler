@@ -12,12 +12,12 @@ public sealed class ModulesRegistry(IServiceProvider services) : IModulesRegistr
     private readonly IServiceProvider _services = services;
 
     public IReadOnlyList<IGlobalPipelineModule> GlobalPipelineModules => [.. _services.GetServices<IGlobalPipelineModule>()];
+    public IReadOnlyList<IDocumentPipelineModule> DocumentPipelineModules => [.. _services.GetServices<IDocumentPipelineModule>()];
+    public IReadOnlyList<IDocumentPartPipelineModule> DocumentPartPipelineModules => [.. _services.GetServices<IDocumentPartPipelineModule>()];
 
     public IReadOnlyList<IFileReaderModule> FileReaders => [.. _services.GetServices<IFileReaderModule>()];
     public IReadOnlyList<IDataReaderModule> DataReaders => [.. _services.GetServices<IDataReaderModule>()];
     public IReadOnlyList<IEngineeringModule> EngineeringModules => [.. _services.GetServices<IEngineeringModule>()];
-    public IReadOnlyList<ITranscoderModule> Transcoders => [.. _services.GetServices<ITranscoderModule>()];
-    public IReadOnlyList<IGuardModule> Guards => [.. _services.GetServices<IGuardModule>()];
     public IReadOnlyList<IViewModule> Views => [.. _services.GetServices<IViewModule>()];
     public IReadOnlyList<IViewRendererModule> ViewRenderers => [.. _services.GetServices<IViewRendererModule>()];
     public IReadOnlyList<ITemplateModule> Templates => [.. _services.GetServices<ITemplateModule>()];

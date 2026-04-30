@@ -8,7 +8,7 @@ namespace ContextCompiler.Modules.Prompt.Composers.Assumptions;
 
 public sealed class AssumptionsPromptComposerModule(IPrompt prompt, IAssumptionBuilder assumptionBuilder, IConfigProvider ctxcConfig) : IPromptComposerModule
 {
-    public ModuleMetadata Metadata => IModule.Meta("prompt.composers.assumptions", GlobalPipelineModuleKinds.PromptComposer, priority: 10);
+    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("prompt.composers.assumptions", GlobalPipelineModuleKinds.PromptComposer, priority: 10);
 
     public Task Run(CancellationToken cancellationToken)
     {

@@ -8,6 +8,7 @@ using ContextCompiler.Abstractions.Sources;
 using ContextCompiler.Abstractions.Tags;
 using ContextCompiler.Modules.Abstractions;
 
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileSystemGlobbing;
 using Microsoft.Extensions.FileSystemGlobbing.Abstractions;
 using Microsoft.Extensions.Logging;
@@ -30,19 +31,21 @@ public sealed class DocumentPipelineRunner(
     IConfigProvider cfgProvider,
     IEnumerable<IDocumentPass> passes,
     IDocumentContextBuilder documentContextBuilder,
+    IDocumentContextPatchBuilder documentContextPatchBuilder,
+    IDocumentContextPatcher documentContextPatcher,
     ISourcesProvider sourcesProvider,
     IServiceProvider serviceProvider) : IDocumentPipelineRunner
 {
     public async ValueTask RunAsync(IDocumentsContext documentsContext, CancellationToken ct)
     {
         passes = [.. passes
-            .OrderBy(p => (int)p.Stage)
-            .ThenBy(p => p.Priority)
-            .ThenBy(p => p.Id, StringComparer.Ordinal)];
+            .OrderBy(p => (int)p.Metadata.Stage)
+            .ThenBy(p => p.Metadata.Priority)
+            .ThenBy(p => p.Metadata.Id, StringComparer.Ordinal)];
 
         logger.LogInformation("Starting documents pipeline run in root path: {RootPath} ({Count} passes)", documentsContext.RootPath, passes.Count());
 
-        logger.LogDebug("Document pipeline passes order: {Passes}", Environment.NewLine + string.Join(Environment.NewLine, passes));
+        logger.LogDebug("Document pipeline passes order: {Passes}", Environment.NewLine + string.Join(Environment.NewLine, passes.Select(p => $"{p.Metadata.Id} (Kind: {p.Metadata.Kind}, Stage: {p.Metadata.Stage}, Priority: {p.Metadata.Priority})")));
 
         List<IDocumentCompileResult> results = [];
 
@@ -73,23 +76,67 @@ public sealed class DocumentPipelineRunner(
                     .WithFullPath(Path.Combine(s.RootPath, filePatternMatch.Path))
                     .FromSource(s)
                     .Build();
-                documentsContext.AddDocument(docContext);
+
 
                 try
                 {
-                    foreach (IDocumentPass pass in passes)
+                    //foreach (IDocumentPass pass in passes)
+                    //{
+                    //    ct.ThrowIfCancellationRequested();
+                    //    logger.LogDebug("Executing document pass '{PassId}' on document '{DocumentPath}'", pass.Id, docContext.RelativePath);
+
+                    //    await pass.ExecuteAsync(docContext, ct);
+
+                    //    // hard stop rule
+                    //    bool blocked = docContext.Findings.Any(f => f.Severity == FindingSeverity.Critical && f.Action == FindingAction.Block);
+                    //    if (blocked)
+                    //    {
+                    //        break;
+                    //    }
+                    //}
+
+                    IOrderedEnumerable<IDocumentPipelineModule> orderedModules = modules.DocumentPipelineModules.OrderBy(c => c.Metadata.Kind);
+
+                    logger.LogDebug("Will running document pipeline with {ModuleCount} modules in order :", orderedModules.Count());
+                    int index = 1;
+                    foreach (IDocumentPipelineModule module in orderedModules)
                     {
-                        ct.ThrowIfCancellationRequested();
-                        logger.LogDebug("Executing document pass '{PassId}' on document '{DocumentPath}'", pass.Id, docContext.RelativePath);
+                        logger.LogDebug("{Index}: {ModuleName} (Kind: {ModuleKind} ({ModuleKindValue}), Priority: {ModulePriority})",
+                            index, module.Metadata.Id, module.Metadata.Kind, module.Metadata.Kind.ToString("D"), module.Metadata.Priority);
+                        index++;
+                    }
 
-                        await pass.ExecuteAsync(docContext, ct);
+                    //await Task.WhenAll(orderedModules.Select(async p =>
+                    //{
+                    //    logger.LogInformation("Running global pipeline module: {ModuleName} (Kind: {ModuleKind}, Priority: {ModulePriority})",
+                    //        p.Metadata.Id, p.Metadata.Kind, p.Metadata.Priority);
+                    //    await p.Run(ct);
+                    //}));
 
-                        // hard stop rule
-                        bool blocked = docContext.Findings.Any(f => f.Severity == FindingSeverity.Critical && f.Action == FindingAction.Block);
-                        if (blocked)
+                    // Exécution par groupe de Kind, chaque groupe en parallèle,
+                    // mais les groupes s'exécutent séquentiellement
+                    IOrderedEnumerable<IGrouping<int, IDocumentPipelineModule>> groups = orderedModules
+                        .GroupBy(m => (int)m.Metadata.Kind)
+                        .OrderBy(g => g.Key);
+
+                    foreach (IGrouping<int, IDocumentPipelineModule> group in groups)
+                    {
+                        logger.LogInformation("Running document pipeline group Kind={Kind} with {Count} modules",
+                            group.Key, group.Count());
+
+                        await Task.WhenAll(group.OrderBy(x => x.Metadata.Priority).Select(async module =>
                         {
-                            break;
-                        }
+                            logger.LogInformation(
+                                "Running global pipeline module: {ModuleName} (Kind: {ModuleKind}, Priority: {ModulePriority})",
+                                module.Metadata.Id,
+                                module.Metadata.Kind,
+                                module.Metadata.Priority);
+
+                            IDocumentContextPatchBuilder modulePatcher = serviceProvider.GetRequiredService<IDocumentContextPatchBuilder>();
+
+                            IDocumentContextPatch patch = await module.Run(docContext, modulePatcher.InitNew(), ct);
+                            docContext = await documentContextPatcher.Patch(docContext, patch);
+                        }));
                     }
 
                     //return new PipelineRunResult(true, 0, docContext.Findings);
@@ -97,7 +144,7 @@ public sealed class DocumentPipelineRunner(
                 catch (OperationCanceledException) { throw; }
                 catch (Exception ex)
                 {
-                    _ = docContext.AddFinding(
+                    _ = documentContextPatchBuilder.AddFinding(
                         FindingSeverity.Critical,
                         FindingAction.Block,
                         PassId: "pipeline.runner",
@@ -106,6 +153,10 @@ public sealed class DocumentPipelineRunner(
 
                     //return new PipelineRunResult(false, ExitCode: 1, docContext.Findings);
                 }
+                IDocumentContextPatch patch = documentContextPatchBuilder.Build();
+                docContext = await documentContextPatcher.Patch(docContext, patch);
+
+                documentsContext.AddDocument(docContext);
             }
         }
     }

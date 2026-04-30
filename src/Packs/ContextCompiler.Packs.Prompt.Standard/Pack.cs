@@ -9,7 +9,6 @@ namespace ContextCompiler.Packs.Prompt.Standard
         public IEnumerable<Assembly> Discover()
         {
             return [
-                typeof(Modules.Prompt.Composers.Views.DependencyInjection).Assembly,
                 typeof(Modules.Prompt.Composers.Objectives.DependencyInjection).Assembly,
                 typeof(Modules.Prompt.Composers.Glossary.DependencyInjection).Assembly,
                 typeof(Modules.Prompt.Composers.General.DependencyInjection).Assembly,

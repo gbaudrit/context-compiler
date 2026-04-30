@@ -6,16 +6,16 @@ namespace ContextCompiler.Modules.Readers.Yaml;
 
 public sealed class YamlFileReaderModule(ILinearFileReader linearFileReader) : IFileReaderModule
 {
-    public ModuleMetadata Metadata => IModule.Meta("readers.yaml", GlobalPipelineModuleKinds.FileReader, priority: 9);
+    public DocumentModuleMetadata Metadata => IDocumentPipelineModule.Meta("readers.yaml", DocumentPipelineModuleKinds.ReadDocument, priority: 9);
 
-    public bool CanRead(string path)
+    public bool CanProcess(IDocumentContext documentContext)
     {
-        string ext = Path.GetExtension(path);
+        string ext = Path.GetExtension(documentContext.FullPath);
         return ext.Equals(".yaml", StringComparison.OrdinalIgnoreCase) || ext.Equals(".yml", StringComparison.OrdinalIgnoreCase);
     }
 
-    public async Task<IDataEnvelope> ReadAsync(IDocumentContext documentContext, CancellationToken ct)
+    public async Task<IDocumentContextPatch> Run(IDocumentContext documentContext, IDocumentContextPatchBuilder patcher, CancellationToken ct)
     {
-        return await linearFileReader.ReadAsync(documentContext, ct);
+        return await linearFileReader.ReadAsync(documentContext, patcher, ct);
     }
 }

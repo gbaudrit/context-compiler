@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFramework>net10.0</TargetFramework>
@@ -24,6 +24,7 @@
 		<ProjectReference Include="..\ContextCompiler.Packs.Datas.Transcoders.Standard\ContextCompiler.Packs.Datas.Transcoders.Standard.csproj" />
 		<ProjectReference Include="..\ContextCompiler.Packs.Prompt.Standard\ContextCompiler.Packs.Prompt.Standard.csproj" />
 		<ProjectReference Include="..\ContextCompiler.Packs.Readers.Standard\ContextCompiler.Packs.Readers.Standard.csproj" />
+		<ProjectReference Include="..\ContextCompiler.Packs.Security.Standard\ContextCompiler.Packs.Security.Standard.csproj" />
 		<ProjectReference Include="..\ContextCompiler.Packs.Views.Standard\ContextCompiler.Packs.Views.Standard.csproj" />
 	</ItemGroup>
 

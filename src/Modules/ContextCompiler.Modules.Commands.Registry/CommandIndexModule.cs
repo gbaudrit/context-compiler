@@ -10,7 +10,7 @@ internal sealed class CommandIndexModule(
     IPrompt prompt,
     ICommandsIndexSerializer commandsIndexSerializer) : IConfigurationModule
 {
-    public ModuleMetadata Metadata => IModule.Meta(
+    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta(
         "commands.index.json",
         GlobalPipelineModuleKinds.OutputArtifactComposer,
         priority: 10000);

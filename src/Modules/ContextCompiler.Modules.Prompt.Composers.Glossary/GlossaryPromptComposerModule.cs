@@ -8,7 +8,7 @@ namespace ContextCompiler.Modules.Prompt.Composers.Glossary;
 
 public sealed class GlossaryPromptComposerModule(IPrompt prompt, IGlossaryTermBuilder termBuilder, IConfigProvider ctxcConfig) : IPromptComposerModule
 {
-    public ModuleMetadata Metadata => IModule.Meta("prompt.composers.glossary", GlobalPipelineModuleKinds.PromptComposer, priority: 10);
+    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("prompt.composers.glossary", GlobalPipelineModuleKinds.PromptComposer, priority: 10);
 
     public Task Run(CancellationToken cancellationToken)
     {

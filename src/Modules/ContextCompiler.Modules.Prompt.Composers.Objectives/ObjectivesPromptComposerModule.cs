@@ -9,7 +9,7 @@ namespace ContextCompiler.Modules.Prompt.Composers.Objectives;
 public sealed class ObjectivesPromptComposerModule(IPrompt prompt, IObjectiveBuilder objectiveBuilder, IConfigProvider ctxcConfig) : IPromptComposerModule
 {
 
-    public ModuleMetadata Metadata => IModule.Meta("prompt.composers.objectives", GlobalPipelineModuleKinds.PromptComposer, priority: 10);
+    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("prompt.composers.objectives", GlobalPipelineModuleKinds.PromptComposer, priority: 10);
 
     public Task Run(CancellationToken cancellationToken)
     {

@@ -12,7 +12,7 @@ public sealed class ActivatedPersonasIndexModule(IPrompt prompt, IOutput output,
 {
     private readonly JsonSerializerOptions jsonSerializerOptions = new() { WriteIndented = true };
 
-    public ModuleMetadata Metadata => IModule.Meta("personas.index", GlobalPipelineModuleKinds.OutputArtifactComposer, priority: 0);
+    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("personas.index", GlobalPipelineModuleKinds.OutputArtifactComposer, priority: 0);
 
     public string Export(object graphModel)
     {

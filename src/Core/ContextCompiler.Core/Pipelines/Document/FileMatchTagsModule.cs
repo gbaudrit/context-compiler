@@ -9,24 +9,31 @@ using Microsoft.Extensions.Logging;
 
 namespace ContextCompiler.Core.Pipelines.Document
 {
-    internal sealed class FileMatchTagsPass(IModulesRegistry modules, IConfigProvider cfgProvider, ITagsBuilder tagsBuilder, ILogger<FileMatchTagsPass> logger) : IDocumentPass
+    internal sealed class FileMatchTagsModule(
+        IModulesRegistry modules,
+        IConfigProvider cfgProvider,
+        ITagsBuilder tagsBuilder,
+        ILogger<FileMatchTagsModule> logger) : IDocumentPipelineModule
     {
-        public string Id => "pass.filematchtags";
-        public int Priority => 100;
-        public DocumentStage Stage => DocumentStage.FileRead;
+        public DocumentModuleMetadata Metadata => IDocumentPipelineModule.Meta(
+            "pass.filematchtags",
+            DocumentPipelineModuleKinds.FileMatchTags,
+            priority: 100);
 
-        public async ValueTask ExecuteAsync(IDocumentContext ctx, CancellationToken ct)
+        public bool CanProcess(IDocumentContext documentContext)
         {
+            return true;
+        }
 
-            //foreach (ISourceConfigSection cfgMatch in cfgProvider.Current.Sources)
-            //{
-            //IReadOnlyList<ITag> cfgFilesMatchTags = [];
+        public Task<IDocumentContextPatch> Run(IDocumentContext ctx, IDocumentContextPatchBuilder patcher, CancellationToken ct)
+        {
             Matcher cfgMatcher = new();
             cfgMatcher.AddIncludePatterns(ctx.Source.Includes);
+            List<string> tags = [];
             if (cfgMatcher.Match(ctx.FullPath).HasMatches)
             {
                 logger.LogDebug("Apply config tags {Tags} on file {FilePath}", string.Join(',', ctx.Source.Tags), ctx.FullPath);
-                ctx.AddTags(ctx.Source.Tags);
+                tags.AddRange(ctx.Source.Tags);
                 foreach (ISubFilesMatchConfigSection sub in ctx.Source.ConfigSection.Subs)
                 {
                     Matcher subMatcher = new();
@@ -35,13 +42,12 @@ namespace ContextCompiler.Core.Pipelines.Document
                     if (subMatcher.Match(ctx.FullPath).HasMatches)
                     {
                         logger.LogDebug("Apply config sub-tags {Tags} on file {FilePath}", string.Join(',', sub.Tags), ctx.FullPath);
-                        ctx.AddTags(sub.Tags);
+                        tags.AddRange(sub.Tags);
                     }
                 }
             }
-            //}
 
-            await Task.CompletedTask;
+            return patcher.WithTags(tags).BuildAsTask();
         }
     }
 }

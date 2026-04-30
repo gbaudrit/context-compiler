@@ -19,7 +19,7 @@ public sealed class DotnetDeveloperModule(IConfigProvider cfgProvider,
 
     private const string PersonaId = "developers.dotnetcore";
 
-    public ModuleMetadata Metadata => IModule.Meta($"personas.{PersonaId}", GlobalPipelineModuleKinds.Configuration, priority: 10);
+    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta($"personas.{PersonaId}", GlobalPipelineModuleKinds.Configuration, priority: 10);
 
     public Task Run(CancellationToken cancellationToken)
     {

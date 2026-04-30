@@ -1,13 +1,22 @@
 using ContextCompiler.Abstractions.Configuration.Sections;
 using ContextCompiler.Abstractions.ReasoningIR;
+using ContextCompiler.Abstractions.Versioning;
 using ContextCompiler.Abstractions.Views;
 
 namespace ContextCompiler.Modules.Abstractions;
 
 public interface IViewModule : IModule
 {
+    static ViewModuleMetadata Meta(string id, ViewModuleKinds kinds, int priority = 0)
+    {
+        return new(id, kinds, ModuleApiVersion.Current, priority);
+    }
+
+    Task<IReadOnlyList<IViewResult>> Run(ViewContext ctx, CancellationToken ct);
+
+    ViewModuleMetadata Metadata { get; }
+
     string ViewId { get; }
-    ValueTask<IReadOnlyList<IViewResult>> BuildAsync(ViewContext ctx, CancellationToken ct);
 }
 
 public sealed record ViewContext(

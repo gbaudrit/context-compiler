@@ -15,7 +15,7 @@ internal sealed class DotNetWebAppRazorBlueprintComposer(
     IGlossaryTermBuilder glossaryBuilder,
     ICommandBuilder commandBuilder) : IBlueprintComposerModule
 {
-    public ModuleMetadata Metadata => IModule.Meta("blueprints.dotnet.webapp.razor", GlobalPipelineModuleKinds.PromptComposer, priority: 10);
+    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("blueprints.dotnet.webapp.razor", GlobalPipelineModuleKinds.PromptComposer, priority: 10);
 
     public Task Run(CancellationToken cancellationToken)
     {

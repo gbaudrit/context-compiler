@@ -26,7 +26,6 @@
 		<ProjectReference Include="..\..\Modules\ContextCompiler.Modules.Prompt.Composers.General\ContextCompiler.Modules.Prompt.Composers.General.csproj" />
 		<ProjectReference Include="..\..\Modules\ContextCompiler.Modules.Prompt.Composers.Glossary\ContextCompiler.Modules.Prompt.Composers.Glossary.csproj" />
 		<ProjectReference Include="..\..\Modules\ContextCompiler.Modules.Prompt.Composers.Objectives\ContextCompiler.Modules.Prompt.Composers.Objectives.csproj" />
-		<ProjectReference Include="..\..\Modules\ContextCompiler.Modules.Prompt.Composers.Views\ContextCompiler.Modules.Prompt.Composers.Views.csproj" />
 	</ItemGroup>
 
 </Project>

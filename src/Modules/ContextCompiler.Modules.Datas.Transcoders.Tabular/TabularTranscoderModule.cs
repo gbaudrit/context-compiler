@@ -6,34 +6,33 @@ using Microsoft.Extensions.Logging;
 
 namespace ContextCompiler.Modules.Datas.Transcoders.Tabular;
 
-public sealed class TabularTranscoderModule(ILogger<TabularTranscoderModule> logger, ITagBuilder tagBuilder, ITagsBuilder tagsBuilder) : ITranscoderModule
+public sealed class TabularTranscoderModule(ILogger<TabularTranscoderModule> logger, ITagBuilder tagBuilder, ITagsBuilder tagsBuilder) : IDocumentPartPipelineModule
 {
     private readonly System.Text.Json.JsonSerializerOptions jsonSerializerOptions = new() { WriteIndented = true };
 
-    public ModuleMetadata Metadata => IModule.Meta("datas.transcoder.tabular", GlobalPipelineModuleKinds.Transcoder, priority: 10);
+    public DocumentPartModuleMetadata Metadata => IDocumentPartPipelineModule.Meta("datas.transcoder.tabular", DocumentPartPipelineModuleKinds.Transcoders, priority: 10);
 
-    public bool CanTranscode(IDataEnvelope envelope)
+    public bool CanProcess(IDocumentContext documentContext, IDataPart part)
     {
-        return envelope.Shape is DataShape.Tabular;
+        return documentContext.Data.DataEnvelope.Shape is DataShape.Tabular;
     }
 
-    public Task<IReadOnlyList<TranscodedFragment>> TranscodeAsync(IDataEnvelope envelope, IDataPart dataPart, CancellationToken ct)
+    public Task<IDocumentContextPatch> Run(IDocumentContext documentContext, IDocumentContextPatchBuilder patcher, IDataPart part, CancellationToken ct)
     {
         ct.ThrowIfCancellationRequested();
 
-        logger.LogTrace("TabularTranscoder processing envelope from source {Source}", dataPart.Source.Path);
+        logger.LogTrace("TabularTranscoder processing envelope from source {Source}", part.Source.Path);
+        string json = System.Text.Json.JsonSerializer.Serialize(part.Payload, jsonSerializerOptions);
 
-        string json = System.Text.Json.JsonSerializer.Serialize(dataPart.Payload, jsonSerializerOptions);
-
-        return Task.FromResult<IReadOnlyList<TranscodedFragment>>(
+        return patcher.WithTranscodedFragments(
         [
             new TranscodedFragment("table:json", json)
             {
                 Tags = tagsBuilder
                     .InitNewFrom([tagBuilder.Build("shape", "tabular")])
-                    .AddRange(dataPart.Tags)
+                    .AddRange(part.Tags)
                     .Build()
             }
-        ]);
+        ]).BuildAsTask();
     }
 }

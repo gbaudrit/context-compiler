@@ -10,7 +10,7 @@ public enum GlobalPipelineModuleKinds
     FragmentProcessor = 6000,
     Guard = 7000,
     PromptComposer = 8000,
-    View = 9000,
+    Views = 9000,
     Persona = 10000,
     Validation = 11000,
     Compression = 12000,

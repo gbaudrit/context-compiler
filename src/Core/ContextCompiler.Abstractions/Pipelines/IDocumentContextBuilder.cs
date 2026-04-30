@@ -7,9 +7,11 @@ namespace ContextCompiler.Abstractions.Pipelines
     {
         IDocumentContext Build();
         IDocumentContextBuilder InitNew();
+        IDocumentContextBuilder InitFrom(IDocumentContext context);
         IDocumentContextBuilder FromSource(ISource source);
         IDocumentContextBuilder WithFullPath(string fullPath);
         IDocumentContextBuilder WithInputRoot(string inputRoot);
         IDocumentContextBuilder WithRelativePath(string relativePath);
+        IDocumentContextBuilder WithData(IDocumentContextData data);
     }
 }

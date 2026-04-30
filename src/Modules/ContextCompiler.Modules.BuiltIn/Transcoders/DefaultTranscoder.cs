@@ -7,53 +7,53 @@ using Microsoft.Extensions.Logging;
 
 namespace ContextCompiler.Modules.BuiltIn.Transcoders;
 
-public sealed class DefaultTranscoder(ILogger<DefaultTranscoder> logger, ITagBuilder tagBuilder, ITagsBuilder tagsBuilder) : ITranscoderModule
+public sealed class DefaultTranscoder(ILogger<DefaultTranscoder> logger, ITagBuilder tagBuilder, ITagsBuilder tagsBuilder) : IDocumentPartPipelineModule
 {
     private readonly System.Text.Json.JsonSerializerOptions jsonSerializerOptions = new() { WriteIndented = true };
 
-    public ModuleMetadata Metadata => BuiltInMetadata.Meta("builtin.transcoder.default", GlobalPipelineModuleKinds.Transcoder, priority: 0);
+    public DocumentPartModuleMetadata Metadata => IDocumentPartPipelineModule.Meta("builtin.transcoder.default", DocumentPartPipelineModuleKinds.Guards, priority: 0);
 
-    public bool CanTranscode(IDataEnvelope envelope)
+    public bool CanProcess(IDocumentContext documentContext, IDataPart part)
     {
-        return envelope.Shape is DataShape.Linear or DataShape.Tabular;
+        return documentContext.Data.DataEnvelope.Shape is DataShape.Linear or DataShape.Tabular;
     }
 
-    public Task<IReadOnlyList<TranscodedFragment>> TranscodeAsync(IDataEnvelope envelope, IDataPart dataPart, CancellationToken ct)
+    public Task<IDocumentContextPatch> Run(IDocumentContext documentContext, IDocumentContextPatchBuilder patcher, IDataPart part, CancellationToken ct)
     {
         ct.ThrowIfCancellationRequested();
 
-        logger.LogTrace("DefaultTranscoder processing envelope with shape {Shape} from source {Source}", envelope.Shape, dataPart.Source.Path);
+        logger.LogTrace("DefaultTranscoder processing envelope with shape {Shape} from source {Source}", documentContext.Data.DataEnvelope.Shape, part.Source.Path);
 
-        if (envelope.Shape == DataShape.Linear)
+        if (documentContext.Data.DataEnvelope.Shape == DataShape.Linear)
         {
             string locator = "unknown";
             string content = "";
-            if (dataPart.Payload is IFileInfos)
+            if (part.Payload is IFileInfos)
             {
                 locator = "file:full";
-                content = (dataPart.Payload as IFileInfos)!.Path;
+                content = (part.Payload as IFileInfos)!.Path;
             }
-            else if (dataPart.Payload is string s)
+            else if (part.Payload is string s)
             {
-                locator = dataPart.Source.Locator ?? "text:full";
+                locator = part.Source.Locator ?? "text:full";
                 content = s;
             }
 
-            return Task.FromResult<IReadOnlyList<TranscodedFragment>>(
+            return patcher.WithTranscodedFragments(
             [
-                new TranscodedFragment(locator, content) { Tags =  tagsBuilder.InitNewFrom([tagBuilder.Build("shape", "linear")]).AddRange(dataPart.Tags).Build()}
-            ]);
+                new TranscodedFragment(locator, content) { Tags =  tagsBuilder.InitNewFrom([tagBuilder.Build("shape", "linear")]).AddRange(part.Tags).Build()}
+            ]).BuildAsTask();
         }
 
-        if (envelope.Shape == DataShape.Tabular)
+        if (documentContext.Data.DataEnvelope.Shape == DataShape.Tabular)
         {
-            string json = System.Text.Json.JsonSerializer.Serialize(dataPart.Payload, jsonSerializerOptions);
-            return Task.FromResult<IReadOnlyList<TranscodedFragment>>(
+            string json = System.Text.Json.JsonSerializer.Serialize(part.Payload, jsonSerializerOptions);
+            return patcher.WithTranscodedFragments(
             [
-                new TranscodedFragment("table:json", json) { Tags = tagsBuilder.InitNewFrom([tagBuilder.Build("shape", "tabular")]).AddRange(dataPart.Tags).Build() }
-            ]);
+                new TranscodedFragment("table:json", json) { Tags = tagsBuilder.InitNewFrom([tagBuilder.Build("shape", "tabular")]).AddRange(part.Tags).Build() }
+            ]).BuildAsTask();
         }
 
-        return Task.FromResult<IReadOnlyList<TranscodedFragment>>([]);
+        return patcher.NoChangesAsTask();
     }
 }

@@ -19,7 +19,7 @@ public sealed class PersonasPromptComposerModule(IPrompt prompt,
                                              IPersonasProvider personasProvider,
                                              ILogger<PersonasPromptComposerModule> logger) : IPromptComposerModule
 {
-    public ModuleMetadata Metadata => IModule.Meta("personas.composer", GlobalPipelineModuleKinds.PromptComposer, priority: 10);
+    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("personas.composer", GlobalPipelineModuleKinds.PromptComposer, priority: 10);
 
     public async Task Run(CancellationToken cancellationToken)
     {

@@ -8,7 +8,7 @@ namespace ContextCompiler.Modules.Prompt.Composers.Constraints;
 
 public sealed class ConstraintsPromptComposerModule(IPrompt prompt, IMustConstraintBuilder mustConstraintBuilder, IMustNotConstraintBuilder mustNotConstraintBuilder, IConfigProvider ctxcConfig) : IPromptComposerModule
 {
-    public ModuleMetadata Metadata => IModule.Meta("prompt.composers.constraints", GlobalPipelineModuleKinds.PromptComposer, priority: 10);
+    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("prompt.composers.constraints", GlobalPipelineModuleKinds.PromptComposer, priority: 10);
 
     public Task Run(CancellationToken cancellationToken)
     {
