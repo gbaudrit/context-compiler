@@ -2,7 +2,7 @@ using ContextCompiler.Abstractions.Output;
 
 namespace ContextCompiler.Abstractions.Pipelines
 {
-    public interface IGlobalPipelineRunner
+    public interface IGlobalPipeline : IPipeline
     {
         ValueTask RunAsync(string rootPath,
                            string outputPath,

@@ -2,7 +2,7 @@ using ContextCompiler.Abstractions.Pipelines;
 using ContextCompiler.Abstractions.Pipelines.Document;
 using ContextCompiler.Abstractions.ReasoningIR;
 
-namespace ContextCompiler.Core.Pipelines;
+namespace ContextCompiler.Core.Pipelines.Document;
 
 internal sealed class DocumentContextData : IDocumentContextData
 {

@@ -125,11 +125,6 @@ public sealed class ModuleRegistryBuilder : IModuleRegistryBuilder
                 _ = services.AddTransient(typeof(IOutputArtifactComposerModule), t);
             }
 
-            if (typeof(IDocumentsModule).IsAssignableFrom(t))
-            {
-                _ = services.AddTransient(typeof(IDocumentsModule), t);
-            }
-
             if (typeof(IConfigurationModule).IsAssignableFrom(t))
             {
                 _ = services.AddTransient(typeof(IConfigurationModule), t);

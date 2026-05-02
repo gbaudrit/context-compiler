@@ -3,11 +3,8 @@ namespace ContextCompiler.Modules.Abstractions;
 public enum GlobalPipelineModuleKinds
 {
     Configuration = 1000,
-    Documents = 2000,
-    FileReader = 3000,
+    DocumentsProcessor = 2000,
     EngineeringModule = 4000,
-    Transcoder = 5000,
-    FragmentProcessor = 6000,
     Guard = 7000,
     PromptComposer = 8000,
     Views = 9000,

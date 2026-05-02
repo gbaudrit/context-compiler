@@ -2,7 +2,7 @@ using ContextCompiler.Abstractions.Pipelines;
 using ContextCompiler.Abstractions.Pipelines.Document;
 using ContextCompiler.Abstractions.Sources;
 
-namespace ContextCompiler.Core.Pipelines
+namespace ContextCompiler.Core.Pipelines.Document
 {
     public sealed class DocumentContext() : IDocumentContext
     {

@@ -3,7 +3,7 @@ using ContextCompiler.Abstractions.Pipelines.Document;
 using ContextCompiler.Abstractions.Sources;
 using ContextCompiler.Abstractions.Tags;
 
-namespace ContextCompiler.Core.Pipelines
+namespace ContextCompiler.Core.Pipelines.Document
 {
     internal sealed class DocumentContextBuilder(IDocumentContextDataBuilder documentContextDataBuilder, ITagsBuilder tagsBuilder, IServiceProvider serviceProvider) : IDocumentContextBuilder
     {

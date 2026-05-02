@@ -18,7 +18,7 @@ public sealed record CompileRequest(string InputPath, string OutputPath, string 
 
 public sealed class CompilerEngine(
     ILogger<CompilerEngine> logger,
-    IGlobalPipelineRunner globalPipelineRunner,
+    IGlobalPipeline globalPipelineRunner,
     IFileSystem fs,
     IHasher hasher,
     IModulesRegistry modules,

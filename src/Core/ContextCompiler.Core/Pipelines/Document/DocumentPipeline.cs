@@ -1,12 +1,16 @@
+using ContextCompiler.Abstractions;
 using ContextCompiler.Abstractions.Configuration;
 using ContextCompiler.Abstractions.Diagnostics;
+using ContextCompiler.Abstractions.Guards;
 using ContextCompiler.Abstractions.Pipelines;
 using ContextCompiler.Abstractions.Pipelines.Document;
+using ContextCompiler.Abstractions.Pipelines.Events;
 using ContextCompiler.Abstractions.Ports;
 using ContextCompiler.Abstractions.ReasoningIR;
 using ContextCompiler.Abstractions.Sources;
 using ContextCompiler.Abstractions.Tags;
 using ContextCompiler.Modules.Abstractions;
+using ContextCompiler.Modules.BuiltIn;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileSystemGlobbing;
@@ -21,8 +25,11 @@ public sealed record DocumentCompileResult(
     IReadOnlyList<GuardFinding> Findings
 ) : IDocumentCompileResult;
 
-public sealed class DocumentPipelineRunner(
-    ILogger<DocumentPipelineRunner> logger,
+public sealed class DocumentPipeline(
+    ILogger<DocumentPipeline> logger,
+    IWorkingFolder workingFolder,
+    IGuardian guardian,
+    IReasoningIr reasoningIr,
     IFileSystem fs,
     IHasher hasher,
     IModulesRegistry modules,
@@ -34,28 +41,15 @@ public sealed class DocumentPipelineRunner(
     IDocumentContextPatchBuilder documentContextPatchBuilder,
     IDocumentContextPatcher documentContextPatcher,
     ISourcesProvider sourcesProvider,
-    IServiceProvider serviceProvider) : IDocumentPipelineRunner
+    IServiceProvider serviceProvider,
+    IPipelineEventPublisher pipelineEventPublisher) : IGlobalPipelineModule, IPipeline
 {
-    public async ValueTask RunAsync(IDocumentsContext documentsContext, CancellationToken ct)
+
+    public ModuleMetadata Metadata => BuiltInMetadata.Meta("pipelines.documents", GlobalPipelineModuleKinds.DocumentsProcessor, priority: 10);
+
+    public async Task Run(CancellationToken cancellationToken)
     {
-        passes = [.. passes
-            .OrderBy(p => (int)p.Metadata.Stage)
-            .ThenBy(p => p.Metadata.Priority)
-            .ThenBy(p => p.Metadata.Id, StringComparer.Ordinal)];
-
-        logger.LogInformation("Starting documents pipeline run in root path: {RootPath} ({Count} passes)", documentsContext.RootPath, passes.Count());
-
-        logger.LogDebug("Document pipeline passes order: {Passes}", Environment.NewLine + string.Join(Environment.NewLine, passes.Select(p => $"{p.Metadata.Id} (Kind: {p.Metadata.Kind}, Stage: {p.Metadata.Stage}, Priority: {p.Metadata.Priority})")));
-
-        List<IDocumentCompileResult> results = [];
-
-        //var allFiles = fs.EnumerateFiles(rootPath)
-        //    .Where(p => !p.Contains(Path.DirectorySeparatorChar + ".git" + Path.DirectorySeparatorChar))
-        //    .Where(p => !p.Contains(Path.DirectorySeparatorChar + ".ctxboost" + Path.DirectorySeparatorChar))
-        //    .Where(p => !p.Contains(Path.DirectorySeparatorChar + "bin" + Path.DirectorySeparatorChar))
-        //    .Where(p => !p.Contains(Path.DirectorySeparatorChar + "obj" + Path.DirectorySeparatorChar))
-        //    .Where(p => !p.Contains(Path.DirectorySeparatorChar + ".ctxc" + Path.DirectorySeparatorChar))
-        //    .ToList();
+        DocumentsContext documentsContext = new() { RootPath = workingFolder.Path };
 
         foreach (ISource s in sourcesProvider.GetAll())
         {
@@ -68,7 +62,7 @@ public sealed class DocumentPipelineRunner(
 
             foreach (FilePatternMatch filePatternMatch in result.Files)
             {
-                ct.ThrowIfCancellationRequested();
+                cancellationToken.ThrowIfCancellationRequested();
 
                 IDocumentContext docContext = documentContextBuilder.InitNew()
                     .WithInputRoot(s.RootPath)
@@ -80,21 +74,6 @@ public sealed class DocumentPipelineRunner(
 
                 try
                 {
-                    //foreach (IDocumentPass pass in passes)
-                    //{
-                    //    ct.ThrowIfCancellationRequested();
-                    //    logger.LogDebug("Executing document pass '{PassId}' on document '{DocumentPath}'", pass.Id, docContext.RelativePath);
-
-                    //    await pass.ExecuteAsync(docContext, ct);
-
-                    //    // hard stop rule
-                    //    bool blocked = docContext.Findings.Any(f => f.Severity == FindingSeverity.Critical && f.Action == FindingAction.Block);
-                    //    if (blocked)
-                    //    {
-                    //        break;
-                    //    }
-                    //}
-
                     IOrderedEnumerable<IDocumentPipelineModule> orderedModules = modules.DocumentPipelineModules.OrderBy(c => c.Metadata.Kind);
 
                     logger.LogDebug("Will running document pipeline with {ModuleCount} modules in order :", orderedModules.Count());
@@ -105,13 +84,6 @@ public sealed class DocumentPipelineRunner(
                             index, module.Metadata.Id, module.Metadata.Kind, module.Metadata.Kind.ToString("D"), module.Metadata.Priority);
                         index++;
                     }
-
-                    //await Task.WhenAll(orderedModules.Select(async p =>
-                    //{
-                    //    logger.LogInformation("Running global pipeline module: {ModuleName} (Kind: {ModuleKind}, Priority: {ModulePriority})",
-                    //        p.Metadata.Id, p.Metadata.Kind, p.Metadata.Priority);
-                    //    await p.Run(ct);
-                    //}));
 
                     // Exécution par groupe de Kind, chaque groupe en parallèle,
                     // mais les groupes s'exécutent séquentiellement
@@ -136,8 +108,15 @@ public sealed class DocumentPipelineRunner(
 
                                 IDocumentContextPatchBuilder modulePatcher = serviceProvider.GetRequiredService<IDocumentContextPatchBuilder>();
 
-                                IDocumentContextPatch patch = await module.Run(docContext, modulePatcher.InitNew(), ct);
-                                docContext = await documentContextPatcher.Patch(docContext, patch);
+                                await pipelineEventPublisher.PublishPhaseAsync(this,
+                                                               module.Metadata.Kind.ToString(),
+                                                               module.Metadata.Id,
+                                                               async () =>
+                                                               {
+                                                                   IDocumentContextPatch patch = await module.Run(docContext, modulePatcher.InitNew(), cancellationToken);
+                                                                   docContext = await documentContextPatcher.Patch(docContext, patch);
+                                                               },
+                                                               cancellationToken);
                             }
                             else
                             {
@@ -168,6 +147,22 @@ public sealed class DocumentPipelineRunner(
                 docContext = await documentContextPatcher.Patch(docContext, patch);
 
                 documentsContext.AddDocument(docContext);
+            }
+        }
+
+        guardian.Load(documentsContext);
+
+        IReadOnlyList<IPipelineFinding> findings = guardian.Findings;
+        if (findings.Any(f => f.Action == FindingAction.Block && f.Severity == FindingSeverity.Critical))
+        {
+            throw new PipelineAbortedException("Pipeline aborted due to critical findings in documents context.");
+        }
+
+        foreach (IDocumentContext r in documentsContext.Documents)
+        {
+            foreach (IFragment f in r.Data.Fragments)
+            {
+                reasoningIr.Add(f);
             }
         }
     }

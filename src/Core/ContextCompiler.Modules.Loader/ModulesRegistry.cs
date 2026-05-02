@@ -27,7 +27,6 @@ public sealed class ModulesRegistry(IServiceProvider services) : IModulesRegistr
     public IReadOnlyList<IPersonaModule> Personas => [.. _services.GetServices<IPersonaModule>()];
     public IReadOnlyList<IOutputArtifactsFilesWriterModule> OutputArtifactWriters => [.. _services.GetServices<IOutputArtifactsFilesWriterModule>()];
     public IReadOnlyList<IOutputArtifactComposerModule> OutputArtifactComposers => [.. _services.GetServices<IOutputArtifactComposerModule>()];
-    public IReadOnlyList<IDocumentsModule> DocumentsModules => [.. _services.GetServices<IDocumentsModule>()];
     public IReadOnlyList<IConfigurationModule> ConfigurationModules => [.. _services.GetServices<IConfigurationModule>()];
     public IReadOnlyList<IFragmentProcessorModule> FragmentProcessors => [.. _services.GetServices<IFragmentProcessorModule>()];
     public IReadOnlyList<IBlueprintComposerModule> Blueprints => [.. _services.GetServices<IBlueprintComposerModule>()];

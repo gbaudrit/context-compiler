@@ -67,7 +67,7 @@ namespace ContextCompiler.Core.Pipelines.DataPart
                                 IDocumentContextPatchBuilder modulePatcher = serviceProvider.GetRequiredService<IDocumentContextPatchBuilder>();
 
                                 IDocumentContextPatch modulePatch = await module.Run(documentContext, modulePatcher.InitNew(), part, ct);
-                                documentContext = await documentContextPatcher.Patch(documentContext, modulePatch);
+                                //documentContext = await documentContextPatcher.Patch(documentContext, modulePatch);
 
                                 _ = patcher.Combine(modulePatch);
                             }

@@ -5,6 +5,7 @@ using ContextCompiler.Abstractions.Models;
 using ContextCompiler.Abstractions.Output;
 using ContextCompiler.Abstractions.Pipelines;
 using ContextCompiler.Abstractions.Pipelines.Document;
+using ContextCompiler.Abstractions.Pipelines.Events;
 using ContextCompiler.Abstractions.Ports;
 using ContextCompiler.Modules.Abstractions;
 
@@ -18,8 +19,8 @@ public sealed record GlobalCompileOutputs(
     IReadOnlyList<IPipelineFinding> Findings
 );
 
-public sealed class GlobalPipelineRunner(
-    ILogger<GlobalPipelineRunner> logger,
+public sealed class GlobalPipeline(
+    ILogger<GlobalPipeline> logger,
     IDocumentContextBuilder docCtxBuilder,
     IFileSystem fs,
     IHasher hasher,
@@ -27,7 +28,8 @@ public sealed class GlobalPipelineRunner(
     IConfigProvider cfgProvider,
     IPrompt prompt,
     IOutput output,
-    IGuardian guardian) : IGlobalPipelineRunner
+    IGuardian guardian,
+    IPipelineEventPublisher pipelineEventPublisher) : IGlobalPipeline
 {
 
     public async ValueTask RunAsync(
@@ -79,7 +81,11 @@ public sealed class GlobalPipelineRunner(
                     module.Metadata.Kind,
                     module.Metadata.Priority);
 
-                await module.Run(ct);
+                await pipelineEventPublisher.PublishPhaseAsync(this,
+                                                               module.Metadata.Kind.ToString(),
+                                                               module.Metadata.Id,
+                                                               async () => await module.Run(ct),
+                                                               ct);
             }));
         }
     }

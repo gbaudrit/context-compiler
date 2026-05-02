@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 namespace ContextCompiler.Core.Pipelines.View;
 
 public sealed class ViewsPipelineRunner(
-    ILogger<GlobalPipelineRunner> logger,
+    ILogger<GlobalPipeline> logger,
     IPrompt prompt, IConfigProvider ctxcConfig, IModulesRegistry modules, IReasoningIr ir) : IGlobalPipelineModule
 {
 
