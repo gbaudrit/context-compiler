@@ -29,6 +29,7 @@ public sealed class GlobalPipeline(
     IPrompt prompt,
     IOutput output,
     IGuardian guardian,
+    IGlobalPipelineRunContextBuilder globalPipelineRunContextBuilder,
     IPipelineEventPublisher pipelineEventPublisher) : IGlobalPipeline
 {
 
@@ -81,10 +82,15 @@ public sealed class GlobalPipeline(
                     module.Metadata.Kind,
                     module.Metadata.Priority);
 
-                await pipelineEventPublisher.PublishPhaseAsync(this,
+                IGlobalPipelineRunContext moduleContext = globalPipelineRunContextBuilder
+                    .InitNew()
+                    .WithPipeline(this)
+                    .Build();
+
+                _ = await pipelineEventPublisher.PublishPhaseAsync(this,
                                                                module.Metadata.Kind.ToString(),
                                                                module.Metadata.Id,
-                                                               async () => await module.Run(ct),
+                                                               async () => await module.Run(moduleContext, ct),
                                                                ct);
             }));
         }

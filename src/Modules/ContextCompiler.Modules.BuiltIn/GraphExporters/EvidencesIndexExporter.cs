@@ -1,6 +1,8 @@
 using System.Text.Json;
 
+using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Abstractions.Output;
+using ContextCompiler.Abstractions.Pipelines;
 using ContextCompiler.Abstractions.ReasoningIR;
 using ContextCompiler.Modules.Abstractions;
 using ContextCompiler.Modules.Abstractions.GlobalPipeline;
@@ -15,7 +17,7 @@ internal sealed class EvidencesIndexExporter(ILogger<EvidencesIndexExporter> log
 
     private static readonly JsonSerializerOptions s_jsonIndentedOptions = new() { WriteIndented = true };
 
-    public async Task Run(CancellationToken cancellationToken)
+    public async Task<IResult<IGlobalPipelineRunResult>> Run(IGlobalPipelineRunContext context, CancellationToken cancellationToken)
     {
         IGraph graph = await ir.Graph(cancellationToken);
         prompt.AddArtifact(builder =>
@@ -24,5 +26,7 @@ internal sealed class EvidencesIndexExporter(ILogger<EvidencesIndexExporter> log
                           .WithContent(JsonSerializer.Serialize(graph, s_jsonIndentedOptions))
                           .WithGeneratedBy(GetType());
         });
+
+        return await context.Success();
     }
 }

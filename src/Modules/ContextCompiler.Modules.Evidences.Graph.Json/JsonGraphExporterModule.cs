@@ -1,6 +1,8 @@
 using System.Text.Json;
 
+using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Abstractions.Output;
+using ContextCompiler.Abstractions.Pipelines;
 using ContextCompiler.Abstractions.ReasoningIR;
 using ContextCompiler.Modules.Abstractions;
 using ContextCompiler.Modules.Abstractions.GlobalPipeline;
@@ -18,7 +20,7 @@ public sealed class JsonGraphExporterModule(IPrompt prompt, IReasoningIr ir) : I
         return JsonSerializer.Serialize(graphModel, jsonSerializerOptions);
     }
 
-    public async Task Run(CancellationToken cancellationToken)
+    public async Task<IResult<IGlobalPipelineRunResult>> Run(IGlobalPipelineRunContext context, CancellationToken cancellationToken)
     {
         IGraph graph = await ir.Graph(cancellationToken);
         prompt.AddArtifact(builder =>
@@ -29,6 +31,6 @@ public sealed class JsonGraphExporterModule(IPrompt prompt, IReasoningIr ir) : I
 
         });
 
-        await Task.CompletedTask;
+        return await context.Success();
     }
 }

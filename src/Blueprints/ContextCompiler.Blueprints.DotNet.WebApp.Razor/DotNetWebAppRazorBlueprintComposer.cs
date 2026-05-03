@@ -1,6 +1,8 @@
 using ContextCompiler.Abstractions.Output;
 using ContextCompiler.Abstractions.Prompt;
 using ContextCompiler.Modules.Abstractions;
+using ContextCompiler.Abstractions.Common;
+using ContextCompiler.Abstractions.Pipelines;
 
 namespace ContextCompiler.Blueprints.DotNet.WebApp.Razor;
 
@@ -17,7 +19,7 @@ internal sealed class DotNetWebAppRazorBlueprintComposer(
 {
     public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("blueprints.dotnet.webapp.razor", GlobalPipelineModuleKinds.PromptComposer, priority: 10);
 
-    public Task Run(CancellationToken cancellationToken)
+    public async Task<IResult<IGlobalPipelineRunResult>> Run(IGlobalPipelineRunContext context, CancellationToken cancellationToken)
     {
         IBlueprint blueprint = blueprintBuilder
             .InitNew()
@@ -497,6 +499,6 @@ internal sealed class DotNetWebAppRazorBlueprintComposer(
 
         prompt.Blueprints = [.. prompt.Blueprints, blueprint];
 
-        return Task.CompletedTask;
+        return await context.Success();
     }
 }

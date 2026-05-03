@@ -4,6 +4,8 @@ using ContextCompiler.Abstractions.Output;
 using ContextCompiler.Abstractions.Prompt;
 using ContextCompiler.Modules.Abstractions;
 using ContextCompiler.Modules.Abstractions.GlobalPipeline;
+using ContextCompiler.Abstractions.Common;
+using ContextCompiler.Abstractions.Pipelines;
 
 namespace ContextCompiler.Modules.BuiltIn.GlobalPipeline.PrompComposer
 {
@@ -12,7 +14,7 @@ namespace ContextCompiler.Modules.BuiltIn.GlobalPipeline.PrompComposer
 
         public ModuleMetadata Metadata => BuiltInMetadata.Meta("builtin.prompt.composer.commands", GlobalPipelineModuleKinds.PromptComposer, priority: 10);
 
-        public Task Run(CancellationToken cancellationToken)
+        public async Task<IResult<IGlobalPipelineRunResult>> Run(IGlobalPipelineRunContext context, CancellationToken cancellationToken)
         {
             List<ICommand> commands =
             [
@@ -52,7 +54,7 @@ namespace ContextCompiler.Modules.BuiltIn.GlobalPipeline.PrompComposer
             }
 
             prompt.Commands = commands;
-            return Task.CompletedTask;
+            return await context.Success();
         }
     }
 }

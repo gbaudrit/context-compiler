@@ -1,4 +1,6 @@
+using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Abstractions.Output;
+using ContextCompiler.Abstractions.Pipelines;
 using ContextCompiler.Abstractions.Pipelines.Events;
 using ContextCompiler.Modules.Abstractions;
 
@@ -16,7 +18,7 @@ internal sealed class MermaidPipelineReportModule(
         GlobalPipelineModuleKinds.OutputArtifactComposer,
         priority: 900);
 
-    public Task Run(CancellationToken cancellationToken)
+    public Task<IResult<IGlobalPipelineRunResult>> Run(IGlobalPipelineRunContext context, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
@@ -25,7 +27,7 @@ internal sealed class MermaidPipelineReportModule(
         if (events.Count == 0)
         {
             logger.LogInformation("No pipeline events collected, skipping Mermaid report generation");
-            return Task.CompletedTask;
+            return context.Success();
         }
 
         logger.LogInformation("Generating Mermaid pipeline report from {EventCount} events", events.Count);
@@ -45,6 +47,6 @@ internal sealed class MermaidPipelineReportModule(
 
         logger.LogInformation("Mermaid pipeline report generated");
 
-        return Task.CompletedTask;
+        return context.Success();
     }
 }

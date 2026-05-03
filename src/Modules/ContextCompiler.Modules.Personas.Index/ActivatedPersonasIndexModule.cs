@@ -1,7 +1,9 @@
 using System.Text.Json;
 
+using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Abstractions.Configuration;
 using ContextCompiler.Abstractions.Output;
+using ContextCompiler.Abstractions.Pipelines;
 using ContextCompiler.Abstractions.ReasoningIR;
 using ContextCompiler.Modules.Abstractions;
 using ContextCompiler.Modules.Abstractions.GlobalPipeline;
@@ -19,7 +21,7 @@ public sealed class ActivatedPersonasIndexModule(IPrompt prompt, IOutput output,
         return JsonSerializer.Serialize(graphModel, jsonSerializerOptions);
     }
 
-    public async Task Run(CancellationToken cancellationToken)
+    public async Task<IResult<IGlobalPipelineRunResult>> Run(IGlobalPipelineRunContext context, CancellationToken cancellationToken)
     {
         prompt.AddArtifact(builder =>
         {
@@ -29,6 +31,6 @@ public sealed class ActivatedPersonasIndexModule(IPrompt prompt, IOutput output,
 
         });
 
-        await Task.CompletedTask;
+        return await context.Success();
     }
 }

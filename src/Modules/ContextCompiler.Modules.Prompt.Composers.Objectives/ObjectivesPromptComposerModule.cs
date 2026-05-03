@@ -1,5 +1,7 @@
+using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Abstractions.Configuration;
 using ContextCompiler.Abstractions.Output;
+using ContextCompiler.Abstractions.Pipelines;
 using ContextCompiler.Abstractions.Prompt;
 using ContextCompiler.Modules.Abstractions;
 using ContextCompiler.Modules.Abstractions.GlobalPipeline;
@@ -11,7 +13,7 @@ public sealed class ObjectivesPromptComposerModule(IPrompt prompt, IObjectiveBui
 
     public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("prompt.composers.objectives", GlobalPipelineModuleKinds.PromptComposer, priority: 10);
 
-    public Task Run(CancellationToken cancellationToken)
+    public Task<IResult<IGlobalPipelineRunResult>> Run(IGlobalPipelineRunContext context, CancellationToken cancellationToken)
     {
         int index = 1;
         List<IObjective> objectives = [];
@@ -23,6 +25,6 @@ public sealed class ObjectivesPromptComposerModule(IPrompt prompt, IObjectiveBui
                             .Build());
         }
         prompt.Objectives = objectives;
-        return Task.CompletedTask;
+        return context.Success();
     }
 }

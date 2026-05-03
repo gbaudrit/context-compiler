@@ -3,6 +3,8 @@ using ContextCompiler.Modules.Abstractions;
 using ContextCompiler.Modules.Abstractions.GlobalPipeline;
 using ContextCompiler.Modules.Commands.Registry.Abstractions;
 using ContextCompiler.Modules.Commands.Registry.Models;
+using ContextCompiler.Abstractions.Common;
+using ContextCompiler.Abstractions.Pipelines;
 
 namespace ContextCompiler.Modules.Commands.Registry;
 
@@ -15,7 +17,7 @@ internal sealed class CommandIndexModule(
         GlobalPipelineModuleKinds.OutputArtifactComposer,
         priority: 10000);
 
-    public Task Run(CancellationToken cancellationToken)
+    public async Task<IResult<IGlobalPipelineRunResult>> Run(IGlobalPipelineRunContext context, CancellationToken cancellationToken)
     {
         // TODO:
         // - remplacer cette liste vide par la projection réelle des commandes
@@ -38,6 +40,6 @@ internal sealed class CommandIndexModule(
                 .WithGeneratedBy(GetType());
         });
 
-        return Task.CompletedTask;
+        return await context.Success();
     }
 }

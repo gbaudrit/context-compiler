@@ -1,3 +1,5 @@
+using ContextCompiler.Abstractions.Common;
+using ContextCompiler.Abstractions.Pipelines;
 using ContextCompiler.Modules.Abstractions;
 using ContextCompiler.Modules.Abstractions.GlobalPipeline;
 
@@ -10,12 +12,12 @@ public sealed class RagModule : IConfigurationModule
         GlobalPipelineModuleKinds.Configuration,
         priority: 100);
 
-    public Task Run(CancellationToken cancellationToken)
+    public Task<IResult<IGlobalPipelineRunResult>> Run(IGlobalPipelineRunContext context, CancellationToken cancellationToken)
     {
         // TODO:
         // - lire la configuration RAG
         // - enregistrer les options/chunkers/indexeurs nécessaires
         // - préparer les artefacts .ctxc/rag si besoin
-        return Task.CompletedTask;
+        return context.Success();
     }
 }

@@ -46,9 +46,9 @@ public sealed class DocumentPipeline(
     IPipelineEventPublisher pipelineEventPublisher) : IGlobalPipelineModule, IPipeline
 {
 
-    public ModuleMetadata Metadata => BuiltInMetadata.Meta("pipelines.documents", GlobalPipelineModuleKinds.DocumentsProcessor, priority: 10);
+    public ModuleMetadata Metadata => BuiltInMetadata.Meta("pipelines.documents", GlobalPipelineModuleKinds.InputsProcessing, priority: 10);
 
-    public async Task Run(CancellationToken cancellationToken)
+    public async Task<IResult<IGlobalPipelineRunResult>> Run(IGlobalPipelineRunContext context, CancellationToken cancellationToken)
     {
         DocumentsContext documentsContext = new() { RootPath = workingFolder.Path };
 
@@ -178,6 +178,8 @@ public sealed class DocumentPipeline(
                 reasoningIr.Add(f);
             }
         }
+
+        return await context.Success();
     }
 
     //private static IReadOnlyList<DataPart>? TryGetCompositeParts(DataEnvelope env)

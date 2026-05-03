@@ -1,4 +1,6 @@
+using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Abstractions.Output;
+using ContextCompiler.Abstractions.Pipelines;
 using ContextCompiler.Abstractions.Ports;
 using ContextCompiler.Modules.Abstractions;
 using ContextCompiler.Modules.Abstractions.GlobalPipeline;
@@ -11,7 +13,7 @@ public sealed class OutputArtifactsFilesWriterModule(IPrompt prompt, IOutput out
 {
     public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("artifacts.writer", GlobalPipelineModuleKinds.OutputWriter, priority: 10);
 
-    public Task Run(CancellationToken cancellationToken)
+    public Task<IResult<IGlobalPipelineRunResult>> Run(IGlobalPipelineRunContext context, CancellationToken cancellationToken)
     {
         foreach (IOutputArtifact artifact in prompt.Artifacts)
         {
@@ -21,7 +23,7 @@ public sealed class OutputArtifactsFilesWriterModule(IPrompt prompt, IOutput out
             logger.LogInformation("Wrote output artifact file: {Path}", p);
         }
 
-        return Task.CompletedTask;
+        return context.Success();
     }
 
 }

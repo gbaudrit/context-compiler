@@ -1,5 +1,7 @@
 using ContextCompiler.Abstractions.Commands;
+using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Abstractions.Configuration;
+using ContextCompiler.Abstractions.Pipelines;
 using ContextCompiler.Abstractions.Prompt;
 using ContextCompiler.Modules.Abstractions;
 using ContextCompiler.Modules.Abstractions.GlobalPipeline;
@@ -15,7 +17,7 @@ public sealed class DotNetModule(IConfigProvider cfgProvider,
 {
     public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("engineering.dotnet", GlobalPipelineModuleKinds.Configuration, priority: 10);
 
-    public Task Run(CancellationToken cancellationToken)
+    public Task<IResult<IGlobalPipelineRunResult>> Run(IGlobalPipelineRunContext context, CancellationToken cancellationToken)
     {
         cfgProvider.Current.AddFile(["Directory.Packages.props", "**/*.csproj", "**/libman.json", "**/package.json"], [], [], ["concern:dependency", "concern:security"], null);
         cfgProvider.Current.AddFile(["**/appsettings*.json"], [], [], ["concern:config", "concern:security"], null);
@@ -34,7 +36,7 @@ public sealed class DotNetModule(IConfigProvider cfgProvider,
 
 
 
-        return Task.CompletedTask;
+        return context.Success();
     }
 }
 

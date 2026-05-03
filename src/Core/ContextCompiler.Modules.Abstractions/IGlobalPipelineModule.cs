@@ -1,3 +1,5 @@
+using ContextCompiler.Abstractions.Common;
+using ContextCompiler.Abstractions.Pipelines;
 using ContextCompiler.Abstractions.Versioning;
 
 namespace ContextCompiler.Modules.Abstractions
@@ -9,7 +11,7 @@ namespace ContextCompiler.Modules.Abstractions
             return new(id, kind, ModuleApiVersion.Current, priority);
         }
 
-        Task Run(CancellationToken cancellationToken);
+        Task<IResult<IGlobalPipelineRunResult>> Run(IGlobalPipelineRunContext context, CancellationToken cancellationToken);
 
         ModuleMetadata Metadata { get; }
     }

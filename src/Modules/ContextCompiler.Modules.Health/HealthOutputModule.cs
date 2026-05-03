@@ -1,7 +1,9 @@
 using System.Text.Json;
 
+using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Abstractions.Guards;
 using ContextCompiler.Abstractions.Output;
+using ContextCompiler.Abstractions.Pipelines;
 using ContextCompiler.Abstractions.ReasoningIR;
 using ContextCompiler.Abstractions.Views;
 using ContextCompiler.Modules.Abstractions;
@@ -19,7 +21,7 @@ public sealed class HealthOutputModule(
 
     private readonly JsonSerializerOptions jsonSerializerOptions = new() { WriteIndented = true };
 
-    public Task Run(CancellationToken cancellationToken)
+    public Task<IResult<IGlobalPipelineRunResult>> Run(IGlobalPipelineRunContext context, CancellationToken cancellationToken)
     {
         var health = new
         {
@@ -36,7 +38,7 @@ public sealed class HealthOutputModule(
                           .WithGeneratedBy(GetType());
         });
 
-        return Task.CompletedTask;
+        return context.Success();
     }
 
 }

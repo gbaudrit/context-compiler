@@ -1,6 +1,8 @@
 using System.Text.Json;
 
+using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Abstractions.Output;
+using ContextCompiler.Abstractions.Pipelines;
 using ContextCompiler.Abstractions.ReasoningIR;
 using ContextCompiler.Modules.Abstractions;
 using ContextCompiler.Modules.Abstractions.GlobalPipeline;
@@ -15,7 +17,7 @@ public sealed class EvidenceIndexArtifactComposerModule(ILogger<EvidenceIndexArt
 
     private static readonly JsonSerializerOptions s_jsonIndentedOptions = new() { WriteIndented = true };
 
-    public Task Run(CancellationToken cancellationToken)
+    public Task<IResult<IGlobalPipelineRunResult>> Run(IGlobalPipelineRunContext context, CancellationToken cancellationToken)
     {
         int distinctEvidenceCount = ir.Fragments.Select(f => f.Evidence.EvidenceKey).Distinct().Count();
         List<ITag> distinctsTags = [.. ir.Fragments.SelectMany(f => f.Tags).Distinct()];
@@ -58,6 +60,6 @@ public sealed class EvidenceIndexArtifactComposerModule(ILogger<EvidenceIndexArt
                           .WithGeneratedBy(GetType());
         });
 
-        return Task.CompletedTask;
+        return context.Success();
     }
 }

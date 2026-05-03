@@ -4,6 +4,8 @@ using ContextCompiler.Modules.Abstractions;
 using ContextCompiler.Modules.Abstractions.Prompts;
 using ContextCompiler.Modules.Prompt.Templates.Scriban.Extensions;
 using ContextCompiler.Modules.Prompt.Templates.Scriban.Templates;
+using ContextCompiler.Abstractions.Common;
+using ContextCompiler.Abstractions.Pipelines;
 
 using Scriban;
 
@@ -13,12 +15,14 @@ internal sealed class ScribanPromptTemplateModule(IPrompt prompt, ITemplateProvi
 {
     public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("prompt.templates.scriban", GlobalPipelineModuleKinds.Template, priority: 0);
 
-    public async Task Run(CancellationToken ct)
+    public async Task<IResult<IGlobalPipelineRunResult>> Run(IGlobalPipelineRunContext context, CancellationToken ct)
     {
         foreach (string rendererName in ctxcConfigProvider.Current.Renderers)
         {
             await RenderTemplateAsync(prompt, rendererName, rendererName);
         }
+
+        return await context.Success();
     }
 
     private async Task RenderTemplateAsync(IPrompt prompt, string templateName, string outputFilename)

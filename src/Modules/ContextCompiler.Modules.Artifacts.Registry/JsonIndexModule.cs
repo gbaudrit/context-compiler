@@ -5,6 +5,8 @@ using ContextCompiler.Modules.Abstractions.GlobalPipeline;
 using ContextCompiler.Modules.Artifacts.Registry.Abstractions;
 using ContextCompiler.Modules.Artifacts.Registry.Extensions;
 using ContextCompiler.Modules.Artifacts.Registry.Models;
+using ContextCompiler.Abstractions.Common;
+using ContextCompiler.Abstractions.Pipelines;
 
 using Microsoft.Extensions.Logging;
 
@@ -18,7 +20,7 @@ internal sealed class JsonIndexModule(IConfigProvider cfgProvider,
 
     public ModuleMetadata Metadata => IGlobalPipelineModule.Meta($"artifacts.index.json", GlobalPipelineModuleKinds.OutputArtifactComposer, priority: 10000);
 
-    public Task Run(CancellationToken cancellationToken)
+    public async Task<IResult<IGlobalPipelineRunResult>> Run(IGlobalPipelineRunContext context, CancellationToken cancellationToken)
     {
         ArtifactsIndex index = new()
         {
@@ -33,7 +35,7 @@ internal sealed class JsonIndexModule(IConfigProvider cfgProvider,
                           .WithGeneratedBy(GetType());
         });
 
-        return Task.CompletedTask;
+        return await context.Success();
     }
 
 

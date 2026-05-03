@@ -1,6 +1,8 @@
 using ContextCompiler.Abstractions.Commands;
+using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Abstractions.Configuration;
 using ContextCompiler.Abstractions.Personas;
+using ContextCompiler.Abstractions.Pipelines;
 using ContextCompiler.Abstractions.Prompt;
 using ContextCompiler.Modules.Abstractions;
 using ContextCompiler.Modules.Abstractions.GlobalPipeline;
@@ -20,7 +22,7 @@ public sealed class PythonDeveloperModule(IConfigProvider cfgProvider,
 
     public ModuleMetadata Metadata => IGlobalPipelineModule.Meta($"personas.{PersonaId}", GlobalPipelineModuleKinds.Configuration, priority: 10);
 
-    public Task Run(CancellationToken cancellationToken)
+    public Task<IResult<IGlobalPipelineRunResult>> Run(IGlobalPipelineRunContext context, CancellationToken cancellationToken)
     {
         commandsProvider.AddCommand(commandBuilder.InitNew()
                                     .WithName("write")
@@ -30,7 +32,7 @@ public sealed class PythonDeveloperModule(IConfigProvider cfgProvider,
 
         BuildPersona();
 
-        return Task.CompletedTask;
+        return context.Success();
     }
 
     private void BuildPersona()

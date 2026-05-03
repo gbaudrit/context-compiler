@@ -1,7 +1,9 @@
 using System.Globalization;
 using System.Text;
 
+using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Abstractions.Output;
+using ContextCompiler.Abstractions.Pipelines;
 using ContextCompiler.Abstractions.ReasoningIR;
 using ContextCompiler.Modules.Abstractions;
 using ContextCompiler.Modules.Abstractions.GlobalPipeline;
@@ -12,7 +14,7 @@ public sealed class DotGraphExporterModule(IPrompt prompt, IReasoningIr ir) : IO
 {
     public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("evidences.graph.dot", GlobalPipelineModuleKinds.OutputArtifactComposer, priority: 10);
 
-    public async Task Run(CancellationToken cancellationToken)
+    public async Task<IResult<IGlobalPipelineRunResult>> Run(IGlobalPipelineRunContext context, CancellationToken cancellationToken)
     {
         IGraph graph = await ir.Graph(cancellationToken);
         StringBuilder sb = new();
@@ -35,6 +37,8 @@ public sealed class DotGraphExporterModule(IPrompt prompt, IReasoningIr ir) : IO
                           .WithContent(sb.ToString())
                           .WithGeneratedBy(GetType());
         });
+
+        return await context.Success();
     }
 
     private static string Escape(string s)

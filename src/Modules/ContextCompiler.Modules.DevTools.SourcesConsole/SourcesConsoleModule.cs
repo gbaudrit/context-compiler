@@ -1,3 +1,5 @@
+using ContextCompiler.Abstractions.Common;
+using ContextCompiler.Abstractions.Pipelines;
 using ContextCompiler.Abstractions.Sources;
 using ContextCompiler.Modules.Abstractions;
 
@@ -11,13 +13,13 @@ public sealed class SourcesConsoleModule(
 {
     public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("devtools.sources-console", GlobalPipelineModuleKinds.EndTools, priority: 1000);
 
-    public Task Run(CancellationToken cancellationToken)
+    public Task<IResult<IGlobalPipelineRunResult>> Run(IGlobalPipelineRunContext context, CancellationToken cancellationToken)
     {
         IReadOnlyList<ISource> sources = sourcesProvider.GetAll();
 
         if (sources.Count == 0)
         {
-            return Task.CompletedTask;
+            return context.Success();
         }
 
         logger.LogInformation("=== Sources Console DevTools ===");
@@ -37,6 +39,6 @@ public sealed class SourcesConsoleModule(
 
         logger.LogInformation("=== End Sources Console ===");
 
-        return Task.CompletedTask;
+        return context.Success();
     }
 }

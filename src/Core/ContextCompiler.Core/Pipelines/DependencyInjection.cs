@@ -16,6 +16,8 @@ namespace ContextCompiler.Core.Pipelines
             _ = services.AddSingleton<IGlobalPipeline, GlobalPipeline>()
                 .AddTransient<IDocumentContextBuilder, DocumentContextBuilder>()
                 .AddTransient<IDocumentContextDataBuilder, DocumentContextDataBuilder>()
+                .AddTransient<IGlobalPipelineRunContextBuilder, GlobalPipelineRunContextBuilder>()
+                .AddTransient<IGlobalPipelineRunResultBuilder, GlobalPipelineRunResultBuilder>()
                 .AddDocumentPipeline()
                 .AddDataPartPipeline()
                 .AddPipelineEvents();

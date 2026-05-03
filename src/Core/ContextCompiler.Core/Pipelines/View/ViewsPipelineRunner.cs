@@ -1,5 +1,7 @@
+using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Abstractions.Configuration;
 using ContextCompiler.Abstractions.Output;
+using ContextCompiler.Abstractions.Pipelines;
 using ContextCompiler.Abstractions.ReasoningIR;
 using ContextCompiler.Abstractions.Views;
 using ContextCompiler.Modules.Abstractions;
@@ -16,7 +18,7 @@ public sealed class ViewsPipelineRunner(
 
     public ModuleMetadata Metadata => BuiltInMetadata.Meta("views", GlobalPipelineModuleKinds.Views, priority: 10);
 
-    public async Task Run(CancellationToken cancellationToken)
+    public async Task<IResult<IGlobalPipelineRunResult>> Run(IGlobalPipelineRunContext context, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
@@ -68,5 +70,7 @@ public sealed class ViewsPipelineRunner(
                 }
             }));
         }
+
+        return await context.Success();
     }
 }
