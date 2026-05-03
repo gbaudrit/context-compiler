@@ -1,3 +1,4 @@
+using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Abstractions.Models;
 using ContextCompiler.Abstractions.Pipelines;
 using ContextCompiler.Abstractions.Pipelines.Document;
@@ -6,7 +7,7 @@ using ContextCompiler.Abstractions.Tags;
 
 namespace ContextCompiler.Core.Pipelines.Document;
 
-internal sealed class DocumentContextPatchBuilder(ITagBuilder tagBuilder) : IDocumentContextPatchBuilder
+internal sealed class DocumentContextPatchBuilder(ITagBuilder tagBuilder, ISourceRefBuilder sourceRefBuilder, IDataEnvelopeBuilder dataEnvelopeBuilder) : IDocumentContextPatchBuilder
 {
     private IDataEnvelope? _dataEnvelope;
     private List<IPipelineFinding> _findings = [];
@@ -96,6 +97,13 @@ internal sealed class DocumentContextPatchBuilder(ITagBuilder tagBuilder) : IDoc
         return this;
     }
 
+    public IDocumentContextPatchBuilder WithDataEnvelope(Action<IDataEnvelopeBuilder> builder)
+    {
+        builder(dataEnvelopeBuilder.InitNew());
+        _dataEnvelope = dataEnvelopeBuilder.Build();
+        return this;
+    }
+
     public IDocumentContextPatchBuilder AddFinding(
         FindingSeverity Severity,
         FindingAction Action,
@@ -104,6 +112,19 @@ internal sealed class DocumentContextPatchBuilder(ITagBuilder tagBuilder) : IDoc
         ISourceRef? EvidenceRef = null)
     {
         _findings.Add(new PipelineFinding(Severity, Action, PassId, Message, EvidenceRef));
+        return this;
+    }
+
+    public IDocumentContextPatchBuilder AddFinding(
+        FindingSeverity Severity,
+        FindingAction Action,
+        string PassId,
+        string Message,
+        Action<ISourceRefBuilder> SourceRefBuild)
+    {
+        SourceRefBuild(sourceRefBuilder.InitNew());
+
+        _findings.Add(new PipelineFinding(Severity, Action, PassId, Message, sourceRefBuilder.Build()));
         return this;
     }
 

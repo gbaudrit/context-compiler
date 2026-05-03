@@ -1,3 +1,4 @@
+using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Abstractions.Pipelines.Document;
 using ContextCompiler.Abstractions.Versioning;
 
@@ -12,7 +13,7 @@ namespace ContextCompiler.Modules.Abstractions
 
         bool CanProcess(IDocumentContext documentContext);
 
-        Task<IDocumentContextPatch> Run(IDocumentContext documentContext, IDocumentContextPatchBuilder patcher, CancellationToken ct);
+        Task<IResult<IDocumentPipelineRunResult>> Run(IDocumentPipelineRunContext context, CancellationToken ct);
 
         DocumentModuleMetadata Metadata { get; }
     }

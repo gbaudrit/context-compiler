@@ -1,3 +1,4 @@
+using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Abstractions.Pipelines.Document;
 using ContextCompiler.Modules.Abstractions;
 
@@ -19,8 +20,10 @@ namespace ContextCompiler.Core.Pipelines.DataPart
             return documentContext.Data.DataEnvelope.Parts.Count > 0;
         }
 
-        public async Task<IDocumentContextPatch> Run(IDocumentContext documentContext, IDocumentContextPatchBuilder patcher, CancellationToken ct)
+        public async Task<IResult<IDocumentPipelineRunResult>> Run(IDocumentPipelineRunContext context, CancellationToken ct)
         {
+            IDocumentContext documentContext = context.Document;
+
             try
             {
                 IOrderedEnumerable<IDocumentPartPipelineModule> orderedModules = modules.DocumentPartPipelineModules.OrderBy(c => c.Metadata.Kind);
@@ -47,7 +50,7 @@ namespace ContextCompiler.Core.Pipelines.DataPart
                     .GroupBy(m => (int)m.Metadata.Kind)
                     .OrderBy(g => g.Key);
 
-                foreach (IDataPart part in documentContext.Data.DataEnvelope.Parts)
+                foreach (IDataPart part in context.Document.Data.DataEnvelope.Parts)
                 {
                     foreach (IGrouping<int, IDocumentPartPipelineModule> group in groups)
                     {
@@ -56,7 +59,7 @@ namespace ContextCompiler.Core.Pipelines.DataPart
 
                         await Task.WhenAll(group.OrderBy(x => x.Metadata.Priority).Select(async module =>
                         {
-                            if (module.CanProcess(documentContext, part))
+                            if (module.CanProcess(context.Document, part))
                             {
                                 logger.LogInformation(
                                     "Running document part pipeline module: {ModuleName} (Kind: {ModuleKind}, Priority: {ModulePriority})",
@@ -69,7 +72,7 @@ namespace ContextCompiler.Core.Pipelines.DataPart
                                 IDocumentContextPatch modulePatch = await module.Run(documentContext, modulePatcher.InitNew(), part, ct);
                                 //documentContext = await documentContextPatcher.Patch(documentContext, modulePatch);
 
-                                _ = patcher.Combine(modulePatch);
+                                _ = context.Patch(b => b.Combine(modulePatch));
                             }
                             else
                             {
@@ -87,15 +90,10 @@ namespace ContextCompiler.Core.Pipelines.DataPart
             catch (OperationCanceledException) { throw; }
             catch (Exception ex)
             {
-                _ = patcher.AddFinding(
-                    FindingSeverity.Critical,
-                    FindingAction.Block,
-                    PassId: "pipeline.runner",
-                    Message: $"Internal error: {ex.GetType().Name}"
-                );
+                return await context.Failure(ex);
             }
 
-            return patcher.Build();
+            return await context.Success();
         }
     }
 }

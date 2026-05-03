@@ -25,7 +25,6 @@ namespace ContextCompiler.Modules.Readers.PDF;
 public sealed class PdfFileReaderModule(IFileReadResultBuilder fileReadResultBuilder,
                                         IFileContentBuilder fileContentBuilder,
                                         IConfigProvider cfgProvider,
-                                        IDataEnvelopeBuilder dataEnvelopeBuilder,
                                         IDataPartBuilder dataPartBuilder,
                                         ITagsBuilder tagsBuilder,
                                         ISourceRefBuilder sourceRefBuilder,
@@ -51,10 +50,11 @@ public sealed class PdfFileReaderModule(IFileReadResultBuilder fileReadResultBui
     //                                                                               .Build()).Build());
     //}
 
-    public Task<IDocumentContextPatch> Run(IDocumentContext documentContext, IDocumentContextPatchBuilder patcher, CancellationToken ct)
+    public Task<IResult<IDocumentPipelineRunResult>> Run(IDocumentPipelineRunContext context, CancellationToken ct)
     {
         ct.ThrowIfCancellationRequested();
-        logger.LogInformation("Start reading PDF document at path: {Path}", documentContext.FullPath);
+
+        logger.LogInformation("Start reading PDF document at path: {Path}", context.Document.FullPath);
 
 
         IRootConfigSection cfg = cfgProvider.GetConfigOrDefault(null);
@@ -69,10 +69,10 @@ public sealed class PdfFileReaderModule(IFileReadResultBuilder fileReadResultBui
         //    }
 
         //}
-        PdfExtractsConfig options = documentContext.Source.Config<PdfExtractsConfig>() ?? new PdfExtractsConfig();
+        PdfExtractsConfig options = context.Document.Source.Config<PdfExtractsConfig>() ?? new PdfExtractsConfig();
 
-        using PdfDocument pdfDocument = PdfDocument.Open(documentContext.FullPath!, new ParsingOptions() { ClipPaths = true });
-        string sourcePath = documentContext.FullPath ?? string.Empty;
+        using PdfDocument pdfDocument = PdfDocument.Open(context.Document.FullPath!, new ParsingOptions() { ClipPaths = true });
+        string sourcePath = context.Document.FullPath ?? string.Empty;
 
         List<IDataPart> parts = [];
         foreach (PdfExtractConfig extract in options.Extracts)
@@ -117,12 +117,12 @@ public sealed class PdfFileReaderModule(IFileReadResultBuilder fileReadResultBui
         }
 
 
-        logger.LogInformation("Finished reading PDF document at path: {Path}. Extracted {PartCount} parts.", documentContext.FullPath, parts.Count);
+        logger.LogInformation("Finished reading PDF document at path: {Path}. Extracted {PartCount} parts.", context.Document.FullPath, parts.Count);
 
-        return patcher.WithDataEnvelope(dataEnvelopeBuilder.InitNew()
-                                    .WithDataShape(DataShape.Linear)
-                                    .WithParts(parts)
-                                    .Build()).BuildAsTask();
+        return context.Patch(b =>
+        {
+            _ = b.WithDataEnvelope(x => x.WithDataShape(DataShape.Linear).WithParts(parts));
+        }).Success();
 
     }
 }

@@ -1,3 +1,4 @@
+using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Abstractions.Models;
 using ContextCompiler.Abstractions.ReasoningIR;
 
@@ -32,5 +33,7 @@ namespace ContextCompiler.Abstractions.Pipelines.Document
 
         IDocumentContextPatch NoChanges();
         Task<IDocumentContextPatch> NoChangesAsTask();
+        IDocumentContextPatchBuilder AddFinding(FindingSeverity Severity, FindingAction Action, string PassId, string Message, Action<ISourceRefBuilder> SourceRefBuild);
+        IDocumentContextPatchBuilder WithDataEnvelope(Action<IDataEnvelopeBuilder> builder);
     }
 }

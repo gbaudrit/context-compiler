@@ -17,29 +17,29 @@ public sealed partial class SensitivityGuardModule(ISourceRefBuilder sourceRefBu
         return true;
     }
 
-    public Task<IDocumentContextPatch> Run(IDocumentContext documentContext, IDocumentContextPatchBuilder patcher, CancellationToken ct)
+    public Task<IResult<IDocumentPipelineRunResult>> Run(IDocumentPipelineRunContext context, CancellationToken ct)
     {
         ct.ThrowIfCancellationRequested();
-        if (documentContext is null || string.IsNullOrWhiteSpace(documentContext.InputRoot))
+
+        if (context.Document is null
+            || string.IsNullOrWhiteSpace(context.Document.InputRoot)
+            || context.Document.Data.DataEnvelope is null)
         {
-            return patcher.NoChangesAsTask();
+            return context.NothingToDo();
         }
 
-        if (documentContext.Data.DataEnvelope is null)
-        {
-            return patcher.NoChangesAsTask();
-        }
-
-        foreach (IDataPart part in documentContext.Data.DataEnvelope.Parts)
+        foreach (IDataPart part in context.Document.Data.DataEnvelope.Parts)
         {
             if (SecretLike.IsMatch(part.Payload.ToString() ?? ""))
             {
-                _ = patcher.AddFinding(FindingSeverity.Critical, FindingAction.Redact, "CtxGuard.Sensitivity",
-                    "Potential secret/token detected in context.", sourceRefBuilder.InitNew().WithPath(documentContext.FullPath).Build());
+                context.AddFinding(FindingSeverity.Critical,
+                                   FindingAction.Redact,
+                                   "CtxGuard.Sensitivity",
+                                   "Potential secret/token detected in context.");
             }
         }
 
-        return patcher.BuildAsTask();
+        return context.Success();
     }
 
     [GeneratedRegex(@"(?i)\b(api[_-]?key|secret|token|password)\b\s*[:=]\s*\S+", RegexOptions.Compiled, "fr-FR")]

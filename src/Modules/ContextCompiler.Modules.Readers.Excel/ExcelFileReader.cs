@@ -39,11 +39,12 @@ public sealed class ExcelFileReaderModule(
     //                                                                               .Build()).Build());
     //}
 
-    public Task<IDocumentContextPatch> Run(IDocumentContext documentContext, IDocumentContextPatchBuilder patcher, CancellationToken ct)
+    public Task<IResult<IDocumentPipelineRunResult>> Run(IDocumentPipelineRunContext context, CancellationToken ct)
     {
         ct.ThrowIfCancellationRequested();
+
         IRootConfigSection cfg = cfgProvider.GetConfigOrDefault(null);
-        ExcelFileSection options = documentContext.Source.Config<ExcelFileSection>() ?? new ExcelFileSection();
+        ExcelFileSection options = context.Document.Source.Config<ExcelFileSection>() ?? new ExcelFileSection();
 
         //var fileExtracts = new List<(string match, ExcelDefaults? defaults, List<ExcelExtractConfig> extracts)>();
         //foreach (var f in cfg.Files)
@@ -55,10 +56,10 @@ public sealed class ExcelFileReaderModule(
 
         //}
 
-        using FileStream ms2 = File.OpenRead(documentContext.FullPath ?? string.Empty);
+        using FileStream ms2 = File.OpenRead(context.Document.FullPath ?? string.Empty);
         using XLWorkbook wb2 = new(ms2);
         List<IDataPart> parts = [];
-        string sourcePath = documentContext.FullPath ?? string.Empty;
+        string sourcePath = context.Document.FullPath ?? string.Empty;
 
         foreach (ExcelExtractConfig? x in options.Extracts.OrderBy(e => e.Id, StringComparer.Ordinal))
         {
@@ -198,11 +199,11 @@ public sealed class ExcelFileReaderModule(
                                       .Build());
         }
 
-
-        return patcher.WithDataEnvelope(dataEnvelopeBuilder.InitNew()
-                                    .WithDataShape(DataShape.Tabular)
-                                    .WithParts(parts)
-                                    .Build()).BuildAsTask();
+        return context.Patch(b => b.WithDataEnvelope(dataEnvelopeBuilder.InitNew()
+                                   .WithDataShape(DataShape.Linear)
+                                   .WithParts(parts)
+                                   .Build()))
+                      .Success();
     }
 
     private static bool ApplyWhere(string value, WhereClause w)

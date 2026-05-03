@@ -6,7 +6,7 @@ using Microsoft.Extensions.FileSystemGlobbing;
 
 namespace ContextCompiler.Modules.Security.Guards;
 
-public sealed class ScopeGuardModule(ISourceRefBuilder sourceRefBuilder) : IDocumentPipelineModule
+public sealed class ScopeGuardModule() : IDocumentPipelineModule
 {
     public DocumentModuleMetadata Metadata => IDocumentPipelineModule.Meta("security.guard.scope", DocumentPipelineModuleKinds.ReadScopeGuards, priority: -100);
     //public DocumentStage Stage => DocumentStage.Discovery;
@@ -24,12 +24,13 @@ public sealed class ScopeGuardModule(ISourceRefBuilder sourceRefBuilder) : IDocu
         return true;
     }
 
-    public Task<IDocumentContextPatch> Run(IDocumentContext documentContext, IDocumentContextPatchBuilder patcher, CancellationToken ct)
+    public Task<IResult<IDocumentPipelineRunResult>> Run(IDocumentPipelineRunContext context, CancellationToken ct)
     {
         ct.ThrowIfCancellationRequested();
-        if (documentContext.Data is null)
+
+        if (context.Document.Data is null)
         {
-            return patcher.NoChangesAsTask();
+            return context.NothingToDo();
         }
 
         Matcher matcher = new(StringComparison.OrdinalIgnoreCase);
@@ -39,11 +40,17 @@ public sealed class ScopeGuardModule(ISourceRefBuilder sourceRefBuilder) : IDocu
             _ = matcher.AddExclude(ex);
         }
 
-        string rel = Path.GetRelativePath(documentContext.InputRoot, documentContext.FullPath);
+        string rel = Path.GetRelativePath(context.Document.InputRoot, context.Document.FullPath);
         PatternMatchingResult match = matcher.Match(rel);
-        return !match.HasMatches
-            ? patcher.AddFinding(FindingSeverity.Info, FindingAction.Skip, "CtxGuard.Scope",
-                    "File excluded by scope rules.", sourceRefBuilder.InitNew().WithPath(documentContext.FullPath).Build()).BuildAsTask()
-            : patcher.NoChangesAsTask();
+
+        if (match.HasMatches)
+        {
+            context.AddFinding(FindingSeverity.Info,
+                               FindingAction.Skip,
+                               "CtxGuard.Scope",
+                               "File excluded by scope rules.");
+        }
+
+        return context.Success();
     }
 }

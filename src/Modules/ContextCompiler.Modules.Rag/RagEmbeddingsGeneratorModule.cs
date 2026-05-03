@@ -1,3 +1,4 @@
+using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Abstractions.Output;
 using ContextCompiler.Abstractions.Pipelines.Document;
 using ContextCompiler.Abstractions.Ports;
@@ -19,9 +20,9 @@ public sealed class RagEmbeddingsGeneratorModule(IRagIndexer ragIndexer, IPrompt
         return documentContext.Data.Fragments.Count > 0;
     }
 
-    public async Task<IDocumentContextPatch> Run(IDocumentContext documentContext, IDocumentContextPatchBuilder patcher, CancellationToken ct)
+    public async Task<IResult<IDocumentPipelineRunResult>> Run(IDocumentPipelineRunContext context, CancellationToken ct)
     {
-        foreach (IFragment fragment in documentContext.Data.Fragments)
+        foreach (IFragment fragment in context.Document.Data.Fragments)
         {
             IReadOnlyList<string> chunks = await tokenChunker.SplitChunksByToken(fragment.Content, 256, 64, cancellationToken: ct);
 
@@ -38,7 +39,7 @@ public sealed class RagEmbeddingsGeneratorModule(IRagIndexer ragIndexer, IPrompt
             }
         }
 
-        return patcher.NoChanges();
+        return await context.NoChanges();
 
         //await ragIndexer.IndexAsync(new(
         //    "RAG-" + hasher.Sha256Hex(fragment.Source.Id + "|" + fragment.Source.Locator + "|" + fragment.Evidence.EvidenceKey)[..32],

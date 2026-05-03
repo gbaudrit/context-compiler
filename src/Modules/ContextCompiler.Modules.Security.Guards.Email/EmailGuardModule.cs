@@ -22,18 +22,18 @@ public sealed partial class EmailGuardModule(
         return true;
     }
 
-    public Task<IDocumentContextPatch> Run(IDocumentContext documentContext, IDocumentContextPatchBuilder patcher, CancellationToken ct)
+    public Task<IResult<IDocumentPipelineRunResult>> Run(IDocumentPipelineRunContext context, CancellationToken ct)
     {
         ct.ThrowIfCancellationRequested();
 
-        if (documentContext.Data.DataEnvelope is null)
+        if (context.Document.Data.DataEnvelope is null)
         {
-            return patcher.NoChangesAsTask();
+            return context.NothingToDo();
         }
 
         List<IDataPart> updatedParts = [];
 
-        foreach (IDataPart part in documentContext.Data.DataEnvelope.Parts)
+        foreach (IDataPart part in context.Document.Data.DataEnvelope.Parts)
         {
             string payload = part.Payload?.ToString() ?? string.Empty;
             MatchCollection matches = Email.Matches(payload);
@@ -47,25 +47,24 @@ public sealed partial class EmailGuardModule(
             string obfuscatedPayload = Email.Replace(payload, static match => ObfuscateEmail(match.Value));
             updatedParts.Add(CreatePart(part, obfuscatedPayload));
 
-            _ = patcher.AddFinding(
-                    FindingSeverity.Warning,
-                    FindingAction.Redact,
-                    "CtxGuard.Email",
-                    $"Obfuscated {matches.Count} email address(es) in part '{part.PartId}'.",
-                    CreateEvidenceRef(part.Source));
+            context.AddFinding(FindingSeverity.Warning,
+                               FindingAction.Redact,
+                               "CtxGuard.Email",
+                               $"Obfuscated {matches.Count} email address(es) in part '{part.PartId}'.",
+                               CreateEvidenceRef(part.Source));
         }
 
         IDataEnvelopeBuilder builder = dataEnvelopeBuilder.InitNew()
-                                                          .WithDataShape(documentContext.Data.DataEnvelope.Shape)
+                                                          .WithDataShape(context.Document.Data.DataEnvelope.Shape)
                                                           .WithParts(updatedParts);
 
-        if (documentContext.Data.DataEnvelope.Metadata is not null)
+        if (context.Document.Data.DataEnvelope.Metadata is not null)
         {
-            _ = builder.WithMetadata(documentContext.Data.DataEnvelope.Metadata);
+            _ = builder.WithMetadata(context.Document.Data.DataEnvelope.Metadata);
         }
 
-        return patcher.WithDataEnvelope(builder.Build())
-                    .BuildAsTask();
+        return context.Patch(b => b.WithDataEnvelope(builder.Build()))
+                      .Success();
     }
 
     private IDataPart CreatePart(IDataPart part, string payload)

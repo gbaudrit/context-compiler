@@ -4,6 +4,6 @@ namespace ContextCompiler.Abstractions.Files
 {
     public interface ILinearFileReader : IDisposable
     {
-        Task<IDocumentContextPatch> ReadAsync(IDocumentContext documentContext, IDocumentContextPatchBuilder patcher, CancellationToken ct);
+        Task<IDataEnvelope> ReadAsync(IDocumentContext documentContext, CancellationToken ct);
     }
 }

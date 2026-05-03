@@ -1,3 +1,4 @@
+using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Abstractions.Files;
 using ContextCompiler.Abstractions.Pipelines.Document;
 using ContextCompiler.Modules.Abstractions;
@@ -17,8 +18,13 @@ public sealed class TextFileReaderModule(IFileReadResultBuilder fileReadResultBu
         return Extensions.Contains(Path.GetExtension(documentContext.FullPath));
     }
 
-    public async Task<IDocumentContextPatch> Run(IDocumentContext documentContext, IDocumentContextPatchBuilder patcher, CancellationToken ct)
+    public async Task<IResult<IDocumentPipelineRunResult>> Run(IDocumentPipelineRunContext context, CancellationToken ct)
     {
-        return await linearFileReader.ReadAsync(documentContext, patcher, ct);
+        IDataEnvelope envelope = await linearFileReader.ReadAsync(context.Document, ct);
+
+        return await context.Patch(b =>
+        {
+            _ = b.WithDataEnvelope(envelope);
+        }).Success();
     }
 }

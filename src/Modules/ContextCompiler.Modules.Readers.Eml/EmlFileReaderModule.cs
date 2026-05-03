@@ -22,27 +22,27 @@ public sealed class EmlFileReaderModule(
         return Path.GetExtension(documentContext.FullPath).Equals(".eml", StringComparison.OrdinalIgnoreCase);
     }
 
-    public async Task<IDocumentContextPatch> Run(IDocumentContext documentContext, IDocumentContextPatchBuilder patcher, CancellationToken ct)
+    public async Task<IResult<IDocumentPipelineRunResult>> Run(IDocumentPipelineRunContext context, CancellationToken ct)
     {
         ct.ThrowIfCancellationRequested();
 
-        logger.LogInformation("Reading EML file: {Path}", documentContext.FullPath);
+        logger.LogInformation("Reading EML file: {Path}", context.Document.FullPath);
 
-        await using FileStream stream = File.OpenRead(documentContext.FullPath);
+        await using FileStream stream = File.OpenRead(context.Document.FullPath);
         MimeMessage message = await MimeMessage.LoadAsync(stream, ct);
         List<IDataPart> parts = [];
 
-        AddTextPart(parts, documentContext, "subject", "Subject", message.Subject, DataPartType.Text);
-        AddTextPart(parts, documentContext, "message-id", "Message-Id", message.MessageId, DataPartType.Metadata);
-        AddTextPart(parts, documentContext, "in-reply-to", "In-Reply-To", message.InReplyTo, DataPartType.Metadata);
-        AddTextPart(parts, documentContext, "date", "Date", message.Date == default ? null : message.Date.ToString("O"), DataPartType.Metadata);
-        AddEmailAddresses(parts, documentContext, "from", "From", message.From.Mailboxes);
-        AddEmailAddresses(parts, documentContext, "to", "To", message.To.Mailboxes);
-        AddEmailAddresses(parts, documentContext, "cc", "Cc", message.Cc.Mailboxes);
-        AddEmailAddresses(parts, documentContext, "bcc", "Bcc", message.Bcc.Mailboxes);
-        AddEmailAddresses(parts, documentContext, "reply-to", "Reply-To", message.ReplyTo.Mailboxes);
-        AddTextPart(parts, documentContext, "text-body", "Text Body", NormalizeBody(message.TextBody), DataPartType.Text);
-        AddTextPart(parts, documentContext, "html-body", "Html Body", NormalizeBody(message.HtmlBody), DataPartType.Text);
+        AddTextPart(parts, context.Document, "subject", "Subject", message.Subject, DataPartType.Text);
+        AddTextPart(parts, context.Document, "message-id", "Message-Id", message.MessageId, DataPartType.Metadata);
+        AddTextPart(parts, context.Document, "in-reply-to", "In-Reply-To", message.InReplyTo, DataPartType.Metadata);
+        AddTextPart(parts, context.Document, "date", "Date", message.Date == default ? null : message.Date.ToString("O"), DataPartType.Metadata);
+        AddEmailAddresses(parts, context.Document, "from", "From", message.From.Mailboxes);
+        AddEmailAddresses(parts, context.Document, "to", "To", message.To.Mailboxes);
+        AddEmailAddresses(parts, context.Document, "cc", "Cc", message.Cc.Mailboxes);
+        AddEmailAddresses(parts, context.Document, "bcc", "Bcc", message.Bcc.Mailboxes);
+        AddEmailAddresses(parts, context.Document, "reply-to", "Reply-To", message.ReplyTo.Mailboxes);
+        AddTextPart(parts, context.Document, "text-body", "Text Body", NormalizeBody(message.TextBody), DataPartType.Text);
+        AddTextPart(parts, context.Document, "html-body", "Html Body", NormalizeBody(message.HtmlBody), DataPartType.Text);
 
         int attachmentIndex = 0;
         foreach (MimeEntity attachment in message.Attachments)
@@ -50,7 +50,7 @@ public sealed class EmlFileReaderModule(
             string attachmentPayload = FormatAttachmentPayload(attachment);
 
             AddTextPart(parts,
-                        documentContext,
+                        context.Document,
                         $"attachment-{attachmentIndex}",
                         $"Attachment {attachmentIndex + 1}",
                         attachmentPayload,
@@ -59,10 +59,11 @@ public sealed class EmlFileReaderModule(
             attachmentIndex++;
         }
 
-        return patcher.WithDataEnvelope(dataEnvelopeBuilder.InitNew()
+        return await context.Patch(b => b.WithDataEnvelope(dataEnvelopeBuilder.InitNew()
                                   .WithDataShape(DataShape.Linear)
                                   .WithParts(parts)
-                                  .Build()).Build();
+                                  .Build()))
+                      .Success();
     }
 
     private static string FormatAttachmentPayload(MimeEntity entity)

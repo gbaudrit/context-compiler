@@ -14,14 +14,14 @@ public sealed class LinearDataReader(IDataEnvelopeBuilder dataEnvelopeBuilder, I
 
     //public bool CanRead(IFileInfos doc) => doc.MediaType.Contains("text/", StringComparison.OrdinalIgnoreCase);
 
-    public Task<IDocumentContextPatch> ReadAsync(IDocumentContext documentContext, IDocumentContextPatchBuilder patcher, CancellationToken ct)
+    public Task<IDataEnvelope> ReadAsync(IDocumentContext documentContext, CancellationToken ct)
     {
         ct.ThrowIfCancellationRequested();
         logger.LogInformation("Reading linear data from document at path '{DocumentPath}'", documentContext.FullPath);
 
         using FileStream fs = File.OpenRead(documentContext.FullPath);
 
-        return Task.FromResult(patcher.WithDataEnvelope(dataEnvelopeBuilder.InitNew()
+        return Task.FromResult(dataEnvelopeBuilder.InitNew()
                                                   .WithDataShape(DataShape.Linear)
                                                   //.WithMetadata(new Dictionary<string, string> { { "mediaType", documentContext.FileInfos.MediaType } })
                                                   .WithSinglePart(dataPartBuilder.InitNew()
@@ -29,7 +29,7 @@ public sealed class LinearDataReader(IDataEnvelopeBuilder dataEnvelopeBuilder, I
                                                                                    //.WithPayload(documentContext.FileInfos)
                                                                                    .WithTags(documentContext.Data.Tags)
                                                                                    .Build())
-                                                  .Build()).Build());
+                                                  .Build());
     }
 
     private void Dispose(bool disposing)

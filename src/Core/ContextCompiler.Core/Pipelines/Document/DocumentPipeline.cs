@@ -1,4 +1,5 @@
 using ContextCompiler.Abstractions;
+using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Abstractions.Configuration;
 using ContextCompiler.Abstractions.Diagnostics;
 using ContextCompiler.Abstractions.Guards;
@@ -36,10 +37,10 @@ public sealed class DocumentPipeline(
     IFragmentBuilder fragmentBuilder,
     ITagsBuilder tagsBuilder,
     IConfigProvider cfgProvider,
-    IEnumerable<IDocumentPass> passes,
     IDocumentContextBuilder documentContextBuilder,
     IDocumentContextPatchBuilder documentContextPatchBuilder,
     IDocumentContextPatcher documentContextPatcher,
+    IDocumentPipelineRunContextBuilder runContextBuilder,
     ISourcesProvider sourcesProvider,
     IServiceProvider serviceProvider,
     IPipelineEventPublisher pipelineEventPublisher) : IGlobalPipelineModule, IPipeline
@@ -108,13 +109,25 @@ public sealed class DocumentPipeline(
 
                                 IDocumentContextPatchBuilder modulePatcher = serviceProvider.GetRequiredService<IDocumentContextPatchBuilder>();
 
+                                IDocumentPipelineRunContext innerRunContext = runContextBuilder
+                                    .InitNew()
+                                    .WithPipeline(this)
+                                    .WithDocumentContext(docContext)
+                                    .WithPatchContext(modulePatcher.InitNew())
+                                    .Build();
+
                                 await pipelineEventPublisher.PublishPhaseAsync(this,
                                                                module.Metadata.Kind.ToString(),
                                                                module.Metadata.Id,
                                                                async () =>
                                                                {
-                                                                   IDocumentContextPatch patch = await module.Run(docContext, modulePatcher.InitNew(), cancellationToken);
-                                                                   docContext = await documentContextPatcher.Patch(docContext, patch);
+                                                                   IResult<IDocumentPipelineRunResult> result = await module.Run(innerRunContext, cancellationToken);
+
+                                                                   if (result is ISuccessResult<IDocumentPipelineRunResult> successResult)
+                                                                   {
+                                                                       docContext = await documentContextPatcher.Patch(docContext, successResult.Value.Patch);
+                                                                   }
+
                                                                },
                                                                cancellationToken);
                             }

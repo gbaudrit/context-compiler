@@ -1,3 +1,4 @@
+using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Abstractions.Files;
 using ContextCompiler.Abstractions.Pipelines.Document;
 using ContextCompiler.Modules.Abstractions;
@@ -14,8 +15,13 @@ public sealed class YamlFileReaderModule(ILinearFileReader linearFileReader) : I
         return ext.Equals(".yaml", StringComparison.OrdinalIgnoreCase) || ext.Equals(".yml", StringComparison.OrdinalIgnoreCase);
     }
 
-    public async Task<IDocumentContextPatch> Run(IDocumentContext documentContext, IDocumentContextPatchBuilder patcher, CancellationToken ct)
+    public async Task<IResult<IDocumentPipelineRunResult>> Run(IDocumentPipelineRunContext context, CancellationToken ct)
     {
-        return await linearFileReader.ReadAsync(documentContext, patcher, ct);
+        IDataEnvelope envelope = await linearFileReader.ReadAsync(context.Document, ct);
+
+        return await context.Patch(b =>
+        {
+            _ = b.WithDataEnvelope(envelope);
+        }).Success();
     }
 }

@@ -18,7 +18,9 @@ public static class DependencyInjection
             .AddTransient<IDocumentContextPatchBuilder, DocumentContextPatchBuilder>()
             .AddSingleton<IDocumentContextBuilder, DocumentContextBuilder>()
             .AddSingleton<IDocumentContextPatcher, DocumentContextPatcher>()
-            .AddTransient<IDocumentContextDataBuilder, DocumentContextDataBuilder>();
+            .AddTransient<IDocumentContextDataBuilder, DocumentContextDataBuilder>()
+            .AddTransient<IDocumentPipelineRunContextBuilder, DocumentPipelineRunContextBuilder>()
+            .AddTransient<IDocumentPipelineRunResultBuilder, DocumentPipelineRunResultBuilder>();
     }
 
 }
