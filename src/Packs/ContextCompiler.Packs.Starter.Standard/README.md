@@ -6,7 +6,7 @@ Included packs:
 
 - `ContextCompiler.Packs.Artifacts.Standard`
 - `ContextCompiler.Prompting.Packs.Standard`
-- `ContextCompiler.Packs.Readers.Standard`
+- `ContextCompiler.Readers.Packs.Standard`
 - `ContextCompiler.Packs.Views.Standard`
 
 Use this pack when you want a standard starter setup for reading content, composing prompts, rendering views, and producing artifacts.
