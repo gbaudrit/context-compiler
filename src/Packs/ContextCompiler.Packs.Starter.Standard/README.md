@@ -5,7 +5,7 @@
 Included packs:
 
 - `ContextCompiler.Packs.Artifacts.Standard`
-- `ContextCompiler.Packs.Prompt.Standard`
+- `ContextCompiler.Prompting.Packs.Standard`
 - `ContextCompiler.Packs.Readers.Standard`
 - `ContextCompiler.Packs.Views.Standard`
 

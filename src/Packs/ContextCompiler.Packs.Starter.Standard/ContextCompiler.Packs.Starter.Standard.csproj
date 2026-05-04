@@ -22,10 +22,10 @@
 		<None Include="README.md" Pack="true" PackagePath="" />
 		<ProjectReference Include="..\ContextCompiler.Packs.Artifacts.Standard\ContextCompiler.Packs.Artifacts.Standard.csproj" />
 		<ProjectReference Include="..\ContextCompiler.Packs.Datas.Transcoders.Standard\ContextCompiler.Packs.Datas.Transcoders.Standard.csproj" />
-		<ProjectReference Include="..\ContextCompiler.Packs.Prompt.Standard\ContextCompiler.Packs.Prompt.Standard.csproj" />
 		<ProjectReference Include="..\ContextCompiler.Packs.Readers.Standard\ContextCompiler.Packs.Readers.Standard.csproj" />
 		<ProjectReference Include="..\ContextCompiler.Packs.Security.Standard\ContextCompiler.Packs.Security.Standard.csproj" />
 		<ProjectReference Include="..\ContextCompiler.Packs.Views.Standard\ContextCompiler.Packs.Views.Standard.csproj" />
+		<ProjectReference Include="..\..\Features\Prompting\Packs\ContextCompiler.Prompting.Packs.Standard\ContextCompiler.Prompting.Packs.Standard.csproj" />
 	</ItemGroup>
 
 </Project>

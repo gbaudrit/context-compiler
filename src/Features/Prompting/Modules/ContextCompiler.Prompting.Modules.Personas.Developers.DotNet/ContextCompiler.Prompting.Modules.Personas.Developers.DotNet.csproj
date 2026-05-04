@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<Configurations>Debug;Release;DebugLocal</Configurations>
+		<IsPackable>true</IsPackable>
+		<PackageId>ContextCompiler.Prompting.Modules.Personas.Developers.DotNet</PackageId>
+		<Description>ContextCompiler persona module for .NET development workflows.</Description>
+		<Authors>ContextCompiler</Authors>
+		<Title>.NET developer persona module</Title>
+		<PackageTags>context;compiler;module;personas;developer;dotnet</PackageTags>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)' == 'DebugLocal'">
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	</PropertyGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\..\..\Core\ContextCompiler.Modules.Abstractions\ContextCompiler.Modules.Abstractions.csproj" />
+		<ProjectReference Include="..\..\ContextCompiler.Prompting.Abstractions\ContextCompiler.Prompting.Abstractions.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<Content Include="schemas\ctxc.config.schema.json">
+			<PackagePath>contentFiles/any/schemas/ctxc.config.schema.json</PackagePath>
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="README.md" Pack="true" PackagePath="" />
+	</ItemGroup>
+</Project>

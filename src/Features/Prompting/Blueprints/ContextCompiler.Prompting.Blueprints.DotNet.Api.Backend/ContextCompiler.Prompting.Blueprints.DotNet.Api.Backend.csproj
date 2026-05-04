@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<Configurations>Debug;Release;DebugLocal</Configurations>
+		<IsPackable>true</IsPackable>
+		<PackageId>ContextCompiler.Prompting.Blueprints.DotNet.Api.Backend</PackageId>
+		<Title>.NET API Backend blueprint</Title>
+		<Description>Blueprint for building a professional .NET Core REST API backend with layered architecture, JWT authentication, validation, and best practices.</Description>
+		<PackageTags>context;compiler;blueprint;dotnet;api;backend;rest;webapi;jwt;authentication;swagger</PackageTags>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<Authors>ContextCompiler</Authors>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)' == 'DebugLocal'">
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="README.md" Pack="true" PackagePath="" />
+		<ProjectReference Include="..\..\..\..\Core\ContextCompiler.Modules.Abstractions\ContextCompiler.Modules.Abstractions.csproj" />
+		<ProjectReference Include="..\..\Modules\ContextCompiler.Prompting.Modules.Personas.Developers.DotNet\ContextCompiler.Prompting.Modules.Personas.Developers.DotNet.csproj" />
+	</ItemGroup>
+
+</Project>
