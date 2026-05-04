@@ -26,7 +26,6 @@ public sealed class GlobalPipeline(
     IHasher hasher,
     IModulesRegistry modules,
     IConfigProvider cfgProvider,
-    IPrompt prompt,
     IOutput output,
     IGuardian guardian,
     IGlobalPipelineRunContextBuilder globalPipelineRunContextBuilder,

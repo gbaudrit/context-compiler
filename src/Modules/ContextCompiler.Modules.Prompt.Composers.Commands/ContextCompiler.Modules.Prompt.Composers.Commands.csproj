@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<Configurations>Debug;Release;DebugLocal</Configurations>
+		<IsPackable>true</IsPackable>
+		<PackageId>ContextCompiler.Modules.Prompt.Composers.Commands</PackageId>
+		<Description>ContextCompiler prompt composer module for the Commands section of the prompt.</Description>
+		<Authors>ContextCompiler</Authors>
+		<Title>Commands prompt composer module</Title>
+		<PackageTags>context;compiler;module;prompt;composer;commands</PackageTags>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)' == 'DebugLocal'">
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	</PropertyGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\Core\ContextCompiler.Modules.Abstractions\ContextCompiler.Modules.Abstractions.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="README.md" Pack="true" PackagePath="" />
+	</ItemGroup>
+</Project>

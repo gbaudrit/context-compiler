@@ -1,18 +1,17 @@
 using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Abstractions.Configuration;
-using ContextCompiler.Abstractions.Output;
-using ContextCompiler.Abstractions.Pipelines;
-using ContextCompiler.Abstractions.Prompt;
 using ContextCompiler.Modules.Abstractions;
-using ContextCompiler.Modules.Abstractions.GlobalPipeline;
+using ContextCompiler.Prompting.Abstractions;
+using ContextCompiler.Prompting.Abstractions.Pipelines.PromptComposition;
+using ContextCompiler.Prompting.Abstractions.Prompt;
 
 namespace ContextCompiler.Modules.Prompt.Composers.Audiences;
 
 public sealed class AudiencesPromptComposerModule(IPrompt prompt, IAudienceBuilder audienceBuilder, IConfigProvider ctxcConfig) : IPromptComposerModule
 {
-    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("prompt.composers.audiences", GlobalPipelineModuleKinds.PromptComposer, priority: 10);
+    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("prompt.composers.audiences", GlobalPipelineModuleKinds.OutputComposition, priority: 10);
 
-    public Task<IResult<IGlobalPipelineRunResult>> Run(IGlobalPipelineRunContext context, CancellationToken cancellationToken)
+    public Task<IResult<IPromptComposerRunResult>> Run(IPromptComposerRunContext context, CancellationToken cancellationToken)
     {
         List<IAudience> list = ctxcConfig.Current.Context.Audiences?
             .Select(kv => audienceBuilder.InitNew().WithName(kv.Key).WithDescription(kv.Value).Build())

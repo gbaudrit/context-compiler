@@ -7,6 +7,7 @@ using ContextCompiler.Abstractions.Pipelines;
 using ContextCompiler.Abstractions.ReasoningIR;
 using ContextCompiler.Modules.Abstractions;
 using ContextCompiler.Modules.Abstractions.GlobalPipeline;
+using ContextCompiler.Prompting.Abstractions;
 
 namespace ContextCompiler.Modules.Personas.Index;
 
@@ -14,7 +15,7 @@ public sealed class ActivatedPersonasIndexModule(IPrompt prompt, IOutput output,
 {
     private readonly JsonSerializerOptions jsonSerializerOptions = new() { WriteIndented = true };
 
-    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("personas.index", GlobalPipelineModuleKinds.OutputArtifactComposer, priority: 0);
+    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("personas.index", GlobalPipelineModuleKinds.ReportComposition, priority: 0);
 
     public string Export(object graphModel)
     {
@@ -23,7 +24,7 @@ public sealed class ActivatedPersonasIndexModule(IPrompt prompt, IOutput output,
 
     public async Task<IResult<IGlobalPipelineRunResult>> Run(IGlobalPipelineRunContext context, CancellationToken cancellationToken)
     {
-        prompt.AddArtifact(builder =>
+        output.AddArtifact(builder =>
         {
             return builder.WithFileName("personas.active.json")
                           .WithContent(JsonSerializer.Serialize(new { active = cfgProvider.Current.Personas!.Active, mode = cfgProvider.Current.Personas.Mode, results = prompt.Personas }, jsonSerializerOptions))

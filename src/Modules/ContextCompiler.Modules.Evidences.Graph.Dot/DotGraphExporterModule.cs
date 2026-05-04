@@ -10,9 +10,9 @@ using ContextCompiler.Modules.Abstractions.GlobalPipeline;
 
 namespace ContextCompiler.Modules.Evidences.Graph.Dot;
 
-public sealed class DotGraphExporterModule(IPrompt prompt, IReasoningIr ir) : IOutputArtifactComposerModule
+public sealed class DotGraphExporterModule(IOutput output, IReasoningIr ir) : IOutputArtifactComposerModule
 {
-    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("evidences.graph.dot", GlobalPipelineModuleKinds.OutputArtifactComposer, priority: 10);
+    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("evidences.graph.dot", GlobalPipelineModuleKinds.ReportComposition, priority: 10);
 
     public async Task<IResult<IGlobalPipelineRunResult>> Run(IGlobalPipelineRunContext context, CancellationToken cancellationToken)
     {
@@ -31,7 +31,7 @@ public sealed class DotGraphExporterModule(IPrompt prompt, IReasoningIr ir) : IO
 
         _ = sb.AppendLine("}");
 
-        prompt.AddArtifact(builder =>
+        output.AddArtifact(builder =>
         {
             return builder.WithFileName("reasoning.graph.dot")
                           .WithContent(sb.ToString())

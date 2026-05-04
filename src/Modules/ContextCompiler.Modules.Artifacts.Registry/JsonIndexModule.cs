@@ -13,21 +13,21 @@ using Microsoft.Extensions.Logging;
 namespace ContextCompiler.Modules.Artifacts.Registry;
 
 internal sealed class JsonIndexModule(IConfigProvider cfgProvider,
-                                        IPrompt prompt,
+                                        IOutput output,
                                         IJsonIndexSerializer jsonIndexSerializer,
                                         ILogger<JsonIndexModule> logger) : IConfigurationModule
 {
 
-    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta($"artifacts.index.json", GlobalPipelineModuleKinds.OutputArtifactComposer, priority: 10000);
+    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta($"artifacts.index.json", GlobalPipelineModuleKinds.ReportComposition, priority: 10000);
 
     public async Task<IResult<IGlobalPipelineRunResult>> Run(IGlobalPipelineRunContext context, CancellationToken cancellationToken)
     {
         ArtifactsIndex index = new()
         {
-            Artifacts = prompt.Artifacts.Select(a => a.ToArtifact()).ToList().AsReadOnly()
+            Artifacts = output.Artifacts.Select(a => a.ToArtifact()).ToList().AsReadOnly()
         };
 
-        prompt.AddArtifact(builder =>
+        output.AddArtifact(builder =>
         {
             return builder.WithFileName("artifacts.index.json")
                           .WithContent(jsonIndexSerializer.Serialize(index))

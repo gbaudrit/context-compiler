@@ -14,6 +14,10 @@ namespace ContextCompiler.Modules.Loader;
 
 public sealed class ModuleRegistryBuilder : IModuleRegistryBuilder
 {
+    private readonly List<IDelayedFeatureDependencyInjection> _delayedFeatureDependencyInjections = [];
+    private readonly List<Type> _moduleTypes = [];
+
+
     public void RegisterModuleServices(IServiceCollection services, IEnumerable<Type> types)
     {
         _ = services.AddSingleton<IModulesRegistry>(sp => new ModulesRegistry(sp));
@@ -30,6 +34,11 @@ public sealed class ModuleRegistryBuilder : IModuleRegistryBuilder
             {
                 IDependencyInjection registration = (IDependencyInjection)Activator.CreateInstance(t)!;
                 _ = registration.RegisterServices(services);
+            }
+
+            if (typeof(IDelayedFeatureDependencyInjection).IsAssignableFrom(t))
+            {
+                _delayedFeatureDependencyInjections.Add((IDelayedFeatureDependencyInjection)Activator.CreateInstance(t)!);
             }
             if (typeof(IGlobalPipelineModule).IsAssignableFrom(t))
             {
@@ -91,23 +100,9 @@ public sealed class ModuleRegistryBuilder : IModuleRegistryBuilder
                 _ = services.AddTransient(typeof(IViewRenderersModule), t);
             }
 
-            if (typeof(ITemplateModule).IsAssignableFrom(t))
-            {
-                _ = services.AddTransient(typeof(ITemplateModule), t);
-            }
-
             if (typeof(IGraphExporterModule).IsAssignableFrom(t))
             {
                 _ = services.AddTransient(typeof(IGraphExporterModule), t);
-            }
-
-            if (typeof(IPersonaModule).IsAssignableFrom(t))
-            {
-                _ = services.AddTransient(typeof(IPersonaModule), t);
-            }
-            if (typeof(IPromptComposerModule).IsAssignableFrom(t))
-            {
-                _ = services.AddTransient(typeof(IPromptComposerModule), t);
             }
 
             if (typeof(IOutputArtifactSerializer).IsAssignableFrom(t))
@@ -133,6 +128,21 @@ public sealed class ModuleRegistryBuilder : IModuleRegistryBuilder
             {
                 _ = services.AddTransient(typeof(IMCPListResourcesHandler), t);
             }
+
+            if (typeof(IModule).IsAssignableFrom(t))
+            {
+                _moduleTypes.Add(t);
+            }
         }
+    }
+
+    public Task RunDelayedFeatureDependencyInjection(IServiceCollection services)
+    {
+        foreach (IDelayedFeatureDependencyInjection delayedFeatureDependencyInjection in _delayedFeatureDependencyInjections)
+        {
+            _ = delayedFeatureDependencyInjection.DelayedRegisterServices(services, _moduleTypes);
+        }
+
+        return Task.CompletedTask;
     }
 }

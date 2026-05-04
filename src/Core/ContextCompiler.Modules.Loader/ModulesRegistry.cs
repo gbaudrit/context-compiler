@@ -20,16 +20,16 @@ public sealed class ModulesRegistry(IServiceProvider services) : IModulesRegistr
     public IReadOnlyList<IEngineeringModule> EngineeringModules => [.. _services.GetServices<IEngineeringModule>()];
     public IReadOnlyList<IViewModule> Views => [.. _services.GetServices<IViewModule>()];
     public IReadOnlyList<IViewRendererModule> ViewRenderers => [.. _services.GetServices<IViewRendererModule>()];
-    public IReadOnlyList<ITemplateModule> Templates => [.. _services.GetServices<ITemplateModule>()];
+    //public IReadOnlyList<ITemplateModule> Templates => [.. _services.GetServices<ITemplateModule>()];
     public IReadOnlyList<IPromptRenderingModule> PromptRenderers => [.. _services.GetServices<IPromptRenderingModule>()];
-    public IReadOnlyList<IPromptComposerModule> PromptComposers => [.. _services.GetServices<IPromptComposerModule>()];
+    //public IReadOnlyList<IPromptComposerModule> PromptComposerModules => [.. _services.GetServices<IPromptComposerModule>()];
     public IReadOnlyList<IGraphExporterModule> GraphExporters => [.. _services.GetServices<IGraphExporterModule>()];
-    public IReadOnlyList<IPersonaModule> Personas => [.. _services.GetServices<IPersonaModule>()];
+    //public IReadOnlyList<IPersonaModule> Personas => [.. _services.GetServices<IPersonaModule>()];
     public IReadOnlyList<IOutputArtifactsFilesWriterModule> OutputArtifactWriters => [.. _services.GetServices<IOutputArtifactsFilesWriterModule>()];
     public IReadOnlyList<IOutputArtifactComposerModule> OutputArtifactComposers => [.. _services.GetServices<IOutputArtifactComposerModule>()];
     public IReadOnlyList<IConfigurationModule> ConfigurationModules => [.. _services.GetServices<IConfigurationModule>()];
     public IReadOnlyList<IFragmentProcessorModule> FragmentProcessors => [.. _services.GetServices<IFragmentProcessorModule>()];
-    public IReadOnlyList<IBlueprintComposerModule> Blueprints => [.. _services.GetServices<IBlueprintComposerModule>()];
+    //public IReadOnlyList<IBlueprintComposerModule> Blueprints => [.. _services.GetServices<IBlueprintComposerModule>()];
 
     public IEnumerable<T> GetModules<T>() where T : IModule
     {

@@ -15,9 +15,9 @@ public sealed class HealthOutputModule(
     IReasoningIr ir,
     IGuardian guardian,
     IViewsProvider viewsProvider,
-    IPrompt prompt) : IOutputArtifactComposerModule
+    IOutput output) : IOutputArtifactComposerModule
 {
-    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("health.report", GlobalPipelineModuleKinds.Output, priority: 10);
+    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("health.report", GlobalPipelineModuleKinds.ReportComposition, priority: 10);
 
     private readonly JsonSerializerOptions jsonSerializerOptions = new() { WriteIndented = true };
 
@@ -31,7 +31,7 @@ public sealed class HealthOutputModule(
             score = Math.Max(0, 100 - (guardian.Findings.Count * 5))
         };
 
-        prompt.AddArtifact(builder =>
+        output.AddArtifact(builder =>
         {
             return builder.WithFileName("context.health.json")
                           .WithContent(JsonSerializer.Serialize(health, jsonSerializerOptions))

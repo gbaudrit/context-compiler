@@ -11,9 +11,9 @@ using Microsoft.Extensions.Logging;
 
 namespace ContextCompiler.Modules.Evidences.Index.Json;
 
-public sealed class EvidenceIndexArtifactComposerModule(ILogger<EvidenceIndexArtifactComposerModule> logger, IReasoningIr ir, IPrompt prompt) : IOutputArtifactComposerModule
+public sealed class EvidenceIndexArtifactComposerModule(ILogger<EvidenceIndexArtifactComposerModule> logger, IReasoningIr ir, IOutput output) : IOutputArtifactComposerModule
 {
-    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("evidences.index.json", GlobalPipelineModuleKinds.OutputArtifactComposer, priority: 10);
+    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("evidences.index.json", GlobalPipelineModuleKinds.ReportComposition, priority: 10);
 
     private static readonly JsonSerializerOptions s_jsonIndentedOptions = new() { WriteIndented = true };
 
@@ -26,7 +26,6 @@ public sealed class EvidenceIndexArtifactComposerModule(ILogger<EvidenceIndexArt
         {
             evidencesCountByTag[$"{tag.Name}:{tag.Value}"] = ir.Fragments.Count(f => f.Tags.Contains(tag));
         }
-
 
         var evidences = ir.Fragments.Select(f => new
         {
@@ -44,7 +43,7 @@ public sealed class EvidenceIndexArtifactComposerModule(ILogger<EvidenceIndexArt
 
         logger.LogInformation("Writing {Count} evidence items to index.", evidences.Count);
 
-        prompt.AddArtifact(builder =>
+        output.AddArtifact(builder =>
         {
             return builder.WithFileName("evidences.index.json")
                           .WithContent(JsonSerializer.Serialize(evidences, s_jsonIndentedOptions))
@@ -52,7 +51,7 @@ public sealed class EvidenceIndexArtifactComposerModule(ILogger<EvidenceIndexArt
                           .WithGeneratedBy(GetType());
         });
 
-        prompt.AddArtifact(builder =>
+        output.AddArtifact(builder =>
         {
             return builder.WithFileName("evidences.stats.json")
                           .WithContent(JsonSerializer.Serialize(evidencesStats, s_jsonIndentedOptions))

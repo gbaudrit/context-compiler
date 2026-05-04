@@ -46,7 +46,7 @@ public sealed class DocumentPipeline(
     IPipelineEventPublisher pipelineEventPublisher) : IGlobalPipelineModule, IPipeline
 {
 
-    public ModuleMetadata Metadata => BuiltInMetadata.Meta("pipelines.documents", GlobalPipelineModuleKinds.InputsProcessing, priority: 10);
+    public ModuleMetadata Metadata => BuiltInMetadata.Meta("pipelines.documents", GlobalPipelineModuleKinds.InputIngestion, priority: 10);
 
     public async Task<IResult<IGlobalPipelineRunResult>> Run(IGlobalPipelineRunContext context, CancellationToken cancellationToken)
     {

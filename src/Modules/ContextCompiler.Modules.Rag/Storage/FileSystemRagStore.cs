@@ -19,7 +19,7 @@ public sealed class FileSystemRagStore : IRagStore, IAsyncDisposable
     private readonly string _chunksPath;
     private readonly string _embeddingsPath;
     private readonly string _embeddingIndexPath;
-    private readonly IPrompt _prompt;
+    private readonly IOutput _output;
 
     private readonly SemaphoreSlim _gate = new(1, 1);
 
@@ -31,14 +31,14 @@ public sealed class FileSystemRagStore : IRagStore, IAsyncDisposable
     private bool _completed;
     private bool _disposed;
 
-    public FileSystemRagStore(ICompiledWorkingFolder compiledWorkingFolder, IPrompt prompt)
+    public FileSystemRagStore(ICompiledWorkingFolder compiledWorkingFolder, IOutput output)
     {
         _rootPath = compiledWorkingFolder.Combine("rag");
         _chunksPath = Path.Combine(_rootPath, "chunks.jsonl");
         _embeddingsPath = Path.Combine(_rootPath, "embeddings.bin");
         _embeddingIndexPath = Path.Combine(_rootPath, "embeddings.index.jsonl");
 
-        _prompt = prompt;
+        _output = output;
     }
 
     private async ValueTask EnsureInitialized(CancellationToken cancellationToken = default)
@@ -147,7 +147,7 @@ public sealed class FileSystemRagStore : IRagStore, IAsyncDisposable
 
             if (_chunksWriter is not null)
             {
-                _prompt.AddArtifact(builder =>
+                _output.AddArtifact(builder =>
                 {
                     return builder.WithFileName(_chunksPath)
                                   .IsStreamedContent()
@@ -162,7 +162,7 @@ public sealed class FileSystemRagStore : IRagStore, IAsyncDisposable
 
             if (_embeddingIndexWriter is not null)
             {
-                _prompt.AddArtifact(builder =>
+                _output.AddArtifact(builder =>
                 {
                     return builder.WithFileName(_embeddingIndexPath)
                                   .IsStreamedContent()
@@ -177,7 +177,7 @@ public sealed class FileSystemRagStore : IRagStore, IAsyncDisposable
 
             if (_embeddingsStream is not null)
             {
-                _prompt.AddArtifact(builder =>
+                _output.AddArtifact(builder =>
                 {
                     return builder.WithFileName(_embeddingsPath)
                                   .IsStreamedContent()

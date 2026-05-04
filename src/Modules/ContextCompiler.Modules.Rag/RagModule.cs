@@ -9,7 +9,7 @@ public sealed class RagModule : IConfigurationModule
 {
     public ModuleMetadata Metadata => IGlobalPipelineModule.Meta(
         "rag",
-        GlobalPipelineModuleKinds.Configuration,
+        GlobalPipelineModuleKinds.Setup,
         priority: 100);
 
     public Task<IResult<IGlobalPipelineRunResult>> Run(IGlobalPipelineRunContext context, CancellationToken cancellationToken)

@@ -8,12 +8,13 @@ using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Abstractions.Pipelines;
 
 using Scriban;
+using ContextCompiler.Prompting.Abstractions;
 
 namespace ContextCompiler.Modules.Prompt.Templates.Scriban;
 
-internal sealed class ScribanPromptTemplateModule(IPrompt prompt, ITemplateProvider templateProvider, IConfigProvider ctxcConfigProvider) : IPromptRenderingModule
+internal sealed class ScribanPromptTemplateModule(IOutput output, IPrompt prompt, ITemplateProvider templateProvider, IConfigProvider ctxcConfigProvider) : IPromptRenderingModule
 {
-    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("prompt.templates.scriban", GlobalPipelineModuleKinds.Template, priority: 0);
+    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("prompt.templates.scriban", GlobalPipelineModuleKinds.ArtifactRendering, priority: 0);
 
     public async Task<IResult<IGlobalPipelineRunResult>> Run(IGlobalPipelineRunContext context, CancellationToken ct)
     {
@@ -37,7 +38,7 @@ internal sealed class ScribanPromptTemplateModule(IPrompt prompt, ITemplateProvi
         string result = template.HasErrors ? string.Join(Environment.NewLine, template.Messages) : await template.RenderAsync(prompt.ToRenderable().Subject);
         // Check for any errors
 
-        prompt.AddArtifact(builder =>
+        output.AddArtifact(builder =>
         {
             return builder.WithFileName(outputFilename)
                           .WithContent(result)

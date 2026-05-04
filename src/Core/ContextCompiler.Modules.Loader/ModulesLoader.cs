@@ -84,6 +84,8 @@ namespace ContextCompiler.Modules.Loader
                     }
                 }
 
+                await moduleRegistryBuilder.RunDelayedFeatureDependencyInjection(services);
+
                 logger.LogInformation("Loaded {Count} additional modules from lock file", processedModules.Count);
             }
             catch (Exception ex)

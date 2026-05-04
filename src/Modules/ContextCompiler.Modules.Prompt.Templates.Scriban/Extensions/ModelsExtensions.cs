@@ -1,7 +1,8 @@
 using ContextCompiler.Abstractions.Output;
-using ContextCompiler.Abstractions.Personas;
-using ContextCompiler.Abstractions.Prompt;
 using ContextCompiler.Abstractions.Rendering;
+using ContextCompiler.Prompting.Abstractions;
+using ContextCompiler.Prompting.Abstractions.Personas;
+using ContextCompiler.Prompting.Abstractions.Prompt;
 
 namespace ContextCompiler.Modules.Prompt.Templates.Scriban.Extensions
 {
@@ -25,7 +26,6 @@ namespace ContextCompiler.Modules.Prompt.Templates.Scriban.Extensions
                     mustNot = o.MustNotConstraints.Select(x => x.ToTemplateModel()).ToList(),
                     glossary = o.Glossary.Select(x => x.ToTemplateModel()).ToList(),
                     commands = o.Commands.GroupBy(x => x.PersonaId).ToDictionary(g => g.Key, g => g.Select(x => x.ToTemplateModel()).ToList()),
-                    artifacts = o.Artifacts.Select(x => x.ToTemplateModel()).ToList(),
                     blueprints = o.Blueprints.Select(x => x.ToTemplateModel()).ToList(),
                 }
             };

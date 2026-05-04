@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<Configurations>Debug;Release;DebugLocal</Configurations>
+		<IsPackable>true</IsPackable>
+		<PackageId>ContextCompiler.Prompting.Abstractions</PackageId>
+		<Description>Official ContextCompiler prompting feature implementation.</Description>
+		<Title>ContextCompiler Prompting Abstractions</Title>
+		<PackageTags>context;compiler;prompting;feature;abstractions</PackageTags>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)' == 'DebugLocal'">
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	</PropertyGroup>
+	<ItemGroup>
+		<None Include="README.md" Pack="true" PackagePath="" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\..\Core\ContextCompiler.Abstractions\ContextCompiler.Abstractions.csproj" />
+		<ProjectReference Include="..\..\..\Core\ContextCompiler.Modules.Abstractions\ContextCompiler.Modules.Abstractions.csproj" />
+	</ItemGroup>
+</Project>

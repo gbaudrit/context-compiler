@@ -11,12 +11,14 @@ using Microsoft.Extensions.Logging;
 
 namespace ContextCompiler.Core.Pipelines.View;
 
-public sealed class ViewsPipelineRunner(
-    ILogger<GlobalPipeline> logger,
-    IPrompt prompt, IConfigProvider ctxcConfig, IModulesRegistry modules, IReasoningIr ir) : IGlobalPipelineModule
+public sealed class ViewsPipelineRunner(ILogger<GlobalPipeline> logger,
+                                        IOutput output,
+                                        IConfigProvider ctxcConfig,
+                                        IModulesRegistry modules,
+                                        IReasoningIr ir) : IGlobalPipelineModule
 {
 
-    public ModuleMetadata Metadata => BuiltInMetadata.Meta("views", GlobalPipelineModuleKinds.Views, priority: 10);
+    public ModuleMetadata Metadata => BuiltInMetadata.Meta("views", GlobalPipelineModuleKinds.OutputProjection, priority: 10);
 
     public async Task<IResult<IGlobalPipelineRunResult>> Run(IGlobalPipelineRunContext context, CancellationToken cancellationToken)
     {
@@ -61,7 +63,7 @@ public sealed class ViewsPipelineRunner(
                 IReadOnlyList<IViewResult> results = await module.Run(new ViewContext(ctxcConfig.Current.Views, ir), cancellationToken);
                 foreach (IViewResult result in results)
                 {
-                    prompt.AddArtifact((builder) =>
+                    output.AddArtifact((builder) =>
                     {
                         return builder.WithFileName(result.Filename)
                                       .WithContent(result.Content)

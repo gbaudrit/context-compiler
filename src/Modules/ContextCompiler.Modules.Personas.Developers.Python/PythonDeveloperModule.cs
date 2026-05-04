@@ -1,11 +1,11 @@
-using ContextCompiler.Abstractions.Commands;
 using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Abstractions.Configuration;
-using ContextCompiler.Abstractions.Personas;
 using ContextCompiler.Abstractions.Pipelines;
-using ContextCompiler.Abstractions.Prompt;
 using ContextCompiler.Modules.Abstractions;
 using ContextCompiler.Modules.Abstractions.GlobalPipeline;
+using ContextCompiler.Prompting.Abstractions.Commands;
+using ContextCompiler.Prompting.Abstractions.Personas;
+using ContextCompiler.Prompting.Abstractions.Prompt;
 
 using Microsoft.Extensions.Logging;
 
@@ -20,7 +20,7 @@ public sealed class PythonDeveloperModule(IConfigProvider cfgProvider,
 {
     private const string PersonaId = "developer.python";
 
-    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta($"personas.{PersonaId}", GlobalPipelineModuleKinds.Configuration, priority: 10);
+    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta($"personas.{PersonaId}", GlobalPipelineModuleKinds.Setup, priority: 10);
 
     public Task<IResult<IGlobalPipelineRunResult>> Run(IGlobalPipelineRunContext context, CancellationToken cancellationToken)
     {

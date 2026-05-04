@@ -1,5 +1,4 @@
 using ContextCompiler.Abstractions.Common;
-using ContextCompiler.Abstractions.Output;
 using ContextCompiler.Abstractions.Pipelines.Document;
 using ContextCompiler.Abstractions.Ports;
 using ContextCompiler.Abstractions.ReasoningIR;
@@ -8,7 +7,7 @@ using ContextCompiler.Modules.Rag.Abstractions;
 
 namespace ContextCompiler.Modules.Rag;
 
-public sealed class RagEmbeddingsGeneratorModule(IRagIndexer ragIndexer, IPrompt prompt, ISemanticSearchService semanticSearchService, IHasher hasher, ITokenChunker tokenChunker) : IDocumentPipelineModule
+public sealed class RagEmbeddingsGeneratorModule(IRagIndexer ragIndexer, ISemanticSearchService semanticSearchService, IHasher hasher, ITokenChunker tokenChunker) : IDocumentPipelineModule
 {
     public DocumentModuleMetadata Metadata => IDocumentPipelineModule.Meta(
         "rag",

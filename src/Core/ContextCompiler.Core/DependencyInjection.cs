@@ -1,16 +1,12 @@
 using ContextCompiler.Abstractions;
 using ContextCompiler.Abstractions.Common;
-using ContextCompiler.Abstractions.Models;
 using ContextCompiler.Abstractions.Output;
-using ContextCompiler.Core.Commands;
 using ContextCompiler.Core.Common;
 using ContextCompiler.Core.Compilation;
 using ContextCompiler.Core.Configuration;
 using ContextCompiler.Core.Files;
-using ContextCompiler.Core.Framing;
 using ContextCompiler.Core.Guards;
 using ContextCompiler.Core.Output;
-using ContextCompiler.Core.Personas;
 using ContextCompiler.Core.Pipelines;
 using ContextCompiler.Core.ReasoningIR;
 using ContextCompiler.Core.Sources;
@@ -33,15 +29,11 @@ namespace ContextCompiler.Core
                     .AddSources()
                     .AddPipelines()
                     .AddReasoningIR()
-                    .AddPersonas()
                     .AddOutput()
                     .AddFiles()
                     .AddViews()
                     .AddTags()
                     .AddGuards()
-                    .AddFraming()
-                    .AddCommands()
-                    .AddSingleton<IPrompt, Prompt>()
                     .AddTransient<ISourceRefBuilder, SourceRefBuilder>()
                     .AddSingleton<ICtxcWorkingFolder, CtxcWorkingFolder>();
         }

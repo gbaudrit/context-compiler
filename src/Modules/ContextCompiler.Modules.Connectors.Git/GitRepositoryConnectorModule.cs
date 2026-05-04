@@ -21,7 +21,7 @@ public sealed class GitRepositoryConnectorModule(
 {
     private const string ModuleOptionKey = "connectors.git";
 
-    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("connectors.git", GlobalPipelineModuleKinds.Configuration, priority: -100);
+    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("connectors.git", GlobalPipelineModuleKinds.Setup, priority: -100);
 
     public async Task<IResult<IGlobalPipelineRunResult>> Run(IGlobalPipelineRunContext context, CancellationToken cancellationToken)
     {

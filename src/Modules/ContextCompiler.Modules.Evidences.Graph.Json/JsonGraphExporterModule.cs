@@ -9,11 +9,11 @@ using ContextCompiler.Modules.Abstractions.GlobalPipeline;
 
 namespace ContextCompiler.Modules.Evidences.Graph.Json;
 
-public sealed class JsonGraphExporterModule(IPrompt prompt, IReasoningIr ir) : IOutputArtifactComposerModule
+public sealed class JsonGraphExporterModule(IOutput output, IReasoningIr ir) : IOutputArtifactComposerModule
 {
     private readonly JsonSerializerOptions jsonSerializerOptions = new() { WriteIndented = true };
 
-    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("evidences.graph.json", GlobalPipelineModuleKinds.OutputArtifactComposer, priority: 0);
+    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("evidences.graph.json", GlobalPipelineModuleKinds.ReportComposition, priority: 0);
 
     public string Export(object graphModel)
     {
@@ -23,7 +23,7 @@ public sealed class JsonGraphExporterModule(IPrompt prompt, IReasoningIr ir) : I
     public async Task<IResult<IGlobalPipelineRunResult>> Run(IGlobalPipelineRunContext context, CancellationToken cancellationToken)
     {
         IGraph graph = await ir.Graph(cancellationToken);
-        prompt.AddArtifact(builder =>
+        output.AddArtifact(builder =>
         {
             return builder.WithFileName("reasoning.graph.json")
                           .WithContent(JsonSerializer.Serialize(graph, jsonSerializerOptions))

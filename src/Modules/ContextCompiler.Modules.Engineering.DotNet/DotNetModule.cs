@@ -1,10 +1,10 @@
-using ContextCompiler.Abstractions.Commands;
 using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Abstractions.Configuration;
 using ContextCompiler.Abstractions.Pipelines;
-using ContextCompiler.Abstractions.Prompt;
 using ContextCompiler.Modules.Abstractions;
 using ContextCompiler.Modules.Abstractions.GlobalPipeline;
+using ContextCompiler.Prompting.Abstractions.Commands;
+using ContextCompiler.Prompting.Abstractions.Prompt;
 
 using Microsoft.Extensions.Logging;
 
@@ -15,7 +15,7 @@ public sealed class DotNetModule(IConfigProvider cfgProvider,
                                         ICommandBuilder commandBuilder,
                                         ILogger<DotNetModule> logger) : IConfigurationModule
 {
-    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("engineering.dotnet", GlobalPipelineModuleKinds.Configuration, priority: 10);
+    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("engineering.dotnet", GlobalPipelineModuleKinds.Setup, priority: 10);
 
     public Task<IResult<IGlobalPipelineRunResult>> Run(IGlobalPipelineRunContext context, CancellationToken cancellationToken)
     {

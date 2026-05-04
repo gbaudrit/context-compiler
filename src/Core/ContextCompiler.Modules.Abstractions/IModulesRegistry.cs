@@ -11,19 +11,19 @@ public interface IModulesRegistry
     IReadOnlyList<IDataReaderModule> DataReaders { get; }
     IReadOnlyList<IEngineeringModule> EngineeringModules { get; }
     IReadOnlyList<IViewModule> Views { get; }
-    IReadOnlyList<ITemplateModule> Templates { get; }
+    //IReadOnlyList<ITemplateModule> Templates { get; }
     IReadOnlyList<IPromptRenderingModule> PromptRenderers { get; }
     IReadOnlyList<IGraphExporterModule> GraphExporters { get; }
-    IReadOnlyList<IPersonaModule> Personas { get; }
+    //IReadOnlyList<IPersonaModule> Personas { get; }
     IReadOnlyList<IViewRendererModule> ViewRenderers { get; }
-    IReadOnlyList<IPromptComposerModule> PromptComposers { get; }
+    //IReadOnlyList<IPromptComposerModule> PromptComposerModules { get; }
     IReadOnlyList<IOutputArtifactsFilesWriterModule> OutputArtifactWriters { get; }
     IReadOnlyList<IOutputArtifactComposerModule> OutputArtifactComposers { get; }
     IReadOnlyList<IGlobalPipelineModule> GlobalPipelineModules { get; }
     IReadOnlyList<IDocumentPipelineModule> DocumentPipelineModules { get; }
     IReadOnlyList<IDocumentPartPipelineModule> DocumentPartPipelineModules { get; }
     IReadOnlyList<IFragmentProcessorModule> FragmentProcessors { get; }
-    IReadOnlyList<IBlueprintComposerModule> Blueprints { get; }
+    //IReadOnlyList<IBlueprintComposerModule> Blueprints { get; }
 
     IEnumerable<T> GetModules<T>() where T : IModule;
 }

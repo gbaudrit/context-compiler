@@ -9,13 +9,13 @@ using Microsoft.Extensions.Logging;
 
 namespace ContextCompiler.Modules.Artifacts.Writer;
 
-public sealed class OutputArtifactsFilesWriterModule(IPrompt prompt, IOutput output, IFileSystem fs, ILogger<OutputArtifactsFilesWriterModule> logger) : IOutputArtifactsFilesWriterModule
+public sealed class OutputArtifactsFilesWriterModule(IOutput output, IFileSystem fs, ILogger<OutputArtifactsFilesWriterModule> logger) : IOutputArtifactsFilesWriterModule
 {
-    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("artifacts.writer", GlobalPipelineModuleKinds.OutputWriter, priority: 10);
+    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("artifacts.writer", GlobalPipelineModuleKinds.ArtifactPersistence, priority: 10);
 
     public Task<IResult<IGlobalPipelineRunResult>> Run(IGlobalPipelineRunContext context, CancellationToken cancellationToken)
     {
-        foreach (IOutputArtifact artifact in prompt.Artifacts)
+        foreach (IOutputArtifact artifact in output.Artifacts)
         {
             string p = Path.Combine(output.Path, artifact.FileName);
             fs.WriteAllText(p, artifact.Content);

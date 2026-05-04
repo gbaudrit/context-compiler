@@ -10,12 +10,12 @@ namespace ContextCompiler.Modules.Reports.Pipelines.Mermaid;
 
 internal sealed class MermaidPipelineReportModule(
     PipelineEventCollector eventCollector,
-    IPrompt prompt,
+    IOutput output,
     ILogger<MermaidPipelineReportModule> logger) : IGlobalPipelineModule
 {
     public ModuleMetadata Metadata => IGlobalPipelineModule.Meta(
         "reports.pipelines.mermaid",
-        GlobalPipelineModuleKinds.OutputArtifactComposer,
+        GlobalPipelineModuleKinds.ReportComposition,
         priority: 900);
 
     public Task<IResult<IGlobalPipelineRunResult>> Run(IGlobalPipelineRunContext context, CancellationToken cancellationToken)
@@ -38,7 +38,7 @@ internal sealed class MermaidPipelineReportModule(
             "Pipeline Execution Report");
 
 
-        prompt.AddArtifact(builder =>
+        output.AddArtifact(builder =>
         {
             return builder.WithFileName("pipeline-report.html")
                           .WithContent(htmlContent)

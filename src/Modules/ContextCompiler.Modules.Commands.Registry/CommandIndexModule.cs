@@ -5,16 +5,18 @@ using ContextCompiler.Modules.Commands.Registry.Abstractions;
 using ContextCompiler.Modules.Commands.Registry.Models;
 using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Abstractions.Pipelines;
+using ContextCompiler.Prompting.Abstractions;
 
 namespace ContextCompiler.Modules.Commands.Registry;
 
 internal sealed class CommandIndexModule(
     IPrompt prompt,
+    IOutput output,
     ICommandsIndexSerializer commandsIndexSerializer) : IConfigurationModule
 {
     public ModuleMetadata Metadata => IGlobalPipelineModule.Meta(
         "commands.index.json",
-        GlobalPipelineModuleKinds.OutputArtifactComposer,
+        GlobalPipelineModuleKinds.ReportComposition,
         priority: 10000);
 
     public async Task<IResult<IGlobalPipelineRunResult>> Run(IGlobalPipelineRunContext context, CancellationToken cancellationToken)
@@ -32,7 +34,7 @@ internal sealed class CommandIndexModule(
             })]
         };
 
-        prompt.AddArtifact(builder =>
+        output.AddArtifact(builder =>
         {
             return builder.WithFileName("commands.index.json")
                 .WithContent(commandsIndexSerializer.Serialize(index))
