@@ -10,10 +10,10 @@ public class StarterStandardPack : IPackModule
     {
         return
         [
-            typeof(Artifacts.Standard.Pack).Assembly,
+            typeof(Output.Packs.Standard.Pack).Assembly,
             typeof(Prompting.Packs.Standard.Pack).Assembly,
             typeof(Readers.Packs.Standard.Pack).Assembly,
-            typeof(Views.Standard.ViewsStandardPack).Assembly,
+            typeof(Views.Packs.Standard.Pack).Assembly,
             typeof(Datas.Transcoders.Standard.Pack).Assembly,
             typeof(Security.Packs.Standard.Pack).Assembly,
         ];

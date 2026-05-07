@@ -9,11 +9,11 @@ namespace ContextCompiler.Readers.Packs.Standard
         public IEnumerable<Assembly> Discover()
         {
             return [
-                typeof(ContextCompiler.Readers.Modules.Excel.DependencyInjection).Assembly,
-                typeof(ContextCompiler.Readers.Modules.Markdown.DependencyInjection).Assembly,
-                typeof(ContextCompiler.Readers.Modules.Pdf.DependencyInjection).Assembly,
-                typeof(ContextCompiler.Readers.Modules.Text.DependencyInjection).Assembly,
-                typeof(ContextCompiler.Readers.Modules.Yaml.DependencyInjection).Assembly
+                typeof(Modules.Excel.DependencyInjection).Assembly,
+                typeof(Modules.Markdown.DependencyInjection).Assembly,
+                typeof(Modules.Pdf.DependencyInjection).Assembly,
+                typeof(Modules.Text.DependencyInjection).Assembly,
+                typeof(Modules.Yaml.DependencyInjection).Assembly
                 ];
         }
     }

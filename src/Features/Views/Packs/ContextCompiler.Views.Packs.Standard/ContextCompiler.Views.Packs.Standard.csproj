@@ -6,10 +6,10 @@
 		<Nullable>enable</Nullable>
 		<Configurations>Debug;Release;DebugLocal</Configurations>
 		<IsPackable>true</IsPackable>
-		<PackageId>ContextCompiler.Output.Packs.Standard</PackageId>
-		<Title>Standard output pack</Title>
-		<Description>Standard output pack with the artifacts registry and writer modules.</Description>
-		<PackageTags>context;compiler;pack;artifacts;registry;writer;outputs;standard</PackageTags>
+		<PackageId>ContextCompiler.Views.Packs.Standard</PackageId>
+		<Title>Standard views pack</Title>
+		<Description>Standard views pack with the core views and JSON index view modules.</Description>
+		<PackageTags>context;compiler;pack;views;json;index;projection;rendering;standard</PackageTags>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<Authors>ContextCompiler</Authors>
 	</PropertyGroup>
@@ -20,6 +20,11 @@
 
 	<ItemGroup>
 		<None Include="README.md" Pack="true" PackagePath="" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\ContextCompiler.Views\ContextCompiler.Views.csproj" />
+	  <ProjectReference Include="..\..\Modules\ContextCompiler.Views.Modules.View.Index.Json\ContextCompiler.Views.Modules.View.Index.Json.csproj" />
 	</ItemGroup>
 
 </Project>

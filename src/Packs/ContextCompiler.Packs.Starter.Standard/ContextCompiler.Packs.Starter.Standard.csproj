@@ -20,11 +20,11 @@
 
 	<ItemGroup>
 		<None Include="README.md" Pack="true" PackagePath="" />
+		<ProjectReference Include="..\..\Features\Output\Packs\ContextCompiler.Output.Packs.Standard\ContextCompiler.Output.Packs.Standard.csproj" />
 		<ProjectReference Include="..\..\Features\Security\Packs\ContextCompiler.Security.Packs.Standard\ContextCompiler.Security.Packs.Standard.csproj" />
-		<ProjectReference Include="..\ContextCompiler.Packs.Artifacts.Standard\ContextCompiler.Packs.Artifacts.Standard.csproj" />
+		<ProjectReference Include="..\..\Features\Views\Packs\ContextCompiler.Views.Packs.Standard\ContextCompiler.Views.Packs.Standard.csproj" />
 		<ProjectReference Include="..\ContextCompiler.Packs.Datas.Transcoders.Standard\ContextCompiler.Packs.Datas.Transcoders.Standard.csproj" />
 		<ProjectReference Include="..\..\Features\Readers\Packs\ContextCompiler.Readers.Packs.Standard\ContextCompiler.Readers.Packs.Standard.csproj" />
-		<ProjectReference Include="..\ContextCompiler.Packs.Views.Standard\ContextCompiler.Packs.Views.Standard.csproj" />
 		<ProjectReference Include="..\..\Features\Prompting\Packs\ContextCompiler.Prompting.Packs.Standard\ContextCompiler.Prompting.Packs.Standard.csproj" />
 	</ItemGroup>
 
