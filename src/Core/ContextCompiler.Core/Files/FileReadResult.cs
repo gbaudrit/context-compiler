@@ -1,5 +1,5 @@
 using ContextCompiler.Abstractions.Files;
-using ContextCompiler.Abstractions.Pipelines.Document;
+using ContextCompiler.Abstractions.Pipelines.InputIngestion;
 
 namespace ContextCompiler.Core.Files
 {

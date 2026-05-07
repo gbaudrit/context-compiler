@@ -20,8 +20,8 @@ public interface IModulesRegistry
     IReadOnlyList<IOutputArtifactsFilesWriterModule> OutputArtifactWriters { get; }
     IReadOnlyList<IOutputArtifactComposerModule> OutputArtifactComposers { get; }
     IReadOnlyList<IGlobalPipelineModule> GlobalPipelineModules { get; }
-    IReadOnlyList<IDocumentPipelineModule> DocumentPipelineModules { get; }
-    IReadOnlyList<IDocumentPartPipelineModule> DocumentPartPipelineModules { get; }
+    IReadOnlyList<IInputIngestionPipelineModule> InputIngestionPipelineModules { get; }
+    IReadOnlyList<IDataPartPipelineModule> DataPartPipelineModules { get; }
     IReadOnlyList<IFragmentProcessorModule> FragmentProcessors { get; }
     //IReadOnlyList<IBlueprintComposerModule> Blueprints { get; }
 

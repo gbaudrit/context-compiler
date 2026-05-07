@@ -1,4 +1,4 @@
-using ContextCompiler.Abstractions.Pipelines.Document;
+using ContextCompiler.Abstractions.Pipelines.InputIngestion;
 using ContextCompiler.Abstractions.ReasoningIR;
 
 namespace ContextCompiler.Modules.Abstractions;

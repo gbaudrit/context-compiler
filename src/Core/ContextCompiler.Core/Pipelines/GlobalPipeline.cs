@@ -4,7 +4,7 @@ using ContextCompiler.Abstractions.Guards;
 using ContextCompiler.Abstractions.Models;
 using ContextCompiler.Abstractions.Output;
 using ContextCompiler.Abstractions.Pipelines;
-using ContextCompiler.Abstractions.Pipelines.Document;
+using ContextCompiler.Abstractions.Pipelines.InputIngestion;
 using ContextCompiler.Abstractions.Pipelines.Events;
 using ContextCompiler.Abstractions.Ports;
 using ContextCompiler.Modules.Abstractions;
@@ -21,7 +21,7 @@ public sealed record GlobalCompileOutputs(
 
 public sealed class GlobalPipeline(
     ILogger<GlobalPipeline> logger,
-    IDocumentContextBuilder docCtxBuilder,
+    IInputItemContextBuilder docCtxBuilder,
     IFileSystem fs,
     IHasher hasher,
     IModulesRegistry modules,

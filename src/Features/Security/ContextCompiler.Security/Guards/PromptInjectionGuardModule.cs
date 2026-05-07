@@ -1,33 +1,33 @@
 using System.Text.RegularExpressions;
 
 using ContextCompiler.Abstractions.Common;
-using ContextCompiler.Abstractions.Pipelines.Document;
+using ContextCompiler.Abstractions.Pipelines.InputIngestion;
 using ContextCompiler.Modules.Abstractions;
 
 namespace ContextCompiler.Modules.Security.Guards;
 
-public sealed partial class PromptInjectionGuardModule(ISourceRefBuilder sourceRefBuilder) : IDocumentPipelineModule
+public sealed partial class PromptInjectionGuardModule(ISourceRefBuilder sourceRefBuilder) : IInputIngestionPipelineModule
 {
-    public DocumentModuleMetadata Metadata => IDocumentPipelineModule.Meta("security.guard.injection", DocumentPipelineModuleKinds.ReadScopeGuards, priority: 0);
+    public InputIngestionModuleMetadata Metadata => IInputIngestionPipelineModule.Meta("security.guard.injection", InputIngestionPipelineModuleKinds.ReadScopeGuards, priority: 0);
     //public DocumentStage Stage => DocumentStage.ContentGuards;
 
     private static readonly Regex Pattern = PromptInjectionPattern();
 
-    public bool CanProcess(IDocumentContext documentContext)
+    public bool CanProcess(IInputItemContext InputItemContext)
     {
         return true;
     }
 
-    public Task<IResult<IDocumentPipelineRunResult>> Run(IDocumentPipelineRunContext context, CancellationToken ct)
+    public Task<IResult<IInputIngestionPipelineRunResult>> Run(IInputIngestionPipelineRunContext context, CancellationToken ct)
     {
         ct.ThrowIfCancellationRequested();
 
-        if (context.Document.Data.DataEnvelope is null)
+        if (context.InputItem.Data.DataEnvelope is null)
         {
             return context.NothingToDo();
         }
 
-        foreach (IDataPart part in context.Document.Data.DataEnvelope.Parts)
+        foreach (IDataPart part in context.InputItem.Data.DataEnvelope.Parts)
         {
             if (Pattern.IsMatch(part.Payload.ToString() ?? ""))
             {

@@ -4,7 +4,7 @@ using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Abstractions.Configuration;
 using ContextCompiler.Abstractions.Configuration.Sections;
 using ContextCompiler.Abstractions.Files;
-using ContextCompiler.Abstractions.Pipelines.Document;
+using ContextCompiler.Abstractions.Pipelines.InputIngestion;
 using ContextCompiler.Abstractions.Tags;
 using ContextCompiler.Modules.Abstractions;
 using ContextCompiler.Readers.Modules.Excel.Configurations;
@@ -20,11 +20,11 @@ public sealed class ExcelFileReaderModule(
     ITagsBuilder tagsBuilder,
     ISourceRefBuilder sourceRefBuilder) : IFileReaderModule
 {
-    public DocumentModuleMetadata Metadata => IDocumentPipelineModule.Meta("readers.excel", DocumentPipelineModuleKinds.ReadDocument, priority: 10);
+    public InputIngestionModuleMetadata Metadata => IInputIngestionPipelineModule.Meta("readers.excel", InputIngestionPipelineModuleKinds.ReadDocument, priority: 10);
 
-    public bool CanProcess(IDocumentContext documentContext)
+    public bool CanProcess(IInputItemContext InputItemContext)
     {
-        string ext = Path.GetExtension(documentContext.FullPath);
+        string ext = Path.GetExtension(InputItemContext.FullPath);
         return ext.Equals(".xlsx", StringComparison.OrdinalIgnoreCase) || ext.Equals(".xlsm", StringComparison.OrdinalIgnoreCase);
     }
 
@@ -39,12 +39,12 @@ public sealed class ExcelFileReaderModule(
     //                                                                               .Build()).Build());
     //}
 
-    public Task<IResult<IDocumentPipelineRunResult>> Run(IDocumentPipelineRunContext context, CancellationToken ct)
+    public Task<IResult<IInputIngestionPipelineRunResult>> Run(IInputIngestionPipelineRunContext context, CancellationToken ct)
     {
         ct.ThrowIfCancellationRequested();
 
         IRootConfigSection cfg = cfgProvider.GetConfigOrDefault(null);
-        ExcelFileSection options = context.Document.Source.Config<ExcelFileSection>() ?? new ExcelFileSection();
+        ExcelFileSection options = context.InputItem.Source.Config<ExcelFileSection>() ?? new ExcelFileSection();
 
         //var fileExtracts = new List<(string match, ExcelDefaults? defaults, List<ExcelExtractConfig> extracts)>();
         //foreach (var f in cfg.Files)
@@ -56,10 +56,10 @@ public sealed class ExcelFileReaderModule(
 
         //}
 
-        using FileStream ms2 = File.OpenRead(context.Document.FullPath ?? string.Empty);
+        using FileStream ms2 = File.OpenRead(context.InputItem.FullPath ?? string.Empty);
         using XLWorkbook wb2 = new(ms2);
         List<IDataPart> parts = [];
-        string sourcePath = context.Document.FullPath ?? string.Empty;
+        string sourcePath = context.InputItem.FullPath ?? string.Empty;
 
         foreach (ExcelExtractConfig? x in options.Extracts.OrderBy(e => e.Id, StringComparer.Ordinal))
         {

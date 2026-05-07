@@ -1,34 +1,34 @@
 using System.Text.RegularExpressions;
 
 using ContextCompiler.Abstractions.Common;
-using ContextCompiler.Abstractions.Pipelines.Document;
+using ContextCompiler.Abstractions.Pipelines.InputIngestion;
 using ContextCompiler.Modules.Abstractions;
 
 namespace ContextCompiler.Modules.Security.Guards;
 
-public sealed partial class SensitivityGuardModule(ISourceRefBuilder sourceRefBuilder) : IDocumentPipelineModule
+public sealed partial class SensitivityGuardModule(ISourceRefBuilder sourceRefBuilder) : IInputIngestionPipelineModule
 {
-    public DocumentModuleMetadata Metadata => IDocumentPipelineModule.Meta("security.guard.sensitivity", DocumentPipelineModuleKinds.ReadScopeGuards, priority: 10);
+    public InputIngestionModuleMetadata Metadata => IInputIngestionPipelineModule.Meta("security.guard.sensitivity", InputIngestionPipelineModuleKinds.ReadScopeGuards, priority: 10);
 
     private static readonly Regex SecretLike = SecretPattern();
 
-    public bool CanProcess(IDocumentContext documentContext)
+    public bool CanProcess(IInputItemContext InputItemContext)
     {
         return true;
     }
 
-    public Task<IResult<IDocumentPipelineRunResult>> Run(IDocumentPipelineRunContext context, CancellationToken ct)
+    public Task<IResult<IInputIngestionPipelineRunResult>> Run(IInputIngestionPipelineRunContext context, CancellationToken ct)
     {
         ct.ThrowIfCancellationRequested();
 
-        if (context.Document is null
-            || string.IsNullOrWhiteSpace(context.Document.InputRoot)
-            || context.Document.Data.DataEnvelope is null)
+        if (context.InputItem is null
+            || string.IsNullOrWhiteSpace(context.InputItem.InputRoot)
+            || context.InputItem.Data.DataEnvelope is null)
         {
             return context.NothingToDo();
         }
 
-        foreach (IDataPart part in context.Document.Data.DataEnvelope.Parts)
+        foreach (IDataPart part in context.InputItem.Data.DataEnvelope.Parts)
         {
             if (SecretLike.IsMatch(part.Payload.ToString() ?? ""))
             {

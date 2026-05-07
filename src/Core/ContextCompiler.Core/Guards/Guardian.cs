@@ -1,5 +1,5 @@
 using ContextCompiler.Abstractions.Guards;
-using ContextCompiler.Abstractions.Pipelines.Document;
+using ContextCompiler.Abstractions.Pipelines.InputIngestion;
 
 namespace ContextCompiler.Core.Guards
 {
@@ -9,9 +9,9 @@ namespace ContextCompiler.Core.Guards
 
         public IReadOnlyList<IPipelineFinding> Findings => _findings;
 
-        public void Load(IDocumentsContext documents)
+        public void Load(IInputIngestionContext documents)
         {
-            _findings = [.. documents.Documents.SelectMany(r => r.Data.Findings)];
+            _findings = [.. documents.InputItems.SelectMany(r => r.Data.Findings)];
         }
 
         public bool HasBlockingCriticalFindings()

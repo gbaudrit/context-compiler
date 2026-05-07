@@ -32,7 +32,7 @@ Le module s'exécute automatiquement à la fin du pipeline global et génère un
 
 ```mermaid
 graph LR
-    subgraph doc_pipeline[Document Pipeline]
+    subgraph doc_pipeline[Input Ingestion Pipeline]
         doc_pipeline_reading[reading<br/>Module: excel-reader<br/>150ms]
         style doc_pipeline_reading fill:#c8e6c9,stroke:#2e7d32
         doc_pipeline_reading --> doc_pipeline_processing[processing<br/>Module: guard-module<br/>50ms]

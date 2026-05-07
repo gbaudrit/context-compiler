@@ -1,6 +1,6 @@
 using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Abstractions.Pipelines.DataPart;
-using ContextCompiler.Abstractions.Pipelines.Document;
+using ContextCompiler.Abstractions.Pipelines.InputIngestion;
 using ContextCompiler.Modules.Abstractions;
 
 using Microsoft.Extensions.Logging;
@@ -15,34 +15,34 @@ public sealed class EmlFileReaderModule(
     ISourceRefBuilder sourceRefBuilder,
     ILogger<EmlFileReaderModule> logger) : IFileReaderModule
 {
-    public DocumentModuleMetadata Metadata => IDocumentPipelineModule.Meta("readers.eml", DocumentPipelineModuleKinds.ReadDocument, priority: 12);
+    public InputIngestionModuleMetadata Metadata => IInputIngestionPipelineModule.Meta("readers.eml", InputIngestionPipelineModuleKinds.ReadDocument, priority: 12);
 
-    public bool CanProcess(IDocumentContext documentContext)
+    public bool CanProcess(IInputItemContext InputItemContext)
     {
-        return Path.GetExtension(documentContext.FullPath).Equals(".eml", StringComparison.OrdinalIgnoreCase);
+        return Path.GetExtension(InputItemContext.FullPath).Equals(".eml", StringComparison.OrdinalIgnoreCase);
     }
 
-    public async Task<IResult<IDocumentPipelineRunResult>> Run(IDocumentPipelineRunContext context, CancellationToken ct)
+    public async Task<IResult<IInputIngestionPipelineRunResult>> Run(IInputIngestionPipelineRunContext context, CancellationToken ct)
     {
         ct.ThrowIfCancellationRequested();
 
-        logger.LogInformation("Reading EML file: {Path}", context.Document.FullPath);
+        logger.LogInformation("Reading EML file: {Path}", context.InputItem.FullPath);
 
-        await using FileStream stream = File.OpenRead(context.Document.FullPath);
+        await using FileStream stream = File.OpenRead(context.InputItem.FullPath);
         MimeMessage message = await MimeMessage.LoadAsync(stream, ct);
         List<IDataPart> parts = [];
 
-        AddTextPart(parts, context.Document, "subject", "Subject", message.Subject, DataPartType.Text);
-        AddTextPart(parts, context.Document, "message-id", "Message-Id", message.MessageId, DataPartType.Metadata);
-        AddTextPart(parts, context.Document, "in-reply-to", "In-Reply-To", message.InReplyTo, DataPartType.Metadata);
-        AddTextPart(parts, context.Document, "date", "Date", message.Date == default ? null : message.Date.ToString("O"), DataPartType.Metadata);
-        AddEmailAddresses(parts, context.Document, "from", "From", message.From.Mailboxes);
-        AddEmailAddresses(parts, context.Document, "to", "To", message.To.Mailboxes);
-        AddEmailAddresses(parts, context.Document, "cc", "Cc", message.Cc.Mailboxes);
-        AddEmailAddresses(parts, context.Document, "bcc", "Bcc", message.Bcc.Mailboxes);
-        AddEmailAddresses(parts, context.Document, "reply-to", "Reply-To", message.ReplyTo.Mailboxes);
-        AddTextPart(parts, context.Document, "text-body", "Text Body", NormalizeBody(message.TextBody), DataPartType.Text);
-        AddTextPart(parts, context.Document, "html-body", "Html Body", NormalizeBody(message.HtmlBody), DataPartType.Text);
+        AddTextPart(parts, context.InputItem, "subject", "Subject", message.Subject, DataPartType.Text);
+        AddTextPart(parts, context.InputItem, "message-id", "Message-Id", message.MessageId, DataPartType.Metadata);
+        AddTextPart(parts, context.InputItem, "in-reply-to", "In-Reply-To", message.InReplyTo, DataPartType.Metadata);
+        AddTextPart(parts, context.InputItem, "date", "Date", message.Date == default ? null : message.Date.ToString("O"), DataPartType.Metadata);
+        AddEmailAddresses(parts, context.InputItem, "from", "From", message.From.Mailboxes);
+        AddEmailAddresses(parts, context.InputItem, "to", "To", message.To.Mailboxes);
+        AddEmailAddresses(parts, context.InputItem, "cc", "Cc", message.Cc.Mailboxes);
+        AddEmailAddresses(parts, context.InputItem, "bcc", "Bcc", message.Bcc.Mailboxes);
+        AddEmailAddresses(parts, context.InputItem, "reply-to", "Reply-To", message.ReplyTo.Mailboxes);
+        AddTextPart(parts, context.InputItem, "text-body", "Text Body", NormalizeBody(message.TextBody), DataPartType.Text);
+        AddTextPart(parts, context.InputItem, "html-body", "Html Body", NormalizeBody(message.HtmlBody), DataPartType.Text);
 
         int attachmentIndex = 0;
         foreach (MimeEntity attachment in message.Attachments)
@@ -50,7 +50,7 @@ public sealed class EmlFileReaderModule(
             string attachmentPayload = FormatAttachmentPayload(attachment);
 
             AddTextPart(parts,
-                        context.Document,
+                        context.InputItem,
                         $"attachment-{attachmentIndex}",
                         $"Attachment {attachmentIndex + 1}",
                         attachmentPayload,
@@ -88,7 +88,7 @@ public sealed class EmlFileReaderModule(
     }
 
     private void AddTextPart(List<IDataPart> parts,
-                             IDocumentContext documentContext,
+                             IInputItemContext InputItemContext,
                              string id,
                              string label,
                              string? payload,
@@ -106,17 +106,17 @@ public sealed class EmlFileReaderModule(
                                  .WithLabel(label)
                                  .WithType(type)
                                  .WithSource(sourceRefBuilder.InitNew()
-                                                             .WithPath(documentContext.FullPath)
+                                                             .WithPath(InputItemContext.FullPath)
                                                              .WithLocator(locator ?? id)
                                                              .Build())
                                  .WithPayload(payload)
-                                 .WithTags(documentContext.Data.Tags)
+                                 .WithTags(InputItemContext.Data.Tags)
                                  .WithGroupId(groupId)
                                  .Build());
     }
 
     private void AddEmailAddresses(List<IDataPart> parts,
-                                   IDocumentContext documentContext,
+                                   IInputItemContext InputItemContext,
                                    string idPrefix,
                                    string labelPrefix,
                                    IEnumerable<MailboxAddress> mailboxes)
@@ -131,7 +131,7 @@ public sealed class EmlFileReaderModule(
             if (!string.IsNullOrWhiteSpace(mailbox.Name))
             {
                 AddTextPart(parts,
-                           documentContext,
+                           InputItemContext,
                            $"{idPrefix}{indexSuffix}-name",
                            $"{labelPrefix} Name",
                            mailbox.Name,
@@ -144,7 +144,7 @@ public sealed class EmlFileReaderModule(
             if (!string.IsNullOrWhiteSpace(mailbox.Address))
             {
                 AddTextPart(parts,
-                           documentContext,
+                           InputItemContext,
                            $"{idPrefix}{indexSuffix}-email",
                            $"{labelPrefix} Email",
                            mailbox.Address,

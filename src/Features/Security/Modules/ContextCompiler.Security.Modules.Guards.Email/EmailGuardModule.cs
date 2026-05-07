@@ -2,7 +2,7 @@ using System.Text.RegularExpressions;
 
 using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Abstractions.Models;
-using ContextCompiler.Abstractions.Pipelines.Document;
+using ContextCompiler.Abstractions.Pipelines.InputIngestion;
 using ContextCompiler.Modules.Abstractions;
 
 namespace ContextCompiler.Security.Modules.Guards.Email;
@@ -10,30 +10,30 @@ namespace ContextCompiler.Security.Modules.Guards.Email;
 public sealed partial class EmailGuardModule(
     IDataEnvelopeBuilder dataEnvelopeBuilder,
     IDataPartBuilder dataPartBuilder,
-    ISourceRefBuilder sourceRefBuilder) : IDocumentPipelineModule
+    ISourceRefBuilder sourceRefBuilder) : IInputIngestionPipelineModule
 {
-    public DocumentModuleMetadata Metadata => IDocumentPipelineModule.Meta("security.guard.email", DocumentPipelineModuleKinds.ReadScopeGuards, priority: 5);
+    public InputIngestionModuleMetadata Metadata => IInputIngestionPipelineModule.Meta("security.guard.email", InputIngestionPipelineModuleKinds.ReadScopeGuards, priority: 5);
     //public DocumentStage Stage => DocumentStage.ContentGuards;
 
     private static readonly Regex Email = EmailPattern();
 
-    public bool CanProcess(IDocumentContext documentContext)
+    public bool CanProcess(IInputItemContext InputItemContext)
     {
         return true;
     }
 
-    public Task<IResult<IDocumentPipelineRunResult>> Run(IDocumentPipelineRunContext context, CancellationToken ct)
+    public Task<IResult<IInputIngestionPipelineRunResult>> Run(IInputIngestionPipelineRunContext context, CancellationToken ct)
     {
         ct.ThrowIfCancellationRequested();
 
-        if (context.Document.Data.DataEnvelope is null)
+        if (context.InputItem.Data.DataEnvelope is null)
         {
             return context.NothingToDo();
         }
 
         List<IDataPart> updatedParts = [];
 
-        foreach (IDataPart part in context.Document.Data.DataEnvelope.Parts)
+        foreach (IDataPart part in context.InputItem.Data.DataEnvelope.Parts)
         {
             string payload = part.Payload?.ToString() ?? string.Empty;
             MatchCollection matches = Email.Matches(payload);
@@ -55,12 +55,12 @@ public sealed partial class EmailGuardModule(
         }
 
         IDataEnvelopeBuilder builder = dataEnvelopeBuilder.InitNew()
-                                                          .WithDataShape(context.Document.Data.DataEnvelope.Shape)
+                                                          .WithDataShape(context.InputItem.Data.DataEnvelope.Shape)
                                                           .WithParts(updatedParts);
 
-        if (context.Document.Data.DataEnvelope.Metadata is not null)
+        if (context.InputItem.Data.DataEnvelope.Metadata is not null)
         {
-            _ = builder.WithMetadata(context.Document.Data.DataEnvelope.Metadata);
+            _ = builder.WithMetadata(context.InputItem.Data.DataEnvelope.Metadata);
         }
 
         return context.Patch(b => b.WithDataEnvelope(builder.Build()))

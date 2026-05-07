@@ -1,10 +1,10 @@
-using ContextCompiler.Abstractions.Pipelines.Document;
+using ContextCompiler.Abstractions.Pipelines.InputIngestion;
 
 namespace ContextCompiler.Abstractions.Guards
 {
     public interface IGuardContext
     {
-        IDocumentContext DocumentContext { get; }
+        IInputItemContext InputItemContext { get; }
         IDataPart? Part { get; }
     }
 }

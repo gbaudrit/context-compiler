@@ -1,6 +1,6 @@
 using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Abstractions.Files;
-using ContextCompiler.Abstractions.Pipelines.Document;
+using ContextCompiler.Abstractions.Pipelines.InputIngestion;
 
 using Microsoft.Extensions.Logging;
 
@@ -14,20 +14,20 @@ public sealed class LinearDataReader(IDataEnvelopeBuilder dataEnvelopeBuilder, I
 
     //public bool CanRead(IFileInfos doc) => doc.MediaType.Contains("text/", StringComparison.OrdinalIgnoreCase);
 
-    public Task<IDataEnvelope> ReadAsync(IDocumentContext documentContext, CancellationToken ct)
+    public Task<IDataEnvelope> ReadAsync(IInputItemContext InputItemContext, CancellationToken ct)
     {
         ct.ThrowIfCancellationRequested();
-        logger.LogInformation("Reading linear data from document at path '{DocumentPath}'", documentContext.FullPath);
+        logger.LogInformation("Reading linear data from InputItem at path '{DocumentPath}'", InputItemContext.FullPath);
 
-        using FileStream fs = File.OpenRead(documentContext.FullPath);
+        using FileStream fs = File.OpenRead(InputItemContext.FullPath);
 
         return Task.FromResult(dataEnvelopeBuilder.InitNew()
                                                   .WithDataShape(DataShape.Linear)
-                                                  //.WithMetadata(new Dictionary<string, string> { { "mediaType", documentContext.FileInfos.MediaType } })
+                                                  //.WithMetadata(new Dictionary<string, string> { { "mediaType", InputItemContext.FileInfos.MediaType } })
                                                   .WithSinglePart(dataPartBuilder.InitNew()
-                                                                                   .WithSource(sourceRefBuilder.InitNew().WithPath(documentContext.FullPath).Build())
-                                                                                   //.WithPayload(documentContext.FileInfos)
-                                                                                   .WithTags(documentContext.Data.Tags)
+                                                                                   .WithSource(sourceRefBuilder.InitNew().WithPath(InputItemContext.FullPath).Build())
+                                                                                   //.WithPayload(InputItemContext.FileInfos)
+                                                                                   .WithTags(InputItemContext.Data.Tags)
                                                                                    .Build())
                                                   .Build());
     }

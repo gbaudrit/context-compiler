@@ -1,9 +1,9 @@
-using ContextCompiler.Abstractions.Pipelines.Document;
+using ContextCompiler.Abstractions.Pipelines.InputIngestion;
 
 namespace ContextCompiler.Abstractions.Files
 {
     public interface ILinearFileReader : IDisposable
     {
-        Task<IDataEnvelope> ReadAsync(IDocumentContext documentContext, CancellationToken ct);
+        Task<IDataEnvelope> ReadAsync(IInputItemContext InputItemContext, CancellationToken ct);
     }
 }

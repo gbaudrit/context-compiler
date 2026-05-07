@@ -1,5 +1,5 @@
 using ContextCompiler.Abstractions.Files;
-using ContextCompiler.Abstractions.Pipelines.Document;
+using ContextCompiler.Abstractions.Pipelines.InputIngestion;
 using ContextCompiler.Abstractions.ReasoningIR;
 using ContextCompiler.Abstractions.Tags;
 using ContextCompiler.Modules.Abstractions;
@@ -8,17 +8,17 @@ using Microsoft.Extensions.Logging;
 
 namespace ContextCompiler.Modules.Datas.Transcoders.Linear;
 
-public sealed class LinearTranscoderModule(ILogger<LinearTranscoderModule> logger, ITagBuilder tagBuilder, ITagsBuilder tagsBuilder, IFragmentBuilder fragmentBuilder) : IDocumentPartPipelineModule
+public sealed class LinearTranscoderModule(ILogger<LinearTranscoderModule> logger, ITagBuilder tagBuilder, ITagsBuilder tagsBuilder, IFragmentBuilder fragmentBuilder) : IDataPartPipelineModule
 {
 
-    public DocumentPartModuleMetadata Metadata => IDocumentPartPipelineModule.Meta("datas.transcoder.linear", DocumentPartPipelineModuleKinds.Transcoders, priority: 10);
+    public DataPartModuleMetadata Metadata => IDataPartPipelineModule.Meta("datas.transcoder.linear", DataPartPipelineModuleKinds.Transcoders, priority: 10);
 
-    public bool CanProcess(IDocumentContext documentContext, IDataPart part)
+    public bool CanProcess(IInputItemContext inputItemContext, IDataPart part)
     {
-        return documentContext.Data.DataEnvelope.Shape is DataShape.Linear;
+        return inputItemContext.Data.DataEnvelope.Shape is DataShape.Linear;
     }
 
-    public Task<IDocumentContextPatch> Run(IDocumentContext documentContext, IDocumentContextPatchBuilder patcher, IDataPart part, CancellationToken ct)
+    public Task<IInputItemContextPatch> Run(IInputItemContext inputItemContext, IInputItemContextPatchBuilder patcher, IDataPart part, CancellationToken ct)
     {
         ct.ThrowIfCancellationRequested();
 

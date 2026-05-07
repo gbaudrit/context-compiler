@@ -1,4 +1,4 @@
-using ContextCompiler.Abstractions.Pipelines.Document;
+using ContextCompiler.Abstractions.Pipelines.InputIngestion;
 
 namespace ContextCompiler.Abstractions.Guards
 {
@@ -10,6 +10,6 @@ namespace ContextCompiler.Abstractions.Guards
         //void AddFinding(string GuardId, GuardStage stage, GuardSeverity Severity, GuardActionKind Action, string Message, SourceRef Source, IReadOnlyDictionary<string, object>? Data = null);
         //IReadOnlyList<GuardFinding> GetFindingsByStage(GuardStage stage);
         bool HasBlockingCriticalFindings();
-        void Load(IDocumentsContext documents);
+        void Load(IInputIngestionContext documents);
     }
 }

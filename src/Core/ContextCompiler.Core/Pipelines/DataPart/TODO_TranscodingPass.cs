@@ -1,5 +1,5 @@
 //using ContextCompiler.Abstractions.Pipelines.DataPart;
-//using ContextCompiler.Abstractions.Pipelines.Document;
+//using ContextCompiler.Abstractions.Pipelines.InputIngestion;
 //using ContextCompiler.Abstractions.ReasoningIR;
 //using ContextCompiler.Abstractions.Tags;
 //using ContextCompiler.Modules.Abstractions;
@@ -12,7 +12,7 @@
 //        public int Priority => 100;
 //        public DocumentStage Stage => DocumentStage.TranscodeFragment;
 
-//        public async ValueTask<IDocumentContextDataPatch> ExecuteAsync(IDocumentContext ctx, IDocumentContextDataPatchBuilder patcher, IDataPart part, CancellationToken ct)
+//        public async ValueTask<IInputItemContextDataPatch> ExecuteAsync(IInputItemContext ctx, IInputItemContextDataPatchBuilder patcher, IDataPart part, CancellationToken ct)
 //        {
 //            if (ctx.Data.DataEnvelope is null)
 //            {
@@ -66,7 +66,7 @@
 //                }
 //            }
 
-//            return documentContextDataPatchBuilder.InitNew().WithFragments(fragments).Build();
+//            return InputItemContextDataPatchBuilder.InitNew().WithFragments(fragments).Build();
 
 
 //        }

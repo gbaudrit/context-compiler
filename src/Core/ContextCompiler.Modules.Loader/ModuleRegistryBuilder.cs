@@ -45,14 +45,14 @@ public sealed class ModuleRegistryBuilder : IModuleRegistryBuilder
                 _ = services.AddTransient(typeof(IGlobalPipelineModule), t);
             }
 
-            if (typeof(IDocumentPipelineModule).IsAssignableFrom(t))
+            if (typeof(IInputIngestionPipelineModule).IsAssignableFrom(t))
             {
-                services.TryAddEnumerable(ServiceDescriptor.Transient(typeof(IDocumentPipelineModule), t));
+                services.TryAddEnumerable(ServiceDescriptor.Transient(typeof(IInputIngestionPipelineModule), t));
             }
 
-            if (typeof(IDocumentPartPipelineModule).IsAssignableFrom(t))
+            if (typeof(IDataPartPipelineModule).IsAssignableFrom(t))
             {
-                _ = services.AddTransient(typeof(IDocumentPartPipelineModule), t);
+                _ = services.AddTransient(typeof(IDataPartPipelineModule), t);
             }
 
             if (typeof(IFileReaderModule).IsAssignableFrom(t))

@@ -4,7 +4,7 @@ using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Abstractions.Configuration;
 using ContextCompiler.Abstractions.Configuration.Sections;
 using ContextCompiler.Abstractions.Files;
-using ContextCompiler.Abstractions.Pipelines.Document;
+using ContextCompiler.Abstractions.Pipelines.InputIngestion;
 using ContextCompiler.Abstractions.Tags;
 using ContextCompiler.Modules.Abstractions;
 using ContextCompiler.Readers.Modules.Pdf.Configurations;
@@ -30,11 +30,11 @@ public sealed class PdfFileReaderModule(IFileReadResultBuilder fileReadResultBui
                                         ISourceRefBuilder sourceRefBuilder,
                                         ILogger<PdfFileReaderModule> logger) : IFileReaderModule
 {
-    public DocumentModuleMetadata Metadata => IDocumentPipelineModule.Meta("readers.pdf", DocumentPipelineModuleKinds.ReadDocument, priority: 10);
+    public InputIngestionModuleMetadata Metadata => IInputIngestionPipelineModule.Meta("readers.pdf", InputIngestionPipelineModuleKinds.ReadDocument, priority: 10);
 
-    public bool CanProcess(IDocumentContext documentContext)
+    public bool CanProcess(IInputItemContext InputItemContext)
     {
-        string ext = Path.GetExtension(documentContext.FullPath);
+        string ext = Path.GetExtension(InputItemContext.FullPath);
         return ext.Equals(".pdf", StringComparison.OrdinalIgnoreCase);
     }
 
@@ -50,11 +50,11 @@ public sealed class PdfFileReaderModule(IFileReadResultBuilder fileReadResultBui
     //                                                                               .Build()).Build());
     //}
 
-    public Task<IResult<IDocumentPipelineRunResult>> Run(IDocumentPipelineRunContext context, CancellationToken ct)
+    public Task<IResult<IInputIngestionPipelineRunResult>> Run(IInputIngestionPipelineRunContext context, CancellationToken ct)
     {
         ct.ThrowIfCancellationRequested();
 
-        logger.LogInformation("Start reading PDF document at path: {Path}", context.Document.FullPath);
+        logger.LogInformation("Start reading PDF InputItem at path: {Path}", context.InputItem.FullPath);
 
 
         IRootConfigSection cfg = cfgProvider.GetConfigOrDefault(null);
@@ -69,10 +69,10 @@ public sealed class PdfFileReaderModule(IFileReadResultBuilder fileReadResultBui
         //    }
 
         //}
-        PdfExtractsConfig options = context.Document.Source.Config<PdfExtractsConfig>() ?? new PdfExtractsConfig();
+        PdfExtractsConfig options = context.InputItem.Source.Config<PdfExtractsConfig>() ?? new PdfExtractsConfig();
 
-        using PdfDocument pdfDocument = PdfDocument.Open(context.Document.FullPath!, new ParsingOptions() { ClipPaths = true });
-        string sourcePath = context.Document.FullPath ?? string.Empty;
+        using PdfDocument pdfDocument = PdfDocument.Open(context.InputItem.FullPath!, new ParsingOptions() { ClipPaths = true });
+        string sourcePath = context.InputItem.FullPath ?? string.Empty;
 
         List<IDataPart> parts = [];
         foreach (PdfExtractConfig extract in options.Extracts)
@@ -117,7 +117,7 @@ public sealed class PdfFileReaderModule(IFileReadResultBuilder fileReadResultBui
         }
 
 
-        logger.LogInformation("Finished reading PDF document at path: {Path}. Extracted {PartCount} parts.", context.Document.FullPath, parts.Count);
+        logger.LogInformation("Finished reading PDF InputItem at path: {Path}. Extracted {PartCount} parts.", context.InputItem.FullPath, parts.Count);
 
         return context.Patch(b =>
         {
@@ -137,7 +137,7 @@ public sealed class PdfFileReaderModule(IFileReadResultBuilder fileReadResultBui
 //        ct.ThrowIfCancellationRequested();
 //        _pdfFileContent = new PdfFileContent
 //        {
-//            Document = PdfDocument.Open(path)
+//            InputItem = PdfDocument.Open(path)
 //        };
 //        return ValueTask.FromResult<IFileContent>(_pdfFileContent);
 //    }

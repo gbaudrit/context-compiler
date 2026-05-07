@@ -40,7 +40,7 @@ La méthode `PublishPhaseAsync` gère automatiquement la publication des événe
 
 ```csharp
 // Avec retour de valeur
-IDocumentContextPatch result = await eventPublisher.PublishPhaseAsync(
+IInputItemContextPatch result = await eventPublisher.PublishPhaseAsync(
     pipelineId: "doc-pipeline",
     phaseId: "processing",
     moduleId: "guard-module",

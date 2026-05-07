@@ -12,7 +12,7 @@ public static class DependencyInjection
     public static IServiceCollection AddDataPartPipeline(this IServiceCollection services)
     {
         // Register core services here
-        services.TryAddEnumerable(ServiceDescriptor.Transient<IDocumentPipelineModule, DataPartPipelineRunner>());
+        services.TryAddEnumerable(ServiceDescriptor.Transient<IInputIngestionPipelineModule, DataPartPipelineRunner>());
         return services.AddSingleton<IDataPartDescriptorBuilder, DataPartDescriptorBuilder>()
                        .AddSingleton<IDataPartCatalog, DataPartCatalog>();
     }

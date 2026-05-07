@@ -1,7 +1,7 @@
 //using ContextCompiler.Abstractions.Configuration;
 //using ContextCompiler.Abstractions.Files;
 //using ContextCompiler.Abstractions.Models;
-//using ContextCompiler.Abstractions.Pipelines.Document;
+//using ContextCompiler.Abstractions.Pipelines.InputIngestion;
 //using ContextCompiler.Abstractions.Plugins;
 //using ContextCompiler.Abstractions.Tags;
 //using ContextCompiler.Readers.Modules.Pdf.Configurations;
@@ -14,7 +14,7 @@
 
 //    public bool CanRead(IFileInfos doc) => doc.MediaType.Contains("application/pdf", StringComparison.OrdinalIgnoreCase);
 
-//    public async Task<IDataEnvelope> ReadAsync(IDocumentContext documentContext, CancellationToken ct)
+//    public async Task<IDataEnvelope> ReadAsync(IInputItemContext InputItemContext, CancellationToken ct)
 //    {
 //        ct.ThrowIfCancellationRequested();
 //        var cfg = cfgProvider.GetConfigOrDefault(null);
@@ -30,11 +30,11 @@
 
 //        //}
 
-//        using var ms2 = await documentContext.GetContentStream();
+//        using var ms2 = await InputItemContext.GetContentStream();
 //        Stream s = ms2.NextPart();
 
 //        var parts = new List<IDataPart>();
-//        var sourcePath = documentContext.FullPath ?? string.Empty;
+//        var sourcePath = InputItemContext.FullPath ?? string.Empty;
 //        var index = 0;
 //        var locatorPrefix = "";
 

@@ -1,6 +1,6 @@
 using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Abstractions.Files;
-using ContextCompiler.Abstractions.Pipelines.Document;
+using ContextCompiler.Abstractions.Pipelines.InputIngestion;
 using ContextCompiler.Modules.Abstractions;
 
 using Microsoft.Extensions.Logging;
@@ -9,23 +9,23 @@ namespace ContextCompiler.Readers.Modules.Text;
 
 public sealed class TextFileReaderModule(ILinearFileReader linearFileReader, ILogger<TextFileReaderModule> logger) : IFileReaderModule
 {
-    public DocumentModuleMetadata Metadata => IDocumentPipelineModule.Meta("readers.text", DocumentPipelineModuleKinds.ReadDocument, priority: 0);
+    public InputIngestionModuleMetadata Metadata => IInputIngestionPipelineModule.Meta("readers.text", InputIngestionPipelineModuleKinds.ReadDocument, priority: 0);
 
     private static readonly HashSet<string> Extensions =
     [
         ".md",".txt",".cs",".json",".yaml",".yml",".xml",".config",".sln",".props"
     ];
 
-    public bool CanProcess(IDocumentContext documentContext)
+    public bool CanProcess(IInputItemContext InputItemContext)
     {
-        return Extensions.Contains(Path.GetExtension(documentContext.FullPath));
+        return Extensions.Contains(Path.GetExtension(InputItemContext.FullPath));
     }
 
-    public async Task<IResult<IDocumentPipelineRunResult>> Run(IDocumentPipelineRunContext context, CancellationToken ct)
+    public async Task<IResult<IInputIngestionPipelineRunResult>> Run(IInputIngestionPipelineRunContext context, CancellationToken ct)
     {
-        logger.LogInformation("Reading text file: {Path}", context.Document.FullPath);
+        logger.LogInformation("Reading text file: {Path}", context.InputItem.FullPath);
 
-        IDataEnvelope envelope = await linearFileReader.ReadAsync(context.Document, ct);
+        IDataEnvelope envelope = await linearFileReader.ReadAsync(context.InputItem, ct);
 
         return await context.Patch(b => b.WithDataEnvelope(envelope)).Success();
     }

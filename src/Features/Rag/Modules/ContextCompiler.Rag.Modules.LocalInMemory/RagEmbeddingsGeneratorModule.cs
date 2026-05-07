@@ -1,5 +1,5 @@
 using ContextCompiler.Abstractions.Common;
-using ContextCompiler.Abstractions.Pipelines.Document;
+using ContextCompiler.Abstractions.Pipelines.InputIngestion;
 using ContextCompiler.Abstractions.Ports;
 using ContextCompiler.Abstractions.ReasoningIR;
 using ContextCompiler.Modules.Abstractions;
@@ -7,21 +7,21 @@ using ContextCompiler.Rag.Modules.LocalInMemory.Abstractions;
 
 namespace ContextCompiler.Rag.Modules.LocalInMemory;
 
-public sealed class RagEmbeddingsGeneratorModule(IRagIndexer ragIndexer, ISemanticSearchService semanticSearchService, IHasher hasher, ITokenChunker tokenChunker) : IDocumentPipelineModule
+public sealed class RagEmbeddingsGeneratorModule(IRagIndexer ragIndexer, ISemanticSearchService semanticSearchService, IHasher hasher, ITokenChunker tokenChunker) : IInputIngestionPipelineModule
 {
-    public DocumentModuleMetadata Metadata => IDocumentPipelineModule.Meta(
+    public InputIngestionModuleMetadata Metadata => IInputIngestionPipelineModule.Meta(
         "rag",
-        DocumentPipelineModuleKinds.FragmentsProcessor,
+        InputIngestionPipelineModuleKinds.FragmentsProcessor,
         priority: 100);
 
-    public bool CanProcess(IDocumentContext documentContext)
+    public bool CanProcess(IInputItemContext InputItemContext)
     {
-        return documentContext.Data.Fragments.Count > 0;
+        return InputItemContext.Data.Fragments.Count > 0;
     }
 
-    public async Task<IResult<IDocumentPipelineRunResult>> Run(IDocumentPipelineRunContext context, CancellationToken ct)
+    public async Task<IResult<IInputIngestionPipelineRunResult>> Run(IInputIngestionPipelineRunContext context, CancellationToken ct)
     {
-        foreach (IFragment fragment in context.Document.Data.Fragments)
+        foreach (IFragment fragment in context.InputItem.Data.Fragments)
         {
             IReadOnlyList<string> chunks = await tokenChunker.SplitChunksByToken(fragment.Content, 256, 64, cancellationToken: ct);
 

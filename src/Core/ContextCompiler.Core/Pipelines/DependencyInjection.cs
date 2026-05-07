@@ -1,6 +1,6 @@
 using ContextCompiler.Abstractions.Pipelines;
 using ContextCompiler.Core.Pipelines.DataPart;
-using ContextCompiler.Core.Pipelines.Document;
+using ContextCompiler.Core.Pipelines.InputIngestion;
 using ContextCompiler.Core.Pipelines.Events;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -14,11 +14,11 @@ namespace ContextCompiler.Core.Pipelines
         {
             // Register core services here
             _ = services.AddSingleton<IGlobalPipeline, GlobalPipeline>()
-                .AddTransient<IDocumentContextBuilder, DocumentContextBuilder>()
-                .AddTransient<IDocumentContextDataBuilder, DocumentContextDataBuilder>()
+                .AddTransient<IInputItemContextBuilder, InputItemContextBuilder>()
+                .AddTransient<IInputItemContextDataBuilder, InputItemContextDataBuilder>()
                 .AddTransient<IGlobalPipelineRunContextBuilder, GlobalPipelineRunContextBuilder>()
                 .AddTransient<IGlobalPipelineRunResultBuilder, GlobalPipelineRunResultBuilder>()
-                .AddDocumentPipeline()
+                .AddInputIngestionPipeline()
                 .AddDataPartPipeline()
                 .AddPipelineEvents();
             return services;

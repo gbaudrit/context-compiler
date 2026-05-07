@@ -1,5 +1,5 @@
 using ContextCompiler.Abstractions.Pipelines.DataPart;
-using ContextCompiler.Abstractions.Pipelines.Document;
+using ContextCompiler.Abstractions.Pipelines.InputIngestion;
 using ContextCompiler.Modules.Abstractions;
 
 using Microsoft.Extensions.Logging;
@@ -14,21 +14,21 @@ public sealed class DataPartGuardModule(
     IDataEnvelopeBuilder dataEnvelopeBuilder,
     IDataPartCatalog dataPartCatalog,
     IOptions<DataPartGuardConfig> configOptions,
-    ILogger<DataPartGuardModule> logger) : IDocumentPartPipelineModule
+    ILogger<DataPartGuardModule> logger) : IDataPartPipelineModule
 {
     private readonly DataPartGuardConfig _config = configOptions.Value;
 
-    public DocumentPartModuleMetadata Metadata => IDocumentPartPipelineModule.Meta(
+    public DataPartModuleMetadata Metadata => IDataPartPipelineModule.Meta(
         "security.guard.datapart",
-        DocumentPartPipelineModuleKinds.Guards,
+        DataPartPipelineModuleKinds.Guards,
         priority: 10);
 
-    public bool CanProcess(IDocumentContext documentContext, IDataPart part)
+    public bool CanProcess(IInputItemContext inputItemContext, IDataPart part)
     {
         return true;
     }
 
-    public Task<IDocumentContextPatch> Run(IDocumentContext documentContext, IDocumentContextPatchBuilder patcher, IDataPart part, CancellationToken ct)
+    public Task<IInputItemContextPatch> Run(IInputItemContext inputItemContext, IInputItemContextPatchBuilder patcher, IDataPart part, CancellationToken ct)
     {
         ct.ThrowIfCancellationRequested();
 

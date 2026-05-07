@@ -1,23 +1,23 @@
 using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Abstractions.Files;
-using ContextCompiler.Abstractions.Pipelines.Document;
+using ContextCompiler.Abstractions.Pipelines.InputIngestion;
 using ContextCompiler.Modules.Abstractions;
 
 namespace ContextCompiler.Readers.Modules.Markdown;
 
 public sealed class MarkdownFileReaderModule(ILinearFileReader linearFileReader) : IFileReaderModule
 {
-    public DocumentModuleMetadata Metadata => IDocumentPipelineModule.Meta("readers.markdown", DocumentPipelineModuleKinds.ReadDocument, priority: 9);
+    public InputIngestionModuleMetadata Metadata => IInputIngestionPipelineModule.Meta("readers.markdown", InputIngestionPipelineModuleKinds.ReadDocument, priority: 9);
 
-    public bool CanProcess(IDocumentContext documentContext)
+    public bool CanProcess(IInputItemContext InputItemContext)
     {
-        string ext = Path.GetExtension(documentContext.FullPath);
+        string ext = Path.GetExtension(InputItemContext.FullPath);
         return ext.Equals(".md", StringComparison.OrdinalIgnoreCase) || ext.Equals(".markdown", StringComparison.OrdinalIgnoreCase);
     }
 
-    public async Task<IResult<IDocumentPipelineRunResult>> Run(IDocumentPipelineRunContext context, CancellationToken ct)
+    public async Task<IResult<IInputIngestionPipelineRunResult>> Run(IInputIngestionPipelineRunContext context, CancellationToken ct)
     {
-        IDataEnvelope envelope = await linearFileReader.ReadAsync(context.Document, ct);
+        IDataEnvelope envelope = await linearFileReader.ReadAsync(context.InputItem, ct);
 
         return await context.Patch(b =>
         {

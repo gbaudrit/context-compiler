@@ -1,4 +1,4 @@
-using ContextCompiler.Abstractions.Pipelines.Document;
+using ContextCompiler.Abstractions.Pipelines.InputIngestion;
 using ContextCompiler.Abstractions.ReasoningIR;
 using ContextCompiler.Abstractions.Tags;
 using ContextCompiler.Modules.Abstractions;
@@ -7,18 +7,18 @@ using Microsoft.Extensions.Logging;
 
 namespace ContextCompiler.Modules.Datas.Transcoders.Tabular;
 
-public sealed class TabularTranscoderModule(ILogger<TabularTranscoderModule> logger, ITagBuilder tagBuilder, ITagsBuilder tagsBuilder, IFragmentBuilder fragmentBuilder) : IDocumentPartPipelineModule
+public sealed class TabularTranscoderModule(ILogger<TabularTranscoderModule> logger, ITagBuilder tagBuilder, ITagsBuilder tagsBuilder, IFragmentBuilder fragmentBuilder) : IDataPartPipelineModule
 {
     private readonly System.Text.Json.JsonSerializerOptions jsonSerializerOptions = new() { WriteIndented = true };
 
-    public DocumentPartModuleMetadata Metadata => IDocumentPartPipelineModule.Meta("datas.transcoder.tabular", DocumentPartPipelineModuleKinds.Transcoders, priority: 10);
+    public DataPartModuleMetadata Metadata => IDataPartPipelineModule.Meta("datas.transcoder.tabular", DataPartPipelineModuleKinds.Transcoders, priority: 10);
 
-    public bool CanProcess(IDocumentContext documentContext, IDataPart part)
+    public bool CanProcess(IInputItemContext inputItemContext, IDataPart part)
     {
-        return documentContext.Data.DataEnvelope.Shape is DataShape.Tabular;
+        return inputItemContext.Data.DataEnvelope.Shape is DataShape.Tabular;
     }
 
-    public Task<IDocumentContextPatch> Run(IDocumentContext documentContext, IDocumentContextPatchBuilder patcher, IDataPart part, CancellationToken ct)
+    public Task<IInputItemContextPatch> Run(IInputItemContext inputItemContext, IInputItemContextPatchBuilder patcher, IDataPart part, CancellationToken ct)
     {
         ct.ThrowIfCancellationRequested();
 

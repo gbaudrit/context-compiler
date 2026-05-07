@@ -10,7 +10,7 @@ public static class DependencyInjection
         this IServiceCollection services,
         Action<DataPartGuardConfig>? configureOptions = null)
     {
-        _ = services.AddSingleton<IDocumentPartPipelineModule, DataPartGuardModule>();
+        _ = services.AddSingleton<IDataPartPipelineModule, DataPartGuardModule>();
 
         if (configureOptions is not null)
         {

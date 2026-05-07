@@ -1,14 +1,14 @@
 using ContextCompiler.Abstractions.Common;
-using ContextCompiler.Abstractions.Pipelines.Document;
+using ContextCompiler.Abstractions.Pipelines.InputIngestion;
 using ContextCompiler.Modules.Abstractions;
 
 using Microsoft.Extensions.FileSystemGlobbing;
 
 namespace ContextCompiler.Security.Guards;
 
-public sealed class ScopeGuardModule() : IDocumentPipelineModule
+public sealed class ScopeGuardModule() : IInputIngestionPipelineModule
 {
-    public DocumentModuleMetadata Metadata => IDocumentPipelineModule.Meta("security.guard.scope", DocumentPipelineModuleKinds.ReadScopeGuards, priority: -100);
+    public InputIngestionModuleMetadata Metadata => IInputIngestionPipelineModule.Meta("security.guard.scope", InputIngestionPipelineModuleKinds.ReadScopeGuards, priority: -100);
     //public DocumentStage Stage => DocumentStage.Discovery;
 
     private static readonly string[] Excludes =
@@ -19,16 +19,16 @@ public sealed class ScopeGuardModule() : IDocumentPipelineModule
         "**/obj/**"
     ];
 
-    public bool CanProcess(IDocumentContext documentContext)
+    public bool CanProcess(IInputItemContext InputItemContext)
     {
         return true;
     }
 
-    public Task<IResult<IDocumentPipelineRunResult>> Run(IDocumentPipelineRunContext context, CancellationToken ct)
+    public Task<IResult<IInputIngestionPipelineRunResult>> Run(IInputIngestionPipelineRunContext context, CancellationToken ct)
     {
         ct.ThrowIfCancellationRequested();
 
-        if (context.Document.Data is null)
+        if (context.InputItem.Data is null)
         {
             return context.NothingToDo();
         }
@@ -40,7 +40,7 @@ public sealed class ScopeGuardModule() : IDocumentPipelineModule
             _ = matcher.AddExclude(ex);
         }
 
-        string rel = Path.GetRelativePath(context.Document.InputRoot, context.Document.FullPath);
+        string rel = Path.GetRelativePath(context.InputItem.InputRoot, context.InputItem.FullPath);
         PatternMatchingResult match = matcher.Match(rel);
 
         if (match.HasMatches)
