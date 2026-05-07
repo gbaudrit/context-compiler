@@ -1,6 +1,6 @@
 # Standard views pack
 
-`ContextCompiler.Packs.Views.Standard` bundles the standard view modules for ContextCompiler.
+`ContextCompiler.Views.Packs.Standard` bundles the standard view modules for ContextCompiler.
 
 Included modules:
 

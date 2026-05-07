@@ -7,8 +7,8 @@ Il exécute les modules par groupe de `Kind`, ordonnés selon `GlobalPipelineMod
 
 ### Stages (ordonnées)
 1. **Configuration**
-2. **Documents**
-   - lance le **Document Pipeline** pour chaque document
+2. **Input Ingestion**
+   - lance le **Input Ingestion Pipeline** pour chaque input item
    - collecte les findings
    - alimente le Reasoning IR avec les fragments produits
 3. **FileReader**
@@ -30,7 +30,7 @@ Il exécute les modules par groupe de `Kind`, ordonnés selon `GlobalPipelineMod
 
 ---
 
-## B) Document Pipeline (per document, inside Global Pipeline.Documents)
+## B) Input Ingestion Pipeline (per input item, inside Global Pipeline.InputIngestion)
 
 ### Input
 - rootPath

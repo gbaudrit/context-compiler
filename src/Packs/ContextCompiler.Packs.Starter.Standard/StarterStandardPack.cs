@@ -14,7 +14,7 @@ public class StarterStandardPack : IPackModule
             typeof(Prompting.Packs.Standard.Pack).Assembly,
             typeof(Readers.Packs.Standard.Pack).Assembly,
             typeof(Views.Packs.Standard.Pack).Assembly,
-            typeof(Datas.Transcoders.Standard.Pack).Assembly,
+            typeof(InputIngestion.Packs.Transcoders.Standard.Pack).Assembly,
             typeof(Security.Packs.Standard.Pack).Assembly,
         ];
     }

@@ -5,7 +5,7 @@
 Entrée (dossier)
 → (A) Global Pipeline
 → (B) étape Documents
-→ (C) Document Pipeline (par document)
+→ (C) Input Ingestion Pipeline (par input item)
 → (D) Reasoning IR (canonique)
 → Artefacts
 
@@ -27,7 +27,7 @@ En pratique, ContextCompiler assemble des modules en packs, ex�cute ces capacit�
 - Surface stable versionnée (PluginApiVersion)
 
 ### Core
-- Pipeline global + pipeline document imbriqué
+- Pipeline global + pipeline input ingestion imbriqué
 - Reasoning IR
 - Evidence system
 - Orchestration (deterministic ordering)

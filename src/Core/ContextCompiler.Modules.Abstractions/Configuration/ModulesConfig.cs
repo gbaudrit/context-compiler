@@ -8,7 +8,7 @@ public class ModulesConfig : IModulesLoadConfig
     public string LockFile { get; set; } = ".ctxc/ctxc.modules.lock.json";
     public string RunModulesFile { get; set; } = ".ctxc/ctxc.modules.run.json";
     public string QuarantineRoot { get; set; } = ".ctxc/quarantine";
-    public string ConfigurationModule { get; set; } = "ContextCompiler.Modules.Configuration";
+    public string ConfigurationModule { get; set; } = "ContextCompiler.Configuration.Json";
     public List<ModuleSource> Sources { get; set; } = [];
     public TrustConfig Trust { get; set; } = new();
     public Dictionary<string, string> Packages { get; set; } = [];

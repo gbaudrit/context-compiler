@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<Configurations>Debug;Release;DebugLocal</Configurations>
+		<IsPackable>true</IsPackable>
+		<PackageId>ContextCompiler.InputIngestion.Packs.Transcoders.Standard</PackageId>
+		<Title>Default transcoders pack</Title>
+		<Description>Default transcoders pack for linear and tabular data shapes.</Description>
+		<PackageTags>context;compiler;pack;transcoder;linear;tabular;data;default</PackageTags>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<Authors>ContextCompiler</Authors>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)' == 'DebugLocal'">
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="README.md" Pack="true" PackagePath="" />
+		<ProjectReference Include="..\..\Modules\ContextCompiler.InputIngestion.Modules.Transcoders.Linear\ContextCompiler.InputIngestion.Modules.Transcoders.Linear.csproj" />
+		<ProjectReference Include="..\..\Modules\ContextCompiler.InputIngestion.Modules.Transcoders.Tabular\ContextCompiler.InputIngestion.Modules.Transcoders.Tabular.csproj" />
+	</ItemGroup>
+
+</Project>

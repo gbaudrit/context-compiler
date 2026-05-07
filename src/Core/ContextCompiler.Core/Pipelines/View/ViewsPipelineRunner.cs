@@ -5,7 +5,6 @@ using ContextCompiler.Abstractions.Pipelines;
 using ContextCompiler.Abstractions.ReasoningIR;
 using ContextCompiler.Abstractions.Views;
 using ContextCompiler.Modules.Abstractions;
-using ContextCompiler.Modules.BuiltIn;
 
 using Microsoft.Extensions.Logging;
 
@@ -18,7 +17,7 @@ public sealed class ViewsPipelineRunner(ILogger<GlobalPipeline> logger,
                                         IReasoningIr ir) : IGlobalPipelineModule
 {
 
-    public ModuleMetadata Metadata => BuiltInMetadata.Meta("views", GlobalPipelineModuleKinds.OutputProjection, priority: 10);
+    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("views", GlobalPipelineModuleKinds.OutputProjection, priority: 10);
 
     public async Task<IResult<IGlobalPipelineRunResult>> Run(IGlobalPipelineRunContext context, CancellationToken cancellationToken)
     {

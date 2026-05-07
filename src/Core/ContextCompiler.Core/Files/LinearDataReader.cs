@@ -10,7 +10,6 @@ public sealed class LinearDataReader(IDataEnvelopeBuilder dataEnvelopeBuilder, I
 {
     private bool disposedValue;
 
-    //public PluginMetadata Metadata => BuiltInMetadata.Meta("builtin.data.linear", GlobalPipelinePluginKinds.DataReader, priority: 0);
 
     //public bool CanRead(IFileInfos doc) => doc.MediaType.Contains("text/", StringComparison.OrdinalIgnoreCase);
 

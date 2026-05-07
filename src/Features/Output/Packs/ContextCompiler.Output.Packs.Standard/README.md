@@ -1,6 +1,6 @@
 # Standard artifacts pack
 
-`ContextCompiler.Packs.Artifacts.Standard` bundles the standard artifacts modules for ContextCompiler.
+`ContextCompiler.Output.Packs.Standard` bundles the standard artifacts modules for ContextCompiler.
 
 Included modules:
 

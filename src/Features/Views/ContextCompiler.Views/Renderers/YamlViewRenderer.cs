@@ -26,7 +26,7 @@ internal sealed class YamlViewRenderer(ILogger<YamlViewRenderer> logger) : IView
         StringBuilder sb = new();
         _ = sb.AppendLine(CultureInfo.InvariantCulture, $"- id: {def.Id}");
         _ = sb.AppendLine(CultureInfo.InvariantCulture, $"  title: {def.Title}");
-        _ = sb.AppendLine("  - evidences:");
+        _ = sb.AppendLine("  - evidence:");
 
         foreach (IFragment f in fragments)
         {

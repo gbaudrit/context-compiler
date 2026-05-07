@@ -11,7 +11,6 @@ using ContextCompiler.Abstractions.ReasoningIR;
 using ContextCompiler.Abstractions.Sources;
 using ContextCompiler.Abstractions.Tags;
 using ContextCompiler.Modules.Abstractions;
-using ContextCompiler.Modules.BuiltIn;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileSystemGlobbing;
@@ -46,7 +45,7 @@ public sealed class InputIngestionPipeline(
     IPipelineEventPublisher pipelineEventPublisher) : IGlobalPipelineModule, IPipeline
 {
 
-    public ModuleMetadata Metadata => BuiltInMetadata.Meta("pipelines.input-ingestion", GlobalPipelineModuleKinds.InputIngestion, priority: 10);
+    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("pipelines.input-ingestion", GlobalPipelineModuleKinds.InputIngestion, priority: 10);
 
     public async Task<IResult<IGlobalPipelineRunResult>> Run(IGlobalPipelineRunContext context, CancellationToken cancellationToken)
     {
