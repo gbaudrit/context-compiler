@@ -9,12 +9,12 @@ namespace ContextCompiler.Prompting.Packs.Standard
         public IEnumerable<Assembly> Discover()
         {
             return [
-                typeof(ContextCompiler.Prompting.Modules.Composers.Objectives.DependencyInjection).Assembly,
-                typeof(ContextCompiler.Prompting.Modules.Composers.Glossary.DependencyInjection).Assembly,
-                typeof(ContextCompiler.Prompting.Modules.Composers.General.DependencyInjection).Assembly,
-                typeof(ContextCompiler.Prompting.Modules.Composers.Constraints.DependencyInjection).Assembly,
-                typeof(ContextCompiler.Prompting.Modules.Composers.Assumptions.DependencyInjection).Assembly,
-                typeof(ContextCompiler.Prompting.Modules.Composers.Audiences.DependencyInjection).Assembly,
+                typeof(Modules.Composers.Objectives.DependencyInjection).Assembly,
+                typeof(Modules.Composers.Glossary.DependencyInjection).Assembly,
+                typeof(Modules.Composers.General.DependencyInjection).Assembly,
+                typeof(Modules.Composers.Constraints.DependencyInjection).Assembly,
+                typeof(Modules.Composers.Assumptions.DependencyInjection).Assembly,
+                typeof(Modules.Composers.Audiences.DependencyInjection).Assembly,
                 ];
         }
     }

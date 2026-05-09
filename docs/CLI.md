@@ -153,7 +153,7 @@ Behavior:
 
 ### 5.2 `ctxc views render`
 
-Render a view explicitly (future: re-render from IR or just print stored output).
+Render a view explicitly (future: re-render from Compiled Context or just print stored output).
 
 ```bash
 ctxc views render --id <viewId> --input <outputFolder> [--out <file>]
@@ -166,7 +166,7 @@ Options:
 
 Behavior:
 - read `view.<id>.md` and print it (phase 1)
-- phase 2: allow re-render from IR
+- phase 2: allow re-render from Compiled Context
 
 ---
 
@@ -234,7 +234,7 @@ ctxc graph export --input <outputFolder> --format <json|dot|mermaid> [--out <fil
 ```
 
 Behavior:
-- read `reasoning.graph.json`
+- read `evidence.graph.json`
 - if format == json => print as is
 - if dot/mermaid => use exporter plugin OR simple converter (baseline)
 

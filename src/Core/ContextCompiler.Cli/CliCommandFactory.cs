@@ -249,7 +249,7 @@ public static class CliCommandFactory
 
         // graph group
         Command graph = new("graph", "Graph commands");
-        Command graphExport = new("export", "Export reasoning graph");
+        Command graphExport = new("export", "Export evidence graph");
         Option<string> giInput = new("--input") { IsRequired = true };
         Option<string> giFormat = new("--format") { IsRequired = true };
         Option<string?> giOut = new("--out");

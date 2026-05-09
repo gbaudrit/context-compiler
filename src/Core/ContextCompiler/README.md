@@ -8,11 +8,11 @@ It provides a modular pipeline to build, analyze, and export context for downstr
 
 ## 🚀 Overview
 
-ContextCompiler compiles input data (files, directories, repositories) into a canonical **Reasoning IR** enriched with an **Evidence system**, then produces deterministic outputs such as:
+ContextCompiler compiles input data (files, directories, repositories) into a canonical **Compiled Context** enriched with an **Evidence system**, then produces deterministic outputs such as:
 
 * Context prompts
 * Evidence indexes
-* Reasoning graphs
+* Evidence graphs
 * Reports and diagnostics
 
 The system is designed to be:
@@ -63,7 +63,7 @@ await compiler.RunAsync("input-directory");
 
 ## 🧠 Core concepts
 
-### Reasoning IR
+### Compiled Context
 
 A canonical, immutable representation of the compiled context.
 
@@ -80,7 +80,7 @@ Each fragment is identified by:
 
 ### Context Views
 
-Deterministic projections of the IR for specific purposes:
+Deterministic projections of the Compiled Context for specific purposes:
 
 * risk
 * spec
@@ -94,7 +94,7 @@ Typical outputs:
 
 * prompt.context.md
 * evidence.index.json
-* reasoning.graph.json
+* evidence.graph.json
 * security.report.md
 * context.health.json
 
@@ -153,7 +153,7 @@ Example:
 
 ## 🔗 Related packages
 
-* ContextCompiler.Abstractions → core contracts (IR, evidence, pipeline)
+* ContextCompiler.Abstractions → core contracts (Compiled Context, evidence, pipeline)
 * ContextCompiler.Modules.Abstractions → module contracts
 * ContextCompiler.Core → runtime engine
 * ContextCompiler.Modules.* → module implementations
@@ -165,3 +165,4 @@ Example:
 Licensed under the Apache License 2.0. See LICENSE.txt.
 
 © 2026 Guillaume Baudrit
+

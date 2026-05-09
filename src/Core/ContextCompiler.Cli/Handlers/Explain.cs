@@ -15,7 +15,7 @@ internal sealed class CtxcExplainHandler(ILogger<CtxcExplainHandler> logger) : I
     {
         try
         {
-            string[] artifacts = ["prompt.context.md", "evidence.index.json", "reasoning.graph.json", "security.report.md", "context.health.json"];
+            string[] artifacts = ["prompt.context.md", "evidence.index.json", "compiled.graph.json", "security.report.md", "context.health.json"];
             string[] existing = [.. artifacts.Where(a => File.Exists(Path.Combine(input, a)))];
 
             int fragmentCount = 0;

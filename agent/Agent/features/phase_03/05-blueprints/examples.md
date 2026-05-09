@@ -511,7 +511,7 @@ src/
   <ItemGroup>
     <None Include="README.md" Pack="true" PackagePath="" />
     <ProjectReference Include="..\..\Packs\ContextCompiler.Packs.Starter.Standard\..." />
-    <ProjectReference Include="..\..\Modules\ContextCompiler.Modules.Prompt.Templates.Scriban\..." />
+    <ProjectReference Include="..\..\Modules\ContextCompiler.Prompting.Modules.Templates.Scriban\..." />
   </ItemGroup>
 </Project>
 ```
@@ -528,11 +528,11 @@ src/
       "type": "nuget",
       "packages": [
         {
-          "id": "ContextCompiler.Blueprints.DotNet.WebApp.Razor",
+          "id": "ContextCompiler.Prompting.Blueprints.DotNet.WebApp.Razor",
           "version": "1.0.0"
         },
         {
-          "id": "ContextCompiler.Blueprints.Agile.UserStory",
+          "id": "ContextCompiler.Prompting.Blueprints.Agile.UserStory",
           "version": "1.0.0"
         },
         {

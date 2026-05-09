@@ -44,7 +44,7 @@ internal sealed class CtxcCompileHandler(ICompilerEngine engine, IOutputContext 
                     exitCode = rc,
                     inputPath = compileCommandLine.Input,
                     outputPath = compileCommandLine.Output,
-                    artifacts = new[] { "prompt.context.md", "evidence.index.json", "reasoning.graph.json" },
+                    artifacts = new[] { "prompt.context.md", "evidence.index.json", "evidence.graph.json" },
                     views = new[] { "default" }
                 };
 

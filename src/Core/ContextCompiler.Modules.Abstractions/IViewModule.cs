@@ -1,5 +1,5 @@
+using ContextCompiler.Abstractions.Compiled;
 using ContextCompiler.Abstractions.Configuration.Sections;
-using ContextCompiler.Abstractions.ReasoningIR;
 using ContextCompiler.Abstractions.Versioning;
 using ContextCompiler.Abstractions.Views;
 
@@ -21,7 +21,7 @@ public interface IViewModule : IModule
 
 public sealed record ViewContext(
     IViewsConfigSection Config,
-    IReasoningIr ReasoningIr,
+    ICompiledContext CompiledContext,
     IReadOnlyDictionary<string, object>? Inputs = null,
     bool EmitJson = true,
     bool EmitMarkdown = true

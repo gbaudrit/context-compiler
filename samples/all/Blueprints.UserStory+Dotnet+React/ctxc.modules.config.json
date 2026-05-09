@@ -1,0 +1,39 @@
+{
+    "mode": "Install",
+    "installRoot": ".ctxc/modules",
+    "lockFile": ".ctxc/ctxc.modules.lock.json",
+    "offline": false,
+    "quarantineRoot": ".ctxc/quarantine",
+    "sources": [
+      {
+        "name": "locale",
+        "url": "C:\\.localenugetsource",
+        "trusted": true,
+        "provider": "nuget"
+      },
+      {
+        "name": "nuget.org",
+        "url": "https://api.nuget.org/v3/index.json",
+        "trusted": true,
+        "provider": "nuget"
+       }
+    ],
+    "trust": {
+      "requireTrustedSource": true,
+      "requireSignedPackages": false,
+      "allowedPackageIds": [
+        "ContextCompiler.Modules.*",
+        "ContextCompiler.Packs.*",
+        "ContextCompiler.*.Packs.*",
+        "ContextCompiler.Prompting.Blueprints.*"
+      ],
+      "blockedPackageIds": []
+    },
+    "packages": {
+      "ContextCompiler.Packs.Starter.Standard@locale":"0.1.0-alpha.1",
+      "ContextCompiler.Prompting.Blueprints.Agile.UserStory@locale":"0.1.0-alpha.1",
+      "ContextCompiler.Prompting.Blueprints.DotNet.Api.Backend@locale":"0.1.0-alpha.1",
+      "ContextCompiler.Prompting.Blueprints.React.Frontend@locale":"0.1.0-alpha.1",
+      "ContextCompiler.Prompting.Modules.Templates.Scriban@locale":"0.1.0-alpha.1"
+    }
+  }

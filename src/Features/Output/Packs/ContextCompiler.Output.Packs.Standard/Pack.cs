@@ -10,7 +10,7 @@ namespace ContextCompiler.Output.Packs.Standard
         {
             return [
                 typeof(Modules.Artifacts.Registry.DependencyInjection).Assembly,
-                typeof(Modules.Artifacts.Registry.DependencyInjection).Assembly
+                typeof(Modules.Artifacts.Writer.DependencyInjection).Assembly
                 ];
         }
     }

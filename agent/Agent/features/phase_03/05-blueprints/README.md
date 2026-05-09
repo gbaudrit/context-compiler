@@ -84,13 +84,13 @@ internal sealed class BlueprintComposerModule(
 
 ## 📦 Available Blueprints
 
-### ContextCompiler.Blueprints.DotNet.WebApp.Razor
+### ContextCompiler.Prompting.Blueprints.DotNet.WebApp.Razor
 - **Purpose:** Guide for building ASP.NET Core Razor Pages applications
 - **Steps:** 14 (initialization → deployment)
 - **Constraints:** 62 MUST + 8 MUST NOT
 - **Glossary:** 8 terms (Razor Pages, PageModel, Tag Helpers, etc.)
 
-### ContextCompiler.Blueprints.Agile.UserStory
+### ContextCompiler.Prompting.Blueprints.Agile.UserStory
 - **Purpose:** Guide for writing high-quality Agile User Stories
 - **Steps:** 11 (role identification → stakeholder review)
 - **Constraints:** Based on INVEST principles
@@ -133,7 +133,7 @@ Load via `modules.config.json`:
       "type": "nuget",
       "packages": [
         {
-          "id": "ContextCompiler.Blueprints.DotNet.WebApp.Razor",
+          "id": "ContextCompiler.Prompting.Blueprints.DotNet.WebApp.Razor",
           "version": "1.0.0"
         }
       ]
@@ -203,8 +203,8 @@ See `agent/Agent/features/phase_03/05-blueprints/examples.md` for detailed examp
 | Test Blueprints | `tests.md` |
 | Module registration | `FEATURE.md` → Section 6 |
 | Template rendering | `FEATURE.md` → Section 7 |
-| Razor Web App example | `src/Blueprints/ContextCompiler.Blueprints.DotNet.WebApp.Razor/` |
-| User Story example | `src/Blueprints/ContextCompiler.Blueprints.Agile.UserStory/` |
+| Razor Web App example | `src/Blueprints/ContextCompiler.Prompting.Blueprints.DotNet.WebApp.Razor/` |
+| User Story example | `src/Blueprints/ContextCompiler.Prompting.Blueprints.Agile.UserStory/` |
 
 ---
 

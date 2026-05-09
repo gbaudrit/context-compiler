@@ -2,23 +2,23 @@ using System.Globalization;
 using System.Text;
 
 using ContextCompiler.Abstractions.Common;
+using ContextCompiler.Abstractions.Compiled;
 using ContextCompiler.Abstractions.Output;
 using ContextCompiler.Abstractions.Pipelines;
-using ContextCompiler.Abstractions.ReasoningIR;
 using ContextCompiler.Modules.Abstractions;
 using ContextCompiler.Modules.Abstractions.GlobalPipeline;
 
 namespace ContextCompiler.Evidence.Modules.Graph.Dot;
 
-public sealed class DotGraphExporterModule(IOutput output, IReasoningIr ir) : IOutputArtifactComposerModule
+public sealed class DotGraphExporterModule(IOutput output, ICompiledContext compiledContext) : IOutputArtifactComposerModule
 {
     public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("evidence.graph.dot", GlobalPipelineModuleKinds.ReportComposition, priority: 10);
 
     public async Task<IResult<IGlobalPipelineRunResult>> Run(IGlobalPipelineRunContext context, CancellationToken cancellationToken)
     {
-        IGraph graph = await ir.Graph(cancellationToken);
+        IGraph graph = await compiledContext.Graph(cancellationToken);
         StringBuilder sb = new();
-        _ = sb.AppendLine("digraph reasoning {");
+        _ = sb.AppendLine("digraph evidence {");
         foreach (IGraphNode n in graph.Nodes)
         {
             _ = sb.AppendLine(CultureInfo.InvariantCulture, $"  \"{n.Id}\" [label=\"{Escape(n.Label)}\"];");
@@ -33,7 +33,7 @@ public sealed class DotGraphExporterModule(IOutput output, IReasoningIr ir) : IO
 
         output.AddArtifact(builder =>
         {
-            return builder.WithFileName("reasoning.graph.dot")
+            return builder.WithFileName("evidence.graph.dot")
                           .WithContent(sb.ToString())
                           .WithGeneratedBy(GetType());
         });

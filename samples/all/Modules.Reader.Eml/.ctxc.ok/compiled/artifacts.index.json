@@ -1,0 +1,32 @@
+{
+  "artifacts": [
+    {
+      "filename": "view.default.md",
+      "description": "",
+      "mimeType": "application/octet-stream",
+      "size": 49326,
+      "generatedBy": "ContextCompiler.Modules.Prompt.Composers.Views.ViewsPromptComposerModule"
+    },
+    {
+      "filename": "view.emails.yaml",
+      "description": "",
+      "mimeType": "application/octet-stream",
+      "size": 55520,
+      "generatedBy": "ContextCompiler.Modules.Prompt.Composers.Views.ViewsPromptComposerModule"
+    },
+    {
+      "filename": "view.emails.index.json",
+      "description": "",
+      "mimeType": "application/json",
+      "size": 7279,
+      "generatedBy": "ContextCompiler.Modules.Prompt.Composers.Views.ViewsPromptComposerModule"
+    },
+    {
+      "filename": "security.report.md",
+      "description": "",
+      "mimeType": "application/octet-stream",
+      "size": 31,
+      "generatedBy": "ContextCompiler.Modules.Security.SecurityReportArtifactModule"
+    }
+  ]
+}

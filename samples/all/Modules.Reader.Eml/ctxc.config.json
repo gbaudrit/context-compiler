@@ -1,0 +1,50 @@
+{
+    "$schema": "file:///C:/Users/g.baudrit/source/repos/gbaudrit/Git/ctxc-samples/ctxc-sample-spec/with-ctxc/.ctxc/schemas/ctxc.config.schema.json",
+    "context": {
+    "enabled": true,
+    "name": "",
+    "summary": "",
+    "domain": "",
+    "audiences": {
+      "business_analyst":"",
+      "dev_senior":""
+    },
+    "objectives": [],
+    "assumptions": [],
+    "constraints": {
+      "canUseExternalSources": false,
+      "must": [
+        "Utiliser uniquement les évidences extraites (E-XXXXXXX).",
+        "Check and Cite objectives for all tasks.",
+        "Check and Cite assumptions for all tasks.",
+        "Cite evidence for all facts, claims or statements.",
+        "Présenter les résultats au format markdown avec des exemples."
+      ],
+      "mustNot": [
+        "Faire des suppositions non basées sur les données extraites.",
+        "Utiliser des informations provenant de sources externes."
+      ]
+    },
+    "glossary": {}
+  },
+    "files": [
+        {
+            "includes": ["**/*.eml"],
+            "tags": ["concern:email"],
+            "options": {
+                "readers.eml": {
+                    "extracts": []
+                }
+            }
+        }
+    ],
+    "views": {
+        "inline":false,
+        "views":[
+          {
+            "id": "emails",
+             "select": ["concern:email"]
+          }
+        ]
+    }
+}

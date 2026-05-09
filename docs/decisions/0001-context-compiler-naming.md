@@ -4,7 +4,7 @@
     * Date: 2025-12-26
 
     ## Context and Problem Statement
-    We need a product name that is technically honest and matches a compiler-style pipeline (passes, IR, reports). Earlier names like 'Context Booster' under-sold the scope (governance, security, evidence, coverage).
+    We need a product name that is technically honest and matches a compiler-style pipeline (passes, compiled context, reports). Earlier names like 'Context Booster' under-sold the scope (governance, security, evidence, coverage).
 
     ## Decision Drivers
     - Maintainability and testability
@@ -21,7 +21,7 @@
 
     ### Consequences
     - Clear and durable mental model (compiler pipeline).
-- Aligns with IR, passes, static analysis (guards), and artifacts.
+- Aligns with compiled context, passes, static analysis (guards), and artifacts.
 - Enables consistent CLI naming (ctxc compile/diff/explain/health).
 
     ## Links

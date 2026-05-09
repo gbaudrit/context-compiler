@@ -6,7 +6,7 @@ Entrée (dossier)
 → (A) Global Pipeline
 → (B) étape Documents
 → (C) Input Ingestion Pipeline (par input item)
-→ (D) Reasoning IR (canonique)
+→ (D) Compiled Context (canonique)
 → Artefacts
 
 ## 1.1) Building blocks
@@ -28,7 +28,7 @@ En pratique, ContextCompiler assemble des modules en packs, ex�cute ces capacit�
 
 ### Core
 - Pipeline global + pipeline input ingestion imbriqué
-- Reasoning IR
+- Compiled Context
 - Evidence system
 - Orchestration (deterministic ordering)
 - Mécanismes: sorting stable, budgets, aggregation
@@ -43,7 +43,7 @@ En pratique, ContextCompiler assemble des modules en packs, ex�cute ces capacit�
 - FileReaders (type fichier)
 - DataReaders (shape de données)
 - EngineeringModules (nettoyage, normalisation, enrichissement)
-- Transcoders (DataEnvelope → fragments IR)
+- Transcoders (DataEnvelope → fragments du contexte compil�)
 - Guards (sécurité)
 - Views (projections)
 - Templates (framing)
@@ -67,4 +67,5 @@ En pratique, ContextCompiler assemble des modules en packs, ex�cute ces capacit�
 - Golden tests sur outputs d’un dossier fixture
 - Snapshot tests sur JSON/MD
 - MSTest + Moq + FluentAssertions
+
 

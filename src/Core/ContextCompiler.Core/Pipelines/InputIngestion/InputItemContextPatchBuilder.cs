@@ -1,8 +1,8 @@
 using ContextCompiler.Abstractions.Common;
+using ContextCompiler.Abstractions.Compiled;
 using ContextCompiler.Abstractions.Models;
 using ContextCompiler.Abstractions.Pipelines;
 using ContextCompiler.Abstractions.Pipelines.InputIngestion;
-using ContextCompiler.Abstractions.ReasoningIR;
 using ContextCompiler.Abstractions.Tags;
 
 namespace ContextCompiler.Core.Pipelines.InputIngestion;

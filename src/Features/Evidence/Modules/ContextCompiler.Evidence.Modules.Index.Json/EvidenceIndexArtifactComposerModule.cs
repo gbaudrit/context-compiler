@@ -1,9 +1,9 @@
 using System.Text.Json;
 
 using ContextCompiler.Abstractions.Common;
+using ContextCompiler.Abstractions.Compiled;
 using ContextCompiler.Abstractions.Output;
 using ContextCompiler.Abstractions.Pipelines;
-using ContextCompiler.Abstractions.ReasoningIR;
 using ContextCompiler.Modules.Abstractions;
 using ContextCompiler.Modules.Abstractions.GlobalPipeline;
 
@@ -11,7 +11,7 @@ using Microsoft.Extensions.Logging;
 
 namespace ContextCompiler.Evidence.Modules.Index.Json;
 
-public sealed class EvidenceIndexArtifactComposerModule(ILogger<EvidenceIndexArtifactComposerModule> logger, IReasoningIr ir, IOutput output) : IOutputArtifactComposerModule
+public sealed class EvidenceIndexArtifactComposerModule(ILogger<EvidenceIndexArtifactComposerModule> logger, ICompiledContext compiledContext, IOutput output) : IOutputArtifactComposerModule
 {
     public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("evidence.index.json", GlobalPipelineModuleKinds.ReportComposition, priority: 10);
 
@@ -19,15 +19,15 @@ public sealed class EvidenceIndexArtifactComposerModule(ILogger<EvidenceIndexArt
 
     public Task<IResult<IGlobalPipelineRunResult>> Run(IGlobalPipelineRunContext context, CancellationToken cancellationToken)
     {
-        int distinctEvidenceCount = ir.Fragments.Select(f => f.Evidence.EvidenceKey).Distinct().Count();
-        List<ITag> distinctsTags = [.. ir.Fragments.SelectMany(f => f.Tags).Distinct()];
+        int distinctEvidenceCount = compiledContext.Fragments.Select(f => f.Evidence.EvidenceKey).Distinct().Count();
+        List<ITag> distinctsTags = [.. compiledContext.Fragments.SelectMany(f => f.Tags).Distinct()];
         Dictionary<string, int> evidenceCountByTag = [];
         foreach (ITag? tag in distinctsTags)
         {
-            evidenceCountByTag[$"{tag.Name}:{tag.Value}"] = ir.Fragments.Count(f => f.Tags.Contains(tag));
+            evidenceCountByTag[$"{tag.Name}:{tag.Value}"] = compiledContext.Fragments.Count(f => f.Tags.Contains(tag));
         }
 
-        var evidence = ir.Fragments.Select(f => new
+        var evidence = compiledContext.Fragments.Select(f => new
         {
             ek = f.Evidence.EvidenceKey,
             er = f.Evidence.EvidenceRevision,

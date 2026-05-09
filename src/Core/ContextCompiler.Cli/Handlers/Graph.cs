@@ -8,10 +8,10 @@ internal sealed class CtxcGraphExportHandler(ILogger<CtxcGraphExportHandler> log
     {
         try
         {
-            string jsonPath = Path.Combine(input, "reasoning.graph.json");
+            string jsonPath = Path.Combine(input, "compiled.graph.json");
             if (!File.Exists(jsonPath))
             {
-                logger.LogError("reasoning.graph.json not found in {Input}", input);
+                logger.LogError("compiled.graph.json not found in {Input}", input);
                 return 1;
             }
             string json = await File.ReadAllTextAsync(jsonPath);
@@ -33,7 +33,7 @@ internal sealed class CtxcGraphExportHandler(ILogger<CtxcGraphExportHandler> log
             // Baseline simple converter: dot/mermaid trivial
             if (string.Equals(format, "dot", StringComparison.OrdinalIgnoreCase))
             {
-                string text = "digraph reasoning {\n  // exporter stub\n}";
+                string text = "digraph compiled {\n  // exporter stub\n}";
                 if (outFile is not null)
                 {
                     await File.WriteAllTextAsync(outFile, text);

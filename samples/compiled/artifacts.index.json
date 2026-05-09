@@ -85,21 +85,21 @@
       "generatedBy": "ContextCompiler.Modules.BuiltIn.Personas.ActivatedPersonasIndexArtifact"
     },
     {
-      "filename": "reasoning.graph.json",
+      "filename": "evidence.graph.json",
       "description": "",
       "mimeType": "application/json",
       "size": 141215,
       "generatedBy": "ContextCompiler.Modules.BuiltIn.GraphExporters.PersonasActiveArtifact"
     },
     {
-      "filename": "reasoning.graph.dot",
+      "filename": "evidence.graph.dot",
       "description": "",
       "mimeType": "application/octet-stream",
       "size": 31328,
       "generatedBy": "ContextCompiler.Modules.BuiltIn.GraphExporters.DotGraphExporter"
     },
     {
-      "filename": "reasoning.graph.json",
+      "filename": "evidence.graph.json",
       "description": "",
       "mimeType": "application/json",
       "size": 141215,

@@ -1,6 +1,6 @@
+using ContextCompiler.Abstractions.Compiled;
 using ContextCompiler.Abstractions.Files;
 using ContextCompiler.Abstractions.Pipelines.InputIngestion;
-using ContextCompiler.Abstractions.ReasoningIR;
 using ContextCompiler.Abstractions.Tags;
 using ContextCompiler.Modules.Abstractions;
 

@@ -1,17 +1,16 @@
 using System.Text.Json;
 
 using ContextCompiler.Abstractions.Common;
+using ContextCompiler.Abstractions.Compiled;
 using ContextCompiler.Abstractions.Configuration;
 using ContextCompiler.Abstractions.Output;
 using ContextCompiler.Abstractions.Pipelines;
-using ContextCompiler.Abstractions.ReasoningIR;
 using ContextCompiler.Modules.Abstractions;
-using ContextCompiler.Modules.Abstractions.GlobalPipeline;
 using ContextCompiler.Prompting.Abstractions;
 
 namespace ContextCompiler.Prompting.Modules.Personas.Index;
 
-public sealed class ActivatedPersonasIndexModule(IPrompt prompt, IOutput output, IReasoningIr ir, IConfigProvider cfgProvider) : IOutputArtifactComposerModule
+public sealed class ActivatedPersonasIndexModule(IPrompt prompt, IOutput output, ICompiledContext ir, IConfigProvider cfgProvider) : IGlobalPipelineModule
 {
     private readonly JsonSerializerOptions jsonSerializerOptions = new() { WriteIndented = true };
 

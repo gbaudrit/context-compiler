@@ -2,8 +2,8 @@ using System.Globalization;
 using System.Text;
 using System.Text.Json;
 
+using ContextCompiler.Abstractions.Compiled;
 using ContextCompiler.Abstractions.Configuration.Sections;
-using ContextCompiler.Abstractions.ReasoningIR;
 using ContextCompiler.Abstractions.Views;
 using ContextCompiler.Modules.Abstractions;
 using ContextCompiler.Modules.Abstractions.Views.Renderers;
@@ -29,7 +29,7 @@ public sealed class TagBasedViewModule(IViewResultBuilder viewResultBuilder, IVi
         {
             ct.ThrowIfCancellationRequested();
 
-            IReadOnlyList<IFragment> fragments = ViewSelector.SelectFragments(ctx.ReasoningIr, def);
+            IReadOnlyList<IFragment> fragments = ViewSelector.SelectFragments(ctx.CompiledContext, def);
 
             IReadOnlyList<IViewResult> renderResult = await viewRenderersModule.RenderAsync(def, fragments, ct);
             artifacts.AddRange(renderResult);
@@ -125,7 +125,7 @@ internal static class Deterministic
 
 internal static class ViewSelector
 {
-    public static IReadOnlyList<IFragment> SelectFragments(IReasoningIr ir, IViewConfigSection def)
+    public static IReadOnlyList<IFragment> SelectFragments(ICompiledContext ir, IViewConfigSection def)
     {
         string[] include = def.SelectTags ?? [];
         string[] exclude = def.Excludes ?? [];

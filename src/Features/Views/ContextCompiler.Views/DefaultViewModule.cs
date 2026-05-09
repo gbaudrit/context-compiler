@@ -1,7 +1,7 @@
 using System.Globalization;
 using System.Text;
 
-using ContextCompiler.Abstractions.ReasoningIR;
+using ContextCompiler.Abstractions.Compiled;
 using ContextCompiler.Abstractions.Views;
 using ContextCompiler.Modules.Abstractions;
 
@@ -15,7 +15,7 @@ public sealed class DefaultViewModule(IViewResultBuilder viewResultBuilder) : IV
     public Task<IReadOnlyList<IViewResult>> Run(ViewContext ctx, CancellationToken ct)
     {
         ct.ThrowIfCancellationRequested();
-        IReasoningIr ir = ctx.ReasoningIr;
+        ICompiledContext ir = ctx.CompiledContext;
 
         StringBuilder sb = new();
         _ = sb.AppendLine("## Evidence");

@@ -17,7 +17,7 @@
     - Option B: Simpler/monolithic variants (rejected)
 
     ## Decision Outcome
-    Implement Views as plugin-defined projections of Reasoning IR. Implement Personas as overlays applied during rendering/assembly. Implement Hypothesis Mode to fork build outputs for A/B comparison.
+    Implement Views as plugin-defined projections of Compiled Context. Implement Personas as overlays applied during rendering/assembly. Implement Hypothesis Mode to fork build outputs for A/B comparison.
 
     ### Consequences
     - Enables targeted context for different tasks/audiences.
@@ -26,3 +26,4 @@
 
     ## Links
     - See `docs/CONTEXT.md`
+

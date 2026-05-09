@@ -1,8 +1,8 @@
 using ContextCompiler.Abstractions.Common;
+using ContextCompiler.Abstractions.Compiled;
 using ContextCompiler.Abstractions.Configuration;
 using ContextCompiler.Abstractions.Output;
 using ContextCompiler.Abstractions.Pipelines;
-using ContextCompiler.Abstractions.ReasoningIR;
 using ContextCompiler.Abstractions.Views;
 using ContextCompiler.Modules.Abstractions;
 
@@ -14,7 +14,7 @@ public sealed class ViewsPipelineRunner(ILogger<GlobalPipeline> logger,
                                         IOutput output,
                                         IConfigProvider ctxcConfig,
                                         IModulesRegistry modules,
-                                        IReasoningIr ir) : IGlobalPipelineModule
+                                        ICompiledContext compiledContext) : IGlobalPipelineModule
 {
 
     public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("views", GlobalPipelineModuleKinds.OutputProjection, priority: 10);
@@ -59,7 +59,7 @@ public sealed class ViewsPipelineRunner(ILogger<GlobalPipeline> logger,
                     module.Metadata.Id,
                     module.Metadata.Priority);
 
-                IReadOnlyList<IViewResult> results = await module.Run(new ViewContext(ctxcConfig.Current.Views, ir), cancellationToken);
+                IReadOnlyList<IViewResult> results = await module.Run(new ViewContext(ctxcConfig.Current.Views, compiledContext), cancellationToken);
                 foreach (IViewResult result in results)
                 {
                     output.AddArtifact((builder) =>

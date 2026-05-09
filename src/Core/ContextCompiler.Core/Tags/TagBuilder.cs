@@ -1,6 +1,6 @@
-using ContextCompiler.Abstractions.ReasoningIR;
+using ContextCompiler.Abstractions.Compiled;
 using ContextCompiler.Abstractions.Tags;
-using ContextCompiler.Core.ReasoningIR;
+using ContextCompiler.Core.CompiledContext;
 
 namespace ContextCompiler.Core.Tags;
 

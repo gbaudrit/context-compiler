@@ -1,8 +1,8 @@
 using System.Globalization;
 using System.Text;
 
+using ContextCompiler.Abstractions.Compiled;
 using ContextCompiler.Abstractions.Configuration.Sections;
-using ContextCompiler.Abstractions.ReasoningIR;
 using ContextCompiler.Modules.Abstractions.Views.Renderers;
 
 using Microsoft.Extensions.Logging;

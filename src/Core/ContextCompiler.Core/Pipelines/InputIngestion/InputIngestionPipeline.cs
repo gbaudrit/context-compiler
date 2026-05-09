@@ -7,7 +7,6 @@ using ContextCompiler.Abstractions.Pipelines;
 using ContextCompiler.Abstractions.Pipelines.InputIngestion;
 using ContextCompiler.Abstractions.Pipelines.Events;
 using ContextCompiler.Abstractions.Ports;
-using ContextCompiler.Abstractions.ReasoningIR;
 using ContextCompiler.Abstractions.Sources;
 using ContextCompiler.Abstractions.Tags;
 using ContextCompiler.Modules.Abstractions;
@@ -16,6 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileSystemGlobbing;
 using Microsoft.Extensions.FileSystemGlobbing.Abstractions;
 using Microsoft.Extensions.Logging;
+using ContextCompiler.Abstractions.Compiled;
 
 namespace ContextCompiler.Core.Pipelines.InputIngestion;
 
@@ -29,7 +29,7 @@ public sealed class InputIngestionPipeline(
     ILogger<InputIngestionPipeline> logger,
     IWorkingFolder workingFolder,
     IGuardian guardian,
-    IReasoningIr reasoningIr,
+    ICompiledContext compiledContext,
     IFileSystem fs,
     IHasher hasher,
     IModulesRegistry modules,
@@ -174,7 +174,7 @@ public sealed class InputIngestionPipeline(
         {
             foreach (IFragment f in r.Data.Fragments)
             {
-                reasoningIr.Add(f);
+                compiledContext.Add(f);
             }
         }
 

@@ -1,0 +1,54 @@
+{
+  "$schema": "file:///C:/Users/g.baudrit/source/repos/gbaudrit/Git/ctxc-samples/ctxc-sample-spec/with-ctxc/.ctxc/schemas/ctxc.config.schema.json",
+  "context": {
+    "enabled": true,
+    "name": "Git connector sample",
+    "summary": "Exemple minimal de connexion a un depot Git distant pour compiler son contenu localement.",
+    "domain": "Informatique, developpement logiciel",
+    "audiences": {},
+    "objectives": [
+      "Cloner le wiki du depot context-compiler dans le workspace.",
+      "Compiler uniquement les fichiers markdown du contenu materialise."
+    ],
+    "assumptions": [],
+    "constraints": {
+      "canUseExternalSources": true,
+      "must": [
+        "Utiliser le contenu clone localement par le connecteur Git."
+      ],
+      "mustNot": []
+    },
+    "glossary": {}
+  },
+  "files": [
+    {
+      "includes": ["**/*.md"],
+      "tags": [
+                "source:documentation"
+              ],
+      "url":"https://github.com/gbaudrit/context-compiler.wiki.git",
+      "options": {
+        "connectors.git": {
+          "repositories": [
+            {
+              "id": "context-compiler-wiki",
+              "repository": "https://github.com/gbaudrit/context-compiler.wiki.git",
+              "refresh": true
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "views": {
+    "inline": false,
+    "views": [
+      {
+        "id": "documentation",
+        "select": [
+          "source:documentation"
+        ]
+      }
+    ]
+  }
+}

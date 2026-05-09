@@ -5,11 +5,10 @@ using ContextCompiler.Abstractions.Guards;
 using ContextCompiler.Abstractions.Output;
 using ContextCompiler.Abstractions.Pipelines;
 using ContextCompiler.Modules.Abstractions;
-using ContextCompiler.Modules.Abstractions.GlobalPipeline;
 
 namespace ContextCompiler.Security;
 
-public sealed class SecurityReportArtifactModule(IOutput output, IGuardian guardian) : IOutputArtifactComposerModule
+public sealed class SecurityReportArtifactModule(IOutput output, IGuardian guardian) : IGlobalPipelineModule
 {
     private readonly JsonSerializerOptions jsonSerializerOptions = new() { WriteIndented = true };
 

@@ -169,7 +169,7 @@ internal sealed class BlueprintComposerModule(
 Blueprints are added to `IPrompt.Blueprints` collection during `PromptComposer` stage.
 
 ### Packaging
-Blueprints are distributed as NuGet packages (e.g., `ContextCompiler.Blueprints.DotNet.WebApp.Razor`, `ContextCompiler.Blueprints.Agile.UserStory`).
+Blueprints are distributed as NuGet packages (e.g., `ContextCompiler.Prompting.Blueprints.DotNet.WebApp.Razor`, `ContextCompiler.Prompting.Blueprints.Agile.UserStory`).
 
 ---
 
@@ -297,7 +297,7 @@ Steps are **automatically numbered** using `{{ for.index + 1 }}` in template. Bl
 
 ## 9. Implemented Blueprints
 
-### ContextCompiler.Blueprints.DotNet.WebApp.Razor
+### ContextCompiler.Prompting.Blueprints.DotNet.WebApp.Razor
 - **Objectives:** 4 (performance, architecture, security, maintainability)
 - **Global constraints:** 7 MUST + 4 MUST NOT
 - **Assumptions:** 3
@@ -306,7 +306,7 @@ Steps are **automatically numbered** using `{{ for.index + 1 }}` in template. Bl
 - **Steps:** 14 (from initialization to deployment)
 - **Total constraints:** 62 MUST + 8 MUST NOT across all steps
 
-### ContextCompiler.Blueprints.Agile.UserStory
+### ContextCompiler.Prompting.Blueprints.Agile.UserStory
 - **Objectives:** 4 (business value, testability, quality, communication)
 - **Global constraints:** 7 MUST + 5 MUST NOT
 - **Assumptions:** 4
@@ -353,11 +353,11 @@ Blueprints are loaded via NuGet package references in `.ctxc/modules/modules.con
       "type": "nuget",
       "packages": [
         {
-          "id": "ContextCompiler.Blueprints.DotNet.WebApp.Razor",
+          "id": "ContextCompiler.Prompting.Blueprints.DotNet.WebApp.Razor",
           "version": "1.0.0"
         },
         {
-          "id": "ContextCompiler.Blueprints.Agile.UserStory",
+          "id": "ContextCompiler.Prompting.Blueprints.Agile.UserStory",
           "version": "1.0.0"
         }
       ]
@@ -504,7 +504,7 @@ Allow custom validation logic:
 ## 16. Examples
 
 ### Example 1: Razor Web App Blueprint
-See `src/Blueprints/ContextCompiler.Blueprints.DotNet.WebApp.Razor/`
+See `src/Blueprints/ContextCompiler.Prompting.Blueprints.DotNet.WebApp.Razor/`
 
 **Key characteristics:**
 - 14 steps covering full development lifecycle
@@ -514,7 +514,7 @@ See `src/Blueprints/ContextCompiler.Blueprints.DotNet.WebApp.Razor/`
 - Glossary for Razor-specific terms
 
 ### Example 2: Agile User Story Blueprint
-See `src/Blueprints/ContextCompiler.Blueprints.Agile.UserStory/`
+See `src/Blueprints/ContextCompiler.Prompting.Blueprints.Agile.UserStory/`
 
 **Key characteristics:**
 - 11 steps for complete User Story lifecycle
@@ -547,8 +547,8 @@ See `src/Blueprints/ContextCompiler.Blueprints.Agile.UserStory/`
 - **Interfaces:** `src/Core/ContextCompiler.Abstractions/Prompt/IBlueprint.cs`, `IBlueprintStep.cs`, `IBlueprintBuilder.cs`, `IBlueprintStepBuilder.cs`
 - **Implementations:** `src/Core/ContextCompiler.Core/Framing/Blueprint.cs`, `BlueprintBuilder.cs`, `BlueprintStep.cs`, `BlueprintStepBuilder.cs`
 - **Module interface:** `src/Core/ContextCompiler.Modules.Abstractions/IBlueprintComposerModule.cs`
-- **Template:** `src/Modules/ContextCompiler.Modules.Prompt.Templates.Scriban/Templates/prompt.context.md`
-- **Examples:** `src/Blueprints/ContextCompiler.Blueprints.DotNet.WebApp.Razor/`, `src/Blueprints/ContextCompiler.Blueprints.Agile.UserStory/`
+- **Template:** `src/Modules/ContextCompiler.Prompting.Modules.Templates.Scriban/Templates/prompt.context.md`
+- **Examples:** `src/Blueprints/ContextCompiler.Prompting.Blueprints.DotNet.WebApp.Razor/`, `src/Blueprints/ContextCompiler.Prompting.Blueprints.Agile.UserStory/`
 - **Comprehensive guide:** `src/Core/ContextCompiler.Abstractions/Prompt/BLUEPRINTS.md`
 
 ---

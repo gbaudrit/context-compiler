@@ -110,16 +110,6 @@ public sealed class ModuleRegistryBuilder : IModuleRegistryBuilder
                 _ = services.AddTransient(typeof(IOutputArtifactSerializer), t);
             }
 
-            if (typeof(IOutputArtifactsFilesWriterModule).IsAssignableFrom(t))
-            {
-                _ = services.AddTransient(typeof(IOutputArtifactsFilesWriterModule), t);
-            }
-
-            if (typeof(IOutputArtifactComposerModule).IsAssignableFrom(t))
-            {
-                _ = services.AddTransient(typeof(IOutputArtifactComposerModule), t);
-            }
-
             if (typeof(IConfigurationModule).IsAssignableFrom(t))
             {
                 _ = services.AddTransient(typeof(IConfigurationModule), t);

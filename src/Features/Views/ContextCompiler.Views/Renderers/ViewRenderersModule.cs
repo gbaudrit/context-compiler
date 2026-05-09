@@ -1,5 +1,5 @@
+using ContextCompiler.Abstractions.Compiled;
 using ContextCompiler.Abstractions.Configuration.Sections;
-using ContextCompiler.Abstractions.ReasoningIR;
 using ContextCompiler.Abstractions.Views;
 using ContextCompiler.Modules.Abstractions;
 using ContextCompiler.Modules.Abstractions.Views.Renderers;

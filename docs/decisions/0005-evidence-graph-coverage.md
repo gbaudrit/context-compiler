@@ -1,4 +1,4 @@
-# 0005 — Evidence IDs, Reasoning Graph, and Coverage
+# 0005 — Evidence IDs, Evidence Graph, and Coverage
 
     * Status: Accepted
     * Date: 2025-12-26

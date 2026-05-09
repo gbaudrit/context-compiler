@@ -1,0 +1,194 @@
+{
+  "FormatVersion": 1,
+  "GeneratedAt": "1970-01-01T00:00:00Z",
+  "Packages": [
+    {
+      "Id": "ContextCompiler.Packs.Starter.Standard",
+      "Version": {
+        "Raw": "0.1.0-alpha.1",
+        "Min": "0.1.0-alpha.1",
+        "Max": "0.1.0-alpha.1",
+        "MinBoundOperator": 0,
+        "MaxBoundOperator": 0
+      },
+      "Source": "ModuleRestoreSource { Id = locale }",
+      "Checksum": "",
+      "Signature": {
+        "Required": false,
+        "IsSigned": false,
+        "SignerFingerprint": "",
+        "Note": "No .signature.p7s found (best-effort check)."
+      },
+      "Dependencies": [
+        {
+          "Id": "ContextCompiler.Packs.Artifacts.Standard",
+          "Version": "0.1.0-alpha.1"
+        },
+        {
+          "Id": "ContextCompiler.Packs.Datas.Transcoders.Default",
+          "Version": "0.1.0-alpha.1"
+        },
+        {
+          "Id": "ContextCompiler.Packs.Prompt.Standard",
+          "Version": "0.1.0-alpha.1"
+        },
+        {
+          "Id": "ContextCompiler.Packs.Readers.Standard",
+          "Version": "0.1.0-alpha.1"
+        },
+        {
+          "Id": "ContextCompiler.Packs.Security.Standard",
+          "Version": "0.1.0-alpha.1"
+        },
+        {
+          "Id": "ContextCompiler.Packs.Views.Standard",
+          "Version": "0.1.0-alpha.1"
+        },
+        {
+          "Id": "ClosedXML",
+          "Version": "0.104.2"
+        },
+        {
+          "Id": "Microsoft.Extensions.DependencyInjection.Abstractions",
+          "Version": "10.0.3"
+        },
+        {
+          "Id": "Microsoft.Extensions.FileSystemGlobbing",
+          "Version": "10.0.3"
+        },
+        {
+          "Id": "Microsoft.Extensions.Logging.Abstractions",
+          "Version": "10.0.3"
+        },
+        {
+          "Id": "Microsoft.Extensions.Options",
+          "Version": "10.0.3"
+        },
+        {
+          "Id": "ModelContextProtocol",
+          "Version": "1.1.0"
+        },
+        {
+          "Id": "PdfPig",
+          "Version": "0.1.13"
+        },
+        {
+          "Id": "Tabula",
+          "Version": "0.1.5"
+        },
+        {
+          "Id": "Tabula.Json",
+          "Version": "0.1.5"
+        }
+      ],
+      "Files": [
+        "_rels/.rels",
+        "ContextCompiler.Packs.Starter.Standard.nuspec",
+        "README.md",
+        "lib/net10.0/ContextCompiler.Packs.Starter.Standard.dll",
+        "lib/net10.0/ContextCompiler.Packs.Starter.Standard.pdb",
+        "lib/net10.0/ContextCompiler.Packs.Starter.Standard.xml",
+        "[Content_Types].xml",
+        "package/services/metadata/core-properties/4fc0f2596f0046b9a5c3e6e2b7490b44.psmdcp"
+      ],
+      "Authors": [],
+      "RepositoryUrl": null
+    },
+    {
+      "Id": "ContextCompiler.Modules.Prompt.Templates.Scriban",
+      "Version": {
+        "Raw": "0.1.0-alpha.1",
+        "Min": "0.1.0-alpha.1",
+        "Max": "0.1.0-alpha.1",
+        "MinBoundOperator": 0,
+        "MaxBoundOperator": 0
+      },
+      "Source": "ModuleRestoreSource { Id = locale }",
+      "Checksum": "",
+      "Signature": {
+        "Required": false,
+        "IsSigned": false,
+        "SignerFingerprint": "",
+        "Note": "No .signature.p7s found (best-effort check)."
+      },
+      "Dependencies": [
+        {
+          "Id": "ContextCompiler.Modules.Abstractions",
+          "Version": "0.1.0-alpha.1"
+        },
+        {
+          "Id": "Scriban",
+          "Version": "7.0.6"
+        },
+        {
+          "Id": "Microsoft.Extensions.DependencyInjection.Abstractions",
+          "Version": "10.0.3"
+        },
+        {
+          "Id": "Microsoft.Extensions.Logging.Abstractions",
+          "Version": "10.0.3"
+        }
+      ],
+      "Files": [
+        "_rels/.rels",
+        "ContextCompiler.Modules.Prompt.Templates.Scriban.nuspec",
+        "README.md",
+        "lib/net10.0/ContextCompiler.Modules.Prompt.Templates.Scriban.dll",
+        "lib/net10.0/ContextCompiler.Modules.Prompt.Templates.Scriban.pdb",
+        "lib/net10.0/ContextCompiler.Modules.Prompt.Templates.Scriban.xml",
+        "[Content_Types].xml",
+        "package/services/metadata/core-properties/9d2c5af7688f48a7b362de484030983b.psmdcp"
+      ],
+      "Authors": [],
+      "RepositoryUrl": null
+    },
+    {
+      "Id": "ContextCompiler.Modules.Readers.Eml",
+      "Version": {
+        "Raw": "0.1.0-alpha.1",
+        "Min": "0.1.0-alpha.1",
+        "Max": "0.1.0-alpha.1",
+        "MinBoundOperator": 0,
+        "MaxBoundOperator": 0
+      },
+      "Source": "ModuleRestoreSource { Id = locale }",
+      "Checksum": "",
+      "Signature": {
+        "Required": false,
+        "IsSigned": false,
+        "SignerFingerprint": "",
+        "Note": "No .signature.p7s found (best-effort check)."
+      },
+      "Dependencies": [
+        {
+          "Id": "ContextCompiler.Modules.Abstractions",
+          "Version": "0.1.0-alpha.1"
+        },
+        {
+          "Id": "Microsoft.Extensions.Logging.Abstractions",
+          "Version": "10.0.3"
+        },
+        {
+          "Id": "MimeKit",
+          "Version": "4.16.0"
+        },
+        {
+          "Id": "Microsoft.Extensions.DependencyInjection.Abstractions",
+          "Version": "10.0.3"
+        }
+      ],
+      "Files": [
+        "_rels/.rels",
+        "ContextCompiler.Modules.Readers.Eml.nuspec",
+        "README.md",
+        "lib/net10.0/ContextCompiler.Modules.Readers.Eml.dll",
+        "lib/net10.0/ContextCompiler.Modules.Readers.Eml.pdb",
+        "lib/net10.0/ContextCompiler.Modules.Readers.Eml.xml",
+        "[Content_Types].xml",
+        "package/services/metadata/core-properties/266b79cde03c4a1f9866e246363b1dd9.psmdcp"
+      ],
+      "Authors": [],
+      "RepositoryUrl": null
+    }
+  ]
+}

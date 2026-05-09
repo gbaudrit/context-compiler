@@ -1,4 +1,4 @@
-using ContextCompiler.Abstractions.ReasoningIR;
+using ContextCompiler.Abstractions.Compiled;
 using ContextCompiler.Abstractions.Tags;
 
 namespace ContextCompiler.Core.Tags;

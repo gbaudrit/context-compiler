@@ -232,7 +232,7 @@ public async Task ModulesLoader_LoadFromNuGet_LoadsBlueprintModule()
                 type = "nuget",
                 packages = new[]
                 {
-                    new { id = "ContextCompiler.Blueprints.DotNet.WebApp.Razor", version = "1.0.0" }
+                    new { id = "ContextCompiler.Prompting.Blueprints.DotNet.WebApp.Razor", version = "1.0.0" }
                 }
             }
         }

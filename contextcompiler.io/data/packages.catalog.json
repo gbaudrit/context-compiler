@@ -1,20 +1,19 @@
-﻿{
+{
     "generatedAt":  "2026-04-01T11:44:16Z",
     "source":  {
                    "modulesRoot":  "src/Modules",
                    "packsRoot":  "src/Packs",
-                   "blueprintsRoot":  "src/Blueprints"
+                   "blueprintsRoot":  "src/Features/Prompting/Blueprints"
                },
     "stats":  {
-                  "modules":  34,
-                  "packs":  6,
-                  "blueprints":  1
+                  "modules":  33,
+                  "packs":  8,
+                  "blueprints":  5
               },
     "families":  {
                      "modules":  [
                                      "Artifacts",
                                      "Commands",
-                                     "Configuration",
                                      "Engineering",
                                      "Evidences",
                                      "Health",
@@ -26,15 +25,20 @@
                                      "Views"
                                  ],
                      "packs":  [
-                                   "Artifacts",
+                                   "InputIngestion",
+                                   "Output",
                                    "Personas",
                                    "Prompt",
                                    "Readers",
+                                   "Security",
                                    "Starter",
                                    "Views"
                                ],
                      "blueprints":  [
-                                        "DotNet"
+                                        "Agile",
+                                        "DotNet",
+                                        "React",
+                                        "Testing"
                                     ]
                  },
     "modules":  [
@@ -118,32 +122,7 @@
                     },
                     {
                         "kind":  "module",
-                        "packageId":  "ContextCompiler.Modules.Configuration",
-                        "title":  "Configuration module",
-                        "shortName":  "Configuration",
-                        "family":  "Configuration",
-                        "description":  "ContextCompiler module that provides configuration capabilities and schema support.",
-                        "tags":  [
-                                     "context",
-                                     "compiler",
-                                     "module",
-                                     "configuration",
-                                     "schema"
-                                 ],
-                        "authors":  "ContextCompiler",
-                        "targetFramework":  "net10.0",
-                        "path":  "src/Modules/ContextCompiler.Modules.Configuration",
-                        "projectFile":  "src/Modules/ContextCompiler.Modules.Configuration/ContextCompiler.Modules.Configuration.csproj",
-                        "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Modules.Configuration",
-                        "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Modules/ContextCompiler.Modules.Configuration",
-                        "compositionKind":  null,
-                        "includes":  [
-                                         "ContextCompiler.Modules.Abstractions"
-                                     ]
-                    },
-                    {
-                        "kind":  "module",
-                        "packageId":  "ContextCompiler.Modules.Engineering.DotNet",
+                        "packageId":  "ContextCompiler.Prompting.Modules.Engineering.DotNet",
                         "title":  ".NET engineering module",
                         "shortName":  "Engineering.DotNet",
                         "family":  "Engineering",
@@ -157,10 +136,10 @@
                                  ],
                         "authors":  "ContextCompiler",
                         "targetFramework":  "net10.0",
-                        "path":  "src/Modules/ContextCompiler.Modules.Engineering.DotNet",
-                        "projectFile":  "src/Modules/ContextCompiler.Modules.Engineering.DotNet/ContextCompiler.Modules.Engineering.DotNet.csproj",
-                        "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Modules.Engineering.DotNet",
-                        "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Modules/ContextCompiler.Modules.Engineering.DotNet",
+                        "path":  "src/Modules/ContextCompiler.Prompting.Modules.Engineering.DotNet",
+                        "projectFile":  "src/Modules/ContextCompiler.Prompting.Modules.Engineering.DotNet/ContextCompiler.Prompting.Modules.Engineering.DotNet.csproj",
+                        "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Prompting.Modules.Engineering.DotNet",
+                        "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Modules/ContextCompiler.Prompting.Modules.Engineering.DotNet",
                         "compositionKind":  null,
                         "includes":  [
                                          "ContextCompiler.Modules.Abstractions"
@@ -271,7 +250,7 @@
                     },
                     {
                         "kind":  "module",
-                        "packageId":  "ContextCompiler.Modules.Personas.Analysts.Business",
+                        "packageId":  "ContextCompiler.Prompting.Modules.Personas.Analysts.Business",
                         "title":  "Business analyst persona module",
                         "shortName":  "Personas.Analysts.Business",
                         "family":  "Personas",
@@ -286,10 +265,10 @@
                                  ],
                         "authors":  "ContextCompiler",
                         "targetFramework":  "net10.0",
-                        "path":  "src/Modules/ContextCompiler.Modules.Personas.Analysts.Business",
-                        "projectFile":  "src/Modules/ContextCompiler.Modules.Personas.Analysts.Business/ContextCompiler.Modules.Personas.Analysts.Business.csproj",
-                        "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Modules.Personas.Analysts.Business",
-                        "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Modules/ContextCompiler.Modules.Personas.Analysts.Business",
+                        "path":  "src/Modules/ContextCompiler.Prompting.Modules.Personas.Analysts.Business",
+                        "projectFile":  "src/Modules/ContextCompiler.Prompting.Modules.Personas.Analysts.Business/ContextCompiler.Prompting.Modules.Personas.Analysts.Business.csproj",
+                        "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Prompting.Modules.Personas.Analysts.Business",
+                        "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Modules/ContextCompiler.Prompting.Modules.Personas.Analysts.Business",
                         "compositionKind":  null,
                         "includes":  [
                                          "ContextCompiler.Modules.Abstractions"
@@ -297,7 +276,7 @@
                     },
                     {
                         "kind":  "module",
-                        "packageId":  "ContextCompiler.Modules.Personas.BuiltIn",
+                        "packageId":  "ContextCompiler.Prompting.Modules.Personas.BuiltIn",
                         "title":  "Built-in personas module",
                         "shortName":  "Personas.BuiltIn",
                         "family":  "Personas",
@@ -311,10 +290,10 @@
                                  ],
                         "authors":  null,
                         "targetFramework":  "net10.0",
-                        "path":  "src/Modules/ContextCompiler.Modules.Personas.BuiltIn",
-                        "projectFile":  "src/Modules/ContextCompiler.Modules.Personas.BuiltIn/ContextCompiler.Modules.Personas.BuiltIn.csproj",
-                        "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Modules.Personas.BuiltIn",
-                        "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Modules/ContextCompiler.Modules.Personas.BuiltIn",
+                        "path":  "src/Modules/ContextCompiler.Prompting.Modules.Personas.BuiltIn",
+                        "projectFile":  "src/Modules/ContextCompiler.Prompting.Modules.Personas.BuiltIn/ContextCompiler.Prompting.Modules.Personas.BuiltIn.csproj",
+                        "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Prompting.Modules.Personas.BuiltIn",
+                        "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Modules/ContextCompiler.Prompting.Modules.Personas.BuiltIn",
                         "compositionKind":  null,
                         "includes":  [
                                          "ContextCompiler.Abstractions"
@@ -322,7 +301,7 @@
                     },
                     {
                         "kind":  "module",
-                        "packageId":  "ContextCompiler.Modules.Personas.Composer",
+                        "packageId":  "ContextCompiler.Prompting.Modules.Personas.Composer",
                         "title":  "Personas composer module",
                         "shortName":  "Personas.Composer",
                         "family":  "Personas",
@@ -337,10 +316,10 @@
                                  ],
                         "authors":  null,
                         "targetFramework":  "net10.0",
-                        "path":  "src/Modules/ContextCompiler.Modules.Personas.Composer",
-                        "projectFile":  "src/Modules/ContextCompiler.Modules.Personas.Composer/ContextCompiler.Modules.Personas.Composer.csproj",
-                        "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Modules.Personas.Composer",
-                        "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Modules/ContextCompiler.Modules.Personas.Composer",
+                        "path":  "src/Modules/ContextCompiler.Prompting.Modules.Personas.Composer",
+                        "projectFile":  "src/Modules/ContextCompiler.Prompting.Modules.Personas.Composer/ContextCompiler.Prompting.Modules.Personas.Composer.csproj",
+                        "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Prompting.Modules.Personas.Composer",
+                        "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Modules/ContextCompiler.Prompting.Modules.Personas.Composer",
                         "compositionKind":  null,
                         "includes":  [
                                          "ContextCompiler.Modules.Abstractions"
@@ -348,7 +327,7 @@
                     },
                     {
                         "kind":  "module",
-                        "packageId":  "ContextCompiler.Modules.Personas.Developers.DotNet",
+                        "packageId":  "ContextCompiler.Prompting.Modules.Personas.Developers.DotNet",
                         "title":  ".NET developer persona module",
                         "shortName":  "Personas.Developers.DotNet",
                         "family":  "Personas",
@@ -363,10 +342,10 @@
                                  ],
                         "authors":  "ContextCompiler",
                         "targetFramework":  "net10.0",
-                        "path":  "src/Modules/ContextCompiler.Modules.Personas.Developers.DotNet",
-                        "projectFile":  "src/Modules/ContextCompiler.Modules.Personas.Developers.DotNet/ContextCompiler.Modules.Personas.Developers.DotNet.csproj",
-                        "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Modules.Personas.Developers.DotNet",
-                        "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Modules/ContextCompiler.Modules.Personas.Developers.DotNet",
+                        "path":  "src/Modules/ContextCompiler.Prompting.Modules.Personas.Developers.DotNet",
+                        "projectFile":  "src/Modules/ContextCompiler.Prompting.Modules.Personas.Developers.DotNet/ContextCompiler.Prompting.Modules.Personas.Developers.DotNet.csproj",
+                        "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Prompting.Modules.Personas.Developers.DotNet",
+                        "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Modules/ContextCompiler.Prompting.Modules.Personas.Developers.DotNet",
                         "compositionKind":  null,
                         "includes":  [
                                          "ContextCompiler.Modules.Abstractions"
@@ -374,7 +353,7 @@
                     },
                     {
                         "kind":  "module",
-                        "packageId":  "ContextCompiler.Modules.Personas.Developers.Python",
+                        "packageId":  "ContextCompiler.Prompting.Modules.Personas.Developers.Python",
                         "title":  "Python developer persona module",
                         "shortName":  "Personas.Developers.Python",
                         "family":  "Personas",
@@ -389,10 +368,10 @@
                                  ],
                         "authors":  "ContextCompiler",
                         "targetFramework":  "net10.0",
-                        "path":  "src/Modules/ContextCompiler.Modules.Personas.Developers.Python",
-                        "projectFile":  "src/Modules/ContextCompiler.Modules.Personas.Developers.Python/ContextCompiler.Modules.Personas.Developers.Python.csproj",
-                        "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Modules.Personas.Developers.Python",
-                        "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Modules/ContextCompiler.Modules.Personas.Developers.Python",
+                        "path":  "src/Modules/ContextCompiler.Prompting.Modules.Personas.Developers.Python",
+                        "projectFile":  "src/Modules/ContextCompiler.Prompting.Modules.Personas.Developers.Python/ContextCompiler.Prompting.Modules.Personas.Developers.Python.csproj",
+                        "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Prompting.Modules.Personas.Developers.Python",
+                        "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Modules/ContextCompiler.Prompting.Modules.Personas.Developers.Python",
                         "compositionKind":  null,
                         "includes":  [
                                          "ContextCompiler.Modules.Abstractions"
@@ -400,7 +379,7 @@
                     },
                     {
                         "kind":  "module",
-                        "packageId":  "ContextCompiler.Modules.Personas.Index",
+                        "packageId":  "ContextCompiler.Prompting.Modules.Personas.Index",
                         "title":  "Personas index module",
                         "shortName":  "Personas.Index",
                         "family":  "Personas",
@@ -414,10 +393,10 @@
                                  ],
                         "authors":  null,
                         "targetFramework":  "net10.0",
-                        "path":  "src/Modules/ContextCompiler.Modules.Personas.Index",
-                        "projectFile":  "src/Modules/ContextCompiler.Modules.Personas.Index/ContextCompiler.Modules.Personas.Index.csproj",
-                        "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Modules.Personas.Index",
-                        "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Modules/ContextCompiler.Modules.Personas.Index",
+                        "path":  "src/Modules/ContextCompiler.Prompting.Modules.Personas.Index",
+                        "projectFile":  "src/Modules/ContextCompiler.Prompting.Modules.Personas.Index/ContextCompiler.Prompting.Modules.Personas.Index.csproj",
+                        "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Prompting.Modules.Personas.Index",
+                        "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Modules/ContextCompiler.Prompting.Modules.Personas.Index",
                         "compositionKind":  null,
                         "includes":  [
                                          "ContextCompiler.Modules.Abstractions"
@@ -425,7 +404,7 @@
                     },
                     {
                         "kind":  "module",
-                        "packageId":  "ContextCompiler.Modules.Personas.Testers.Analyst",
+                        "packageId":  "ContextCompiler.Prompting.Modules.Personas.Testers.Analyst",
                         "title":  "Test analyst persona module",
                         "shortName":  "Personas.Testers.Analyst",
                         "family":  "Personas",
@@ -441,10 +420,10 @@
                                  ],
                         "authors":  "ContextCompiler",
                         "targetFramework":  "net10.0",
-                        "path":  "src/Modules/ContextCompiler.Modules.Personas.Testers.Analyst",
-                        "projectFile":  "src/Modules/ContextCompiler.Modules.Personas.Testers.Analyst/ContextCompiler.Modules.Personas.Testers.Analyst.csproj",
-                        "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Modules.Personas.Testers.Analyst",
-                        "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Modules/ContextCompiler.Modules.Personas.Testers.Analyst",
+                        "path":  "src/Modules/ContextCompiler.Prompting.Modules.Personas.Testers.Analyst",
+                        "projectFile":  "src/Modules/ContextCompiler.Prompting.Modules.Personas.Testers.Analyst/ContextCompiler.Prompting.Modules.Personas.Testers.Analyst.csproj",
+                        "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Prompting.Modules.Personas.Testers.Analyst",
+                        "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Modules/ContextCompiler.Prompting.Modules.Personas.Testers.Analyst",
                         "compositionKind":  null,
                         "includes":  [
                                          "ContextCompiler.Modules.Abstractions"
@@ -452,7 +431,7 @@
                     },
                     {
                         "kind":  "module",
-                        "packageId":  "ContextCompiler.Modules.Prompt.Composers.Assumptions",
+                        "packageId":  "ContextCompiler.Prompting.Modules.Composers.Assumptions",
                         "title":  "Assumptions prompt composer module",
                         "shortName":  "Prompt.Composers.Assumptions",
                         "family":  "Prompt",
@@ -467,10 +446,10 @@
                                  ],
                         "authors":  "ContextCompiler",
                         "targetFramework":  "net10.0",
-                        "path":  "src/Modules/ContextCompiler.Modules.Prompt.Composers.Assumptions",
-                        "projectFile":  "src/Modules/ContextCompiler.Modules.Prompt.Composers.Assumptions/ContextCompiler.Modules.Prompt.Composers.Assumptions.csproj",
-                        "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Modules.Prompt.Composers.Assumptions",
-                        "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Modules/ContextCompiler.Modules.Prompt.Composers.Assumptions",
+                        "path":  "src/Modules/ContextCompiler.Prompting.Modules.Composers.Assumptions",
+                        "projectFile":  "src/Modules/ContextCompiler.Prompting.Modules.Composers.Assumptions/ContextCompiler.Prompting.Modules.Composers.Assumptions.csproj",
+                        "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Prompting.Modules.Composers.Assumptions",
+                        "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Modules/ContextCompiler.Prompting.Modules.Composers.Assumptions",
                         "compositionKind":  null,
                         "includes":  [
                                          "ContextCompiler.Modules.Abstractions"
@@ -478,7 +457,7 @@
                     },
                     {
                         "kind":  "module",
-                        "packageId":  "ContextCompiler.Modules.Prompt.Composers.Audiences",
+                        "packageId":  "ContextCompiler.Prompting.Modules.Composers.Audiences",
                         "title":  "Audiences prompt composer module",
                         "shortName":  "Prompt.Composers.Audiences",
                         "family":  "Prompt",
@@ -493,10 +472,10 @@
                                  ],
                         "authors":  "ContextCompiler",
                         "targetFramework":  "net10.0",
-                        "path":  "src/Modules/ContextCompiler.Modules.Prompt.Composers.Audiences",
-                        "projectFile":  "src/Modules/ContextCompiler.Modules.Prompt.Composers.Audiences/ContextCompiler.Modules.Prompt.Composers.Audiences.csproj",
-                        "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Modules.Prompt.Composers.Audiences",
-                        "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Modules/ContextCompiler.Modules.Prompt.Composers.Audiences",
+                        "path":  "src/Modules/ContextCompiler.Prompting.Modules.Composers.Audiences",
+                        "projectFile":  "src/Modules/ContextCompiler.Prompting.Modules.Composers.Audiences/ContextCompiler.Prompting.Modules.Composers.Audiences.csproj",
+                        "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Prompting.Modules.Composers.Audiences",
+                        "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Modules/ContextCompiler.Prompting.Modules.Composers.Audiences",
                         "compositionKind":  null,
                         "includes":  [
                                          "ContextCompiler.Modules.Abstractions"
@@ -504,20 +483,20 @@
                     },
                     {
                         "kind":  "module",
-                        "packageId":  "ContextCompiler.Modules.Prompt.Composers.Blueprints",
+                        "packageId":  "ContextCompiler.Prompting.Modules.Composers.Blueprints",
                         "title":  null,
                         "shortName":  "Prompt.Composers.Blueprints",
                         "family":  "Prompt",
-                        "description":  "Module de composition des blueprints pour le prompt. Extrait et structure les blueprints depuis la configuration ou les modules pour les intégrer dans le prompt final.",
+                        "description":  "Module de composition des blueprints pour le prompt. Extrait et structure les blueprints depuis la configuration ou les modules pour les int�grer dans le prompt final.",
                         "tags":  [
 
                                  ],
                         "authors":  "ContextCompiler",
                         "targetFramework":  "net10.0",
-                        "path":  "src/Modules/ContextCompiler.Modules.Prompt.Composers.Blueprints",
-                        "projectFile":  "src/Modules/ContextCompiler.Modules.Prompt.Composers.Blueprints/ContextCompiler.Modules.Prompt.Composers.Blueprints.csproj",
-                        "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Modules.Prompt.Composers.Blueprints",
-                        "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Modules/ContextCompiler.Modules.Prompt.Composers.Blueprints",
+                        "path":  "src/Features/Prompting/Modules/ContextCompiler.Prompting.Modules.Composers.Blueprints",
+                        "projectFile":  "src/Features/Prompting/Modules/ContextCompiler.Prompting.Modules.Composers.Blueprints/ContextCompiler.Prompting.Modules.Composers.Blueprints.csproj",
+                        "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Prompting.Modules.Composers.Blueprints",
+                        "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Features/Prompting/Modules/ContextCompiler.Prompting.Modules.Composers.Blueprints",
                         "compositionKind":  null,
                         "includes":  [
                                          "ContextCompiler.Abstractions"
@@ -525,7 +504,7 @@
                     },
                     {
                         "kind":  "module",
-                        "packageId":  "ContextCompiler.Modules.Prompt.Composers.Constraints",
+                        "packageId":  "ContextCompiler.Prompting.Modules.Composers.Constraints",
                         "title":  "Constraints prompt composer module",
                         "shortName":  "Prompt.Composers.Constraints",
                         "family":  "Prompt",
@@ -540,10 +519,10 @@
                                  ],
                         "authors":  "ContextCompiler",
                         "targetFramework":  "net10.0",
-                        "path":  "src/Modules/ContextCompiler.Modules.Prompt.Composers.Constraints",
-                        "projectFile":  "src/Modules/ContextCompiler.Modules.Prompt.Composers.Constraints/ContextCompiler.Modules.Prompt.Composers.Constraints.csproj",
-                        "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Modules.Prompt.Composers.Constraints",
-                        "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Modules/ContextCompiler.Modules.Prompt.Composers.Constraints",
+                        "path":  "src/Modules/ContextCompiler.Prompting.Modules.Composers.Constraints",
+                        "projectFile":  "src/Modules/ContextCompiler.Prompting.Modules.Composers.Constraints/ContextCompiler.Prompting.Modules.Composers.Constraints.csproj",
+                        "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Prompting.Modules.Composers.Constraints",
+                        "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Modules/ContextCompiler.Prompting.Modules.Composers.Constraints",
                         "compositionKind":  null,
                         "includes":  [
                                          "ContextCompiler.Modules.Abstractions"
@@ -551,7 +530,7 @@
                     },
                     {
                         "kind":  "module",
-                        "packageId":  "ContextCompiler.Modules.Prompt.Composers.General",
+                        "packageId":  "ContextCompiler.Prompting.Modules.Composers.General",
                         "title":  "General prompt composer module",
                         "shortName":  "Prompt.Composers.General",
                         "family":  "Prompt",
@@ -566,10 +545,10 @@
                                  ],
                         "authors":  "ContextCompiler",
                         "targetFramework":  "net10.0",
-                        "path":  "src/Modules/ContextCompiler.Modules.Prompt.Composers.General",
-                        "projectFile":  "src/Modules/ContextCompiler.Modules.Prompt.Composers.General/ContextCompiler.Modules.Prompt.Composers.General.csproj",
-                        "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Modules.Prompt.Composers.General",
-                        "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Modules/ContextCompiler.Modules.Prompt.Composers.General",
+                        "path":  "src/Modules/ContextCompiler.Prompting.Modules.Composers.General",
+                        "projectFile":  "src/Modules/ContextCompiler.Prompting.Modules.Composers.General/ContextCompiler.Prompting.Modules.Composers.General.csproj",
+                        "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Prompting.Modules.Composers.General",
+                        "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Modules/ContextCompiler.Prompting.Modules.Composers.General",
                         "compositionKind":  null,
                         "includes":  [
                                          "ContextCompiler.Modules.Abstractions"
@@ -577,7 +556,7 @@
                     },
                     {
                         "kind":  "module",
-                        "packageId":  "ContextCompiler.Modules.Prompt.Composers.Glossary",
+                        "packageId":  "ContextCompiler.Prompting.Modules.Composers.Glossary",
                         "title":  "Glossary prompt composer module",
                         "shortName":  "Prompt.Composers.Glossary",
                         "family":  "Prompt",
@@ -592,10 +571,10 @@
                                  ],
                         "authors":  "ContextCompiler",
                         "targetFramework":  "net10.0",
-                        "path":  "src/Modules/ContextCompiler.Modules.Prompt.Composers.Glossary",
-                        "projectFile":  "src/Modules/ContextCompiler.Modules.Prompt.Composers.Glossary/ContextCompiler.Modules.Prompt.Composers.Glossary.csproj",
-                        "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Modules.Prompt.Composers.Glossary",
-                        "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Modules/ContextCompiler.Modules.Prompt.Composers.Glossary",
+                        "path":  "src/Modules/ContextCompiler.Prompting.Modules.Composers.Glossary",
+                        "projectFile":  "src/Modules/ContextCompiler.Prompting.Modules.Composers.Glossary/ContextCompiler.Prompting.Modules.Composers.Glossary.csproj",
+                        "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Prompting.Modules.Composers.Glossary",
+                        "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Modules/ContextCompiler.Prompting.Modules.Composers.Glossary",
                         "compositionKind":  null,
                         "includes":  [
                                          "ContextCompiler.Modules.Abstractions"
@@ -603,7 +582,7 @@
                     },
                     {
                         "kind":  "module",
-                        "packageId":  "ContextCompiler.Modules.Prompt.Composers.Objectives",
+                        "packageId":  "ContextCompiler.Prompting.Modules.Composers.Objectives",
                         "title":  "Objectives prompt composer module",
                         "shortName":  "Prompt.Composers.Objectives",
                         "family":  "Prompt",
@@ -618,10 +597,10 @@
                                  ],
                         "authors":  "ContextCompiler",
                         "targetFramework":  "net10.0",
-                        "path":  "src/Modules/ContextCompiler.Modules.Prompt.Composers.Objectives",
-                        "projectFile":  "src/Modules/ContextCompiler.Modules.Prompt.Composers.Objectives/ContextCompiler.Modules.Prompt.Composers.Objectives.csproj",
-                        "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Modules.Prompt.Composers.Objectives",
-                        "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Modules/ContextCompiler.Modules.Prompt.Composers.Objectives",
+                        "path":  "src/Modules/ContextCompiler.Prompting.Modules.Composers.Objectives",
+                        "projectFile":  "src/Modules/ContextCompiler.Prompting.Modules.Composers.Objectives/ContextCompiler.Prompting.Modules.Composers.Objectives.csproj",
+                        "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Prompting.Modules.Composers.Objectives",
+                        "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Modules/ContextCompiler.Prompting.Modules.Composers.Objectives",
                         "compositionKind":  null,
                         "includes":  [
                                          "ContextCompiler.Modules.Abstractions"
@@ -655,7 +634,7 @@
                     },
                     {
                         "kind":  "module",
-                        "packageId":  "ContextCompiler.Modules.Prompt.Templates.Scriban",
+                        "packageId":  "ContextCompiler.Prompting.Modules.Templates.Scriban",
                         "title":  "Scriban prompt template module",
                         "shortName":  "Prompt.Templates.Scriban",
                         "family":  "Prompt",
@@ -671,10 +650,10 @@
                                  ],
                         "authors":  "ContextCompiler",
                         "targetFramework":  "net10.0",
-                        "path":  "src/Modules/ContextCompiler.Modules.Prompt.Templates.Scriban",
-                        "projectFile":  "src/Modules/ContextCompiler.Modules.Prompt.Templates.Scriban/ContextCompiler.Modules.Prompt.Templates.Scriban.csproj",
-                        "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Modules.Prompt.Templates.Scriban",
-                        "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Modules/ContextCompiler.Modules.Prompt.Templates.Scriban",
+                        "path":  "src/Modules/ContextCompiler.Prompting.Modules.Templates.Scriban",
+                        "projectFile":  "src/Modules/ContextCompiler.Prompting.Modules.Templates.Scriban/ContextCompiler.Prompting.Modules.Templates.Scriban.csproj",
+                        "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Prompting.Modules.Templates.Scriban",
+                        "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Modules/ContextCompiler.Prompting.Modules.Templates.Scriban",
                         "compositionKind":  null,
                         "includes":  [
                                          "ContextCompiler.Modules.Abstractions"
@@ -917,11 +896,38 @@
     "packs":  [
                   {
                       "kind":  "pack",
-                      "packageId":  "ContextCompiler.Packs.Artifacts.Standard",
-                      "title":  "Standard artifacts pack",
-                      "shortName":  "Artifacts.Standard",
-                      "family":  "Artifacts",
-                      "description":  "Standard artifacts pack with the artifacts registry and writer modules.",
+                      "packageId":  "ContextCompiler.InputIngestion.Packs.Transcoders.Standard",
+                      "title":  "Standard input ingestion transcoders pack",
+                      "shortName":  "InputIngestion.Transcoders.Standard",
+                      "family":  "InputIngestion",
+                      "description":  "Standard input ingestion pack with the default transcoder modules.",
+                      "tags":  [
+                                   "context",
+                                   "compiler",
+                                   "pack",
+                                   "input-ingestion",
+                                   "transcoders",
+                                   "standard"
+                               ],
+                      "authors":  "ContextCompiler",
+                      "targetFramework":  "net10.0",
+                      "path":  "src/Features/InputIngestion/Packs/ContextCompiler.InputIngestion.Packs.Transcoders.Standard",
+                      "projectFile":  "src/Features/InputIngestion/Packs/ContextCompiler.InputIngestion.Packs.Transcoders.Standard/ContextCompiler.InputIngestion.Packs.Transcoders.Standard.csproj",
+                      "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.InputIngestion.Packs.Transcoders.Standard",
+                      "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Features/InputIngestion/Packs/ContextCompiler.InputIngestion.Packs.Transcoders.Standard",
+                      "compositionKind":  "pack-of-modules",
+                      "includes":  [
+                                       "ContextCompiler.InputIngestion.Modules.Transcoders.Linear",
+                                       "ContextCompiler.InputIngestion.Modules.Transcoders.Tabular"
+                                   ]
+                  },
+                  {
+                      "kind":  "pack",
+                      "packageId":  "ContextCompiler.Output.Packs.Standard",
+                      "title":  "Standard output pack",
+                      "shortName":  "Output.Standard",
+                      "family":  "Output",
+                      "description":  "Standard output pack with the artifacts registry and writer modules.",
                       "tags":  [
                                    "context",
                                    "compiler",
@@ -934,111 +940,14 @@
                                ],
                       "authors":  "ContextCompiler",
                       "targetFramework":  "net10.0",
-                      "path":  "src/Packs/ContextCompiler.Packs.Artifacts.Standard",
-                      "projectFile":  "src/Packs/ContextCompiler.Packs.Artifacts.Standard/ContextCompiler.Packs.Artifacts.Standard.csproj",
-                      "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Packs.Artifacts.Standard",
-                      "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Packs/ContextCompiler.Packs.Artifacts.Standard",
+                      "path":  "src/Features/Output/Packs/ContextCompiler.Output.Packs.Standard",
+                      "projectFile":  "src/Features/Output/Packs/ContextCompiler.Output.Packs.Standard/ContextCompiler.Output.Packs.Standard.csproj",
+                      "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Output.Packs.Standard",
+                      "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Features/Output/Packs/ContextCompiler.Output.Packs.Standard",
                       "compositionKind":  "pack-of-modules",
                       "includes":  [
-                                       "ContextCompiler.Modules.Artifacts.Registry",
-                                       "ContextCompiler.Modules.Artifacts.Writer"
-                                   ]
-                  },
-                  {
-                      "kind":  "pack",
-                      "packageId":  "ContextCompiler.Packs.Personas.SoftwareEngineering.Standard",
-                      "title":  "Standard software engineering personas pack",
-                      "shortName":  "Personas.SoftwareEngineering.Standard",
-                      "family":  "Personas",
-                      "description":  "Standard software engineering personas pack for analysis and testing workflows.",
-                      "tags":  [
-                                   "context",
-                                   "compiler",
-                                   "pack",
-                                   "personas",
-                                   "software-engineering",
-                                   "analysis",
-                                   "testing",
-                                   "standard"
-                               ],
-                      "authors":  "ContextCompiler",
-                      "targetFramework":  "net10.0",
-                      "path":  "src/Packs/ContextCompiler.Packs.Personas.SoftwareEngineering.Standard",
-                      "projectFile":  "src/Packs/ContextCompiler.Packs.Personas.SoftwareEngineering.Standard/ContextCompiler.Packs.Personas.SoftwareEngineering.Standard.csproj",
-                      "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Packs.Personas.SoftwareEngineering.Standard",
-                      "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Packs/ContextCompiler.Packs.Personas.SoftwareEngineering.Standard",
-                      "compositionKind":  "pack-of-modules",
-                      "includes":  [
-                                       "ContextCompiler.Modules.Personas.Analysts.Business",
-                                       "ContextCompiler.Modules.Personas.Testers.Analyst"
-                                   ]
-                  },
-                  {
-                      "kind":  "pack",
-                      "packageId":  "ContextCompiler.Packs.Prompt.Standard",
-                      "title":  "Standard prompt pack",
-                      "shortName":  "Prompt.Standard",
-                      "family":  "Prompt",
-                      "description":  "Standard prompt pack with the recommended prompt composer modules.",
-                      "tags":  [
-                                   "context",
-                                   "compiler",
-                                   "pack",
-                                   "prompt",
-                                   "composers",
-                                   "generation",
-                                   "templates",
-                                   "standard"
-                               ],
-                      "authors":  "ContextCompiler",
-                      "targetFramework":  "net10.0",
-                      "path":  "src/Packs/ContextCompiler.Packs.Prompt.Standard",
-                      "projectFile":  "src/Packs/ContextCompiler.Packs.Prompt.Standard/ContextCompiler.Packs.Prompt.Standard.csproj",
-                      "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Packs.Prompt.Standard",
-                      "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Packs/ContextCompiler.Packs.Prompt.Standard",
-                      "compositionKind":  "pack-of-modules",
-                      "includes":  [
-                                       "ContextCompiler.Modules.Prompt.Composers.Assumptions",
-                                       "ContextCompiler.Modules.Prompt.Composers.Audiences",
-                                       "ContextCompiler.Modules.Prompt.Composers.Constraints",
-                                       "ContextCompiler.Modules.Prompt.Composers.General",
-                                       "ContextCompiler.Modules.Prompt.Composers.Glossary",
-                                       "ContextCompiler.Modules.Prompt.Composers.Objectives",
-                                       "ContextCompiler.Modules.Prompt.Composers.Views"
-                                   ]
-                  },
-                  {
-                      "kind":  "pack",
-                      "packageId":  "ContextCompiler.Packs.Readers.Standard",
-                      "title":  "Standard readers pack",
-                      "shortName":  "Readers.Standard",
-                      "family":  "Readers",
-                      "description":  "Standard readers pack for the most common supported input formats.",
-                      "tags":  [
-                                   "context",
-                                   "compiler",
-                                   "pack",
-                                   "readers",
-                                   "input",
-                                   "markdown",
-                                   "yaml",
-                                   "excel",
-                                   "pdf",
-                                   "standard"
-                               ],
-                      "authors":  "ContextCompiler",
-                      "targetFramework":  "net10.0",
-                      "path":  "src/Packs/ContextCompiler.Packs.Readers.Standard",
-                      "projectFile":  "src/Packs/ContextCompiler.Packs.Readers.Standard/ContextCompiler.Packs.Readers.Standard.csproj",
-                      "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Packs.Readers.Standard",
-                      "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Packs/ContextCompiler.Packs.Readers.Standard",
-                      "compositionKind":  "pack-of-modules",
-                      "includes":  [
-                                       "ContextCompiler.Modules.Readers.Excel",
-                                       "ContextCompiler.Modules.Readers.Markdown",
-                                       "ContextCompiler.Modules.Readers.Pdf",
-                                       "ContextCompiler.Modules.Readers.Text",
-                                       "ContextCompiler.Modules.Readers.Yaml"
+                                       "ContextCompiler.Output.Modules.Artifacts.Registry",
+                                       "ContextCompiler.Output.Modules.Artifacts.Writer"
                                    ]
                   },
                   {
@@ -1047,7 +956,7 @@
                       "title":  "Standard starter pack",
                       "shortName":  "Starter.Standard",
                       "family":  "Starter",
-                      "description":  "Standard starter pack combining readers, prompt, views, and artifacts packs.",
+                      "description":  "Standard starter pack combining input ingestion, readers, prompting, views, security, and output packs.",
                       "tags":  [
                                    "context",
                                    "compiler",
@@ -1068,15 +977,141 @@
                       "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Packs/ContextCompiler.Packs.Starter.Standard",
                       "compositionKind":  "pack-of-packs",
                       "includes":  [
-                                       "ContextCompiler.Packs.Artifacts.Standard",
-                                       "ContextCompiler.Packs.Prompt.Standard",
-                                       "ContextCompiler.Packs.Readers.Standard",
-                                       "ContextCompiler.Packs.Views.Standard"
+                                       "ContextCompiler.Output.Packs.Standard",
+                                       "ContextCompiler.Prompting.Packs.Standard",
+                                       "ContextCompiler.Readers.Packs.Standard",
+                                       "ContextCompiler.Views.Packs.Standard",
+                                       "ContextCompiler.InputIngestion.Packs.Transcoders.Standard",
+                                       "ContextCompiler.Security.Packs.Standard"
                                    ]
                   },
                   {
                       "kind":  "pack",
-                      "packageId":  "ContextCompiler.Packs.Views.Standard",
+                      "packageId":  "ContextCompiler.Prompting.Packs.Personas.SoftwareEngineering.Standard",
+                      "title":  "Standard software engineering personas pack",
+                      "shortName":  "Personas.SoftwareEngineering.Standard",
+                      "family":  "Personas",
+                      "description":  "Standard software engineering personas pack for analysis and testing workflows.",
+                      "tags":  [
+                                   "context",
+                                   "compiler",
+                                   "pack",
+                                   "personas",
+                                   "software-engineering",
+                                   "analysis",
+                                   "testing",
+                                   "standard"
+                               ],
+                      "authors":  "ContextCompiler",
+                      "targetFramework":  "net10.0",
+                      "path":  "src/Features/Prompting/Packs/ContextCompiler.Prompting.Packs.Personas.SoftwareEngineering.Standard",
+                      "projectFile":  "src/Features/Prompting/Packs/ContextCompiler.Prompting.Packs.Personas.SoftwareEngineering.Standard/ContextCompiler.Prompting.Packs.Personas.SoftwareEngineering.Standard.csproj",
+                      "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Prompting.Packs.Personas.SoftwareEngineering.Standard",
+                      "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Features/Prompting/Packs/ContextCompiler.Prompting.Packs.Personas.SoftwareEngineering.Standard",
+                      "compositionKind":  "pack-of-modules",
+                      "includes":  [
+                                       "ContextCompiler.Prompting.Modules.Personas.Analysts.Business",
+                                       "ContextCompiler.Prompting.Modules.Personas.Testers.Analyst"
+                                   ]
+                  },
+                  {
+                      "kind":  "pack",
+                      "packageId":  "ContextCompiler.Prompting.Packs.Standard",
+                      "title":  "Standard prompt pack",
+                      "shortName":  "Prompt.Standard",
+                      "family":  "Prompt",
+                      "description":  "Standard prompt pack with the recommended prompt composer modules.",
+                      "tags":  [
+                                   "context",
+                                   "compiler",
+                                   "pack",
+                                   "prompt",
+                                   "composers",
+                                   "generation",
+                                   "templates",
+                                   "standard"
+                               ],
+                      "authors":  "ContextCompiler",
+                      "targetFramework":  "net10.0",
+                      "path":  "src/Features/Prompting/Packs/ContextCompiler.Prompting.Packs.Standard",
+                      "projectFile":  "src/Features/Prompting/Packs/ContextCompiler.Prompting.Packs.Standard/ContextCompiler.Prompting.Packs.Standard.csproj",
+                      "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Prompting.Packs.Standard",
+                      "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Features/Prompting/Packs/ContextCompiler.Prompting.Packs.Standard",
+                      "compositionKind":  "pack-of-modules",
+                      "includes":  [
+                                       "ContextCompiler.Prompting.Modules.Composers.Assumptions",
+                                       "ContextCompiler.Prompting.Modules.Composers.Audiences",
+                                       "ContextCompiler.Prompting.Modules.Composers.Constraints",
+                                       "ContextCompiler.Prompting.Modules.Composers.General",
+                                       "ContextCompiler.Prompting.Modules.Composers.Glossary",
+                                       "ContextCompiler.Prompting.Modules.Composers.Objectives",
+                                       "ContextCompiler.Modules.Prompt.Composers.Views"
+                                   ]
+                  },
+                  {
+                      "kind":  "pack",
+                      "packageId":  "ContextCompiler.Readers.Packs.Standard",
+                      "title":  "Standard readers pack",
+                      "shortName":  "Readers.Standard",
+                      "family":  "Readers",
+                      "description":  "Standard readers pack for the most common supported input formats.",
+                      "tags":  [
+                                   "context",
+                                   "compiler",
+                                   "pack",
+                                   "readers",
+                                   "input",
+                                   "markdown",
+                                   "yaml",
+                                   "excel",
+                                   "pdf",
+                                   "standard"
+                               ],
+                      "authors":  "ContextCompiler",
+                      "targetFramework":  "net10.0",
+                      "path":  "src/Features/Readers/Packs/ContextCompiler.Readers.Packs.Standard",
+                      "projectFile":  "src/Features/Readers/Packs/ContextCompiler.Readers.Packs.Standard/ContextCompiler.Readers.Packs.Standard.csproj",
+                      "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Readers.Packs.Standard",
+                      "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Features/Readers/Packs/ContextCompiler.Readers.Packs.Standard",
+                      "compositionKind":  "pack-of-modules",
+                      "includes":  [
+                                       "ContextCompiler.Modules.Readers.Excel",
+                                       "ContextCompiler.Modules.Readers.Markdown",
+                                       "ContextCompiler.Modules.Readers.Pdf",
+                                       "ContextCompiler.Modules.Readers.Text",
+                                       "ContextCompiler.Modules.Readers.Yaml"
+                                   ]
+                  },
+                  {
+                      "kind":  "pack",
+                      "packageId":  "ContextCompiler.Security.Packs.Standard",
+                      "title":  "Standard security pack",
+                      "shortName":  "Security.Standard",
+                      "family":  "Security",
+                      "description":  "Standard security pack with pre-LLM guard modules.",
+                      "tags":  [
+                                   "context",
+                                   "compiler",
+                                   "pack",
+                                   "security",
+                                   "guards",
+                                   "standard"
+                               ],
+                      "authors":  "ContextCompiler",
+                      "targetFramework":  "net10.0",
+                      "path":  "src/Features/Security/Packs/ContextCompiler.Security.Packs.Standard",
+                      "projectFile":  "src/Features/Security/Packs/ContextCompiler.Security.Packs.Standard/ContextCompiler.Security.Packs.Standard.csproj",
+                      "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Security.Packs.Standard",
+                      "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Features/Security/Packs/ContextCompiler.Security.Packs.Standard",
+                      "compositionKind":  "pack-of-modules",
+                      "includes":  [
+                                       "ContextCompiler.Security.Modules.Guards.Email",
+                                       "ContextCompiler.Security.Modules.Guards.DataPart"
+                                   ]
+                  },
+                  {
+                      "kind":  "pack",
+                      "packageId":  "ContextCompiler.Views.Packs.Standard",
                       "title":  "Standard views pack",
                       "shortName":  "Views.Standard",
                       "family":  "Views",
@@ -1094,10 +1129,10 @@
                                ],
                       "authors":  "ContextCompiler",
                       "targetFramework":  "net10.0",
-                      "path":  "src/Packs/ContextCompiler.Packs.Views.Standard",
-                      "projectFile":  "src/Packs/ContextCompiler.Packs.Views.Standard/ContextCompiler.Packs.Views.Standard.csproj",
-                      "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Packs.Views.Standard",
-                      "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Packs/ContextCompiler.Packs.Views.Standard",
+                      "path":  "src/Features/Views/Packs/ContextCompiler.Views.Packs.Standard",
+                      "projectFile":  "src/Features/Views/Packs/ContextCompiler.Views.Packs.Standard/ContextCompiler.Views.Packs.Standard.csproj",
+                      "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Views.Packs.Standard",
+                      "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Features/Views/Packs/ContextCompiler.Views.Packs.Standard",
                       "compositionKind":  "pack-of-modules",
                       "includes":  [
                                        "ContextCompiler.Modules.Views",
@@ -1108,7 +1143,67 @@
     "blueprints":  [
                        {
                            "kind":  "blueprint",
-                           "packageId":  "ContextCompiler.Blueprints.DotNet.WebApp.Razor",
+                           "packageId":  "ContextCompiler.Prompting.Blueprints.Agile.UserStory",
+                           "title":  "Agile User Story blueprint",
+                           "shortName":  "Agile.UserStory",
+                           "family":  "Agile",
+                           "description":  "Blueprint for writing high-quality Agile User Stories with acceptance criteria, INVEST principles, and Definition of Ready/Done.",
+                           "tags":  [
+                                        "context",
+                                        "compiler",
+                                        "blueprint",
+                                        "agile",
+                                        "userstory",
+                                        "scrum",
+                                        "product",
+                                        "requirements",
+                                        "acceptance-criteria"
+                                    ],
+                           "authors":  "ContextCompiler",
+                           "targetFramework":  "net10.0",
+                           "path":  "src/Features/Prompting/Blueprints/ContextCompiler.Prompting.Blueprints.Agile.UserStory",
+                           "projectFile":  "src/Features/Prompting/Blueprints/ContextCompiler.Prompting.Blueprints.Agile.UserStory/ContextCompiler.Prompting.Blueprints.Agile.UserStory.csproj",
+                           "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Prompting.Blueprints.Agile.UserStory",
+                           "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Features/Prompting/Blueprints/ContextCompiler.Prompting.Blueprints.Agile.UserStory",
+                           "compositionKind":  "blueprint-of-packs-and-modules",
+                           "includes":  [
+                                            "ContextCompiler.Prompting.Modules.Personas.Analysts.Business"
+                                        ]
+                       },
+                       {
+                           "kind":  "blueprint",
+                           "packageId":  "ContextCompiler.Prompting.Blueprints.DotNet.Api.Backend",
+                           "title":  ".NET API Backend blueprint",
+                           "shortName":  "DotNet.Api.Backend",
+                           "family":  "DotNet",
+                           "description":  "Blueprint for building a professional .NET Core REST API backend with layered architecture, JWT authentication, validation, and best practices.",
+                           "tags":  [
+                                        "context",
+                                        "compiler",
+                                        "blueprint",
+                                        "dotnet",
+                                        "api",
+                                        "backend",
+                                        "rest",
+                                        "webapi",
+                                        "jwt",
+                                        "authentication",
+                                        "swagger"
+                                    ],
+                           "authors":  "ContextCompiler",
+                           "targetFramework":  "net10.0",
+                           "path":  "src/Features/Prompting/Blueprints/ContextCompiler.Prompting.Blueprints.DotNet.Api.Backend",
+                           "projectFile":  "src/Features/Prompting/Blueprints/ContextCompiler.Prompting.Blueprints.DotNet.Api.Backend/ContextCompiler.Prompting.Blueprints.DotNet.Api.Backend.csproj",
+                           "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Prompting.Blueprints.DotNet.Api.Backend",
+                           "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Features/Prompting/Blueprints/ContextCompiler.Prompting.Blueprints.DotNet.Api.Backend",
+                           "compositionKind":  "blueprint-of-packs-and-modules",
+                           "includes":  [
+                                            "ContextCompiler.Prompting.Modules.Personas.Developers.DotNet"
+                                        ]
+                       },
+                       {
+                           "kind":  "blueprint",
+                           "packageId":  "ContextCompiler.Prompting.Blueprints.DotNet.WebApp.Razor",
                            "title":  "Razor web app blueprint",
                            "shortName":  "DotNet.WebApp.Razor",
                            "family":  "DotNet",
@@ -1126,16 +1221,79 @@
                                     ],
                            "authors":  "ContextCompiler",
                            "targetFramework":  "net10.0",
-                           "path":  "src/Blueprints/ContextCompiler.Blueprints.DotNet.WebApp.Razor",
-                           "projectFile":  "src/Blueprints/ContextCompiler.Blueprints.DotNet.WebApp.Razor/ContextCompiler.Blueprints.DotNet.WebApp.Razor.csproj",
-                           "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Blueprints.DotNet.WebApp.Razor",
-                           "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Blueprints/ContextCompiler.Blueprints.DotNet.WebApp.Razor",
+                           "path":  "src/Features/Prompting/Blueprints/ContextCompiler.Prompting.Blueprints.DotNet.WebApp.Razor",
+                           "projectFile":  "src/Features/Prompting/Blueprints/ContextCompiler.Prompting.Blueprints.DotNet.WebApp.Razor/ContextCompiler.Prompting.Blueprints.DotNet.WebApp.Razor.csproj",
+                           "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Prompting.Blueprints.DotNet.WebApp.Razor",
+                           "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Features/Prompting/Blueprints/ContextCompiler.Prompting.Blueprints.DotNet.WebApp.Razor",
                            "compositionKind":  "blueprint-of-packs-and-modules",
                            "includes":  [
-                                            "ContextCompiler.Modules.Engineering.DotNet",
-                                            "ContextCompiler.Modules.Personas.Developers.DotNet",
-                                            "ContextCompiler.Modules.Prompt.Templates.Scriban",
-                                            "ContextCompiler.Packs.Starter.Standard"
+                                            "ContextCompiler.Packs.Starter.Standard",
+                                            "ContextCompiler.Prompting.Modules.Engineering.DotNet",
+                                            "ContextCompiler.Prompting.Modules.Personas.Developers.DotNet",
+                                            "ContextCompiler.Prompting.Modules.Templates.Scriban"
+                                        ]
+                       },
+                       {
+                           "kind":  "blueprint",
+                           "packageId":  "ContextCompiler.Prompting.Blueprints.React.Frontend",
+                           "title":  "React Frontend blueprint",
+                           "shortName":  "React.Frontend",
+                           "family":  "React",
+                           "description":  "Comprehensive blueprint for building modern, production-ready React applications with TypeScript, state management, routing, API integration, and best practices.",
+                           "tags":  [
+                                        "context",
+                                        "compiler",
+                                        "blueprint",
+                                        "react",
+                                        "frontend",
+                                        "spa",
+                                        "typescript",
+                                        "hooks",
+                                        "redux",
+                                        "router",
+                                        "components",
+                                        "ui",
+                                        "web",
+                                        "javascript"
+                                    ],
+                           "authors":  "ContextCompiler",
+                           "targetFramework":  "net10.0",
+                           "path":  "src/Features/Prompting/Blueprints/ContextCompiler.Prompting.Blueprints.React.Frontend",
+                           "projectFile":  "src/Features/Prompting/Blueprints/ContextCompiler.Prompting.Blueprints.React.Frontend/ContextCompiler.Prompting.Blueprints.React.Frontend.csproj",
+                           "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Prompting.Blueprints.React.Frontend",
+                           "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Features/Prompting/Blueprints/ContextCompiler.Prompting.Blueprints.React.Frontend",
+                           "compositionKind":  "blueprint-of-packs-and-modules",
+                           "includes":  [
+                                            "ContextCompiler.Prompting.Modules.Personas.Developers.React"
+                                        ]
+                       },
+                       {
+                           "kind":  "blueprint",
+                           "packageId":  "ContextCompiler.Prompting.Blueprints.Testing.TestCase",
+                           "title":  "Test Case Writing blueprint",
+                           "shortName":  "Testing.TestCase",
+                           "family":  "Testing",
+                           "description":  "Blueprint for writing comprehensive test cases with clear preconditions, test steps, expected results, and full traceability to requirements.",
+                           "tags":  [
+                                        "context",
+                                        "compiler",
+                                        "blueprint",
+                                        "testing",
+                                        "testcase",
+                                        "qa",
+                                        "quality",
+                                        "validation",
+                                        "verification"
+                                    ],
+                           "authors":  "ContextCompiler",
+                           "targetFramework":  "net10.0",
+                           "path":  "src/Features/Prompting/Blueprints/ContextCompiler.Prompting.Blueprints.Testing.TestCase",
+                           "projectFile":  "src/Features/Prompting/Blueprints/ContextCompiler.Prompting.Blueprints.Testing.TestCase/ContextCompiler.Prompting.Blueprints.Testing.TestCase.csproj",
+                           "nugetUrl":  "https://www.nuget.org/packages/ContextCompiler.Prompting.Blueprints.Testing.TestCase",
+                           "githubUrl":  "https://github.com/gbaudrit/context-compiler/tree/main/src/Features/Prompting/Blueprints/ContextCompiler.Prompting.Blueprints.Testing.TestCase",
+                           "compositionKind":  "blueprint-of-packs-and-modules",
+                           "includes":  [
+                                            "ContextCompiler.Prompting.Modules.Personas.Testers.Analyst"
                                         ]
                        }
                    ]

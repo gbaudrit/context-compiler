@@ -1,7 +1,7 @@
 using ContextCompiler.Abstractions.Common;
+using ContextCompiler.Abstractions.Compiled;
 using ContextCompiler.Abstractions.Pipelines.InputIngestion;
 using ContextCompiler.Abstractions.Ports;
-using ContextCompiler.Abstractions.ReasoningIR;
 using ContextCompiler.Modules.Abstractions;
 using ContextCompiler.Rag.Modules.LocalInMemory.Abstractions;
 

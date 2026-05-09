@@ -1,14 +1,14 @@
 using ContextCompiler.Abstractions.Configuration;
 using ContextCompiler.Abstractions.Output;
-using ContextCompiler.Abstractions.ReasoningIR;
 using ContextCompiler.Modules.Abstractions;
 using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Prompting.Abstractions;
 using ContextCompiler.Prompting.Abstractions.Pipelines.PromptComposition;
+using ContextCompiler.Abstractions.Compiled;
 
 namespace ContextCompiler.Prompting.Modules.Composers.General;
 
-public sealed class GeneralPromptComposerModule(IPrompt prompt, IOutput output, IConfigProvider ctxcConfig, IModulesRegistry modules, IReasoningIr ir) : IPromptComposerModule
+public sealed class GeneralPromptComposerModule(IPrompt prompt, IOutput output, IConfigProvider ctxcConfig, IModulesRegistry modules, ICompiledContext ir) : IPromptComposerModule
 {
     public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("prompt.composers.general", GlobalPipelineModuleKinds.OutputComposition, priority: 10);
 

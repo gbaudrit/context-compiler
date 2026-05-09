@@ -10,7 +10,7 @@ Il exécute les modules par groupe de `Kind`, ordonnés selon `GlobalPipelineMod
 2. **Input Ingestion**
    - lance le **Input Ingestion Pipeline** pour chaque input item
    - collecte les findings
-   - alimente le Reasoning IR avec les fragments produits
+   - alimente le Compiled Context avec les fragments produits
 3. **FileReader**
 4. **EngineeringModule**
 5. **Transcoder**
@@ -62,3 +62,4 @@ Il exécute les modules par groupe de `Kind`, ordonnés selon `GlobalPipelineMod
 - Any unordered collection must be sorted (string ordinal)
 - Hashing uses stable normalization
 - JSON uses consistent serialization options (WriteIndented true, stable property ordering when possible)
+

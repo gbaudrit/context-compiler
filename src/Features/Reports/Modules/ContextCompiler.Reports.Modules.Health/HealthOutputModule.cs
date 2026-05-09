@@ -1,21 +1,20 @@
 using System.Text.Json;
 
 using ContextCompiler.Abstractions.Common;
+using ContextCompiler.Abstractions.Compiled;
 using ContextCompiler.Abstractions.Guards;
 using ContextCompiler.Abstractions.Output;
 using ContextCompiler.Abstractions.Pipelines;
-using ContextCompiler.Abstractions.ReasoningIR;
 using ContextCompiler.Abstractions.Views;
 using ContextCompiler.Modules.Abstractions;
-using ContextCompiler.Modules.Abstractions.GlobalPipeline;
 
 namespace ContextCompiler.Reports.Modules.Health;
 
 public sealed class HealthOutputModule(
-    IReasoningIr ir,
+    ICompiledContext ir,
     IGuardian guardian,
     IViewsProvider viewsProvider,
-    IOutput output) : IOutputArtifactComposerModule
+    IOutput output) : IGlobalPipelineModule
 {
     public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("health.report", GlobalPipelineModuleKinds.ReportComposition, priority: 10);
 

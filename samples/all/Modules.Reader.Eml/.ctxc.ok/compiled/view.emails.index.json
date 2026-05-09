@@ -1,0 +1,293 @@
+{
+  "contractVersion": "1.0",
+  "viewId": "emails",
+  "title": "",
+  "fragments": [
+    {
+      "ek": "E-5383db70f55b",
+      "er": "R-52c226e3e272",
+      "source": {
+        "path": "C:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\context-compiler\\samples\\all\\Modules.Reader.Eml\\inputs/CR - Atelier .eml",
+        "locator": "subject/subject"
+      },
+      "tags": [
+        {
+          "name": "concern",
+          "value": "email"
+        },
+        {
+          "name": "shape",
+          "value": "linear"
+        },
+        {
+          "name": "extractId",
+          "value": "subject"
+        },
+        {
+          "name": "extractLabel",
+          "value": "Subject"
+        }
+      ]
+    },
+    {
+      "ek": "E-e488fd59b5a5",
+      "er": "R-c1b6136e4d3e",
+      "source": {
+        "path": "C:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\context-compiler\\samples\\all\\Modules.Reader.Eml\\inputs/CR - Atelier .eml",
+        "locator": "message-id/message-id"
+      },
+      "tags": [
+        {
+          "name": "concern",
+          "value": "email"
+        },
+        {
+          "name": "shape",
+          "value": "linear"
+        },
+        {
+          "name": "extractId",
+          "value": "message-id"
+        },
+        {
+          "name": "extractLabel",
+          "value": "Message-Id"
+        }
+      ]
+    },
+    {
+      "ek": "E-af4db0d7c5f4",
+      "er": "R-9754b142894d",
+      "source": {
+        "path": "C:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\context-compiler\\samples\\all\\Modules.Reader.Eml\\inputs/CR - Atelier .eml",
+        "locator": "date/date"
+      },
+      "tags": [
+        {
+          "name": "concern",
+          "value": "email"
+        },
+        {
+          "name": "shape",
+          "value": "linear"
+        },
+        {
+          "name": "extractId",
+          "value": "date"
+        },
+        {
+          "name": "extractLabel",
+          "value": "Date"
+        }
+      ]
+    },
+    {
+      "ek": "E-a3f2f3f35fe1",
+      "er": "R-c2da0a8c8d7f",
+      "source": {
+        "path": "C:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\context-compiler\\samples\\all\\Modules.Reader.Eml\\inputs/CR - Atelier .eml",
+        "locator": "from:0:name/from:0:name"
+      },
+      "tags": [
+        {
+          "name": "concern",
+          "value": "email"
+        },
+        {
+          "name": "shape",
+          "value": "linear"
+        },
+        {
+          "name": "extractId",
+          "value": "from-name"
+        },
+        {
+          "name": "extractLabel",
+          "value": "From Name"
+        }
+      ]
+    },
+    {
+      "ek": "E-14aca3057cfb",
+      "er": "R-25ab07a0a6f2",
+      "source": {
+        "path": "C:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\context-compiler\\samples\\all\\Modules.Reader.Eml\\inputs/CR - Atelier .eml",
+        "locator": "from:0:email/from:0:email"
+      },
+      "tags": [
+        {
+          "name": "concern",
+          "value": "email"
+        },
+        {
+          "name": "shape",
+          "value": "linear"
+        },
+        {
+          "name": "extractId",
+          "value": "from-email"
+        },
+        {
+          "name": "extractLabel",
+          "value": "From Email"
+        }
+      ]
+    },
+    {
+      "ek": "E-14d3675d54be",
+      "er": "R-7fa08d5a6d55",
+      "source": {
+        "path": "C:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\context-compiler\\samples\\all\\Modules.Reader.Eml\\inputs/CR - Atelier .eml",
+        "locator": "to:0:name/to:0:name"
+      },
+      "tags": [
+        {
+          "name": "concern",
+          "value": "email"
+        },
+        {
+          "name": "shape",
+          "value": "linear"
+        },
+        {
+          "name": "extractId",
+          "value": "to-name"
+        },
+        {
+          "name": "extractLabel",
+          "value": "To Name"
+        }
+      ]
+    },
+    {
+      "ek": "E-e8e98ab6b426",
+      "er": "R-aa25191b8db2",
+      "source": {
+        "path": "C:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\context-compiler\\samples\\all\\Modules.Reader.Eml\\inputs/CR - Atelier .eml",
+        "locator": "to:0:email/to:0:email"
+      },
+      "tags": [
+        {
+          "name": "concern",
+          "value": "email"
+        },
+        {
+          "name": "shape",
+          "value": "linear"
+        },
+        {
+          "name": "extractId",
+          "value": "to-email"
+        },
+        {
+          "name": "extractLabel",
+          "value": "To Email"
+        }
+      ]
+    },
+    {
+      "ek": "E-ff64b2d93aaa",
+      "er": "R-a1a6ad23e4d7",
+      "source": {
+        "path": "C:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\context-compiler\\samples\\all\\Modules.Reader.Eml\\inputs/CR - Atelier .eml",
+        "locator": "cc:0:name/cc:0:name"
+      },
+      "tags": [
+        {
+          "name": "concern",
+          "value": "email"
+        },
+        {
+          "name": "shape",
+          "value": "linear"
+        },
+        {
+          "name": "extractId",
+          "value": "cc-name"
+        },
+        {
+          "name": "extractLabel",
+          "value": "Cc Name"
+        }
+      ]
+    },
+    {
+      "ek": "E-fe7789cf4733",
+      "er": "R-b06082b56a5c",
+      "source": {
+        "path": "C:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\context-compiler\\samples\\all\\Modules.Reader.Eml\\inputs/CR - Atelier .eml",
+        "locator": "cc:0:email/cc:0:email"
+      },
+      "tags": [
+        {
+          "name": "concern",
+          "value": "email"
+        },
+        {
+          "name": "shape",
+          "value": "linear"
+        },
+        {
+          "name": "extractId",
+          "value": "cc-email"
+        },
+        {
+          "name": "extractLabel",
+          "value": "Cc Email"
+        }
+      ]
+    },
+    {
+      "ek": "E-d3adadee7f7b",
+      "er": "R-df25b7892aeb",
+      "source": {
+        "path": "C:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\context-compiler\\samples\\all\\Modules.Reader.Eml\\inputs/CR - Atelier .eml",
+        "locator": "text-body/text-body"
+      },
+      "tags": [
+        {
+          "name": "concern",
+          "value": "email"
+        },
+        {
+          "name": "shape",
+          "value": "linear"
+        },
+        {
+          "name": "extractId",
+          "value": "text-body"
+        },
+        {
+          "name": "extractLabel",
+          "value": "Text Body"
+        }
+      ]
+    },
+    {
+      "ek": "E-b032d7aae011",
+      "er": "R-1d8e20705083",
+      "source": {
+        "path": "C:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\context-compiler\\samples\\all\\Modules.Reader.Eml\\inputs/CR - Atelier .eml",
+        "locator": "html-body/html-body"
+      },
+      "tags": [
+        {
+          "name": "concern",
+          "value": "email"
+        },
+        {
+          "name": "shape",
+          "value": "linear"
+        },
+        {
+          "name": "extractId",
+          "value": "html-body"
+        },
+        {
+          "name": "extractLabel",
+          "value": "Html Body"
+        }
+      ]
+    }
+  ]
+}
