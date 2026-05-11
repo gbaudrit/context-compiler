@@ -8,36 +8,55 @@ public interface IPipelineEventPublisher
         where TEvent : IPipelineEvent;
 
     Task<IPipelineEvent> PublishPhaseStartedAsync(
-        IPipeline pipeline,
+        IPipelineRunContext pipeline,
         string phaseId,
         string moduleId,
+        string itemId,
         CancellationToken cancellationToken = default);
 
     Task<IPipelineEvent> PublishPhaseCompletedAsync(
-        IPipeline pipeline,
+        IPipelineRunContext pipeline,
         string phaseId,
         string moduleId,
+        string itemId,
         TimeSpan duration,
         CancellationToken cancellationToken = default);
 
     Task<IPipelineEvent> PublishPhaseFailedAsync(
-        IPipeline pipeline,
+        IPipelineRunContext pipeline,
         string phaseId,
         string moduleId,
+        string itemId,
         Exception exception,
         CancellationToken cancellationToken = default);
 
     Task<T> PublishPhaseAsync<T>(
-        IPipeline pipeline,
+        IPipelineRunContext pipeline,
         string phaseId,
         string moduleId,
         Func<Task<T>> action,
         CancellationToken cancellationToken = default);
 
     Task PublishPhaseAsync(
-        IPipeline pipeline,
+        IPipelineRunContext pipeline,
         string phaseId,
         string moduleId,
+        Func<Task> action,
+        CancellationToken cancellationToken = default);
+
+    Task<T> PublishPhaseAsync<T>(
+        IPipelineRunContext pipeline,
+        string phaseId,
+        string moduleId,
+        string itemId,
+        Func<Task<T>> action,
+        CancellationToken cancellationToken = default);
+
+    Task PublishPhaseAsync(
+        IPipelineRunContext pipeline,
+        string phaseId,
+        string moduleId,
+        string itemId,
         Func<Task> action,
         CancellationToken cancellationToken = default);
 }

@@ -7,9 +7,11 @@ namespace ContextCompiler.Prompting.Pipelines.PromptComposition;
 
 internal sealed class PromptComposerRunContext(
     IPipeline pipeline,
+    IPipelineRunContext parent,
     IPrompt prompt,
     IPromptComposerRunResultBuilder resultBuilder) : IPromptComposerRunContext
 {
+    public IPipelineRunContext Parent => parent;
     public IPipeline Pipeline { get; } = pipeline;
     public IPrompt Prompt { get; } = prompt;
 

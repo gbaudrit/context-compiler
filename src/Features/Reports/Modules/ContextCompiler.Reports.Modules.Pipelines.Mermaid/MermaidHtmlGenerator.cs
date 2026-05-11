@@ -5,7 +5,7 @@ namespace ContextCompiler.Reports.Modules.Pipelines.Mermaid;
 
 internal static class MermaidHtmlGenerator
 {
-    public static string GenerateHtml(string mermaidDiagram, string title = "Pipeline Execution Report")
+    public static string GenerateHtml(string mermaidDiagram, string title = "Pipeline Execution Report", int eventCount = 0)
     {
         StringBuilder sb = new();
 
@@ -20,6 +20,8 @@ internal static class MermaidHtmlGenerator
               .AppendLine("        mermaid.initialize({ ")
               .AppendLine("            startOnLoad: true,")
               .AppendLine("            theme: 'default',")
+              .AppendLine("            maxTextSize: 200000,")
+              .AppendLine("            maxEdges: 2000,")
               .AppendLine("            flowchart: {")
               .AppendLine("                useMaxWidth: true,")
               .AppendLine("                htmlLabels: true,")
@@ -67,6 +69,17 @@ internal static class MermaidHtmlGenerator
               .AppendLine("            margin-right: 20px;")
               .AppendLine("            margin-bottom: 10px;")
               .AppendLine("        }")
+              .AppendLine("        .info-box {")
+              .AppendLine("            background: #fff3cd;")
+              .AppendLine("            border: 1px solid #ffc107;")
+              .AppendLine("            border-radius: 4px;")
+              .AppendLine("            padding: 10px;")
+              .AppendLine("            margin-bottom: 20px;")
+              .AppendLine("        }")
+              .AppendLine("        .info-box p {")
+              .AppendLine("            margin: 5px 0;")
+              .AppendLine("            color: #856404;")
+              .AppendLine("        }")
               .AppendLine("        .legend-box {")
               .AppendLine("            display: inline-block;")
               .AppendLine("            width: 20px;")
@@ -87,8 +100,16 @@ internal static class MermaidHtmlGenerator
               .AppendLine("</head>")
               .AppendLine("<body>")
               .AppendLine("    <div class=\"container\">")
-              .AppendLine(CultureInfo.InvariantCulture, $"        <h1>{title}</h1>")
-              .AppendLine("        <div class=\"mermaid\">")
+              .AppendLine(CultureInfo.InvariantCulture, $"        <h1>{title}</h1>");
+
+        if (eventCount > 0)
+        {
+            _ = sb.AppendLine("        <div class=\"info-box\">")
+                  .AppendLine(CultureInfo.InvariantCulture, $"            <p><strong>Total events:</strong> {eventCount}</p>")
+                  .AppendLine("        </div>");
+        }
+
+        _ = sb.AppendLine("        <div class=\"mermaid\">")
               .AppendLine(mermaidDiagram)
               .AppendLine("        </div>")
               .AppendLine("        <div class=\"legend\">")

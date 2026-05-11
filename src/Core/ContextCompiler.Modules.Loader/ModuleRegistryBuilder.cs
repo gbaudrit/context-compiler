@@ -42,7 +42,7 @@ public sealed class ModuleRegistryBuilder : IModuleRegistryBuilder
             }
             if (typeof(IGlobalPipelineModule).IsAssignableFrom(t))
             {
-                _ = services.AddTransient(typeof(IGlobalPipelineModule), t);
+                services.TryAddEnumerable(ServiceDescriptor.Transient(typeof(IGlobalPipelineModule), t));
             }
 
             if (typeof(IInputIngestionPipelineModule).IsAssignableFrom(t))
@@ -52,12 +52,7 @@ public sealed class ModuleRegistryBuilder : IModuleRegistryBuilder
 
             if (typeof(IDataPartPipelineModule).IsAssignableFrom(t))
             {
-                _ = services.AddTransient(typeof(IDataPartPipelineModule), t);
-            }
-
-            if (typeof(IFileReaderModule).IsAssignableFrom(t))
-            {
-                _ = services.AddTransient(typeof(IFileReaderModule), t);
+                services.TryAddEnumerable(ServiceDescriptor.Transient(typeof(IDataPartPipelineModule), t));
             }
 
             if (typeof(IFileReader).IsAssignableFrom(t))

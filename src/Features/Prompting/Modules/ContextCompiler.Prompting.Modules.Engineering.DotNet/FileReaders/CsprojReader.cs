@@ -7,7 +7,11 @@ using Microsoft.Extensions.Logging;
 
 namespace ContextCompiler.Prompting.Modules.Engineering.DotNet.FileReaders;
 
-public sealed class TextFileReaderModule(IFileReadResultBuilder fileReadResultBuilder, IFileContentBuilder fileContentBuilder, ILinearFileReader linearFileReader, ILogger<TextFileReaderModule> logger) : IFileReaderModule
+public sealed class TextFileReaderModule(
+    IFileReadResultBuilder fileReadResultBuilder,
+    IFileContentBuilder fileContentBuilder,
+    ILinearFileReader linearFileReader,
+    ILogger<TextFileReaderModule> logger) : IInputIngestionPipelineModule
 {
     public InputIngestionModuleMetadata Metadata => IInputIngestionPipelineModule.Meta("engineering.dotnet.filereader.csproj", InputIngestionPipelineModuleKinds.ReadDocument, priority: 10);
 

@@ -81,15 +81,15 @@ public sealed class GlobalPipeline(
                     module.Metadata.Kind,
                     module.Metadata.Priority);
 
-                IGlobalPipelineRunContext moduleContext = globalPipelineRunContextBuilder
+                IGlobalPipelineRunContext runContext = globalPipelineRunContextBuilder
                     .InitNew()
                     .WithPipeline(this)
                     .Build();
 
-                _ = await pipelineEventPublisher.PublishPhaseAsync(this,
+                _ = await pipelineEventPublisher.PublishPhaseAsync(runContext,
                                                                module.Metadata.Kind.ToString(),
                                                                module.Metadata.Id,
-                                                               async () => await module.Run(moduleContext, ct),
+                                                               async () => await module.Run(runContext, ct),
                                                                ct);
             }));
         }

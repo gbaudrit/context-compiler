@@ -7,12 +7,14 @@ internal sealed class InputIngestionPipelineRunContextBuilder(
     IInputIngestionPipelineRunResultBuilder resultBuilder) : IInputIngestionPipelineRunContextBuilder
 {
     private IPipeline? _pipeline;
+    private IPipelineRunContext? _parent;
     private IInputItemContext? _InputItemContext;
     private IInputItemContextPatchBuilder? _patchContext;
 
     public IInputIngestionPipelineRunContextBuilder InitNew()
     {
         _pipeline = null;
+        _parent = null;
         _InputItemContext = null;
         _patchContext = null;
         return this;
@@ -23,6 +25,13 @@ internal sealed class InputIngestionPipelineRunContextBuilder(
         _pipeline = pipeline;
         return this;
     }
+
+    public IInputIngestionPipelineRunContextBuilder WithParent(IPipelineRunContext parent)
+    {
+        _parent = parent;
+        return this;
+    }
+
 
     public IInputIngestionPipelineRunContextBuilder WithInputItemContext(IInputItemContext InputItemContext)
     {
@@ -39,9 +48,10 @@ internal sealed class InputIngestionPipelineRunContextBuilder(
     public IInputIngestionPipelineRunContext Build()
     {
         ArgumentNullException.ThrowIfNull(_pipeline, nameof(_pipeline));
+        ArgumentNullException.ThrowIfNull(_parent, nameof(_parent));
         ArgumentNullException.ThrowIfNull(_InputItemContext, nameof(_InputItemContext));
         ArgumentNullException.ThrowIfNull(_patchContext, nameof(_patchContext));
 
-        return new InputIngestionPipelineRunContext(_pipeline, _InputItemContext, _patchContext, resultBuilder);
+        return new InputIngestionPipelineRunContext(_pipeline, _parent, _InputItemContext, _patchContext, resultBuilder);
     }
 }

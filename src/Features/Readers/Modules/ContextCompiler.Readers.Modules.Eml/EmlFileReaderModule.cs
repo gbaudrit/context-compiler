@@ -13,7 +13,7 @@ public sealed class EmlFileReaderModule(
     IDataEnvelopeBuilder dataEnvelopeBuilder,
     IDataPartBuilder dataPartBuilder,
     ISourceRefBuilder sourceRefBuilder,
-    ILogger<EmlFileReaderModule> logger) : IFileReaderModule
+    ILogger<EmlFileReaderModule> logger) : IInputIngestionPipelineModule
 {
     public InputIngestionModuleMetadata Metadata => IInputIngestionPipelineModule.Meta("readers.eml", InputIngestionPipelineModuleKinds.ReadDocument, priority: 12);
 

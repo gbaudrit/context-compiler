@@ -3,9 +3,8 @@ using ContextCompiler.Abstractions.Models;
 
 namespace ContextCompiler.Abstractions.Pipelines.InputIngestion;
 
-public interface IInputIngestionPipelineRunContext : IPipelineRunContext
+public interface IInputIngestionPipelineRunContext : ISubPipelineRunContext
 {
-
     IInputItemContext InputItem { get; }
 
 

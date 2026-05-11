@@ -2,6 +2,7 @@ using ContextCompiler.Abstractions.Pipelines.Events;
 using ContextCompiler.Modules.Abstractions;
 
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace ContextCompiler.Reports.Modules.Pipelines.Mermaid;
 
@@ -20,7 +21,7 @@ public sealed class DependencyInjection : IDependencyInjection
         _ = services.AddSingleton<IPipelineEventHandler<PhaseFailed>>(sp =>
             sp.GetRequiredService<PipelineEventCollector>());
 
-        _ = services.AddTransient<IGlobalPipelineModule, MermaidPipelineReportModule>();
+        services.TryAddEnumerable(ServiceDescriptor.Transient<IGlobalPipelineModule, MermaidPipelineReportModule>());
 
         return services;
     }

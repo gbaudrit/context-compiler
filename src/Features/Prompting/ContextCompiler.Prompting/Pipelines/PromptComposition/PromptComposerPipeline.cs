@@ -49,10 +49,11 @@ public sealed class PromptComposerPipeline(
             IPromptComposerRunContext innerRunContext = runContextBuilder
                 .InitNew()
                 .WithPipeline(this)
+                .WithParent(context)
                 .WithPrompt(prompt)
                 .Build();
 
-            await pipelineEventPublisher.PublishPhaseAsync(this,
+            await pipelineEventPublisher.PublishPhaseAsync(innerRunContext,
                                                            module.Metadata.Kind.ToString(),
                                                            module.Metadata.Id,
                                                            async () =>

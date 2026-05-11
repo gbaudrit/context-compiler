@@ -111,13 +111,15 @@ public sealed class InputIngestionPipeline(
                                 IInputIngestionPipelineRunContext innerRunContext = runContextBuilder
                                     .InitNew()
                                     .WithPipeline(this)
+                                    .WithParent(context)
                                     .WithInputItemContext(inputItemContext)
                                     .WithPatchContext(modulePatcher.InitNew())
                                     .Build();
 
-                                await pipelineEventPublisher.PublishPhaseAsync(this,
+                                await pipelineEventPublisher.PublishPhaseAsync(innerRunContext,
                                                                module.Metadata.Kind.ToString(),
                                                                module.Metadata.Id,
+                                                               inputItemContext.RelativePath,
                                                                async () =>
                                                                {
                                                                    IResult<IInputIngestionPipelineRunResult> result = await module.Run(innerRunContext, cancellationToken);

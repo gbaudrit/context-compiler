@@ -7,5 +7,6 @@ public interface IPromptComposerRunContextBuilder
     IPromptComposerRunContext Build();
     IPromptComposerRunContextBuilder InitNew();
     IPromptComposerRunContextBuilder WithPipeline(IPipeline pipeline);
+    IPromptComposerRunContextBuilder WithParent(IPipelineRunContext parent);
     IPromptComposerRunContextBuilder WithPrompt(IPrompt prompt);
 }

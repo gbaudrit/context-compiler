@@ -28,7 +28,7 @@ public sealed class PdfFileReaderModule(IFileReadResultBuilder fileReadResultBui
                                         IDataPartBuilder dataPartBuilder,
                                         ITagsBuilder tagsBuilder,
                                         ISourceRefBuilder sourceRefBuilder,
-                                        ILogger<PdfFileReaderModule> logger) : IFileReaderModule
+                                        ILogger<PdfFileReaderModule> logger) : IInputIngestionPipelineModule
 {
     public InputIngestionModuleMetadata Metadata => IInputIngestionPipelineModule.Meta("readers.pdf", InputIngestionPipelineModuleKinds.ReadDocument, priority: 10);
 

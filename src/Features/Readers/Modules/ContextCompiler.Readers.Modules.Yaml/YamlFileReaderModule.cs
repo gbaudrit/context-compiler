@@ -5,7 +5,7 @@ using ContextCompiler.Modules.Abstractions;
 
 namespace ContextCompiler.Readers.Modules.Yaml;
 
-public sealed class YamlFileReaderModule(ILinearFileReader linearFileReader) : IFileReaderModule
+public sealed class YamlFileReaderModule(ILinearFileReader linearFileReader) : IInputIngestionPipelineModule
 {
     public InputIngestionModuleMetadata Metadata => IInputIngestionPipelineModule.Meta("readers.yaml", InputIngestionPipelineModuleKinds.ReadDocument, priority: 9);
 

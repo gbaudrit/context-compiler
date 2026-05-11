@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 
 namespace ContextCompiler.Readers.Modules.Text;
 
-public sealed class TextFileReaderModule(ILinearFileReader linearFileReader, ILogger<TextFileReaderModule> logger) : IFileReaderModule
+public sealed class TextFileReaderModule(ILinearFileReader linearFileReader, ILogger<TextFileReaderModule> logger) : IInputIngestionPipelineModule
 {
     public InputIngestionModuleMetadata Metadata => IInputIngestionPipelineModule.Meta("readers.text", InputIngestionPipelineModuleKinds.ReadDocument, priority: 0);
 

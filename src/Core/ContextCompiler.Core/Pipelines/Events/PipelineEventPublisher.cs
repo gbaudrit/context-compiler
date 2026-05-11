@@ -19,7 +19,7 @@ internal sealed class PipelineEventPublisher(
         logger.LogInformation(
             "Pipeline event: {EventType} | Pipeline: {PipelineId} | Phase: {PhaseId} | Timestamp: {Timestamp}",
             e.GetType().Name,
-            e.PipelineId,
+            e.RunContext.Pipeline.Id,
             e.PhaseId,
             e.Timestamp);
 
@@ -59,31 +59,35 @@ internal sealed class PipelineEventPublisher(
     }
 
     public Task<IPipelineEvent> PublishPhaseStartedAsync(
-        IPipeline pipeline,
+        IPipelineRunContext pipeline,
         string phaseId,
         string moduleId,
+        string itemId,
         CancellationToken cancellationToken = default)
     {
         PhaseStarted e = new(
-            pipeline.GetType().Name,
+            pipeline,
             phaseId,
             moduleId,
+            itemId,
             DateTimeOffset.UtcNow);
 
         return PublishAsync(e, cancellationToken);
     }
 
     public Task<IPipelineEvent> PublishPhaseCompletedAsync(
-        IPipeline pipeline,
+        IPipelineRunContext pipeline,
         string phaseId,
         string moduleId,
+        string itemId,
         TimeSpan duration,
         CancellationToken cancellationToken = default)
     {
         PhaseCompleted e = new(
-            pipeline.GetType().Name,
+            pipeline,
             phaseId,
             moduleId,
+            itemId,
             duration,
             DateTimeOffset.UtcNow);
 
@@ -91,9 +95,10 @@ internal sealed class PipelineEventPublisher(
     }
 
     public Task<IPipelineEvent> PublishPhaseCompletedAsync(
-            IPipeline pipeline,
+            IPipelineRunContext pipeline,
             string phaseId,
             string moduleId,
+            string itemId,
             IPipelineEvent startEvent,
             CancellationToken cancellationToken = default)
     {
@@ -101,9 +106,10 @@ internal sealed class PipelineEventPublisher(
         TimeSpan duration = DateTimeOffset.UtcNow - startEvent.Timestamp;
 
         PhaseCompleted e = new(
-            pipeline.GetType().Name,
+            pipeline,
             phaseId,
             moduleId,
+            itemId,
             duration,
             DateTimeOffset.UtcNow);
 
@@ -111,64 +117,88 @@ internal sealed class PipelineEventPublisher(
     }
 
     public Task<IPipelineEvent> PublishPhaseFailedAsync(
-        IPipeline pipeline,
+        IPipelineRunContext pipeline,
         string phaseId,
         string moduleId,
+        string itemId,
         Exception exception,
         CancellationToken cancellationToken = default)
     {
         PhaseFailed e = new(
-            pipeline.GetType().Name,
+            pipeline,
             phaseId,
             moduleId,
+            itemId,
             exception,
             DateTimeOffset.UtcNow);
 
         return PublishAsync(e, cancellationToken);
     }
 
-    public async Task<T> PublishPhaseAsync<T>(
-        IPipeline pipeline,
+    public Task<T> PublishPhaseAsync<T>(
+        IPipelineRunContext pipeline,
         string phaseId,
         string moduleId,
         Func<Task<T>> action,
         CancellationToken cancellationToken = default)
     {
-        IPipelineEvent startEvent = await PublishPhaseStartedAsync(pipeline, phaseId, moduleId, cancellationToken);
+        return PublishPhaseAsync(pipeline, phaseId, moduleId, string.Empty, action, cancellationToken);
+    }
+
+    public async Task<T> PublishPhaseAsync<T>(
+        IPipelineRunContext pipeline,
+        string phaseId,
+        string moduleId,
+        string itemId,
+        Func<Task<T>> action,
+        CancellationToken cancellationToken = default)
+    {
+        IPipelineEvent startEvent = await PublishPhaseStartedAsync(pipeline, phaseId, moduleId, itemId, cancellationToken);
 
         try
         {
             T result = await action();
 
-            _ = await PublishPhaseCompletedAsync(pipeline, phaseId, moduleId, startEvent, cancellationToken);
+            _ = await PublishPhaseCompletedAsync(pipeline, phaseId, moduleId, itemId, startEvent, cancellationToken);
 
             return result;
         }
         catch (Exception ex)
         {
-            _ = await PublishPhaseFailedAsync(pipeline, phaseId, moduleId, ex, cancellationToken);
+            _ = await PublishPhaseFailedAsync(pipeline, phaseId, moduleId, itemId, ex, cancellationToken);
             throw;
         }
     }
 
-    public async Task PublishPhaseAsync(
-        IPipeline pipeline,
+    public Task PublishPhaseAsync(
+        IPipelineRunContext pipeline,
         string phaseId,
         string moduleId,
         Func<Task> action,
         CancellationToken cancellationToken = default)
     {
-        IPipelineEvent startEvent = await PublishPhaseStartedAsync(pipeline, phaseId, moduleId, cancellationToken);
+        return PublishPhaseAsync(pipeline, phaseId, moduleId, string.Empty, action, cancellationToken);
+    }
+
+    public async Task PublishPhaseAsync(
+        IPipelineRunContext pipeline,
+        string phaseId,
+        string moduleId,
+        string itemId,
+        Func<Task> action,
+        CancellationToken cancellationToken = default)
+    {
+        IPipelineEvent startEvent = await PublishPhaseStartedAsync(pipeline, phaseId, moduleId, itemId, cancellationToken);
 
         try
         {
             await action();
 
-            _ = await PublishPhaseCompletedAsync(pipeline, phaseId, moduleId, startEvent, cancellationToken);
+            _ = await PublishPhaseCompletedAsync(pipeline, phaseId, moduleId, itemId, startEvent, cancellationToken);
         }
         catch (Exception ex)
         {
-            _ = await PublishPhaseFailedAsync(pipeline, phaseId, moduleId, ex, cancellationToken);
+            _ = await PublishPhaseFailedAsync(pipeline, phaseId, moduleId, itemId, ex, cancellationToken);
             throw;
         }
     }

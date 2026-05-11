@@ -15,7 +15,6 @@ public sealed class ModulesRegistry(IServiceProvider services) : IModulesRegistr
     public IReadOnlyList<IInputIngestionPipelineModule> InputIngestionPipelineModules => [.. _services.GetServices<IInputIngestionPipelineModule>()];
     public IReadOnlyList<IDataPartPipelineModule> DataPartPipelineModules => [.. _services.GetServices<IDataPartPipelineModule>()];
 
-    public IReadOnlyList<IFileReaderModule> FileReaders => [.. _services.GetServices<IFileReaderModule>()];
     public IReadOnlyList<IDataReaderModule> DataReaders => [.. _services.GetServices<IDataReaderModule>()];
     public IReadOnlyList<IEngineeringModule> EngineeringModules => [.. _services.GetServices<IEngineeringModule>()];
     public IReadOnlyList<IViewModule> Views => [.. _services.GetServices<IViewModule>()];

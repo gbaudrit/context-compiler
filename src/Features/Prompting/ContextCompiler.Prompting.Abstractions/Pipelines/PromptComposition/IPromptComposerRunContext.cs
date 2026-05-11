@@ -3,7 +3,7 @@ using ContextCompiler.Abstractions.Pipelines;
 
 namespace ContextCompiler.Prompting.Abstractions.Pipelines.PromptComposition;
 
-public interface IPromptComposerRunContext : IPipelineRunContext
+public interface IPromptComposerRunContext : ISubPipelineRunContext
 {
     IPrompt Prompt { get; }
 

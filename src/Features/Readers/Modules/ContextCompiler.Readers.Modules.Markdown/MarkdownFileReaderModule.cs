@@ -5,7 +5,7 @@ using ContextCompiler.Modules.Abstractions;
 
 namespace ContextCompiler.Readers.Modules.Markdown;
 
-public sealed class MarkdownFileReaderModule(ILinearFileReader linearFileReader) : IFileReaderModule
+public sealed class MarkdownFileReaderModule(ILinearFileReader linearFileReader) : IInputIngestionPipelineModule
 {
     public InputIngestionModuleMetadata Metadata => IInputIngestionPipelineModule.Meta("readers.markdown", InputIngestionPipelineModuleKinds.ReadDocument, priority: 9);
 

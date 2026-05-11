@@ -14,7 +14,6 @@ internal sealed class CtxcModulesListHandler(IModulesRegistry registry, ILogger<
         {
             var items = new[]
             {
-                new { Kind = "file-reader", registry.FileReaders.Count },
                 new { Kind = "data-reader", registry.DataReaders.Count },
                 new { Kind = "engineering", registry.EngineeringModules.Count },
                 new { Kind = "view", registry.Views.Count },

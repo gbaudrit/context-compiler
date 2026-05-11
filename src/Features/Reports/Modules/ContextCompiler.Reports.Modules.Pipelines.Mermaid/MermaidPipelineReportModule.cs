@@ -32,20 +32,47 @@ internal sealed class MermaidPipelineReportModule(
 
         logger.LogInformation("Generating Mermaid pipeline report from {EventCount} events", events.Count);
 
-        string mermaidDiagram = eventCollector.GenerateMermaidDiagram();
-        string htmlContent = MermaidHtmlGenerator.GenerateHtml(
-            mermaidDiagram,
-            "Pipeline Execution Report");
-
+        // Generate interactive view (recommended)
+        string interactiveHtml = InteractiveMermaidHtmlGenerator.GenerateHtml(
+            events,
+            "Pipeline Execution Report - Interactive");
 
         output.AddArtifact(builder =>
         {
-            return builder.WithFileName("pipeline-report.html")
-                          .WithContent(htmlContent)
+            return builder.WithFileName("pipeline-report-interactive.html")
+                          .WithContent(interactiveHtml)
                           .WithGeneratedBy(GetType());
         });
 
-        logger.LogInformation("Mermaid pipeline report generated");
+        // Generate detailed view
+        string detailedDiagram = eventCollector.GenerateMermaidDiagram(DiagramDetailLevel.Detailed);
+        string detailedHtml = MermaidHtmlGenerator.GenerateHtml(
+            detailedDiagram,
+            "Pipeline Execution Report - Detailed View",
+            events.Count);
+
+        output.AddArtifact(builder =>
+        {
+            return builder.WithFileName("pipeline-report-detailed.html")
+                          .WithContent(detailedHtml)
+                          .WithGeneratedBy(GetType());
+        });
+
+        // Generate condensed view
+        string condensedDiagram = eventCollector.GenerateMermaidDiagram(DiagramDetailLevel.Condensed);
+        string condensedHtml = MermaidHtmlGenerator.GenerateHtml(
+            condensedDiagram,
+            "Pipeline Execution Report - Condensed View",
+            events.Count);
+
+        output.AddArtifact(builder =>
+        {
+            return builder.WithFileName("pipeline-report-condensed.html")
+                          .WithContent(condensedHtml)
+                          .WithGeneratedBy(GetType());
+        });
+
+        logger.LogInformation("Mermaid pipeline reports generated (interactive, detailed and condensed views)");
 
         return context.Success();
     }

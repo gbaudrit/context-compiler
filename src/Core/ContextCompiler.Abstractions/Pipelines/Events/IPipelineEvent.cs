@@ -3,30 +3,35 @@ namespace ContextCompiler.Abstractions.Pipelines.Events;
 public interface IPipelineEvent
 {
     string Name => GetType().Name;
-    string PipelineId { get; }
+    IPipelineRunContext RunContext { get; }
     string PhaseId { get; }
+    string ModuleId { get; }
+    string ItemId { get; }
     DateTimeOffset Timestamp { get; }
 }
 
 public sealed record PhaseStarted(
-    string PipelineId,
+    IPipelineRunContext RunContext,
     string PhaseId,
     string ModuleId,
+    string ItemId,
     DateTimeOffset Timestamp
 ) : IPipelineEvent;
 
 public sealed record PhaseCompleted(
-    string PipelineId,
+    IPipelineRunContext RunContext,
     string PhaseId,
     string ModuleId,
+    string ItemId,
     TimeSpan Duration,
     DateTimeOffset Timestamp
 ) : IPipelineEvent;
 
 public sealed record PhaseFailed(
-    string PipelineId,
+    IPipelineRunContext RunContext,
     string PhaseId,
     string ModuleId,
+    string ItemId,
     Exception Exception,
     DateTimeOffset Timestamp
 ) : IPipelineEvent;

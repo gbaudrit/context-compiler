@@ -18,7 +18,7 @@ public sealed class ExcelFileReaderModule(
     IDataEnvelopeBuilder dataEnvelopeBuilder,
     IDataPartBuilder dataPartBuilder,
     ITagsBuilder tagsBuilder,
-    ISourceRefBuilder sourceRefBuilder) : IFileReaderModule
+    ISourceRefBuilder sourceRefBuilder) : IInputIngestionPipelineModule
 {
     public InputIngestionModuleMetadata Metadata => IInputIngestionPipelineModule.Meta("readers.excel", InputIngestionPipelineModuleKinds.ReadDocument, priority: 10);
 
