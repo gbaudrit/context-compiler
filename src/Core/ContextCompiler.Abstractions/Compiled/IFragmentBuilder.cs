@@ -6,7 +6,7 @@ namespace ContextCompiler.Abstractions.Compiled
     {
         IFragment Build();
         IFragmentBuilder InitNew();
-        IFragmentBuilder WithFilePath(string filePath);
+        IFragmentBuilder WithUri(Uri uri);
         IFragmentBuilder WithLocator(string locator);
         IFragmentBuilder WithTags(IReadOnlyList<ITag> tags);
         IFragmentBuilder WithContent(string content);

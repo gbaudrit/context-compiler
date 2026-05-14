@@ -7,7 +7,7 @@ namespace ContextCompiler.Cli.Handlers;
 
 internal sealed class ServeHandler(IConfiguration configuration) : IServeHandler
 {
-    public async Task<int> HandleAsync(ServeRequest request)
+    public Task<int> HandleAsync(ServeRequest request)
     {
         IConfiguration settings = configuration.GetSection("Ctxc:Serve");
 
@@ -24,14 +24,14 @@ internal sealed class ServeHandler(IConfiguration configuration) : IServeHandler
             try
             {
                 _ = Process.Start(startInfo);
-                return 0;
+                return Task.FromResult(0);
             }
             catch (Exception ex)
             {
                 Console.Error.WriteLine($"Failed to start serve command: {ex.Message}");
-                return 1;
+                return Task.FromResult(1);
             }
         }
-        return 0;
+        return Task.FromResult(0);
     }
 }

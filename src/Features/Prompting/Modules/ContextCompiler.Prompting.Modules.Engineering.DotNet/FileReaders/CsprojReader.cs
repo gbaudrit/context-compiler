@@ -13,13 +13,13 @@ public sealed class TextFileReaderModule(
     ILinearFileReader linearFileReader,
     ILogger<TextFileReaderModule> logger) : IInputIngestionPipelineModule
 {
-    public InputIngestionModuleMetadata Metadata => IInputIngestionPipelineModule.Meta("engineering.dotnet.filereader.csproj", InputIngestionPipelineModuleKinds.ReadDocument, priority: 10);
+    public InputIngestionModuleMetadata Metadata => IInputIngestionPipelineModule.Meta("engineering.dotnet.filereader.csproj", InputIngestionPipelineModuleKinds.ReadSource, priority: 10);
 
     private static readonly List<string> Extensions = [".csproj"];
 
     public bool CanProcess(IInputItemContext InputItemContext)
     {
-        return Extensions.Contains(Path.GetExtension(InputItemContext.FullPath));
+        return Extensions.Contains(Path.GetExtension(InputItemContext.Uri.AbsolutePath));
     }
 
     public async Task<IResult<IInputIngestionPipelineRunResult>> Run(IInputIngestionPipelineRunContext context, CancellationToken ct)

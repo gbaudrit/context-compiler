@@ -22,7 +22,7 @@ public sealed class LinearTranscoderModule(ILogger<LinearTranscoderModule> logge
     {
         ct.ThrowIfCancellationRequested();
 
-        logger.LogTrace("LinearTranscoder processing envelope from source {Source}", part.Source.Path);
+        logger.LogTrace("LinearTranscoder processing envelope from source {Source}", part.Source.Uri.AbsolutePath);
 
         string locator = "unknown";
         string content = "";
@@ -44,7 +44,7 @@ public sealed class LinearTranscoderModule(ILogger<LinearTranscoderModule> logge
                                .ForDataPart(part)
                                .WithContent(content)
                                .WithLocator(locator)
-                               .WithFilePath(part.Source.Path)
+                               .WithUri(part.Source.Uri)
                                .WithTags(tagsBuilder.InitNewFrom([tagBuilder.Build("shape", "linear")]).Build())
                                .Build(),
             ]).BuildAsTask();

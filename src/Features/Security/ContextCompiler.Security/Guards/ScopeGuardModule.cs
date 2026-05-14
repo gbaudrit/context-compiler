@@ -14,7 +14,7 @@ public sealed class ScopeGuardModule() : IInputIngestionPipelineModule
     private static readonly string[] Excludes =
     [
         "**/.git/**",
-        "**/.ctxboost/**",
+        "**/.ctxc/**",
         "**/bin/**",
         "**/obj/**"
     ];
@@ -34,13 +34,13 @@ public sealed class ScopeGuardModule() : IInputIngestionPipelineModule
         }
 
         Matcher matcher = new(StringComparison.OrdinalIgnoreCase);
-        _ = matcher.AddInclude("**/*");
+        //_ = matcher.AddInclude("**/*");
         foreach (string ex in Excludes)
         {
             _ = matcher.AddExclude(ex);
         }
 
-        string rel = Path.GetRelativePath(context.InputItem.InputRoot, context.InputItem.FullPath);
+        string rel = Path.GetRelativePath(context.InputItem.InputRoot, context.InputItem.Uri.AbsolutePath);
         PatternMatchingResult match = matcher.Match(rel);
 
         if (match.HasMatches)

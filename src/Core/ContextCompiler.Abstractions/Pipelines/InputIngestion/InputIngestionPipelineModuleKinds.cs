@@ -4,8 +4,8 @@ public enum InputIngestionPipelineModuleKinds
 {
     None = 0,
     BeginProcess = 1000,
-    ReadDocument = 2000,
-    FileMatchTags = 3000,
+    ReadSource = 2000,
+    SourceItemMatchTags = 3000,
     DiscoveryScopeGuards = 4000,
     ReadScopeGuards = 5000,
     BuildCompositeParts = 6000,

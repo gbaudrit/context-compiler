@@ -18,7 +18,7 @@ namespace ContextCompiler.Core.Pipelines.InputIngestion
     {
         public InputIngestionModuleMetadata Metadata => IInputIngestionPipelineModule.Meta(
             "pass.filematchtags",
-            InputIngestionPipelineModuleKinds.FileMatchTags,
+            InputIngestionPipelineModuleKinds.SourceItemMatchTags,
             priority: 100);
 
         public bool CanProcess(IInputItemContext InputItemContext)
@@ -31,18 +31,18 @@ namespace ContextCompiler.Core.Pipelines.InputIngestion
             Matcher cfgMatcher = new();
             cfgMatcher.AddIncludePatterns(context.InputItem.Source.Includes);
             List<string> tags = [];
-            if (cfgMatcher.Match(context.InputItem.FullPath).HasMatches)
+            if (cfgMatcher.Match(context.InputItem.Uri.AbsolutePath).HasMatches)
             {
-                logger.LogDebug("Apply config tags {Tags} on file {FilePath}", string.Join(',', context.InputItem.Source.Tags), context.InputItem.FullPath);
+                logger.LogDebug("Apply config tags {Tags} on source item {Uri}", string.Join(',', context.InputItem.Source.Tags), context.InputItem.Uri);
                 tags.AddRange(context.InputItem.Source.Tags);
                 foreach (ISubFilesMatchConfigSection sub in context.InputItem.Source.ConfigSection.Subs)
                 {
                     Matcher subMatcher = new();
                     subMatcher.AddIncludePatterns(sub.Includes);
                     subMatcher.AddExcludePatterns(sub.Excludes);
-                    if (subMatcher.Match(context.InputItem.FullPath).HasMatches)
+                    if (subMatcher.Match(context.InputItem.Uri.AbsolutePath).HasMatches)
                     {
-                        logger.LogDebug("Apply config sub-tags {Tags} on file {FilePath}", string.Join(',', sub.Tags), context.InputItem.FullPath);
+                        logger.LogDebug("Apply config sub-tags {Tags} on source item {Uri}", string.Join(',', sub.Tags), context.InputItem.Uri);
                         tags.AddRange(sub.Tags);
                     }
                 }

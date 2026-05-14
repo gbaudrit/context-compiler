@@ -26,7 +26,7 @@ public sealed class DefaultViewModule(IViewResultBuilder viewResultBuilder) : IV
             _ = sb.AppendLine();
             _ = sb.AppendLine(f.Content);
             _ = sb.AppendLine();
-            _ = sb.AppendLine(CultureInfo.InvariantCulture, $"_Source: `{f.Source.Path}` {(!string.IsNullOrEmpty(f.Source.Locator) ? $"({f.Source.Locator})" : "")}_");
+            _ = sb.AppendLine(CultureInfo.InvariantCulture, $"_Source: `{f.Source.Uri.AbsolutePath}` {(!string.IsNullOrEmpty(f.Source.Locator) ? $"({f.Source.Locator})" : "")}_");
             _ = sb.AppendLine();
         }
 

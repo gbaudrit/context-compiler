@@ -32,6 +32,7 @@
     "ContextCompiler.Prompting@locale": "0.1.0-alpha.1",
     "ContextCompiler.Prompting.Modules.Templates.Scriban@locale": "0.1.0-alpha.1",
     "ContextCompiler.Connectors.Modules.Git@locale": "0.1.0-alpha.1",
-    "ContextCompiler.Reports.Modules.Pipelines.Mermaid@locale": "0.1.0-alpha.1"
+    "ContextCompiler.Reports.Modules.Pipelines.Mermaid@locale": "0.1.0-alpha.1",
+    "ContextCompiler.DevTools.Modules.EventsLogger@locale": "0.1.0-alpha.1"
   }
 }

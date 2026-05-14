@@ -4,7 +4,7 @@ namespace ContextCompiler.Abstractions.Compiled
     {
         IEvidence Build();
         IEvidenceBuilder InitNew();
-        IEvidenceBuilder ForFile(string filePath);
+        IEvidenceBuilder ForUri(Uri uri);
         IEvidenceBuilder WithLocator(string locator);
         IEvidenceBuilder ForContent(string content);
     }

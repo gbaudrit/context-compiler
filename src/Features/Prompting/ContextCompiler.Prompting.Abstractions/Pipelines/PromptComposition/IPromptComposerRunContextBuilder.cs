@@ -9,4 +9,5 @@ public interface IPromptComposerRunContextBuilder
     IPromptComposerRunContextBuilder WithPipeline(IPipeline pipeline);
     IPromptComposerRunContextBuilder WithParent(IPipelineRunContext parent);
     IPromptComposerRunContextBuilder WithPrompt(IPrompt prompt);
+    IPromptComposerRunContextBuilder WithPhaseKey(string phaseKey);
 }

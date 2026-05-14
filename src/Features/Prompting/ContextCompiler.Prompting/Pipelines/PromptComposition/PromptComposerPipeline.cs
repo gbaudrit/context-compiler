@@ -20,6 +20,8 @@ public sealed class PromptComposerPipeline(
 {
     public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("pipelines.promptcomposer", GlobalPipelineModuleKinds.OutputComposition, priority: 10);
 
+    public string CurrentPhaseKey { get; private set; } = string.Empty;
+
     public async Task<IResult<IGlobalPipelineRunResult>> Run(IGlobalPipelineRunContext context, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -49,6 +51,7 @@ public sealed class PromptComposerPipeline(
             IPromptComposerRunContext innerRunContext = runContextBuilder
                 .InitNew()
                 .WithPipeline(this)
+                .WithPhaseKey(Metadata.Kind.ToString())
                 .WithParent(context)
                 .WithPrompt(prompt)
                 .Build();

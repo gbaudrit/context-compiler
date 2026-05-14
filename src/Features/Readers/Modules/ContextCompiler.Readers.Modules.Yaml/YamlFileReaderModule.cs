@@ -7,11 +7,11 @@ namespace ContextCompiler.Readers.Modules.Yaml;
 
 public sealed class YamlFileReaderModule(ILinearFileReader linearFileReader) : IInputIngestionPipelineModule
 {
-    public InputIngestionModuleMetadata Metadata => IInputIngestionPipelineModule.Meta("readers.yaml", InputIngestionPipelineModuleKinds.ReadDocument, priority: 9);
+    public InputIngestionModuleMetadata Metadata => IInputIngestionPipelineModule.Meta("readers.yaml", InputIngestionPipelineModuleKinds.ReadSource, priority: 9);
 
     public bool CanProcess(IInputItemContext InputItemContext)
     {
-        string ext = Path.GetExtension(InputItemContext.FullPath);
+        string ext = Path.GetExtension(InputItemContext.Uri.AbsolutePath);
         return ext.Equals(".yaml", StringComparison.OrdinalIgnoreCase) || ext.Equals(".yml", StringComparison.OrdinalIgnoreCase);
     }
 

@@ -5,4 +5,5 @@ public interface IPipeline
 
     string Id => GetType().Name;
 
+    string CurrentPhaseKey { get; }
 }

@@ -9,7 +9,7 @@ namespace ContextCompiler.Readers.Modules.Text;
 
 public sealed class TextFileReaderModule(ILinearFileReader linearFileReader, ILogger<TextFileReaderModule> logger) : IInputIngestionPipelineModule
 {
-    public InputIngestionModuleMetadata Metadata => IInputIngestionPipelineModule.Meta("readers.text", InputIngestionPipelineModuleKinds.ReadDocument, priority: 0);
+    public InputIngestionModuleMetadata Metadata => IInputIngestionPipelineModule.Meta("readers.text", InputIngestionPipelineModuleKinds.ReadSource, priority: 0);
 
     private static readonly HashSet<string> Extensions =
     [
@@ -18,12 +18,12 @@ public sealed class TextFileReaderModule(ILinearFileReader linearFileReader, ILo
 
     public bool CanProcess(IInputItemContext InputItemContext)
     {
-        return Extensions.Contains(Path.GetExtension(InputItemContext.FullPath));
+        return Extensions.Contains(Path.GetExtension(InputItemContext.Uri.AbsolutePath));
     }
 
     public async Task<IResult<IInputIngestionPipelineRunResult>> Run(IInputIngestionPipelineRunContext context, CancellationToken ct)
     {
-        logger.LogInformation("Reading text file: {Path}", context.InputItem.FullPath);
+        logger.LogInformation("Reading text file: {Path}", context.InputItem.Uri);
 
         IDataEnvelope envelope = await linearFileReader.ReadAsync(context.InputItem, ct);
 

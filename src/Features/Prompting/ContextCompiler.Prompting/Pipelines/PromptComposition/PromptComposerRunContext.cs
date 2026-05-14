@@ -7,12 +7,14 @@ namespace ContextCompiler.Prompting.Pipelines.PromptComposition;
 
 internal sealed class PromptComposerRunContext(
     IPipeline pipeline,
+    string phaseKey,
     IPipelineRunContext parent,
     IPrompt prompt,
     IPromptComposerRunResultBuilder resultBuilder) : IPromptComposerRunContext
 {
     public IPipelineRunContext Parent => parent;
     public IPipeline Pipeline { get; } = pipeline;
+    public string PhaseKey { get; } = phaseKey;
     public IPrompt Prompt { get; } = prompt;
 
     public Task<IResult<IPromptComposerRunResult>> Success()

@@ -86,7 +86,7 @@ public sealed partial class EmailGuardModule(
     private ISourceRef CreateEvidenceRef(ISourceRef source)
     {
         ISourceRefBuilder builder = sourceRefBuilder.InitNew()
-                                                    .WithPath(source.Path);
+                                                    .WithUri(source.Uri);
 
         if (!string.IsNullOrWhiteSpace(source.Locator))
         {

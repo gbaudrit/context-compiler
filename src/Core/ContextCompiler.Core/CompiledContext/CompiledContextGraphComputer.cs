@@ -12,13 +12,13 @@ namespace ContextCompiler.Core.CompiledContext
             {
                 nodes.Add(new GraphNode(frag.Evidence.EvidenceKey, "Evidence", frag.Evidence.EvidenceKey, new Dictionary<string, string>
                 {
-                    ["source"] = frag.Source.Path,
+                    ["source"] = frag.Source.Uri.AbsolutePath,
                     ["locator"] = frag.Source.Locator ?? ""
                 }));
                 string srcId = frag.Source.Id;
                 if (!nodes.Any(n => n.Id == srcId))
                 {
-                    nodes.Add(new GraphNode(srcId, "Source", Path.GetFileName(frag.Source.Path), new Dictionary<string, string> { { "path", frag.Source.Path } }));
+                    nodes.Add(new GraphNode(srcId, "Source", Path.GetFileName(frag.Source.Uri.AbsolutePath), new Dictionary<string, string> { { "path", frag.Source.Uri.AbsolutePath } }));
                 }
 
                 edges.Add(new GraphEdge(frag.Evidence.EvidenceKey, srcId, "DerivedFrom"));

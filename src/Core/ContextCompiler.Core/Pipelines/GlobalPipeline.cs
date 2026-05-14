@@ -32,6 +32,9 @@ public sealed class GlobalPipeline(
     IPipelineEventPublisher pipelineEventPublisher) : IGlobalPipeline
 {
 
+    public string CurrentPhaseKey { get; private set; } = string.Empty;
+
+
     public async ValueTask RunAsync(
         string rootPath,
         string outputPath,
@@ -73,6 +76,8 @@ public sealed class GlobalPipeline(
             logger.LogInformation("Running global pipeline group Kind={Kind} with {Count} modules",
                 group.Key, group.Count());
 
+            CurrentPhaseKey = group.First().Metadata.Kind.ToString();
+
             await Task.WhenAll(group.OrderBy(x => x.Metadata.Priority).Select(async module =>
             {
                 logger.LogInformation(
@@ -84,6 +89,7 @@ public sealed class GlobalPipeline(
                 IGlobalPipelineRunContext runContext = globalPipelineRunContextBuilder
                     .InitNew()
                     .WithPipeline(this)
+                    .WithPhaseKey(module.Metadata.Kind.ToString())
                     .Build();
 
                 _ = await pipelineEventPublisher.PublishPhaseAsync(runContext,

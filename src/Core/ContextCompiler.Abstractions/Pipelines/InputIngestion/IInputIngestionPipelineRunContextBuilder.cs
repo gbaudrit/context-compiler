@@ -8,4 +8,5 @@ public interface IInputIngestionPipelineRunContextBuilder
     IInputIngestionPipelineRunContextBuilder WithPipeline(IPipeline pipeline);
     IInputIngestionPipelineRunContextBuilder WithInputItemContext(IInputItemContext inputItemContext);
     IInputIngestionPipelineRunContextBuilder WithPatchContext(IInputItemContextPatchBuilder patchContext);
+    IInputIngestionPipelineRunContextBuilder WithPhaseKey(string currentPhaseKey);
 }

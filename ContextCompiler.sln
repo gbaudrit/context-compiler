@@ -11,8 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.Infrastruct
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.DevKit", "src\Core\ContextCompiler.DevKit\ContextCompiler.DevKit.csproj", "{77777777-7777-7777-7777-777777777777}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.Sdk", "src\Core\ContextCompiler.Sdk\ContextCompiler.Sdk.csproj", "{88888888-8888-8888-8888-888888888888}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.Core.Tests", "tests\ContextCompiler.Core.Tests\ContextCompiler.Core.Tests.csproj", "{99999999-9999-9999-9999-999999999999}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A5065593-A2C0-4970-A3C6-0EC3C6464EA9}"
@@ -68,13 +66,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.Prompting.M
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.Cli", "src\Core\ContextCompiler.Cli\ContextCompiler.Cli.csproj", "{763A8883-89AE-723D-AB06-571B02090103}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.Mcp.Core", "src\Mcp\ContextCompiler.Mcp.Core\ContextCompiler.Mcp.Core.csproj", "{630098B6-57D4-4282-8404-484B1F39E494}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.Mcp.Core", "src\Core\ContextCompiler.Mcp.Core\ContextCompiler.Mcp.Core.csproj", "{630098B6-57D4-4282-8404-484B1F39E494}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.Mcp.Infrastructure", "src\Mcp\ContextCompiler.Mcp.Infrastructure\ContextCompiler.Mcp.Infrastructure.csproj", "{AFAAF29E-209A-44D4-9AA9-95BB7971E1D6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.Mcp.Infrastructure", "src\Core\ContextCompiler.Mcp.Infrastructure\ContextCompiler.Mcp.Infrastructure.csproj", "{AFAAF29E-209A-44D4-9AA9-95BB7971E1D6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.Mcp.Cli", "src\Mcp\ContextCompiler.Mcp.Cli\ContextCompiler.Mcp.Cli.csproj", "{831FC12A-0060-81FD-F3FC-1A326ED465FD}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mcp", "Mcp", "{C926E43C-C6B1-4BA7-97F9-56D811E28DC6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.Mcp.Cli", "src\Core\ContextCompiler.Mcp.Cli\ContextCompiler.Mcp.Cli.csproj", "{831FC12A-0060-81FD-F3FC-1A326ED465FD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler", "src\Core\ContextCompiler\ContextCompiler.csproj", "{BC85AA9D-168A-4775-B6EF-9C557948196A}"
 EndProject
@@ -250,6 +246,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Packs", "Packs", "{FDE3E0A2
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.Prompting.Packs.Personas.SoftwareEngineering.Standard", "src\Features\Prompting\Packs\Personas.SoftwareEngineering.Standard\ContextCompiler.Prompting.Packs.Personas.SoftwareEngineering.Standard.csproj", "{D2B12943-9DF0-689E-D993-206D9EE93909}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.DevTools.Modules.EventsLogger", "src\Features\DevTools\Modules\ContextCompiler.DevTools.Modules.EventsLogger\ContextCompiler.DevTools.Modules.EventsLogger.csproj", "{6CF53E0B-0588-4F51-DCD7-29427FEF4DEC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -335,24 +333,6 @@ Global
 		{77777777-7777-7777-7777-777777777777}.Release|x64.Build.0 = Release|Any CPU
 		{77777777-7777-7777-7777-777777777777}.Release|x86.ActiveCfg = Release|Any CPU
 		{77777777-7777-7777-7777-777777777777}.Release|x86.Build.0 = Release|Any CPU
-		{88888888-8888-8888-8888-888888888888}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{88888888-8888-8888-8888-888888888888}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{88888888-8888-8888-8888-888888888888}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{88888888-8888-8888-8888-888888888888}.Debug|x64.Build.0 = Debug|Any CPU
-		{88888888-8888-8888-8888-888888888888}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{88888888-8888-8888-8888-888888888888}.Debug|x86.Build.0 = Debug|Any CPU
-		{88888888-8888-8888-8888-888888888888}.DebugLocal|Any CPU.ActiveCfg = DebugLocal|Any CPU
-		{88888888-8888-8888-8888-888888888888}.DebugLocal|Any CPU.Build.0 = DebugLocal|Any CPU
-		{88888888-8888-8888-8888-888888888888}.DebugLocal|x64.ActiveCfg = DebugLocal|Any CPU
-		{88888888-8888-8888-8888-888888888888}.DebugLocal|x64.Build.0 = DebugLocal|Any CPU
-		{88888888-8888-8888-8888-888888888888}.DebugLocal|x86.ActiveCfg = DebugLocal|Any CPU
-		{88888888-8888-8888-8888-888888888888}.DebugLocal|x86.Build.0 = DebugLocal|Any CPU
-		{88888888-8888-8888-8888-888888888888}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{88888888-8888-8888-8888-888888888888}.Release|Any CPU.Build.0 = Release|Any CPU
-		{88888888-8888-8888-8888-888888888888}.Release|x64.ActiveCfg = Release|Any CPU
-		{88888888-8888-8888-8888-888888888888}.Release|x64.Build.0 = Release|Any CPU
-		{88888888-8888-8888-8888-888888888888}.Release|x86.ActiveCfg = Release|Any CPU
-		{88888888-8888-8888-8888-888888888888}.Release|x86.Build.0 = Release|Any CPU
 		{99999999-9999-9999-9999-999999999999}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{99999999-9999-9999-9999-999999999999}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{99999999-9999-9999-9999-999999999999}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -1540,6 +1520,24 @@ Global
 		{D2B12943-9DF0-689E-D993-206D9EE93909}.Release|x64.Build.0 = Release|Any CPU
 		{D2B12943-9DF0-689E-D993-206D9EE93909}.Release|x86.ActiveCfg = Release|Any CPU
 		{D2B12943-9DF0-689E-D993-206D9EE93909}.Release|x86.Build.0 = Release|Any CPU
+		{6CF53E0B-0588-4F51-DCD7-29427FEF4DEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CF53E0B-0588-4F51-DCD7-29427FEF4DEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6CF53E0B-0588-4F51-DCD7-29427FEF4DEC}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{6CF53E0B-0588-4F51-DCD7-29427FEF4DEC}.Debug|x64.Build.0 = Debug|Any CPU
+		{6CF53E0B-0588-4F51-DCD7-29427FEF4DEC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6CF53E0B-0588-4F51-DCD7-29427FEF4DEC}.Debug|x86.Build.0 = Debug|Any CPU
+		{6CF53E0B-0588-4F51-DCD7-29427FEF4DEC}.DebugLocal|Any CPU.ActiveCfg = DebugLocal|Any CPU
+		{6CF53E0B-0588-4F51-DCD7-29427FEF4DEC}.DebugLocal|Any CPU.Build.0 = DebugLocal|Any CPU
+		{6CF53E0B-0588-4F51-DCD7-29427FEF4DEC}.DebugLocal|x64.ActiveCfg = DebugLocal|Any CPU
+		{6CF53E0B-0588-4F51-DCD7-29427FEF4DEC}.DebugLocal|x64.Build.0 = DebugLocal|Any CPU
+		{6CF53E0B-0588-4F51-DCD7-29427FEF4DEC}.DebugLocal|x86.ActiveCfg = DebugLocal|Any CPU
+		{6CF53E0B-0588-4F51-DCD7-29427FEF4DEC}.DebugLocal|x86.Build.0 = DebugLocal|Any CPU
+		{6CF53E0B-0588-4F51-DCD7-29427FEF4DEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6CF53E0B-0588-4F51-DCD7-29427FEF4DEC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6CF53E0B-0588-4F51-DCD7-29427FEF4DEC}.Release|x64.ActiveCfg = Release|Any CPU
+		{6CF53E0B-0588-4F51-DCD7-29427FEF4DEC}.Release|x64.Build.0 = Release|Any CPU
+		{6CF53E0B-0588-4F51-DCD7-29427FEF4DEC}.Release|x86.ActiveCfg = Release|Any CPU
+		{6CF53E0B-0588-4F51-DCD7-29427FEF4DEC}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1558,9 +1556,9 @@ Global
 		{AFCDB6AB-7A00-06E5-33BA-72568F42F950} = {AB774DB0-55AD-40FF-B58B-96B70794516F}
 		{CBDD21C6-3A93-C3BB-E15E-19BBAD6CCA08} = {AB774DB0-55AD-40FF-B58B-96B70794516F}
 		{763A8883-89AE-723D-AB06-571B02090103} = {BFABA3C1-DD8E-4680-B339-1F57874720D2}
-		{630098B6-57D4-4282-8404-484B1F39E494} = {C926E43C-C6B1-4BA7-97F9-56D811E28DC6}
-		{AFAAF29E-209A-44D4-9AA9-95BB7971E1D6} = {C926E43C-C6B1-4BA7-97F9-56D811E28DC6}
-		{831FC12A-0060-81FD-F3FC-1A326ED465FD} = {C926E43C-C6B1-4BA7-97F9-56D811E28DC6}
+		{630098B6-57D4-4282-8404-484B1F39E494} = {BFABA3C1-DD8E-4680-B339-1F57874720D2}
+		{AFAAF29E-209A-44D4-9AA9-95BB7971E1D6} = {BFABA3C1-DD8E-4680-B339-1F57874720D2}
+		{831FC12A-0060-81FD-F3FC-1A326ED465FD} = {BFABA3C1-DD8E-4680-B339-1F57874720D2}
 		{BC85AA9D-168A-4775-B6EF-9C557948196A} = {BFABA3C1-DD8E-4680-B339-1F57874720D2}
 		{8CA75C80-CD53-DD60-D677-C3BC49DC8978} = {7918CA0D-0233-47FA-BBA9-8C011012F19B}
 		{3077441C-9BA2-8A3B-C069-E60A89D70DC7} = {7918CA0D-0233-47FA-BBA9-8C011012F19B}
@@ -1645,6 +1643,7 @@ Global
 		{7918CA0D-0233-47FA-BBA9-8C011012F19B} = {24BF1D0B-CE93-4932-A3AE-A7654BE74D61}
 		{FDE3E0A2-B186-4062-983A-AB5AB6F9AE31} = {24BF1D0B-CE93-4932-A3AE-A7654BE74D61}
 		{D2B12943-9DF0-689E-D993-206D9EE93909} = {9BC46814-A009-45B3-A3B1-2BB101461CB1}
+		{6CF53E0B-0588-4F51-DCD7-29427FEF4DEC} = {16D77299-4756-437D-9207-E6ED1A597F0A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E59B7756-7651-4176-ABF1-8E66BF843C28}

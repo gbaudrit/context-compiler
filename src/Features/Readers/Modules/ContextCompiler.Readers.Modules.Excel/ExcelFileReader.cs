@@ -20,11 +20,11 @@ public sealed class ExcelFileReaderModule(
     ITagsBuilder tagsBuilder,
     ISourceRefBuilder sourceRefBuilder) : IInputIngestionPipelineModule
 {
-    public InputIngestionModuleMetadata Metadata => IInputIngestionPipelineModule.Meta("readers.excel", InputIngestionPipelineModuleKinds.ReadDocument, priority: 10);
+    public InputIngestionModuleMetadata Metadata => IInputIngestionPipelineModule.Meta("readers.excel", InputIngestionPipelineModuleKinds.ReadSource, priority: 10);
 
     public bool CanProcess(IInputItemContext InputItemContext)
     {
-        string ext = Path.GetExtension(InputItemContext.FullPath);
+        string ext = Path.GetExtension(InputItemContext.Uri.AbsolutePath);
         return ext.Equals(".xlsx", StringComparison.OrdinalIgnoreCase) || ext.Equals(".xlsm", StringComparison.OrdinalIgnoreCase);
     }
 
@@ -56,10 +56,10 @@ public sealed class ExcelFileReaderModule(
 
         //}
 
-        using FileStream ms2 = File.OpenRead(context.InputItem.FullPath ?? string.Empty);
+        using FileStream ms2 = File.OpenRead(context.InputItem.Uri.AbsolutePath ?? string.Empty);
         using XLWorkbook wb2 = new(ms2);
         List<IDataPart> parts = [];
-        string sourcePath = context.InputItem.FullPath ?? string.Empty;
+        string sourcePath = context.InputItem.Uri.AbsolutePath ?? string.Empty;
 
         foreach (ExcelExtractConfig? x in options.Extracts.OrderBy(e => e.Id, StringComparer.Ordinal))
         {
@@ -192,7 +192,7 @@ public sealed class ExcelFileReaderModule(
             //                             .Build();
             parts.Add(dataPartBuilder.InitNew()
                                       .WithId(x.Id)
-                                      .WithSource(sourceRefBuilder.InitNew().WithPath(sourcePath).WithLocator(locatorPrefix).Build())
+                                      .WithSource(sourceRefBuilder.InitNew().WithUri(new Uri(sourcePath)).WithLocator(locatorPrefix).Build())
                                       .WithLabel(x.Label)
                                       .WithPayload(payload)
                                       .WithTags(tagsBuilder.InitNew().AddRange(x.Tags).Build())

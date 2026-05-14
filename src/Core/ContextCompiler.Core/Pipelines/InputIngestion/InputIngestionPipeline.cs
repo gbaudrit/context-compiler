@@ -47,6 +47,8 @@ public sealed class InputIngestionPipeline(
 
     public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("pipelines.input-ingestion", GlobalPipelineModuleKinds.InputIngestion, priority: 10);
 
+    public string CurrentPhaseKey { get; private set; } = string.Empty;
+
     public async Task<IResult<IGlobalPipelineRunResult>> Run(IGlobalPipelineRunContext context, CancellationToken cancellationToken)
     {
         InputIngestionContext inputIngestionContext = new() { RootPath = workingFolder.Path };
@@ -67,7 +69,7 @@ public sealed class InputIngestionPipeline(
                 IInputItemContext inputItemContext = inputItemContextBuilder.InitNew()
                     .WithInputRoot(s.RootPath)
                     .WithRelativePath(filePatternMatch.Path)
-                    .WithFullPath(Path.Combine(s.RootPath, filePatternMatch.Path))
+                    .WithUri(new Uri(Path.Combine(s.RootPath, filePatternMatch.Path)))
                     .FromSource(s)
                     .Build();
 
@@ -96,6 +98,8 @@ public sealed class InputIngestionPipeline(
                         logger.LogInformation("Running Input Ingestion Pipeline group Kind={Kind} with {Count} modules",
                             group.Key, group.Count());
 
+                        CurrentPhaseKey = group.First().Metadata.Kind.ToString();
+
                         await Task.WhenAll(group.OrderBy(x => x.Metadata.Priority).Select(async module =>
                         {
                             if (module.CanProcess(inputItemContext))
@@ -111,6 +115,7 @@ public sealed class InputIngestionPipeline(
                                 IInputIngestionPipelineRunContext innerRunContext = runContextBuilder
                                     .InitNew()
                                     .WithPipeline(this)
+                                    .WithPhaseKey(module.Metadata.Kind.ToString())
                                     .WithParent(context)
                                     .WithInputItemContext(inputItemContext)
                                     .WithPatchContext(modulePatcher.InitNew())

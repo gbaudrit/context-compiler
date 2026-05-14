@@ -10,7 +10,7 @@ public sealed partial class InjectionGuard(ISourceRefBuilder sourceRefBuilder) :
 {
     private static readonly Regex HardIgnore = PromptInjectionPattern();
 
-    public GuardFinding? Scan(string path, string content)
+    public GuardFinding? Scan(Uri uri, string content)
     {
         return !HardIgnore.IsMatch(content)
             ? null
@@ -19,7 +19,7 @@ public sealed partial class InjectionGuard(ISourceRefBuilder sourceRefBuilder) :
             Severity: GuardSeverity.Error,
             Action: GuardActionKind.Quarantine,
             Message: "Prompt-injection-like instruction detected.",
-            Source: sourceRefBuilder.InitNew().WithPath(path).Build(),
+            Source: sourceRefBuilder.InitNew().WithUri(uri).Build(),
             Data: new Dictionary<string, object> { ["match"] = "ignore previous instructions" }
         );
     }

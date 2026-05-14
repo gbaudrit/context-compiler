@@ -13,7 +13,7 @@ MCP is the standard integration path. We need:
 
 ## Decision
 
-Implement an MCP server host (`ContextCompiler.Host.Mcp`) using the official MCP C# SDK:
+Implement an MCP server host (`ContextCompiler.Mcp.Cli`) using the official MCP C# SDK:
 
 - Transport: stdio
 - Tools:

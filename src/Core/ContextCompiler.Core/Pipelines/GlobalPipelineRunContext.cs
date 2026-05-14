@@ -5,9 +5,11 @@ namespace ContextCompiler.Core.Pipelines;
 
 internal sealed class GlobalPipelineRunContext(
     IPipeline pipeline,
+    string phaseKey,
     IGlobalPipelineRunResultBuilder resultBuilder) : IGlobalPipelineRunContext
 {
     public IPipeline Pipeline { get; } = pipeline;
+    public string PhaseKey { get; } = phaseKey;
 
     public Task<IResult<IGlobalPipelineRunResult>> Success()
     {

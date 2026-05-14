@@ -7,11 +7,11 @@ namespace ContextCompiler.Readers.Modules.Markdown;
 
 public sealed class MarkdownFileReaderModule(ILinearFileReader linearFileReader) : IInputIngestionPipelineModule
 {
-    public InputIngestionModuleMetadata Metadata => IInputIngestionPipelineModule.Meta("readers.markdown", InputIngestionPipelineModuleKinds.ReadDocument, priority: 9);
+    public InputIngestionModuleMetadata Metadata => IInputIngestionPipelineModule.Meta("readers.markdown", InputIngestionPipelineModuleKinds.ReadSource, priority: 9);
 
     public bool CanProcess(IInputItemContext InputItemContext)
     {
-        string ext = Path.GetExtension(InputItemContext.FullPath);
+        string ext = Path.GetExtension(InputItemContext.Uri.AbsolutePath);
         return ext.Equals(".md", StringComparison.OrdinalIgnoreCase) || ext.Equals(".markdown", StringComparison.OrdinalIgnoreCase);
     }
 

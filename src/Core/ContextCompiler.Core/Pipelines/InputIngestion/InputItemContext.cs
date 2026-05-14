@@ -8,7 +8,7 @@ namespace ContextCompiler.Core.Pipelines.InputIngestion
     {
         public required string InputRoot { get; init; }
         public required string RelativePath { get; init; } // stable path key
-        public required string FullPath { get; init; }
+        public required Uri Uri { get; init; }
         public required ISource Source { get; init; }
 
         public required IInputItemContextData Data { get; init; }

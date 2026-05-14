@@ -22,7 +22,7 @@ public sealed class TabularTranscoderModule(ILogger<TabularTranscoderModule> log
     {
         ct.ThrowIfCancellationRequested();
 
-        logger.LogTrace("TabularTranscoder processing envelope from source {Source}", part.Source.Path);
+        logger.LogTrace("TabularTranscoder processing envelope from source {Source}", part.Source.Uri.AbsolutePath);
         string json = System.Text.Json.JsonSerializer.Serialize(part.Payload, jsonSerializerOptions);
 
         return patcher.WithFragments(
@@ -31,7 +31,7 @@ public sealed class TabularTranscoderModule(ILogger<TabularTranscoderModule> log
                                .ForDataPart(part)
                                .WithContent(json)
                                .WithLocator("table:json")
-                               .WithFilePath(part.Source.Path)
+                               .WithUri(part.Source.Uri)
                                .WithTags(tagsBuilder.InitNewFrom([tagBuilder.Build("shape", "tabular")]).Build())
                                .Build()
             ]).BuildAsTask();

@@ -30,11 +30,11 @@ public sealed class PdfFileReaderModule(IFileReadResultBuilder fileReadResultBui
                                         ISourceRefBuilder sourceRefBuilder,
                                         ILogger<PdfFileReaderModule> logger) : IInputIngestionPipelineModule
 {
-    public InputIngestionModuleMetadata Metadata => IInputIngestionPipelineModule.Meta("readers.pdf", InputIngestionPipelineModuleKinds.ReadDocument, priority: 10);
+    public InputIngestionModuleMetadata Metadata => IInputIngestionPipelineModule.Meta("readers.pdf", InputIngestionPipelineModuleKinds.ReadSource, priority: 10);
 
     public bool CanProcess(IInputItemContext InputItemContext)
     {
-        string ext = Path.GetExtension(InputItemContext.FullPath);
+        string ext = Path.GetExtension(InputItemContext.Uri.AbsolutePath);
         return ext.Equals(".pdf", StringComparison.OrdinalIgnoreCase);
     }
 
@@ -54,7 +54,7 @@ public sealed class PdfFileReaderModule(IFileReadResultBuilder fileReadResultBui
     {
         ct.ThrowIfCancellationRequested();
 
-        logger.LogInformation("Start reading PDF InputItem at path: {Path}", context.InputItem.FullPath);
+        logger.LogInformation("Start reading PDF InputItem at path: {Path}", context.InputItem.Uri);
 
 
         IRootConfigSection cfg = cfgProvider.GetConfigOrDefault(null);
@@ -71,8 +71,8 @@ public sealed class PdfFileReaderModule(IFileReadResultBuilder fileReadResultBui
         //}
         PdfExtractsConfig options = context.InputItem.Source.Config<PdfExtractsConfig>() ?? new PdfExtractsConfig();
 
-        using PdfDocument pdfDocument = PdfDocument.Open(context.InputItem.FullPath!, new ParsingOptions() { ClipPaths = true });
-        string sourcePath = context.InputItem.FullPath ?? string.Empty;
+        using PdfDocument pdfDocument = PdfDocument.Open(context.InputItem.Uri.AbsolutePath, new ParsingOptions() { ClipPaths = true });
+        string sourcePath = context.InputItem.Uri?.AbsolutePath ?? string.Empty;
 
         List<IDataPart> parts = [];
         foreach (PdfExtractConfig extract in options.Extracts)
@@ -108,7 +108,7 @@ public sealed class PdfFileReaderModule(IFileReadResultBuilder fileReadResultBui
                 string locatorPrefix = $"page:{page.Number}";
                 parts.Add(dataPartBuilder.InitNew()
                                              .WithId(extract.Id)
-                                             .WithSource(sourceRefBuilder.InitNew().WithPath(sourcePath).WithLocator(locatorPrefix).Build())
+                                             .WithSource(sourceRefBuilder.InitNew().WithUri(new Uri(sourcePath)).WithLocator(locatorPrefix).Build())
                                              .WithLabel("Page " + page.Number)
                                              .WithPayload(payload)
                                              .WithTags(tagsBuilder.InitNew().AddRange(extract.Tags).Build())
@@ -117,7 +117,7 @@ public sealed class PdfFileReaderModule(IFileReadResultBuilder fileReadResultBui
         }
 
 
-        logger.LogInformation("Finished reading PDF InputItem at path: {Path}. Extracted {PartCount} parts.", context.InputItem.FullPath, parts.Count);
+        logger.LogInformation("Finished reading PDF InputItem at path: {Path}. Extracted {PartCount} parts.", context.InputItem.Uri, parts.Count);
 
         return context.Patch(b =>
         {
@@ -126,49 +126,3 @@ public sealed class PdfFileReaderModule(IFileReadResultBuilder fileReadResultBui
 
     }
 }
-
-//public sealed class PdfFileReader(ICtxcConfigProvider cfgProvider, IDataEnvelopeBuilder dataEnvelopeBuilder, IDataPartBuilder dataPartBuilder, ITagsBuilder tagsBuilder) : IFileReader
-//{
-//    private PdfFileContent? _pdfFileContent;
-//    private bool disposedValue;
-
-//    public ValueTask<IFileContent> ReadAsync(string path, CancellationToken ct)
-//    {
-//        ct.ThrowIfCancellationRequested();
-//        _pdfFileContent = new PdfFileContent
-//        {
-//            InputItem = PdfDocument.Open(path)
-//        };
-//        return ValueTask.FromResult<IFileContent>(_pdfFileContent);
-//    }
-
-
-
-//    private void Dispose(bool disposing)
-//    {
-//        if (!disposedValue)
-//        {
-//            if (disposing)
-//            {
-//                _pdfFileContent?.Dispose();
-//            }
-
-//            _pdfFileContent = null;
-//            disposedValue = true;
-//        }
-//    }
-
-//    // // TODO: override finalizer only if 'Dispose(bool disposing)' has code to free unmanaged resources
-//    // ~PdfFileReader()
-//    // {
-//    //     // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
-//    //     Dispose(disposing: false);
-//    // }
-
-//    public void Dispose()
-//    {
-//        // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
-//        Dispose(disposing: true);
-//        GC.SuppressFinalize(this);
-//    }
-//}

@@ -22,7 +22,7 @@ public sealed class SecurityReportArtifactModule(IOutput output, IGuardian guard
     public async Task<IResult<IGlobalPipelineRunResult>> Run(IGlobalPipelineRunContext context, CancellationToken cancellationToken)
     {
         string secMd = "# Security Report\n\n" + (guardian.Findings.Count == 0 ? "No findings." :
-            string.Join("\n", guardian.Findings.Select(f => $"- **{f.Severity}** `{f.PassId}` ({f.Action}): {f.Message} — `{f.EvidenceRef?.Path}`")));
+            string.Join("\n", guardian.Findings.Select(f => $"- **{f.Severity}** `{f.PassId}` ({f.Action}): {f.Message} — `{f.EvidenceRef?.Uri}`")));
 
         output.AddArtifact(builder =>
         {

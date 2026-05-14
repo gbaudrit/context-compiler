@@ -9,7 +9,7 @@ namespace ContextCompiler.Core.Pipelines.InputIngestion
     {
 
         private string _inputRoot = "";
-        private string _fullPath = "";
+        private Uri? _uri;
         private string _relativePath = "";
         private ISource? _source;
         private IInputItemContextData? _data;
@@ -24,9 +24,9 @@ namespace ContextCompiler.Core.Pipelines.InputIngestion
             return this;
         }
 
-        public IInputItemContextBuilder WithFullPath(string fullPath)
+        public IInputItemContextBuilder WithUri(Uri uri)
         {
-            _fullPath = fullPath;
+            _uri = uri;
             return this;
         }
 
@@ -51,11 +51,12 @@ namespace ContextCompiler.Core.Pipelines.InputIngestion
         public IInputItemContext Build()
         {
             ArgumentNullException.ThrowIfNull(_source, nameof(_source));
+            ArgumentNullException.ThrowIfNull(_uri, nameof(_uri));
 
             return new InputItemContext()
             {
                 InputRoot = _inputRoot,
-                FullPath = _fullPath,
+                Uri = _uri,
                 RelativePath = _relativePath,
                 Source = _source,
                 Data = _data ?? inputItemContextDataBuilder.InitNew().Build()
@@ -65,7 +66,7 @@ namespace ContextCompiler.Core.Pipelines.InputIngestion
         public IInputItemContextBuilder InitFrom(IInputItemContext context)
         {
             _inputRoot = context.InputRoot;
-            _fullPath = context.FullPath;
+            _uri = context.Uri;
             _relativePath = context.RelativePath;
             _source = context.Source;
             return this;

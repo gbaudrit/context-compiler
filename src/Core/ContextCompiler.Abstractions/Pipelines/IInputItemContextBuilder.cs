@@ -9,7 +9,7 @@ namespace ContextCompiler.Abstractions.Pipelines
         IInputItemContextBuilder InitNew();
         IInputItemContextBuilder InitFrom(IInputItemContext context);
         IInputItemContextBuilder FromSource(ISource source);
-        IInputItemContextBuilder WithFullPath(string fullPath);
+        IInputItemContextBuilder WithUri(Uri uri);
         IInputItemContextBuilder WithInputRoot(string inputRoot);
         IInputItemContextBuilder WithRelativePath(string relativePath);
         IInputItemContextBuilder WithData(IInputItemContextData data);

@@ -10,7 +10,7 @@ namespace ContextCompiler.Abstractions.Pipelines.InputIngestion
         //public string Content { get; init; }
 
 
-        string FullPath { get; init; }
+        Uri Uri { get; init; }
         string InputRoot { get; init; }
         string RelativePath { get; init; }
         //IReadOnlyList<ITag> Tags { get; }

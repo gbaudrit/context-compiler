@@ -35,7 +35,7 @@ internal sealed class MarkdownViewRenderer : IViewRendererModule
             _ = sb.AppendLine(CultureInfo.InvariantCulture, $"  **ER:** `{f.Evidence.EvidenceRevision}`  ");
             _ = sb.AppendLine(CultureInfo.InvariantCulture, $"- **REK:** `{f.Evidence.RelativeEvidenceKey}`  ");
             _ = sb.AppendLine(CultureInfo.InvariantCulture, $"  **RER:** `{f.Evidence.RelativeEvidenceRevision}`  ");
-            _ = sb.AppendLine(CultureInfo.InvariantCulture, $"  **Source:** `{f.Source.Path}#{f.Source.Locator}`  ");
+            _ = sb.AppendLine(CultureInfo.InvariantCulture, $"  **Source:** `{f.Source.Uri.AbsolutePath}#{f.Source.Locator}`  ");
 
             if (def.IncludeFragmentContent)
             {

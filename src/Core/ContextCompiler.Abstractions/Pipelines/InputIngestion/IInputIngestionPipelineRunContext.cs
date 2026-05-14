@@ -60,7 +60,7 @@ public interface IInputIngestionPipelineRunContext : ISubPipelineRunContext
                 Action,
                 PassId,
                 Message,
-                b => b.WithPath(InputItem.FullPath));
+                b => b.WithUri(InputItem.Uri));
         });
     }
 

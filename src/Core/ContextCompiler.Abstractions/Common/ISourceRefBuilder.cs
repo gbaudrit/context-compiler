@@ -7,6 +7,6 @@ namespace ContextCompiler.Abstractions.Common
         ISourceRefBuilder InitNew();
         ISourceRef Build();
         ISourceRefBuilder WithLocator(string locator);
-        ISourceRefBuilder WithPath(string path);
+        ISourceRefBuilder WithUri(Uri uri);
     }
 }

@@ -16,15 +16,15 @@ public sealed class LinearDataReader(IDataEnvelopeBuilder dataEnvelopeBuilder, I
     public Task<IDataEnvelope> ReadAsync(IInputItemContext InputItemContext, CancellationToken ct)
     {
         ct.ThrowIfCancellationRequested();
-        logger.LogInformation("Reading linear data from InputItem at path '{DocumentPath}'", InputItemContext.FullPath);
+        logger.LogInformation("Reading linear data from InputItem at path '{DocumentPath}'", InputItemContext.Uri);
 
-        using FileStream fs = File.OpenRead(InputItemContext.FullPath);
+        using FileStream fs = File.OpenRead(InputItemContext.Uri.AbsolutePath);
 
         return Task.FromResult(dataEnvelopeBuilder.InitNew()
                                                   .WithDataShape(DataShape.Linear)
                                                   //.WithMetadata(new Dictionary<string, string> { { "mediaType", InputItemContext.FileInfos.MediaType } })
                                                   .WithSinglePart(dataPartBuilder.InitNew()
-                                                                                   .WithSource(sourceRefBuilder.InitNew().WithPath(InputItemContext.FullPath).Build())
+                                                                                   .WithSource(sourceRefBuilder.InitNew().WithUri(InputItemContext.Uri).Build())
                                                                                    //.WithPayload(InputItemContext.FileInfos)
                                                                                    .WithTags(InputItemContext.Data.Tags)
                                                                                    .Build())

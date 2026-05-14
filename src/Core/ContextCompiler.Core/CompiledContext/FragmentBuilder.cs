@@ -9,7 +9,7 @@ namespace ContextCompiler.Core.CompiledContext
     {
         private IDataPart? _datapart;
         private string _content = string.Empty;
-        private string _filePath = string.Empty;
+        private Uri? _uri;
         private string _locator = string.Empty;
         private IReadOnlyList<ITag> _tags = [];
 
@@ -17,7 +17,7 @@ namespace ContextCompiler.Core.CompiledContext
         {
             _datapart = null;
             _content = string.Empty;
-            _filePath = string.Empty;
+            _uri = null;
             _locator = string.Empty;
             _tags = [];
             return this;
@@ -35,9 +35,9 @@ namespace ContextCompiler.Core.CompiledContext
             return this;
         }
 
-        public IFragmentBuilder WithFilePath(string filePath)
+        public IFragmentBuilder WithUri(Uri uri)
         {
-            _filePath = filePath;
+            _uri = uri;
             return this;
         }
 
@@ -56,6 +56,7 @@ namespace ContextCompiler.Core.CompiledContext
         public IFragment Build()
         {
             ArgumentNullException.ThrowIfNull(_datapart, nameof(_datapart));
+            ArgumentNullException.ThrowIfNull(_uri, nameof(_uri));
 
             _ = tagsBuilder.InitNewFrom(_datapart.Tags).AddRange(_tags);
 
@@ -73,8 +74,8 @@ namespace ContextCompiler.Core.CompiledContext
             return new Fragment
             {
                 Content = _content,
-                Evidence = evidenceBuilder.InitNew().ForContent(_content).WithLocator(CombineLocator(_datapart?.Source?.Locator ?? string.Empty, _locator)).ForFile(_filePath).Build(),
-                Source = sourceRefBuilder.InitNew().WithPath(_filePath).WithLocator(_locator).Build(),
+                Evidence = evidenceBuilder.InitNew().ForContent(_content).WithLocator(CombineLocator(_datapart?.Source?.Locator ?? string.Empty, _locator)).ForUri(_uri).Build(),
+                Source = sourceRefBuilder.InitNew().WithUri(_uri).WithLocator(_locator).Build(),
                 Tags = [.. _tags.DistinctBy(t => t.Name + t.Value)],
             };
         }

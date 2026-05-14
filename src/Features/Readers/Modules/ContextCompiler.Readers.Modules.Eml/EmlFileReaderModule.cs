@@ -15,20 +15,20 @@ public sealed class EmlFileReaderModule(
     ISourceRefBuilder sourceRefBuilder,
     ILogger<EmlFileReaderModule> logger) : IInputIngestionPipelineModule
 {
-    public InputIngestionModuleMetadata Metadata => IInputIngestionPipelineModule.Meta("readers.eml", InputIngestionPipelineModuleKinds.ReadDocument, priority: 12);
+    public InputIngestionModuleMetadata Metadata => IInputIngestionPipelineModule.Meta("readers.eml", InputIngestionPipelineModuleKinds.ReadSource, priority: 12);
 
     public bool CanProcess(IInputItemContext InputItemContext)
     {
-        return Path.GetExtension(InputItemContext.FullPath).Equals(".eml", StringComparison.OrdinalIgnoreCase);
+        return Path.GetExtension(InputItemContext.Uri.AbsolutePath).Equals(".eml", StringComparison.OrdinalIgnoreCase);
     }
 
     public async Task<IResult<IInputIngestionPipelineRunResult>> Run(IInputIngestionPipelineRunContext context, CancellationToken ct)
     {
         ct.ThrowIfCancellationRequested();
 
-        logger.LogInformation("Reading EML file: {Path}", context.InputItem.FullPath);
+        logger.LogInformation("Reading EML file: {Path}", context.InputItem.Uri);
 
-        await using FileStream stream = File.OpenRead(context.InputItem.FullPath);
+        await using FileStream stream = File.OpenRead(context.InputItem.Uri.AbsolutePath);
         MimeMessage message = await MimeMessage.LoadAsync(stream, ct);
         List<IDataPart> parts = [];
 
@@ -106,7 +106,7 @@ public sealed class EmlFileReaderModule(
                                  .WithLabel(label)
                                  .WithType(type)
                                  .WithSource(sourceRefBuilder.InitNew()
-                                                             .WithPath(InputItemContext.FullPath)
+                                                             .WithUri(InputItemContext.Uri)
                                                              .WithLocator(locator ?? id)
                                                              .Build())
                                  .WithPayload(payload)

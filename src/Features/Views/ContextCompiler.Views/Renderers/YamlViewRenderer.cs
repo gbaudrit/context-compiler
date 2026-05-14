@@ -34,7 +34,7 @@ internal sealed class YamlViewRenderer(ILogger<YamlViewRenderer> logger) : IView
             _ = sb.AppendLine(CultureInfo.InvariantCulture, $"      er: \"{f.Evidence.EvidenceRevision}\"  ");
             _ = sb.AppendLine(CultureInfo.InvariantCulture, $"      rek: \"{f.Evidence.RelativeEvidenceKey}\"  ");
             _ = sb.AppendLine(CultureInfo.InvariantCulture, $"      rer: \"{f.Evidence.RelativeEvidenceRevision}\"  ");
-            _ = sb.AppendLine(CultureInfo.InvariantCulture, $"      source: \"{f.Source.Path.Replace("\\", "/")}#{f.Source.Locator}\"  ");
+            _ = sb.AppendLine(CultureInfo.InvariantCulture, $"      source: \"{f.Source.Uri.AbsolutePath.Replace("\\", "/")}#{f.Source.Locator}\"  ");
 
             if (def.IncludeFragmentContent)
             {

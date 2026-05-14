@@ -6,6 +6,7 @@ namespace ContextCompiler.Core.Pipelines.InputIngestion;
 
 internal sealed class InputIngestionPipelineRunContext(
     IPipeline pipeline,
+    string phaseKey,
     IPipelineRunContext parent,
     IInputItemContext InputItemContext,
     IInputItemContextPatchBuilder patchContext,
@@ -13,6 +14,7 @@ internal sealed class InputIngestionPipelineRunContext(
 {
     public IPipelineRunContext Parent => parent;
     public IPipeline Pipeline { get; } = pipeline;
+    public string PhaseKey { get; } = phaseKey;
     public IInputItemContext InputItem { get; } = InputItemContext;
     public IInputItemContextPatchBuilder Patch { get; } = patchContext;
 

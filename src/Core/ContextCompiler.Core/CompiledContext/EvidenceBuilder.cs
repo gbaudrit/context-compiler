@@ -6,13 +6,13 @@ namespace ContextCompiler.Core.CompiledContext
 {
     internal sealed class EvidenceBuilder(IHasher hasher) : IEvidenceBuilder
     {
-        private string _filePath = string.Empty;
+        private Uri? _uri;
         private string _content = string.Empty;
         private string _locator = string.Empty;
 
         public IEvidenceBuilder InitNew()
         {
-            _filePath = string.Empty;
+            _uri = null;
             _content = string.Empty;
             _locator = string.Empty;
             return this;
@@ -20,15 +20,17 @@ namespace ContextCompiler.Core.CompiledContext
 
         public IEvidence Build()
         {
-            return new Evidence("E-" + hasher.Sha256Hex(_filePath + "|" + _locator)[..12],
-                                "R-" + hasher.Sha256Hex(_filePath + "|" + _locator + "|" + _content)[..12],
+            ArgumentNullException.ThrowIfNull(_uri, nameof(_uri));
+
+            return new Evidence("E-" + hasher.Sha256Hex(_uri.AbsolutePath + "|" + _locator)[..12],
+                                "R-" + hasher.Sha256Hex(_uri.AbsolutePath + "|" + _locator + "|" + _content)[..12],
                                 "RE-" + hasher.Sha256Hex(_locator ?? "")[..12],
                                 "RR-" + hasher.Sha256Hex(_locator + "|" + _content)[..12]);
         }
 
-        public IEvidenceBuilder ForFile(string filePath)
+        public IEvidenceBuilder ForUri(Uri uri)
         {
-            _filePath = filePath;
+            _uri = uri;
             return this;
         }
 

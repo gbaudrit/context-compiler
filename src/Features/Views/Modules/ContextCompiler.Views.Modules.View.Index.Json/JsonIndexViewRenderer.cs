@@ -29,7 +29,7 @@ namespace ContextCompiler.Views.Modules.View.Index.Json
                 {
                     Ek = f.Evidence.EvidenceKey,
                     Er = f.Evidence.EvidenceRevision,
-                    Source = new { f.Source.Path, f.Source.Locator },
+                    Source = new { f.Source.Uri, f.Source.Locator },
                     Tags = [.. f.Tags.Select(t => new Tag() { Name = t.Name, Value = t.Value ?? "" })],
                 })]
             };

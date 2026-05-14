@@ -4,5 +4,5 @@ namespace ContextCompiler.Security.Guards;
 
 internal interface IInjectionGuard
 {
-    GuardFinding? Scan(string path, string content);
+    GuardFinding? Scan(Uri uri, string content);
 }

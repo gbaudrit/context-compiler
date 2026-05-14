@@ -191,7 +191,7 @@ internal static class ViewRenderer
         {
             _ = sb.AppendLine(CultureInfo.InvariantCulture, $"- **EK:** `{f.Evidence.EvidenceKey}`  ");
             _ = sb.AppendLine(CultureInfo.InvariantCulture, $"  **ER:** `{f.Evidence.EvidenceRevision}`  ");
-            _ = sb.AppendLine(CultureInfo.InvariantCulture, $"  **Source:** `{f.Source.Path}#{f.Source.Locator}`  ");
+            _ = sb.AppendLine(CultureInfo.InvariantCulture, $"  **Source:** `{f.Source.Uri.AbsolutePath}#{f.Source.Locator}`  ");
 
             if (def.IncludeFragmentContent)
             {
@@ -224,7 +224,7 @@ internal static class ViewRenderer
             {
                 ek = f.Evidence.EvidenceKey,
                 er = f.Evidence.EvidenceRevision,
-                source = new { path = f.Source.Path, locator = f.Source.Locator },
+                source = new { path = f.Source.Uri, locator = f.Source.Locator },
                 tags = f.Tags
             }).ToArray()
         };
