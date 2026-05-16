@@ -133,12 +133,13 @@ public sealed class NuGetModuleStore(IModulesLoadConfigProvider cfg,
         FrameworkSpecificGroup? bestRefGroup = refGroups.FirstOrDefault(g => g.TargetFramework.Equals(bestRefFramework));
 
         List<FrameworkSpecificGroup> contentGroups = [.. reader.GetContentItems().Where(g => g.Items != null && g.Items.Any())];
-        NuGetFramework? bestContentFramework = reducer.GetNearest(target, contentGroups.Select(g => g.TargetFramework)); // juste pour logguer un warning si jamais on trouve un content/ compatible (pas de fallback prévu mais ça peut arriver que des assets soient mis là)
+        NuGetFramework? bestContentFramework = reducer.GetNearest(target, contentGroups.Select(g => g.TargetFramework));
         FrameworkSpecificGroup? bestContentGroup = contentGroups.FirstOrDefault(g => g.TargetFramework.Equals(bestContentFramework));
 
         // 3) Construire la liste exacte des fichiers à extraire
         HashSet<string> filesToExtract = [];
 
+        // lib/ - Assemblies runtime (obligatoire)
         if (bestLibGroup is not null)
         {
             foreach (string file in bestLibGroup.Items)
@@ -147,8 +148,7 @@ public sealed class NuGetModuleStore(IModulesLoadConfigProvider cfg,
             }
         }
 
-        // Garde ref/ seulement si tu en as besoin
-        // Si tu veux un cache minimal pour chargement runtime pur, commente ce bloc.
+        // ref/ - Reference assemblies (optionnel)
         if (bestRefGroup is not null)
         {
             foreach (string file in bestRefGroup.Items)
@@ -157,6 +157,7 @@ public sealed class NuGetModuleStore(IModulesLoadConfigProvider cfg,
             }
         }
 
+        // content/ - Assets génériques (optionnel)
         if (bestContentGroup is not null)
         {
             foreach (string file in bestContentGroup.Items)
@@ -165,12 +166,41 @@ public sealed class NuGetModuleStore(IModulesLoadConfigProvider cfg,
             }
         }
 
+        // contentFiles/ - Modern content convention (tout extraire, indépendamment du TFM)
+        IEnumerable<string> allContentFiles = reader.GetFiles()
+            .Where(f => f.StartsWith("contentFiles/", StringComparison.OrdinalIgnoreCase));
+
+        foreach (string file in allContentFiles)
+        {
+            _ = filesToExtract.Add(file);
+        }
+
+        // module-assets/ - Convention personnalisée pour assets de modules (React apps, templates, etc.)
+        IEnumerable<string> moduleAssets = reader.GetFiles()
+            .Where(f => f.StartsWith("module-assets/", StringComparison.OrdinalIgnoreCase));
+
+        foreach (string file in moduleAssets)
+        {
+            _ = filesToExtract.Add(file);
+        }
+
         // Optionnel : garder le nuspec
         string? nuspecPath = reader.GetNuspecFile();
         if (!string.IsNullOrEmpty(nuspecPath))
         {
             _ = filesToExtract.Add(nuspecPath);
         }
+
+        // Log des assets extraits par catégorie
+        int libCount = bestLibGroup?.Items.Count() ?? 0;
+        int refCount = bestRefGroup?.Items.Count() ?? 0;
+        int contentCount = bestContentGroup?.Items.Count() ?? 0;
+        int contentFilesCount = reader.GetFiles().Count(f => f.StartsWith("contentFiles/", StringComparison.OrdinalIgnoreCase));
+        int moduleAssetsCount = reader.GetFiles().Count(f => f.StartsWith("module-assets/", StringComparison.OrdinalIgnoreCase));
+
+        logger.LogInformation(
+            "Extracting {PackageId} {Version}: {LibCount} lib/, {RefCount} ref/, {ContentCount} content/, {ContentFilesCount} contentFiles/, {ModuleAssetsCount} module-assets/",
+            packageId, version, libCount, refCount, contentCount, contentFilesCount, moduleAssetsCount);
 
         // 4) Si aucun groupe compatible n'a été trouvé, fallback minimal :
         // on extrait tout, ou on lève une exception selon ton besoin.

@@ -248,6 +248,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.Prompting.P
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.DevTools.Modules.EventsLogger", "src\Features\DevTools\Modules\ContextCompiler.DevTools.Modules.EventsLogger\ContextCompiler.DevTools.Modules.EventsLogger.csproj", "{6CF53E0B-0588-4F51-DCD7-29427FEF4DEC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.Reports.Modules.Pipelines.ReactFlow", "src\Features\Reports\Modules\ContextCompiler.Reports.Modules.Pipelines.ReactFlow\ContextCompiler.Reports.Modules.Pipelines.ReactFlow.csproj", "{C3C268C1-A7BF-8737-95F7-C2302EBF7BBC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -1538,6 +1540,24 @@ Global
 		{6CF53E0B-0588-4F51-DCD7-29427FEF4DEC}.Release|x64.Build.0 = Release|Any CPU
 		{6CF53E0B-0588-4F51-DCD7-29427FEF4DEC}.Release|x86.ActiveCfg = Release|Any CPU
 		{6CF53E0B-0588-4F51-DCD7-29427FEF4DEC}.Release|x86.Build.0 = Release|Any CPU
+		{C3C268C1-A7BF-8737-95F7-C2302EBF7BBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3C268C1-A7BF-8737-95F7-C2302EBF7BBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3C268C1-A7BF-8737-95F7-C2302EBF7BBC}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C3C268C1-A7BF-8737-95F7-C2302EBF7BBC}.Debug|x64.Build.0 = Debug|Any CPU
+		{C3C268C1-A7BF-8737-95F7-C2302EBF7BBC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C3C268C1-A7BF-8737-95F7-C2302EBF7BBC}.Debug|x86.Build.0 = Debug|Any CPU
+		{C3C268C1-A7BF-8737-95F7-C2302EBF7BBC}.DebugLocal|Any CPU.ActiveCfg = DebugLocal|Any CPU
+		{C3C268C1-A7BF-8737-95F7-C2302EBF7BBC}.DebugLocal|Any CPU.Build.0 = DebugLocal|Any CPU
+		{C3C268C1-A7BF-8737-95F7-C2302EBF7BBC}.DebugLocal|x64.ActiveCfg = DebugLocal|Any CPU
+		{C3C268C1-A7BF-8737-95F7-C2302EBF7BBC}.DebugLocal|x64.Build.0 = DebugLocal|Any CPU
+		{C3C268C1-A7BF-8737-95F7-C2302EBF7BBC}.DebugLocal|x86.ActiveCfg = DebugLocal|Any CPU
+		{C3C268C1-A7BF-8737-95F7-C2302EBF7BBC}.DebugLocal|x86.Build.0 = DebugLocal|Any CPU
+		{C3C268C1-A7BF-8737-95F7-C2302EBF7BBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3C268C1-A7BF-8737-95F7-C2302EBF7BBC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3C268C1-A7BF-8737-95F7-C2302EBF7BBC}.Release|x64.ActiveCfg = Release|Any CPU
+		{C3C268C1-A7BF-8737-95F7-C2302EBF7BBC}.Release|x64.Build.0 = Release|Any CPU
+		{C3C268C1-A7BF-8737-95F7-C2302EBF7BBC}.Release|x86.ActiveCfg = Release|Any CPU
+		{C3C268C1-A7BF-8737-95F7-C2302EBF7BBC}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1644,6 +1664,7 @@ Global
 		{FDE3E0A2-B186-4062-983A-AB5AB6F9AE31} = {24BF1D0B-CE93-4932-A3AE-A7654BE74D61}
 		{D2B12943-9DF0-689E-D993-206D9EE93909} = {9BC46814-A009-45B3-A3B1-2BB101461CB1}
 		{6CF53E0B-0588-4F51-DCD7-29427FEF4DEC} = {16D77299-4756-437D-9207-E6ED1A597F0A}
+		{C3C268C1-A7BF-8737-95F7-C2302EBF7BBC} = {4C79F5CE-F8B3-4D0D-89AF-7D66FAB38555}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E59B7756-7651-4176-ABF1-8E66BF843C28}
