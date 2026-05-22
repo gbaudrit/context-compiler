@@ -11,7 +11,9 @@ public static class DependencyInjection
 
     public static IServiceCollection AddModulesLoaderServices(this IServiceCollection services)
     {
-        return services.AddSingleton<IModulesLoadConfigProvider, JsonModulesLoaderConfigProvider>()
+        return services.AddSingleton<JsonModulesLoaderConfigProvider>()
+            .AddSingleton<IModulesLoadConfigProvider>(sp => sp.GetRequiredService<JsonModulesLoaderConfigProvider>())
+            .AddSingleton<ISkillsLoadConfigProvider>(sp => sp.GetRequiredService<JsonModulesLoaderConfigProvider>())
             .AddTransient<IModulesLoadConfigLocator, DefaultConfigLocator>()
             .AddSingleton<IModuleAssemblyLoader, ModuleAssemblyLoader>()
             .AddSingleton<IModulesDiscoverer, ModulesDiscoverer>()

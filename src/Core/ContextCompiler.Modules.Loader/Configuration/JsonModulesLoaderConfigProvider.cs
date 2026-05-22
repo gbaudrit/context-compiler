@@ -6,11 +6,11 @@ using Microsoft.Extensions.Logging;
 
 namespace ContextCompiler.Modules.Loader.Configuration;
 
-public sealed class JsonModulesLoaderConfigProvider(ILogger<JsonModulesLoaderConfigProvider> logger) : IModulesLoadConfigProvider
+public sealed class JsonModulesLoaderConfigProvider(ILogger<JsonModulesLoaderConfigProvider> logger) : IModulesLoadConfigProvider, ISkillsLoadConfigProvider
 {
     private readonly ILogger<JsonModulesLoaderConfigProvider> _logger = logger;
     private readonly Lock _lock = new();
-    private ModulesConfig? _cached;
+    private ModulesLoadDocument? _cached;
     private static readonly JsonSerializerOptions JsonOptions = new()
     {
         PropertyNameCaseInsensitive = true,
@@ -18,11 +18,23 @@ public sealed class JsonModulesLoaderConfigProvider(ILogger<JsonModulesLoaderCon
         AllowTrailingCommas = true
     };
 
-    public IModulesLoadConfig Current => _cached ?? throw new InvalidOperationException("Config not loaded");
+    IModulesLoadConfig IModulesLoadConfigProvider.Current => _cached?.Modules ?? throw new InvalidOperationException("Config not loaded");
 
-    public IModulesLoadConfig GetConfigOrDefault(string? configPath)
+    SkillsConfig ISkillsLoadConfigProvider.Current => _cached?.Skills ?? throw new InvalidOperationException("Config not loaded");
+
+    IModulesLoadConfig IModulesLoadConfigProvider.GetConfigOrDefault(string? configPath)
     {
-        ModulesConfig? cached = _cached;
+        return GetDocumentOrDefault(configPath).Modules;
+    }
+
+    SkillsConfig ISkillsLoadConfigProvider.GetConfigOrDefault(string? configPath)
+    {
+        return GetDocumentOrDefault(configPath).Skills;
+    }
+
+    private ModulesLoadDocument GetDocumentOrDefault(string? configPath)
+    {
+        ModulesLoadDocument? cached = _cached;
         if (cached is not null)
         {
             return cached;
@@ -39,22 +51,26 @@ public sealed class JsonModulesLoaderConfigProvider(ILogger<JsonModulesLoaderCon
             if (string.IsNullOrWhiteSpace(path) || !File.Exists(path))
             {
                 _logger.LogInformation("No config provided or file missing: using defaults");
-                _cached = new ModulesConfig();
+                _cached = new ModulesLoadDocument();
                 return _cached;
             }
             try
             {
                 string json = File.ReadAllText(path);
-                ModulesConfig cfg = JsonSerializer.Deserialize<ModulesConfig>(json, JsonOptions) ?? new ModulesConfig();
+                ModulesLoadDocument cfg = JsonSerializer.Deserialize<ModulesLoadDocument>(json, JsonOptions) ?? new ModulesLoadDocument();
+
+                if (cfg.SchemaVersion != 2)
+                {
+                    throw new InvalidOperationException($"Unsupported ctxc modules config schemaVersion {cfg.SchemaVersion}. Expected 2.");
+                }
 
                 _cached = cfg;
                 return _cached;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Failed to read config; using defaults");
-                _cached = new ModulesConfig();
-                return _cached;
+                _logger.LogError(ex, "Failed to read modules config");
+                throw;
             }
         }
     }

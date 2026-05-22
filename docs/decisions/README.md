@@ -11,4 +11,4 @@ Index:
 - 0006 Repo engineering standards (`eng/`, .NET 10, CPVM)
 - 0007 Testing strategy (MSTest + Moq + FluentAssertions)
 - 0008 Views, Personas, Hypotheses
-
+- 0009 Skill providers and modules config v2

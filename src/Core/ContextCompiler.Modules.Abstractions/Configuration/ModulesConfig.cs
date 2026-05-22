@@ -1,5 +1,12 @@
 namespace ContextCompiler.Modules.Abstractions.Configuration;
 
+public sealed class ModulesLoadDocument
+{
+    public int SchemaVersion { get; set; } = 2;
+    public ModulesConfig Modules { get; set; } = new();
+    public SkillsConfig Skills { get; set; } = new();
+}
+
 public class ModulesConfig : IModulesLoadConfig
 {
     public string Mode { get; set; } = "Locked";
@@ -12,6 +19,33 @@ public class ModulesConfig : IModulesLoadConfig
     public List<ModuleSource> Sources { get; set; } = [];
     public TrustConfig Trust { get; set; } = new();
     public Dictionary<string, string> Packages { get; set; } = [];
+}
+
+public sealed class SkillsConfig
+{
+    public string Mode { get; set; } = "Compile";
+    public bool Offline { get; set; }
+    public string CacheRoot { get; set; } = ".ctxc/cache/skills";
+    public string CompiledRoot { get; set; } = ".ctxc/compiled/.agents/skills";
+    public string LockFile { get; set; } = ".ctxc/ctxc.skills.lock.json";
+    public SkillDeclarationsConfig Declarations { get; set; } = new();
+    public SkillTrustConfig Trust { get; set; } = new();
+    public Dictionary<string, string> Items { get; set; } = [];
+}
+
+public sealed class SkillDeclarationsConfig
+{
+    public string Mode { get; set; } = "Prompt";
+    public bool AllowRequired { get; set; } = true;
+    public bool AllowRecommended { get; set; }
+}
+
+public sealed class SkillTrustConfig
+{
+    public bool RequireTrustedProvider { get; set; } = true;
+    public List<string> AllowedProviders { get; set; } = [];
+    public List<string> BlockedProviders { get; set; } = [];
+    public List<string> BlockedSkills { get; set; } = [];
 }
 
 public sealed class ModuleSource
@@ -80,4 +114,23 @@ public sealed class ModuleLockFile
 
     public sealed class SignatureInfo { public bool Required { get; set; } public bool IsSigned { get; set; } public string? SignerFingerprint { get; set; } public string? Note { get; set; } }
     public sealed class DependencyInfo { public string Id { get; set; } = default!; public string Version { get; set; } = default!; }
+}
+
+public sealed class SkillLockFile
+{
+    public int FormatVersion { get; set; } = 1;
+    public DateTime GeneratedAt { get; set; } = DateTime.UnixEpoch;
+    public List<LockedSkill> Skills { get; set; } = [];
+
+    public sealed class LockedSkill
+    {
+        public string Id { get; set; } = default!;
+        public string Provider { get; set; } = default!;
+        public string RequestedVersion { get; set; } = default!;
+        public string ResolvedVersion { get; set; } = default!;
+        public string SourceUri { get; set; } = default!;
+        public string Checksum { get; set; } = default!;
+        public string CompiledPath { get; set; } = default!;
+        public List<string> RequestedBy { get; set; } = [];
+    }
 }

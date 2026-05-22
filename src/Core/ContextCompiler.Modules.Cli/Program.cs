@@ -38,6 +38,7 @@ builder.Services
     .AddSingleton<IVerifyHandler, VerifyHandler>()
     .AddSingleton<IListHandler, ListHandler>()
     .AddSingleton<IPurgeHandler, PurgeHandler>()
+    .AddSingleton<ISkillsPlanHandler, SkillsPlanHandler>()
     .AddSingleton<ISchemasAggregateHandler, SchemasAggregateHandler>();
 
 using IHost host = builder.Build();

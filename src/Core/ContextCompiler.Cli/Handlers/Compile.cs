@@ -3,6 +3,8 @@ using System.Text.Json;
 using ContextCompiler.Abstractions.Models;
 using ContextCompiler.Abstractions.Output;
 using ContextCompiler.Core.Engine;
+using ContextCompiler.Modules.Abstractions.Configuration;
+using ContextCompiler.Modules.Abstractions.Skills;
 
 using Microsoft.Extensions.Logging;
 
@@ -20,7 +22,14 @@ public record CtxcCompileCommandLine(
     bool Json,
     bool Clean);
 
-internal sealed class CtxcCompileHandler(ICompilerEngine engine, IOutputContext outputContext, ILogger<CtxcCompileHandler> logger) : ICtxcCompileHandler
+internal sealed class CtxcCompileHandler(
+    ICompilerEngine engine,
+    IOutputContext outputContext,
+    IModulesLoadConfigLocator modulesLoadConfigLocator,
+    IModulesLoadConfigProvider modulesLoadConfigProvider,
+    ISkillsLoadConfigProvider skillsLoadConfigProvider,
+    ISkillsCompiler skillsCompiler,
+    ILogger<CtxcCompileHandler> logger) : ICtxcCompileHandler
 {
     private readonly JsonSerializerOptions jsonSerializerOptions = new() { WriteIndented = true };
 
@@ -30,6 +39,11 @@ internal sealed class CtxcCompileHandler(ICompilerEngine engine, IOutputContext 
         try
         {
             outputContext.OutputPath = compileCommandLine.Output;
+
+            string? modulesConfigPath = modulesLoadConfigLocator.Locate(compileCommandLine.Input, "", "");
+            _ = modulesLoadConfigProvider.GetConfigOrDefault(modulesConfigPath);
+            _ = skillsLoadConfigProvider.GetConfigOrDefault(modulesConfigPath);
+            _ = await skillsCompiler.CompileAsync(CancellationToken.None);
 
             int rc = await engine.CompileAsync(new CompileRequest(compileCommandLine.Input,
                                                                    compileCommandLine.Output,

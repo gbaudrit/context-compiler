@@ -1,4 +1,6 @@
 {
+  "schemaVersion": 2,
+  "modules": {
     "mode": "Install",
     "installRoot": ".ctxc/modules",
     "lockFile": ".ctxc/ctxc.modules.lock.json",
@@ -16,7 +18,7 @@
         "url": "https://api.nuget.org/v3/index.json",
         "trusted": true,
         "provider": "nuget"
-       }
+      }
     ],
     "trust": {
       "requireTrustedSource": true,
@@ -29,9 +31,29 @@
       "blockedPackageIds": []
     },
     "packages": {
-      "ContextCompiler.Prompting.Modules.Personas.Developers.DotNet@locale":"0.1.0-alpha.1",
-      "ContextCompiler.Prompting.Modules.Personas.Developers.Python@locale":"0.1.0-alpha.1",
-      "ContextCompiler.Packs.Starter.Standard@locale":"0.1.0-alpha.1",
-      "ContextCompiler.Prompting.Packs.Personas.SoftwareEngineering.Standard@locale":"0.1.0-alpha.1"
+      "ContextCompiler.Prompting.Modules.Personas.Developers.DotNet@locale": "0.1.0-alpha.1",
+      "ContextCompiler.Prompting.Modules.Personas.Developers.Python@locale": "0.1.0-alpha.1",
+      "ContextCompiler.Packs.Starter.Standard@locale": "0.1.0-alpha.1",
+      "ContextCompiler.Prompting.Packs.Personas.SoftwareEngineering.Standard@locale": "0.1.0-alpha.1"
     }
+  },
+  "skills": {
+    "mode": "Compile",
+    "cacheRoot": ".ctxc/cache/skills",
+    "compiledRoot": ".ctxc/compiled/.agents/skills",
+    "lockFile": ".ctxc/ctxc.skills.lock.json",
+    "offline": false,
+    "declarations": {
+      "mode": "Prompt",
+      "allowRequired": true,
+      "allowRecommended": false
+    },
+    "trust": {
+      "requireTrustedProvider": true,
+      "allowedProviders": [],
+      "blockedProviders": [],
+      "blockedSkills": []
+    },
+    "items": {}
   }
+}

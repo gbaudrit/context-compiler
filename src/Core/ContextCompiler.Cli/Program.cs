@@ -16,6 +16,7 @@ using ContextCompiler.Infrastructure.FileSystem;
 using ContextCompiler.Infrastructure.Hashing;
 using ContextCompiler.Modules.Abstractions.Configuration;
 using ContextCompiler.Modules.Abstractions.Loading;
+using ContextCompiler.Modules;
 using ContextCompiler.Modules.Loader;
 
 using Microsoft.Extensions.Configuration;
@@ -64,6 +65,7 @@ builder.Services
         .AddSingleton<IServeHandler, ServeHandler>()
         .AddCompileCoreServices()
         .AddCoreServices()
+        .AddModules()
         .AddModulesLoaderServices();
 
 ContextCompiler.Cli.DependencyInjection.AddHostCliServices(builder.Services);

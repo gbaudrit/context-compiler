@@ -9,6 +9,7 @@
 		<ProjectReference Include="..\ContextCompiler.Configuration.Json\ContextCompiler.Configuration.Json.csproj" />
 		<ProjectReference Include="..\ContextCompiler.Infrastructure\ContextCompiler.Infrastructure.csproj" />
 		<ProjectReference Include="..\ContextCompiler.Core\ContextCompiler.Core.csproj" />
+		<ProjectReference Include="..\ContextCompiler.Modules\ContextCompiler.Modules.csproj" />
 		<ProjectReference Include="..\ContextCompiler.Modules.Loader\ContextCompiler.Modules.Loader.csproj" />
 	</ItemGroup>
 	<ItemGroup>

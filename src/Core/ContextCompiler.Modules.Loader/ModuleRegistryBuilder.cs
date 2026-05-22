@@ -4,6 +4,7 @@ using ContextCompiler.Modules.Abstractions;
 using ContextCompiler.Modules.Abstractions.GlobalPipeline;
 using ContextCompiler.Modules.Abstractions.Loading;
 using ContextCompiler.Modules.Abstractions.MCP;
+using ContextCompiler.Modules.Abstractions.Skills;
 using ContextCompiler.Modules.Abstractions.Views;
 using ContextCompiler.Modules.Abstractions.Views.Renderers;
 
@@ -112,6 +113,14 @@ public sealed class ModuleRegistryBuilder : IModuleRegistryBuilder
             if (typeof(IMCPListResourcesHandler).IsAssignableFrom(t))
             {
                 _ = services.AddTransient(typeof(IMCPListResourcesHandler), t);
+            }
+            if (typeof(ISkillProvider).IsAssignableFrom(t))
+            {
+                services.TryAddEnumerable(ServiceDescriptor.Transient(typeof(ISkillProvider), t));
+            }
+            if (typeof(ISkillRequirementsProvider).IsAssignableFrom(t))
+            {
+                services.TryAddEnumerable(ServiceDescriptor.Transient(typeof(ISkillRequirementsProvider), t));
             }
 
             if (typeof(IModule).IsAssignableFrom(t))

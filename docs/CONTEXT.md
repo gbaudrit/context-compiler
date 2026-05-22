@@ -28,6 +28,7 @@ Il transforme un dossier de fichiers hÃ©tÃ©rogÃ¨nes en un **contexte de raisonne
 3) **Preuve** : chaque fragment possÃ¨de un EvidenceKey (EK) et EvidenceRevision (ER)  
 4) **SÃ©curitÃ©** : les guards sont Ã©valuÃ©s avant production et avant usage (preflight)  
 5) **ExtensibilitÃ©** : tout comportement = module
+6) **Skills declaratifs** : les skills sont resolus par des providers modules, compiles sous `.ctxc/compiled/.agents/skills`, et gouvernes avant usage
 
 ---
 
@@ -69,14 +70,19 @@ Il transforme un dossier de fichiers hÃ©tÃ©rogÃ¨nes en un **contexte de raisonne
 
 ## 6. Terminologie stable
 
-- **Module** : capacité atomique, stateless, réutilisable, branchée dans un pipeline
-- **Pack** : regroupement cohérent de modules prêts à l'emploi
-- **Pipeline** : chaîne d'exécution ordonnée où chaque étape reçoit, transforme puis transmet des données
-- **Blueprint** : solution orientée use case qui combine packs, modules et pipeline pour produire un résultat final
+- **Module** : capacitï¿½ atomique, stateless, rï¿½utilisable, branchï¿½e dans un pipeline
+- **Pack** : regroupement cohï¿½rent de modules prï¿½ts ï¿½ l'emploi
+- **Skill** : asset declaratif normalise par Context Compiler et consommable par un agent ou IDE
+- **Skill Provider** : module runtime qui resout, recupere et normalise des skills depuis une source externe ou interne
+- **Pipeline** : chaï¿½ne d'exï¿½cution ordonnï¿½e oï¿½ chaque ï¿½tape reï¿½oit, transforme puis transmet des donnï¿½es
+- **Blueprint** : solution orientï¿½e use case qui combine packs, modules et pipeline pour produire un rï¿½sultat final
 - **Fragment** : unitÃ© atomique dâ€™information
 - **Compiled Context** : reprÃ©sentation interne canonique
 - **View** : projection (sÃ©lection + ordering + rendu)
 - **Guard** : contrÃ´le sÃ©curitÃ©/policy prÃ©-LLM
 - **EK/ER** : preuve stable/versionnÃ©e
+
+
+
 
 

@@ -84,6 +84,15 @@ public static class CliCommandFactory
             Environment.ExitCode = await handler.HandleAsync(cfgFile, keepLocked);
         }, configOpt, purgeKeep);
 
+        Command skills = new("skills", "Plan and inspect declarative skills.");
+        Command skillsPlan = new("plan", "Create a deterministic skills installation plan.") { configOpt };
+        skillsPlan.SetHandler(async cfgFile =>
+        {
+            Handlers.ISkillsPlanHandler handler = sp.GetRequiredService<Handlers.ISkillsPlanHandler>();
+            Environment.ExitCode = await handler.HandleAsync(cfgFile);
+        }, configOpt);
+        skills.AddCommand(skillsPlan);
+
         Command schemas = new("schemas", ".") { configOpt };
         Command schemasAggregate = new("aggregate", ".") { configOpt };
         Argument<string> schema1Arg = new("schema1");
@@ -104,6 +113,7 @@ public static class CliCommandFactory
         root.AddCommand(verify);
         root.AddCommand(list);
         root.AddCommand(purge);
+        root.AddCommand(skills);
         root.AddCommand(schemas);
 
         return root;
