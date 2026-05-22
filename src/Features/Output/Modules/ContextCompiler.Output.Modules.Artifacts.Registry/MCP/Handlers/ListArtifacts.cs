@@ -20,8 +20,8 @@ internal sealed class ListArtifacts(IArtifactsStore artifactsStore) : IListArtif
     {
         IReadOnlyList<Artifact> artifacts = await artifactsStore.List(cancellationToken);
 
-        IEnumerable<IMCPResource> resources = artifacts.Select(x => context.ResourceBuilder.InitNew().WithName(x.Filename)
-                                                                                                 .WithUri($"ctxc://artifact/{x.Filename}")
+        IEnumerable<IMCPResource> resources = artifacts.Select(x => context.ResourceBuilder.InitNew().WithName(x.StoreResource.Uri.AbsolutePath)
+                                                                                                 .WithUri($"ctxc://artifact/{x.StoreResource.Uri.AbsolutePath}")
                                                                                                  .WithDescription(x.Description)
                                                                                                  .WithMimeType(x.MimeType)
                                                                                                  .WithSize(x.Size).Build());

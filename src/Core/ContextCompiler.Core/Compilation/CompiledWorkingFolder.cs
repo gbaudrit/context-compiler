@@ -2,13 +2,13 @@ using ContextCompiler.Abstractions;
 
 namespace ContextCompiler.Core.Compilation;
 
-internal sealed class CompiledWorkingFolder(IWorkingFolder workingFolder) : ICompiledWorkingFolder
+internal sealed class CompiledWorkingFolder(ICtxcWorkingFolder workingFolder) : ICompiledWorkingFolder
 {
     public string Combine(string relativePath)
     {
         return System.IO.Path.Combine(Path, relativePath);
     }
 
-    public string Path => workingFolder.EnsureFullyQualifiedPath(".ctxc");
+    public string Path => workingFolder.Combine("compiled");
 
 }

@@ -5,6 +5,7 @@ using ContextCompiler.Abstractions.Compiled;
 using ContextCompiler.Abstractions.Guards;
 using ContextCompiler.Abstractions.Output;
 using ContextCompiler.Abstractions.Pipelines;
+using ContextCompiler.Abstractions.Storage;
 using ContextCompiler.Abstractions.Views;
 using ContextCompiler.Modules.Abstractions;
 
@@ -32,7 +33,8 @@ public sealed class HealthOutputModule(
 
         output.AddArtifact(builder =>
         {
-            return builder.WithFileName("context.health.json")
+            return builder.WithName("context.health.json")
+                          .InStore(StoreKeys.Reports)
                           .WithContent(JsonSerializer.Serialize(health, jsonSerializerOptions))
                           .WithGeneratedBy(GetType());
         });

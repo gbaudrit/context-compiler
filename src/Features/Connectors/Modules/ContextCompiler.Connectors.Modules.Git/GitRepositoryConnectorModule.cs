@@ -15,7 +15,7 @@ namespace ContextCompiler.Connectors.Modules.Git;
 public sealed class GitRepositoryConnectorModule(
     ICompilationContext compilationContext,
     Abstractions.Sources.ISourcesProvider sourcesProvider,
-    ICompiledWorkingFolder compiledWorkingFolder,
+    ICtxcWorkingFolder ctxcWorkingFolder,
     IGitProcessClient gitProcessClient,
     ILogger<GitRepositoryConnectorModule> logger) : IConfigurationModule
 {
@@ -39,7 +39,7 @@ public sealed class GitRepositoryConnectorModule(
 
                 string repositoryUrl = BuildRepositoryUrl(repository);
                 string relativeTarget = GetRelativeTargetPath(repository);
-                string absoluteTarget = compiledWorkingFolder.Combine(relativeTarget);
+                string absoluteTarget = ctxcWorkingFolder.Combine(relativeTarget);
 
                 GitMaterializationResult result = await gitProcessClient.MaterializeAsync(
                     new GitMaterializationRequest(

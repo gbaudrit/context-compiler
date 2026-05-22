@@ -10,7 +10,7 @@ internal static class IOutputArtifactExtensions
     {
         return new Artifact()
         {
-            Filename = artifact.FileName,
+            StoreResource = artifact.StoreResource,
             Description = artifact.Description,
             GeneratedBy = artifact.GeneratedBy.FullName ?? "",
             MimeType = artifact.MimeType,

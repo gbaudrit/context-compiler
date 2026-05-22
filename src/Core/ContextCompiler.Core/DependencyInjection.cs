@@ -10,6 +10,7 @@ using ContextCompiler.Core.Guards;
 using ContextCompiler.Core.Output;
 using ContextCompiler.Core.Pipelines;
 using ContextCompiler.Core.Sources;
+using ContextCompiler.Core.Storage;
 using ContextCompiler.Core.Tags;
 using ContextCompiler.Core.Views;
 using ContextCompiler.Core.Workspace;
@@ -44,6 +45,7 @@ namespace ContextCompiler.Core
             return services
                     .AddConfiguration()
                     .AddWorkspace()
+                    .AddStorage()
                     .AddSingleton<ICtxcWorkingFolder, CtxcWorkingFolder>()
                     .AddTransient<IOutputArtifactReader, OutputArtifactReader>();
         }

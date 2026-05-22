@@ -1,10 +1,12 @@
 
+using ContextCompiler.Abstractions.Storage;
+
 namespace ContextCompiler.Abstractions.Output
 {
     public interface IOutputArtifact
     {
 
-        string FileName { get; init; }
+        IStoreResource StoreResource { get; init; }
         string Content { get; init; }
         string Description { get; init; }
         Type GeneratedBy { get; init; }

@@ -3,6 +3,7 @@ using ContextCompiler.Infrastructure.ModuleLoading;
 using Microsoft.Extensions.DependencyInjection;
 using ContextCompiler.Cli.Services;
 using ContextCompiler.Cli.Handlers;
+using ContextCompiler.Infrastructure.Storage;
 namespace ContextCompiler.Cli;
 
 internal static class DependencyInjection
@@ -11,6 +12,7 @@ internal static class DependencyInjection
     {
         return services.AddSingleton<IOutputPathResolver, OutputPathResolver>()
             .AddTransient<ICtxcConfigFilesAddHandler, ConfigFilesAddHandler>()
-            .AddModuleLoadingServices();
+            .AddModuleLoadingServices()
+            .AddFileSystemStorage();
     }
 }

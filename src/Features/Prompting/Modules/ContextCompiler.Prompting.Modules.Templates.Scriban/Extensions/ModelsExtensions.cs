@@ -140,7 +140,7 @@ namespace ContextCompiler.Prompting.Modules.Templates.Scriban.Extensions
         {
             return new
             {
-                filename = o.FileName,
+                uri = o.StoreResource.Uri,
                 description = o.Description
             };
         }

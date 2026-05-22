@@ -2,6 +2,7 @@ using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Abstractions.Output;
 using ContextCompiler.Abstractions.Pipelines;
 using ContextCompiler.Abstractions.Pipelines.Events;
+using ContextCompiler.Abstractions.Storage;
 using ContextCompiler.Modules.Abstractions;
 
 using Microsoft.Extensions.Logging;
@@ -39,7 +40,8 @@ internal sealed class MermaidPipelineReportModule(
 
         output.AddArtifact(builder =>
         {
-            return builder.WithFileName("pipeline-report-interactive.html")
+            return builder.WithName("pipeline-report-interactive.html")
+                          .InStore(StoreKeys.Reports)
                           .WithContent(interactiveHtml)
                           .WithGeneratedBy(GetType());
         });
@@ -53,7 +55,8 @@ internal sealed class MermaidPipelineReportModule(
 
         output.AddArtifact(builder =>
         {
-            return builder.WithFileName("pipeline-report-detailed.html")
+            return builder.WithName("pipeline-report-detailed.html")
+                          .InStore(StoreKeys.Reports)
                           .WithContent(detailedHtml)
                           .WithGeneratedBy(GetType());
         });
@@ -67,7 +70,8 @@ internal sealed class MermaidPipelineReportModule(
 
         output.AddArtifact(builder =>
         {
-            return builder.WithFileName("pipeline-report-condensed.html")
+            return builder.WithName("pipeline-report-condensed.html")
+                          .InStore(StoreKeys.Reports)
                           .WithContent(condensedHtml)
                           .WithGeneratedBy(GetType());
         });

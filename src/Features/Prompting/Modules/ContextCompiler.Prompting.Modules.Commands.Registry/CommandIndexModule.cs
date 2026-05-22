@@ -1,11 +1,12 @@
+using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Abstractions.Output;
+using ContextCompiler.Abstractions.Pipelines;
+using ContextCompiler.Abstractions.Storage;
 using ContextCompiler.Modules.Abstractions;
 using ContextCompiler.Modules.Abstractions.GlobalPipeline;
-using ContextCompiler.Abstractions.Common;
-using ContextCompiler.Abstractions.Pipelines;
 using ContextCompiler.Prompting.Abstractions;
-using ContextCompiler.Prompting.Modules.Commands.Registry.Models;
 using ContextCompiler.Prompting.Modules.Commands.Registry.Abstractions;
+using ContextCompiler.Prompting.Modules.Commands.Registry.Models;
 
 namespace ContextCompiler.Prompting.Modules.Commands.Registry;
 
@@ -36,7 +37,8 @@ internal sealed class CommandIndexModule(
 
         output.AddArtifact(builder =>
         {
-            return builder.WithFileName("commands.index.json")
+            return builder.WithName("commands.index.json")
+                .InStore(StoreKeys.Output)
                 .WithContent(commandsIndexSerializer.Serialize(index))
                 .WithDescription("Commands index file")
                 .WithGeneratedBy(GetType());

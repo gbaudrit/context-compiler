@@ -1,14 +1,15 @@
+using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Abstractions.Configuration;
 using ContextCompiler.Abstractions.Output;
+using ContextCompiler.Abstractions.Pipelines;
+using ContextCompiler.Abstractions.Storage;
 using ContextCompiler.Modules.Abstractions;
 using ContextCompiler.Modules.Abstractions.Prompts;
+using ContextCompiler.Prompting.Abstractions;
 using ContextCompiler.Prompting.Modules.Templates.Scriban.Extensions;
 using ContextCompiler.Prompting.Modules.Templates.Scriban.Templates;
-using ContextCompiler.Abstractions.Common;
-using ContextCompiler.Abstractions.Pipelines;
 
 using Scriban;
-using ContextCompiler.Prompting.Abstractions;
 
 namespace ContextCompiler.Prompting.Modules.Templates.Scriban;
 
@@ -40,7 +41,8 @@ internal sealed class ScribanPromptTemplateModule(IOutput output, IPrompt prompt
 
         output.AddArtifact(builder =>
         {
-            return builder.WithFileName(outputFilename)
+            return builder.WithName(outputFilename)
+                          .InStore(StoreKeys.Output)
                           .WithContent(result)
                           .WithGeneratedBy(GetType());
         });

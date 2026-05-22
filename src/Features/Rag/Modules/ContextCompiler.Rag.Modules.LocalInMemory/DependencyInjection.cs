@@ -52,9 +52,9 @@ public sealed class DependencyInjection : IDependencyInjection
         return services
             .AddSingleton<LocalEmbedder>()
             .AddSingleton<IEmbeddingGenerator, LocalEmbeddingGenerator>()
-            .AddSingleton<IRagStore, FileSystemRagStore>()
+            .AddSingleton<IRagStore, RagStore>()
             .AddSingleton<IRagIndexer, RagIndexer>()
-            .AddSingleton<IRagStoreReader, FileSystemRagStoreReader>()
+            .AddSingleton<IRagStoreReader, RagStoreReader>()
             .AddTransient<ISemanticSearchService, SemanticSearchService>()
             .AddSingleton<RagMCPTools>()
             //.AddSingleton<ITokenizer, BertTokenizer>()

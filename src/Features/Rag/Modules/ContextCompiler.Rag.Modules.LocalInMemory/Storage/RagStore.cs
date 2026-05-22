@@ -1,29 +1,30 @@
-using System.Text;
 using System.Text.Json;
 
-using ContextCompiler.Abstractions;
 using ContextCompiler.Abstractions.Output;
+using ContextCompiler.Abstractions.Storage;
 using ContextCompiler.Rag.Modules.LocalInMemory.Abstractions;
 using ContextCompiler.Rag.Modules.LocalInMemory.Models;
 
+using Microsoft.Extensions.DependencyInjection;
+
 namespace ContextCompiler.Rag.Modules.LocalInMemory.Storage;
 
-public sealed class FileSystemRagStore : IRagStore, IAsyncDisposable
+public sealed class RagStore : IRagStore, IAsyncDisposable
 {
     private static readonly JsonSerializerOptions JsonOptions = new(JsonSerializerDefaults.Web)
     {
         WriteIndented = false
     };
 
-    private readonly string _rootPath;
-    private readonly string _chunksPath;
-    private readonly string _embeddingsPath;
-    private readonly string _embeddingIndexPath;
+    private readonly IStore _rootPath;
+    private readonly IStoreResource _chunksPath;
+    private readonly IStoreResource _embeddingsPath;
+    private readonly IStoreResource _embeddingIndexPath;
     private readonly IOutput _output;
 
     private readonly SemaphoreSlim _gate = new(1, 1);
 
-    private FileStream? _embeddingsStream;
+    private Stream? _embeddingsStream;
     private StreamWriter? _chunksWriter;
     private StreamWriter? _embeddingIndexWriter;
 
@@ -31,12 +32,12 @@ public sealed class FileSystemRagStore : IRagStore, IAsyncDisposable
     private bool _completed;
     private bool _disposed;
 
-    public FileSystemRagStore(ICompiledWorkingFolder compiledWorkingFolder, IOutput output)
+    public RagStore([FromKeyedServices(StoreKeys.Cache)] IStore cacheStore, IOutput output)
     {
-        _rootPath = compiledWorkingFolder.Combine("rag");
-        _chunksPath = Path.Combine(_rootPath, "chunks.jsonl");
-        _embeddingsPath = Path.Combine(_rootPath, "embeddings.bin");
-        _embeddingIndexPath = Path.Combine(_rootPath, "embeddings.index.jsonl");
+        _rootPath = cacheStore.CreateContainer("rag");
+        _chunksPath = _rootPath.GetResource("chunks.jsonl");
+        _embeddingsPath = _rootPath.GetResource("embeddings.bin");
+        _embeddingIndexPath = _rootPath.GetResource("embeddings.index.jsonl");
 
         _output = output;
     }
@@ -53,32 +54,10 @@ public sealed class FileSystemRagStore : IRagStore, IAsyncDisposable
                 return;
             }
 
-            if (!Path.Exists(_rootPath))
-            {
-                _ = Directory.CreateDirectory(_rootPath);
-            }
+            _chunksWriter = _chunksPath.CreateWriter();
 
-            _chunksWriter = new StreamWriter(
-                new FileStream(
-                    _chunksPath,
-                    FileMode.Create,
-                    FileAccess.Write,
-                    FileShare.Read),
-                Encoding.UTF8);
-
-            _embeddingIndexWriter = new StreamWriter(
-                new FileStream(
-                    _embeddingIndexPath,
-                    FileMode.Create,
-                    FileAccess.Write,
-                    FileShare.Read),
-                Encoding.UTF8);
-
-            _embeddingsStream = new FileStream(
-                _embeddingsPath,
-                FileMode.Create,
-                FileAccess.Write,
-                FileShare.Read);
+            _embeddingIndexWriter = _embeddingIndexPath.CreateWriter();
+            _embeddingsStream = _embeddingsPath.CreateStream();
 
             _initialized = true;
         }
@@ -149,7 +128,7 @@ public sealed class FileSystemRagStore : IRagStore, IAsyncDisposable
             {
                 _output.AddArtifact(builder =>
                 {
-                    return builder.WithFileName(_chunksPath)
+                    return builder.WithStoreResource(_chunksPath)
                                   .IsStreamedContent()
                                   .WithDescription("Chunks index file")
                                   .WithGeneratedBy(GetType());
@@ -164,7 +143,7 @@ public sealed class FileSystemRagStore : IRagStore, IAsyncDisposable
             {
                 _output.AddArtifact(builder =>
                 {
-                    return builder.WithFileName(_embeddingIndexPath)
+                    return builder.WithStoreResource(_embeddingIndexPath)
                                   .IsStreamedContent()
                                   .WithDescription("Embeddings index file")
                                   .WithGeneratedBy(GetType());
@@ -179,7 +158,7 @@ public sealed class FileSystemRagStore : IRagStore, IAsyncDisposable
             {
                 _output.AddArtifact(builder =>
                 {
-                    return builder.WithFileName(_embeddingsPath)
+                    return builder.WithStoreResource(_embeddingsPath)
                                   .IsStreamedContent()
                                   .WithDescription("Embeddings store")
                                   .WithGeneratedBy(GetType());
@@ -245,6 +224,6 @@ public sealed class FileSystemRagStore : IRagStore, IAsyncDisposable
 
     private void ThrowIfDisposed()
     {
-        ObjectDisposedException.ThrowIf(_disposed, nameof(FileSystemRagStore));
+        ObjectDisposedException.ThrowIf(_disposed, nameof(RagStore));
     }
 }

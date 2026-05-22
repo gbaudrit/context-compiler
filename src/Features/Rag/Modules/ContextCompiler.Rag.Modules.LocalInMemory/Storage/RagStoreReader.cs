@@ -1,12 +1,14 @@
 using System.Text.Json;
 
-using ContextCompiler.Abstractions;
+using ContextCompiler.Abstractions.Storage;
 using ContextCompiler.Rag.Modules.LocalInMemory.Abstractions;
 using ContextCompiler.Rag.Modules.LocalInMemory.Models;
 
+using Microsoft.Extensions.DependencyInjection;
+
 namespace ContextCompiler.Rag.Modules.LocalInMemory.Storage;
 
-public sealed class FileSystemRagStoreReader : IRagStoreReader
+public sealed class RagStoreReader : IRagStoreReader
 {
     private static readonly JsonSerializerOptions JsonOptions = new(JsonSerializerDefaults.Web)
     {
@@ -14,44 +16,44 @@ public sealed class FileSystemRagStoreReader : IRagStoreReader
     };
 
 
-    private readonly string _rootPath;
-    private readonly string _chunksPath;
-    private readonly string _embeddingsPath;
-    private readonly string _embeddingIndexPath;
+    private readonly IStore _rootPath;
+    private readonly IStoreResource _chunksPath;
+    private readonly IStoreResource _embeddingsPath;
+    private readonly IStoreResource _embeddingIndexPath;
 
 
-    public FileSystemRagStoreReader(ICompiledWorkingFolder compiledWorkingFolder)
+    public RagStoreReader([FromKeyedServices(StoreKeys.Cache)] IStore cacheStore)
     {
-        _rootPath = compiledWorkingFolder.Combine("rag");
-        _chunksPath = Path.Combine(_rootPath, "chunks.jsonl");
-        _embeddingsPath = Path.Combine(_rootPath, "embeddings.bin");
-        _embeddingIndexPath = Path.Combine(_rootPath, "embeddings.index.jsonl");
+        _rootPath = cacheStore.GetContainer("rag");
+        _chunksPath = _rootPath.GetResource("chunks.jsonl");
+        _embeddingsPath = _rootPath.GetResource("embeddings.bin");
+        _embeddingIndexPath = _rootPath.GetResource("embeddings.index.jsonl");
     }
 
     public async ValueTask<RagManifest?> ReadManifestAsync(
         CancellationToken cancellationToken = default)
     {
-        string path = Path.Combine(_rootPath, "manifest.json");
-        if (!File.Exists(path))
+        IStoreResource manifestPath = _rootPath.GetResource("manifest.json");
+        if (!await manifestPath.Exists())
         {
             return null;
         }
 
-        string json = await File.ReadAllTextAsync(path, cancellationToken);
+        string json = await manifestPath.ReadAllText(cancellationToken);
         return JsonSerializer.Deserialize<RagManifest>(json, JsonOptions);
     }
 
     public async ValueTask<IReadOnlyList<TextChunk>> ReadChunksAsync(
         CancellationToken cancellationToken = default)
     {
-        if (!File.Exists(_chunksPath))
+        if (!await _chunksPath.Exists())
         {
             return [];
         }
 
         List<TextChunk> chunks = [];
 
-        foreach (string line in await File.ReadAllLinesAsync(_chunksPath, cancellationToken))
+        foreach (string line in await _chunksPath.ReadAllLines(cancellationToken))
         {
             if (string.IsNullOrWhiteSpace(line))
             {
@@ -71,16 +73,16 @@ public sealed class FileSystemRagStoreReader : IRagStoreReader
     public async ValueTask<IReadOnlyList<EmbeddingRecord>> ReadEmbeddingsAsync(
         CancellationToken cancellationToken = default)
     {
-        if (!File.Exists(_embeddingIndexPath) || !File.Exists(_embeddingsPath))
+        if (!await _embeddingIndexPath.Exists() || !await _embeddingsPath.Exists())
         {
             return [];
         }
 
         List<EmbeddingRecord> embeddings = [];
 
-        using FileStream stream = new(_embeddingsPath, FileMode.Open, FileAccess.Read, FileShare.Read);
+        using Stream stream = _embeddingsPath.CreateStreamForRead();
 
-        foreach (string line in await File.ReadAllLinesAsync(_embeddingIndexPath, cancellationToken))
+        foreach (string line in await _embeddingIndexPath.ReadAllLines(cancellationToken))
         {
             if (string.IsNullOrWhiteSpace(line))
             {

@@ -1,14 +1,15 @@
+using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Abstractions.Configuration;
 using ContextCompiler.Abstractions.Output;
+using ContextCompiler.Abstractions.Pipelines;
+using ContextCompiler.Abstractions.Storage;
 using ContextCompiler.Modules.Abstractions;
 using ContextCompiler.Modules.Abstractions.GlobalPipeline;
+using ContextCompiler.Output.Modules.Artifacts.Registry.Abstractions;
 using ContextCompiler.Output.Modules.Artifacts.Registry.Extensions;
-using ContextCompiler.Abstractions.Common;
-using ContextCompiler.Abstractions.Pipelines;
+using ContextCompiler.Output.Modules.Artifacts.Registry.Models;
 
 using Microsoft.Extensions.Logging;
-using ContextCompiler.Output.Modules.Artifacts.Registry.Models;
-using ContextCompiler.Output.Modules.Artifacts.Registry.Abstractions;
 
 namespace ContextCompiler.Output.Modules.Artifacts.Registry;
 
@@ -29,7 +30,8 @@ internal sealed class JsonIndexModule(IConfigProvider cfgProvider,
 
         output.AddArtifact(builder =>
         {
-            return builder.WithFileName("artifacts.index.json")
+            return builder.WithName("artifacts.index.json")
+                          .InStore(StoreKeys.Output)
                           .WithContent(jsonIndexSerializer.Serialize(index))
                           .WithDescription("Artifacts index file")
                           .WithGeneratedBy(GetType());

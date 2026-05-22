@@ -4,6 +4,7 @@ using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Abstractions.Guards;
 using ContextCompiler.Abstractions.Output;
 using ContextCompiler.Abstractions.Pipelines;
+using ContextCompiler.Abstractions.Storage;
 using ContextCompiler.Modules.Abstractions;
 
 namespace ContextCompiler.Security;
@@ -26,7 +27,8 @@ public sealed class SecurityReportArtifactModule(IOutput output, IGuardian guard
 
         output.AddArtifact(builder =>
         {
-            return builder.WithFileName("security.report.md")
+            return builder.WithName("security.report.md")
+                          .InStore(StoreKeys.Reports)
                           .WithContent(secMd)
                           .WithGeneratedBy(GetType());
 

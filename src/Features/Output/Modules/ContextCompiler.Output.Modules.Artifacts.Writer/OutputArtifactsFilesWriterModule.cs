@@ -12,23 +12,22 @@ public sealed class OutputArtifactsFilesWriterModule(IOutput output, IFileSystem
 {
     public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("artifacts.writer", GlobalPipelineModuleKinds.ArtifactPersistence, priority: 10);
 
-    public Task<IResult<IGlobalPipelineRunResult>> Run(IGlobalPipelineRunContext context, CancellationToken cancellationToken)
+    public async Task<IResult<IGlobalPipelineRunResult>> Run(IGlobalPipelineRunContext context, CancellationToken cancellationToken)
     {
         if (!output.Artifacts.Any())
         {
             logger.LogInformation("No output artifacts to write for output");
-            return context.Success();
+            return await context.Success();
         }
 
         foreach (IOutputArtifact artifact in output.Artifacts)
         {
-            string p = Path.Combine(output.Path, artifact.FileName);
-            fs.WriteAllText(p, artifact.Content);
+            await artifact.StoreResource.WriteAllText(artifact.Content, cancellationToken);
 
-            logger.LogInformation("Wrote output artifact file: {Path}", p);
+            logger.LogInformation("Wrote output artifact : {Uri}", artifact.StoreResource.Uri);
         }
 
-        return context.Success();
+        return await context.Success();
     }
 
 }

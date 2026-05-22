@@ -5,6 +5,7 @@ using ContextCompiler.Abstractions.Compiled;
 using ContextCompiler.Abstractions.Configuration;
 using ContextCompiler.Abstractions.Output;
 using ContextCompiler.Abstractions.Pipelines;
+using ContextCompiler.Abstractions.Storage;
 using ContextCompiler.Modules.Abstractions;
 using ContextCompiler.Prompting.Abstractions;
 
@@ -25,7 +26,8 @@ public sealed class ActivatedPersonasIndexModule(IPrompt prompt, IOutput output,
     {
         output.AddArtifact(builder =>
         {
-            return builder.WithFileName("personas.active.json")
+            return builder.WithName("personas.active.json")
+                          .InStore(StoreKeys.Output)
                           .WithContent(JsonSerializer.Serialize(new { active = cfgProvider.Current.Personas!.Active, mode = cfgProvider.Current.Personas.Mode, results = prompt.Personas }, jsonSerializerOptions))
                           .WithGeneratedBy(GetType());
 

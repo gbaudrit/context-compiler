@@ -1,10 +1,15 @@
 using ContextCompiler.Abstractions.Output;
+using ContextCompiler.Abstractions.Storage;
+
+using Microsoft.Extensions.DependencyInjection;
 
 namespace ContextCompiler.Core.Output
 {
-    internal sealed class OutputArtifactBuilder : IOutputArtifactBuilder
+    internal sealed class OutputArtifactBuilder(IServiceProvider services, IStoreResourceBuilder storeResourceBuilder) : IOutputArtifactBuilder
     {
-        private string? _fileName;
+        private string? _name;
+        private string? _storeKey;
+        private IStoreResource? _storeResource;
         private string? _content;
         public bool _isStreamed;
         private string? _description;
@@ -14,7 +19,9 @@ namespace ContextCompiler.Core.Output
 
         public IOutputArtifactBuilder InitNew()
         {
-            _fileName = null;
+            _storeKey = null;
+            _storeResource = null;
+            _name = null;
             _content = null;
             _isStreamed = false;
             _description = null;
@@ -24,9 +31,21 @@ namespace ContextCompiler.Core.Output
             return this;
         }
 
-        public IOutputArtifactBuilder WithFileName(string fileName)
+        public IOutputArtifactBuilder WithName(string name)
         {
-            _fileName = fileName;
+            _name = name;
+            return this;
+        }
+
+        public IOutputArtifactBuilder WithStoreResource(IStoreResource storeResource)
+        {
+            _storeResource = storeResource;
+            return this;
+        }
+
+        public IOutputArtifactBuilder InStore(string storeKey)
+        {
+            _storeKey = storeKey;
             return this;
         }
 
@@ -70,13 +89,29 @@ namespace ContextCompiler.Core.Output
         public IOutputArtifact Build()
         {
             string content = _content ?? (!_isStreamed ? throw new InvalidOperationException("Content is not set") : string.Empty);
+
+            if (_storeResource == null)
+            {
+                if (string.IsNullOrEmpty(_name))
+                {
+                    throw new InvalidOperationException("Name must be set if StoreResource is not provided");
+                }
+                if (string.IsNullOrEmpty(_storeKey))
+                {
+                    throw new InvalidOperationException("StoreKey must be set if StoreResource is not provided");
+                }
+
+                IStore store = services.GetRequiredKeyedService<IStore>(_storeKey);
+                _storeResource = store.GetResource(_name);
+            }
+
             return new OutputArtifact
             {
-                FileName = _fileName ?? throw new InvalidOperationException("FileName is not set"),
-                Content = content,
+                StoreResource = _storeResource ?? throw new InvalidOperationException("StoreResource is not set"),
+                Content = content + _storeKey,
                 Description = _description ?? string.Empty,
                 GeneratedBy = _generatedBy ?? throw new InvalidOperationException("GeneratedBy is not set"),
-                MimeType = _mimeType ?? Path.GetExtension(_fileName) switch
+                MimeType = _mimeType ?? Path.GetExtension(_name) switch
                 {
                     ".json" => "application/json",
                     ".txt" => "text/plain",

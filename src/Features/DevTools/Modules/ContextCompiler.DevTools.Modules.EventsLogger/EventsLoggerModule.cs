@@ -5,6 +5,7 @@ using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Abstractions.Output;
 using ContextCompiler.Abstractions.Pipelines;
 using ContextCompiler.Abstractions.Pipelines.Events;
+using ContextCompiler.Abstractions.Storage;
 using ContextCompiler.Modules.Abstractions;
 
 using Microsoft.Extensions.Logging;
@@ -39,9 +40,10 @@ internal sealed class EventsLoggerModule(
 
         output.AddArtifact(builder =>
         {
-            return builder.WithFileName("pipeline-events.log")
+            return builder.WithName("pipeline-events.log")
                           .WithContent(logContent)
-                          .WithGeneratedBy(GetType());
+                          .WithGeneratedBy(GetType())
+                          .InStore(StoreKeys.Diagnostics);
         });
 
         logger.LogInformation("Pipeline events log generated successfully");

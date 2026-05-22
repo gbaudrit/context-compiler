@@ -1,9 +1,13 @@
+using ContextCompiler.Abstractions.Storage;
+
 namespace ContextCompiler.Abstractions.Output
 {
     public interface IOutputArtifactBuilder
     {
         IOutputArtifactBuilder InitNew();
-        IOutputArtifactBuilder WithFileName(string fileName);
+        IOutputArtifactBuilder WithStoreResource(IStoreResource storeUri);
+        IOutputArtifactBuilder InStore(string storeKey);
+        IOutputArtifactBuilder WithName(string name);
         IOutputArtifactBuilder WithContent(string content);
         IOutputArtifactBuilder WithGeneratedBy(Type generatedBy);
         IOutputArtifact Build();

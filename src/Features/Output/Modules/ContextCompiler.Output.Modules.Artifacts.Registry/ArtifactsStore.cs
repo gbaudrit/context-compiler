@@ -38,7 +38,7 @@ namespace ContextCompiler.Output.Modules.Artifacts.Registry
         {
             EnsureLoaded();
 
-            Artifact? artifact = _index.Artifacts.FirstOrDefault(a => a.Filename == id);
+            Artifact? artifact = _index.Artifacts.FirstOrDefault(a => a.StoreResource.Uri.AbsolutePath == id);
             return artifact is null ? Task.FromResult(IResult.Failure<Artifact>("Not found")) : Task.FromResult(IResult.Success(artifact));
         }
     }

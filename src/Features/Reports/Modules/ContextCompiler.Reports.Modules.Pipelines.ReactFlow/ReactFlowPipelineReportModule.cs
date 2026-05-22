@@ -2,6 +2,7 @@ using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Abstractions.Output;
 using ContextCompiler.Abstractions.Pipelines;
 using ContextCompiler.Abstractions.Pipelines.Events;
+using ContextCompiler.Abstractions.Storage;
 using ContextCompiler.Modules.Abstractions;
 
 using Microsoft.Extensions.Logging;
@@ -119,7 +120,8 @@ internal sealed class ReactFlowPipelineReportModule(
 
                 output.AddArtifact(builder =>
                 {
-                    return builder.WithFileName("pipeline-report-reactflow-data.json")
+                    return builder.WithName("pipeline-report-reactflow-data.json")
+                                  .InStore(StoreKeys.Reports)
                                   .WithContent(pipelineDataJson)
                                   .WithGeneratedBy(GetType());
                 });
@@ -137,7 +139,8 @@ internal sealed class ReactFlowPipelineReportModule(
 
             output.AddArtifact(builder =>
             {
-                return builder.WithFileName("pipeline-report-reactflow.html")
+                return builder.WithName("pipeline-report-reactflow.html")
+                              .InStore(StoreKeys.Reports)
                               .WithContent(html)
                               .WithGeneratedBy(GetType());
             });

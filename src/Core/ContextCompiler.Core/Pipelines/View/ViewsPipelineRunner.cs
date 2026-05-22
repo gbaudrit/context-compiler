@@ -3,6 +3,7 @@ using ContextCompiler.Abstractions.Compiled;
 using ContextCompiler.Abstractions.Configuration;
 using ContextCompiler.Abstractions.Output;
 using ContextCompiler.Abstractions.Pipelines;
+using ContextCompiler.Abstractions.Storage;
 using ContextCompiler.Abstractions.Views;
 using ContextCompiler.Modules.Abstractions;
 
@@ -64,7 +65,8 @@ public sealed class ViewsPipelineRunner(ILogger<GlobalPipeline> logger,
                 {
                     output.AddArtifact((builder) =>
                     {
-                        return builder.WithFileName(result.Filename)
+                        return builder.WithName(result.Filename)
+                                      .InStore(StoreKeys.Output)
                                       .WithContent(result.Content)
                                       .WithGeneratedBy(GetType());
                     });

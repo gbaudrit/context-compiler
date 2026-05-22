@@ -38,7 +38,7 @@ namespace ContextCompiler.Output.Modules.Artifacts.Registry.MCP.Handlers
                                             .WithResourceContent(context.ResourceContentsBuilder.InitNew()
                                                                                             .WithUri(uri)
                                                                                             .WithMimeType("text/json")
-                                                                                            .WithText(await outputArtifactReader.ReadAllText(success.Value.Filename, cancellationToken))
+                                                                                            .WithText(await success.Value.StoreResource.ReadAllText(cancellationToken))
                                                                                             .Build())
                                                         .Build();
                 return result;
