@@ -1,7 +1,9 @@
 using ContextCompiler.Abstractions.Configuration;
+using ContextCompiler.Abstractions.DependencyInjection;
 using ContextCompiler.Abstractions.Ports;
 using ContextCompiler.Configuration.Json;
 using ContextCompiler.Core;
+using ContextCompiler.Core.DependencyInjectionBuilders;
 using ContextCompiler.Core.Engine;
 using ContextCompiler.Infrastructure.Configuration;
 using ContextCompiler.Infrastructure.FileSystem;
@@ -24,6 +26,7 @@ using Microsoft.Extensions.Logging;
 HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
 builder.Logging.AddConsole(o => o.LogToStandardErrorThreshold = LogLevel.Information);
 
+IContextCompilerBuilder contextCompilerBuilder = builder.Services.AddDependencyInjectionBuilders();
 
 builder.Services
     .AddSingleton<IFileSystem, PhysicalFileSystem>()
@@ -33,8 +36,10 @@ builder.Services
     .AddSingleton<ICompilerEngine, CompilerEngine>()
     .AddCoreServices()
     .AddModulesLoaderServices()
-    .AddMcpCore()
-    .AddMcpInfrastructure(builder.Configuration, args);
+    .AddMcpCore();
+
+
+contextCompilerBuilder.AddMcpInfrastructure(builder.Configuration, args);
 
 
 await builder.Build().RunAsync();

@@ -14,6 +14,7 @@ internal sealed class RestoreHandler(
     IModulesLoadConfigLocator modulesLoadConfigLocator,
     IModulesLoadConfigProvider modulesLoadConfigProvider,
     IModulesLoadConfigProvider cfg,
+    ISkillsRestoreHandler skillsRestoreHandler,
     ILogger<RestoreHandler> logger
 ) : IRestoreHandler
 {
@@ -21,11 +22,11 @@ internal sealed class RestoreHandler(
     {
         try
         {
-            if (debug)
-            {
-                _ = System.Diagnostics.Debugger.Launch();
-                System.Diagnostics.Debugger.Break();
-            }
+            //if (debug)
+            //{
+            //    _ = System.Diagnostics.Debugger.Launch();
+            //    System.Diagnostics.Debugger.Break();
+            //}
 
 
             string? configPath = modulesLoadConfigLocator.Locate(cfgFile, "", "");
@@ -52,7 +53,9 @@ internal sealed class RestoreHandler(
             modulesLoader.SaveLockFile(lf);
             modulesLoader.SaveRunModules(runModules);
             Console.WriteLine($"Lock file written: {Path.GetFullPath(cfgFile)}");
-            return 0;
+
+            int skillsRestoreExitCode = await skillsRestoreHandler.HandleAsync(cfgFile);
+            return skillsRestoreExitCode == 0 ? 0 : skillsRestoreExitCode;
         }
         catch (Exception ex)
         {

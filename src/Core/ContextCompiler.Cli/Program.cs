@@ -5,18 +5,19 @@ using System.Reflection;
 
 using ContextCompiler.Abstractions;
 using ContextCompiler.Abstractions.Configuration;
+using ContextCompiler.Abstractions.DependencyInjection;
 using ContextCompiler.Abstractions.Ports;
 using ContextCompiler.Cli;
 using ContextCompiler.Cli.Handlers;
 using ContextCompiler.Configuration.Json;
 using ContextCompiler.Core;
+using ContextCompiler.Core.DependencyInjectionBuilders;
 using ContextCompiler.Core.Engine;
 using ContextCompiler.Infrastructure.Configuration;
 using ContextCompiler.Infrastructure.FileSystem;
 using ContextCompiler.Infrastructure.Hashing;
 using ContextCompiler.Modules.Abstractions.Configuration;
 using ContextCompiler.Modules.Abstractions.Loading;
-using ContextCompiler.Modules;
 using ContextCompiler.Modules.Loader;
 
 using Microsoft.Extensions.Configuration;
@@ -42,6 +43,8 @@ IHostEnvironment env = builder.Environment;
 
 builder.Logging.ClearProviders().AddConfiguration(builder.Configuration.GetSection("Logging")).AddSimpleConsole(o => o.SingleLine = true);
 
+IContextCompilerBuilder contextCompilerBuilder = builder.Services.AddDependencyInjectionBuilders();
+
 builder.Services
         .AddJsonConfiguration()
         .AddSingleton<IFileSystem, PhysicalFileSystem>()
@@ -65,10 +68,7 @@ builder.Services
         .AddSingleton<IServeHandler, ServeHandler>()
         .AddCompileCoreServices()
         .AddCoreServices()
-        .AddModules()
         .AddModulesLoaderServices();
-
-ContextCompiler.Cli.DependencyInjection.AddHostCliServices(builder.Services);
 
 GlobalCommandLineOptions globals = CliCommandFactory.ParseGlobals(args);
 
@@ -77,6 +77,8 @@ if (globals.Debug)
     _ = Debugger.Launch();
     Debugger.Break();
 }
+
+ContextCompiler.Cli.DependencyInjection.AddHostCliServices(builder.Services);
 
 if (!string.IsNullOrEmpty(globals.InputPath))
 {
@@ -97,13 +99,15 @@ modulesLoaderServices.AddLogging(x => x.AddConfiguration(builder.Configuration.G
 IServiceProvider modulesLoaderServicesProvider = modulesLoaderServices.BuildServiceProvider();
 IModulesLoader modulesLoader = modulesLoaderServicesProvider.GetRequiredService<IModulesLoader>();
 IModulesLoadConfigLocator modulesLoadConfigLocator = modulesLoaderServicesProvider.GetRequiredService<IModulesLoadConfigLocator>();
-IModulesLoadConfigProvider modulesLoadConfigProvider = modulesLoaderServicesProvider.GetRequiredService<IModulesLoadConfigProvider>();
+//IModulesLoadConfigProvider modulesLoadConfigProvider = modulesLoaderServicesProvider.GetRequiredService<IModulesLoadConfigProvider>();
+//ISkillsLoadConfigProvider skillsLoadConfigProvider = modulesLoaderServicesProvider.GetRequiredService<ISkillsLoadConfigProvider>();
 
-string? configPath = modulesLoadConfigLocator.Locate(globals.InputPath, "", "");
-_ = modulesLoadConfigProvider.GetConfigOrDefault(configPath);
+//string? configPath = modulesLoadConfigLocator.Locate(globals.InputPath, "", "");
+//_ = modulesLoadConfigProvider.GetConfigOrDefault(configPath);
+//_ = skillsLoadConfigProvider.GetConfigOrDefault(configPath);
 
-await modulesLoader.LoadFromFolder(Path.Combine(globals.InputPath, ".ctxc", "modules"), builder.Services, CancellationToken.None);
-await modulesLoader.LoadFromAssemblies(assemblies, builder.Services);
+await modulesLoader.LoadFromFolder(contextCompilerBuilder, Path.Combine(globals.InputPath, ".ctxc", "modules"), CancellationToken.None);
+await modulesLoader.LoadFromAssemblies(contextCompilerBuilder, assemblies);
 
 
 using IHost host = builder.Build();

@@ -4,15 +4,21 @@ public interface IStore
 {
     string Key { get; }
 
+    IStoreContainer Container { get; }
+
     IStoreResourceUri Uri { get; }
 
-    IStoreResourceUri Combine(string relativePath);
+    IStoreResourceUri Combine(Uri relativeUri);
 
-    IStore CreateContainer(string relativePath);
-    IStore GetContainer(string relativePath);
+    IStoreContainer CreateContainer(string relativePath);
+    IStoreContainer CreateContainer(Uri relativeUri);
+    IStoreContainer GetContainer(string relativePath);
+    IStoreContainer GetContainer(Uri relativeUri);
 
     bool Contains(string relativePath);
     bool Contains(IStoreResourceUri uri);
 
-    IStoreResource GetResource(string relativePath);
+    bool Exists();
+
+    Task Init();
 }

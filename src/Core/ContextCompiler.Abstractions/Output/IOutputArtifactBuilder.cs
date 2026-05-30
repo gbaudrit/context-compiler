@@ -15,5 +15,8 @@ namespace ContextCompiler.Abstractions.Output
         IOutputArtifactBuilder WithMimeType(string mimeType);
         IOutputArtifactBuilder WithSize(long size);
         IOutputArtifactBuilder IsStreamedContent();
+        IOutputArtifactBuilder WithCategory(ArtifactCategory category);
+        IOutputArtifactBuilder WithMetadata(IReadOnlyDictionary<string, string> metadata);
+        IOutputArtifactBuilder WithMetadata(string key, string value);
     }
 }

@@ -1,5 +1,3 @@
-using System.Text;
-
 using ContextCompiler.Abstractions.Storage;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -12,11 +10,13 @@ internal sealed class FileSystemStore([ServiceKey] string key, IServiceProvider 
 
     public string Key { get; } = key;
 
-    public IStoreResourceUri Uri => _storeConfiguration.Root;
+    public IStoreResourceUri Uri => _storeConfiguration.Uri;
 
-    public IStoreResourceUri Combine(string relativePath)
+    public IStoreContainer Container => new FileSystemStoreContainer(Uri);
+
+    public IStoreResourceUri Combine(Uri relativeUri)
     {
-        return Uri.Combine(relativePath);
+        return Uri.Combine(relativeUri);
     }
 
     public bool Contains(string relativePath)
@@ -29,28 +29,48 @@ internal sealed class FileSystemStore([ServiceKey] string key, IServiceProvider 
         return File.Exists(uri.AbsolutePath) || Directory.Exists(uri.AbsolutePath);
     }
 
-    public IStore CreateContainer(string relativePath)
+    public IStoreContainer CreateContainer(string name)
     {
-        if (!Directory.Exists(Path.Combine(Uri.AbsolutePath, relativePath)))
+        if (!Directory.Exists(Path.Combine(Uri.AbsolutePath, name)))
         {
-            _ = Directory.CreateDirectory(Path.Combine(Uri.AbsolutePath, relativePath));
+            _ = Directory.CreateDirectory(Path.Combine(Uri.AbsolutePath, name));
         }
-        return new FileSystemStore(Path.Combine(Uri.AbsolutePath, relativePath), services);
+        return new FileSystemStoreContainer(Combine(new Uri(name, UriKind.Relative)));
     }
 
-
-
-    public IStore GetContainer(string relativePath)
+    public IStoreContainer CreateContainer(Uri relativeUri)
     {
-        return new FileSystemStore(Path.Combine(Uri.AbsolutePath, relativePath), services);
-    }
-
-    public IStoreResource GetResource(string relativePath)
-    {
-        return new FileSystemStoreResource
+        IStoreResourceUri absoluteUri = Combine(relativeUri);
+        if (!Directory.Exists(absoluteUri.AbsolutePath))
         {
-            Uri = Uri.Combine(relativePath),
-            Encoding = Encoding.UTF8
-        };
+            _ = Directory.CreateDirectory(absoluteUri.AbsolutePath);
+        }
+        return new FileSystemStoreContainer(absoluteUri);
     }
+
+
+    public IStoreContainer GetContainer(string relativePath)
+    {
+        return new FileSystemStoreContainer(Combine(new Uri(relativePath, UriKind.Relative)));
+    }
+
+    public bool Exists()
+    {
+        return Directory.Exists(Uri.AbsolutePath);
+    }
+
+    public IStoreContainer GetContainer(Uri relativeUri)
+    {
+        return new FileSystemStoreContainer(Combine(relativeUri));
+    }
+
+    public Task Init()
+    {
+        if (!Exists())
+        {
+            _ = Directory.CreateDirectory(Uri.AbsolutePath);
+        }
+        return Task.CompletedTask;
+    }
+
 }

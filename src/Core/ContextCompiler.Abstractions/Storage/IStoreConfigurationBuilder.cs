@@ -8,6 +8,8 @@ namespace ContextCompiler.Abstractions.Storage
 
         IStoreConfigurationBuilder WithRootUri(IStoreResourceUri rootUri);
 
+        IStoreConfigurationBuilder WithName(string name);
+
         IStoreConfiguration Build();
 
     }

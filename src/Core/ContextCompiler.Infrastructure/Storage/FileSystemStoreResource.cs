@@ -53,9 +53,18 @@ internal sealed class FileSystemStoreResource : IStoreResource
     {
         return File.ReadAllTextAsync(Uri.AbsolutePath, Encoding, cancellationToken);
     }
+    public Task<byte[]> ReadAllBytes(CancellationToken cancellationToken)
+    {
+        return File.ReadAllBytesAsync(Uri.AbsolutePath, cancellationToken);
+    }
 
     public Task WriteAllText(string content, CancellationToken cancellationToken)
     {
+        string? directoryPath = Path.GetDirectoryName(Uri.AbsolutePath);
+        if (!string.IsNullOrEmpty(directoryPath) && !Directory.Exists(directoryPath))
+        {
+            _ = Directory.CreateDirectory(directoryPath);
+        }
         return File.WriteAllTextAsync(Uri.AbsolutePath, content, Encoding, cancellationToken);
     }
 }

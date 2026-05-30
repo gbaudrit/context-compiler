@@ -5,16 +5,21 @@ using System.Text;
 using System.Text.Json;
 
 using ContextCompiler.Abstractions;
+using ContextCompiler.Abstractions.Storage;
 using ContextCompiler.Modules.Abstractions.Configuration;
 using ContextCompiler.Modules.Abstractions.Skills;
+
+using Microsoft.Extensions.DependencyInjection;
 
 namespace ContextCompiler.Skills.Providers.Anthropic;
 
 public sealed class AnthropicSkillProvider(
     ISkillsLoadConfigProvider configProvider,
-    IWorkingFolder workingFolder) : ISkillProvider
+    IWorkingFolder workingFolder,
+    ISkillInfosBuilder skillInfosBuilder,
+    [FromKeyedServices(StoreKeys.Cache)] IStore skillsCacheStore) : ISkillProvider
 {
-    public const string Id = "anthropic-agent-skills";
+    public static readonly string Id = "anthropic-agent-skills";
     private const string Owner = "anthropics";
     private const string Repository = "skills";
     private const string DefaultRef = "main";
@@ -142,54 +147,126 @@ public sealed class AnthropicSkillProvider(
             true);
     }
 
-    public async Task<SkillPackage> FetchAsync(SkillDescriptor descriptor, CancellationToken cancellationToken)
+    public async Task<SkillPackage> RestoreAsync(SkillDescriptor descriptor, CancellationToken cancellationToken)
     {
+        SkillRestoreResult result = await RestoreWithValidationAsync(
+            descriptor,
+            new RestoreOptions(IncludeValidation: false),
+            cancellationToken);
+
+        return result.Package;
+    }
+
+    public async Task<SkillRestoreResult> RestoreWithValidationAsync(
+        SkillDescriptor descriptor,
+        RestoreOptions options,
+        CancellationToken cancellationToken)
+    {
+        List<RestoreFinding> findings = [];
+
         string gitRef = NormalizeVersion(descriptor.Reference.Version ?? descriptor.ResolvedVersion);
         string skillId = descriptor.Reference.Id;
-        string cacheRoot = ResolveWorkspacePath(configProvider.Current.CacheRoot);
-        string compiledRoot = ResolveWorkspacePath(configProvider.Current.CompiledRoot);
+        //string cacheRoot = ResolveWorkspacePath(configProvider.Current.CacheRoot);
         string safeRef = SanitizePathSegment(gitRef);
-        string cachePath = Path.Combine(cacheRoot, ProviderId, skillId, safeRef);
-        string compiledPath = compiledRoot;
+        //string cachePath = Path.Combine(cacheRoot, );
 
-        if (Directory.Exists(cachePath))
-        {
-            Directory.Delete(cachePath, true);
-        }
+        IStoreContainer skillRestoreContainer = skillsCacheStore.CreateContainer(new Uri($"{ProviderId}/{skillId}/{safeRef}", UriKind.Relative));
 
-        if (Directory.Exists(compiledPath))
-        {
-            Directory.Delete(compiledPath, true);
-        }
+        //if (Directory.Exists(cachePath))
+        //{
+        //    Directory.Delete(cachePath, true);
+        //}
 
-        _ = Directory.CreateDirectory(cachePath);
-        _ = Directory.CreateDirectory(compiledPath);
+        //_ = Directory.CreateDirectory(cachePath);
 
         bool isBundle = SkillBundles.TryGetValue(skillId, out string[]? bundleSkills);
         string[] skillsToExtract = isBundle && bundleSkills is not null
             ? bundleSkills
             : [skillId];
 
-        await ExtractSkillsFromRepositoryZip(skillsToExtract, gitRef, cachePath, cancellationToken);
-        if (isBundle)
-        {
-            CopyBundleSkills(cachePath, compiledPath);
-        }
-        else
-        {
-            CopyDirectory(cachePath, Path.Combine(compiledPath, skillId));
-        }
+        await ExtractSkillsFromRepositoryZip(skillsToExtract, gitRef, skillRestoreContainer, cancellationToken);
 
-        string compiledPackagePath = isBundle ? compiledPath : Path.Combine(compiledPath, skillId);
-        string checksum = ComputeDirectoryChecksum(compiledPackagePath);
-        IReadOnlyList<string> files =
-        [
-            .. Directory.EnumerateFiles(compiledPackagePath, "*", SearchOption.AllDirectories)
-            .Select(path => Path.GetRelativePath(compiledPackagePath, path).Replace('\\', '/'))
-            .OrderBy(path => path, StringComparer.OrdinalIgnoreCase)
-        ];
+        string checksum = await ComputeDirectoryChecksum(skillRestoreContainer, cancellationToken);
 
-        return new SkillPackage(descriptor, cachePath, compiledPackagePath, checksum, files);
+        IReadOnlyList<IStoreResource> resources = skillRestoreContainer.GetResources("*", true);
+
+        SkillPackage package = new(descriptor, skillRestoreContainer, checksum, resources);
+
+        //// Perform validation if requested
+        //if (options.IncludeValidation)
+        //{
+        //    // 1. Checksum verification (if expected checksum is available)
+        //    if (options.VerifyChecksum && !string.IsNullOrEmpty(checksum))
+        //    {
+        //        findings.Add(new RestoreFinding(
+        //            "checksum-computed",
+        //            RestoreSeverity.Info,
+        //            $"Package checksum computed: {checksum}"
+        //        ));
+        //    }
+
+        //    // 2. Trust verification
+        //    if (!descriptor.Trusted)
+        //    {
+        //        RestoreSeverity severity = options.TrustMode == TrustMode.Strict
+        //            ? RestoreSeverity.Error
+        //            : RestoreSeverity.Warning;
+
+        //        findings.Add(new RestoreFinding(
+        //            "untrusted-source",
+        //            severity,
+        //            $"Provider '{ProviderId}' is not in trusted list"
+        //        ));
+        //    }
+
+        //    // 3. Basic structure validation
+        //    if (options.CheckStructure)
+        //    {
+        //        string skillMdPath = Path.Combine(cachePath, "SKILL.md");
+        //        if (!File.Exists(skillMdPath))
+        //        {
+        //            // For bundles, check if any skill has SKILL.md
+        //            bool hasSkillMd = Directory.GetFiles(cachePath, "SKILL.md", SearchOption.AllDirectories).Length > 0;
+
+        //            if (!hasSkillMd)
+        //            {
+        //                findings.Add(new RestoreFinding(
+        //                    "invalid-structure",
+        //                    RestoreSeverity.Error,
+        //                    "Missing required SKILL.md file"
+        //                ));
+        //            }
+        //        }
+        //        else
+        //        {
+        //            findings.Add(new RestoreFinding(
+        //                "structure-valid",
+        //                RestoreSeverity.Info,
+        //                "Skill structure validation passed"
+        //            ));
+        //        }
+        //    }
+
+        //    // 4. File count validation
+        //    if (files.Count == 0)
+        //    {
+        //        findings.Add(new RestoreFinding(
+        //            "empty-package",
+        //            RestoreSeverity.Error,
+        //            "Skill package contains no files"
+        //        ));
+        //    }
+        //    else
+        //    {
+        //        findings.Add(new RestoreFinding(
+        //            "files-extracted",
+        //            RestoreSeverity.Info,
+        //            $"Successfully extracted {files.Count} file(s)"
+        //        ));
+        //    }
+        //}
+
+        return new SkillRestoreResult(package, findings);
     }
 
     private static HttpClient CreateHttpClient()
@@ -233,7 +310,7 @@ public sealed class AnthropicSkillProvider(
             || skillId.Contains(query, StringComparison.OrdinalIgnoreCase);
     }
 
-    private static async Task ExtractSkillsFromRepositoryZip(string[] skillIds, string gitRef, string destination, CancellationToken cancellationToken)
+    private static async Task ExtractSkillsFromRepositoryZip(string[] skillIds, string gitRef, IStoreContainer skillRestoreContainer, CancellationToken cancellationToken)
     {
         HashSet<string> found = [];
         Uri zipUri = new($"https://codeload.github.com/{Owner}/{Repository}/zip/{Uri.EscapeDataString(gitRef)}");
@@ -261,11 +338,10 @@ public sealed class AnthropicSkillProvider(
             }
 
             _ = found.Add(skillId);
-            string relativePath = entry.FullName[(prefixIndex + skillPrefix.Length)..];
-            string skillRoot = skillIds.Length == 1 ? destination : Path.Combine(destination, "skills", skillId);
-            string outputPath = Path.Combine(skillRoot, relativePath.Replace('/', Path.DirectorySeparatorChar));
-            _ = Directory.CreateDirectory(Path.GetDirectoryName(outputPath)!);
-            entry.ExtractToFile(outputPath, true);
+            string relativePath = skillId + "/" + entry.FullName[(prefixIndex + skillPrefix.Length)..];
+            IStoreContainer outputContainer = skillRestoreContainer.CreateContainer(Path.GetDirectoryName(relativePath) ?? relativePath);
+            IStoreResource storeResource = outputContainer.GetResource(Path.GetFileName(relativePath));
+            entry.ExtractToFile(storeResource.Uri.AbsolutePath, true);
         }
 
         string[] missing = [.. skillIds.Except(found, StringComparer.OrdinalIgnoreCase)];
@@ -314,60 +390,28 @@ public sealed class AnthropicSkillProvider(
         return new SkillFrontMatter(name, description);
     }
 
-    private string ResolveWorkspacePath(string path)
-    {
-        return Path.IsPathRooted(path)
-            ? path
-            : Path.GetFullPath(Path.Combine(workingFolder.Path, path.Replace('/', Path.DirectorySeparatorChar)));
-    }
+    //private string ResolveWorkspacePath(string path)
+    //{
+    //    return Path.IsPathRooted(path)
+    //        ? path
+    //        : Path.GetFullPath(Path.Combine(workingFolder.Path, path.Replace('/', Path.DirectorySeparatorChar)));
+    //}
 
-    private static string ComputeDirectoryChecksum(string path)
+    private static async Task<string> ComputeDirectoryChecksum(IStoreContainer container, CancellationToken cancellationToken)
     {
         using SHA256 sha = SHA256.Create();
-        foreach (string file in Directory.EnumerateFiles(path, "*", SearchOption.AllDirectories).OrderBy(x => x, StringComparer.OrdinalIgnoreCase))
+        foreach (IStoreResource resource in container.GetResources("*", true).OrderBy(x => x.Uri.AbsolutePath, StringComparer.OrdinalIgnoreCase))
         {
-            string relativePath = Path.GetRelativePath(path, file).Replace('\\', '/');
+            string relativePath = Path.GetRelativePath(container.Uri.AbsolutePath, resource.Uri.AbsolutePath).Replace('\\', '/');
             byte[] nameBytes = Encoding.UTF8.GetBytes(relativePath);
             _ = sha.TransformBlock(nameBytes, 0, nameBytes.Length, null, 0);
 
-            byte[] content = File.ReadAllBytes(file);
+            byte[] content = await resource.ReadAllBytes(cancellationToken);
             _ = sha.TransformBlock(content, 0, content.Length, null, 0);
         }
 
         _ = sha.TransformFinalBlock([], 0, 0);
         return Convert.ToBase64String(sha.Hash ?? []);
-    }
-
-    private static void CopyDirectory(string source, string destination)
-    {
-        foreach (string directory in Directory.EnumerateDirectories(source, "*", SearchOption.AllDirectories))
-        {
-            string relativeDirectory = Path.GetRelativePath(source, directory);
-            _ = Directory.CreateDirectory(Path.Combine(destination, relativeDirectory));
-        }
-
-        foreach (string file in Directory.EnumerateFiles(source, "*", SearchOption.AllDirectories))
-        {
-            string relativeFile = Path.GetRelativePath(source, file);
-            string destinationFile = Path.Combine(destination, relativeFile);
-            _ = Directory.CreateDirectory(Path.GetDirectoryName(destinationFile)!);
-            File.Copy(file, destinationFile, true);
-        }
-    }
-
-    private static void CopyBundleSkills(string source, string destination)
-    {
-        string skillsRoot = Path.Combine(source, "skills");
-        if (!Directory.Exists(skillsRoot))
-        {
-            throw new InvalidOperationException($"Bundle cache does not contain a skills folder: {skillsRoot}");
-        }
-
-        foreach (string skillDirectory in Directory.EnumerateDirectories(skillsRoot))
-        {
-            string skillId = Path.GetFileName(skillDirectory);
-            CopyDirectory(skillDirectory, Path.Combine(destination, skillId));
-        }
     }
 
     private static string SanitizePathSegment(string value)
@@ -379,6 +423,25 @@ public sealed class AnthropicSkillProvider(
         }
 
         return builder.ToString();
+    }
+
+    public Task<IReadOnlyList<ISkillInfos>> GetSkillInfos(string id, CancellationToken cancellationToken)
+    {
+        List<ISkillInfos> skillInfos = [];
+        if (SkillBundles.ContainsKey(id))
+        {
+            foreach (string skill in SkillBundles[id])
+            {
+                skillInfos.Add(skillInfosBuilder.InitNew()
+                                                .WithId(skill)
+                                                .WithBundleId(id)
+                                                .WithProviderId(Id)
+                                                .WithName(skill)
+                                                .WithRestoreCacheContainer(skillsCacheStore.GetContainer($"{Id}/{id}/{DefaultRef}/{skill}"))
+                                                .Build());
+            }
+        }
+        return Task.FromResult((IReadOnlyList<ISkillInfos>)skillInfos);
     }
 
     private sealed record SkillFrontMatter(string? Name, string? Description);

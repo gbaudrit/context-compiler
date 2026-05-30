@@ -24,7 +24,7 @@ Skill references use the canonical form:
 
 Configured skills are declared in `skills.items`. Modules may declare skill requirements through `ISkillRequirementsProvider`, but those declarations do not mutate configuration. They are aggregated into a deterministic install plan and governed by `skills.declarations` and `skills.trust`.
 
-Fetched/raw provider content belongs under `skills.cacheRoot`, while normalized and validated agent-visible skill output belongs under `skills.compiledRoot`, which defaults to `.ctxc/compiled/.agents/skills`. Skills must be direct child folders of that compiled root.
+Fetched/raw provider content belongs under `skills.cacheRoot`. Compile-time materialization will validate cached skills and expose accepted skills under `skills.compiledRoot`, which defaults to `.ctxc/compiled/.agents/skills`. Skills must be direct child folders of that compiled root once materialized.
 
 ## Consequences
 

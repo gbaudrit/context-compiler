@@ -15,5 +15,5 @@ public interface IStoreResource
     Stream CreateStreamForRead();
 
     Task WriteAllText(string content, CancellationToken cancellationToken);
-
+    Task<byte[]> ReadAllBytes(CancellationToken cancellationToken);
 }

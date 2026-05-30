@@ -16,6 +16,8 @@ namespace ContextCompiler.Core.Output
         private Type? _generatedBy;
         private string? _mimeType;
         private long? _size;
+        private ArtifactCategory _category = ArtifactCategory.Other;
+        private Dictionary<string, string> _metadata = [];
 
         public IOutputArtifactBuilder InitNew()
         {
@@ -28,6 +30,8 @@ namespace ContextCompiler.Core.Output
             _generatedBy = null;
             _mimeType = null;
             _size = null;
+            _category = ArtifactCategory.Other;
+            _metadata = [];
             return this;
         }
 
@@ -86,6 +90,24 @@ namespace ContextCompiler.Core.Output
             return this;
         }
 
+        public IOutputArtifactBuilder WithCategory(ArtifactCategory category)
+        {
+            _category = category;
+            return this;
+        }
+
+        public IOutputArtifactBuilder WithMetadata(IReadOnlyDictionary<string, string> metadata)
+        {
+            _metadata = metadata.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+            return this;
+        }
+
+        public IOutputArtifactBuilder WithMetadata(string key, string value)
+        {
+            _metadata[key] = value;
+            return this;
+        }
+
         public IOutputArtifact Build()
         {
             string content = _content ?? (!_isStreamed ? throw new InvalidOperationException("Content is not set") : string.Empty);
@@ -102,7 +124,7 @@ namespace ContextCompiler.Core.Output
                 }
 
                 IStore store = services.GetRequiredKeyedService<IStore>(_storeKey);
-                _storeResource = store.GetResource(_name);
+                _storeResource = store.Container.GetResource(_name);
             }
 
             return new OutputArtifact
@@ -118,6 +140,8 @@ namespace ContextCompiler.Core.Output
                     _ => "application/octet-stream"
                 },
                 Size = _size ?? content.Length,
+                Category = _category,
+                Metadata = _metadata
             };
         }
     }

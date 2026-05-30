@@ -91,7 +91,14 @@ public static class CliCommandFactory
             Handlers.ISkillsPlanHandler handler = sp.GetRequiredService<Handlers.ISkillsPlanHandler>();
             Environment.ExitCode = await handler.HandleAsync(cfgFile);
         }, configOpt);
+        Command skillsRestore = new("restore", "Restore declarative skills into the skills cache using already-restored modules.") { configOpt };
+        skillsRestore.SetHandler(async cfgFile =>
+        {
+            Handlers.ISkillsRestoreHandler handler = sp.GetRequiredService<Handlers.ISkillsRestoreHandler>();
+            Environment.ExitCode = await handler.HandleAsync(cfgFile);
+        }, configOpt);
         skills.AddCommand(skillsPlan);
+        skills.AddCommand(skillsRestore);
 
         Command schemas = new("schemas", ".") { configOpt };
         Command schemasAggregate = new("aggregate", ".") { configOpt };

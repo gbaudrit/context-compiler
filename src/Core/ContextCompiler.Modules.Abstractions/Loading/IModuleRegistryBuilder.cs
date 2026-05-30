@@ -1,10 +1,10 @@
-using Microsoft.Extensions.DependencyInjection;
+using ContextCompiler.Abstractions.DependencyInjection;
 
 namespace ContextCompiler.Modules.Abstractions.Loading
 {
     public interface IModuleRegistryBuilder
     {
-        void RegisterModuleServices(IServiceCollection services, IEnumerable<Type> types);
-        Task RunDelayedFeatureDependencyInjection(IServiceCollection services);
+        void RegisterModuleServices(IContextCompilerBuilder contextCompilerBuilder, IEnumerable<Type> types);
+        Task RunDelayedFeatureDependencyInjection(IContextCompilerBuilder contextCompilerBuilder);
     }
 }

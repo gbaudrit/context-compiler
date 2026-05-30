@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 
 namespace ContextCompiler.Modules.Loader.Configuration;
 
-public sealed class JsonModulesLoaderConfigProvider(ILogger<JsonModulesLoaderConfigProvider> logger) : IModulesLoadConfigProvider, ISkillsLoadConfigProvider
+public sealed class JsonModulesLoaderConfigProvider(ILogger<JsonModulesLoaderConfigProvider> logger) : IModulesLoadConfigProvider
 {
     private readonly ILogger<JsonModulesLoaderConfigProvider> _logger = logger;
     private readonly Lock _lock = new();
@@ -18,18 +18,11 @@ public sealed class JsonModulesLoaderConfigProvider(ILogger<JsonModulesLoaderCon
         AllowTrailingCommas = true
     };
 
-    IModulesLoadConfig IModulesLoadConfigProvider.Current => _cached?.Modules ?? throw new InvalidOperationException("Config not loaded");
+    public IModulesLoadConfig Current => _cached?.Modules ?? throw new InvalidOperationException("Config not loaded");
 
-    SkillsConfig ISkillsLoadConfigProvider.Current => _cached?.Skills ?? throw new InvalidOperationException("Config not loaded");
-
-    IModulesLoadConfig IModulesLoadConfigProvider.GetConfigOrDefault(string? configPath)
+    public IModulesLoadConfig GetConfigOrDefault(string? configPath)
     {
         return GetDocumentOrDefault(configPath).Modules;
-    }
-
-    SkillsConfig ISkillsLoadConfigProvider.GetConfigOrDefault(string? configPath)
-    {
-        return GetDocumentOrDefault(configPath).Skills;
     }
 
     private ModulesLoadDocument GetDocumentOrDefault(string? configPath)

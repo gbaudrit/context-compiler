@@ -2,6 +2,13 @@ namespace ContextCompiler.Modules.Abstractions.Skills;
 
 public sealed record SkillReference(string Id, string Provider, string? Version = null)
 {
+    public static SkillReference Parse(string value)
+    {
+        return TryParse(value, out SkillReference? reference) && reference is not null
+            ? reference
+            : throw new ArgumentException($"Invalid skill reference '{value}'. Expected '<skill-id>@<provider-id>[:version]'.", nameof(value));
+    }
+
     public static bool TryParse(string value, out SkillReference? reference)
     {
         reference = null;

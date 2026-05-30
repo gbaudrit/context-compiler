@@ -1,3 +1,4 @@
+using ContextCompiler.Abstractions.DependencyInjection;
 using ContextCompiler.Abstractions.Files;
 using ContextCompiler.Abstractions.Output;
 using ContextCompiler.Modules.Abstractions;
@@ -19,10 +20,11 @@ public sealed class ModuleRegistryBuilder : IModuleRegistryBuilder
     private readonly List<Type> _moduleTypes = [];
 
 
-    public void RegisterModuleServices(IServiceCollection services, IEnumerable<Type> types)
+    public void RegisterModuleServices(IContextCompilerBuilder contextCompilerBuilder, IEnumerable<Type> types)
     {
-        _ = services.AddSingleton<IModulesRegistry>(sp => new ModulesRegistry(sp));
+        IServiceCollection services = contextCompilerBuilder.Services;
 
+        _ = services.AddSingleton<IModulesRegistry>(sp => new ModulesRegistry(sp));
 
         foreach (Type t in types)
         {
@@ -35,6 +37,7 @@ public sealed class ModuleRegistryBuilder : IModuleRegistryBuilder
             {
                 IDependencyInjection registration = (IDependencyInjection)Activator.CreateInstance(t)!;
                 _ = registration.RegisterServices(services);
+                _ = registration.Configure(contextCompilerBuilder);
             }
 
             if (typeof(IDelayedFeatureDependencyInjection).IsAssignableFrom(t))
@@ -130,11 +133,11 @@ public sealed class ModuleRegistryBuilder : IModuleRegistryBuilder
         }
     }
 
-    public Task RunDelayedFeatureDependencyInjection(IServiceCollection services)
+    public Task RunDelayedFeatureDependencyInjection(IContextCompilerBuilder contextCompilerBuilder)
     {
         foreach (IDelayedFeatureDependencyInjection delayedFeatureDependencyInjection in _delayedFeatureDependencyInjections)
         {
-            _ = delayedFeatureDependencyInjection.DelayedRegisterServices(services, _moduleTypes);
+            _ = delayedFeatureDependencyInjection.DelayedRegisterServices(contextCompilerBuilder.Services, _moduleTypes);
         }
 
         return Task.CompletedTask;

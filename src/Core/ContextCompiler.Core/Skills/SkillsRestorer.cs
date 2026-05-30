@@ -6,30 +6,30 @@ using ContextCompiler.Modules.Abstractions.Skills;
 
 using Microsoft.Extensions.DependencyInjection;
 
-namespace ContextCompiler.Modules.Skills;
+namespace ContextCompiler.Core.Skills;
 
-internal sealed class SkillsCompiler(
+internal sealed class SkillsRestorer(
     ISkillsLoadConfigProvider configProvider,
     ISkillInstallPlanner planner,
     IServiceProvider serviceProvider,
-    IWorkingFolder workingFolder) : ISkillsCompiler
+    IWorkingFolder workingFolder) : ISkillsRestorer
 {
     private static readonly JsonSerializerOptions JsonOptions = new() { WriteIndented = true };
 
-    public async Task<SkillsCompileResult> CompileAsync(CancellationToken cancellationToken)
+    public async Task<SkillsRestoreResult> RestoreAsync(CancellationToken cancellationToken)
     {
-        SkillsConfig config = configProvider.Current;
+        ISkillsLoadConfig config = configProvider.Current;
         SkillInstallPlan plan = planner.CreatePlan();
 
         if (config.Mode.Equals("Locked", StringComparison.OrdinalIgnoreCase))
         {
             SkillLockFile existingLockFile = LoadLockFile(config.LockFile);
-            return new SkillsCompileResult(plan, existingLockFile);
+            return new SkillsRestoreResult(plan, existingLockFile);
         }
 
         if (config.Offline && plan.Items.Count > 0)
         {
-            throw new InvalidOperationException("Skills compile is offline but the current plan requires skill provider fetches.");
+            throw new InvalidOperationException("Skills restore is offline but the current plan requires skill provider fetches.");
         }
 
         SkillLockFile lockFile = new()
@@ -47,7 +47,7 @@ internal sealed class SkillsCompiler(
             SkillDescriptor descriptor = await provider.ResolveAsync(item.Reference, cancellationToken)
                 ?? throw new InvalidOperationException($"Skill '{item.Reference}' was not found by provider '{item.Reference.Provider}'.");
 
-            SkillPackage package = await provider.FetchAsync(descriptor, cancellationToken);
+            SkillPackage package = await provider.RestoreAsync(descriptor, cancellationToken);
             lockFile.Skills.Add(new SkillLockFile.LockedSkill
             {
                 Id = descriptor.Reference.Id,
@@ -56,13 +56,14 @@ internal sealed class SkillsCompiler(
                 ResolvedVersion = descriptor.ResolvedVersion,
                 SourceUri = descriptor.SourceUri,
                 Checksum = package.Checksum,
-                CompiledPath = Path.GetRelativePath(workingFolder.Path, package.CompiledPath).Replace('\\', '/'),
-                RequestedBy = [.. item.RequestedBy]
+                CachePath = package.CachePath.Uri.AbsolutePath,
+                RequestedBy = [.. item.RequestedBy],
+                Files = [.. package.Files.Select(f => f.Uri.AbsolutePath)]
             });
         }
 
         SaveLockFile(config.LockFile, lockFile);
-        return new SkillsCompileResult(plan, lockFile);
+        return new SkillsRestoreResult(plan, lockFile);
     }
 
     private ISkillProvider ResolveProvider(string providerId)

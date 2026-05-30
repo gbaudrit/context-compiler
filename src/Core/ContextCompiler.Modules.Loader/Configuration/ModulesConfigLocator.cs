@@ -2,7 +2,7 @@ using ContextCompiler.Modules.Abstractions.Configuration;
 
 namespace ContextCompiler.Modules.Loader.Configuration;
 
-public sealed class DefaultConfigLocator : IModulesLoadConfigLocator
+public sealed class ModulesConfigLocator : IModulesLoadConfigLocator
 {
     public string? Locate(string inputPath, string? providedPath, string name)
     {

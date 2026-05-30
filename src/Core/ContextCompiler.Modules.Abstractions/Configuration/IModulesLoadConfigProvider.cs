@@ -6,11 +6,4 @@ namespace ContextCompiler.Modules.Abstractions.Configuration
 
         IModulesLoadConfig GetConfigOrDefault(string? configPath);
     }
-
-    public interface ISkillsLoadConfigProvider
-    {
-        SkillsConfig Current { get; }
-
-        SkillsConfig GetConfigOrDefault(string? configPath);
-    }
 }

@@ -21,16 +21,62 @@ public class ModulesConfig : IModulesLoadConfig
     public Dictionary<string, string> Packages { get; set; } = [];
 }
 
-public sealed class SkillsConfig
+public sealed class SkillsConfig : ISkillsLoadConfig
 {
-    public string Mode { get; set; } = "Compile";
+    public string Mode { get; set; } = "Restore";
     public bool Offline { get; set; }
     public string CacheRoot { get; set; } = ".ctxc/cache/skills";
     public string CompiledRoot { get; set; } = ".ctxc/compiled/.agents/skills";
     public string LockFile { get; set; } = ".ctxc/ctxc.skills.lock.json";
     public SkillDeclarationsConfig Declarations { get; set; } = new();
     public SkillTrustConfig Trust { get; set; } = new();
+    public ArtifactsValidationConfig Validation { get; set; } = new();
     public Dictionary<string, string> Items { get; set; } = [];
+}
+
+public sealed class ArtifactsValidationConfig
+{
+    public bool Enabled { get; set; } = true;
+    public bool FailOnCritical { get; set; } = true;
+    public bool SkipOnWarning { get; set; }
+    public PrerequisitesValidationConfig Prerequisites { get; set; } = new();
+    public SecurityValidationConfig Security { get; set; } = new();
+    public DeploymentConfig Deployment { get; set; } = new();
+}
+
+public sealed class PrerequisitesValidationConfig
+{
+    public bool Enabled { get; set; } = true;
+    public List<string> RequiredTools { get; set; } = ["docker", "git"];
+    public Dictionary<string, string> MinVersions { get; set; } = new()
+    {
+        ["docker"] = "20.0.0",
+        ["git"] = "2.0.0"
+    };
+}
+
+public sealed class SecurityValidationConfig
+{
+    public bool Enabled { get; set; } = true;
+    public bool BlockEvalExec { get; set; } = true;
+    public bool BlockSystemCalls { get; set; }
+    public bool BlockHardcodedSecrets { get; set; } = true;
+    public bool WarnExternalUrls { get; set; } = true;
+    public List<string> WhitelistedDomains { get; set; } =
+    [
+        "github.com",
+        "githubusercontent.com",
+        "anthropic.com",
+        "microsoft.com"
+    ];
+}
+
+public sealed class DeploymentConfig
+{
+    public string TargetPath { get; set; } = ".agents/skills";
+    public bool OverwriteExisting { get; set; } = true;
+    public bool GenerateReport { get; set; } = true;
+    public string ReportPath { get; set; } = "artifacts.deployment.report.md";
 }
 
 public sealed class SkillDeclarationsConfig
@@ -130,7 +176,8 @@ public sealed class SkillLockFile
         public string ResolvedVersion { get; set; } = default!;
         public string SourceUri { get; set; } = default!;
         public string Checksum { get; set; } = default!;
-        public string CompiledPath { get; set; } = default!;
+        public string CachePath { get; set; } = default!;
         public List<string> RequestedBy { get; set; } = [];
+        public List<string> Files { get; set; } = [];
     }
 }

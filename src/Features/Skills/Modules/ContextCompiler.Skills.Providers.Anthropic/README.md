@@ -14,4 +14,4 @@ Example skill reference:
 skill-creator@anthropic-agent-skills:main
 ```
 
-The provider fetches raw content into `skills.cacheRoot` and writes agent-visible skill folders directly under `skills.compiledRoot`.
+The provider fetches raw content into `skills.cacheRoot`. A later compile-time materialization step can guard and copy cache content into `skills.compiledRoot`.

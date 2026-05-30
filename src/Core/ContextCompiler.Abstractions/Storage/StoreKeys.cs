@@ -3,13 +3,15 @@ namespace ContextCompiler.Abstractions.Storage;
 public static class StoreKeys
 {
     public const string Root = "ctxc.root";
-    public const string Output = "ctxc.output";
+    public const string Output = "compiled";
 
     public const string Workspace = "ctxc.workspace";
-    public const string Modules = "ctxc.workspace.modules";
-    public const string Externals = "ctxc.workspace.externals";
-    public const string Reports = "ctxc.workspace.reports";
-    public const string Diagnostics = "ctxc.workspace.diagnostics";
-    public const string Cache = "ctxc.workspace.cache";
-    public const string Temp = "ctxc.workspace.temp";
+    public const string Modules = "modules";
+    public const string Externals = "externals";
+    public const string Reports = "reports";
+    public const string Diagnostics = "diagnostics";
+    public const string Cache = "cache";
+    public const string Temp = "temp";
+    public const string Agents = ".agents";
+    public const string Skills = "skills";
 }

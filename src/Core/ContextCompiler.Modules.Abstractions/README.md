@@ -73,6 +73,28 @@ public Task<ModuleExecutionResult> ExecuteAsync(
 
 ---
 
+## Declaring skills to restore
+
+Modules can declare skills without restoring them directly. The restore pipeline discovers `ISkillRequirementsProvider` implementations from loaded modules, merges them with `skills.items`, applies policy, and restores the resulting skills.
+
+```csharp
+using ContextCompiler.Modules.Abstractions.Skills;
+
+public sealed class MyModuleSkills : ISkillRequirementsProvider
+{
+    public IReadOnlyList<SkillRequirement> GetSkillRequirements() =>
+    [
+        SkillRequirement.Required(
+            "document-skills@anthropic-agent-skills:latest",
+            "Required for document-oriented agent workflows.")
+    ];
+}
+```
+
+Use `Required`, `Recommended`, or `Optional` to express intent. Declarations never mutate `ctxc.modules.config.json`; they are inputs to restore planning.
+
+---
+
 ## Design principles
 
 * **Module-first**

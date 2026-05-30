@@ -28,7 +28,7 @@ Il transforme un dossier de fichiers hétérogènes en un **contexte de raisonne
 3) **Preuve** : chaque fragment possède un EvidenceKey (EK) et EvidenceRevision (ER)  
 4) **Sécurité** : les guards sont évalués avant production et avant usage (preflight)  
 5) **Extensibilité** : tout comportement = module
-6) **Skills declaratifs** : les skills sont resolus par des providers modules, compiles sous `.ctxc/compiled/.agents/skills`, et gouvernes avant usage
+6) **Skills declaratifs** : les skills sont resolus par des providers modules, restaures en cache, puis materialises sous `.ctxc/compiled/.agents/skills` apres guards
 
 ---
 
@@ -81,6 +81,7 @@ Il transforme un dossier de fichiers hétérogènes en un **contexte de raisonne
 - **View** : projection (sélection + ordering + rendu)
 - **Guard** : contrôle sécurité/policy pré-LLM
 - **EK/ER** : preuve stable/versionnée
+
 
 
 

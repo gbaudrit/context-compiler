@@ -16,7 +16,7 @@ public sealed class RagStoreReader : IRagStoreReader
     };
 
 
-    private readonly IStore _rootPath;
+    private readonly IStoreContainer _rootPath;
     private readonly IStoreResource _chunksPath;
     private readonly IStoreResource _embeddingsPath;
     private readonly IStoreResource _embeddingIndexPath;

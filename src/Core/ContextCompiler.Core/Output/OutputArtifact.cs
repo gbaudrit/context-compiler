@@ -11,5 +11,7 @@ namespace ContextCompiler.Core.Output
         public required string MimeType { get; init; }
         public required Type GeneratedBy { get; init; }
         public required long Size { get; init; }
+        public required ArtifactCategory Category { get; init; }
+        public required IReadOnlyDictionary<string, string> Metadata { get; init; }
     }
 }

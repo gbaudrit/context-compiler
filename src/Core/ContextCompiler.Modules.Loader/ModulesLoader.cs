@@ -2,10 +2,10 @@ using System.Reflection;
 using System.Text.Json;
 
 using ContextCompiler.Abstractions;
+using ContextCompiler.Abstractions.DependencyInjection;
 using ContextCompiler.Modules.Abstractions.Configuration;
 using ContextCompiler.Modules.Abstractions.Loading;
 
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 namespace ContextCompiler.Modules.Loader
@@ -21,7 +21,7 @@ namespace ContextCompiler.Modules.Loader
             WriteIndented = true
         };
 
-        public async Task<IEnumerable<Type>> LoadFromFolder(string path, IServiceCollection services, CancellationToken cancellationToken)
+        public async Task<IEnumerable<Type>> LoadFromFolder(IContextCompilerBuilder contextCompilerBuilder, string path, CancellationToken cancellationToken)
         {
             logger.LogInformation("Starting module discovery in folder: {Path}", path);
 
@@ -32,10 +32,10 @@ namespace ContextCompiler.Modules.Loader
             //moduleRegistryBuilder.RegisterModuleServices(services, moduleTypes);
 
             // Load additional modules from lock file (only configured packages, not their dependencies)
-            return await LoadAdditionalModulesAsync(services, path, cancellationToken);
+            return await LoadAdditionalModulesAsync(contextCompilerBuilder, path, cancellationToken);
         }
 
-        private async Task<IEnumerable<Type>> LoadAdditionalModulesAsync(IServiceCollection services, string path, CancellationToken cancellationToken)
+        private async Task<IEnumerable<Type>> LoadAdditionalModulesAsync(IContextCompilerBuilder contextCompilerBuilder, string path, CancellationToken cancellationToken)
         {
             List<Type> modulesType = [];
             try
@@ -74,7 +74,7 @@ namespace ContextCompiler.Modules.Loader
 
                         logger.LogInformation("Discovered {Count} module type(s) in {ModuleId}", discovered.Count(), package.Id);
 
-                        moduleRegistryBuilder.RegisterModuleServices(services, discovered);
+                        moduleRegistryBuilder.RegisterModuleServices(contextCompilerBuilder, discovered);
 
                         modulesType.AddRange(discovered);
                     }
@@ -84,7 +84,7 @@ namespace ContextCompiler.Modules.Loader
                     }
                 }
 
-                await moduleRegistryBuilder.RunDelayedFeatureDependencyInjection(services);
+                await moduleRegistryBuilder.RunDelayedFeatureDependencyInjection(contextCompilerBuilder);
 
                 logger.LogInformation("Loaded {Count} additional modules from lock file", processedModules.Count);
             }
@@ -105,13 +105,13 @@ namespace ContextCompiler.Modules.Loader
             return Directory.Exists(modulePath) ? modulePath : null;
         }
 
-        public Task LoadFromAssemblies(Assembly[] assemblies, IServiceCollection services)
+        public Task LoadFromAssemblies(IContextCompilerBuilder contextCompilerBuilder, Assembly[] assemblies)
         {
             logger.LogInformation("Starting module discovery in assemblies: {Assemblies}", string.Join(", ", assemblies.Select(a => a.GetName().Name)));
 
             foreach (Assembly assembly in assemblies)
             {
-                moduleRegistryBuilder.RegisterModuleServices(services, assembly.GetTypes().Where(t => t.IsClass && !t.IsAbstract));
+                moduleRegistryBuilder.RegisterModuleServices(contextCompilerBuilder, assembly.GetTypes().Where(t => t.IsClass && !t.IsAbstract));
             }
 
             return Task.CompletedTask;
@@ -166,7 +166,7 @@ namespace ContextCompiler.Modules.Loader
         {
             string path = Path.Combine(workingFolder.Path, configProvider.Current.RunModulesFile);
             return !File.Exists(path)
-                ? throw new InvalidOperationException($"Run modules file not found: {path}")
+                ? new Dictionary<string, string>()
                 : JsonSerializer.Deserialize<IReadOnlyDictionary<string, string>>(File.ReadAllText(path), JsonOptions)!;
         }
     }

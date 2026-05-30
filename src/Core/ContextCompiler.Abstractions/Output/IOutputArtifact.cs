@@ -12,5 +12,7 @@ namespace ContextCompiler.Abstractions.Output
         Type GeneratedBy { get; init; }
         string MimeType { get; init; }
         long Size { get; init; }
+        ArtifactCategory Category { get; init; }
+        IReadOnlyDictionary<string, string> Metadata { get; init; }
     }
 }

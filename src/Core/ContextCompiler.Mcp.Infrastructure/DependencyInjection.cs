@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Reflection;
 
 using ContextCompiler.Abstractions;
+using ContextCompiler.Abstractions.DependencyInjection;
 using ContextCompiler.Abstractions.Workspace;
 using ContextCompiler.Infrastructure.FileSystem;
 using ContextCompiler.Mcp.Core.Views.Read;
@@ -26,7 +27,7 @@ namespace ContextCompiler.Mcp.Infrastructure;
 public static class DependencyInjection
 {
 
-    public static IServiceCollection AddMcpInfrastructure(this IServiceCollection services, IConfiguration configuration, string[] args)
+    public static IContextCompilerBuilder AddMcpInfrastructure(this IContextCompilerBuilder contextCompilerBuilder, IConfiguration configuration, string[] args)
     {
         GlobalCommandLineOptions globals = CliCommandFactory.ParseGlobals(args);
 
@@ -52,7 +53,7 @@ public static class DependencyInjection
 
 
         IWorkingFolder workingFolder = new WorkingFolder(globals.InputPath);
-        _ = services.AddSingleton(workingFolder);
+        _ = contextCompilerBuilder.Services.AddSingleton(workingFolder);
 
         IServiceCollection modulesLoaderServices = new ServiceCollection();
         _ = modulesLoaderServices.AddLogging(x => x.AddConfiguration(configuration.GetSection("Logging")).AddSimpleConsole(o => o.SingleLine = true))
@@ -64,14 +65,16 @@ public static class DependencyInjection
 
         IModulesLoadConfigLocator modulesLoadConfigLocator = modulesLoaderServicesProvider.GetRequiredService<IModulesLoadConfigLocator>();
         IModulesLoadConfigProvider modulesLoadConfigProvider = modulesLoaderServicesProvider.GetRequiredService<IModulesLoadConfigProvider>();
+        //ISkillsLoadConfigProvider skillsLoadConfigProvider = modulesLoaderServicesProvider.GetRequiredService<ISkillsLoadConfigProvider>();
 
-        string? configPath = modulesLoadConfigLocator.Locate(globals.InputPath, "", "");
-        _ = modulesLoadConfigProvider.GetConfigOrDefault(configPath);
+        //string? configPath = modulesLoadConfigLocator.Locate(globals.InputPath, "", "");
+        //_ = modulesLoadConfigProvider.GetConfigOrDefault(configPath);
+        //_ = skillsLoadConfigProvider.GetConfigOrDefault(configPath);
 
-        IEnumerable<Type> moduleTypes = modulesLoader.LoadFromFolder(Path.Combine(globals.InputPath, ".ctxc", "modules"), services, CancellationToken.None).Result;
-        modulesLoader.LoadFromAssemblies(assemblies, services).Wait();
+        IEnumerable<Type> moduleTypes = modulesLoader.LoadFromFolder(contextCompilerBuilder, Path.Combine(globals.InputPath, ".ctxc", "modules"), CancellationToken.None).Result;
+        modulesLoader.LoadFromAssemblies(contextCompilerBuilder, assemblies).Wait();
 
-        IMcpServerBuilder mcpServerBuilder = services.AddMcpServer()
+        IMcpServerBuilder mcpServerBuilder = contextCompilerBuilder.Services.AddMcpServer()
                                                      .WithStdioServerTransport();
 
         foreach (Type moduleType in moduleTypes)
@@ -247,7 +250,7 @@ public static class DependencyInjection
                 throw new McpProtocolException($"Unsupported uri scheme: {ctx.Params?.Uri}", McpErrorCode.MethodNotFound);
             });
 
-        return services;
+        return contextCompilerBuilder;
     }
 
 }

@@ -14,14 +14,16 @@ namespace ContextCompiler.Infrastructure.Storage
             services.TryAddKeyedSingleton(StoreKeys.Root, (sp, o) =>
             {
                 IStoreConfigurationBuilder storeConfigurationBuilder = sp.GetRequiredService<IStoreConfigurationBuilder>();
-                ICompiledWorkingFolder ctxcCompiledWorkingFolder = sp.GetRequiredService<ICompiledWorkingFolder>();
+                ICtxcWorkingFolder ctxcWorkingFolder = sp.GetRequiredService<ICtxcWorkingFolder>();
 
                 IStoreConfiguration rootStoreConfiguration = storeConfigurationBuilder.InitNew()
-                    .WithRootUri(new FileSystemStoreResourceUri() { Uri = new Uri(ctxcCompiledWorkingFolder.Path) })
+                    .WithRootUri(new FileSystemStoreResourceUri() { Uri = new Uri(ctxcWorkingFolder.Path + "/") })
                     .Build();
 
                 return rootStoreConfiguration;
             });
+
+            _ = services.AddKeyedSingleton<IStore, FileSystemStore>(StoreKeys.Root);
 
 
             services.TryAddDefaultStore(StoreKeys.Output)
@@ -31,6 +33,8 @@ namespace ContextCompiler.Infrastructure.Storage
                     .TryAddDefaultStore(StoreKeys.Diagnostics)
                     .TryAddDefaultStore(StoreKeys.Externals)
                     .TryAddDefaultStore(StoreKeys.Temp)
+                    .TryAddDefaultStore(StoreKeys.Agents, StoreKeys.Output)
+                    .TryAddDefaultStore(StoreKeys.Skills, StoreKeys.Agents)
                     .TryAddSingleton<IStoreResourceBuilder, StoreResourceBuilder>();
 
             return services;
@@ -38,19 +42,33 @@ namespace ContextCompiler.Infrastructure.Storage
 
         private static IServiceCollection TryAddDefaultStore(this IServiceCollection services, string storeKey)
         {
-            services.TryAddKeyedSingleton<IStore, FileSystemStore>(storeKey);
+            return services.TryAddDefaultStore(storeKey, StoreKeys.Root);
+        }
+
+        private static IServiceCollection TryAddDefaultStore(this IServiceCollection services, string storeKey, string parentKey)
+        {
+            services.TryAddKeyedSingleton<IStore>(storeKey, (sp, o) =>
+            {
+                IStore parent = sp.GetRequiredKeyedService<IStore>(parentKey);
+                IStoreConfiguration storeConfiguration = sp.GetRequiredKeyedService<IStoreConfiguration>(storeKey);
+                FileSystemStore store = new(storeConfiguration.Name, sp);
+                store.Init().GetAwaiter().GetResult();
+                return store;
+            });
+
             services.TryAddKeyedSingleton(storeKey, (sp, o) =>
             {
                 IStoreConfigurationBuilder storeConfigurationBuilder = sp.GetRequiredService<IStoreConfigurationBuilder>();
                 ICtxcWorkingFolder ctxcWorkingFolder = sp.GetRequiredService<ICtxcWorkingFolder>();
-                IStoreConfiguration parentConfiguration = sp.GetRequiredKeyedService<IStoreConfiguration>(StoreKeys.Root);
+                IStoreConfiguration parentConfiguration = sp.GetRequiredKeyedService<IStoreConfiguration>(parentKey);
 
-                IStoreConfiguration rootStoreConfiguration = storeConfigurationBuilder.InitNew()
-                    .WithParentId(StoreKeys.Root)
-                    .WithRootUri(parentConfiguration.Root)
+                IStoreConfiguration storeConfiguration = storeConfigurationBuilder.InitNew()
+                    .WithParentId(parentKey)
+                    .WithRootUri(parentConfiguration.Uri)
+                    .WithName(storeKey)
                     .Build();
 
-                return rootStoreConfiguration;
+                return storeConfiguration;
             });
             return services;
         }

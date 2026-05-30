@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 2,
+  "skills": {
+    "mode": "Restore",
+    "offline": false,
+    "cacheRoot": ".ctxc/cache/skills",
+    "compiledRoot": ".ctxc/compiled/.agents/skills",
+    "lockFile": ".ctxc/ctxc.skills.lock.json",
+    "declarations": {
+      "mode": "Prompt",
+      "allowRequired": true,
+      "allowRecommended": false
+    },
+    "trust": {
+      "requireTrustedProvider": true,
+      "allowedProviders": ["anthropic-agent-skills"],
+      "blockedProviders": [],
+      "blockedSkills": []
+    },
+    "validation": {
+      "enabled": true,
+      "failOnCritical": true,
+      "skipOnWarning": false,
+      "prerequisites": {
+        "enabled": true,
+        "requiredTools": ["docker", "git"],
+        "minVersions": {
+          "docker": "20.0.0",
+          "git": "2.0.0",
+          "node": "18.0.0",
+          "python": "3.9.0"
+        }
+      },
+      "security": {
+        "enabled": true,
+        "blockEvalExec": true,
+        "blockSystemCalls": false,
+        "blockHardcodedSecrets": true,
+        "warnExternalUrls": true,
+        "whitelistedDomains": [
+          "github.com",
+          "githubusercontent.com",
+          "anthropic.com",
+          "microsoft.com"
+        ]
+      },
+      "deployment": {
+        "targetPath": ".agents/skills",
+        "overwriteExisting": true,
+        "generateReport": true,
+        "reportPath": "artifacts.deployment.report.md"
+      }
+    },
+    "items": {
+      "skill-creator": "anthropic-agent-skills@main",
+      "mcp-builder": "anthropic-agent-skills@main"
+    }
+  }
+}
