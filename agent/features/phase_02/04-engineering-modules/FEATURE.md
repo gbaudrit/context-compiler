@@ -2,7 +2,7 @@
 
 **Status:** Authoritative  
 **Date:** 2025-12-26  
-**Pipeline:** Document Pipeline stage 5
+**Pipeline:** Document Pipeline stage `Engineering`
 
 Engineering Modules are ordered, deterministic transformations applied to DataEnvelopes
 to improve structure, consistency, and usefulness before transcoding.

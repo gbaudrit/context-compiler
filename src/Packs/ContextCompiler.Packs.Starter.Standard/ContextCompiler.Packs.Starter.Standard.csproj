@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<Configurations>Debug;Release;DebugLocal</Configurations>
+		<IsPackable>true</IsPackable>
+		<PackageId>ContextCompiler.Packs.Starter.Standard</PackageId>
+		<Title>Standard starter pack</Title>
+		<Description>Standard starter pack combining input ingestion, readers, prompting, views, security, and output packs.</Description>
+		<PackageTags>context;compiler;pack;starter;bundle;input-ingestion;readers;prompting;views;security;output;standard</PackageTags>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<Authors>ContextCompiler</Authors>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)' == 'DebugLocal'">
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="README.md" Pack="true" PackagePath="" />
+		<ProjectReference Include="..\..\Features\Output\Packs\ContextCompiler.Output.Packs.Standard\ContextCompiler.Output.Packs.Standard.csproj" />
+		<ProjectReference Include="..\..\Features\Security\Packs\ContextCompiler.Security.Packs.Standard\ContextCompiler.Security.Packs.Standard.csproj" />
+		<ProjectReference Include="..\..\Features\Views\Packs\ContextCompiler.Views.Packs.Standard\ContextCompiler.Views.Packs.Standard.csproj" />
+		<ProjectReference Include="..\..\Features\InputIngestion\Packs\ContextCompiler.InputIngestion.Packs.Transcoders.Standard\ContextCompiler.InputIngestion.Packs.Transcoders.Standard.csproj" />
+		<ProjectReference Include="..\..\Features\Readers\Packs\ContextCompiler.Readers.Packs.Standard\ContextCompiler.Readers.Packs.Standard.csproj" />
+		<ProjectReference Include="..\..\Features\Prompting\Packs\ContextCompiler.Prompting.Packs.Standard\ContextCompiler.Prompting.Packs.Standard.csproj" />
+	</ItemGroup>
+
+</Project>

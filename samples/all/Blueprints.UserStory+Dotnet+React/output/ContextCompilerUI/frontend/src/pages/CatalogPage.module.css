@@ -1,0 +1,78 @@
+.page { padding: 2rem; max-width: 1200px; margin: 0 auto; }
+.heading { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.25rem; }
+.sub { color: var(--color-text-muted); font-size: 0.875rem; margin-bottom: 1.5rem; }
+.status { padding: 2rem; color: var(--color-text-muted); text-align: center; }
+.error { padding: 2rem; color: var(--color-error); }
+.empty { color: var(--color-text-muted); font-size: 0.875rem; }
+
+.controls {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.search, .select {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  color: var(--color-text);
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  font-family: inherit;
+}
+
+.search { flex: 1; }
+.search:focus, .select:focus { outline: 2px solid var(--color-primary); }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+/* Blueprint list */
+.list { display: flex; flex-direction: column; gap: 1rem; }
+
+.bpCard {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1rem 1.25rem;
+  transition: border-color 0.15s;
+}
+
+.bpCard:hover { border-color: var(--color-primary); }
+.selected { border-color: var(--color-primary); background: rgba(124,106,247,0.06); }
+
+.bpHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.bpTitle { font-size: 1rem; font-weight: 600; display: block; }
+.bpSteps { font-size: 0.75rem; color: var(--color-text-muted); display: block; margin-top: 0.15rem; }
+.bpActions { display: flex; gap: 0.5rem; flex-shrink: 0; }
+.bpDesc { font-size: 0.82rem; color: var(--color-text-muted); line-height: 1.5; }
+
+.stepsPanel {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.stepsPanel h4 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-text-muted); }
+
+.stepsList { list-style: decimal; padding-left: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem; }
+.stepItem strong { font-size: 0.875rem; }
+.stepItem p { font-size: 0.8rem; color: var(--color-text-muted); margin-top: 0.15rem; }
+
+.cmdList { list-style: none; display: flex; flex-direction: column; gap: 0.4rem; }
+.cmdList li { font-size: 0.82rem; display: flex; gap: 0.5rem; align-items: baseline; }
+.cmdList code { background: rgba(255,255,255,0.07); padding: 0.1rem 0.4rem; border-radius: 4px; font-size: 0.78rem; flex-shrink: 0; }
+.example { color: var(--color-text-muted); font-size: 0.78rem; margin-left: auto; font-style: italic; }

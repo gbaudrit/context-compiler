@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 2,
+  "modules": {
+    "mode": "Install",
+    "installRoot": ".ctxc/modules",
+    "lockFile": ".ctxc/ctxc.modules.lock.json",
+    "offline": false,
+    "quarantineRoot": ".ctxc/quarantine",
+    "sources": [
+      {
+        "name": "locale",
+        "url": "C:\\.localenugetsource",
+        "trusted": true,
+        "provider": "nuget"
+      }
+    ],
+    "trust": {
+      "requireTrustedSource": true,
+      "requireSignedPackages": false,
+      "allowedPackageIds": [
+        "ContextCompiler.Plugins.*",
+        "ContextCompiler.Modules.*"
+      ],
+      "blockedPackageIds": []
+    },
+    "packages": {
+      "ContextCompiler.Readers.Modules.Excel@locale": "1.0.0-alpha202603201052",
+      "ContextCompiler.Readers.Modules.Pdf@locale": "1.0.0-alpha202603201052",
+      "ContextCompiler.Prompting.Modules.Personas.Analysts.Business@locale": "1.0.0-alpha202603201052",
+      "ContextCompiler.Prompting.Modules.Personas.Developers.DotNet@locale": "1.0.0-alpha202603201052",
+      "ContextCompiler.Prompting.Modules.Personas.Developers.Python@locale": "1.0.0-alpha202603201052",
+      "ContextCompiler.Prompting.Modules.Personas.Testers.Analyst@locale": "1.0.0-alpha202603201052",
+      "ContextCompiler.Modules.Views.View.Index.Json@locale": "1.0.0-alpha202603201052",
+      "ContextCompiler.Modules.Artifacts.Registry@locale": "1.0.0-alpha202603201052",
+      "ContextCompiler.Modules.Rag@locale": "1.0.0-alpha202603201052"
+    }
+  },
+  "skills": {
+    "mode": "Restore",
+    "cacheRoot": ".ctxc/cache/skills",
+    "compiledRoot": ".ctxc/compiled/.agents/skills",
+    "lockFile": ".ctxc/ctxc.skills.lock.json",
+    "offline": false,
+    "declarations": {
+      "mode": "Prompt",
+      "allowRequired": true,
+      "allowRecommended": false
+    },
+    "trust": {
+      "requireTrustedProvider": true,
+      "allowedProviders": [],
+      "blockedProviders": [],
+      "blockedSkills": []
+    },
+    "items": {}
+  }
+}

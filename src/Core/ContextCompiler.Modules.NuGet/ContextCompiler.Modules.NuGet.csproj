@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<Configurations>Debug;Release;DebugLocal</Configurations>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="NuGet.Protocol" />
+		<PackageReference Include="NuGet.Packaging" />
+		<PackageReference Include="NuGet.Configuration" />
+		<PackageReference Include="NuGet.Versioning" />
+		<PackageReference Include="Microsoft.Extensions.Options" />
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\ContextCompiler.Modules.Abstractions\ContextCompiler.Modules.Abstractions.csproj" />
+	</ItemGroup>
+</Project>

@@ -1,0 +1,474 @@
+{
+  "FormatVersion": 1,
+  "GeneratedAt": "1970-01-01T00:00:00Z",
+  "Packages": [
+    {
+      "Id": "ContextCompiler.Connectors.Modules.Git",
+      "Version": {
+        "Raw": "0.1.0-alpha.1",
+        "Min": "0.1.0-alpha.1",
+        "Max": "0.1.0-alpha.1",
+        "MinBoundOperator": 0,
+        "MaxBoundOperator": 0
+      },
+      "Source": "ModuleRestoreSource { Id = locale }",
+      "Checksum": "",
+      "Signature": {
+        "Required": false,
+        "IsSigned": false,
+        "SignerFingerprint": "",
+        "Note": "No .signature.p7s found (best-effort check)."
+      },
+      "Dependencies": [
+        {
+          "Id": "ContextCompiler.Modules.Abstractions",
+          "Version": "0.1.0-alpha.1"
+        },
+        {
+          "Id": "Microsoft.Extensions.DependencyInjection.Abstractions",
+          "Version": "10.0.3"
+        },
+        {
+          "Id": "Microsoft.Extensions.Logging.Abstractions",
+          "Version": "10.0.3"
+        }
+      ],
+      "Files": [
+        "_rels/.rels",
+        "ContextCompiler.Connectors.Modules.Git.nuspec",
+        "README.md",
+        "contentFiles/any/schemas/ctxc.config.schema.json",
+        "lib/net10.0/ContextCompiler.Connectors.Modules.Git.dll",
+        "lib/net10.0/ContextCompiler.Connectors.Modules.Git.pdb",
+        "lib/net10.0/ContextCompiler.Connectors.Modules.Git.xml",
+        "[Content_Types].xml",
+        "package/services/metadata/core-properties/727cb121755b4fe8a07b97fe01754d0c.psmdcp"
+      ],
+      "Authors": [],
+      "RepositoryUrl": null
+    },
+    {
+      "Id": "ContextCompiler.DevTools.Modules.EventsLogger",
+      "Version": {
+        "Raw": "0.1.0-alpha.1",
+        "Min": "0.1.0-alpha.1",
+        "Max": "0.1.0-alpha.1",
+        "MinBoundOperator": 0,
+        "MaxBoundOperator": 0
+      },
+      "Source": "ModuleRestoreSource { Id = locale }",
+      "Checksum": "",
+      "Signature": {
+        "Required": false,
+        "IsSigned": false,
+        "SignerFingerprint": "",
+        "Note": "No .signature.p7s found (best-effort check)."
+      },
+      "Dependencies": [
+        {
+          "Id": "ContextCompiler.Modules.Abstractions",
+          "Version": "0.1.0-alpha.1"
+        },
+        {
+          "Id": "Microsoft.Extensions.DependencyInjection.Abstractions",
+          "Version": "10.0.3"
+        },
+        {
+          "Id": "Microsoft.Extensions.Logging.Abstractions",
+          "Version": "10.0.3"
+        }
+      ],
+      "Files": [
+        "_rels/.rels",
+        "ContextCompiler.DevTools.Modules.EventsLogger.nuspec",
+        "README.md",
+        "lib/net10.0/ContextCompiler.DevTools.Modules.EventsLogger.dll",
+        "lib/net10.0/ContextCompiler.DevTools.Modules.EventsLogger.pdb",
+        "lib/net10.0/ContextCompiler.DevTools.Modules.EventsLogger.xml",
+        "[Content_Types].xml",
+        "package/services/metadata/core-properties/1e3b027941ed44719de818ce6e122460.psmdcp"
+      ],
+      "Authors": [],
+      "RepositoryUrl": null
+    },
+    {
+      "Id": "ContextCompiler.Packs.Starter.Standard",
+      "Version": {
+        "Raw": "0.1.0-alpha.1",
+        "Min": "0.1.0-alpha.1",
+        "Max": "0.1.0-alpha.1",
+        "MinBoundOperator": 0,
+        "MaxBoundOperator": 0
+      },
+      "Source": "ModuleRestoreSource { Id = locale }",
+      "Checksum": "",
+      "Signature": {
+        "Required": false,
+        "IsSigned": false,
+        "SignerFingerprint": "",
+        "Note": "No .signature.p7s found (best-effort check)."
+      },
+      "Dependencies": [
+        {
+          "Id": "ContextCompiler.InputIngestion.Packs.Transcoders.Standard",
+          "Version": "0.1.0-alpha.1"
+        },
+        {
+          "Id": "ContextCompiler.Output.Packs.Standard",
+          "Version": "0.1.0-alpha.1"
+        },
+        {
+          "Id": "ContextCompiler.Prompting.Packs.Standard",
+          "Version": "0.1.0-alpha.1"
+        },
+        {
+          "Id": "ContextCompiler.Readers.Packs.Standard",
+          "Version": "0.1.0-alpha.1"
+        },
+        {
+          "Id": "ContextCompiler.Security.Packs.Standard",
+          "Version": "0.1.0-alpha.1"
+        },
+        {
+          "Id": "ContextCompiler.Views.Packs.Standard",
+          "Version": "0.1.0-alpha.1"
+        },
+        {
+          "Id": "ClosedXML",
+          "Version": "0.104.2"
+        },
+        {
+          "Id": "Microsoft.Extensions.DependencyInjection.Abstractions",
+          "Version": "10.0.3"
+        },
+        {
+          "Id": "Microsoft.Extensions.FileSystemGlobbing",
+          "Version": "10.0.3"
+        },
+        {
+          "Id": "Microsoft.Extensions.Logging.Abstractions",
+          "Version": "10.0.3"
+        },
+        {
+          "Id": "Microsoft.Extensions.Options",
+          "Version": "10.0.3"
+        },
+        {
+          "Id": "ModelContextProtocol",
+          "Version": "1.1.0"
+        },
+        {
+          "Id": "PdfPig",
+          "Version": "0.1.13"
+        },
+        {
+          "Id": "Tabula",
+          "Version": "0.1.5"
+        },
+        {
+          "Id": "Tabula.Json",
+          "Version": "0.1.5"
+        }
+      ],
+      "Files": [
+        "_rels/.rels",
+        "ContextCompiler.Packs.Starter.Standard.nuspec",
+        "README.md",
+        "lib/net10.0/ContextCompiler.Packs.Starter.Standard.dll",
+        "lib/net10.0/ContextCompiler.Packs.Starter.Standard.pdb",
+        "lib/net10.0/ContextCompiler.Packs.Starter.Standard.xml",
+        "[Content_Types].xml",
+        "package/services/metadata/core-properties/a59029a1479c4936bac69480fc295732.psmdcp"
+      ],
+      "Authors": [],
+      "RepositoryUrl": null
+    },
+    {
+      "Id": "ContextCompiler.Prompting.Modules.Templates.Scriban",
+      "Version": {
+        "Raw": "0.1.0-alpha.1",
+        "Min": "0.1.0-alpha.1",
+        "Max": "0.1.0-alpha.1",
+        "MinBoundOperator": 0,
+        "MaxBoundOperator": 0
+      },
+      "Source": "ModuleRestoreSource { Id = locale }",
+      "Checksum": "",
+      "Signature": {
+        "Required": false,
+        "IsSigned": false,
+        "SignerFingerprint": "",
+        "Note": "No .signature.p7s found (best-effort check)."
+      },
+      "Dependencies": [
+        {
+          "Id": "ContextCompiler.Modules.Abstractions",
+          "Version": "0.1.0-alpha.1"
+        },
+        {
+          "Id": "ContextCompiler.Prompting.Abstractions",
+          "Version": "0.1.0-alpha.1"
+        },
+        {
+          "Id": "Scriban",
+          "Version": "7.2.0"
+        },
+        {
+          "Id": "Microsoft.Extensions.DependencyInjection.Abstractions",
+          "Version": "10.0.3"
+        },
+        {
+          "Id": "Microsoft.Extensions.Logging.Abstractions",
+          "Version": "10.0.3"
+        }
+      ],
+      "Files": [
+        "_rels/.rels",
+        "ContextCompiler.Prompting.Modules.Templates.Scriban.nuspec",
+        "README.md",
+        "lib/net10.0/ContextCompiler.Prompting.Modules.Templates.Scriban.dll",
+        "lib/net10.0/ContextCompiler.Prompting.Modules.Templates.Scriban.pdb",
+        "lib/net10.0/ContextCompiler.Prompting.Modules.Templates.Scriban.xml",
+        "[Content_Types].xml",
+        "package/services/metadata/core-properties/f3b936b490af4ebabd7d120dda8d3fa8.psmdcp"
+      ],
+      "Authors": [],
+      "RepositoryUrl": null
+    },
+    {
+      "Id": "ContextCompiler.Prompting",
+      "Version": {
+        "Raw": "0.1.0-alpha.1",
+        "Min": "0.1.0-alpha.1",
+        "Max": "0.1.0-alpha.1",
+        "MinBoundOperator": 0,
+        "MaxBoundOperator": 0
+      },
+      "Source": "ModuleRestoreSource { Id = locale }",
+      "Checksum": "",
+      "Signature": {
+        "Required": false,
+        "IsSigned": false,
+        "SignerFingerprint": "",
+        "Note": "No .signature.p7s found (best-effort check)."
+      },
+      "Dependencies": [
+        {
+          "Id": "ContextCompiler.Prompting.Abstractions",
+          "Version": "0.1.0-alpha.1"
+        },
+        {
+          "Id": "Microsoft.Extensions.DependencyInjection.Abstractions",
+          "Version": "10.0.3"
+        },
+        {
+          "Id": "Microsoft.Extensions.Logging.Abstractions",
+          "Version": "10.0.3"
+        }
+      ],
+      "Files": [
+        "_rels/.rels",
+        "ContextCompiler.Prompting.nuspec",
+        "README.md",
+        "lib/net10.0/ContextCompiler.Prompting.dll",
+        "lib/net10.0/ContextCompiler.Prompting.pdb",
+        "lib/net10.0/ContextCompiler.Prompting.xml",
+        "[Content_Types].xml",
+        "package/services/metadata/core-properties/95184f1fa6f44118951c5857904cc8db.psmdcp"
+      ],
+      "Authors": [],
+      "RepositoryUrl": null
+    },
+    {
+      "Id": "ContextCompiler.Reports.Modules.Pipelines.Mermaid",
+      "Version": {
+        "Raw": "0.1.0-alpha.1",
+        "Min": "0.1.0-alpha.1",
+        "Max": "0.1.0-alpha.1",
+        "MinBoundOperator": 0,
+        "MaxBoundOperator": 0
+      },
+      "Source": "ModuleRestoreSource { Id = locale }",
+      "Checksum": "",
+      "Signature": {
+        "Required": false,
+        "IsSigned": false,
+        "SignerFingerprint": "",
+        "Note": "No .signature.p7s found (best-effort check)."
+      },
+      "Dependencies": [
+        {
+          "Id": "ContextCompiler.Modules.Abstractions",
+          "Version": "0.1.0-alpha.1"
+        },
+        {
+          "Id": "Microsoft.Extensions.Logging.Abstractions",
+          "Version": "10.0.3"
+        },
+        {
+          "Id": "Microsoft.Extensions.DependencyInjection.Abstractions",
+          "Version": "10.0.3"
+        }
+      ],
+      "Files": [
+        "_rels/.rels",
+        "ContextCompiler.Reports.Modules.Pipelines.Mermaid.nuspec",
+        "README.md",
+        "lib/net10.0/ContextCompiler.Reports.Modules.Pipelines.Mermaid.dll",
+        "lib/net10.0/ContextCompiler.Reports.Modules.Pipelines.Mermaid.pdb",
+        "lib/net10.0/ContextCompiler.Reports.Modules.Pipelines.Mermaid.xml",
+        "[Content_Types].xml",
+        "package/services/metadata/core-properties/8b5005e306ac4dec9a2775498bdbeae5.psmdcp"
+      ],
+      "Authors": [],
+      "RepositoryUrl": null
+    },
+    {
+      "Id": "ContextCompiler.Reports.Modules.Pipelines.ReactFlow",
+      "Version": {
+        "Raw": "0.1.0-alpha.1",
+        "Min": "0.1.0-alpha.1",
+        "Max": "0.1.0-alpha.1",
+        "MinBoundOperator": 0,
+        "MaxBoundOperator": 0
+      },
+      "Source": "ModuleRestoreSource { Id = locale }",
+      "Checksum": "",
+      "Signature": {
+        "Required": false,
+        "IsSigned": false,
+        "SignerFingerprint": "",
+        "Note": "No .signature.p7s found (best-effort check)."
+      },
+      "Dependencies": [
+        {
+          "Id": "ContextCompiler.Modules.Abstractions",
+          "Version": "0.1.0-alpha.1"
+        },
+        {
+          "Id": "Microsoft.Extensions.Logging.Abstractions",
+          "Version": "10.0.3"
+        },
+        {
+          "Id": "Microsoft.Extensions.DependencyInjection.Abstractions",
+          "Version": "10.0.3"
+        }
+      ],
+      "Files": [
+        "_rels/.rels",
+        "ContextCompiler.Reports.Modules.Pipelines.ReactFlow.nuspec",
+        "ARCHITECTURE.md",
+        "CHANGELOG.md",
+        "README.md",
+        "USAGE.md",
+        "contentFiles/any/any/react-app/dist/assets/index.js",
+        "contentFiles/any/any/react-app/dist/assets/style.css",
+        "contentFiles/any/any/react-app/dist/index.html",
+        "contentFiles/any/any/react-app/dist/sample-data.json",
+        "lib/net10.0/ContextCompiler.Reports.Modules.Pipelines.ReactFlow.dll",
+        "lib/net10.0/ContextCompiler.Reports.Modules.Pipelines.ReactFlow.pdb",
+        "lib/net10.0/ContextCompiler.Reports.Modules.Pipelines.ReactFlow.xml",
+        "[Content_Types].xml",
+        "package/services/metadata/core-properties/179227b7bab64d1090ee74fbba3ad6f6.psmdcp"
+      ],
+      "Authors": [],
+      "RepositoryUrl": null
+    },
+    {
+      "Id": "ContextCompiler.Skills.Modules.Artifacts.Enrichment",
+      "Version": {
+        "Raw": "0.1.0-alpha.1",
+        "Min": "0.1.0-alpha.1",
+        "Max": "0.1.0-alpha.1",
+        "MinBoundOperator": 0,
+        "MaxBoundOperator": 0
+      },
+      "Source": "ModuleRestoreSource { Id = locale }",
+      "Checksum": "",
+      "Signature": {
+        "Required": false,
+        "IsSigned": false,
+        "SignerFingerprint": "",
+        "Note": "No .signature.p7s found (best-effort check)."
+      },
+      "Dependencies": [
+        {
+          "Id": "ContextCompiler.Modules.Abstractions",
+          "Version": "0.1.0-alpha.1"
+        },
+        {
+          "Id": "Microsoft.Extensions.Options",
+          "Version": "10.0.3"
+        },
+        {
+          "Id": "Microsoft.Extensions.DependencyInjection.Abstractions",
+          "Version": "10.0.3"
+        },
+        {
+          "Id": "Microsoft.Extensions.Logging.Abstractions",
+          "Version": "10.0.3"
+        }
+      ],
+      "Files": [
+        "_rels/.rels",
+        "ContextCompiler.Skills.Modules.Artifacts.Enrichment.nuspec",
+        "README.md",
+        "lib/net10.0/ContextCompiler.Skills.Modules.Artifacts.Enrichment.dll",
+        "lib/net10.0/ContextCompiler.Skills.Modules.Artifacts.Enrichment.pdb",
+        "lib/net10.0/ContextCompiler.Skills.Modules.Artifacts.Enrichment.xml",
+        "[Content_Types].xml",
+        "package/services/metadata/core-properties/c6fb0aa4aa3f4d1f92ae43b71f9a5f1a.psmdcp"
+      ],
+      "Authors": [],
+      "RepositoryUrl": null
+    },
+    {
+      "Id": "ContextCompiler.Skills.Modules.Providers.Anthropic",
+      "Version": {
+        "Raw": "0.1.0-alpha.1",
+        "Min": "0.1.0-alpha.1",
+        "Max": "0.1.0-alpha.1",
+        "MinBoundOperator": 0,
+        "MaxBoundOperator": 0
+      },
+      "Source": "ModuleRestoreSource { Id = locale }",
+      "Checksum": "",
+      "Signature": {
+        "Required": false,
+        "IsSigned": false,
+        "SignerFingerprint": "",
+        "Note": "No .signature.p7s found (best-effort check)."
+      },
+      "Dependencies": [
+        {
+          "Id": "ContextCompiler.Modules.Abstractions",
+          "Version": "0.1.0-alpha.1"
+        },
+        {
+          "Id": "Microsoft.Extensions.Options",
+          "Version": "10.0.3"
+        },
+        {
+          "Id": "Microsoft.Extensions.DependencyInjection.Abstractions",
+          "Version": "10.0.3"
+        },
+        {
+          "Id": "Microsoft.Extensions.Logging.Abstractions",
+          "Version": "10.0.3"
+        }
+      ],
+      "Files": [
+        "_rels/.rels",
+        "ContextCompiler.Skills.Modules.Providers.Anthropic.nuspec",
+        "README.md",
+        "lib/net10.0/ContextCompiler.Skills.Modules.Providers.Anthropic.dll",
+        "lib/net10.0/ContextCompiler.Skills.Modules.Providers.Anthropic.pdb",
+        "lib/net10.0/ContextCompiler.Skills.Modules.Providers.Anthropic.xml",
+        "[Content_Types].xml",
+        "package/services/metadata/core-properties/fe15e40097aa4f16b5b6fc0a9b7f970a.psmdcp"
+      ],
+      "Authors": [],
+      "RepositoryUrl": null
+    }
+  ]
+}

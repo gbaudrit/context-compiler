@@ -1,0 +1,552 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Context Compiler | Préparez un contexte gouverné avant le LLM</title>
+  <meta name="description" content="Context Compiler absorbe l’ETL lié à l’hétérogénéité des sources pour éviter de polluer le prompt, puis produit des artefacts déterministes, traçables et auditables.">
+  <meta name="theme-color" content="#0a0f14">
+  <meta name="robots" content="index,follow">
+  <link rel="canonical" href="https://contextcompiler.io/">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="manifest" href="site.webmanifest">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Context Compiler | Préparez un contexte gouverné avant le LLM">
+  <meta property="og:description" content="Un compilateur pré-LLM qui absorbe l’hétérogénéité des sources pour éviter de polluer le prompt, puis produit des artefacts gouvernés et auditables.">
+  <meta property="og:url" content="https://contextcompiler.io/">
+  <meta property="og:image" content="https://contextcompiler.io/assets/og-card.svg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Context Compiler">
+  <meta name="twitter:description" content="Ne polluez plus le prompt avec l’ETL de vos sources hétérogènes.">
+  <meta name="twitter:image" content="https://contextcompiler.io/assets/og-card.svg">
+  <link rel="preload" href="assets/ctxc_logo_black.png" as="image" type="image/png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="Context Compiler">
+        <img class="brand-logo" src="assets/ctxc_logo_black.png" alt="Context Compiler" width="340" height="136">
+      </a>
+
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav id="site-nav" class="site-nav" aria-label="Navigation principale">
+        <a href="#architecture">Pipeline</a>
+        <a href="#why">Pourquoi</a>
+        <a href="#artifacts">Artefacts</a>
+        <a href="#stack">Stack</a>
+        <a href="#packages">Packages</a>
+        <a href="#faq">FAQ</a>
+        <a href="https://github.com/gbaudrit/context-compiler/releases">Télécharger</a>
+        <a class="button button-ghost button-with-icon" href="https://github.com/gbaudrit/context-compiler">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M12 1.5C6.201 1.5 1.5 6.347 1.5 12.326c0 4.783 3.008 8.839 7.18 10.271.525.101.717-.233.717-.519 0-.257-.01-1.105-.015-2.003-2.921.651-3.537-1.451-3.537-1.451-.477-1.25-1.166-1.582-1.166-1.582-.954-.671.072-.658.072-.658 1.055.076 1.61 1.119 1.61 1.119.938 1.647 2.46 1.171 3.06.896.095-.699.367-1.171.667-1.44-2.332-.272-4.784-1.204-4.784-5.357 0-1.183.41-2.151 1.082-2.91-.108-.273-.469-1.37.103-2.856 0 0 .882-.29 2.89 1.111A9.81 9.81 0 0 1 12 7.103c.87.004 1.747.12 2.565.353 2.007-1.4 2.887-1.111 2.887-1.111.574 1.486.213 2.583.105 2.856.674.759 1.08 1.727 1.08 2.91 0 4.163-2.456 5.081-4.794 5.348.377.333.713.988.713 1.992 0 1.439-.013 2.599-.013 2.953 0 .288.189.625.722.518 4.169-1.434 7.174-5.489 7.174-10.27C22.5 6.347 17.799 1.5 12 1.5Z" fill="currentColor"/>
+          </svg>
+          <span>GitHub</span>
+        </a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero section">
+        <div class="hero-copy reveal">
+          <p class="eyebrow">Pre-LLM • Traceable • Module-based</p>
+          <h1>Compilez votre contexte avant le LLM.</h1>
+          <p class="hero-lead">
+            Context Compiler absorbe la partie ETL liée à l’hétérogénéité des entrants pour
+            éviter de polluer le prompt. Les sources sont lues, normalisées, fragmentées,
+            vérifiées et transformées en artefacts gouvernés, traçables et auditables avant
+            toute consommation par un modèle.
+          </p>
+          <ul class="hero-points">
+            <li>Mêmes entrées, mêmes sorties</li>
+            <li>Evidence IDs stables pour chaque fragment utile</li>
+            <li>Guards de sécurité évalués avant usage agentique</li>
+          </ul>
+        </div>
+
+        <div class="hero-panel reveal">
+          <div class="terminal-card">
+            <div class="terminal-top">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+            <pre><code>$ ctxc compile .
+
+Inputs discovered ................ 124
+Fragments emitted ................ 2,931
+Views rendered ................... 4
+Guards findings .................. 0 critical
+
+Artifacts
+  prompt.context.md
+  evidence.index.json
+  reasoning.graph.json
+  security.report.md
+  context.health.json
+
+Output ........................... artifacts generated</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section id="architecture" class="section">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Pipeline</p>
+          <h2>Une vraie chaîne de compilation pour le contexte.</h2>
+          <p>
+            Context Compiler assemble des modules en packs, les exécute dans un pipeline
+            déterministe, puis les applique à des blueprints orientés cas d'usage pour produire
+            une solution prête à l'emploi.
+          </p>
+        </div>
+
+        <div class="process-visual reveal">
+          <img src="assets/process.png" alt="Schéma du process de compilation du contexte depuis des sources hétérogènes vers le LLM.">
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Concepts</p>
+          <h2>Quatre briques pour comprendre le modèle.</h2>
+        </div>
+
+        <div class="card-grid">
+          <article class="feature-card reveal">
+            <h3>Module</h3>
+            <p>Une capacité atomique, stateless et réutilisable. Un module fait une seule chose dans le pipeline.</p>
+          </article>
+          <article class="feature-card reveal">
+            <h3>Pack</h3>
+            <p>Une composition cohérente de modules prête à l'emploi pour accélérer la configuration.</p>
+          </article>
+          <article class="feature-card reveal">
+            <h3>Pipeline</h3>
+            <p>La chaîne de transformation où chaque étape reçoit, transforme puis transmet les données.</p>
+          </article>
+          <article class="feature-card reveal">
+            <h3>Blueprint</h3>
+            <p>Une solution complète orientée use case qui combine packs, modules et pipeline pour produire un résultat final.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="proof-strip section reveal">
+        <div class="metric metric-primary">
+          <p class="metric-kicker">Pre-LLM</p>
+          <strong>Zéro</strong>
+          <span>appel LLM dans le compilateur</span>
+        </div>
+        <div class="metric metric-primary">
+          <p class="metric-kicker">Traçabilité</p>
+          <strong>EK / ER</strong>
+          <span>système de preuve stable et versionné</span>
+        </div>
+        <div class="metric metric-primary">
+          <p class="metric-kicker">Modules</p>
+          <strong>Extensible</strong>
+          <span>readers, guards, vues, templates, exporters</span>
+        </div>
+      </section>
+
+      <section id="why" class="section">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Pourquoi</p>
+          <h2>Éviter que l’hétérogénéité des sources finisse dans le prompt.</h2>
+          <p>
+            Là où beaucoup de chaînes agentiques injectent au modèle des données encore chargées
+            de logique ETL, Context Compiler déplace ce travail en amont. On absorbe la diversité
+            des formats, on normalise, on structure, on prouve, on contrôle, puis seulement on
+            livre un contexte exploitable.
+          </p>
+          <p><strong>Le but est simple :</strong> arrêter de polluer le prompt avec les problèmes d’ingestion, de transformation et d’hétérogénéité des entrants.</p>
+        </div>
+
+        <div class="card-grid">
+          <article class="feature-card reveal">
+            <div class="feature-icon" aria-hidden="true">◎</div>
+            <h3>Pré-LLM</h3>
+            <p>Le compilateur ne contacte jamais de modèle. Il prépare un contexte fiable avant toute exécution agentique.</p>
+          </article>
+          <article class="feature-card reveal">
+            <div class="feature-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false">
+                <path d="M6 7.5h10M6 12h12M6 16.5h9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                <path d="m15.5 5.5 3 2.5-3 2.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="m18.5 11 3 2.5-3 2.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <h3>Entrée maîtrisée pour le modèle</h3>
+            <p>Le déterminisme porte sur la partie entrante dans le LLM. Plus cette entrée est grande, stable et non ambiguë, plus le raisonnement du modèle est contraint et moins il ouvre de chemins d’interprétation inutiles.</p>
+          </article>
+          <article class="feature-card reveal">
+            <div class="feature-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false">
+                <path d="M8.5 8.5h-3a3 3 0 1 0 0 6h3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                <path d="M15.5 8.5h3a3 3 0 1 1 0 6h-3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                <path d="M8 12h8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <h3>Traçabilité native</h3>
+            <p>Chaque fragment devient une évidence, conserve sa source, son localisateur et ses identifiants de preuve pour relier le résultat à son origine.</p>
+          </article>
+          <article class="feature-card reveal">
+            <div class="feature-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false">
+                <path d="M12 2 5 5v6c0 4.8 2.9 9.2 7 11 4.1-1.8 7-6.2 7-11V5l-7-3Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                <path d="M9.4 12.1 11.2 14l3.7-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <h3>Protection des données sensibles</h3>
+            <p>Des modules dédiés peuvent garantir que des données sensibles ne se retrouvent pas dans le contexte compilé avant d’être exposées au modèle.</p>
+          </article>
+          <article class="feature-card reveal">
+            <div class="feature-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false">
+                <rect x="3" y="3" width="7" height="7" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.8"/>
+                <rect x="14" y="3" width="7" height="7" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.8"/>
+                <rect x="8.5" y="14" width="7" height="7" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.8"/>
+                <path d="M10 6.5h4M12 10v4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <h3>Architecture modulaire</h3>
+            <p>Readers, transcoders, guards, views, personas, templates et exporters s'ajoutent comme modules de runtime.</p>
+          </article>
+          <article class="feature-card reveal">
+            <div class="feature-icon feature-icon-audit" aria-hidden="true">
+              <svg viewBox="0 0 32 32" focusable="false">
+                <path d="M9 5h9l5 5v5" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                <path d="M18 5v6h6" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                <circle cx="13.5" cy="20" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/>
+                <path d="m17 23.5 4 3.8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <h3>Artefacts auditables</h3>
+            <p>Prompt, index, graph et rapports peuvent être supprimés puis régénérés à l'identique à partir des mêmes entrées. Deux contextes compilés peuvent ainsi être comparés facilement, et la preuve finale peut s’appuyer sur les statistiques d’usage des évidences.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="artifacts" class="section">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Sorties</p>
+          <h2>Un contrat d’artefacts clair, stable et exploitable.</h2>
+        </div>
+
+        <div class="artifact-layout artifact-layout-interactive">
+          <div class="artifact-list artifact-tabs reveal" role="tablist" aria-label="Artefacts compilés">
+            <article class="artifact-tab is-active" tabindex="0" data-artifact="prompt">
+              <p class="artifact-tab-kicker">Contexte final</p>
+              <h3><code>prompt.context.md</code></h3>
+              <p>Le contexte consolidé, prêt à être consommé par un IDE, un agent ou un humain.</p>
+            </article>
+            <article class="artifact-tab" tabindex="0" data-artifact="evidence">
+              <p class="artifact-tab-kicker">Traçabilité</p>
+              <h3><code>evidences.index.json</code></h3>
+              <p>Le mapping complet entre preuves, sources, révisions et métadonnées.</p>
+            </article>
+            <article class="artifact-tab" tabindex="0" data-artifact="views">
+              <p class="artifact-tab-kicker">Views</p>
+              <h3><code>view.default.md</code> et autres vues</h3>
+              <p>Des projections concrètes du contexte compilé, adaptées à différents usages.</p>
+            </article>
+            <article class="artifact-tab" tabindex="0" data-artifact="personas">
+              <p class="artifact-tab-kicker">Personas</p>
+              <h3><code>personas.active.json</code></h3>
+              <p>Un même contexte peut être cadré différemment selon le point de vue métier, technique ou analytique attendu.</p>
+            </article>
+            <article class="artifact-tab" tabindex="0" data-artifact="graph">
+              <p class="artifact-tab-kicker">Graphe</p>
+              <h3><code>reasoning.graph.json</code></h3>
+              <p>Le graphe canonique qui relie fragments, sources et structure de raisonnement.</p>
+            </article>
+            <article class="artifact-tab" tabindex="0" data-artifact="reports">
+              <p class="artifact-tab-kicker">Santé & sécurité</p>
+              <h3><code>security.report.md</code> et <code>context.health.json</code></h3>
+              <p>Les rapports qui aident à gouverner la qualité, la sécurité et l’exploitabilité.</p>
+            </article>
+          </div>
+
+          <div class="artifact-preview reveal">
+            <article class="artifact-panel is-active" data-panel="prompt">
+              <p class="note-label">Aperçu</p>
+              <h3>Le contexte final est déjà structuré</h3>
+              <pre><code># Global Instructions
+## Commands
+- view &lt;name&gt;
+
+## Objectives
+- repondre avec le contexte compile
+- expliciter les points utiles
+
+## Project
+- name
+- summary
+
+## MUST
+- citer les evidences
+- respecter les contraintes
+
+## MUST NOT
+- inventer des faits
+- exposer des donnees sensibles
+
+## Views
+- default
+- domain specific</code></pre>
+              <div class="artifact-impact">
+                <p class="note-label">Ce que ça change</p>
+                <p>Le modèle reçoit un cadre déjà structuré, sans avoir à reconstruire lui-même l’organisation du contexte.</p>
+              </div>
+            </article>
+
+            <article class="artifact-panel" data-panel="evidence">
+              <p class="note-label">Aperçu</p>
+              <h3>Chaque fait reste rattaché à sa source</h3>
+              <pre><code>{
+  "ek": "E-8ad333757aec",
+  "path": "docs/specs/...",
+  "locator": "section:3",
+  "revision": "ER-..."
+}</code></pre>
+              <div class="artifact-impact">
+                <p class="note-label">Ce que ça change</p>
+                <p>Chaque information utilisée dans l’analyse reste vérifiable et rattachée à sa source d’origine.</p>
+              </div>
+            </article>
+
+            <article class="artifact-panel" data-panel="views">
+              <p class="note-label">Aperçu</p>
+              <h3>Les views montrent des angles de lecture différents</h3>
+              <pre><code>## Evidence
+
+### E-8ad333757aec
+...
+
+### E-ed90deb02e34
+...</code></pre>
+              <div class="artifact-impact">
+                <p class="note-label">Ce que ça change</p>
+                <p>Le contexte peut être présenté selon plusieurs angles utiles sans réinjecter toute la complexité brute des entrants.</p>
+              </div>
+            </article>
+
+            <article class="artifact-panel" data-panel="personas">
+              <p class="note-label">Aperçu</p>
+              <h3>Le point de vue change sans changer les preuves</h3>
+              <pre><code>{
+  "active": [
+    "analysts.business",
+    "developers.dotnetcore",
+    "testers.analyst"
+  ],
+  "mode": "append"
+}</code></pre>
+              <div class="artifact-impact">
+                <p class="note-label">Ce que ça change</p>
+                <p>Un même socle de preuves peut servir plusieurs points de vue sans dupliquer le contexte compilé.</p>
+              </div>
+            </article>
+
+            <article class="artifact-panel" data-panel="graph">
+              <p class="note-label">Aperçu</p>
+              <h3>Le graphe reste exploitable par d’autres outils</h3>
+              <pre><code>{
+  "nodes": [...],
+  "edges": [...],
+  "artifacts": ["prompt", "views", "reports"]
+}</code></pre>
+              <div class="artifact-impact">
+                <p class="note-label">Ce que ça change</p>
+                <p>Le contexte compilé devient aussi exploitable par des outils d’inspection, de couverture et d’analyse aval.</p>
+              </div>
+            </article>
+
+            <article class="artifact-panel" data-panel="reports">
+              <p class="note-label">Aperçu</p>
+              <h3>Les rapports pilotent la confiance opérationnelle</h3>
+              <pre><code># Security Report
+
+- no critical findings
+
+{
+  "health": "ok"
+}</code></pre>
+              <div class="artifact-impact">
+                <p class="note-label">Ce que ça change</p>
+                <p>Les équipes gardent une vue opérationnelle sur la qualité, la sécurité et la fiabilité du contexte fourni au modèle.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Cas d’usage</p>
+          <h2>Conçu pour les équipes qui veulent fiabiliser l’usage des agents.</h2>
+        </div>
+
+        <div class="use-case-grid">
+          <article class="use-case reveal">
+            <h3>AI Platform</h3>
+            <p>Standardiser la préparation de contexte pour plusieurs workflows sans mélanger extraction, sécurité et rendu.</p>
+          </article>
+          <article class="use-case reveal">
+            <h3>Engineering Knowledge</h3>
+            <p>Compiler docs, specs, code, normes et données métier en un contexte versionnable et rejouable, y compris pour rédiger des spécifications à partir de référentiels normatifs.</p>
+          </article>
+          <article class="use-case reveal">
+            <h3>Governance & Security</h3>
+            <p>Appliquer des guards avant toute consommation et conserver une traçabilité exploitable en audit.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="faq" class="section faq-section">
+        <div class="section-heading reveal">
+          <p class="eyebrow">FAQ</p>
+          <h2>Les questions que l’on se pose tout de suite.</h2>
+        </div>
+
+        <div class="faq-list reveal">
+          <details>
+            <summary>Est-ce un orchestrateur LLM ou un agent ?</summary>
+            <p>Non. Context Compiler prépare le contexte avant l’usage LLM. Il ne génère pas de réponse et ne contacte pas de modèle.</p>
+          </details>
+          <details>
+            <summary>Pourquoi insister sur le déterminisme ?</summary>
+            <p>Parce que le déterminisme concerne le traitement des entrants : compiler deux fois les mêmes entrées doit donner le même résultat. Cela n’agit pas directement sur le déterminisme du modèle lui-même, mais réduit l’ambiguïté de ce qui lui est fourni, facilite les tests, la comparaison de sorties, l’audit et la confiance opérationnelle.</p>
+          </details>
+          <details>
+            <summary>Quel problème principal le produit résout-il ?</summary>
+            <p>Il évite de polluer le prompt avec l’ETL nécessaire pour absorber des sources hétérogènes. Cette complexité est traitée en amont, avant la consommation par le modèle.</p>
+          </details>
+          <details>
+            <summary>À quoi servent EK et ER ?</summary>
+            <p>EK identifie un fragment de façon stable, ER reflète sa révision basée sur le contenu. Les deux assurent preuve et traçabilité.</p>
+          </details>
+          <details>
+            <summary>Peut-on étendre le système ?</summary>
+            <p>Oui. Le modèle est modulaire : readers, guards, views, templates et exporters sont pensés pour être chargés au runtime.</p>
+          </details>
+        </div>
+      </section>
+
+      <section id="stack" class="section">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Stack</p>
+          <h2>Construit sur .NET 10, cross-platform et extensible via NuGet.</h2>
+          <p>
+            Context Compiler s’appuie sur .NET 10 pour offrir une base robuste, portable et
+            industrialisable. Grâce à .NET, la solution reste cross-platform, tandis que les modules
+            peuvent être packagés, versionnés et diffusés via NuGet.
+          </p>
+        </div>
+
+        <div class="card-grid">
+          <article class="feature-card reveal">
+            <div class="feature-icon" aria-hidden="true">
+              <img src="assets/logo_net.svg" alt="" width="42" height="42">
+            </div>
+            <h3>.NET 10</h3>
+            <p>Une base moderne pour industrialiser la compilation de contexte dans des environnements d’entreprise et de production.</p>
+          </article>
+          <article class="feature-card reveal">
+            <div class="feature-icon" aria-hidden="true">OS</div>
+            <h3>Cross-platform</h3>
+            <p>Grâce à .NET, le compilateur peut être exécuté dans des environnements Windows, Linux ou macOS sans changer de stack.</p>
+          </article>
+          <article class="feature-card reveal">
+            <div class="feature-icon" aria-hidden="true">
+              <img src="assets/nuget.png" alt="" width="42" height="42">
+            </div>
+            <h3>Modules via NuGet</h3>
+            <p>Les modules peuvent être packagés, versionnés et distribués comme des packages NuGet, avec un cycle de vie propre.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="packages" class="section">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Packages</p>
+          <h2>Une compilation adaptable à chaque besoin.</h2>
+          <p>
+            Context Compiler s’adapte à des usages très différents. Selon le besoin, il est possible
+            d’ajouter les briques utiles pour lire les bonnes sources, structurer le bon contexte et
+            produire les bons artefacts.
+          </p>
+          <p>
+            Les modules représentent des capacités atomiques. Les packs regroupent ces modules en
+            ensembles cohérents prêts à l'emploi.
+          </p>
+          <p>
+            Les blueprints vont un cran plus loin : ils assemblent packs, modules et rendu pour adresser
+            un use case prêt à l'emploi.
+          </p>
+          <p>
+            La galerie ci-dessous permet d’explorer les extensions disponibles, d’identifier celles qui
+            correspondent au besoin et d’accéder directement à leur publication NuGet.org ainsi qu’à leur code source.
+          </p>
+        </div>
+
+        <div class="packages-shell reveal">
+          <div class="packages-toolbar">
+            <div class="packages-kind-switch" role="tablist" aria-label="Type de packages">
+              <button type="button" class="packages-kind-button" data-kind="blueprints" aria-pressed="false">Blueprints</button>
+              <button type="button" class="packages-kind-button is-active" data-kind="packs" aria-pressed="true">Packs</button>
+              <button type="button" class="packages-kind-button" data-kind="modules" aria-pressed="false">Modules unitaires</button>
+            </div>
+
+            <label class="packages-search">
+              <span>Recherche</span>
+              <input id="packages-search" type="search" placeholder="Readers, Prompt, Security, Personas...">
+            </label>
+          </div>
+
+          <div class="packages-summary">
+            <p id="packages-summary-text">Chargement du catalogue...</p>
+            <div id="packages-family-filters" class="packages-family-filters" aria-label="Familles"></div>
+          </div>
+
+          <div id="packages-grid" class="packages-grid" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <section class="cta-band section reveal">
+        <p class="eyebrow">Next step</p>
+        <h2>Donnez à vos agents un contexte compilé, pas un empilement de fichiers.</h2>
+        <p><a class="contact-link" href="mailto:contact@contextcompiler.io">contact@contextcompiler.io</a></p>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p class="footer-links">
+        <a class="contact-link" href="mailto:contact@contextcompiler.io">Contact</a>
+        <a class="contact-link footer-linkedin" href="https://fr.linkedin.com/in/guillaume-baudrit-185762171">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M6.94 8.5H3.56V20h3.38V8.5ZM5.25 3A1.97 1.97 0 1 0 5.3 6.94 1.97 1.97 0 0 0 5.25 3ZM20 12.76c0-3.46-1.85-5.07-4.32-5.07-1.99 0-2.88 1.09-3.37 1.86V8.5H8.94c.05.69 0 11.5 0 11.5h3.37v-6.42c0-.34.03-.68.12-.92.27-.68.88-1.39 1.9-1.39 1.34 0 1.88 1.02 1.88 2.52V20H20v-7.24Z" fill="currentColor"/>
+          </svg>
+          <span>Guillaume Baudrit</span>
+        </a>
+        <a class="contact-link" href="https://github.com/gbaudrit/context-compiler">GitHub</a>
+        <a class="contact-link" href="https://github.com/gbaudrit/context-compiler/releases">Releases</a>
+        <a class="contact-link" href="https://contextcompiler.studio">contextcompiler.studio</a>
+      </p>
+      <p class="footer-links">
+        <span>&copy; <span id="year"></span> Context Compiler • contextcompiler.io</span>
+      </p>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
+
+

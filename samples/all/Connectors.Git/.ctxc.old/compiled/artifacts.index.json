@@ -1,0 +1,112 @@
+﻿{
+  "artifacts": [
+    {
+      "storeResource": {
+        "uri": {
+          "absolutePath": "C:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\context-compiler\\samples\\all\\Connectors.Git\\.ctxc\\compiled\\view.default.md",
+          "name": "view.default.md"
+        }
+      },
+      "description": "",
+      "mimeType": "application/octet-stream",
+      "size": 4311,
+      "generatedBy": "ContextCompiler.Core.Pipelines.View.ViewsPipelineRunner"
+    },
+    {
+      "storeResource": {
+        "uri": {
+          "absolutePath": "C:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\context-compiler\\samples\\all\\Connectors.Git\\.ctxc\\compiled\\view.documentation.yaml",
+          "name": "view.documentation.yaml"
+        }
+      },
+      "description": "",
+      "mimeType": "application/octet-stream",
+      "size": 47,
+      "generatedBy": "ContextCompiler.Core.Pipelines.View.ViewsPipelineRunner"
+    },
+    {
+      "storeResource": {
+        "uri": {
+          "absolutePath": "C:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\context-compiler\\samples\\all\\Connectors.Git\\.ctxc\\compiled\\view.documentation.index.json",
+          "name": "view.documentation.index.json"
+        }
+      },
+      "description": "",
+      "mimeType": "application/json",
+      "size": 98,
+      "generatedBy": "ContextCompiler.Core.Pipelines.View.ViewsPipelineRunner"
+    },
+    {
+      "storeResource": {
+        "uri": {
+          "absolutePath": "C:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\context-compiler\\samples\\all\\Connectors.Git\\.ctxc\\reports\\security.report.md",
+          "name": "security.report.md"
+        }
+      },
+      "description": "",
+      "mimeType": "application/octet-stream",
+      "size": 31,
+      "generatedBy": "ContextCompiler.Security.SecurityReportArtifactModule"
+    },
+    {
+      "storeResource": {
+        "uri": {
+          "absolutePath": "C:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\context-compiler\\samples\\all\\Connectors.Git\\.ctxc\\reports\\pipeline-report-interactive.html",
+          "name": "pipeline-report-interactive.html"
+        }
+      },
+      "description": "",
+      "mimeType": "application/octet-stream",
+      "size": 79502,
+      "generatedBy": "ContextCompiler.Reports.Modules.Pipelines.Mermaid.MermaidPipelineReportModule"
+    },
+    {
+      "storeResource": {
+        "uri": {
+          "absolutePath": "C:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\context-compiler\\samples\\all\\Connectors.Git\\.ctxc\\reports\\pipeline-report-detailed.html",
+          "name": "pipeline-report-detailed.html"
+        }
+      },
+      "description": "",
+      "mimeType": "application/octet-stream",
+      "size": 96302,
+      "generatedBy": "ContextCompiler.Reports.Modules.Pipelines.Mermaid.MermaidPipelineReportModule"
+    },
+    {
+      "storeResource": {
+        "uri": {
+          "absolutePath": "C:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\context-compiler\\samples\\all\\Connectors.Git\\.ctxc\\reports\\pipeline-report-condensed.html",
+          "name": "pipeline-report-condensed.html"
+        }
+      },
+      "description": "",
+      "mimeType": "application/octet-stream",
+      "size": 6119,
+      "generatedBy": "ContextCompiler.Reports.Modules.Pipelines.Mermaid.MermaidPipelineReportModule"
+    },
+    {
+      "storeResource": {
+        "uri": {
+          "absolutePath": "C:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\context-compiler\\samples\\all\\Connectors.Git\\.ctxc\\reports\\pipeline-report-reactflow.html",
+          "name": "pipeline-report-reactflow.html"
+        }
+      },
+      "description": "",
+      "mimeType": "application/octet-stream",
+      "size": 398455,
+      "generatedBy": "ContextCompiler.Reports.Modules.Pipelines.ReactFlow.ReactFlowPipelineReportModule"
+    },
+    {
+      "storeResource": {
+        "uri": {
+          "absolutePath": "C:\\Users\\g.baudrit\\source\\repos\\gbaudrit\\context-compiler\\samples\\all\\Connectors.Git\\.ctxc\\diagnostics\\pipeline-events.log",
+          "name": "pipeline-events.log"
+        }
+      },
+      "description": "",
+      "mimeType": "application/octet-stream",
+      "size": 49785,
+      "generatedBy": "ContextCompiler.DevTools.Modules.EventsLogger.EventsLoggerModule"
+    }
+  ]
+}compiled

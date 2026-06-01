@@ -1,0 +1,158 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://context-compiler.local/schemas/ctxc.config.schema.json",
+  "title": "Context Compiler Configuration",
+  "type": "object",
+  "required": [ "context", "personas", "files", "views" ],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "format": "uri"
+    },
+    "context": {
+      "type": "object",
+      "required": [ "enabled", "name", "summary", "domain", "audiences", "objectives", "assumptions", "constraints", "glossary" ],
+      "additionalProperties": false,
+      "properties": {
+        "assumptions": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "audiences": {
+          "type": "object",
+          "description": "Audience keys to hints or notes.",
+          "additionalProperties": { "type": "string" }
+        },
+        "constraints": {
+          "type": "object",
+          "required": [ "canUseExternalSources", "must", "mustNot" ],
+          "additionalProperties": false,
+          "properties": {
+            "canUseExternalSources": { "type": "boolean" },
+            "must": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "mustNot": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          }
+        },
+        "domain": { "type": "string" },
+        "enabled": { "type": "boolean" },
+        "glossary": {
+          "type": "object",
+          "description": "Key/value glossary entries.",
+          "additionalProperties": { "type": "string" }
+        },
+        "name": { "type": "string" },
+        "objectives": {
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 1
+        },
+        "summary": { "type": "string" }
+      }
+    },
+    "personas": {
+      "type": "object",
+      "required": [ "active", "mode" ],
+      "additionalProperties": false,
+      "properties": {
+        "active": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "mode": {
+          "type": "string",
+          "enum": [ "append", "replace" ]
+        },
+        "params": {
+          "type": "object",
+          "description": "Per-persona configuration maps.",
+          "additionalProperties": {
+            "$ref": "#/$defs/personaParams"
+          }
+        }
+      }
+    },
+    "files": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "description": "File selection + independent plugin options.",
+        "additionalProperties": false,
+        "properties": {
+          "$schema": {
+            "type": "string",
+            "format": "uri"
+          },
+          "includes": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Explicit file paths to include."
+          },
+          "match": {
+            "type": "string",
+            "description": "Glob-like pattern to match files (e.g., tools/UBL-Invoice-*.yaml)."
+          },
+          "options": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        },
+        "anyOf": [
+          { "required": [ "includes" ] },
+          { "required": [ "match" ] }
+        ]
+      }
+    },
+    "views": {
+      "type": "object",
+      "required": [ "views" ],
+      "additionalProperties": false,
+      "properties": {
+        "inline": {
+          "type": "boolean",
+          "default": false
+        },
+        "views": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [ "id" ],
+            "additionalProperties": false,
+            "properties": {
+              "id": { "type": "string" },
+              "select": {
+                "type": "array",
+                "items": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "personaParams": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "language": { "type": "string" },
+        "style": { "type": "string" },
+        "output": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "format": { "type": "string" },
+            "includeExamples": { "type": "boolean" }
+          }
+        }
+      }
+    }
+  }
+}

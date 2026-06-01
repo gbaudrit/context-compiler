@@ -1,0 +1,74 @@
+{
+  "commands": [
+    {
+      "id": "load",
+      "description": "Load this context",
+      "personaId": "",
+      "aliases": [],
+      "arguments": []
+    },
+    {
+      "id": "role \u003Cname\u003E",
+      "description": "Load role (persona) \u003Cname\u003E and be him",
+      "personaId": "",
+      "aliases": [],
+      "arguments": []
+    },
+    {
+      "id": "evidence used",
+      "description": "List all evidence fragments you have analysed",
+      "personaId": "",
+      "aliases": [],
+      "arguments": []
+    },
+    {
+      "id": "evidence coverage stats",
+      "description": "statistical analysis of the evidence used in relation to the complete list to establish coverage",
+      "personaId": "",
+      "aliases": [],
+      "arguments": []
+    },
+    {
+      "id": "write complete report to output",
+      "description": "Write a complete report to the output",
+      "personaId": "",
+      "aliases": [],
+      "arguments": []
+    },
+    {
+      "id": "view \u003Cname\u003E",
+      "description": "Load view view.\u003Cname\u003E.yaml and it\u0027s index view.\u003Cname\u003E.json",
+      "personaId": "",
+      "aliases": [],
+      "arguments": []
+    },
+    {
+      "id": "write userstory",
+      "description": "write a user story with actual context",
+      "personaId": "analysts.business",
+      "aliases": [],
+      "arguments": []
+    },
+    {
+      "id": "write",
+      "description": "write a code that respond to functional requirement",
+      "personaId": "developers.dotnetcore",
+      "aliases": [],
+      "arguments": []
+    },
+    {
+      "id": "write testcase",
+      "description": "write all required test case for actual context",
+      "personaId": "testers.analyst",
+      "aliases": [],
+      "arguments": []
+    },
+    {
+      "id": "us write",
+      "description": "write a user story with actual context",
+      "personaId": "analysts.business",
+      "aliases": [],
+      "arguments": []
+    }
+  ]
+}

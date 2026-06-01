@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<Configurations>Debug;Release;DebugLocal</Configurations>
+		<IsPackable>true</IsPackable>
+		<PackageId>ContextCompiler.Prompting.Modules.Composers.Assumptions</PackageId>
+		<Description>ContextCompiler prompt composer module for the Assumptions section of the prompt.</Description>
+		<Authors>ContextCompiler</Authors>
+		<Title>Assumptions prompt composer module</Title>
+		<PackageTags>context;compiler;module;prompt;composer;assumptions</PackageTags>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)' == 'DebugLocal'">
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	</PropertyGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\ContextCompiler.Prompting.Abstractions\ContextCompiler.Prompting.Abstractions.csproj" />
+		<ProjectReference Include="..\..\..\..\Core\ContextCompiler.Modules.Abstractions\ContextCompiler.Modules.Abstractions.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="README.md" Pack="true" PackagePath="" />
+	</ItemGroup>
+</Project>

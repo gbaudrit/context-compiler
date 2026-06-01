@@ -1,0 +1,76 @@
+{
+    "$schema": "file:///C:/Users/g.baudrit/source/repos/gbaudrit/Git/context-compiler/samples/schemas-aggregator/sample1/ctxc.config.aggregated.schema.json",
+    "context": {
+        "enabled": true,
+        "name": "",
+        "summary": "",
+        "domain": "",
+        "audiences": {},
+        "objectives": [],
+        "assumptions": [],
+        "constraints": {
+            "canUseExternalSources": false,
+            "must": [],
+            "mustNot": []
+        },
+        "glossary": {}
+    },
+    "personas": {
+        "active": [],
+        "mode": "append"
+    },
+    "files": [
+        {
+            "includes": ["spec/dgfip/0- Dossier de specifications externes FE - Dossier général.pdf"],
+            "options": {
+                "pdf": {
+                    "extracts": [
+                    {
+                        "id": "dgfip_cycle_de_vie",
+                        "label": "Cycle de vie de la facture électronique - DGFIP",
+                        "start": 58,
+                        "end": 58,
+                        "isArray":[58],
+                        "tags": ["concern:flux2"]
+                    }
+                ]
+                }
+            }
+        },
+        {
+            "includes": ["spec/afnor/XP_Z12-012/XP_Z12-012.xlsx"],
+            "options": {
+                "excel": {
+                    "extracts": [
+                        {
+                        "id": "flux2_ubl_ext_ctc_fr",
+                        "label": "Flux 2 UBL EXT-CTC-FR",
+                        "sheet": "Flux 2 UBL EXT-CTC-FR",
+                        "table": "",
+                        "headerRowIndex": 1,
+                        "select": ["ID", "Card. EN 16931", "Xpath", "Type logique", "Terme Métier FR", "Règle Flux 2, 8 sortant, 9"],
+                        "tags": ["concern:flux2"]
+                        },
+                        {
+                        "id": "flux2_ubl_ext_ctc_fr_rules",
+                        "label": "Champs obligatoires et optionnels - Flux 2 E-Invoicing",
+                        "sheet": "BR-France CTC",
+                        "table": "",
+                        "skip": 0,
+                        "headerRowIndex": 4,
+                        "select": ["CODE BR", "Description", "S'applique à"],
+                        "where": [
+                            { "col": "Flux 2", "op": "eq", "value": "X" }
+                        ],
+                        "tags": ["concern:flux2","rules:br-fr"]
+                        }
+                    ]
+                }
+            }
+        }
+    ],
+    "views": {
+        "inline":false,
+        "views":[]
+    }
+}

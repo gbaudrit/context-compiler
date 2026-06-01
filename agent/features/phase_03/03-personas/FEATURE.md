@@ -2,7 +2,7 @@
 
 **Status:** Authoritative  
 **Date:** 2025-12-26  
-**Pipeline:** Global Pipeline stage 4 (after Global Context, before Templates)
+**Pipeline:** Global Pipeline module kind `Persona`
 
 A Persona is a **plugin-produced framing overlay** that guides role/style/output expectations.
 Personas are applied globally and do not modify data fragments.

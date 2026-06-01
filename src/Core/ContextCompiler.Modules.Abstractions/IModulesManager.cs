@@ -1,0 +1,12 @@
+using ContextCompiler.Modules.Abstractions.Configuration;
+
+namespace ContextCompiler.Modules.Abstractions
+{
+    public interface IModulesManager
+    {
+        IEnumerable<(string id, string version, string shaDir)> ListInstalled();
+        Task<IEnumerable<string>> LoadableModules();
+        void PurgeCache(bool keepLockfilePinned = true);
+        Task<ModuleLockFile> RestoreAndLockAsync(bool force, CancellationToken ct);
+    }
+}

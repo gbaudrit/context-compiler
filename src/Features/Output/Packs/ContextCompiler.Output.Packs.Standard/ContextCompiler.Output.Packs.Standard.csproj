@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<Configurations>Debug;Release;DebugLocal</Configurations>
+		<IsPackable>true</IsPackable>
+		<PackageId>ContextCompiler.Output.Packs.Standard</PackageId>
+		<Title>Standard output pack</Title>
+		<Description>Standard output pack with the artifacts registry and writer modules.</Description>
+		<PackageTags>context;compiler;pack;artifacts;registry;writer;outputs;standard</PackageTags>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<Authors>ContextCompiler</Authors>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)' == 'DebugLocal'">
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="README.md" Pack="true" PackagePath="" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\Modules\ContextCompiler.Output.Modules.Artifacts.Registry\ContextCompiler.Output.Modules.Artifacts.Registry.csproj" />
+	  <ProjectReference Include="..\..\Modules\ContextCompiler.Output.Modules.Artifacts.Writer\ContextCompiler.Output.Modules.Artifacts.Writer.csproj" />
+	</ItemGroup>
+
+</Project>

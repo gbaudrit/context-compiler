@@ -1,0 +1,139 @@
+{
+    "$schema": "file:///C:/Users/g.baudrit/source/repos/gbaudrit/Git/ctxc-samples/ctxc-sample-spec/with-ctxc/.ctxc/schemas/ctxc.config.schema.json",
+    "context": {
+    "enabled": true,
+    "name": "Déterminer la roadmap de développement de la facturation électronique e-invoicing",
+    "summary": "Compiler les données issues de plusieurs fichiers Excel pour identifier les champs obligatoires du Flux 2 E-Invoicing conformément à la norme AFNOR DOC_FR-Flux_1&2_E-Invoicing_Données-obligatoires_V5.3.4.2 et aux règles de gestion associées.",
+    "domain": "Finance / Conformité",
+    "audiences": {
+      "business_analyst":"",
+      "dev_senior":""
+    },
+    "objectives": [
+      "Extraire et compiler les champs obligatoires du Flux 2 E-Invoicing à partir des fichiers Excel fournis.",
+      "Présenter les résultats de manière claire et structurée en français, en utilisant le format markdown.",
+      "Inclure des exemples concrets pour illustrer les champs obligatoires identifiés."
+    ],
+    "assumptions": [
+      "Les fichiers Excel fournis sont à jour et conformes à la norme AFNOR mentionnée.",
+      "Les extraits de données demandés sont suffisants pour identifier les champs obligatoires du Flux 2 E-Invoicing."
+    ],
+    "constraints": {
+      "canUseExternalSources": false,
+      "must": [
+        "Utiliser uniquement les évidences extraites (E-XXXXXXX).",
+        "Check and Cite objectives for all tasks.",
+        "Check and Cite assumptions for all tasks.",
+        "Cite evidence for all facts, claims or statements.",
+        "Présenter les résultats au format markdown avec des exemples."
+      ],
+      "mustNot": [
+        "Faire des suppositions non basées sur les données extraites.",
+        "Utiliser des informations provenant de sources externes."
+      ]
+    },
+    "glossary": {
+      "E-Invoicing": "Facturation électronique, processus de facturation utilisant des formats numériques standardisés.",
+      "Flux 2": "Un des flux de données spécifiques dans le cadre de la facturation électronique, souvent lié aux informations complémentaires requises.",
+      "AFNOR": "Association Française de Normalisation, organisme responsable de la normalisation en France."
+    }
+  },
+    "files": [
+        {
+            "includes": ["spec/dgfip/0- Dossier de specifications externes FE - Dossier général.pdf"],
+            "options": {
+                "readers.pdf": {
+                "extracts": [
+                    {
+                        "id": "dgfip_cycle_de_vie",
+                        "label": "Cycle de vie de la facture électronique - DGFIP",
+                        "isArray":[58],
+                        "tags": ["concern:flux2"]
+                    }
+                ]
+            }
+            }
+        },
+        {
+            "includes": ["spec/afnor/XP_Z12-012/XP_Z12-012.pdf"],
+            "options": {
+                "readers.pdf": {
+                "extracts": [
+                    {
+                        "id": "afnor_norme_xp_z12_012",
+                        "label": "Norme facture électronique - AFNOR",
+                        "tags": ["concern:flux2", "concern:XP_Z12-012_1.3"]
+                    }
+                ]
+            }
+            }
+        },
+        {
+            "includes": ["spec/afnor 1.2/XP_Z12-012/XP_Z12-012.pdf"],
+            "options": {
+                "readers.pdf": {
+                "extracts": [
+                    {
+                        "id": "afnor_norme_xp_z12_012",
+                        "label": "Norme facture électronique - AFNOR",
+                        "tags": ["concern:flux2", "concern:XP_Z12-012_1.2"]
+                    }
+                ]
+            }
+            }
+        },
+        {
+            "includes": ["spec/afnor/XP_Z12-012/XP_Z12-012_cdar.pdf"],
+            "options": {
+                "readers.pdf": {
+                "extracts": [
+                    {
+                        "id": "afnor_norme_xp_z12_012_cdar",
+                        "label": "Norme facture électronique CDAR - AFNOR",
+                        "tags": ["concern:cdar"]
+                    }
+                ]
+            }
+            }
+        },
+        {
+            "includes": ["inputs/excel.xlsx"],
+            "options": {
+                "readers.excel": {
+                    "extracts": [
+                    {
+                    "id": "sheet1",
+                    "label": "Sheet 1",
+                    "sheet": "Sheet1",
+                    "table": "",
+                    "headerRowIndex": [0,1],
+                    "select": ["A", "B", "C", "D"],
+                    "tags": ["concern:excel"]
+                    }
+                ]
+            }
+            }
+        }
+    ],
+    "views": {
+        "inline":false,
+        "views":[
+          {
+            "id": "flux2",
+            "select": ["concern:flux2"]
+          },
+          {
+            "id": "cdar",
+            "select": ["concern:cdar"]
+          },
+          {
+            "id": "XP_Z12-012_1.2",
+            "select": ["concern:XP_Z12-012_1.2"]
+          },
+          {
+            "id": "XP_Z12-012_1.3",
+            "select": ["concern:XP_Z12-012_1.3"]
+          }
+        ]
+    }
+}

@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://context-compiler.local/schemas/module.readers.pdf/ctxc.config.schema.json",
+  "title": "Context Compiler business analyst persona module configuration",
+  "type": "object",
+  "description": "Business analyst persona module configuration.",
+  "required": [ "id", "label" ],
+  "additionalProperties": false,
+  "$defs": {
+    "personasOptions": {
+      "type": "object",
+      "properties": {
+        "businessanalyst": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "language": {
+              "type": "string"              
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

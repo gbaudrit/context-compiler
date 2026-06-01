@@ -1,2 +1,24 @@
 <Project>
+	<!-- Pack + Push uniquement lorsque Configuration = DebugLocal -->
+	<Target Name="PushPackage_DebugLocal"
+			AfterTargets="Pack"
+			Condition="'$(Configuration)' == 'DebugLocal'">
+
+		<!-- PackageVersion = Version + VersionSuffix (si suffixe d�fini) -->
+		<ItemGroup>
+			<_MainNupkg Include="$(PackageOutputPath)$(PackageId).$(PackageVersion).nupkg" />
+		</ItemGroup>
+
+		<Error Condition="!Exists('@(_MainNupkg)')"
+			   Text="Package introuvable: @(_MainNupkg). (PackageOutputPath=$(PackageOutputPath), PackageId=$(PackageId), PackageVersion=$(PackageVersion))" />
+
+		<Message Importance="High" Text="Pushing @(_MainNupkg) to NuGet source 'Locale'..." />
+		
+		<!--<Exec Command="nuget add &quot;@(_MainNupkg)&quot; -Source C:\.localnugetsource"
+			  WorkingDirectory="$(MSBuildProjectDirectory)" />-->
+
+		<Exec Command="dotnet nuget push &quot;@(_MainNupkg)&quot; --source Locale --skip-duplicate"
+			  WorkingDirectory="$(MSBuildProjectDirectory)" />
+
+	</Target>
 </Project>

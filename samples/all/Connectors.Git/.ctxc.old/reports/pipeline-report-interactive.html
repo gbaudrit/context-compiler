@@ -1,0 +1,829 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pipeline Execution Report - Interactive</title>
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+        window.mermaid = mermaid;
+        mermaid.initialize({ 
+            startOnLoad: false,
+            theme: 'default',
+            maxTextSize: 200000,
+            maxEdges: 2000,
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            }
+        });
+    </script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            margin-top: 0;
+            border-bottom: 3px solid #01579b;
+            padding-bottom: 10px;
+        }
+        .filters {
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .filters h3 {
+            margin-top: 0;
+            color: #555;
+        }
+        .filter-group {
+            display: inline-block;
+            margin-right: 20px;
+            margin-bottom: 10px;
+        }
+        .filter-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #555;
+        }
+        .filter-group select {
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background: white;
+            font-size: 14px;
+            min-width: 200px;
+        }
+        .filter-actions {
+            margin-top: 15px;
+        }
+        .filter-actions button {
+            padding: 10px 20px;
+            margin-right: 10px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .btn-apply {
+            background: #01579b;
+            color: white;
+        }
+        .btn-apply:hover {
+            background: #014078;
+        }
+        .btn-reset {
+            background: #757575;
+            color: white;
+        }
+        .btn-reset:hover {
+            background: #616161;
+        }
+        .info-box {
+            background: #e3f2fd;
+            border: 1px solid #01579b;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .info-box p {
+            margin: 5px 0;
+            color: #01579b;
+        }
+        .zoom-controls {
+            margin: 20px 0 10px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #f9f9f9;
+            padding: 10px 15px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        .zoom-controls button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            background: #01579b;
+            color: white;
+            transition: background 0.2s;
+        }
+        .zoom-controls button:hover {
+            background: #014078;
+        }
+        .zoom-controls button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .zoom-level {
+            font-weight: 600;
+            color: #333;
+            min-width: 60px;
+            text-align: center;
+        }
+        .mermaid-container {
+            margin: 10px 0 20px 0;
+            overflow: auto;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 20px;
+            background: white;
+            position: relative;
+            min-height: 600px;
+            height: 80vh;
+        }
+        #mermaidDiagram {
+            text-align: center;
+            transform-origin: top left;
+            transition: transform 0.2s ease-out;
+        }
+        .legend {
+            margin-top: 30px;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 4px;
+        }
+        .legend h3 {
+            margin-top: 0;
+            color: #555;
+        }
+        .legend-item {
+            display: inline-block;
+            margin-right: 20px;
+            margin-bottom: 10px;
+        }
+        .legend-box {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            margin-right: 8px;
+            vertical-align: middle;
+            border-radius: 3px;
+        }
+        .started { background: #e1f5fe; border: 2px solid #01579b; }
+        .completed { background: #c8e6c9; border: 2px solid #2e7d32; }
+        .failed { background: #ffcdd2; border: 2px solid #c62828; }
+        .timestamp {
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 20px;
+        }
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Pipeline Execution Report - Interactive</h1>
+        <div class="filters">
+            <h3>🔍 Filters - Select what to visualize</h3>
+            <div class="filter-group">
+                <label for="pipelineFilter">Pipeline:</label>
+                <select id="pipelineFilter">
+                    <option value="">All Pipelines</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="phaseFilter">Phase:</label>
+                <select id="phaseFilter">
+                    <option value="">All Phases</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="moduleFilter">Module:</label>
+                <select id="moduleFilter">
+                    <option value="">All Modules</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="itemFilter">Item:</label>
+                <select id="itemFilter">
+                    <option value="">All Items</option>
+                </select>
+            </div>
+            <div class="filter-actions">
+                <button class="btn-apply" onclick="applyFilters()">Apply Filters</button>
+                <button class="btn-reset" onclick="resetFilters()">Reset All</button>
+            </div>
+            <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #ddd;">
+                <label style="display: flex; align-items: center; cursor: pointer; margin-bottom: 10px;">
+                    <input type="checkbox" id="showPipelineLinks" checked style="margin-right: 8px;">
+                    <span style="font-weight: 600;">Show pipeline hierarchy links</span>
+                </label>
+                <label style="display: flex; align-items: center; cursor: pointer; margin-bottom: 10px;">
+                    <input type="checkbox" id="groupByItem" checked style="margin-right: 8px;">
+                    <span style="font-weight: 600;">Group by Item (shows file journey)</span>
+                </label>
+                <label style="display: flex; align-items: center; cursor: pointer; margin-bottom: 10px;">
+                    <input type="checkbox" id="showPipelineId" style="margin-right: 8px;">
+                    <span style="font-weight: 600;">Show Pipeline ID in labels (helps identify duplicates)</span>
+                </label>
+                <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #ddd;">
+                    <div style="font-weight: 600; margin-bottom: 8px;">Graph Orientation:</div>
+                    <label style="display: inline-flex; align-items: center; cursor: pointer; margin-right: 20px;">
+                        <input type="radio" name="orientation" id="orientationLR" checked style="margin-right: 8px;">
+                        <span>Horizontal (Left → Right) - Recommended for long pipelines</span>
+                    </label>
+                    <label style="display: inline-flex; align-items: center; cursor: pointer;">
+                        <input type="radio" name="orientation" id="orientationTD" style="margin-right: 8px;">
+                        <span>Vertical (Top → Bottom)</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="info-box" id="infoBox">
+            <p><strong>Total events:</strong> <span id="eventCount">119</span></p>
+            <p><strong>Filtered events:</strong> <span id="filteredCount">0</span></p>
+        </div>
+        <div class="zoom-controls">
+            <button id="zoomOut" title="Zoom Out">➖</button>
+            <span class="zoom-level" id="zoomLevel">100%</span>
+            <button id="zoomIn" title="Zoom In">➕</button>
+            <button id="zoomReset" title="Reset Zoom" style="margin-left: 10px;">Reset</button>
+            <span style="margin-left: 15px; color: #666; font-size: 0.9em;">💡 Tip: Use Ctrl+Mouse Wheel or pinch to zoom</span>
+        </div>
+        <div class="mermaid-container" id="mermaidContainer">
+            <div id="mermaidDiagram" class="loading">Loading diagram...</div>
+        </div>
+        <div class="legend">
+            <h3>Legend</h3>
+            <div style="margin-bottom: 15px;">
+                <strong>Pipelines (colors):</strong>
+                <div id="pipelineLegend" style="margin-top: 8px;"></div>
+            </div>
+            <div>
+                <strong>Status:</strong>
+                <div style="margin-top: 8px;">
+                    <div class="legend-item">
+                        <span class="legend-box" style="background: #e3f2fd; border: 2px solid #01579b;"></span>
+                        <span>✓ Phase Completed</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-box" style="background: #e3f2fd; border: 2px dashed #01579b;"></span>
+                        <span>Phase Started (orphan)</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-box failed"></span>
+                        <span>✗ Phase Failed</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="timestamp">Generated: 2026-06-01 21:16:15 UTC</div>
+    </div>
+    <script>
+        const allEvents = [{"Name":"PhaseStarted","PipelineId":"GlobalPipeline","PipelineCurrentPhaseKey":"Setup","ParentPipelineId":null,"PhaseId":"Setup","ModuleId":"connectors.git","ItemId":"","Timestamp":"2026-06-01T21:16:14.4238131\u002B00:00","Duration":null,"Error":null},{"Name":"PhaseCompleted","PipelineId":"GlobalPipeline","PipelineCurrentPhaseKey":"Setup","ParentPipelineId":null,"PhaseId":"Setup","ModuleId":"connectors.git","ItemId":"","Timestamp":"2026-06-01T21:16:15.2091916\u002B00:00","Duration":785.3734,"Error":null},{"Name":"PhaseStarted","PipelineId":"GlobalPipeline","PipelineCurrentPhaseKey":"InputIngestion","ParentPipelineId":null,"PhaseId":"InputIngestion","ModuleId":"pipelines.input-ingestion","ItemId":"","Timestamp":"2026-06-01T21:16:15.2098978\u002B00:00","Duration":null,"Error":null},{"Name":"PhaseStarted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadSource","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadSource","ModuleId":"readers.text","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Blueprints.md","Timestamp":"2026-06-01T21:16:15.2202625\u002B00:00","Duration":null,"Error":null},{"Name":"PhaseCompleted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadSource","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadSource","ModuleId":"readers.text","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Blueprints.md","Timestamp":"2026-06-01T21:16:15.2366399\u002B00:00","Duration":16.3768,"Error":null},{"Name":"PhaseStarted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadSource","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadSource","ModuleId":"readers.markdown","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Blueprints.md","Timestamp":"2026-06-01T21:16:15.2369048\u002B00:00","Duration":null,"Error":null},{"Name":"PhaseCompleted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadSource","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadSource","ModuleId":"readers.markdown","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Blueprints.md","Timestamp":"2026-06-01T21:16:15.2378460\u002B00:00","Duration":0.9407,"Error":null},{"Name":"PhaseStarted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"SourceItemMatchTags","ParentPipelineId":"GlobalPipeline","PhaseId":"SourceItemMatchTags","ModuleId":"pass.filematchtags","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Blueprints.md","Timestamp":"2026-06-01T21:16:15.2387192\u002B00:00","Duration":null,"Error":null},{"Name":"PhaseCompleted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"SourceItemMatchTags","ParentPipelineId":"GlobalPipeline","PhaseId":"SourceItemMatchTags","ModuleId":"pass.filematchtags","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Blueprints.md","Timestamp":"2026-06-01T21:16:15.2411426\u002B00:00","Duration":2.4231,"Error":null},{"Name":"PhaseStarted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadScopeGuards","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadScopeGuards","ModuleId":"security.guard.scope","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Blueprints.md","Timestamp":"2026-06-01T21:16:15.2412552\u002B00:00","Duration":null,"Error":null},{"Name":"PhaseCompleted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadScopeGuards","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadScopeGuards","ModuleId":"security.guard.scope","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Blueprints.md","Timestamp":"2026-06-01T21:16:15.2418121\u002B00:00","Duration":0.5568,"Error":null},{"Name":"PhaseStarted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadScopeGuards","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadScopeGuards","ModuleId":"security.guard.injection","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Blueprints.md","Timestamp":"2026-06-01T21:16:15.2419019\u002B00:00","Duration":null,"Error":null},{"Name":"PhaseCompleted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadScopeGuards","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadScopeGuards","ModuleId":"security.guard.injection","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Blueprints.md","Timestamp":"2026-06-01T21:16:15.2450601\u002B00:00","Duration":3.1574,"Error":null},{"Name":"PhaseStarted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadScopeGuards","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadScopeGuards","ModuleId":"security.guard.email","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Blueprints.md","Timestamp":"2026-06-01T21:16:15.2452015\u002B00:00","Duration":null,"Error":null},{"Name":"PhaseCompleted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadScopeGuards","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadScopeGuards","ModuleId":"security.guard.email","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Blueprints.md","Timestamp":"2026-06-01T21:16:15.2467092\u002B00:00","Duration":1.5071,"Error":null},{"Name":"PhaseStarted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadScopeGuards","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadScopeGuards","ModuleId":"security.guard.sensitivity","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Blueprints.md","Timestamp":"2026-06-01T21:16:15.2468594\u002B00:00","Duration":null,"Error":null},{"Name":"PhaseCompleted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadScopeGuards","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadScopeGuards","ModuleId":"security.guard.sensitivity","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Blueprints.md","Timestamp":"2026-06-01T21:16:15.2480775\u002B00:00","Duration":1.2176,"Error":null},{"Name":"PhaseStarted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"DataPartsProcessor","ParentPipelineId":"GlobalPipeline","PhaseId":"DataPartsProcessor","ModuleId":"pipelines.input-ingestion.datapart","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Blueprints.md","Timestamp":"2026-06-01T21:16:15.2482499\u002B00:00","Duration":null,"Error":null},{"Name":"PhaseCompleted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"DataPartsProcessor","ParentPipelineId":"GlobalPipeline","PhaseId":"DataPartsProcessor","ModuleId":"pipelines.input-ingestion.datapart","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Blueprints.md","Timestamp":"2026-06-01T21:16:15.2619790\u002B00:00","Duration":13.7286,"Error":null},{"Name":"PhaseStarted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadSource","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadSource","ModuleId":"readers.text","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Home.md","Timestamp":"2026-06-01T21:16:15.2633191\u002B00:00","Duration":null,"Error":null},{"Name":"PhaseCompleted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadSource","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadSource","ModuleId":"readers.text","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Home.md","Timestamp":"2026-06-01T21:16:15.2726796\u002B00:00","Duration":9.3578,"Error":null},{"Name":"PhaseStarted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadSource","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadSource","ModuleId":"readers.markdown","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Home.md","Timestamp":"2026-06-01T21:16:15.2727844\u002B00:00","Duration":null,"Error":null},{"Name":"PhaseCompleted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadSource","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadSource","ModuleId":"readers.markdown","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Home.md","Timestamp":"2026-06-01T21:16:15.2728836\u002B00:00","Duration":0.0991,"Error":null},{"Name":"PhaseStarted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"SourceItemMatchTags","ParentPipelineId":"GlobalPipeline","PhaseId":"SourceItemMatchTags","ModuleId":"pass.filematchtags","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Home.md","Timestamp":"2026-06-01T21:16:15.2729472\u002B00:00","Duration":null,"Error":null},{"Name":"PhaseCompleted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"SourceItemMatchTags","ParentPipelineId":"GlobalPipeline","PhaseId":"SourceItemMatchTags","ModuleId":"pass.filematchtags","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Home.md","Timestamp":"2026-06-01T21:16:15.2734305\u002B00:00","Duration":0.4831,"Error":null},{"Name":"PhaseStarted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadScopeGuards","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadScopeGuards","ModuleId":"security.guard.scope","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Home.md","Timestamp":"2026-06-01T21:16:15.2735558\u002B00:00","Duration":null,"Error":null},{"Name":"PhaseCompleted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadScopeGuards","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadScopeGuards","ModuleId":"security.guard.scope","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Home.md","Timestamp":"2026-06-01T21:16:15.2736079\u002B00:00","Duration":0.0519,"Error":null},{"Name":"PhaseStarted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadScopeGuards","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadScopeGuards","ModuleId":"security.guard.injection","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Home.md","Timestamp":"2026-06-01T21:16:15.2736201\u002B00:00","Duration":null,"Error":null},{"Name":"PhaseCompleted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadScopeGuards","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadScopeGuards","ModuleId":"security.guard.injection","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Home.md","Timestamp":"2026-06-01T21:16:15.2736364\u002B00:00","Duration":0.0162,"Error":null},{"Name":"PhaseStarted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadScopeGuards","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadScopeGuards","ModuleId":"security.guard.email","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Home.md","Timestamp":"2026-06-01T21:16:15.2736478\u002B00:00","Duration":null,"Error":null},{"Name":"PhaseCompleted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadScopeGuards","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadScopeGuards","ModuleId":"security.guard.email","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Home.md","Timestamp":"2026-06-01T21:16:15.2736622\u002B00:00","Duration":0.0143,"Error":null},{"Name":"PhaseStarted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadScopeGuards","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadScopeGuards","ModuleId":"security.guard.sensitivity","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Home.md","Timestamp":"2026-06-01T21:16:15.2736770\u002B00:00","Duration":null,"Error":null},{"Name":"PhaseCompleted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadScopeGuards","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadScopeGuards","ModuleId":"security.guard.sensitivity","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Home.md","Timestamp":"2026-06-01T21:16:15.2736833\u002B00:00","Duration":0.0062,"Error":null},{"Name":"PhaseStarted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"DataPartsProcessor","ParentPipelineId":"GlobalPipeline","PhaseId":"DataPartsProcessor","ModuleId":"pipelines.input-ingestion.datapart","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Home.md","Timestamp":"2026-06-01T21:16:15.2737019\u002B00:00","Duration":null,"Error":null},{"Name":"PhaseCompleted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"DataPartsProcessor","ParentPipelineId":"GlobalPipeline","PhaseId":"DataPartsProcessor","ModuleId":"pipelines.input-ingestion.datapart","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Home.md","Timestamp":"2026-06-01T21:16:15.2747038\u002B00:00","Duration":1.0017,"Error":null},{"Name":"PhaseStarted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadSource","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadSource","ModuleId":"readers.text","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Modules.md","Timestamp":"2026-06-01T21:16:15.2774694\u002B00:00","Duration":null,"Error":null},{"Name":"PhaseCompleted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadSource","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadSource","ModuleId":"readers.text","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Modules.md","Timestamp":"2026-06-01T21:16:15.2874900\u002B00:00","Duration":10.019,"Error":null},{"Name":"PhaseStarted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadSource","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadSource","ModuleId":"readers.markdown","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Modules.md","Timestamp":"2026-06-01T21:16:15.2876845\u002B00:00","Duration":null,"Error":null},{"Name":"PhaseCompleted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadSource","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadSource","ModuleId":"readers.markdown","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Modules.md","Timestamp":"2026-06-01T21:16:15.2878562\u002B00:00","Duration":0.1712,"Error":null},{"Name":"PhaseStarted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"SourceItemMatchTags","ParentPipelineId":"GlobalPipeline","PhaseId":"SourceItemMatchTags","ModuleId":"pass.filematchtags","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Modules.md","Timestamp":"2026-06-01T21:16:15.2879134\u002B00:00","Duration":null,"Error":null},{"Name":"PhaseCompleted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"SourceItemMatchTags","ParentPipelineId":"GlobalPipeline","PhaseId":"SourceItemMatchTags","ModuleId":"pass.filematchtags","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Modules.md","Timestamp":"2026-06-01T21:16:15.2880121\u002B00:00","Duration":0.0986,"Error":null},{"Name":"PhaseStarted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadScopeGuards","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadScopeGuards","ModuleId":"security.guard.scope","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Modules.md","Timestamp":"2026-06-01T21:16:15.2880288\u002B00:00","Duration":null,"Error":null},{"Name":"PhaseCompleted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadScopeGuards","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadScopeGuards","ModuleId":"security.guard.scope","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Modules.md","Timestamp":"2026-06-01T21:16:15.2880575\u002B00:00","Duration":0.0286,"Error":null},{"Name":"PhaseStarted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadScopeGuards","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadScopeGuards","ModuleId":"security.guard.injection","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Modules.md","Timestamp":"2026-06-01T21:16:15.2880677\u002B00:00","Duration":null,"Error":null},{"Name":"PhaseCompleted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadScopeGuards","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadScopeGuards","ModuleId":"security.guard.injection","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Modules.md","Timestamp":"2026-06-01T21:16:15.2880764\u002B00:00","Duration":0.0086,"Error":null},{"Name":"PhaseStarted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadScopeGuards","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadScopeGuards","ModuleId":"security.guard.email","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Modules.md","Timestamp":"2026-06-01T21:16:15.2880854\u002B00:00","Duration":null,"Error":null},{"Name":"PhaseCompleted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadScopeGuards","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadScopeGuards","ModuleId":"security.guard.email","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Modules.md","Timestamp":"2026-06-01T21:16:15.2880927\u002B00:00","Duration":0.0072,"Error":null},{"Name":"PhaseStarted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadScopeGuards","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadScopeGuards","ModuleId":"security.guard.sensitivity","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Modules.md","Timestamp":"2026-06-01T21:16:15.2880976\u002B00:00","Duration":null,"Error":null},{"Name":"PhaseCompleted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadScopeGuards","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadScopeGuards","ModuleId":"security.guard.sensitivity","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Modules.md","Timestamp":"2026-06-01T21:16:15.2881057\u002B00:00","Duration":0.008,"Error":null},{"Name":"PhaseStarted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"DataPartsProcessor","ParentPipelineId":"GlobalPipeline","PhaseId":"DataPartsProcessor","ModuleId":"pipelines.input-ingestion.datapart","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Modules.md","Timestamp":"2026-06-01T21:16:15.2881145\u002B00:00","Duration":null,"Error":null},{"Name":"PhaseCompleted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"DataPartsProcessor","ParentPipelineId":"GlobalPipeline","PhaseId":"DataPartsProcessor","ModuleId":"pipelines.input-ingestion.datapart","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Modules.md","Timestamp":"2026-06-01T21:16:15.2888050\u002B00:00","Duration":0.6903,"Error":null},{"Name":"PhaseStarted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadSource","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadSource","ModuleId":"readers.text","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Packs.md","Timestamp":"2026-06-01T21:16:15.2888848\u002B00:00","Duration":null,"Error":null},{"Name":"PhaseCompleted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadSource","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadSource","ModuleId":"readers.text","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Packs.md","Timestamp":"2026-06-01T21:16:15.2978359\u002B00:00","Duration":8.9502,"Error":null},{"Name":"PhaseStarted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadSource","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadSource","ModuleId":"readers.markdown","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Packs.md","Timestamp":"2026-06-01T21:16:15.2979400\u002B00:00","Duration":null,"Error":null},{"Name":"PhaseCompleted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadSource","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadSource","ModuleId":"readers.markdown","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Packs.md","Timestamp":"2026-06-01T21:16:15.2980764\u002B00:00","Duration":0.1361,"Error":null},{"Name":"PhaseStarted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"SourceItemMatchTags","ParentPipelineId":"GlobalPipeline","PhaseId":"SourceItemMatchTags","ModuleId":"pass.filematchtags","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Packs.md","Timestamp":"2026-06-01T21:16:15.2981455\u002B00:00","Duration":null,"Error":null},{"Name":"PhaseCompleted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"SourceItemMatchTags","ParentPipelineId":"GlobalPipeline","PhaseId":"SourceItemMatchTags","ModuleId":"pass.filematchtags","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Packs.md","Timestamp":"2026-06-01T21:16:15.2982399\u002B00:00","Duration":0.0942,"Error":null},{"Name":"PhaseStarted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadScopeGuards","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadScopeGuards","ModuleId":"security.guard.scope","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Packs.md","Timestamp":"2026-06-01T21:16:15.2982544\u002B00:00","Duration":null,"Error":null},{"Name":"PhaseCompleted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadScopeGuards","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadScopeGuards","ModuleId":"security.guard.scope","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Packs.md","Timestamp":"2026-06-01T21:16:15.2983615\u002B00:00","Duration":0.1069,"Error":null},{"Name":"PhaseStarted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadScopeGuards","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadScopeGuards","ModuleId":"security.guard.injection","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Packs.md","Timestamp":"2026-06-01T21:16:15.2983980\u002B00:00","Duration":null,"Error":null},{"Name":"PhaseCompleted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadScopeGuards","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadScopeGuards","ModuleId":"security.guard.injection","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Packs.md","Timestamp":"2026-06-01T21:16:15.2984089\u002B00:00","Duration":0.0109,"Error":null},{"Name":"PhaseStarted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadScopeGuards","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadScopeGuards","ModuleId":"security.guard.email","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Packs.md","Timestamp":"2026-06-01T21:16:15.2984164\u002B00:00","Duration":null,"Error":null},{"Name":"PhaseCompleted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadScopeGuards","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadScopeGuards","ModuleId":"security.guard.email","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Packs.md","Timestamp":"2026-06-01T21:16:15.2984279\u002B00:00","Duration":0.0115,"Error":null},{"Name":"PhaseStarted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadScopeGuards","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadScopeGuards","ModuleId":"security.guard.sensitivity","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Packs.md","Timestamp":"2026-06-01T21:16:15.2984330\u002B00:00","Duration":null,"Error":null},{"Name":"PhaseCompleted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadScopeGuards","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadScopeGuards","ModuleId":"security.guard.sensitivity","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Packs.md","Timestamp":"2026-06-01T21:16:15.2984372\u002B00:00","Duration":0.0041,"Error":null},{"Name":"PhaseStarted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"DataPartsProcessor","ParentPipelineId":"GlobalPipeline","PhaseId":"DataPartsProcessor","ModuleId":"pipelines.input-ingestion.datapart","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Packs.md","Timestamp":"2026-06-01T21:16:15.2984568\u002B00:00","Duration":null,"Error":null},{"Name":"PhaseCompleted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"DataPartsProcessor","ParentPipelineId":"GlobalPipeline","PhaseId":"DataPartsProcessor","ModuleId":"pipelines.input-ingestion.datapart","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Packs.md","Timestamp":"2026-06-01T21:16:15.2986310\u002B00:00","Duration":0.174,"Error":null},{"Name":"PhaseStarted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadSource","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadSource","ModuleId":"readers.text","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Wiki-Structure.md","Timestamp":"2026-06-01T21:16:15.2987106\u002B00:00","Duration":null,"Error":null},{"Name":"PhaseCompleted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadSource","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadSource","ModuleId":"readers.text","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Wiki-Structure.md","Timestamp":"2026-06-01T21:16:15.3128395\u002B00:00","Duration":14.128,"Error":null},{"Name":"PhaseStarted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadSource","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadSource","ModuleId":"readers.markdown","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Wiki-Structure.md","Timestamp":"2026-06-01T21:16:15.3129493\u002B00:00","Duration":null,"Error":null},{"Name":"PhaseCompleted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadSource","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadSource","ModuleId":"readers.markdown","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Wiki-Structure.md","Timestamp":"2026-06-01T21:16:15.3132299\u002B00:00","Duration":0.2803,"Error":null},{"Name":"PhaseStarted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"SourceItemMatchTags","ParentPipelineId":"GlobalPipeline","PhaseId":"SourceItemMatchTags","ModuleId":"pass.filematchtags","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Wiki-Structure.md","Timestamp":"2026-06-01T21:16:15.3132994\u002B00:00","Duration":null,"Error":null},{"Name":"PhaseCompleted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"SourceItemMatchTags","ParentPipelineId":"GlobalPipeline","PhaseId":"SourceItemMatchTags","ModuleId":"pass.filematchtags","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Wiki-Structure.md","Timestamp":"2026-06-01T21:16:15.3133909\u002B00:00","Duration":0.0914,"Error":null},{"Name":"PhaseStarted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadScopeGuards","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadScopeGuards","ModuleId":"security.guard.scope","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Wiki-Structure.md","Timestamp":"2026-06-01T21:16:15.3134126\u002B00:00","Duration":null,"Error":null},{"Name":"PhaseCompleted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadScopeGuards","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadScopeGuards","ModuleId":"security.guard.scope","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Wiki-Structure.md","Timestamp":"2026-06-01T21:16:15.3134432\u002B00:00","Duration":0.0305,"Error":null},{"Name":"PhaseStarted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadScopeGuards","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadScopeGuards","ModuleId":"security.guard.injection","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Wiki-Structure.md","Timestamp":"2026-06-01T21:16:15.3134488\u002B00:00","Duration":null,"Error":null},{"Name":"PhaseCompleted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadScopeGuards","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadScopeGuards","ModuleId":"security.guard.injection","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Wiki-Structure.md","Timestamp":"2026-06-01T21:16:15.3134569\u002B00:00","Duration":0.0081,"Error":null},{"Name":"PhaseStarted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadScopeGuards","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadScopeGuards","ModuleId":"security.guard.email","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Wiki-Structure.md","Timestamp":"2026-06-01T21:16:15.3134646\u002B00:00","Duration":null,"Error":null},{"Name":"PhaseCompleted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadScopeGuards","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadScopeGuards","ModuleId":"security.guard.email","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Wiki-Structure.md","Timestamp":"2026-06-01T21:16:15.3134710\u002B00:00","Duration":0.0063,"Error":null},{"Name":"PhaseStarted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadScopeGuards","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadScopeGuards","ModuleId":"security.guard.sensitivity","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Wiki-Structure.md","Timestamp":"2026-06-01T21:16:15.3134787\u002B00:00","Duration":null,"Error":null},{"Name":"PhaseCompleted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadScopeGuards","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadScopeGuards","ModuleId":"security.guard.sensitivity","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Wiki-Structure.md","Timestamp":"2026-06-01T21:16:15.3134829\u002B00:00","Duration":0.0042,"Error":null},{"Name":"PhaseStarted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"DataPartsProcessor","ParentPipelineId":"GlobalPipeline","PhaseId":"DataPartsProcessor","ModuleId":"pipelines.input-ingestion.datapart","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Wiki-Structure.md","Timestamp":"2026-06-01T21:16:15.3134897\u002B00:00","Duration":null,"Error":null},{"Name":"PhaseCompleted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"DataPartsProcessor","ParentPipelineId":"GlobalPipeline","PhaseId":"DataPartsProcessor","ModuleId":"pipelines.input-ingestion.datapart","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/Wiki-Structure.md","Timestamp":"2026-06-01T21:16:15.3135823\u002B00:00","Duration":0.0925,"Error":null},{"Name":"PhaseStarted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadSource","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadSource","ModuleId":"readers.text","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/_Sidebar.md","Timestamp":"2026-06-01T21:16:15.3136493\u002B00:00","Duration":null,"Error":null},{"Name":"PhaseCompleted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadSource","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadSource","ModuleId":"readers.text","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/_Sidebar.md","Timestamp":"2026-06-01T21:16:15.3295384\u002B00:00","Duration":15.8885,"Error":null},{"Name":"PhaseStarted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadSource","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadSource","ModuleId":"readers.markdown","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/_Sidebar.md","Timestamp":"2026-06-01T21:16:15.3296235\u002B00:00","Duration":null,"Error":null},{"Name":"PhaseCompleted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadSource","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadSource","ModuleId":"readers.markdown","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/_Sidebar.md","Timestamp":"2026-06-01T21:16:15.3297425\u002B00:00","Duration":0.1189,"Error":null},{"Name":"PhaseStarted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"SourceItemMatchTags","ParentPipelineId":"GlobalPipeline","PhaseId":"SourceItemMatchTags","ModuleId":"pass.filematchtags","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/_Sidebar.md","Timestamp":"2026-06-01T21:16:15.3297904\u002B00:00","Duration":null,"Error":null},{"Name":"PhaseCompleted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"SourceItemMatchTags","ParentPipelineId":"GlobalPipeline","PhaseId":"SourceItemMatchTags","ModuleId":"pass.filematchtags","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/_Sidebar.md","Timestamp":"2026-06-01T21:16:15.3298752\u002B00:00","Duration":0.0848,"Error":null},{"Name":"PhaseStarted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadScopeGuards","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadScopeGuards","ModuleId":"security.guard.scope","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/_Sidebar.md","Timestamp":"2026-06-01T21:16:15.3298882\u002B00:00","Duration":null,"Error":null},{"Name":"PhaseCompleted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadScopeGuards","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadScopeGuards","ModuleId":"security.guard.scope","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/_Sidebar.md","Timestamp":"2026-06-01T21:16:15.3299103\u002B00:00","Duration":0.0221,"Error":null},{"Name":"PhaseStarted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadScopeGuards","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadScopeGuards","ModuleId":"security.guard.injection","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/_Sidebar.md","Timestamp":"2026-06-01T21:16:15.3299235\u002B00:00","Duration":null,"Error":null},{"Name":"PhaseCompleted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadScopeGuards","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadScopeGuards","ModuleId":"security.guard.injection","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/_Sidebar.md","Timestamp":"2026-06-01T21:16:15.3299314\u002B00:00","Duration":0.0079,"Error":null},{"Name":"PhaseStarted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadScopeGuards","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadScopeGuards","ModuleId":"security.guard.email","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/_Sidebar.md","Timestamp":"2026-06-01T21:16:15.3299413\u002B00:00","Duration":null,"Error":null},{"Name":"PhaseCompleted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadScopeGuards","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadScopeGuards","ModuleId":"security.guard.email","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/_Sidebar.md","Timestamp":"2026-06-01T21:16:15.3299482\u002B00:00","Duration":0.0068,"Error":null},{"Name":"PhaseStarted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadScopeGuards","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadScopeGuards","ModuleId":"security.guard.sensitivity","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/_Sidebar.md","Timestamp":"2026-06-01T21:16:15.3299530\u002B00:00","Duration":null,"Error":null},{"Name":"PhaseCompleted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"ReadScopeGuards","ParentPipelineId":"GlobalPipeline","PhaseId":"ReadScopeGuards","ModuleId":"security.guard.sensitivity","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/_Sidebar.md","Timestamp":"2026-06-01T21:16:15.3299602\u002B00:00","Duration":0.0071,"Error":null},{"Name":"PhaseStarted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"DataPartsProcessor","ParentPipelineId":"GlobalPipeline","PhaseId":"DataPartsProcessor","ModuleId":"pipelines.input-ingestion.datapart","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/_Sidebar.md","Timestamp":"2026-06-01T21:16:15.3299675\u002B00:00","Duration":null,"Error":null},{"Name":"PhaseCompleted","PipelineId":"InputIngestionPipeline","PipelineCurrentPhaseKey":"DataPartsProcessor","ParentPipelineId":"GlobalPipeline","PhaseId":"DataPartsProcessor","ModuleId":"pipelines.input-ingestion.datapart","ItemId":"git/github.com/gbaudrit/context-compiler.wiki.git/_Sidebar.md","Timestamp":"2026-06-01T21:16:15.3300583\u002B00:00","Duration":0.0908,"Error":null},{"Name":"PhaseCompleted","PipelineId":"GlobalPipeline","PipelineCurrentPhaseKey":"InputIngestion","ParentPipelineId":null,"PhaseId":"InputIngestion","ModuleId":"pipelines.input-ingestion","ItemId":"","Timestamp":"2026-06-01T21:16:15.3310621\u002B00:00","Duration":121.164,"Error":null},{"Name":"PhaseStarted","PipelineId":"GlobalPipeline","PipelineCurrentPhaseKey":"OutputComposition","ParentPipelineId":null,"PhaseId":"OutputComposition","ModuleId":"pipelines.promptcomposer","ItemId":"","Timestamp":"2026-06-01T21:16:15.3311147\u002B00:00","Duration":null,"Error":null},{"Name":"PhaseStarted","PipelineId":"PromptComposerPipeline","PipelineCurrentPhaseKey":"OutputComposition","ParentPipelineId":"GlobalPipeline","PhaseId":"OutputComposition","ModuleId":"prompt.composers.objectives","ItemId":"","Timestamp":"2026-06-01T21:16:15.3330530\u002B00:00","Duration":null,"Error":null},{"Name":"PhaseCompleted","PipelineId":"PromptComposerPipeline","PipelineCurrentPhaseKey":"OutputComposition","ParentPipelineId":"GlobalPipeline","PhaseId":"OutputComposition","ModuleId":"prompt.composers.objectives","ItemId":"","Timestamp":"2026-06-01T21:16:15.3341907\u002B00:00","Duration":1.1375,"Error":null},{"Name":"PhaseStarted","PipelineId":"PromptComposerPipeline","PipelineCurrentPhaseKey":"OutputComposition","ParentPipelineId":"GlobalPipeline","PhaseId":"OutputComposition","ModuleId":"prompt.composers.glossary","ItemId":"","Timestamp":"2026-06-01T21:16:15.3342368\u002B00:00","Duration":null,"Error":null},{"Name":"PhaseCompleted","PipelineId":"PromptComposerPipeline","PipelineCurrentPhaseKey":"OutputComposition","ParentPipelineId":"GlobalPipeline","PhaseId":"OutputComposition","ModuleId":"prompt.composers.glossary","ItemId":"","Timestamp":"2026-06-01T21:16:15.3356264\u002B00:00","Duration":1.3891,"Error":null},{"Name":"PhaseStarted","PipelineId":"PromptComposerPipeline","PipelineCurrentPhaseKey":"OutputComposition","ParentPipelineId":"GlobalPipeline","PhaseId":"OutputComposition","ModuleId":"prompt.composers.general","ItemId":"","Timestamp":"2026-06-01T21:16:15.3356876\u002B00:00","Duration":null,"Error":null},{"Name":"PhaseCompleted","PipelineId":"PromptComposerPipeline","PipelineCurrentPhaseKey":"OutputComposition","ParentPipelineId":"GlobalPipeline","PhaseId":"OutputComposition","ModuleId":"prompt.composers.general","ItemId":"","Timestamp":"2026-06-01T21:16:15.3363909\u002B00:00","Duration":0.703,"Error":null},{"Name":"PhaseStarted","PipelineId":"PromptComposerPipeline","PipelineCurrentPhaseKey":"OutputComposition","ParentPipelineId":"GlobalPipeline","PhaseId":"OutputComposition","ModuleId":"prompt.composers.assumptions","ItemId":"","Timestamp":"2026-06-01T21:16:15.3364250\u002B00:00","Duration":null,"Error":null},{"Name":"PhaseCompleted","PipelineId":"PromptComposerPipeline","PipelineCurrentPhaseKey":"OutputComposition","ParentPipelineId":"GlobalPipeline","PhaseId":"OutputComposition","ModuleId":"prompt.composers.assumptions","ItemId":"","Timestamp":"2026-06-01T21:16:15.3369629\u002B00:00","Duration":0.5375,"Error":null},{"Name":"PhaseStarted","PipelineId":"PromptComposerPipeline","PipelineCurrentPhaseKey":"OutputComposition","ParentPipelineId":"GlobalPipeline","PhaseId":"OutputComposition","ModuleId":"prompt.composers.audiences","ItemId":"","Timestamp":"2026-06-01T21:16:15.3370147\u002B00:00","Duration":null,"Error":null},{"Name":"PhaseCompleted","PipelineId":"PromptComposerPipeline","PipelineCurrentPhaseKey":"OutputComposition","ParentPipelineId":"GlobalPipeline","PhaseId":"OutputComposition","ModuleId":"prompt.composers.audiences","ItemId":"","Timestamp":"2026-06-01T21:16:15.3377327\u002B00:00","Duration":0.7177,"Error":null},{"Name":"PhaseCompleted","PipelineId":"GlobalPipeline","PipelineCurrentPhaseKey":"OutputComposition","ParentPipelineId":null,"PhaseId":"OutputComposition","ModuleId":"pipelines.promptcomposer","ItemId":"","Timestamp":"2026-06-01T21:16:15.3377905\u002B00:00","Duration":6.6757,"Error":null},{"Name":"PhaseStarted","PipelineId":"GlobalPipeline","PipelineCurrentPhaseKey":"OutputProjection","ParentPipelineId":null,"PhaseId":"OutputProjection","ModuleId":"views","ItemId":"","Timestamp":"2026-06-01T21:16:15.3378264\u002B00:00","Duration":null,"Error":null},{"Name":"PhaseCompleted","PipelineId":"GlobalPipeline","PipelineCurrentPhaseKey":"OutputProjection","ParentPipelineId":null,"PhaseId":"OutputProjection","ModuleId":"views","ItemId":"","Timestamp":"2026-06-01T21:16:15.3540013\u002B00:00","Duration":16.1744,"Error":null},{"Name":"PhaseStarted","PipelineId":"GlobalPipeline","PipelineCurrentPhaseKey":"ReportComposition","ParentPipelineId":null,"PhaseId":"ReportComposition","ModuleId":"security.report","ItemId":"","Timestamp":"2026-06-01T21:16:15.3540642\u002B00:00","Duration":null,"Error":null},{"Name":"PhaseCompleted","PipelineId":"GlobalPipeline","PipelineCurrentPhaseKey":"ReportComposition","ParentPipelineId":null,"PhaseId":"ReportComposition","ModuleId":"security.report","ItemId":"","Timestamp":"2026-06-01T21:16:15.3548410\u002B00:00","Duration":0.7765,"Error":null},{"Name":"PhaseStarted","PipelineId":"GlobalPipeline","PipelineCurrentPhaseKey":"ReportComposition","ParentPipelineId":null,"PhaseId":"ReportComposition","ModuleId":"reports.pipelines.reactflow.listener","ItemId":"","Timestamp":"2026-06-01T21:16:15.3548806\u002B00:00","Duration":null,"Error":null},{"Name":"PhaseCompleted","PipelineId":"GlobalPipeline","PipelineCurrentPhaseKey":"ReportComposition","ParentPipelineId":null,"PhaseId":"ReportComposition","ModuleId":"reports.pipelines.reactflow.listener","ItemId":"","Timestamp":"2026-06-01T21:16:15.3549464\u002B00:00","Duration":0.0657,"Error":null},{"Name":"PhaseStarted","PipelineId":"GlobalPipeline","PipelineCurrentPhaseKey":"ReportComposition","ParentPipelineId":null,"PhaseId":"ReportComposition","ModuleId":"reports.pipelines.mermaid","ItemId":"","Timestamp":"2026-06-01T21:16:15.3549552\u002B00:00","Duration":null,"Error":null}];
+        let filteredEvents = [...allEvents];
+
+        function sanitizeId(id) {
+            return id.replace(/[-\.\s\/\(\)\[\]\{\}<>:;,?!@#$%^&*+=|\\`~"']/g, '_');
+        }
+
+        function populateFilters() {
+            const pipelines = [...new Set(allEvents.map(e => e.PipelineId))];
+            const phases = [...new Set(allEvents.map(e => e.PhaseId))];
+            const modules = [...new Set(allEvents.map(e => e.ModuleId).filter(m => m))];
+            const items = [...new Set(allEvents.map(e => e.ItemId).filter(i => i))];
+
+            const pipelineSelect = document.getElementById('pipelineFilter');
+            pipelines.forEach(p => {
+                const option = document.createElement('option');
+                option.value = p;
+                option.textContent = p;
+                pipelineSelect.appendChild(option);
+            });
+
+            const phaseSelect = document.getElementById('phaseFilter');
+            phases.forEach(p => {
+                const option = document.createElement('option');
+                option.value = p;
+                option.textContent = p;
+                phaseSelect.appendChild(option);
+            });
+
+            const moduleSelect = document.getElementById('moduleFilter');
+            modules.forEach(m => {
+                const option = document.createElement('option');
+                option.value = m;
+                option.textContent = m;
+                moduleSelect.appendChild(option);
+            });
+
+            const itemSelect = document.getElementById('itemFilter');
+            items.forEach(i => {
+                const option = document.createElement('option');
+                option.value = i;
+                option.textContent = i;
+                itemSelect.appendChild(option);
+            });
+
+            // Populate pipeline legend
+            const pipelineColors = [
+                { border: '#01579b', bg: '#e3f2fd', name: 'Blue' },
+                { border: '#6a1b9a', bg: '#f3e5f5', name: 'Purple' },
+                { border: '#c62828', bg: '#ffebee', name: 'Red' },
+                { border: '#2e7d32', bg: '#e8f5e9', name: 'Green' },
+                { border: '#f57c00', bg: '#fff3e0', name: 'Orange' },
+                { border: '#0277bd', bg: '#e1f5fe', name: 'Cyan' },
+                { border: '#5d4037', bg: '#efebe9', name: 'Brown' },
+                { border: '#d32f2f', bg: '#fce4ec', name: 'Pink' }
+            ];
+
+            const pipelineLegendDiv = document.getElementById('pipelineLegend');
+            pipelines.forEach((pipeline, idx) => {
+                const color = pipelineColors[idx % pipelineColors.length];
+                const legendItem = document.createElement('div');
+                legendItem.className = 'legend-item';
+                legendItem.style.marginBottom = '5px';
+                
+                const box = document.createElement('span');
+                box.className = 'legend-box';
+                box.style.background = color.bg;
+                box.style.border = `2px solid ${color.border}`;
+                
+                const text = document.createElement('span');
+                text.textContent = pipeline;
+                
+                legendItem.appendChild(box);
+                legendItem.appendChild(text);
+                pipelineLegendDiv.appendChild(legendItem);
+            });
+        }
+
+        function applyFilters() {
+            const pipelineFilter = document.getElementById('pipelineFilter').value;
+            const phaseFilter = document.getElementById('phaseFilter').value;
+            const moduleFilter = document.getElementById('moduleFilter').value;
+            const itemFilter = document.getElementById('itemFilter').value;
+
+            filteredEvents = allEvents.filter(e => {
+                if (pipelineFilter && e.PipelineId !== pipelineFilter) return false;
+                if (phaseFilter && e.PhaseId !== phaseFilter) return false;
+                if (moduleFilter && e.ModuleId !== moduleFilter) return false;
+                if (itemFilter && e.ItemId !== itemFilter) return false;
+                return true;
+            });
+
+            document.getElementById('filteredCount').textContent = filteredEvents.length;
+            generateDiagram();
+        }
+
+        function resetFilters() {
+            document.getElementById('pipelineFilter').value = '';
+            document.getElementById('phaseFilter').value = '';
+            document.getElementById('moduleFilter').value = '';
+            document.getElementById('itemFilter').value = '';
+            filteredEvents = [...allEvents];
+            document.getElementById('filteredCount').textContent = filteredEvents.length;
+            generateDiagram();
+        }
+
+        function generateDiagram() {
+            if (filteredEvents.length === 0) {
+                document.getElementById('mermaidDiagram').innerHTML = '<p style="text-align:center; color:#999;">No events match the current filters</p>';
+                return;
+            }
+
+            const groupByItem = document.getElementById('groupByItem').checked;
+            
+            if (groupByItem) {
+                generateDiagramGroupedByItem();
+            } else {
+                generateDiagramGroupedByPhase();
+            }
+        }
+
+        function generateDiagramGroupedByItem() {
+            const orientation = document.getElementById('orientationLR').checked ? 'LR' : 'TD';
+            let mermaidCode = `graph ${orientation}\n`;
+            const eventNodeMap = {}; // Map to store event nodes for sub-pipeline linking
+            const pipelineFirstNodes = {}; // Track first node of each pipeline
+
+            // Color palette for pipelines
+            const pipelineColors = [
+                { border: '#01579b', bg: '#e3f2fd' },  // Blue
+                { border: '#6a1b9a', bg: '#f3e5f5' },  // Purple
+                { border: '#c62828', bg: '#ffebee' },  // Red
+                { border: '#2e7d32', bg: '#e8f5e9' },  // Green
+                { border: '#f57c00', bg: '#fff3e0' },  // Orange
+                { border: '#0277bd', bg: '#e1f5fe' },  // Cyan
+                { border: '#5d4037', bg: '#efebe9' },  // Brown
+                { border: '#d32f2f', bg: '#fce4ec' }   // Pink
+            ];
+
+            const eventsByPipeline = {};
+            filteredEvents.forEach(e => {
+                if (!eventsByPipeline[e.PipelineId]) eventsByPipeline[e.PipelineId] = [];
+                eventsByPipeline[e.PipelineId].push(e);
+            });
+
+            // Assign colors to pipelines
+            const pipelineColorMap = {};
+            Object.keys(eventsByPipeline).forEach((pipelineId, idx) => {
+                pipelineColorMap[pipelineId] = pipelineColors[idx % pipelineColors.length];
+            });
+
+            for (const [pipelineId, events] of Object.entries(eventsByPipeline)) {
+                const safePipelineId = sanitizeId(pipelineId);
+                const pipelineColor = pipelineColorMap[pipelineId];
+                let previousEventId = null; // Moved outside item loop to maintain continuity
+
+                // Group by ItemId first
+                const eventsByItem = {};
+                events.forEach(e => {
+                    const itemKey = e.ItemId || '(global)';
+                    if (!eventsByItem[itemKey]) eventsByItem[itemKey] = [];
+                    eventsByItem[itemKey].push(e);
+                });
+
+                for (const [itemId, itemEvents] of Object.entries(eventsByItem)) {
+                    const safeItemId = sanitizeId(itemId);
+                    const itemLabel = itemId === '(global)' ? 'Global' : itemId;
+                    mermaidCode += `        subgraph ${safePipelineId}_${safeItemId}[\"${itemLabel}\"]\n`;
+
+                    // Group by Phase within each Item
+                    const eventsByPhase = {};
+                    itemEvents.forEach(e => {
+                        if (!eventsByPhase[e.PhaseId]) eventsByPhase[e.PhaseId] = [];
+                        eventsByPhase[e.PhaseId].push(e);
+                    });
+
+                    for (const [phaseId, phaseEvents] of Object.entries(eventsByPhase)) {
+                        const safePhaseId = sanitizeId(phaseId);
+                        const showPipelineIdInLabel = document.getElementById('showPipelineId')?.checked || false;
+
+                        // Pair Started and Completed events
+                        const pairedEvents = [];
+                        const orphans = [];
+                        
+                        for (let i = 0; i < phaseEvents.length; i++) {
+                            const evt = phaseEvents[i];
+                            
+                            if (evt.Name === 'PhaseStarted') {
+                                // Look for matching Completed or Failed
+                                const matchIdx = phaseEvents.findIndex((e, idx) => 
+                                    idx > i && 
+                                    (e.Name === 'PhaseCompleted' || e.Name === 'PhaseFailed') &&
+                                    e.PhaseId === evt.PhaseId &&
+                                    e.ModuleId === evt.ModuleId
+                                );
+                                
+                                if (matchIdx !== -1) {
+                                    pairedEvents.push({ start: evt, end: phaseEvents[matchIdx] });
+                                    phaseEvents.splice(matchIdx, 1); // Remove matched event
+                                } else {
+                                    orphans.push(evt);
+                                }
+                            } else {
+                                // Orphan Completed or Failed without Start
+                                orphans.push(evt);
+                            }
+                        }
+
+                        // Generate nodes for paired events
+                        pairedEvents.forEach((pair, idx) => {
+                            const eventId = `${safePipelineId}_${safeItemId}_${safePhaseId}_pair${idx}`;
+                            const moduleInfo = pair.start.ModuleId ? `Module: ${pair.start.ModuleId}<br/>` : '';
+                            const pipelineInfo = (showPipelineIdInLabel && pair.start.PipelineId !== pipelineId) ? `[${pair.start.PipelineId}]<br/>` : '';
+                            
+                            const startTime = new Date(pair.start.Timestamp).toLocaleTimeString();
+                            let status = '';
+                            let durationInfo = '';
+
+                            if (pair.end.Name === 'PhaseCompleted') {
+                                status = '✓';
+                                durationInfo = `${pair.end.Duration.toFixed(0)}ms`;
+                            } else if (pair.end.Name === 'PhaseFailed') {
+                                status = '✗';
+                                const error = pair.end.Error.length > 30 ? pair.end.Error.substring(0, 30) + '...' : pair.end.Error;
+                                durationInfo = error;
+                            }
+
+                            const label = `${pipelineInfo}${pair.start.PhaseId} ${status}<br/>${moduleInfo}${startTime} | ${durationInfo}`;
+                            mermaidCode += `            ${eventId}[\"${label}\"]\n`;
+                            
+                            // Use pipeline color with opacity based on status
+                            const style = pair.end.Name === 'PhaseFailed' ? 
+                                `fill:#ffcdd2,stroke:#c62828,stroke-width:3px` :
+                                `fill:${pipelineColor.bg},stroke:${pipelineColor.border},stroke-width:2px`;
+                            mermaidCode += `            style ${eventId} ${style}\n`;
+
+                            if (previousEventId) {
+                                mermaidCode += `            ${previousEventId} --> ${eventId}\n`;
+                            } else if (!pipelineFirstNodes[pipelineId]) {
+                                // Store first node of this pipeline
+                                pipelineFirstNodes[pipelineId] = eventId;
+                            }
+
+                            // Store node for sub-pipeline linking
+                            const key = `${pair.start.PipelineId}_${pair.start.PhaseId}_${pair.start.ModuleId}_${pair.start.ItemId}`;
+                            eventNodeMap[key] = eventId;
+
+                            previousEventId = eventId;
+                        });
+
+                        // Generate nodes for orphan events
+                        orphans.forEach((evt, idx) => {
+                            const eventId = `${safePipelineId}_${safeItemId}_${safePhaseId}_orphan${idx}`;
+                            const moduleInfo = evt.ModuleId ? `Module: ${evt.ModuleId}<br/>` : '';
+                            const pipelineInfo = (showPipelineIdInLabel && evt.PipelineId !== pipelineId) ? `[${evt.PipelineId}]<br/>` : '';
+
+                            let label = '';
+                            let style = '';
+
+                            if (evt.Name === 'PhaseStarted') {
+                                const time = new Date(evt.Timestamp).toLocaleTimeString();
+                                label = `${pipelineInfo}${evt.PhaseId} Started<br/>${moduleInfo}${time}`;
+                                style = `fill:${pipelineColor.bg},stroke:${pipelineColor.border},stroke-width:2px,stroke-dasharray: 5 5`;
+                            } else if (evt.Name === 'PhaseCompleted') {
+                                label = `${pipelineInfo}${evt.PhaseId} Completed<br/>${moduleInfo}${evt.Duration.toFixed(0)}ms`;
+                                style = `fill:${pipelineColor.bg},stroke:${pipelineColor.border},stroke-width:2px`;
+                            } else if (evt.Name === 'PhaseFailed') {
+                                const error = evt.Error.length > 30 ? evt.Error.substring(0, 30) + '...' : evt.Error;
+                                label = `${pipelineInfo}${evt.PhaseId} Failed<br/>${moduleInfo}${error}`;
+                                style = 'fill:#ffcdd2,stroke:#c62828,stroke-width:3px';
+                            }
+
+                            mermaidCode += `            ${eventId}[\"${label}\"]\n`;
+                            mermaidCode += `            style ${eventId} ${style}\n`;
+
+                            if (previousEventId) {
+                                mermaidCode += `            ${previousEventId} --> ${eventId}\n`;
+                            } else if (!pipelineFirstNodes[pipelineId]) {
+                                // Store first node of this pipeline
+                                pipelineFirstNodes[pipelineId] = eventId;
+                            }
+
+                            previousEventId = eventId;
+                        });
+                    }
+
+                    mermaidCode += '        end\n';
+                }
+            }
+
+            addPipelineLinksAndRender(mermaidCode, eventNodeMap, pipelineFirstNodes);
+        }
+
+        function generateDiagramGroupedByPhase() {
+            const orientation = document.getElementById('orientationLR').checked ? 'LR' : 'TD';
+            let mermaidCode = `graph ${orientation}\n`;
+
+            // Color palette for pipelines
+            const pipelineColors = [
+                { border: '#01579b', bg: '#e3f2fd' },  // Blue
+                { border: '#6a1b9a', bg: '#f3e5f5' },  // Purple
+                { border: '#c62828', bg: '#ffebee' },  // Red
+                { border: '#2e7d32', bg: '#e8f5e9' },  // Green
+                { border: '#f57c00', bg: '#fff3e0' },  // Orange
+                { border: '#0277bd', bg: '#e1f5fe' },  // Cyan
+                { border: '#5d4037', bg: '#efebe9' },  // Brown
+                { border: '#d32f2f', bg: '#fce4ec' }   // Pink
+            ];
+
+            const eventsByPipeline = {};
+            filteredEvents.forEach(e => {
+                if (!eventsByPipeline[e.PipelineId]) eventsByPipeline[e.PipelineId] = [];
+                eventsByPipeline[e.PipelineId].push(e);
+            });
+
+            // Assign colors to pipelines
+            const pipelineColorMap = {};
+            Object.keys(eventsByPipeline).forEach((pipelineId, idx) => {
+                pipelineColorMap[pipelineId] = pipelineColors[idx % pipelineColors.length];
+            });
+
+            for (const [pipelineId, events] of Object.entries(eventsByPipeline)) {
+                const safePipelineId = sanitizeId(pipelineId);
+                const pipelineColor = pipelineColorMap[pipelineId];
+
+                const eventsByPhase = {};
+                events.forEach(e => {
+                    if (!eventsByPhase[e.PhaseId]) eventsByPhase[e.PhaseId] = [];
+                    eventsByPhase[e.PhaseId].push(e);
+                });
+
+                let previousEventId = null;
+
+                for (const [phaseId, phaseEvents] of Object.entries(eventsByPhase)) {
+                    const safePhaseId = sanitizeId(phaseId);
+                    mermaidCode += `        subgraph ${safePipelineId}_${safePhaseId}[\"${phaseId}\"]\n`;
+
+                    let previousPhaseEventId = null;
+
+                    phaseEvents.forEach((evt, idx) => {
+                        const eventId = `${safePipelineId}_${safePhaseId}_evt${idx}`;
+                        const itemInfo = evt.ItemId ? `<br/>Item: ${evt.ItemId}` : '';
+                        const moduleInfo = evt.ModuleId ? `<br/>Module: ${evt.ModuleId}` : '';
+
+                        let label = '';
+                        let style = '';
+
+                        if (evt.Name === 'PhaseStarted') {
+                            const time = new Date(evt.Timestamp).toLocaleTimeString();
+                            label = `Started${moduleInfo}${itemInfo}<br/>${time}`;
+                            style = `fill:${pipelineColor.bg},stroke:${pipelineColor.border},stroke-width:2px,stroke-dasharray: 5 5`;
+                        } else if (evt.Name === 'PhaseCompleted') {
+                            label = `Completed${moduleInfo}${itemInfo}<br/>${evt.Duration.toFixed(0)}ms`;
+                            style = `fill:${pipelineColor.bg},stroke:${pipelineColor.border},stroke-width:2px`;
+                        } else if (evt.Name === 'PhaseFailed') {
+                            const error = evt.Error.length > 50 ? evt.Error.substring(0, 50) + '...' : evt.Error;
+                            label = `Failed${moduleInfo}${itemInfo}<br/>${error}`;
+                            style = 'fill:#ffcdd2,stroke:#c62828,stroke-width:3px';
+                        }
+
+                        mermaidCode += `            ${eventId}[\"${label}\"]\n`;
+                        mermaidCode += `            style ${eventId} ${style}\n`;
+
+                        if (previousPhaseEventId) {
+                            mermaidCode += `            ${previousPhaseEventId} --> ${eventId}\n`;
+                        }
+
+                        previousPhaseEventId = eventId;
+                    });
+
+                    mermaidCode += '        end\n';
+
+                    if (previousEventId) {
+                        mermaidCode += `        ${previousEventId} -.-> ${previousPhaseEventId}\n`;
+                    }
+                    previousEventId = previousPhaseEventId;
+                }
+            }
+
+            addPipelineLinksAndRender(mermaidCode, {}, {});
+        }
+
+        function addPipelineLinksAndRender(mermaidCode, eventNodeMap = {}, pipelineFirstNodes = {}) {
+            // Add pipeline hierarchy links if enabled
+            const showPipelineLinks = document.getElementById('showPipelineLinks').checked;
+            if (showPipelineLinks) {
+                // Build parent-child relationships
+                const subPipelines = {};
+                filteredEvents.forEach(e => {
+                    if (e.ParentPipelineId && !subPipelines[e.PipelineId]) {
+                        subPipelines[e.PipelineId] = {
+                            parentPipelineId: e.ParentPipelineId,
+                            firstEvent: e
+                        };
+                    }
+                });
+
+                // Create links from parent event to child pipeline
+                for (const [childPipelineId, info] of Object.entries(subPipelines)) {
+                    const safeChildId = sanitizeId(childPipelineId);
+                    const firstChildEvent = info.firstEvent;
+                    const childItemKey = firstChildEvent.ItemId || '(global)';
+                    const childPipelineCurrentPhaseKey = firstChildEvent.PipelineCurrentPhaseKey;
+
+                    // Find the parent event that launched this sub-pipeline
+                    // The parent event's PhaseId should match the child's PipelineCurrentPhaseKey
+                    let parentEvents = filteredEvents
+                        .filter(e => 
+                            e.PipelineId === info.parentPipelineId &&
+                            e.PhaseId === childPipelineCurrentPhaseKey && // Match PhaseId with child's CurrentPhaseKey
+                            new Date(e.Timestamp) < new Date(firstChildEvent.Timestamp)
+                        )
+                        .sort((a, b) => new Date(b.Timestamp) - new Date(a.Timestamp));
+                    
+                    // If no exact match found, fallback to last event before child starts
+                    if (parentEvents.length === 0) {
+                        parentEvents = filteredEvents
+                            .filter(e => 
+                                e.PipelineId === info.parentPipelineId &&
+                                (e.ItemId || '(global)') === childItemKey &&
+                                new Date(e.Timestamp) < new Date(firstChildEvent.Timestamp)
+                            )
+                            .sort((a, b) => new Date(b.Timestamp) - new Date(a.Timestamp));
+                        
+                        // If still no match with same ItemId, try global events
+                        if (parentEvents.length === 0 && childItemKey !== '(global)') {
+                            parentEvents = filteredEvents
+                                .filter(e => 
+                                    e.PipelineId === info.parentPipelineId &&
+                                    !e.ItemId && // Global event (no ItemId)
+                                    new Date(e.Timestamp) < new Date(firstChildEvent.Timestamp)
+                                )
+                                .sort((a, b) => new Date(b.Timestamp) - new Date(a.Timestamp));
+                        }
+                    }
+
+                    let parentEventNode = null;
+                    
+                    // Try to find the parent node in eventNodeMap
+                    for (const parentEvent of parentEvents) {
+                        const parentKey = `${parentEvent.PipelineId}_${parentEvent.PhaseId}_${parentEvent.ModuleId}_${parentEvent.ItemId}`;
+                        if (eventNodeMap[parentKey]) {
+                            parentEventNode = eventNodeMap[parentKey];
+                            break;
+                        }
+                    }
+
+                    if (parentEventNode) {
+                        // Use the stored first node ID of the child pipeline
+                        const firstChildNodeId = pipelineFirstNodes[childPipelineId];
+                        if (firstChildNodeId) {
+                            mermaidCode += `    ${parentEventNode} ==>|sub-pipeline| ${firstChildNodeId}\n`;
+                        }
+                    }
+                    // Note: If parent node not found, skip the link to avoid invalid Mermaid syntax
+                }
+            }
+
+            const container = document.getElementById('mermaidDiagram');
+            container.innerHTML = mermaidCode;
+            container.removeAttribute('data-processed');
+            window.mermaid.run({ nodes: [container] });
+        }
+
+        // Re-generate diagram when checkboxes change
+        document.getElementById('showPipelineLinks')?.addEventListener('change', () => {
+            generateDiagram();
+        });
+
+        document.getElementById('groupByItem')?.addEventListener('change', () => {
+            generateDiagram();
+        });
+
+        document.getElementById('showPipelineId')?.addEventListener('change', () => {
+            generateDiagram();
+        });
+
+        document.getElementById('orientationLR')?.addEventListener('change', () => {
+            generateDiagram();
+        });
+
+        document.getElementById('orientationTD')?.addEventListener('change', () => {
+            generateDiagram();
+        });
+
+        // Zoom functionality
+        let currentZoom = 1.0;
+        const minZoom = 0.1;
+        const maxZoom = 5.0;
+        const zoomStep = 0.1;
+
+        function updateZoom(newZoom) {
+            currentZoom = Math.max(minZoom, Math.min(maxZoom, newZoom));
+            const diagram = document.getElementById('mermaidDiagram');
+            diagram.style.transform = `scale(${currentZoom})`;
+            document.getElementById('zoomLevel').textContent = `${Math.round(currentZoom * 100)}%`;
+            
+            // Disable/enable buttons based on zoom level
+            document.getElementById('zoomOut').disabled = currentZoom <= minZoom;
+            document.getElementById('zoomIn').disabled = currentZoom >= maxZoom;
+        }
+
+        document.getElementById('zoomIn')?.addEventListener('click', () => {
+            updateZoom(currentZoom + zoomStep);
+        });
+
+        document.getElementById('zoomOut')?.addEventListener('click', () => {
+            updateZoom(currentZoom - zoomStep);
+        });
+
+        document.getElementById('zoomReset')?.addEventListener('click', () => {
+            updateZoom(1.0);
+        });
+
+        // Mouse wheel zoom (with Ctrl key)
+        document.getElementById('mermaidContainer')?.addEventListener('wheel', (e) => {
+            if (e.ctrlKey) {
+                e.preventDefault();
+                const delta = e.deltaY > 0 ? -zoomStep : zoomStep;
+                updateZoom(currentZoom + delta);
+            }
+        }, { passive: false });
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            populateFilters();
+            applyFilters();
+        });
+    </script>
+</body>
+</html>
+reports

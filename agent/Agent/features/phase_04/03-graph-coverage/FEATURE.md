@@ -2,7 +2,7 @@
 
 **Status:** Authoritative  
 **Date:** 2025-12-26  
-**Pipeline:** Global Pipeline stage 7 (graph build), consumer stage (coverage)
+**Pipeline:** Global Pipeline module kind `GraphExporter`, consumer stage (coverage)
 
 This feature provides a deterministic graph representation connecting:
 - evidence fragments (EK nodes)

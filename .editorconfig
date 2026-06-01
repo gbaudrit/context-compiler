@@ -11,6 +11,7 @@ indent_style = space
 indent_size = 4
 dotnet_sort_system_directives_first = true
 dotnet_separate_import_directive_groups = true
+namespace_declarations = file_scoped
 
 # Style suggestions (keep noise low, enforce through analyzers as needed)
 dotnet_style_qualification_for_field = false:suggestion
@@ -21,9 +22,12 @@ dotnet_style_qualification_for_event = false:suggestion
 # CS9113: Parameter is unread.
 dotnet_diagnostic.CS9113.severity = none
 dotnet_diagnostic.CA1848.severity = none
+dotnet_diagnostic.CA1873.severity = none
 
 # Default severity for all analyzer diagnostics
 dotnet_analyzer_diagnostic.severity = error
 
 # IDE0160: Convert to block scoped namespace
 dotnet_diagnostic.IDE0160.severity = none
+
+dotnet_diagnostic.CA1711.severity = none

@@ -3,21 +3,32 @@
 ## 1) Modèle compilateur
 
 Entrée (dossier)
-→ (A) Document Pipeline (par fichier)
-→ (B) Reasoning IR (canonique)
-→ (C) Global Pipeline
+→ (A) Global Pipeline
+→ (B) étape Documents
+→ (C) Input Ingestion Pipeline (par input item)
+→ (D) Compiled Context (canonique)
 → Artefacts
+
+## 1.1) Building blocks
+
+- **Module** = une capacit� atomique branch�e dans un pipeline
+- **Pack** = un regroupement coh�rent de modules pr�ts � l'emploi
+- **Pipeline** = la cin�matique d'ex�cution et de transformation des donn�es
+- **Blueprint** = un assemblage orient� use case de packs, modules et pipeline
+
+En pratique, ContextCompiler assemble des modules en packs, ex�cute ces capacit�s dans un pipeline d�terministe, puis produit une solution exploitable via un blueprint.
+
 
 ## 2) Couches
 
 ### Abstractions
-- Contrats purs : modèles, ports, interfaces plugins
+- Contrats purs : modèles, ports, interfaces modules
 - Aucune dépendance IO
 - Surface stable versionnée (PluginApiVersion)
 
 ### Core
-- Pipelines (Document + Global)
-- Reasoning IR
+- Pipeline global + pipeline input ingestion imbriqué
+- Compiled Context
 - Evidence system
 - Orchestration (deterministic ordering)
 - Mécanismes: sorting stable, budgets, aggregation
@@ -25,14 +36,14 @@ Entrée (dossier)
 ### Infrastructure
 - IFileSystem (PhysicalFileSystem)
 - IHasher (sha256 + simhash)
-- Plugin discovery/loading (Phase 1: assemblies; Phase 2: NuGet + ALC)
+- Module discovery/loading (Phase 1: assemblies; Phase 2: NuGet + ALC)
 - Serialization / artifact writing
 
-### Plugins
+### Modules
 - FileReaders (type fichier)
 - DataReaders (shape de données)
 - EngineeringModules (nettoyage, normalisation, enrichissement)
-- Transcoders (DataEnvelope → fragments IR)
+- Transcoders (DataEnvelope → fragments du contexte compil�)
 - Guards (sécurité)
 - Views (projections)
 - Templates (framing)
@@ -45,7 +56,7 @@ Entrée (dossier)
 ## 3) Invariants architecturaux
 
 - Core ne doit pas connaître le filesystem concret
-- Plugins stateless (pas d’état global)
+- Modules stateless (pas d’état global)
 - Tout ordering explicite (priority + stable sort)
 - Les guards ne doivent jamais être “silencieux”
 - Outputs déterministes (snapshots testables)
@@ -56,3 +67,5 @@ Entrée (dossier)
 - Golden tests sur outputs d’un dossier fixture
 - Snapshot tests sur JSON/MD
 - MSTest + Moq + FluentAssertions
+
+

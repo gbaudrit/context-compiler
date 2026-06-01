@@ -1,0 +1,116 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<Configurations>Debug;Release;DebugLocal</Configurations>
+		<IsPackable>true</IsPackable>
+		<PackageId>ContextCompiler.Reports.Modules.Pipelines.ReactFlow</PackageId>
+		<Description>ContextCompiler module that generates interactive React Flow pipeline visualization from pipeline events.</Description>
+		<Authors>ContextCompiler</Authors>
+		<Title>React Flow pipeline report module</Title>
+		<PackageTags>context;compiler;module;pipeline;report;reactflow;visualization;graph;interactive</PackageTags>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)' == 'DebugLocal'">
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	</PropertyGroup>
+
+	<!-- 
+	⚠️ IMPORTANT: Build the React app before creating NuGet package!
+	Run: .\build-react-app.ps1
+	This will generate react-app/dist/ which is included in the package.
+	See PACKAGE-BUILD.md for details.
+	-->
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\..\..\Core\ContextCompiler.Modules.Abstractions\ContextCompiler.Modules.Abstractions.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="README.md" Pack="true" PackagePath="" />
+		<None Include="ARCHITECTURE.md" Pack="true" PackagePath="" />
+		<None Include="USAGE.md" Pack="true" PackagePath="" />
+		<None Include="CHANGELOG.md" Pack="true" PackagePath="" />
+	</ItemGroup>
+	<ItemGroup>
+		<!-- React app files will be added dynamically by BuildReactApp target -->
+	</ItemGroup>
+	<ItemGroup>
+		<!-- Exclude react-app source files and node_modules from compilation -->
+		<Compile Remove="react-app\**" />
+		<EmbeddedResource Remove="react-app\**" />
+		<Content Remove="react-app\src\**" />
+		<Content Remove="react-app\node_modules\**" />
+		<None Remove="react-app\src\**" />
+		<None Remove="react-app\node_modules\**" />
+	</ItemGroup>
+
+	<!-- Auto-build React app before packing -->
+	<Target Name="BuildReactApp" BeforeTargets="DispatchToInnerBuilds;_GetPackageFiles;GenerateNuspec">
+		<PropertyGroup>
+			<ReactAppPath>$(MSBuildProjectDirectory)\react-app</ReactAppPath>
+			<ReactDistPath>$(ReactAppPath)\dist</ReactDistPath>
+		</PropertyGroup>
+
+		<Message Text="🔍 Checking if React app needs to be built..." Importance="high" />
+
+		<!-- Check if dist exists and is up to date -->
+		<PropertyGroup>
+			<NeedsBuild Condition="!Exists('$(ReactDistPath)\index.html')">true</NeedsBuild>
+		</PropertyGroup>
+
+		<Message Text="✅ React app already built (dist/index.html exists)" Importance="high" Condition="'$(NeedsBuild)' != 'true'" />
+		<Message Text="🔨 Building React app..." Importance="high" Condition="'$(NeedsBuild)' == 'true'" />
+
+		<!-- Check for Node.js -->
+		<Exec Command="node --version" 
+			  IgnoreExitCode="true" 
+			  ConsoleToMSBuild="true"
+			  Condition="'$(NeedsBuild)' == 'true'">
+			<Output TaskParameter="ExitCode" PropertyName="NodeExitCode" />
+		</Exec>
+
+		<Error Text="❌ Node.js is not installed or not in PATH. Please install Node.js 18+ from https://nodejs.org/" 
+			   Condition="'$(NeedsBuild)' == 'true' AND '$(NodeExitCode)' != '0'" />
+
+		<!-- Install npm dependencies if needed -->
+		<Message Text="📦 Installing npm dependencies..." Importance="high" Condition="'$(NeedsBuild)' == 'true'" />
+		<Exec Command="npm install" 
+			  WorkingDirectory="$(ReactAppPath)"
+			  Condition="'$(NeedsBuild)' == 'true'" />
+
+		<!-- Build React app -->
+		<Message Text="⚛️ Building React app (this may take a minute)..." Importance="high" Condition="'$(NeedsBuild)' == 'true'" />
+		<Exec Command="npm run build" 
+			  WorkingDirectory="$(ReactAppPath)"
+			  Condition="'$(NeedsBuild)' == 'true'" />
+
+		<!-- Verify build output -->
+		<Error Text="❌ React build failed: dist/index.html not found after build" 
+			   Condition="'$(NeedsBuild)' == 'true' AND !Exists('$(ReactDistPath)\index.html')" />
+
+		<Message Text="✅ React app built successfully!" Importance="high" Condition="'$(NeedsBuild)' == 'true'" />
+
+		<!-- Dynamically add React dist files to package -->
+		<ItemGroup>
+			<Content Include="react-app\dist\**\*" Pack="true" PackagePath="contentFiles\any\any\react-app\dist\" 
+					 CopyToOutputDirectory="PreserveNewest">
+				<Visible>false</Visible>
+			</Content>
+		</ItemGroup>
+
+		<Message Text="📦 Added React dist files to package" Importance="high" />
+	</Target>
+
+	<!-- Optional: Clean React dist on dotnet clean -->
+	<Target Name="CleanReactApp" BeforeTargets="Clean">
+		<PropertyGroup>
+			<ReactDistPath>$(MSBuildProjectDirectory)\react-app\dist</ReactDistPath>
+		</PropertyGroup>
+		<Message Text="🧹 Cleaning React app dist folder..." Importance="high" Condition="Exists('$(ReactDistPath)')" />
+		<RemoveDir Directories="$(ReactDistPath)" Condition="Exists('$(ReactDistPath)')" />
+	</Target>
+</Project>

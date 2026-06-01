@@ -1,6 +1,6 @@
 # VS Code + MCP (Phase 1)
 
-This repo ships an MCP server host (`ContextCompiler.Host.Mcp`) compatible with **stdio** transport.
+This repo ships an MCP server host (`ContextCompiler.Mcp.Cli`) compatible with **stdio** transport.
 
 ## Configure VS Code
 
@@ -17,7 +17,7 @@ Example:
       "args": [
         "run",
         "--project",
-        "src/ContextCompiler.Host.Mcp/ContextCompiler.Host.Mcp.csproj"
+        "src/Core/ContextCompiler.Mcp.Cli/ContextCompiler.Mcp.Cli.csproj"
       ]
     }
   }

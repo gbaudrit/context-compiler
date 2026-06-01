@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Context Compiler Studio</title>
+  <meta name="description" content="Studio pour generer facilement ctxc.config.json et la configuration Excel de Context Compiler.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="hero">
+      <div>
+        <p class="eyebrow">Context Compiler Studio</p>
+        <h1>Genere facilement tes fichiers de configuration.</h1>
+        <p class="hero-copy">
+          Ce studio t’aide a produire un <code>ctxc.config.json</code> coherent avec le schema coeur,
+          ainsi qu’une configuration Excel reutilisable dans <code>options.excel</code>.
+        </p>
+      </div>
+      <div class="hero-links">
+        <a href="https://contextcompiler.io">contextcompiler.io</a>
+        <a href="https://github.com/gbaudrit/context-compiler">GitHub</a>
+      </div>
+    </header>
+
+    <main class="studio-grid">
+      <section class="studio-card">
+        <div class="card-header">
+          <div>
+            <p class="eyebrow">Core</p>
+            <h2>ctxc.config.json</h2>
+          </div>
+          <div class="card-actions">
+            <button type="button" id="reset-core">Exemple</button>
+            <button type="button" id="copy-core">Copier</button>
+            <button type="button" id="download-core">Telecharger</button>
+          </div>
+        </div>
+
+        <div class="section-stack">
+          <section class="form-section">
+            <div class="section-title">
+              <h3>Identite du contexte</h3>
+              <p>Parametres generaux du projet et cadrage global.</p>
+            </div>
+            <div class="form-grid">
+              <label>
+                <span>Nom du projet</span>
+                <input id="core-name" type="text" value="Context Compiler">
+              </label>
+              <label>
+                <span>Domaine</span>
+                <input id="core-domain" type="text" value="context-engineering">
+              </label>
+              <label class="full">
+                <span>Resume</span>
+                <textarea id="core-summary" rows="3">Pre-LLM deterministic context compiler.</textarea>
+              </label>
+              <label class="checkbox">
+                <input id="core-enabled" type="checkbox" checked>
+                <span>Contexte active</span>
+              </label>
+              <label class="checkbox">
+                <input id="core-external" type="checkbox">
+                <span>Sources externes autorisees</span>
+              </label>
+            </div>
+          </section>
+
+          <section class="form-section">
+            <div class="editor-head">
+              <div class="section-title">
+                <h3>Audiences</h3>
+                <p>Clefs d'audience et notes associees.</p>
+              </div>
+              <button type="button" data-add-map="audiences">Ajouter</button>
+            </div>
+            <div id="audiences-list" class="map-list"></div>
+          </section>
+
+          <section class="form-section">
+            <div class="section-title">
+              <h3>Objectifs et hypotheses</h3>
+              <p>Consignes et hypotheses structurantes pour le contexte compile.</p>
+            </div>
+            <div class="editor-block compact-block">
+              <h3>Objectifs</h3>
+              <textarea id="core-objectives" rows="4">Compiler heterogeneous inputs into governed reasoning context.
+Preserve traceability via Evidence IDs.</textarea>
+              <p class="hint">Une ligne = une valeur</p>
+            </div>
+            <div class="editor-block compact-block">
+              <h3>Hypotheses</h3>
+              <textarea id="core-assumptions" rows="3">The compiler never calls an LLM.</textarea>
+              <p class="hint">Une ligne = une valeur</p>
+            </div>
+          </section>
+
+          <section class="form-section">
+            <div class="section-title">
+              <h3>Contraintes</h3>
+              <p>Regles MUST et MUST NOT injectees dans le contexte.</p>
+            </div>
+            <div class="two-col">
+              <div class="editor-block compact-block">
+                <h3>MUST</h3>
+                <textarea id="core-must" rows="4">Preserve Evidence IDs verbatim.</textarea>
+                <p class="hint">Une ligne = une valeur</p>
+              </div>
+              <div class="editor-block compact-block">
+                <h3>MUST NOT</h3>
+                <textarea id="core-must-not" rows="4">Invent facts or identifiers.</textarea>
+                <p class="hint">Une ligne = une valeur</p>
+              </div>
+            </div>
+          </section>
+
+          <section class="form-section">
+            <div class="editor-head">
+              <div class="section-title">
+                <h3>Glossaire</h3>
+                <p>Termes et definitions reutilises dans le contexte.</p>
+              </div>
+              <button type="button" data-add-map="glossary">Ajouter</button>
+            </div>
+            <div id="glossary-list" class="map-list"></div>
+          </section>
+
+          <section class="form-section">
+            <div class="section-title">
+              <h3>Personas</h3>
+              <p>Configuration des points de vue et de leurs parametres.</p>
+            </div>
+            <div class="two-col">
+              <div class="editor-block compact-block">
+                <h3>Personas actives</h3>
+                <textarea id="core-personas-active" rows="4">analysts.business
+developers.dotnetcore</textarea>
+                <p class="hint">Une ligne = un id</p>
+              </div>
+              <div class="editor-block compact-block">
+                <h3>Mode personas</h3>
+                <select id="core-personas-mode">
+                  <option value="append" selected>append</option>
+                  <option value="replace">replace</option>
+                </select>
+                <label class="full top-gap">
+                  <span>Params personas JSON</span>
+                  <textarea id="core-personas-params" rows="7">{
+  "analysts.business": {
+    "language": "fr",
+    "style": "direct"
+  }
+}</textarea>
+                </label>
+              </div>
+            </div>
+          </section>
+
+          <section class="form-section">
+            <div class="editor-head">
+              <div class="section-title">
+                <h3>Files</h3>
+                <p>Regles de selection et options associees aux fichiers.</p>
+              </div>
+              <button type="button" id="add-file-rule">Ajouter</button>
+            </div>
+            <div id="files-list" class="stack-list"></div>
+          </section>
+
+          <section class="form-section">
+            <div class="editor-head">
+              <div class="section-title">
+                <h3>Views</h3>
+                <p>Projections du contexte compile.</p>
+              </div>
+              <button type="button" id="add-view-rule">Ajouter</button>
+            </div>
+            <label class="checkbox compact">
+              <input id="views-inline" type="checkbox">
+              <span>Inline</span>
+            </label>
+            <div id="views-list" class="stack-list"></div>
+          </section>
+        </div>
+      </section>
+
+      <section class="preview-card">
+        <div class="card-header">
+          <div>
+            <p class="eyebrow">Preview</p>
+            <h2>ctxc.config.json</h2>
+          </div>
+        </div>
+        <pre><code id="core-output"></code></pre>
+      </section>
+
+      <section class="studio-card">
+        <div class="card-header">
+          <div>
+            <p class="eyebrow">Excel Reader</p>
+            <h2>options.excel</h2>
+          </div>
+          <div class="card-actions">
+            <button type="button" id="reset-excel">Exemple</button>
+            <button type="button" id="copy-excel">Copier</button>
+            <button type="button" id="download-excel">Telecharger</button>
+          </div>
+        </div>
+
+        <div class="section-stack">
+          <section class="form-section">
+            <div class="section-title">
+              <h3>Extraction Excel</h3>
+              <p>Identification de l'extract et parametrage de lecture.</p>
+            </div>
+            <div class="form-grid">
+              <label>
+                <span>Id</span>
+                <input id="excel-id" type="text" value="requirements_extract">
+              </label>
+              <label>
+                <span>Label</span>
+                <input id="excel-label" type="text" value="Requirements Extract">
+              </label>
+              <label>
+                <span>Sheet</span>
+                <input id="excel-sheet" type="text" value="Requirements">
+              </label>
+              <label>
+                <span>Table</span>
+                <input id="excel-table" type="text" value="">
+              </label>
+              <label>
+                <span>Skip</span>
+                <input id="excel-skip" type="number" min="0" value="0">
+              </label>
+              <label>
+                <span>Header row index</span>
+                <input id="excel-header-row-index" type="number" min="0" value="0">
+              </label>
+            </div>
+          </section>
+
+          <section class="form-section">
+            <div class="section-title">
+              <h3>Colonnes et tags</h3>
+              <p>Selection des champs utiles et etiquettes d'exploitation.</p>
+            </div>
+            <div class="two-col">
+              <div class="editor-block compact-block">
+                <h3>Select</h3>
+                <textarea id="excel-select" rows="5">Id
+Title
+Status</textarea>
+                <p class="hint">Une ligne = une colonne</p>
+              </div>
+              <div class="editor-block compact-block">
+                <h3>Tags</h3>
+                <textarea id="excel-tags" rows="5">excel
+requirements</textarea>
+                <p class="hint">Une ligne = un tag</p>
+              </div>
+            </div>
+          </section>
+
+          <section class="form-section">
+            <div class="editor-head">
+              <div class="section-title">
+                <h3>Filtres</h3>
+                <p>Conditions de selection ligne par ligne.</p>
+              </div>
+              <button type="button" id="add-where-rule">Ajouter</button>
+            </div>
+            <div id="where-list" class="stack-list"></div>
+            <div class="editor-block compact-block">
+              <h3>Valeur d’un filtre complexe</h3>
+              <p class="hint">Pour un filtre complexe, tu peux saisir du JSON dans le champ "value". Les chaines simples sont gerees automatiquement.</p>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section class="preview-card">
+        <div class="card-header">
+          <div>
+            <p class="eyebrow">Preview</p>
+            <h2>options.excel</h2>
+          </div>
+        </div>
+        <pre><code id="excel-output"></code></pre>
+
+        <div class="card-header lower">
+          <div>
+            <p class="eyebrow">Embed</p>
+            <h2>files[].options.excel</h2>
+          </div>
+        </div>
+        <pre><code id="excel-embed-output"></code></pre>
+      </section>
+    </main>
+  </div>
+
+  <template id="map-row-template">
+    <div class="inline-row">
+      <input class="map-key" type="text" placeholder="cle">
+      <input class="map-value" type="text" placeholder="valeur">
+      <button type="button" class="danger remove-row">Supprimer</button>
+    </div>
+  </template>
+
+  <template id="file-rule-template">
+    <div class="stack-card">
+      <div class="inline-row">
+        <input class="file-match" type="text" placeholder="match">
+        <button type="button" class="danger remove-row">Supprimer</button>
+      </div>
+      <label>
+        <span>Includes</span>
+        <textarea class="file-includes" rows="3" placeholder="Une ligne = un include"></textarea>
+      </label>
+      <label>
+        <span>Options JSON</span>
+        <textarea class="file-options" rows="5" placeholder="{ }"></textarea>
+      </label>
+    </div>
+  </template>
+
+  <template id="view-rule-template">
+    <div class="stack-card">
+      <div class="inline-row">
+        <input class="view-id" type="text" placeholder="id">
+        <button type="button" class="danger remove-row">Supprimer</button>
+      </div>
+      <label>
+        <span>Select</span>
+        <textarea class="view-select" rows="3" placeholder="Une ligne = une selection"></textarea>
+      </label>
+    </div>
+  </template>
+
+  <template id="where-rule-template">
+    <div class="stack-card">
+      <div class="where-grid">
+        <label>
+          <span>Colonne</span>
+          <input class="where-col" type="text" placeholder="Status">
+        </label>
+        <label>
+          <span>Operateur</span>
+          <select class="where-op">
+            <option value="eq">eq</option>
+            <option value="ne">ne</option>
+            <option value="in">in</option>
+            <option value="regex">regex</option>
+          </select>
+        </label>
+      </div>
+      <label>
+        <span>Value</span>
+        <textarea class="where-value" rows="3" placeholder="Approved ou [&#34;Approved&#34;, &#34;Draft&#34;]"></textarea>
+      </label>
+      <button type="button" class="danger remove-row">Supprimer</button>
+    </div>
+  </template>
+
+  <script src="app.js"></script>
+</body>
+</html>

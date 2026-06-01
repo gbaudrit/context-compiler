@@ -14,7 +14,7 @@ Il transforme un dossier de fichiers hétérogènes en un **contexte de raisonne
 ## 1. Objectif
 
 - Normaliser et aligner des sources hétérogènes (MD, code, JSON, Excel, etc.)
-- Produire un **Reasoning IR** canonique (fragments + preuve)
+- Produire un **Compiled Context** canonique (fragments + preuve)
 - Générer des **views** (points de vue) + un **framing global** (MUST / MUST NOT)
 - Appliquer des **guards** (sécurité/policy) avant consommation LLM
 - Émettre des artefacts (prompt, index, graph, reports) déterministes
@@ -23,11 +23,12 @@ Il transforme un dossier de fichiers hétérogènes en un **contexte de raisonne
 
 ## 2. Ce que le système garantit
 
-1) **Déterminisme** : mêmes inputs + même config + mêmes plugins => mêmes outputs  
+1) **Déterminisme** : mêmes inputs + même config + mêmes modules => mêmes outputs  
 2) **Traçabilité** : chaque information est reliée à une source (path+locator)  
 3) **Preuve** : chaque fragment possède un EvidenceKey (EK) et EvidenceRevision (ER)  
 4) **Sécurité** : les guards sont évalués avant production et avant usage (preflight)  
-5) **Extensibilité** : tout comportement = plugin
+5) **Extensibilité** : tout comportement = module
+6) **Skills declaratifs** : les skills sont resolus par des providers modules, restaures en cache, puis materialises sous `.ctxc/compiled/.agents/skills` par un module d'enrichment provider-neutral apres guards (voir `docs/decisions/0010-skills-artifact-enrichment-module-location.md`)
 
 ---
 
@@ -45,7 +46,7 @@ Il transforme un dossier de fichiers hétérogènes en un **contexte de raisonne
 
 - `prompt.context.md` : contexte final prêt à l’emploi (framing + views)
 - `evidence.index.json` : mapping EK/ER → source → metadata
-- `reasoning.graph.json` : graphe canonique
+- `evidence.graph.json` : graphe canonique
 - `security.report.md` : findings guards
 - `context.health.json` : métriques de santé
 - `view.<id>.md` : rendu d’une view (optionnel)
@@ -69,8 +70,20 @@ Il transforme un dossier de fichiers hétérogènes en un **contexte de raisonne
 
 ## 6. Terminologie stable
 
+- **Module** : capacit� atomique, stateless, r�utilisable, branch�e dans un pipeline
+- **Pack** : regroupement coh�rent de modules pr�ts � l'emploi
+- **Skill** : asset declaratif normalise par Context Compiler et consommable par un agent ou IDE
+- **Skill Provider** : module runtime qui resout, recupere et normalise des skills depuis une source externe ou interne
+- **Pipeline** : cha�ne d'ex�cution ordonn�e o� chaque �tape re�oit, transforme puis transmet des donn�es
+- **Blueprint** : solution orient�e use case qui combine packs, modules et pipeline pour produire un r�sultat final
 - **Fragment** : unité atomique d’information
-- **Reasoning IR** : représentation interne canonique
+- **Compiled Context** : représentation interne canonique
 - **View** : projection (sélection + ordering + rendu)
 - **Guard** : contrôle sécurité/policy pré-LLM
 - **EK/ER** : preuve stable/versionnée
+
+
+
+
+
+

@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://context-compiler.local/schemas/plugin.readers.pdf/ctxc.config.schema.json",
+  "title": "Context Compiler Excel plugin configuration",
+  "type": "object",
+  "description": "Excel-based extract configuration.",
+  "required": [ "id", "label" ],
+  "additionalProperties": false,
+  "$defs": {
+    "pluginOptions": {
+      "type": "object",
+      "properties": {
+        "pdf": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "extracts": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/extract"
+              }
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "extract": {
+      "type": "object",
+      "description": "PDF-based extract configuration using page ranges.",
+      "required": [ "id", "label" ],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string" },
+        "label": { "type": "string" },
+        "start": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "end": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "isArray": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "tags": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    }
+  }
+}

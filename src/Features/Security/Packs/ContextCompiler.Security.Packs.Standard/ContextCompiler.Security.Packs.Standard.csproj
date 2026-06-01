@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<Configurations>Debug;Release;DebugLocal</Configurations>
+		<IsPackable>true</IsPackable>
+		<PackageId>ContextCompiler.Security.Packs.Standard</PackageId>
+		<Title>Standard security pack</Title>
+		<Description>Standard security pack with the core security module, email guard module, and data part filtering guard.</Description>
+		<PackageTags>context;compiler;pack;security;guards;email;datapart;filter;redaction;obfuscation;standard</PackageTags>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<Authors>ContextCompiler</Authors>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)' == 'DebugLocal'">
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="README.md" Pack="true" PackagePath="" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\..\..\Core\ContextCompiler.Modules.Abstractions\ContextCompiler.Modules.Abstractions.csproj" />
+	  <ProjectReference Include="..\..\ContextCompiler.Security\ContextCompiler.Security.csproj" />
+	  <ProjectReference Include="..\..\Modules\ContextCompiler.Security.Modules.Guards.DataPart\ContextCompiler.Security.Modules.Guards.DataPart.csproj" />
+	  <ProjectReference Include="..\..\Modules\ContextCompiler.Security.Modules.Guards.Email\ContextCompiler.Security.Modules.Guards.Email.csproj" />
+	</ItemGroup>
+
+</Project>

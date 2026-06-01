@@ -2,7 +2,7 @@
 
 **Status:** Authoritative  
 **Date:** 2025-12-26  
-**Pipeline:** Global Pipeline stage 5+ (template rendering and artifact emission)
+**Pipeline:** Global Pipeline output composition and writing stages
 
 Output Contracts define the expected structure and semantics of produced artifacts
 so that IDE agents and tooling can consume them reliably.

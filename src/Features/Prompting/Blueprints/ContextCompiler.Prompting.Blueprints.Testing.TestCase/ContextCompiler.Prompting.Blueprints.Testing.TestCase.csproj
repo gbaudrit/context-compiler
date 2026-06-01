@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<Configurations>Debug;Release;DebugLocal</Configurations>
+		<IsPackable>true</IsPackable>
+		<PackageId>ContextCompiler.Prompting.Blueprints.Testing.TestCase</PackageId>
+		<Title>Test Case Writing blueprint</Title>
+		<Description>Blueprint for writing comprehensive test cases with clear preconditions, test steps, expected results, and full traceability to requirements.</Description>
+		<PackageTags>context;compiler;blueprint;testing;testcase;qa;quality;validation;verification</PackageTags>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<Authors>ContextCompiler</Authors>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)' == 'DebugLocal'">
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="README.md" Pack="true" PackagePath="" />
+		<ProjectReference Include="..\..\..\..\Core\ContextCompiler.Modules.Abstractions\ContextCompiler.Modules.Abstractions.csproj" />
+		<ProjectReference Include="..\..\Modules\ContextCompiler.Prompting.Modules.Personas.Testers.Analyst\ContextCompiler.Prompting.Modules.Personas.Testers.Analyst.csproj" />
+	</ItemGroup>
+
+</Project>

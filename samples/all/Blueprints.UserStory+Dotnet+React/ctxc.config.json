@@ -1,0 +1,25 @@
+{
+    "$schema": "file:///C:/Users/g.baudrit/source/repos/gbaudrit/Git/ctxc-samples/ctxc-sample-spec/with-ctxc/.ctxc/schemas/ctxc.config.schema.json",
+    "context": {
+    "enabled": true,
+    "name": "Context-compiler prompting interface",
+    "summary": "Je veux faire une application de prompting basé sur le projet ContextCompiler (https://github.com/gbaudrit/context-compiler)",
+    "domain": "Informatique, développement logiciel, gestion de projet",
+    "objectives": [
+      "L'idée est de pouvoir faire une ihm web qui assiste l'utilisateur et facilite l'emploi des modules (https://github.com/gbaudrit/context-compiler/wiki/Modules), packs (https://github.com/gbaudrit/context-compiler/wiki/Packs) et blueprints (https://github.com/gbaudrit/context-compiler/wiki/Blueprints)."
+    ],
+    "assumptions": [],
+    "constraints": {
+      "canUseExternalSources": false,
+      "must": [
+        "Utiliser la documentation sur les modules (https://github.com/gbaudrit/context-compiler/wiki/Modules)",
+        "Utiliser la documentation sur les packs (https://github.com/gbaudrit/context-compiler/wiki/Packs)",
+        "Utiliser la documentation sur les blueprints (https://github.com/gbaudrit/context-compiler/wiki/Blueprints)"
+      ],
+      "mustNot": []
+    },
+    "glossary": {}
+  },
+    "files": [],
+    "views": {}
+}

@@ -1,0 +1,16 @@
+using ContextCompiler.Abstractions.Views;
+
+namespace ContextCompiler.Abstractions.Output
+{
+    public interface IOutput
+    {
+        string Path { get; }
+
+        IReadOnlyList<IOutputArtifact> Artifacts { get; }
+
+        void AddArtifact(IOutputArtifact artifact);
+        void AddArtifact(Func<IOutputArtifactBuilder, IOutputArtifactBuilder> builder);
+
+        IReadOnlyList<IViewResult> Views { get; set; }
+    }
+}

@@ -1,7 +1,7 @@
 # Views & Templates (Agent-Ultra)
 
 ## 1) View definition
-A **view** is a named projection of the Reasoning IR.
+A **view** is a named projection of the Compiled Context.
 
 A view decides:
 - which fragments are included
@@ -34,3 +34,4 @@ including framing. Copilot uses its own UX, but reads the compiled view(s) or pr
 - persona overlays
 - hypothesis builds
 - per-model template variants
+

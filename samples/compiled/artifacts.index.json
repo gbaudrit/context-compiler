@@ -1,0 +1,123 @@
+{
+  "artifacts": [
+    {
+      "filename": "view.default.md",
+      "description": "",
+      "mimeType": "application/octet-stream",
+      "size": 1016705,
+      "generatedBy": "ContextCompiler.Modules.BuiltIn.GlobalPipeline.PrompComposer.ViewsPromptComposer"
+    },
+    {
+      "filename": "view.XP_Z12-012_1.2.index.json",
+      "description": "",
+      "mimeType": "application/json",
+      "size": 71191,
+      "generatedBy": "ContextCompiler.Modules.BuiltIn.GlobalPipeline.PrompComposer.ViewsPromptComposer"
+    },
+    {
+      "filename": "view.XP_Z12-012_1.2.yaml",
+      "description": "",
+      "mimeType": "application/octet-stream",
+      "size": 362984,
+      "generatedBy": "ContextCompiler.Modules.BuiltIn.GlobalPipeline.PrompComposer.ViewsPromptComposer"
+    },
+    {
+      "filename": "view.XP_Z12-012_1.3.index.json",
+      "description": "",
+      "mimeType": "application/json",
+      "size": 71592,
+      "generatedBy": "ContextCompiler.Modules.BuiltIn.GlobalPipeline.PrompComposer.ViewsPromptComposer"
+    },
+    {
+      "filename": "view.XP_Z12-012_1.3.yaml",
+      "description": "",
+      "mimeType": "application/octet-stream",
+      "size": 342044,
+      "generatedBy": "ContextCompiler.Modules.BuiltIn.GlobalPipeline.PrompComposer.ViewsPromptComposer"
+    },
+    {
+      "filename": "view.cdar.index.json",
+      "description": "",
+      "mimeType": "application/json",
+      "size": 17961,
+      "generatedBy": "ContextCompiler.Modules.BuiltIn.GlobalPipeline.PrompComposer.ViewsPromptComposer"
+    },
+    {
+      "filename": "view.cdar.yaml",
+      "description": "",
+      "mimeType": "application/octet-stream",
+      "size": 127968,
+      "generatedBy": "ContextCompiler.Modules.BuiltIn.GlobalPipeline.PrompComposer.ViewsPromptComposer"
+    },
+    {
+      "filename": "view.flux2.index.json",
+      "description": "",
+      "mimeType": "application/json",
+      "size": 199845,
+      "generatedBy": "ContextCompiler.Modules.BuiltIn.GlobalPipeline.PrompComposer.ViewsPromptComposer"
+    },
+    {
+      "filename": "view.flux2.yaml",
+      "description": "",
+      "mimeType": "application/octet-stream",
+      "size": 1110641,
+      "generatedBy": "ContextCompiler.Modules.BuiltIn.GlobalPipeline.PrompComposer.ViewsPromptComposer"
+    },
+    {
+      "filename": "context.health.json",
+      "description": "",
+      "mimeType": "application/json",
+      "size": 74,
+      "generatedBy": "ContextCompiler.Modules.BuiltIn.Output.HealthOutput"
+    },
+    {
+      "filename": "security.report.md",
+      "description": "",
+      "mimeType": "application/octet-stream",
+      "size": 31,
+      "generatedBy": "ContextCompiler.Modules.BuiltIn.Security.SecurityReportArtifact"
+    },
+    {
+      "filename": "personas.active.json",
+      "description": "",
+      "mimeType": "application/json",
+      "size": 12012,
+      "generatedBy": "ContextCompiler.Modules.BuiltIn.Personas.ActivatedPersonasIndexArtifact"
+    },
+    {
+      "filename": "evidence.graph.json",
+      "description": "",
+      "mimeType": "application/json",
+      "size": 141215,
+      "generatedBy": "ContextCompiler.Modules.BuiltIn.GraphExporters.PersonasActiveArtifact"
+    },
+    {
+      "filename": "evidence.graph.dot",
+      "description": "",
+      "mimeType": "application/octet-stream",
+      "size": 31328,
+      "generatedBy": "ContextCompiler.Modules.BuiltIn.GraphExporters.DotGraphExporter"
+    },
+    {
+      "filename": "evidence.graph.json",
+      "description": "",
+      "mimeType": "application/json",
+      "size": 141215,
+      "generatedBy": "ContextCompiler.Modules.BuiltIn.GraphExporters.EvidencesIndexExporter"
+    },
+    {
+      "filename": "evidences.index.json",
+      "description": "Evidences index file",
+      "mimeType": "application/json",
+      "size": 201056,
+      "generatedBy": "ContextCompiler.Modules.BuiltIn.Evidences.EvidenceIndexArtifactComposerModule"
+    },
+    {
+      "filename": "evidences.stats.json",
+      "description": "Evidences statistics file",
+      "mimeType": "application/json",
+      "size": 3649,
+      "generatedBy": "ContextCompiler.Modules.BuiltIn.Evidences.EvidenceIndexArtifactComposerModule"
+    }
+  ]
+}

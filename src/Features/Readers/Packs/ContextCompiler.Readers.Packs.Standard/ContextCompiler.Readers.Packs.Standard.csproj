@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<Configurations>Debug;Release;DebugLocal</Configurations>
+		<IsPackable>true</IsPackable>
+		<PackageId>ContextCompiler.Readers.Packs.Standard</PackageId>
+		<Title>Standard readers pack</Title>
+		<Description>Standard readers pack for the most common supported input formats.</Description>
+		<PackageTags>context;compiler;pack;readers;input;markdown;yaml;excel;pdf;standard</PackageTags>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<Authors>ContextCompiler</Authors>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)' == 'DebugLocal'">
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="README.md" Pack="true" PackagePath="" />
+		<ProjectReference Include="..\..\Modules\ContextCompiler.Readers.Modules.Excel\ContextCompiler.Readers.Modules.Excel.csproj" />
+		<ProjectReference Include="..\..\Modules\ContextCompiler.Readers.Modules.Markdown\ContextCompiler.Readers.Modules.Markdown.csproj" />
+		<ProjectReference Include="..\..\Modules\ContextCompiler.Readers.Modules.Pdf\ContextCompiler.Readers.Modules.Pdf.csproj" />
+		<ProjectReference Include="..\..\Modules\ContextCompiler.Readers.Modules.Text\ContextCompiler.Readers.Modules.Text.csproj" />
+		<ProjectReference Include="..\..\Modules\ContextCompiler.Readers.Modules.Yaml\ContextCompiler.Readers.Modules.Yaml.csproj" />
+	</ItemGroup>
+
+</Project>

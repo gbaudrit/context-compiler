@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<Configurations>Debug;Release;DebugLocal</Configurations>
+		<IsPackable>true</IsPackable>
+		<PackageId>ContextCompiler.Prompting.Packs.Personas.SoftwareEngineering.Standard</PackageId>
+		<Title>Standard software engineering personas pack</Title>
+		<Description>Standard software engineering personas pack for analysis and testing workflows.</Description>
+		<PackageTags>context;compiler;pack;personas;software-engineering;analysis;testing;standard</PackageTags>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<Authors>ContextCompiler</Authors>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)' == 'DebugLocal'">
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="README.md" Pack="true" PackagePath="" />
+		<ProjectReference Include="..\..\Modules\ContextCompiler.Prompting.Modules.Personas.Analysts.Business\ContextCompiler.Prompting.Modules.Personas.Analysts.Business.csproj" />
+		<ProjectReference Include="..\..\Modules\ContextCompiler.Prompting.Modules.Personas.Testers.Analyst\ContextCompiler.Prompting.Modules.Personas.Testers.Analyst.csproj" />
+	</ItemGroup>
+
+</Project>

@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 2,
+  "modules": {
+    "mode": "Install",
+    "installRoot": ".ctxc/modules",
+    "lockFile": ".ctxc/ctxc.modules.lock.json",
+    "runModulesFile": ".ctxc/ctxc.modules.run.json",
+    "offline": false,
+    "quarantineRoot": ".ctxc/quarantine",
+    "sources": [
+      {
+        "name": "locale",
+        "url": "C:\\.localenugetsource",
+        "trusted": true,
+        "provider": "nuget"
+      },
+      {
+        "name": "nuget.org",
+        "url": "https://api.nuget.org/v3/index.json",
+        "trusted": true,
+        "provider": "nuget"
+      }
+    ],
+    "trust": {
+      "requireTrustedSource": true,
+      "requireSignedPackages": false,
+      "allowedPackageIds": [
+        "ContextCompiler.*"
+      ],
+      "blockedPackageIds": []
+    },
+    "packages": {
+      "ContextCompiler.Packs.Starter.Standard@locale": "0.1.0-alpha.1",
+      "ContextCompiler.Prompting@locale": "0.1.0-alpha.1",
+      "ContextCompiler.Prompting.Modules.Templates.Scriban@locale": "0.1.0-alpha.1",
+      "ContextCompiler.Connectors.Modules.Git@locale": "0.1.0-alpha.1",
+      "ContextCompiler.Skills.Modules.Providers.Anthropic@locale": "0.1.0-alpha.1",
+      "ContextCompiler.Skills.Modules.Artifacts.Enrichment@locale": "0.1.0-alpha.1",
+      "ContextCompiler.Reports.Modules.Pipelines.Mermaid@locale": "0.1.0-alpha.1",
+      "ContextCompiler.Reports.Modules.Pipelines.ReactFlow@locale": "0.1.0-alpha.1",
+      "ContextCompiler.DevTools.Modules.EventsLogger@locale": "0.1.0-alpha.1"
+    }
+  }
+}
