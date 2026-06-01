@@ -1,6 +1,6 @@
 using ContextCompiler.Abstractions.Storage;
-using ContextCompiler.Modules.Abstractions.Skills;
+using ContextCompiler.Skills.Abstractions;
 
-namespace ContextCompiler.Core.Skills;
+namespace ContextCompiler.Skills;
 
 internal sealed record SkillInfos(string Id, string ProviderId, string BundleId, bool IsBundled, string Name, IStoreContainer RestoreCacheContainer) : ISkillInfos;

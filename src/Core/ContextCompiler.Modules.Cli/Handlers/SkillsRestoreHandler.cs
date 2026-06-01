@@ -6,7 +6,7 @@ using ContextCompiler.Core.DependencyInjectionBuilders;
 using ContextCompiler.Infrastructure;
 using ContextCompiler.Modules.Abstractions.Configuration;
 using ContextCompiler.Modules.Abstractions.Loading;
-using ContextCompiler.Modules.Abstractions.Skills;
+using ContextCompiler.Skills.Abstractions;
 using ContextCompiler.Modules.Loader;
 
 using Microsoft.Extensions.DependencyInjection;

@@ -1,13 +1,13 @@
 using System.Text.Json;
 
 using ContextCompiler.Abstractions;
-using ContextCompiler.Modules.Abstractions.Skills;
-using ContextCompiler.Modules.Abstractions.Skills.Configuration;
+using ContextCompiler.Skills.Abstractions;
+using ContextCompiler.Skills.Abstractions.Configuration;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
-namespace ContextCompiler.Core.Skills;
+namespace ContextCompiler.Skills;
 
 internal sealed class SkillsRestorer(
     IOptions<SkillsConfig> configOptions,

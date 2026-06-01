@@ -1,4 +1,4 @@
-namespace ContextCompiler.Modules.Abstractions.Skills;
+namespace ContextCompiler.Skills.Abstractions;
 
 public sealed record SkillsRestoreResult(SkillInstallPlan Plan, SkillLockFile LockFile);
 

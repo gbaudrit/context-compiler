@@ -14,6 +14,7 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\ContextCompiler.Abstractions\ContextCompiler.Abstractions.csproj" />
 	  <ProjectReference Include="..\ContextCompiler.Modules.Abstractions\ContextCompiler.Modules.Abstractions.csproj" />
+	  <ProjectReference Include="..\ContextCompiler.Skills.Abstractions\ContextCompiler.Skills.Abstractions.csproj" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="Configuration\" />

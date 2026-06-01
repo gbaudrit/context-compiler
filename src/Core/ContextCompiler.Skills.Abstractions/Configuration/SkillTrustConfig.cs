@@ -1,4 +1,4 @@
-namespace ContextCompiler.Modules.Abstractions.Skills.Configuration;
+namespace ContextCompiler.Skills.Abstractions.Configuration;
 
 public sealed class SkillTrustConfig
 {

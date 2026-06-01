@@ -1,4 +1,4 @@
-namespace ContextCompiler.Modules.Abstractions.Configuration;
+namespace ContextCompiler.Skills.Abstractions.Configuration;
 
 public sealed class SecurityValidationConfig
 {

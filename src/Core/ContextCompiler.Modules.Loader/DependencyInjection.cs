@@ -1,7 +1,7 @@
 using ContextCompiler.Abstractions;
 using ContextCompiler.Modules.Abstractions.Configuration;
 using ContextCompiler.Modules.Abstractions.Loading;
-using ContextCompiler.Modules.Abstractions.Skills.Configuration;
+using ContextCompiler.Skills.Abstractions.Configuration;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

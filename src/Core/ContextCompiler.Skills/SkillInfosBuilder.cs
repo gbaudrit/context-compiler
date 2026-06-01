@@ -1,7 +1,7 @@
 using ContextCompiler.Abstractions.Storage;
-using ContextCompiler.Modules.Abstractions.Skills;
+using ContextCompiler.Skills.Abstractions;
 
-namespace ContextCompiler.Core.Skills;
+namespace ContextCompiler.Skills;
 
 internal sealed class SkillInfosBuilder : ISkillInfosBuilder
 {

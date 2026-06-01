@@ -1,6 +1,4 @@
-using ContextCompiler.Modules.Abstractions.Configuration;
-
-namespace ContextCompiler.Modules.Abstractions.Skills.Configuration;
+namespace ContextCompiler.Skills.Abstractions.Configuration;
 
 public interface ISkillsLoadConfig
 {

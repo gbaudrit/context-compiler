@@ -10,7 +10,7 @@ using ContextCompiler.Core.Files;
 using ContextCompiler.Core.Guards;
 using ContextCompiler.Core.Output;
 using ContextCompiler.Core.Pipelines;
-using ContextCompiler.Core.Skills;
+using ContextCompiler.Skills;
 using ContextCompiler.Core.Sources;
 using ContextCompiler.Core.Storage;
 using ContextCompiler.Core.Tags;

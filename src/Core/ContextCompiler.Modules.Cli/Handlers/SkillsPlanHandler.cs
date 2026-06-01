@@ -1,6 +1,6 @@
 using System.Text.Json;
 
-using ContextCompiler.Modules.Abstractions.Skills;
+using ContextCompiler.Skills.Abstractions;
 
 using Microsoft.Extensions.Logging;
 

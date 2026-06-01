@@ -1,6 +1,4 @@
-using ContextCompiler.Modules.Abstractions.Configuration;
-
-namespace ContextCompiler.Modules.Abstractions.Skills.Configuration;
+namespace ContextCompiler.Skills.Abstractions.Configuration;
 
 public sealed class SkillsConfig : ISkillsLoadConfig
 {
@@ -12,6 +10,3 @@ public sealed class SkillsConfig : ISkillsLoadConfig
     public ArtifactsValidationConfig Validation { get; set; } = new();
     public Dictionary<string, string> Items { get; set; } = [];
 }
-
-
-

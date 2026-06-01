@@ -4,8 +4,9 @@ using ContextCompiler.Abstractions.Output;
 using ContextCompiler.Abstractions.Pipelines;
 using ContextCompiler.Abstractions.Storage;
 using ContextCompiler.Modules.Abstractions;
-using ContextCompiler.Modules.Abstractions.Skills;
-using ContextCompiler.Modules.Abstractions.Skills.Configuration;
+
+using ContextCompiler.Skills.Abstractions;
+using ContextCompiler.Skills.Abstractions.Configuration;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;

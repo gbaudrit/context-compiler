@@ -14,25 +14,6 @@ public class ModulesConfig : IModulesLoadConfig
     public Dictionary<string, string> Packages { get; set; } = [];
 }
 
-public sealed class PrerequisitesValidationConfig
-{
-    public bool Enabled { get; set; } = true;
-    public List<string> RequiredTools { get; set; } = ["docker", "git"];
-    public Dictionary<string, string> MinVersions { get; set; } = new()
-    {
-        ["docker"] = "20.0.0",
-        ["git"] = "2.0.0"
-    };
-}
-
-public sealed class DeploymentConfig
-{
-    public string TargetPath { get; set; } = ".agents/skills";
-    public bool OverwriteExisting { get; set; } = true;
-    public bool GenerateReport { get; set; } = true;
-    public string ReportPath { get; set; } = "artifacts.deployment.report.md";
-}
-
 public sealed class ModuleSource
 {
     public string Name { get; set; } = default!;

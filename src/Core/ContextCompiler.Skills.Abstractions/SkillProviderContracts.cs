@@ -1,6 +1,6 @@
 using ContextCompiler.Abstractions.Storage;
 
-namespace ContextCompiler.Modules.Abstractions.Skills;
+namespace ContextCompiler.Skills.Abstractions;
 
 public interface ISkillProvider
 {
@@ -42,8 +42,8 @@ public sealed record RestoreOptions(
 
 public enum TrustMode
 {
-    Permissive,  // Allow untrusted sources with warnings
-    Strict       // Block untrusted sources
+    Permissive,
+    Strict
 }
 
 public sealed record SkillRestoreResult(

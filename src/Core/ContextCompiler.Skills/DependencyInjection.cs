@@ -1,10 +1,10 @@
-using ContextCompiler.Modules.Abstractions.Skills;
+using ContextCompiler.Skills.Abstractions;
 
 using Microsoft.Extensions.DependencyInjection;
 
-namespace ContextCompiler.Core.Skills;
+namespace ContextCompiler.Skills;
 
-internal static class DependencyInjection
+public static class DependencyInjection
 {
     public static IServiceCollection AddSkills(this IServiceCollection services)
     {

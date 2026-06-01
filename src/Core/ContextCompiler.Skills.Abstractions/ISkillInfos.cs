@@ -1,11 +1,9 @@
 using ContextCompiler.Abstractions.Storage;
 
-namespace ContextCompiler.Modules.Abstractions.Skills;
+namespace ContextCompiler.Skills.Abstractions;
 
 public interface ISkillInfos
 {
-
-
     string Id { get; }
     string BundleId { get; }
     bool IsBundled { get; }

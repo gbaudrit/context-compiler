@@ -1,5 +1,4 @@
-namespace ContextCompiler.Modules.Abstractions.Configuration;
-
+namespace ContextCompiler.Skills.Abstractions.Configuration;
 
 public sealed class ArtifactsValidationConfig
 {
@@ -10,4 +9,3 @@ public sealed class ArtifactsValidationConfig
     public SecurityValidationConfig Security { get; set; } = new();
     public DeploymentConfig Deployment { get; set; } = new();
 }
-
