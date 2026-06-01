@@ -38,7 +38,7 @@
     }
   },
   "skills": {
-    "mode": "Compile",
+    "mode": "Restore",
     "cacheRoot": ".ctxc/cache/skills",
     "compiledRoot": ".ctxc/compiled/.agents/skills",
     "lockFile": ".ctxc/ctxc.skills.lock.json",

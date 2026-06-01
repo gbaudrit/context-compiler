@@ -1,0 +1,152 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pipeline Execution Report - Condensed View</title>
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            maxTextSize: 200000,
+            maxEdges: 2000,
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            }
+        });
+    </script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            margin-top: 0;
+            border-bottom: 3px solid #01579b;
+            padding-bottom: 10px;
+        }
+        .mermaid {
+            margin: 20px 0;
+            text-align: center;
+        }
+        .legend {
+            margin-top: 30px;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 4px;
+        }
+        .legend h3 {
+            margin-top: 0;
+            color: #555;
+        }
+        .legend-item {
+            display: inline-block;
+            margin-right: 20px;
+            margin-bottom: 10px;
+        }
+        .info-box {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: 4px;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        .info-box p {
+            margin: 5px 0;
+            color: #856404;
+        }
+        .legend-box {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            margin-right: 8px;
+            vertical-align: middle;
+            border-radius: 3px;
+        }
+        .started { background: #e1f5fe; border: 2px solid #01579b; }
+        .completed { background: #c8e6c9; border: 2px solid #2e7d32; }
+        .failed { background: #ffcdd2; border: 2px solid #c62828; }
+        .timestamp {
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Pipeline Execution Report - Condensed View</h1>
+        <div class="info-box">
+            <p><strong>Total events:</strong> 119</p>
+        </div>
+        <div class="mermaid">
+graph LR
+    subgraph GlobalPipeline[GlobalPipeline]
+        GlobalPipeline_Setup[Setup<br/>Module: connectors.git<br/>650ms]
+        style GlobalPipeline_Setup fill:#c8e6c9,stroke:#2e7d32
+        GlobalPipeline_InputIngestion[InputIngestion<br/>Module: pipelines.input-ingestion<br/>65ms]
+        style GlobalPipeline_InputIngestion fill:#c8e6c9,stroke:#2e7d32
+        GlobalPipeline_Setup --> GlobalPipeline_InputIngestion
+        GlobalPipeline_OutputComposition[OutputComposition<br/>Module: pipelines.promptcomposer<br/>9ms]
+        style GlobalPipeline_OutputComposition fill:#c8e6c9,stroke:#2e7d32
+        GlobalPipeline_InputIngestion --> GlobalPipeline_OutputComposition
+        GlobalPipeline_OutputProjection[OutputProjection<br/>Module: views<br/>18ms]
+        style GlobalPipeline_OutputProjection fill:#c8e6c9,stroke:#2e7d32
+        GlobalPipeline_OutputComposition --> GlobalPipeline_OutputProjection
+        GlobalPipeline_ReportComposition[ReportComposition<br/>3 modules<br/>2ms]
+        style GlobalPipeline_ReportComposition fill:#c8e6c9,stroke:#2e7d32
+        GlobalPipeline_OutputProjection --> GlobalPipeline_ReportComposition
+    end
+    subgraph InputIngestionPipeline[InputIngestionPipeline]
+        InputIngestionPipeline_ReadSource[ReadSource<br/>2 modules<br/>6 items<br/>14ms]
+        style InputIngestionPipeline_ReadSource fill:#c8e6c9,stroke:#2e7d32
+        InputIngestionPipeline_SourceItemMatchTags[SourceItemMatchTags<br/>Module: pass.filematchtags<br/>6 items<br/>4ms]
+        style InputIngestionPipeline_SourceItemMatchTags fill:#c8e6c9,stroke:#2e7d32
+        InputIngestionPipeline_ReadSource --> InputIngestionPipeline_SourceItemMatchTags
+        InputIngestionPipeline_ReadScopeGuards[ReadScopeGuards<br/>4 modules<br/>6 items<br/>7ms]
+        style InputIngestionPipeline_ReadScopeGuards fill:#c8e6c9,stroke:#2e7d32
+        InputIngestionPipeline_SourceItemMatchTags --> InputIngestionPipeline_ReadScopeGuards
+        InputIngestionPipeline_DataPartsProcessor[DataPartsProcessor<br/>Module: pipelines.input-ingestion.datapart<br/>6 items<br/>21ms]
+        style InputIngestionPipeline_DataPartsProcessor fill:#c8e6c9,stroke:#2e7d32
+        InputIngestionPipeline_ReadScopeGuards --> InputIngestionPipeline_DataPartsProcessor
+    end
+    subgraph PromptComposerPipeline[PromptComposerPipeline]
+        PromptComposerPipeline_OutputComposition[OutputComposition<br/>5 modules<br/>5ms]
+        style PromptComposerPipeline_OutputComposition fill:#c8e6c9,stroke:#2e7d32
+    end
+
+        </div>
+        <div class="legend">
+            <h3>Legend</h3>
+            <div class="legend-item">
+                <span class="legend-box started"></span>
+                <span>Phase Started</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-box completed"></span>
+                <span>Phase Completed</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-box failed"></span>
+                <span>Phase Failed</span>
+            </div>
+        </div>
+        <div class="timestamp">Generated: 2026-05-29 21:14:55 UTC</div>
+    </div>
+</body>
+</html>
+reports
