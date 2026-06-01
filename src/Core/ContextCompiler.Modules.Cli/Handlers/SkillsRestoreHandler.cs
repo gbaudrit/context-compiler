@@ -11,6 +11,7 @@ using ContextCompiler.Modules.Loader;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace ContextCompiler.Modules.Cli.Handlers;
 
@@ -22,6 +23,7 @@ internal sealed class SkillsRestoreHandler(
     {
         try
         {
+            _ = cfgFile;
             SkillsRestoreResult result = await RestoreSkillsAsync(cfgFile, CancellationToken.None);
             Console.WriteLine($"Skills lock file written with {result.LockFile.Skills.Count} skill(s).");
             return 0;
@@ -35,6 +37,8 @@ internal sealed class SkillsRestoreHandler(
 
     public async Task<SkillsRestoreResult> RestoreSkillsAsync(string cfgFile, CancellationToken cancellationToken)
     {
+        _ = cfgFile;
+
         ServiceCollection services = new();
         IContextCompilerBuilder contextCompilerBuilder = services.AddDependencyInjectionBuilders();
 
@@ -46,16 +50,8 @@ internal sealed class SkillsRestoreHandler(
             .AddModulesLoaderServices()
             .AddDefaultInfrastructure();
 
-
-
         using ServiceProvider bootstrapProvider = services.BuildServiceProvider();
-        IModulesLoadConfigLocator locator = bootstrapProvider.GetRequiredService<IModulesLoadConfigLocator>();
-        IModulesLoadConfigProvider modulesConfigProvider = bootstrapProvider.GetRequiredService<IModulesLoadConfigProvider>();
-        ISkillsLoadConfigProvider skillsConfigProvider = bootstrapProvider.GetRequiredService<ISkillsLoadConfigProvider>();
-
-        string? configPath = locator.Locate(cfgFile, "", "");
-        IModulesLoadConfig modulesConfig = modulesConfigProvider.GetConfigOrDefault(configPath);
-        _ = skillsConfigProvider.GetConfigOrDefault(configPath);
+        ModulesConfig modulesConfig = bootstrapProvider.GetRequiredService<IOptions<ModulesConfig>>().Value;
 
         IModulesLoader modulesLoader = bootstrapProvider.GetRequiredService<IModulesLoader>();
         string installRoot = Path.IsPathRooted(modulesConfig.InstallRoot)
@@ -65,9 +61,6 @@ internal sealed class SkillsRestoreHandler(
         _ = await modulesLoader.LoadFromFolder(contextCompilerBuilder, installRoot, cancellationToken);
 
         using ServiceProvider restoreProvider = services.BuildServiceProvider();
-        _ = restoreProvider.GetRequiredService<IModulesLoadConfigProvider>().GetConfigOrDefault(configPath);
-        _ = restoreProvider.GetRequiredService<ISkillsLoadConfigProvider>().GetConfigOrDefault(configPath);
-
         ISkillsRestorer restorer = restoreProvider.GetRequiredService<ISkillsRestorer>();
         return await restorer.RestoreAsync(cancellationToken);
     }

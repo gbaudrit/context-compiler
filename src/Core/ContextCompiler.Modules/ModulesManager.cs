@@ -6,10 +6,11 @@ using ContextCompiler.Modules.Abstractions.Loading;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 namespace ContextCompiler.Modules;
 
 public sealed class ModulesManager(ICtxcWorkingFolder ctxcWorkingFolder,
-                                  IModulesLoadConfigProvider cfg,
+                                  IOptions<ModulesConfig> cfgOptions,
                                   IModulesToRestoreProvider modulesToRestoreProvider,
                                   IModulesLoader modulesLoader,
                                   IServiceProvider serviceProvider,
@@ -20,6 +21,7 @@ public sealed class ModulesManager(ICtxcWorkingFolder ctxcWorkingFolder,
                                   IModulesSourcesProvider sourcesProvider,
                                   ILogger<ModulesManager> logger) : IModulesManager
 {
+    private ModulesConfig Cfg => cfgOptions.Value;
 
     public Task<IEnumerable<string>> LoadableModules()
     {
@@ -33,7 +35,7 @@ public sealed class ModulesManager(ICtxcWorkingFolder ctxcWorkingFolder,
         List<string> moduleSchemaPaths = [];
         IEnumerable<string> mainSchemaPaths = [];
 
-        Dictionary<string, string> toRestore = cfg.Current.Packages;
+        Dictionary<string, string> toRestore = Cfg.Packages;
 
         IEnumerable<IConfigurationSchemasDiscoverer> configurationSchemasDiscoverers = serviceProvider.GetServices<IConfigurationSchemasDiscoverer>();
 
@@ -80,7 +82,7 @@ public sealed class ModulesManager(ICtxcWorkingFolder ctxcWorkingFolder,
                     }
 
 
-                    if (req.PackageId.Id == cfg.Current.ConfigurationModule)
+                    if (req.PackageId.Id == Cfg.ConfigurationModule)
                     {
                         mainSchemaPaths = currentModuleSchemaPaths;
                         logger.LogInformation("Discovered {Count} configuration schemas for main configuration module {ModuleId} from {ExtractedRoot}", mainSchemaPaths.Count(), req.PackageId.Id, req.ExtractPath);
@@ -114,10 +116,10 @@ public sealed class ModulesManager(ICtxcWorkingFolder ctxcWorkingFolder,
             {
                 try
                 {
-                    string cached = Path.Combine(Path.GetFullPath(cfg.Current.InstallRoot), "_nupkg", req.PackageId.Id, req.Version.ToString() ?? "", $"{req.PackageId.Id}.{req.Version}.nupkg");
+                    string cached = Path.Combine(Path.GetFullPath(Cfg.InstallRoot), "_nupkg", req.PackageId.Id, req.Version.ToString() ?? "", $"{req.PackageId.Id}.{req.Version}.nupkg");
                     if (File.Exists(cached))
                     {
-                        _ = Quarantine.MoveToQuarantine(cfg.Current.QuarantineRoot, req.PackageId.Id, req.Version.ToString() ?? "", cached, ex.ToString());
+                        _ = Quarantine.MoveToQuarantine(Cfg.QuarantineRoot, req.PackageId.Id, req.Version.ToString() ?? "", cached, ex.ToString());
                     }
                 }
                 catch { }
@@ -155,7 +157,7 @@ public sealed class ModulesManager(ICtxcWorkingFolder ctxcWorkingFolder,
 
     public IEnumerable<(string id, string version, string shaDir)> ListInstalled()
     {
-        string root = Path.GetFullPath(cfg.Current.InstallRoot);
+        string root = Path.GetFullPath(Cfg.InstallRoot);
         if (!Directory.Exists(root))
         {
             yield break;
@@ -181,14 +183,14 @@ public sealed class ModulesManager(ICtxcWorkingFolder ctxcWorkingFolder,
     }
     public void PurgeCache(bool keepLockfilePinned = true)
     {
-        string installRoot = Path.GetFullPath(cfg.Current.InstallRoot);
+        string installRoot = Path.GetFullPath(Cfg.InstallRoot);
         if (!Directory.Exists(installRoot))
         {
             return;
         }
 
         HashSet<(string id, string ver, string sha)> keep = [];
-        if (keepLockfilePinned && File.Exists(Path.GetFullPath(cfg.Current.LockFile)))
+        if (keepLockfilePinned && File.Exists(Path.GetFullPath(Cfg.LockFile)))
         {
             ModuleLockFile lf = modulesLoader.LoadLockFile();
             foreach (ModuleLockFile.LockedModule p in lf.Packages)

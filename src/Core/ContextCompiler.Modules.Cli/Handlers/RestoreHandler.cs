@@ -3,6 +3,7 @@ using ContextCompiler.Modules.Abstractions.Configuration;
 using ContextCompiler.Modules.Abstractions.Loading;
 
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 using NuGet.Packaging;
 
@@ -11,9 +12,7 @@ namespace ContextCompiler.Modules.Cli.Handlers;
 internal sealed class RestoreHandler(
     IModulesManager modulesManager,
     IModulesLoader modulesLoader,
-    IModulesLoadConfigLocator modulesLoadConfigLocator,
-    IModulesLoadConfigProvider modulesLoadConfigProvider,
-    IModulesLoadConfigProvider cfg,
+    IOptions<ModulesConfig> cfgOptions,
     ISkillsRestoreHandler skillsRestoreHandler,
     ILogger<RestoreHandler> logger
 ) : IRestoreHandler
@@ -28,9 +27,7 @@ internal sealed class RestoreHandler(
             //    System.Diagnostics.Debugger.Break();
             //}
 
-
-            string? configPath = modulesLoadConfigLocator.Locate(cfgFile, "", "");
-            IModulesLoadConfig loadConfig = modulesLoadConfigProvider.GetConfigOrDefault(configPath);
+            ModulesConfig loadConfig = cfgOptions.Value;
 
             if (clean)
             {
@@ -40,11 +37,11 @@ internal sealed class RestoreHandler(
                     return 1;
                 }
                 Console.WriteLine($"Lock file cleaned: {Path.GetFullPath(cfgFile)}");
-                if (Path.Exists(cfg.Current.InstallRoot))
+                if (Path.Exists(loadConfig.InstallRoot))
                 {
-                    Directory.Delete(cfg.Current.InstallRoot, true);
+                    Directory.Delete(loadConfig.InstallRoot, true);
                 }
-                Console.WriteLine($"Modules directory deleted: {Path.GetFullPath(cfg.Current.InstallRoot)}");
+                Console.WriteLine($"Modules directory deleted: {Path.GetFullPath(loadConfig.InstallRoot)}");
             }
 
             loadConfig.Packages.AddRange(runModules);

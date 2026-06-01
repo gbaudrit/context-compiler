@@ -16,7 +16,6 @@ using ContextCompiler.Core.Engine;
 using ContextCompiler.Infrastructure.Configuration;
 using ContextCompiler.Infrastructure.FileSystem;
 using ContextCompiler.Infrastructure.Hashing;
-using ContextCompiler.Modules.Abstractions.Configuration;
 using ContextCompiler.Modules.Abstractions.Loading;
 using ContextCompiler.Modules.Loader;
 
@@ -98,13 +97,6 @@ modulesLoaderServices.AddLogging(x => x.AddConfiguration(builder.Configuration.G
 
 IServiceProvider modulesLoaderServicesProvider = modulesLoaderServices.BuildServiceProvider();
 IModulesLoader modulesLoader = modulesLoaderServicesProvider.GetRequiredService<IModulesLoader>();
-IModulesLoadConfigLocator modulesLoadConfigLocator = modulesLoaderServicesProvider.GetRequiredService<IModulesLoadConfigLocator>();
-//IModulesLoadConfigProvider modulesLoadConfigProvider = modulesLoaderServicesProvider.GetRequiredService<IModulesLoadConfigProvider>();
-//ISkillsLoadConfigProvider skillsLoadConfigProvider = modulesLoaderServicesProvider.GetRequiredService<ISkillsLoadConfigProvider>();
-
-//string? configPath = modulesLoadConfigLocator.Locate(globals.InputPath, "", "");
-//_ = modulesLoadConfigProvider.GetConfigOrDefault(configPath);
-//_ = skillsLoadConfigProvider.GetConfigOrDefault(configPath);
 
 await modulesLoader.LoadFromFolder(contextCompilerBuilder, Path.Combine(globals.InputPath, ".ctxc", "modules"), CancellationToken.None);
 await modulesLoader.LoadFromAssemblies(contextCompilerBuilder, assemblies);

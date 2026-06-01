@@ -3,16 +3,18 @@ using System.Reflection;
 using ContextCompiler.Abstractions;
 using ContextCompiler.Modules.Abstractions.Configuration;
 using ContextCompiler.Modules.Abstractions.Loading;
+
+using Microsoft.Extensions.Options;
 namespace ContextCompiler.Modules.Loader;
 
-public sealed class ModuleAssemblyLoader(IModulesLoadConfigProvider configProvider, IWorkingFolder workingFolder, IDependenciesChecker dependenciesChecker) : IModuleAssemblyLoader
+public sealed class ModuleAssemblyLoader(IOptions<ModulesConfig> configOptions, IWorkingFolder workingFolder, IDependenciesChecker dependenciesChecker) : IModuleAssemblyLoader
 {
     public ValueTask<ILoadModuleAssemblyResult> LoadFromAssembly(string assemblyPath, CancellationToken ct)
     {
         string? installRoot = null;
         try
         {
-            installRoot = Path.Combine(workingFolder.Path, configProvider.Current.InstallRoot.Replace('/', Path.DirectorySeparatorChar));
+            installRoot = Path.Combine(workingFolder.Path, configOptions.Value.InstallRoot.Replace('/', Path.DirectorySeparatorChar));
         }
         catch
         {

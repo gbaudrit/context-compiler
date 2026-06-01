@@ -4,11 +4,12 @@ using ContextCompiler.Abstractions.Output;
 using ContextCompiler.Abstractions.Pipelines;
 using ContextCompiler.Abstractions.Storage;
 using ContextCompiler.Modules.Abstractions;
-using ContextCompiler.Modules.Abstractions.Configuration;
 using ContextCompiler.Modules.Abstractions.Skills;
+using ContextCompiler.Modules.Abstractions.Skills.Configuration;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace ContextCompiler.Skills.Modules.Artifacts.Enrichment;
 
@@ -18,7 +19,7 @@ namespace ContextCompiler.Skills.Modules.Artifacts.Enrichment;
 /// </summary>
 public sealed class SkillsArtifactEnrichmentModule(
     ILogger<SkillsArtifactEnrichmentModule> logger,
-    ISkillsLoadConfigProvider skillsConfigProvider,
+    IOptions<SkillsConfig> skillsConfigOptions,
     [FromKeyedServices(StoreKeys.Skills)] IStore skillsStore,
     IWorkingFolder workingFolder,
     IOutput output,
@@ -34,7 +35,7 @@ public sealed class SkillsArtifactEnrichmentModule(
     {
         logger.LogInformation("Scanning skills cache for artifact enrichment...");
 
-        ISkillsLoadConfig config = skillsConfigProvider.Current;
+        SkillsConfig config = skillsConfigOptions.Value;
         if (config.Items.Count == 0)
         {
             logger.LogInformation("No skills configured, skipping enrichment");
@@ -42,13 +43,6 @@ public sealed class SkillsArtifactEnrichmentModule(
         }
 
         logger.LogInformation("Using skills store: {StoreKey}", skillsStore.Key);
-
-        string cacheRoot = ResolveWorkspacePath(config.CacheRoot);
-        if (!Directory.Exists(cacheRoot))
-        {
-            logger.LogWarning("Skills cache directory not found: {CacheRoot}", cacheRoot);
-            return await context.Success();
-        }
 
         int enrichedCount = 0;
 
@@ -105,13 +99,6 @@ public sealed class SkillsArtifactEnrichmentModule(
         logger.LogInformation("Skills artifact enrichment complete: {Count} files registered", enrichedCount);
 
         return await context.Success();
-    }
-
-    private string ResolveWorkspacePath(string path)
-    {
-        return Path.IsPathRooted(path)
-            ? path
-            : Path.GetFullPath(Path.Combine(workingFolder.Path, path.Replace('/', Path.DirectorySeparatorChar)));
     }
 
     private static string GetMimeType(string filePath)

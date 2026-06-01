@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>ContextCompiler.Prompting.Modules.Templates.Scriban</id>
+    <version>0.1.0-alpha.1</version>
+    <title>Scriban prompt template module</title>
+    <authors>ContextCompiler</authors>
+    <readme>README.md</readme>
+    <projectUrl>https://github.com/gbaudrit/context-compiler</projectUrl>
+    <description>ContextCompiler module that renders prompts with Scriban templates.</description>
+    <copyright>Copyright 2026 Guillaume Baudrit</copyright>
+    <tags>context compiler module prompt templates scriban rendering</tags>
+    <repository type="git" url="https://github.com/gbaudrit/context-compiler" commit="7aaf8f78796651e9c9c22bd58c86eccc99ad44df" />
+    <dependencies>
+      <group targetFramework="net10.0">
+        <dependency id="ContextCompiler.Modules.Abstractions" version="0.1.0-alpha.1" exclude="Build,Analyzers" />
+        <dependency id="ContextCompiler.Prompting.Abstractions" version="0.1.0-alpha.1" exclude="Build,Analyzers" />
+        <dependency id="Scriban" version="7.2.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Extensions.DependencyInjection.Abstractions" version="10.0.3" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Extensions.Logging.Abstractions" version="10.0.3" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>

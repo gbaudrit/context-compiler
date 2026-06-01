@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ContextCompiler.Prompting.Abstractions</name>
+    </assembly>
+    <members>
+        <member name="T:ContextCompiler.Prompting.Abstractions.IBlueprintComposerModule">
+            <summary>
+            Interface pour les modules qui fournissent des blueprints
+            </summary>
+        </member>
+    </members>
+</doc>

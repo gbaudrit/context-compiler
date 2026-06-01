@@ -1,5 +1,4 @@
 using ContextCompiler.Modules.Abstractions;
-using ContextCompiler.Modules.Abstractions.Configuration;
 
 using Microsoft.Extensions.Logging;
 
@@ -7,8 +6,6 @@ namespace ContextCompiler.Modules.Cli.Handlers;
 
 internal sealed class ListHandler(
     IModulesManager modulesManager,
-    IModulesLoadConfigLocator modulesLoadConfigLocator,
-    IModulesLoadConfigProvider modulesLoadConfigProvider,
     ILogger<ListHandler> logger
 ) : IListHandler
 {
@@ -16,8 +13,7 @@ internal sealed class ListHandler(
     {
         try
         {
-            string? configPath = modulesLoadConfigLocator.Locate(cfgFile, "", "");
-            _ = modulesLoadConfigProvider.GetConfigOrDefault(configPath);
+            _ = cfgFile;
 
             foreach ((string? id, string? ver, string? sha) in modulesManager.ListInstalled())
             {

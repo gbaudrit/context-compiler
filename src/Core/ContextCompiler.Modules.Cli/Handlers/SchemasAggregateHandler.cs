@@ -1,7 +1,6 @@
 using ContextCompiler.Abstractions;
 using ContextCompiler.Abstractions.Configuration;
 using ContextCompiler.Modules.Abstractions;
-using ContextCompiler.Modules.Abstractions.Configuration;
 
 using Microsoft.Extensions.Logging;
 
@@ -9,8 +8,6 @@ namespace ContextCompiler.Modules.Cli.Handlers;
 
 internal sealed class SchemasAggregateHandler(
     IModulesManager modulesManager,
-    IModulesLoadConfigLocator modulesLoadConfigLocator,
-    IModulesLoadConfigProvider modulesLoadConfigProvider,
     IConfigurationSchemasAggregator configurationSchemasAggregator,
     ISchemaBuilder schemaBuilder,
     IWorkingFolder workingFolder,

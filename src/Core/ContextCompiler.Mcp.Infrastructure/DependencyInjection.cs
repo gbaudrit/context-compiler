@@ -8,7 +8,6 @@ using ContextCompiler.Abstractions.Workspace;
 using ContextCompiler.Infrastructure.FileSystem;
 using ContextCompiler.Mcp.Core.Views.Read;
 using ContextCompiler.Mcp.Infrastructure.Extensions;
-using ContextCompiler.Modules.Abstractions.Configuration;
 using ContextCompiler.Modules.Abstractions.Loading;
 using ContextCompiler.Modules.Abstractions.MCP;
 using ContextCompiler.Modules.Loader;
@@ -62,14 +61,6 @@ public static class DependencyInjection
 
         IServiceProvider modulesLoaderServicesProvider = modulesLoaderServices.BuildServiceProvider();
         IModulesLoader modulesLoader = modulesLoaderServicesProvider.GetRequiredService<IModulesLoader>();
-
-        IModulesLoadConfigLocator modulesLoadConfigLocator = modulesLoaderServicesProvider.GetRequiredService<IModulesLoadConfigLocator>();
-        IModulesLoadConfigProvider modulesLoadConfigProvider = modulesLoaderServicesProvider.GetRequiredService<IModulesLoadConfigProvider>();
-        //ISkillsLoadConfigProvider skillsLoadConfigProvider = modulesLoaderServicesProvider.GetRequiredService<ISkillsLoadConfigProvider>();
-
-        //string? configPath = modulesLoadConfigLocator.Locate(globals.InputPath, "", "");
-        //_ = modulesLoadConfigProvider.GetConfigOrDefault(configPath);
-        //_ = skillsLoadConfigProvider.GetConfigOrDefault(configPath);
 
         IEnumerable<Type> moduleTypes = modulesLoader.LoadFromFolder(contextCompilerBuilder, Path.Combine(globals.InputPath, ".ctxc", "modules"), CancellationToken.None).Result;
         modulesLoader.LoadFromAssemblies(contextCompilerBuilder, assemblies).Wait();

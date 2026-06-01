@@ -1,6 +1,5 @@
 using System.Reflection;
 
-using ContextCompiler.Modules.Abstractions.Configuration;
 using ContextCompiler.Modules.Abstractions.Loading;
 
 using Microsoft.Extensions.FileSystemGlobbing;
@@ -8,7 +7,7 @@ using Microsoft.Extensions.FileSystemGlobbing.Abstractions;
 
 namespace ContextCompiler.Modules.Loader;
 
-internal sealed class ModulesDiscoverer(IModuleAssemblyLoader moduleAssemblyLoader, IModulesLoadConfigProvider modulesLoadConfigProvider) : IModulesDiscoverer
+internal sealed class ModulesDiscoverer(IModuleAssemblyLoader moduleAssemblyLoader) : IModulesDiscoverer
 {
 
     public async Task<IEnumerable<Type>> Discover(string rootPath, string packageId, CancellationToken ct)

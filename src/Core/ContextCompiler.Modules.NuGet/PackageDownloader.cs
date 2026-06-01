@@ -3,6 +3,7 @@ using ContextCompiler.Modules.Abstractions.Configuration;
 using ContextCompiler.Modules.Abstractions.Loading;
 
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 using NuGet.Common;
 using NuGet.Frameworks;
@@ -13,7 +14,7 @@ using NuGet.Versioning;
 
 namespace ContextCompiler.Modules.NuGet;
 
-internal sealed class PackageDownloader(IModulesLoadConfigProvider configProvider,
+internal sealed class PackageDownloader(IOptions<ModulesConfig> configOptions,
                                         IDependenciesChecker dependenciesChecker,
                                         IIntegrityChecker integrityChecker,
                                         ILogger<PackageDownloader> logger) : IPackageDownloader
@@ -180,7 +181,7 @@ internal sealed class PackageDownloader(IModulesLoadConfigProvider configProvide
             return;
         }
 
-        List<ModuleSource> allSources = configProvider.Current.Sources;
+        List<ModuleSource> allSources = configOptions.Value.Sources;
 
         // Essayer d'abord la source préférée (celle du package parent)
         List<ModuleSource> sourcesToTry = [preferredSource];

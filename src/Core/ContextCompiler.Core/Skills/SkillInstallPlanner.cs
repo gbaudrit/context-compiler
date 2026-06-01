@@ -1,17 +1,18 @@
-using ContextCompiler.Modules.Abstractions.Configuration;
 using ContextCompiler.Modules.Abstractions.Skills;
+using ContextCompiler.Modules.Abstractions.Skills.Configuration;
 
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 namespace ContextCompiler.Core.Skills;
 
 internal sealed class SkillInstallPlanner(
-    ISkillsLoadConfigProvider configProvider,
+    IOptions<SkillsConfig> configOptions,
     IServiceProvider serviceProvider) : ISkillInstallPlanner
 {
     public SkillInstallPlan CreatePlan()
     {
-        ISkillsLoadConfig config = configProvider.Current;
+        SkillsConfig config = configOptions.Value;
         Dictionary<string, MutablePlanItem> items = [];
 
         foreach (KeyValuePair<string, string> configuredSkill in config.Items)
@@ -75,7 +76,7 @@ internal sealed class SkillInstallPlanner(
         return new SkillInstallPlan(planItems);
     }
 
-    private static void ValidateTrust(ISkillsLoadConfig config, SkillReference reference)
+    private static void ValidateTrust(SkillsConfig config, SkillReference reference)
     {
         if (config.Trust.BlockedProviders.Any(x => x.Equals(reference.Provider, StringComparison.OrdinalIgnoreCase)))
         {
@@ -95,7 +96,7 @@ internal sealed class SkillInstallPlanner(
         }
     }
 
-    private static bool ShouldIncludeDeclaration(ISkillsLoadConfig config, SkillRequirement requirement)
+    private static bool ShouldIncludeDeclaration(SkillsConfig config, SkillRequirement requirement)
     {
         string mode = config.Declarations.Mode;
         return !mode.Equals("Deny", StringComparison.OrdinalIgnoreCase)

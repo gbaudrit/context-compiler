@@ -3,13 +3,14 @@ using ContextCompiler.Modules.Abstractions.Configuration;
 using ContextCompiler.Modules.Abstractions.Loading;
 
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 using NuGet.Frameworks;
 using NuGet.Packaging;
 
 namespace ContextCompiler.Modules.NuGet;
 
-public sealed class NuGetModuleStore(IModulesLoadConfigProvider cfg,
+public sealed class NuGetModuleStore(IOptions<ModulesConfig> cfgOptions,
                                      IModuleMetadatasBuilder moduleMetadatasBuilder,
                                      IModuleRestoreRequestResultBuilder resultBuilder,
                                      ITrustPolicy trustPolicy,
@@ -19,21 +20,22 @@ public sealed class NuGetModuleStore(IModulesLoadConfigProvider cfg,
                                      ILogger<NuGetModuleStore> logger) : IModulesStore
 {
     private readonly ITrustPolicy _policy = trustPolicy;
+    private ModulesConfig Cfg => cfgOptions.Value;
 
     public async Task<IModuleRestoreRequestResult> RestoreAsync(IModuleRestoreRequest req, bool force, CancellationToken ct)
     {
-        ModuleSource source = cfg.Current.Sources.Single(s => string.Equals(s.Name, req.PackageId.Source.Id, StringComparison.OrdinalIgnoreCase));
+        ModuleSource source = Cfg.Sources.Single(s => string.Equals(s.Name, req.PackageId.Source.Id, StringComparison.OrdinalIgnoreCase));
         _policy.ValidateSource(source);
         _policy.ValidatePackageId(req.PackageId.Id);
 
-        string installRootAbs = Path.GetFullPath(cfg.Current.InstallRoot);
+        string installRootAbs = Path.GetFullPath(Cfg.InstallRoot);
         _ = Directory.CreateDirectory(installRootAbs);
 
-        if (cfg.Current.Offline || string.Equals(cfg.Current.Mode, "Offline", StringComparison.OrdinalIgnoreCase))
+        if (Cfg.Offline || string.Equals(Cfg.Mode, "Offline", StringComparison.OrdinalIgnoreCase))
         {
             string nupkgPath = FindCachedNupkg(req.PackageId.Id, req.Version.Raw)
                 ?? throw new InvalidOperationException($"Offline mode: package not found in cache: {req.PackageId.Id} {req.Version.Raw}");
-            return BuildRestoreResult(nupkgPath, req.PackageId.Id, req.Version.Raw, req.PackageId.Checksum, validateSignature: !cfg.Current.Offline, force);
+            return BuildRestoreResult(nupkgPath, req.PackageId.Id, req.Version.Raw, req.PackageId.Checksum, validateSignature: !Cfg.Offline, force);
         }
 
         PackageDownloadResult downloadResult = await packageDownloader.DownloadPackageAsync(req, source, installRootAbs, force, ct);
@@ -50,7 +52,7 @@ public sealed class NuGetModuleStore(IModulesLoadConfigProvider cfg,
             }
         }
 
-        return BuildRestoreResult(downloadResult.MainPackagePath, req.PackageId.Id, req.Version.Raw, req.PackageId.Checksum, validateSignature: !cfg.Current.Offline, force);
+        return BuildRestoreResult(downloadResult.MainPackagePath, req.PackageId.Id, req.Version.Raw, req.PackageId.Checksum, validateSignature: !Cfg.Offline, force);
     }
 
     private IModuleRestoreRequestResult BuildRestoreResult(string nupkgPath, string packageId, string version, string checksum, bool validateSignature, bool force)
@@ -93,7 +95,7 @@ public sealed class NuGetModuleStore(IModulesLoadConfigProvider cfg,
     private string ExtractToImmutableCache(string nupkgPath, string packageId, string version, string shaBase64, bool force)
     {
         string hashDir = shaBase64.Replace("/", "_").Replace("+", "-");
-        string packageDir = Path.Combine(Path.GetFullPath(cfg.Current.InstallRoot), packageId);
+        string packageDir = Path.Combine(Path.GetFullPath(Cfg.InstallRoot), packageId);
         string dest = Path.Combine(packageDir, version, hashDir);
 
         if (!force && Directory.Exists(dest))
@@ -228,7 +230,7 @@ public sealed class NuGetModuleStore(IModulesLoadConfigProvider cfg,
 
     private string? FindCachedNupkg(string packageId, string version)
     {
-        string p = Path.Combine(Path.GetFullPath(cfg.Current.InstallRoot), "_nupkg", packageId, version, $"{packageId}.{version}.nupkg");
+        string p = Path.Combine(Path.GetFullPath(Cfg.InstallRoot), "_nupkg", packageId, version, $"{packageId}.{version}.nupkg");
         return File.Exists(p) ? p : null;
     }
 }

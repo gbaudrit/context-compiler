@@ -1,12 +1,5 @@
 namespace ContextCompiler.Modules.Abstractions.Configuration;
 
-public sealed class ModulesLoadDocument
-{
-    public int SchemaVersion { get; set; } = 2;
-    public ModulesConfig Modules { get; set; } = new();
-    public SkillsConfig Skills { get; set; } = new();
-}
-
 public class ModulesConfig : IModulesLoadConfig
 {
     public string Mode { get; set; } = "Locked";
@@ -21,29 +14,6 @@ public class ModulesConfig : IModulesLoadConfig
     public Dictionary<string, string> Packages { get; set; } = [];
 }
 
-public sealed class SkillsConfig : ISkillsLoadConfig
-{
-    public string Mode { get; set; } = "Restore";
-    public bool Offline { get; set; }
-    public string CacheRoot { get; set; } = ".ctxc/cache/skills";
-    public string CompiledRoot { get; set; } = ".ctxc/compiled/.agents/skills";
-    public string LockFile { get; set; } = ".ctxc/ctxc.skills.lock.json";
-    public SkillDeclarationsConfig Declarations { get; set; } = new();
-    public SkillTrustConfig Trust { get; set; } = new();
-    public ArtifactsValidationConfig Validation { get; set; } = new();
-    public Dictionary<string, string> Items { get; set; } = [];
-}
-
-public sealed class ArtifactsValidationConfig
-{
-    public bool Enabled { get; set; } = true;
-    public bool FailOnCritical { get; set; } = true;
-    public bool SkipOnWarning { get; set; }
-    public PrerequisitesValidationConfig Prerequisites { get; set; } = new();
-    public SecurityValidationConfig Security { get; set; } = new();
-    public DeploymentConfig Deployment { get; set; } = new();
-}
-
 public sealed class PrerequisitesValidationConfig
 {
     public bool Enabled { get; set; } = true;
@@ -55,43 +25,12 @@ public sealed class PrerequisitesValidationConfig
     };
 }
 
-public sealed class SecurityValidationConfig
-{
-    public bool Enabled { get; set; } = true;
-    public bool BlockEvalExec { get; set; } = true;
-    public bool BlockSystemCalls { get; set; }
-    public bool BlockHardcodedSecrets { get; set; } = true;
-    public bool WarnExternalUrls { get; set; } = true;
-    public List<string> WhitelistedDomains { get; set; } =
-    [
-        "github.com",
-        "githubusercontent.com",
-        "anthropic.com",
-        "microsoft.com"
-    ];
-}
-
 public sealed class DeploymentConfig
 {
     public string TargetPath { get; set; } = ".agents/skills";
     public bool OverwriteExisting { get; set; } = true;
     public bool GenerateReport { get; set; } = true;
     public string ReportPath { get; set; } = "artifacts.deployment.report.md";
-}
-
-public sealed class SkillDeclarationsConfig
-{
-    public string Mode { get; set; } = "Prompt";
-    public bool AllowRequired { get; set; } = true;
-    public bool AllowRecommended { get; set; }
-}
-
-public sealed class SkillTrustConfig
-{
-    public bool RequireTrustedProvider { get; set; } = true;
-    public List<string> AllowedProviders { get; set; } = [];
-    public List<string> BlockedProviders { get; set; } = [];
-    public List<string> BlockedSkills { get; set; } = [];
 }
 
 public sealed class ModuleSource
@@ -162,22 +101,4 @@ public sealed class ModuleLockFile
     public sealed class DependencyInfo { public string Id { get; set; } = default!; public string Version { get; set; } = default!; }
 }
 
-public sealed class SkillLockFile
-{
-    public int FormatVersion { get; set; } = 1;
-    public DateTime GeneratedAt { get; set; } = DateTime.UnixEpoch;
-    public List<LockedSkill> Skills { get; set; } = [];
 
-    public sealed class LockedSkill
-    {
-        public string Id { get; set; } = default!;
-        public string Provider { get; set; } = default!;
-        public string RequestedVersion { get; set; } = default!;
-        public string ResolvedVersion { get; set; } = default!;
-        public string SourceUri { get; set; } = default!;
-        public string Checksum { get; set; } = default!;
-        public string CachePath { get; set; } = default!;
-        public List<string> RequestedBy { get; set; } = [];
-        public List<string> Files { get; set; } = [];
-    }
-}

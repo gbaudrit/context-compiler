@@ -3,20 +3,22 @@ using ContextCompiler.Modules.Abstractions.Configuration;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace ContextCompiler.Modules
 {
-    internal sealed class ModulesToRestoreProvider(IModulesLoadConfigProvider cfg,
+    internal sealed class ModulesToRestoreProvider(IOptions<ModulesConfig> cfgOptions,
                                             IModuleRestoreRequestBuilder moduleRestoreRequestBuilder,
                                             IServiceProvider serviceProvider,
                                             ILogger<ModulesToRestoreProvider> logger) : IModulesToRestoreProvider
     {
+        private ModulesConfig Cfg => cfgOptions.Value;
 
         public IEnumerable<IModuleRestoreRequest> ModulesToRestore()
         {
             IList<IModuleRestoreRequest> moduleRestoreRequests = [];
 
-            foreach (KeyValuePair<string, string> pkg in cfg.Current.Packages)
+            foreach (KeyValuePair<string, string> pkg in Cfg.Packages)
             {
                 if (string.IsNullOrWhiteSpace(pkg.Key))
                 {
@@ -63,7 +65,7 @@ namespace ContextCompiler.Modules
                 moduleRestoreRequests.Add(moduleRestoreRequestBuilder.InitNew()
                                                                      .WithPackageId(packageId)
                                                                      .WithVersion(version)
-                                                                     .WithExtractPath(cfg.Current.InstallRoot)
+                                                                     .WithExtractPath(Cfg.InstallRoot)
                                                                      .Build());
             }
 

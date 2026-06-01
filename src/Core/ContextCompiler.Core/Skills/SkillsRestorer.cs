@@ -1,15 +1,16 @@
 using System.Text.Json;
 
 using ContextCompiler.Abstractions;
-using ContextCompiler.Modules.Abstractions.Configuration;
 using ContextCompiler.Modules.Abstractions.Skills;
+using ContextCompiler.Modules.Abstractions.Skills.Configuration;
 
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 namespace ContextCompiler.Core.Skills;
 
 internal sealed class SkillsRestorer(
-    ISkillsLoadConfigProvider configProvider,
+    IOptions<SkillsConfig> configOptions,
     ISkillInstallPlanner planner,
     IServiceProvider serviceProvider,
     IWorkingFolder workingFolder) : ISkillsRestorer
@@ -18,7 +19,7 @@ internal sealed class SkillsRestorer(
 
     public async Task<SkillsRestoreResult> RestoreAsync(CancellationToken cancellationToken)
     {
-        ISkillsLoadConfig config = configProvider.Current;
+        SkillsConfig config = configOptions.Value;
         SkillInstallPlan plan = planner.CreatePlan();
 
         if (config.Mode.Equals("Locked", StringComparison.OrdinalIgnoreCase))

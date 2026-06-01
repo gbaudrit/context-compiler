@@ -1,9 +1,11 @@
 using ContextCompiler.Modules.Abstractions;
 using ContextCompiler.Modules.Abstractions.Configuration;
 
+using Microsoft.Extensions.Options;
+
 namespace ContextCompiler.Modules
 {
-    internal sealed class FromConfigurationSourcesProvider(IModulesLoadConfigProvider cfg, ISourceBuilder sourceBuilder) : IModulesSourcesProvider
+    internal sealed class FromConfigurationSourcesProvider(IOptions<ModulesConfig> cfgOptions, ISourceBuilder sourceBuilder) : IModulesSourcesProvider
     {
         private bool _initialized;
 
@@ -16,7 +18,7 @@ namespace ContextCompiler.Modules
                 return;
             }
 
-            _sources.AddRange(cfg.Current.Sources.Select(x => sourceBuilder.InitNew().WithId(x.Name).WithProvider(x.Provider).WithUrl(new Uri(x.Url)).Build()));
+            _sources.AddRange(cfgOptions.Value.Sources.Select(x => sourceBuilder.InitNew().WithId(x.Name).WithProvider(x.Provider).WithUrl(new Uri(x.Url)).Build()));
             _initialized = true;
         }
 

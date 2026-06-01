@@ -7,15 +7,17 @@ using ContextCompiler.Modules.Abstractions.Configuration;
 using ContextCompiler.Modules.Abstractions.Loading;
 
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace ContextCompiler.Modules.Loader
 {
     public class ModulesLoader(IModulesDiscoverer modulesDiscoverer,
                                IModuleRegistryBuilder moduleRegistryBuilder,
-                               IModulesLoadConfigProvider configProvider,
+                               IOptions<ModulesConfig> configOptions,
                                IWorkingFolder workingFolder,
                                ILogger<ModulesLoader> logger) : IModulesLoader
     {
+        private ModulesConfig Config => configOptions.Value;
         private static readonly JsonSerializerOptions JsonOptions = new()
         {
             WriteIndented = true
@@ -42,7 +44,7 @@ namespace ContextCompiler.Modules.Loader
             {
                 ModuleLockFile lockFile = LoadLockFile();
                 string installRoot = path;
-                IEnumerable<string> configuredPackages = configProvider.Current.Packages.Select(x => x.Key.Split('@').First());
+                IEnumerable<string> configuredPackages = Config.Packages.Select(x => x.Key.Split('@').First());
                 IEnumerable<string> runModules = LoadRunModulesFile().Keys.Select(x => x.Split('@').First());
 
                 HashSet<string> processedModules = [];
@@ -121,7 +123,7 @@ namespace ContextCompiler.Modules.Loader
         {
             try
             {
-                string path = Path.Combine(workingFolder.Path, configProvider.Current.LockFile);
+                string path = Path.Combine(workingFolder.Path, Config.LockFile);
                 if (File.Exists(path))
                 {
                     File.Delete(path);
@@ -142,21 +144,21 @@ namespace ContextCompiler.Modules.Loader
 
         public ModuleLockFile LoadLockFile()
         {
-            string path = Path.Combine(workingFolder.Path, configProvider.Current.LockFile);
+            string path = Path.Combine(workingFolder.Path, Config.LockFile);
             return !File.Exists(path)
                 ? throw new InvalidOperationException($"Lock file not found: {path}")
                 : JsonSerializer.Deserialize<ModuleLockFile>(File.ReadAllText(path), JsonOptions)!;
         }
         public void SaveLockFile(ModuleLockFile lockFile)
         {
-            string path = Path.Combine(workingFolder.Path, configProvider.Current.LockFile);
+            string path = Path.Combine(workingFolder.Path, Config.LockFile);
             _ = Directory.CreateDirectory(Path.GetDirectoryName(path)!);
             File.WriteAllText(path, JsonSerializer.Serialize(lockFile, JsonOptions));
         }
 
         public void SaveRunModules(IReadOnlyDictionary<string, string> runModules)
         {
-            string path = Path.Combine(workingFolder.Path, configProvider.Current.RunModulesFile);
+            string path = Path.Combine(workingFolder.Path, Config.RunModulesFile);
             _ = Directory.CreateDirectory(Path.GetDirectoryName(path)!);
             File.WriteAllText(path, JsonSerializer.Serialize(runModules, JsonOptions));
 
@@ -164,7 +166,7 @@ namespace ContextCompiler.Modules.Loader
 
         private IReadOnlyDictionary<string, string> LoadRunModulesFile()
         {
-            string path = Path.Combine(workingFolder.Path, configProvider.Current.RunModulesFile);
+            string path = Path.Combine(workingFolder.Path, Config.RunModulesFile);
             return !File.Exists(path)
                 ? new Dictionary<string, string>()
                 : JsonSerializer.Deserialize<IReadOnlyDictionary<string, string>>(File.ReadAllText(path), JsonOptions)!;

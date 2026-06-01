@@ -6,15 +6,16 @@ using System.Text.Json;
 
 using ContextCompiler.Abstractions;
 using ContextCompiler.Abstractions.Storage;
-using ContextCompiler.Modules.Abstractions.Configuration;
 using ContextCompiler.Modules.Abstractions.Skills;
+using ContextCompiler.Modules.Abstractions.Skills.Configuration;
 
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 namespace ContextCompiler.Skills.Modules.Providers.Anthropic;
 
 public sealed class AnthropicSkillProvider(
-    ISkillsLoadConfigProvider configProvider,
+    IOptions<SkillsConfig> configOptions,
     IWorkingFolder workingFolder,
     ISkillInfosBuilder skillInfosBuilder,
     [FromKeyedServices(StoreKeys.Cache)] IStore skillsCacheStore) : ISkillProvider

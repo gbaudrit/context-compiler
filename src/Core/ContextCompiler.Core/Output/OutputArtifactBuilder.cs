@@ -130,7 +130,7 @@ namespace ContextCompiler.Core.Output
             return new OutputArtifact
             {
                 StoreResource = _storeResource ?? throw new InvalidOperationException("StoreResource is not set"),
-                Content = content + _storeKey,
+                Content = content,
                 Description = _description ?? string.Empty,
                 GeneratedBy = _generatedBy ?? throw new InvalidOperationException("GeneratedBy is not set"),
                 MimeType = _mimeType ?? Path.GetExtension(_name) switch

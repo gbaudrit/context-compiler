@@ -1,0 +1,146 @@
+{
+  "pipelines": [
+    {
+      "id": "global-pipeline",
+      "name": "Global Pipeline",
+      "type": "pipeline",
+      "parentId": null,
+      "stages": ["global-pipeline_Setup", "global-pipeline_InputDiscovery", "global-pipeline_Processing"]
+    }
+  ],
+  "stages": [
+    {
+      "id": "global-pipeline_Setup",
+      "name": "Setup",
+      "type": "stage",
+      "pipelineId": "global-pipeline",
+      "steps": ["step-1", "step-2"]
+    },
+    {
+      "id": "global-pipeline_InputDiscovery",
+      "name": "InputDiscovery",
+      "type": "stage",
+      "pipelineId": "global-pipeline",
+      "steps": ["step-3", "step-4"]
+    },
+    {
+      "id": "global-pipeline_Processing",
+      "name": "Processing",
+      "type": "stage",
+      "pipelineId": "global-pipeline",
+      "steps": ["step-5", "step-6"]
+    }
+  ],
+  "steps": [
+    {
+      "id": "step-1",
+      "name": "Initialize",
+      "type": "step",
+      "stageId": "global-pipeline_Setup",
+      "moduleId": "setup.initializer",
+      "itemId": null,
+      "status": "completed",
+      "duration": 150.5,
+      "startTime": "2024-01-15T10:00:00.000Z",
+      "endTime": "2024-01-15T10:00:00.150Z",
+      "errorMessage": null
+    },
+    {
+      "id": "step-2",
+      "name": "Configure",
+      "type": "step",
+      "stageId": "global-pipeline_Setup",
+      "moduleId": "setup.configurator",
+      "itemId": null,
+      "status": "completed",
+      "duration": 85.3,
+      "startTime": "2024-01-15T10:00:00.150Z",
+      "endTime": "2024-01-15T10:00:00.235Z",
+      "errorMessage": null
+    },
+    {
+      "id": "step-3",
+      "name": "Scan",
+      "type": "step",
+      "stageId": "global-pipeline_InputDiscovery",
+      "moduleId": "input.scanner",
+      "itemId": "file1.txt",
+      "status": "completed",
+      "duration": 230.7,
+      "startTime": "2024-01-15T10:00:00.235Z",
+      "endTime": "2024-01-15T10:00:00.465Z",
+      "errorMessage": null
+    },
+    {
+      "id": "step-4",
+      "name": "Scan",
+      "type": "step",
+      "stageId": "global-pipeline_InputDiscovery",
+      "moduleId": "input.scanner",
+      "itemId": "file2.txt",
+      "status": "completed",
+      "duration": 195.2,
+      "startTime": "2024-01-15T10:00:00.465Z",
+      "endTime": "2024-01-15T10:00:00.660Z",
+      "errorMessage": null
+    },
+    {
+      "id": "step-5",
+      "name": "Process",
+      "type": "step",
+      "stageId": "global-pipeline_Processing",
+      "moduleId": "processor.main",
+      "itemId": "file1.txt",
+      "status": "completed",
+      "duration": 420.1,
+      "startTime": "2024-01-15T10:00:00.660Z",
+      "endTime": "2024-01-15T10:00:01.080Z",
+      "errorMessage": null
+    },
+    {
+      "id": "step-6",
+      "name": "Process",
+      "type": "step",
+      "stageId": "global-pipeline_Processing",
+      "moduleId": "processor.main",
+      "itemId": "file2.txt",
+      "status": "failed",
+      "duration": 125.8,
+      "startTime": "2024-01-15T10:00:01.080Z",
+      "endTime": "2024-01-15T10:00:01.205Z",
+      "errorMessage": "Failed to process file2.txt: Invalid format"
+    }
+  ],
+  "edges": [
+    {
+      "id": "edge-1",
+      "source": "global-pipeline_Setup",
+      "target": "global-pipeline_InputDiscovery",
+      "type": "stage-to-stage"
+    },
+    {
+      "id": "edge-2",
+      "source": "global-pipeline_InputDiscovery",
+      "target": "global-pipeline_Processing",
+      "type": "stage-to-stage"
+    },
+    {
+      "id": "edge-3",
+      "source": "step-1",
+      "target": "step-2",
+      "type": "step-to-step"
+    },
+    {
+      "id": "edge-4",
+      "source": "step-3",
+      "target": "step-4",
+      "type": "step-to-step"
+    },
+    {
+      "id": "edge-5",
+      "source": "step-5",
+      "target": "step-6",
+      "type": "step-to-step"
+    }
+  ]
+}
