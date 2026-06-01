@@ -28,7 +28,7 @@ Il transforme un dossier de fichiers hétérogènes en un **contexte de raisonne
 3) **Preuve** : chaque fragment possède un EvidenceKey (EK) et EvidenceRevision (ER)  
 4) **Sécurité** : les guards sont évalués avant production et avant usage (preflight)  
 5) **Extensibilité** : tout comportement = module
-6) **Skills declaratifs** : les skills sont resolus par des providers modules, restaures en cache, puis materialises sous `.ctxc/compiled/.agents/skills` apres guards
+6) **Skills declaratifs** : les skills sont resolus par des providers modules, restaures en cache, puis materialises sous `.ctxc/compiled/.agents/skills` par un module d'enrichment provider-neutral apres guards (voir `docs/decisions/0010-skills-artifact-enrichment-module-location.md`)
 
 ---
 

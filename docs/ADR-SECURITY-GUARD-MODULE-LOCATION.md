@@ -2,7 +2,7 @@
 
 ## Context
 
-Lors de l'implémentation de la validation des artifacts (Skills, Tools, Configuration), nous avions initialement créé `ArtifactSecurityGuardModule` dans le projet `ContextCompiler.Skills.Providers.Anthropic`.
+Lors de l'implémentation de la validation des artifacts (Skills, Tools, Configuration), nous avions initialement créé `ArtifactSecurityGuardModule` dans le projet `ContextCompiler.Skills.Modules.Providers.Anthropic`.
 
 ## Problem
 
@@ -29,9 +29,10 @@ src/Features/
 │
 ├── Skills/
 │   └── Modules/
-│       └── ContextCompiler.Skills.Providers.Anthropic/
-│           ├── AnthropicSkillProvider.cs
-│           └── SkillsArtifactEnrichmentModule.cs  (Skills-specific)
+│       ├── ContextCompiler.Skills.Modules.Providers.Anthropic/
+│       │   └── AnthropicSkillProvider.cs
+│       └── ContextCompiler.Skills.Modules.Artifacts.Enrichment/
+│           └── SkillsArtifactEnrichmentModule.cs  (Skills artifact enrichment)
 │
 └── Output/
 	└── Modules/
@@ -77,7 +78,7 @@ List<IOutputArtifact> scannableArtifacts = [.. artifacts.Where(a =>
 
 ### Module déplacé
 
-**Avant** : `src\Features\Skills\Modules\ContextCompiler.Skills.Providers.Anthropic\ArtifactSecurityGuardModule.cs`  
+**Avant** : `src\Features\Skills\Modules\ContextCompiler.Skills.Modules.Providers.Anthropic\ArtifactSecurityGuardModule.cs`  
 **Après** : `src\Features\Security\Modules\ContextCompiler.Security.Modules.Guards.Artifacts\ArtifactSecurityGuardModule.cs`
 
 ### Package
@@ -94,7 +95,7 @@ List<IOutputArtifact> scannableArtifacts = [.. artifacts.Where(a =>
 
 ```csharp
 // Avant
-namespace ContextCompiler.Skills.Providers.Anthropic;
+namespace ContextCompiler.Skills.Modules.Providers.Anthropic;
 
 // Après
 namespace ContextCompiler.Security.Modules.Guards.Artifacts;
@@ -157,6 +158,7 @@ namespace ContextCompiler.Security.Modules.Guards.Artifacts;
 
 - `docs/SKILLS-VALIDATION-SUMMARY.md` - Architecture mise à jour
 - `docs/ADR-GENERIC-ARTIFACT-WRITER.md` - Décision sur le writer générique
+- `docs/decisions/0010-skills-artifact-enrichment-module-location.md` - Décision sur l'emplacement du module d'enrichment Skills
 - `src/Features/Security/Modules/ContextCompiler.Security.Modules.Guards.Artifacts/README.md` - Documentation du module
 
 ## Notes

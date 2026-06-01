@@ -1,6 +1,6 @@
-# ContextCompiler.Skills.Providers.Anthropic
+# ContextCompiler.Skills.Modules.Providers.Anthropic
 
-`ContextCompiler.Skills.Providers.Anthropic` resolves skills from the public `anthropics/skills` repository.
+`ContextCompiler.Skills.Modules.Providers.Anthropic` resolves skills from the public `anthropics/skills` repository.
 
 Provider id:
 

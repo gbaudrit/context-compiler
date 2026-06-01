@@ -3,7 +3,7 @@ using ContextCompiler.Modules.Abstractions.Skills;
 
 using Microsoft.Extensions.DependencyInjection;
 
-namespace ContextCompiler.Skills.Providers.Anthropic;
+namespace ContextCompiler.Skills.Modules.Providers.Anthropic;
 
 public sealed class DependencyInjection : IDependencyInjection
 {

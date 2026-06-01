@@ -12,3 +12,4 @@ Index:
 - 0007 Testing strategy (MSTest + Moq + FluentAssertions)
 - 0008 Views, Personas, Hypotheses
 - 0009 Skill providers and modules config v2
+- 0010 Skills artifact enrichment module location

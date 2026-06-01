@@ -10,7 +10,7 @@ using ContextCompiler.Modules.Abstractions.Skills;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace ContextCompiler.Skills.Providers.Anthropic;
+namespace ContextCompiler.Skills.Modules.Artifacts.Enrichment;
 
 /// <summary>
 /// Module that enriches the output artifacts collection with skills from cache.
@@ -19,11 +19,9 @@ namespace ContextCompiler.Skills.Providers.Anthropic;
 public sealed class SkillsArtifactEnrichmentModule(
     ILogger<SkillsArtifactEnrichmentModule> logger,
     ISkillsLoadConfigProvider skillsConfigProvider,
-    [FromKeyedServices(StoreKeys.Cache)] IStore skillsCacheStore,
     [FromKeyedServices(StoreKeys.Skills)] IStore skillsStore,
     IWorkingFolder workingFolder,
     IOutput output,
-    IOutputArtifactBuilder artifactBuilder,
     IServiceProvider services) : IGlobalPipelineModule
 {
     public ModuleMetadata Metadata => IGlobalPipelineModule.Meta(
@@ -57,9 +55,6 @@ public sealed class SkillsArtifactEnrichmentModule(
         foreach (KeyValuePair<string, string> skillEntry in config.Items)
         {
             string skillId = skillEntry.Key;
-            string skillSpec = skillEntry.Value;
-
-            // Parse provider from spec (format: "provider@version")
             string[] parts = skillId.Split('@');
             string name = parts.Length > 0 ? parts[0] : "unknown";
             string provider = parts.Length > 1 ? parts[1] : "unknown";
@@ -70,28 +65,17 @@ public sealed class SkillsArtifactEnrichmentModule(
                 ISkillProvider skillProvider = services.GetRequiredKeyedService<ISkillProvider>(provider);
                 IReadOnlyList<ISkillInfos> skillsInfos = await skillProvider.GetSkillInfos(name, cancellationToken);
 
-                //IStoreContainer container = skillsCacheStore.GetContainer(new Uri($"skills/{provider}/{name}/{SanitizeVersion(version)}", UriKind.Relative));
-
-                //if (!container.Exists())
-                //{
-                //    logger.LogWarning("Skill cache not found for {SkillId}: {Path}", skillId, container.Uri);
-                //    continue;
-                //}
-
                 foreach (ISkillInfos skillInfos in skillsInfos)
                 {
-                    // Enumerate all files in the skill package
-                    IReadOnlyList<IStoreResource> resources = skillInfos.RestoreCacheContainer.GetResources($"*", true);
+                    IReadOnlyList<IStoreResource> resources = skillInfos.RestoreCacheContainer.GetResources("*", true);
 
                     foreach (IStoreResource resource in resources)
                     {
-                        // Use the Skills store to construct the resource path
                         string resourcePath = resource.Uri.MakeRelativeOf(skillInfos.RestoreCacheContainer.Uri).ToString();
                         IStoreResource skillResource = skillsStore.Container.GetResource(resourcePath);
 
                         string content = await resource.ReadAllText(cancellationToken);
 
-                        // Register each skill file as an artifact
                         output.AddArtifact(builder => builder
                             .WithStoreResource(skillResource)
                             .WithCategory(ArtifactCategory.Skill)
@@ -108,6 +92,7 @@ public sealed class SkillsArtifactEnrichmentModule(
 
                         enrichedCount++;
                     }
+
                     logger.LogInformation("Enriched {Count} files for skill {SkillId}", resources.Count, skillInfos.Id);
                 }
             }
@@ -128,13 +113,6 @@ public sealed class SkillsArtifactEnrichmentModule(
             ? path
             : Path.GetFullPath(Path.Combine(workingFolder.Path, path.Replace('/', Path.DirectorySeparatorChar)));
     }
-
-    //private static string SanitizeVersion(string version)
-    //{
-    //    return string.IsNullOrWhiteSpace(version) || version.Equals("latest", StringComparison.OrdinalIgnoreCase)
-    //        ? "main"
-    //        : version;
-    //}
 
     private static string GetMimeType(string filePath)
     {

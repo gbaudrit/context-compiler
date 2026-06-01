@@ -53,7 +53,7 @@ public sealed class OutputArtifactsFilesWriterModule(IOutput output, IFileSystem
             await artifact.StoreResource.WriteAllText(artifact.Content, cancellationToken);
             writtenCount++;
 
-            logger.LogInformation("Wrote output artifact: {Uri}", artifact.StoreResource.Uri);
+            logger.LogInformation("Wrote output artifact: {Uri}", artifact.StoreResource.Uri.AbsolutePath);
         }
 
         logger.LogInformation(
