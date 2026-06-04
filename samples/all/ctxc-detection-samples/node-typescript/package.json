@@ -1,0 +1,12 @@
+{
+  "name": "ctxc-node-sample",
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "express": "latest"
+  },
+  "devDependencies": {
+    "typescript": "latest"
+  }
+}

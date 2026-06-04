@@ -5,6 +5,11 @@ public interface ICtxcCompileHandler
     Task<int> HandleAsync(CtxcCompileCommandLine compileCommandLine);
 }
 
+public interface ICtxcPrepareHandler
+{
+    Task<int> HandleAsync(CtxcPrepareCommandLine commandLine);
+}
+
 public interface ICtxcNewProjectHandler
 {
     Task<int> HandleAsync(string path);

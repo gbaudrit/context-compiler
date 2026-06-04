@@ -1,0 +1,8 @@
+{
+  "schemaVersion": 2,
+  "skills": {
+    "mode": "Restore",
+    "lockFile": ".ctxc/ctxc.skills.lock.json",
+    "items": {}
+  }
+}

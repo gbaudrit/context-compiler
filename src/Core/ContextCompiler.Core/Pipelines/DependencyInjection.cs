@@ -2,6 +2,7 @@ using ContextCompiler.Abstractions.Pipelines;
 using ContextCompiler.Core.Pipelines.DataPart;
 using ContextCompiler.Core.Pipelines.InputIngestion;
 using ContextCompiler.Core.Pipelines.Events;
+using ContextCompiler.Core.Pipelines.Prepare;
 
 using Microsoft.Extensions.DependencyInjection;
 using ContextCompiler.Core.Pipelines.Compile;
@@ -22,6 +23,7 @@ namespace ContextCompiler.Core.Pipelines
                 .AddTransient<ICompilePipelineRunResultBuilder, CompilePipelineRunResultBuilder>()
                 .AddInputIngestionPipeline()
                 .AddDataPartPipeline()
+                .AddPreparePipeline()
                 .AddPipelineEvents();
             return services;
         }

@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 2,
+  "modules": {
+    "mode": "Locked",
+    "installRoot": ".ctxc/modules",
+    "lockFile": ".ctxc/ctxc.modules.lock.json",
+    "runModulesFile": ".ctxc/ctxc.modules.run.json",
+    "quarantineRoot": ".ctxc/quarantine",
+    "configurationModule": "ContextCompiler.Configuration.Json",
+    "sources": [
+      {
+        "name": "nuget.org",
+        "url": "https://api.nuget.org/v3/index.json",
+        "trusted": true,
+        "provider": "nuget"
+      }
+    ],
+    "trust": {
+      "requireTrustedSource": true,
+      "allowedPackageIds": [
+        "ContextCompiler.*"
+      ],
+      "blockedPackageIds": [],
+      "allowedAuthors": [],
+      "allowedRepositoryPrefixes": []
+    },
+    "packages": {
+      "ContextCompiler.Packs.Starter.Standard": "*"
+    }
+  }
+}

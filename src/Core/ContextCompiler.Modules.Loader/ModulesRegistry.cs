@@ -1,6 +1,7 @@
 using ContextCompiler.Modules.Abstractions;
 using ContextCompiler.Modules.Abstractions.CompilePipeline;
 using ContextCompiler.Modules.Abstractions.Pipelines.Compile;
+using ContextCompiler.Modules.Abstractions.Pipelines.Prepare;
 using ContextCompiler.Modules.Abstractions.Prompts;
 using ContextCompiler.Modules.Abstractions.Views.Renderers;
 
@@ -15,6 +16,7 @@ public sealed class ModulesRegistry(IServiceProvider services) : IModulesRegistr
     public IReadOnlyList<ICompilePipelineModule> CompilePipelineModules => [.. _services.GetServices<ICompilePipelineModule>()];
     public IReadOnlyList<IInputIngestionPipelineModule> InputIngestionPipelineModules => [.. _services.GetServices<IInputIngestionPipelineModule>()];
     public IReadOnlyList<IDataPartPipelineModule> DataPartPipelineModules => [.. _services.GetServices<IDataPartPipelineModule>()];
+    public IReadOnlyList<IPreparePipelineModule> PreparePipelineModules => [.. _services.GetServices<IPreparePipelineModule>()];
 
     public IReadOnlyList<IDataReaderModule> DataReaders => [.. _services.GetServices<IDataReaderModule>()];
     public IReadOnlyList<IEngineeringModule> EngineeringModules => [.. _services.GetServices<IEngineeringModule>()];

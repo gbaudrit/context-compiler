@@ -1,0 +1,58 @@
+{
+  "Schema": "https://raw.githubusercontent.com/gbaudrit/context-compiler/refs/heads/main/schemas/v0.0.1/ctxc.config.schema.json",
+  "Context": {
+    "Enabled": true
+  },
+  "Sources": [
+    {
+      "Url": "file:///",
+      "Includes": [
+        "**/*"
+      ],
+      "Excludes": [
+        "**/.git/**",
+        "**/.svn/**",
+        "**/.hg/**",
+        "**/.vs/**",
+        "**/.vscode/**",
+        "**/.idea/**",
+        "**/.ctxc/**",
+        "**/bin/**",
+        "**/obj/**",
+        "**/node_modules/**",
+        "**/dist/**",
+        "**/build/**",
+        "**/out/**",
+        "**/target/**",
+        "**/packages/**",
+        "**/__pycache__/**",
+        "**/.venv/**",
+        "**/venv/**"
+      ],
+      "Subs": [],
+      "Tags": [],
+      "OptionsKey": ""
+    }
+  ],
+  "Personas": {
+    "Mode": "append"
+  },
+  "Views": {
+    "Views": [
+      {
+        "Excludes": [],
+        "Id": "default",
+        "Order": [],
+        "Renderers": [
+          "yaml",
+          "index.json"
+        ],
+        "SelectTags": [],
+        "Title": "Project Context"
+      }
+    ]
+  },
+  "Renderers": [
+    "prompt.context.md"
+  ]
+}

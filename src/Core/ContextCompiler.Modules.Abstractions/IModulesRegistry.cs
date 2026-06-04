@@ -1,5 +1,6 @@
 using ContextCompiler.Modules.Abstractions.CompilePipeline;
 using ContextCompiler.Modules.Abstractions.Pipelines.Compile;
+using ContextCompiler.Modules.Abstractions.Pipelines.Prepare;
 using ContextCompiler.Modules.Abstractions.Prompts;
 using ContextCompiler.Modules.Abstractions.Views.Renderers;
 
@@ -17,6 +18,7 @@ public interface IModulesRegistry
     IReadOnlyList<ICompilePipelineModule> CompilePipelineModules { get; }
     IReadOnlyList<IInputIngestionPipelineModule> InputIngestionPipelineModules { get; }
     IReadOnlyList<IDataPartPipelineModule> DataPartPipelineModules { get; }
+    IReadOnlyList<IPreparePipelineModule> PreparePipelineModules { get; }
     IReadOnlyList<IFragmentProcessorModule> FragmentProcessors { get; }
 
     IEnumerable<T> GetModules<T>() where T : IModule;

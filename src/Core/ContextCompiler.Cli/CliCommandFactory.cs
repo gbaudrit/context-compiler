@@ -96,6 +96,26 @@ public static class CliCommandFactory
         });
         root.AddCommand(compile);
 
+        // prepare
+        Command prepare = new("prepare", "Prepare a project: scan, classify, and generate ctxc configuration files (no file content is read or sent to any LLM)");
+        Option<string?> prepareGoalOpt = new("--goal", description: "User intent (optional)");
+        Option<string?> prepareDescriptionOpt = new("--description", description: "Free-form description (optional)");
+        prepare.AddOption(_inputOpt);
+        prepare.AddOption(prepareGoalOpt);
+        prepare.AddOption(prepareDescriptionOpt);
+        prepare.SetHandler(async context =>
+        {
+            string input = context.ParseResult.GetValueForOption(_inputOpt) ?? ".";
+            string? goal = context.ParseResult.GetValueForOption(prepareGoalOpt);
+            string? description = context.ParseResult.GetValueForOption(prepareDescriptionOpt);
+
+            CtxcPrepareCommandLine prepareCommandLine = new(input, goal, description);
+
+            ICtxcPrepareHandler handler = sp.GetRequiredService<ICtxcPrepareHandler>();
+            Environment.ExitCode = await handler.HandleAsync(prepareCommandLine);
+        });
+        root.AddCommand(prepare);
+
         // new
         Command newCommand = new("new", "Create new project");
         Option<string> pathOpt = new("--path", () => ".");

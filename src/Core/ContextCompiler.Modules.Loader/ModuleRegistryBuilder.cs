@@ -6,6 +6,7 @@ using ContextCompiler.Modules.Abstractions.CompilePipeline;
 using ContextCompiler.Modules.Abstractions.Loading;
 using ContextCompiler.Modules.Abstractions.MCP;
 using ContextCompiler.Modules.Abstractions.Pipelines.Compile;
+using ContextCompiler.Modules.Abstractions.Pipelines.Prepare;
 using ContextCompiler.Modules.Abstractions.Views;
 using ContextCompiler.Modules.Abstractions.Views.Renderers;
 using ContextCompiler.Skills.Abstractions;
@@ -58,6 +59,11 @@ public sealed class ModuleRegistryBuilder : IModuleRegistryBuilder
             if (typeof(IDataPartPipelineModule).IsAssignableFrom(t))
             {
                 services.TryAddEnumerable(ServiceDescriptor.Transient(typeof(IDataPartPipelineModule), t));
+            }
+
+            if (typeof(IPreparePipelineModule).IsAssignableFrom(t))
+            {
+                services.TryAddEnumerable(ServiceDescriptor.Transient(typeof(IPreparePipelineModule), t));
             }
 
             if (typeof(IFileReader).IsAssignableFrom(t))
