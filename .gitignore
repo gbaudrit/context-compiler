@@ -290,4 +290,4 @@ __pycache__/
 
 .work
 .dotnet
-.ctxc
+.ctxc*

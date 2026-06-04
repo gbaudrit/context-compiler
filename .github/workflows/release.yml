@@ -16,69 +16,98 @@ env:
 
 jobs:
   build:
-    name: Build release assets
-    runs-on: windows-latest
-    env:
-      SIGNING_CERTIFICATE_BASE64: ${{ secrets.SIGNING_CERTIFICATE_BASE64 }}
-      SIGNING_CERTIFICATE_PASSWORD: ${{ secrets.SIGNING_CERTIFICATE_PASSWORD }}
+    name: Build cross-platform binaries
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      numeric_version: ${{ steps.version.outputs.numeric_version }}
 
     steps:
       - uses: actions/checkout@v4
 
       - name: Resolve version
-        shell: pwsh
+        id: version
+        shell: bash
         run: |
-          $tag = "${{ github.ref_name }}"
-          if ($tag.StartsWith("v")) { $version = $tag.Substring(1) } else { $version = "0.1.0" }
-          $numeric = ($version -split "[-+]")[0]
-          "CTX_VERSION=$version" >> $env:GITHUB_ENV
-          "CTX_NUMERIC_VERSION=$numeric" >> $env:GITHUB_ENV
-          "CTX_TAG=v$version" >> $env:GITHUB_ENV
+          tag="${{ github.ref_name }}"
+          if [[ "$tag" == v* ]]; then version="${tag#v}"; else version="0.1.0"; fi
+          numeric="${version%%[-+]*}"
+          echo "version=$version"   >> "$GITHUB_OUTPUT"
+          echo "numeric_version=$numeric" >> "$GITHUB_OUTPUT"
+          echo "CTX_VERSION=$version"          >> "$GITHUB_ENV"
+          echo "CTX_NUMERIC_VERSION=$numeric"  >> "$GITHUB_ENV"
 
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: "10.0.x"
 
       - name: Restore
-        run: dotnet restore $env:PROJECT_PATH
+        run: dotnet restore "$PROJECT_PATH"
 
-      - name: Publish Windows x64
-        shell: pwsh
+      - name: Publish all RIDs
+        shell: bash
         run: |
-          dotnet publish $env:PROJECT_PATH -c Release -r win-x64 --self-contained true `
-            /p:PublishSingleFile=true /p:PublishTrimmed=false `
-            /p:AssemblyVersion=$env:CTX_NUMERIC_VERSION /p:FileVersion=$env:CTX_NUMERIC_VERSION /p:InformationalVersion=$env:CTX_VERSION `
-            -o publish/win-x64
-          if (Test-Path scripts/ctxc.cmd) { Copy-Item scripts/ctxc.cmd publish/win-x64/ctxc.cmd -Force }
-          New-Item -ItemType Directory -Force artifacts | Out-Null
-          Compress-Archive -Path publish/win-x64/* -DestinationPath artifacts/ctxc-win-x64.zip -Force
+          mkdir -p artifacts
+          for rid in win-x64 linux-x64 osx-x64 osx-arm64; do
+            echo "::group::Publish $rid"
+            dotnet publish "$PROJECT_PATH" -c Release -r "$rid" --self-contained true \
+              /p:PublishSingleFile=true /p:PublishTrimmed=false \
+              /p:AssemblyVersion="$CTX_NUMERIC_VERSION" \
+              /p:FileVersion="$CTX_NUMERIC_VERSION" \
+              /p:InformationalVersion="$CTX_VERSION" \
+              -o "publish/$rid"
+            echo "::endgroup::"
+          done
 
-      - name: Publish Linux x64
-        shell: pwsh
-        run: |
-          dotnet publish $env:PROJECT_PATH -c Release -r linux-x64 --self-contained true `
-            /p:PublishSingleFile=true /p:PublishTrimmed=false `
-            /p:AssemblyVersion=$env:CTX_NUMERIC_VERSION /p:FileVersion=$env:CTX_NUMERIC_VERSION /p:InformationalVersion=$env:CTX_VERSION `
-            -o publish/linux-x64
-          tar -czf artifacts/ctxc-linux-x64.tar.gz -C publish/linux-x64 .
+          if [ -f scripts/ctxc.cmd ]; then
+            cp scripts/ctxc.cmd publish/win-x64/ctxc.cmd
+          fi
 
-      - name: Publish macOS x64
-        shell: pwsh
-        run: |
-          dotnet publish $env:PROJECT_PATH -c Release -r osx-x64 --self-contained true `
-            /p:PublishSingleFile=true /p:PublishTrimmed=false `
-            /p:AssemblyVersion=$env:CTX_NUMERIC_VERSION /p:FileVersion=$env:CTX_NUMERIC_VERSION /p:InformationalVersion=$env:CTX_VERSION `
-            -o publish/osx-x64
-          tar -czf artifacts/ctxc-osx-x64.tar.gz -C publish/osx-x64 .
+          (cd publish/win-x64 && zip -r "../../artifacts/ctxc-win-x64.zip" .)
+          tar -czf artifacts/ctxc-linux-x64.tar.gz  -C publish/linux-x64 .
+          tar -czf artifacts/ctxc-osx-x64.tar.gz    -C publish/osx-x64 .
+          tar -czf artifacts/ctxc-osx-arm64.tar.gz  -C publish/osx-arm64 .
 
-      - name: Publish macOS arm64
-        shell: pwsh
-        run: |
-          dotnet publish $env:PROJECT_PATH -c Release -r osx-arm64 --self-contained true `
-            /p:PublishSingleFile=true /p:PublishTrimmed=false `
-            /p:AssemblyVersion=$env:CTX_NUMERIC_VERSION /p:FileVersion=$env:CTX_NUMERIC_VERSION /p:InformationalVersion=$env:CTX_VERSION `
-            -o publish/osx-arm64
-          tar -czf artifacts/ctxc-osx-arm64.tar.gz -C publish/osx-arm64 .
+      - name: Upload archives
+        uses: actions/upload-artifact@v4
+        with:
+          name: archives
+          path: artifacts/
+          retention-days: 1
+
+      - name: Upload Windows publish output
+        uses: actions/upload-artifact@v4
+        with:
+          name: publish-win-x64
+          path: publish/win-x64/
+          retention-days: 1
+
+  installer:
+    name: Build Windows installer
+    runs-on: windows-latest
+    needs: build
+    env:
+      CTX_VERSION: ${{ needs.build.outputs.version }}
+      CTX_NUMERIC_VERSION: ${{ needs.build.outputs.numeric_version }}
+      SIGNING_CERTIFICATE_BASE64: ${{ secrets.SIGNING_CERTIFICATE_BASE64 }}
+      SIGNING_CERTIFICATE_PASSWORD: ${{ secrets.SIGNING_CERTIFICATE_PASSWORD }}
+
+    steps:
+      - name: Enable Git long paths
+        run: git config --system core.longpaths true
+
+      - name: Checkout (installer config only)
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            build/installer
+          sparse-checkout-cone-mode: false
+
+      - name: Download Windows publish output
+        uses: actions/download-artifact@v4
+        with:
+          name: publish-win-x64
+          path: publish/win-x64
 
       - name: Install Inno Setup
         shell: pwsh
@@ -86,8 +115,6 @@ jobs:
 
       - name: Build Inno Setup installer
         shell: pwsh
-        env:
-          CTX_VERSION: ${{ env.CTX_NUMERIC_VERSION }}
         run: |
           & "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe" build/installer/ContextCompiler.iss
 
@@ -99,13 +126,41 @@ jobs:
           [IO.File]::WriteAllBytes($certPath, [Convert]::FromBase64String($env:SIGNING_CERTIFICATE_BASE64))
           & signtool sign /f $certPath /p $env:SIGNING_CERTIFICATE_PASSWORD /tr http://timestamp.digicert.com /td sha256 /fd sha256 "artifacts/ContextCompiler-Setup-$env:CTX_VERSION.exe"
 
+      - name: Upload installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: installer
+          path: artifacts/ContextCompiler-Setup-*.exe
+          retention-days: 1
+
+  release:
+    name: Publish GitHub release
+    runs-on: ubuntu-latest
+    needs: [build, installer]
+    env:
+      CTX_VERSION: ${{ needs.build.outputs.version }}
+
+    steps:
+      - name: Download archives
+        uses: actions/download-artifact@v4
+        with:
+          name: archives
+          path: artifacts
+
+      - name: Download installer
+        uses: actions/download-artifact@v4
+        with:
+          name: installer
+          path: artifacts
+
       - name: Generate checksums
-        shell: pwsh
+        shell: bash
         run: |
-          Get-ChildItem artifacts -File | ForEach-Object {
-            $hash = Get-FileHash $_.FullName -Algorithm SHA256
-            "$($hash.Hash.ToLower())  $($_.Name)"
-          } | Set-Content artifacts/checksums.txt
+          cd artifacts
+          find . -maxdepth 1 -type f ! -name 'checksums.txt' -printf '%f\n' \
+            | sort \
+            | xargs -I{} sha256sum "{}" \
+            | awk '{ print tolower($1) "  " $2 }' > checksums.txt
 
       - name: Upload release
         uses: softprops/action-gh-release@v2
@@ -117,11 +172,19 @@ jobs:
   chocolatey:
     name: Package Chocolatey
     runs-on: windows-latest
-    needs: build
+    needs: release
     if: startsWith(github.ref, 'refs/tags/') && !contains(github.ref_name, '-')
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Enable Git long paths
+        run: git config --system core.longpaths true
+
+      - name: Checkout (chocolatey config only)
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            build/chocolatey
+          sparse-checkout-cone-mode: false
 
       - name: Patch Chocolatey metadata
         shell: pwsh
