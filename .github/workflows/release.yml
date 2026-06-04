@@ -18,6 +18,9 @@ jobs:
   build:
     name: Build release assets
     runs-on: windows-latest
+    env:
+      SIGNING_CERTIFICATE_BASE64: ${{ secrets.SIGNING_CERTIFICATE_BASE64 }}
+      SIGNING_CERTIFICATE_PASSWORD: ${{ secrets.SIGNING_CERTIFICATE_PASSWORD }}
 
     steps:
       - uses: actions/checkout@v4
@@ -89,12 +92,12 @@ jobs:
           & "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe" build/installer/ContextCompiler.iss
 
       - name: Sign installer
-        if: ${{ secrets.SIGNING_CERTIFICATE_BASE64 != '' }}
+        if: env.SIGNING_CERTIFICATE_BASE64 != ''
         shell: pwsh
         run: |
           $certPath = "$env:RUNNER_TEMP\codesign.pfx"
-          [IO.File]::WriteAllBytes($certPath, [Convert]::FromBase64String("${{ secrets.SIGNING_CERTIFICATE_BASE64 }}"))
-          & signtool sign /f $certPath /p "${{ secrets.SIGNING_CERTIFICATE_PASSWORD }}" /tr http://timestamp.digicert.com /td sha256 /fd sha256 "artifacts/ContextCompiler-Setup-$env:CTX_VERSION.exe"
+          [IO.File]::WriteAllBytes($certPath, [Convert]::FromBase64String($env:SIGNING_CERTIFICATE_BASE64))
+          & signtool sign /f $certPath /p $env:SIGNING_CERTIFICATE_PASSWORD /tr http://timestamp.digicert.com /td sha256 /fd sha256 "artifacts/ContextCompiler-Setup-$env:CTX_VERSION.exe"
 
       - name: Generate checksums
         shell: pwsh
