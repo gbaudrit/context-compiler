@@ -1,0 +1,20 @@
+PackageIdentifier: ContextCompiler.ContextCompiler
+PackageVersion: 0.1.0
+PackageLocale: en-US
+Publisher: Guillaume Baudrit
+PublisherUrl: https://contextcompiler.io
+PublisherSupportUrl: https://github.com/gbaudrit/context-compiler/issues
+PackageName: ContextCompiler
+PackageUrl: https://contextcompiler.io
+License: MIT
+LicenseUrl: https://github.com/gbaudrit/context-compiler/blob/main/LICENSE
+ShortDescription: CLI-first context compiler.
+Description: ContextCompiler compiles context inputs into structured outputs, prompts, reports and artifacts.
+Tags:
+  - cli
+  - ai
+  - agent
+  - context
+  - compiler
+ManifestType: defaultLocale
+ManifestVersion: 1.6.0

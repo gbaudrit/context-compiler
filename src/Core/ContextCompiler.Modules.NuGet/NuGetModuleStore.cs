@@ -22,7 +22,7 @@ public sealed class NuGetModuleStore(IOptions<ModulesConfig> cfgOptions,
     private readonly ITrustPolicy _policy = trustPolicy;
     private ModulesConfig Cfg => cfgOptions.Value;
 
-    public async Task<IModuleRestoreRequestResult> RestoreAsync(IModuleRestoreRequest req, bool force, CancellationToken ct)
+    public async Task<IModuleRestoreRequestResult> RestoreAsync(IDeclaredModule req, bool force, CancellationToken ct)
     {
         ModuleSource source = Cfg.Sources.Single(s => string.Equals(s.Name, req.PackageId.Source.Id, StringComparison.OrdinalIgnoreCase));
         _policy.ValidateSource(source);

@@ -1,0 +1,148 @@
+name: release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  packages: write
+
+env:
+  PROJECT_PATH: src/Core/ContextCompiler.Cli/ContextCompiler.Cli.csproj
+  APP_NAME: ctxc
+
+jobs:
+  build:
+    name: Build release assets
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Resolve version
+        shell: pwsh
+        run: |
+          $tag = "${{ github.ref_name }}"
+          if ($tag.StartsWith("v")) { $version = $tag.Substring(1) } else { $version = "0.1.0" }
+          $numeric = ($version -split "[-+]")[0]
+          "CTX_VERSION=$version" >> $env:GITHUB_ENV
+          "CTX_NUMERIC_VERSION=$numeric" >> $env:GITHUB_ENV
+          "CTX_TAG=v$version" >> $env:GITHUB_ENV
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Restore
+        run: dotnet restore $env:PROJECT_PATH
+
+      - name: Publish Windows x64
+        shell: pwsh
+        run: |
+          dotnet publish $env:PROJECT_PATH -c Release -r win-x64 --self-contained true `
+            /p:PublishSingleFile=true /p:PublishTrimmed=false `
+            /p:AssemblyVersion=$env:CTX_NUMERIC_VERSION /p:FileVersion=$env:CTX_NUMERIC_VERSION /p:InformationalVersion=$env:CTX_VERSION `
+            -o publish/win-x64
+          if (Test-Path scripts/ctxc.cmd) { Copy-Item scripts/ctxc.cmd publish/win-x64/ctxc.cmd -Force }
+          New-Item -ItemType Directory -Force artifacts | Out-Null
+          Compress-Archive -Path publish/win-x64/* -DestinationPath artifacts/ctxc-win-x64.zip -Force
+
+      - name: Publish Linux x64
+        shell: pwsh
+        run: |
+          dotnet publish $env:PROJECT_PATH -c Release -r linux-x64 --self-contained true `
+            /p:PublishSingleFile=true /p:PublishTrimmed=false `
+            /p:AssemblyVersion=$env:CTX_NUMERIC_VERSION /p:FileVersion=$env:CTX_NUMERIC_VERSION /p:InformationalVersion=$env:CTX_VERSION `
+            -o publish/linux-x64
+          tar -czf artifacts/ctxc-linux-x64.tar.gz -C publish/linux-x64 .
+
+      - name: Publish macOS x64
+        shell: pwsh
+        run: |
+          dotnet publish $env:PROJECT_PATH -c Release -r osx-x64 --self-contained true `
+            /p:PublishSingleFile=true /p:PublishTrimmed=false `
+            /p:AssemblyVersion=$env:CTX_NUMERIC_VERSION /p:FileVersion=$env:CTX_NUMERIC_VERSION /p:InformationalVersion=$env:CTX_VERSION `
+            -o publish/osx-x64
+          tar -czf artifacts/ctxc-osx-x64.tar.gz -C publish/osx-x64 .
+
+      - name: Publish macOS arm64
+        shell: pwsh
+        run: |
+          dotnet publish $env:PROJECT_PATH -c Release -r osx-arm64 --self-contained true `
+            /p:PublishSingleFile=true /p:PublishTrimmed=false `
+            /p:AssemblyVersion=$env:CTX_NUMERIC_VERSION /p:FileVersion=$env:CTX_NUMERIC_VERSION /p:InformationalVersion=$env:CTX_VERSION `
+            -o publish/osx-arm64
+          tar -czf artifacts/ctxc-osx-arm64.tar.gz -C publish/osx-arm64 .
+
+      - name: Install Inno Setup
+        shell: pwsh
+        run: choco install innosetup --yes --no-progress
+
+      - name: Build Inno Setup installer
+        shell: pwsh
+        env:
+          CTX_VERSION: ${{ env.CTX_NUMERIC_VERSION }}
+        run: |
+          & "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe" build/installer/ContextCompiler.iss
+
+      - name: Sign installer
+        if: ${{ secrets.SIGNING_CERTIFICATE_BASE64 != '' }}
+        shell: pwsh
+        run: |
+          $certPath = "$env:RUNNER_TEMP\codesign.pfx"
+          [IO.File]::WriteAllBytes($certPath, [Convert]::FromBase64String("${{ secrets.SIGNING_CERTIFICATE_BASE64 }}"))
+          & signtool sign /f $certPath /p "${{ secrets.SIGNING_CERTIFICATE_PASSWORD }}" /tr http://timestamp.digicert.com /td sha256 /fd sha256 "artifacts/ContextCompiler-Setup-$env:CTX_VERSION.exe"
+
+      - name: Generate checksums
+        shell: pwsh
+        run: |
+          Get-ChildItem artifacts -File | ForEach-Object {
+            $hash = Get-FileHash $_.FullName -Algorithm SHA256
+            "$($hash.Hash.ToLower())  $($_.Name)"
+          } | Set-Content artifacts/checksums.txt
+
+      - name: Upload release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: artifacts/*
+          generate_release_notes: true
+          prerelease: ${{ contains(github.ref_name, '-') }}
+
+  chocolatey:
+    name: Package Chocolatey
+    runs-on: windows-latest
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/') && !contains(github.ref_name, '-')
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Patch Chocolatey metadata
+        shell: pwsh
+        run: |
+          $version = "${{ github.ref_name }}".TrimStart("v")
+          $installerName = "ContextCompiler-Setup-$version.exe"
+          $checksums = Invoke-WebRequest "https://github.com/gbaudrit/context-compiler/releases/download/v$version/checksums.txt" | Select-Object -ExpandProperty Content
+          $installerHash = ($checksums -split "`n" | Where-Object { $_ -match [regex]::Escape($installerName) }).Split(" ")[0]
+          (Get-Content build/chocolatey/tools/chocolateyinstall.ps1) `
+            -replace "ContextCompiler-Setup-0\.1\.0\.exe", $installerName `
+            -replace "v0.1.0", "v$version" `
+            -replace "REPLACE_WITH_SHA256", $installerHash |
+            Set-Content build/chocolatey/tools/chocolateyinstall.ps1
+          (Get-Content build/chocolatey/contextcompiler.nuspec) `
+            -replace "<version>0.1.0</version>", "<version>$version</version>" |
+            Set-Content build/chocolatey/contextcompiler.nuspec
+
+      - name: Pack Chocolatey
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force artifacts | Out-Null
+          choco pack build/chocolatey/contextcompiler.nuspec --out artifacts
+
+      # Enable when ready.
+      # - name: Push Chocolatey
+      #   shell: pwsh
+      #   run: choco push artifacts/*.nupkg --source https://push.chocolatey.org/ --api-key "${{ secrets.CHOCO_API_KEY }}"

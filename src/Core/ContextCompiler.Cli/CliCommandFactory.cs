@@ -63,7 +63,6 @@ public static class CliCommandFactory
         Option<string?> configOpt = new("--config", description: "Config file path");
         Option<bool> jsonOpt = new("--json", description: "Emit summary JSON");
         Option<bool> cleanOpt = new("--clean", description: "Clean output directory");
-        Option<bool> serveOpt = new("--serve", description: "Serve MCP");
         compile.AddOption(_inputOpt);
         compile.AddOption(outputOpt);
         compile.AddOption(contextOpt);
@@ -74,7 +73,6 @@ public static class CliCommandFactory
         compile.AddOption(configOpt);
         compile.AddOption(jsonOpt);
         compile.AddOption(cleanOpt);
-        compile.AddOption(serveOpt);
         compile.SetHandler(async context =>
         {
             string input = context.ParseResult.GetValueForOption(_inputOpt) ?? ".";
@@ -95,12 +93,6 @@ public static class CliCommandFactory
 
             ICtxcCompileHandler handler = sp.GetRequiredService<ICtxcCompileHandler>();
             Environment.ExitCode = await handler.HandleAsync(compileCommandLine);
-
-            if (context.ParseResult.GetValueForOption(serveOpt))
-            {
-                IServeHandler serveHandler = sp.GetRequiredService<IServeHandler>();
-                _ = await serveHandler.HandleAsync(new());
-            }
         });
         root.AddCommand(compile);
 
@@ -134,59 +126,51 @@ public static class CliCommandFactory
 
         // explain
         Command explain = new("explain", "Explain compilation outputs");
-        Option<string> exInput = new("--input") { IsRequired = true };
         Option<string?> exOut = new("--out", description: "Output file");
         Option<string> exFormat = new("--format", () => "md", "md|json");
-        explain.AddOption(exInput);
         explain.AddOption(exOut);
         explain.AddOption(exFormat);
         explain.SetHandler(async (input, outFile, format) =>
         {
             ICtxcExplainHandler handler = sp.GetRequiredService<ICtxcExplainHandler>();
             Environment.ExitCode = await handler.HandleAsync(input, outFile, format);
-        }, exInput, exOut, exFormat);
+        }, _inputOpt, exOut, exFormat);
         root.AddCommand(explain);
 
         // health
         Command health = new("health", "Compute or display health metrics");
-        Option<string> hInput = new("--input") { IsRequired = true };
         Option<string> hFormat = new("--format", () => "text", "text|json");
         Option<int?> hFailBelow = new("--fail-below", description: "Fail if score below threshold");
-        health.AddOption(hInput);
         health.AddOption(hFormat);
         health.AddOption(hFailBelow);
         health.SetHandler(async (input, format, failBelow) =>
         {
             ICtxcHealthHandler handler = sp.GetRequiredService<ICtxcHealthHandler>();
             Environment.ExitCode = await handler.HandleAsync(input, format, failBelow);
-        }, hInput, hFormat, hFailBelow);
+        }, _inputOpt, hFormat, hFailBelow);
         root.AddCommand(health);
 
         // views group
         Command views = new("views", "Views commands");
         Command viewsList = new("list", "List available views");
-        Option<string> vlInput = new("--input") { IsRequired = true };
         Option<bool> vlJson = new("--json");
-        viewsList.AddOption(vlInput);
         viewsList.AddOption(vlJson);
         viewsList.SetHandler(async (input, json) =>
         {
             ICtxcViewsListHandler handler = sp.GetRequiredService<ICtxcViewsListHandler>();
             Environment.ExitCode = await handler.HandleAsync(input, json);
-        }, vlInput, vlJson);
+        }, _inputOpt, vlJson);
 
         Command viewsRender = new("render", "Render a view explicitly");
         Option<string> vrId = new("--id") { IsRequired = true };
-        Option<string> vrInput = new("--input") { IsRequired = true };
         Option<string?> vrOut = new("--out");
         viewsRender.AddOption(vrId);
-        viewsRender.AddOption(vrInput);
         viewsRender.AddOption(vrOut);
         viewsRender.SetHandler(async (id, input, outFile) =>
         {
             ICtxcViewsRenderHandler handler = sp.GetRequiredService<ICtxcViewsRenderHandler>();
             Environment.ExitCode = await handler.HandleAsync(id, input, outFile);
-        }, vrId, vrInput, vrOut);
+        }, vrId, _inputOpt, vrOut);
 
         views.AddCommand(viewsList);
         views.AddCommand(viewsRender);
@@ -209,58 +193,18 @@ public static class CliCommandFactory
         guards.AddCommand(guardsReport);
         root.AddCommand(guards);
 
-        // modules group (stubs phase 1)
-        Command modules = new("modules", "Modules management");
-        Command modulesList = new("list", "List loaded modules");
-        Option<bool> mlJson = new("--json");
-        modulesList.AddOption(mlJson);
-        modulesList.SetHandler(async (json) =>
-        {
-            ICtxcModulesListHandler handler = sp.GetRequiredService<ICtxcModulesListHandler>();
-            Environment.ExitCode = await handler.HandleAsync(json);
-        }, mlJson);
-
-        Command modulesAdd = new("add", "Install module (stub)");
-        Argument<string> maId = new("packageId");
-        Option<string?> maVer = new("--version");
-        Option<string?> maSrc = new("--source");
-        modulesAdd.AddArgument(maId);
-        modulesAdd.AddOption(maVer);
-        modulesAdd.AddOption(maSrc);
-        modulesAdd.SetHandler(async (packageId, version, source) =>
-        {
-            ICtxcModulesAddHandler handler = sp.GetRequiredService<ICtxcModulesAddHandler>();
-            Environment.ExitCode = await handler.HandleAsync(packageId, version, source);
-        }, maId, maVer, maSrc);
-
-        Command modulesRemove = new("remove", "Uninstall module (stub)");
-        Argument<string> mrId = new("packageId");
-        modulesRemove.AddArgument(mrId);
-        modulesRemove.SetHandler(async (packageId) =>
-        {
-            ICtxcModulesRemoveHandler handler = sp.GetRequiredService<ICtxcModulesRemoveHandler>();
-            Environment.ExitCode = await handler.HandleAsync(packageId);
-        }, mrId);
-
-        modules.AddCommand(modulesList);
-        modules.AddCommand(modulesAdd);
-        modules.AddCommand(modulesRemove);
-        root.AddCommand(modules);
-
         // graph group
         Command graph = new("graph", "Graph commands");
         Command graphExport = new("export", "Export evidence graph");
-        Option<string> giInput = new("--input") { IsRequired = true };
         Option<string> giFormat = new("--format") { IsRequired = true };
         Option<string?> giOut = new("--out");
-        graphExport.AddOption(giInput);
         graphExport.AddOption(giFormat);
         graphExport.AddOption(giOut);
         graphExport.SetHandler(async (input, format, outFile) =>
         {
             ICtxcGraphExportHandler handler = sp.GetRequiredService<ICtxcGraphExportHandler>();
             Environment.ExitCode = await handler.HandleAsync(input, format, outFile);
-        }, giInput, giFormat, giOut);
+        }, _inputOpt, giFormat, giOut);
         graph.AddCommand(graphExport);
         root.AddCommand(graph);
 

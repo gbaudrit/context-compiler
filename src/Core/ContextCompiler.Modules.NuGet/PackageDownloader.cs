@@ -22,7 +22,7 @@ internal sealed class PackageDownloader(IOptions<ModulesConfig> configOptions,
     private readonly HashSet<string> _downloadedPackages = [];
     private readonly List<DownloadedPackageInfo> _allDownloadedPackages = [];
 
-    public async Task<PackageDownloadResult> DownloadPackageAsync(IModuleRestoreRequest req, ModuleSource source, string installRootAbs, bool force, CancellationToken ct)
+    public async Task<PackageDownloadResult> DownloadPackageAsync(IDeclaredModule req, ModuleSource source, string installRootAbs, bool force, CancellationToken ct)
     {
         _downloadedPackages.Clear();
         _allDownloadedPackages.Clear();
