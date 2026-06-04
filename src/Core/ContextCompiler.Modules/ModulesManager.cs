@@ -11,12 +11,12 @@ namespace ContextCompiler.Modules;
 
 public sealed class ModulesManager(ICtxcWorkingFolder ctxcWorkingFolder,
                                   IOptions<ModulesConfig> cfgOptions,
-                                  IModulesToRestoreProvider modulesToRestoreProvider,
+                                  IDeclaredModulesProvider declaredModulesProvider,
                                   IModulesLoader modulesLoader,
                                   IServiceProvider serviceProvider,
                                   IConfigurationSchemasAggregator configurationSchemasAggregator,
                                   ISchemaBuilder schemaBuilder,
-                                  IModuleRestoreRequestBuilder moduleRestoreRequestBuilder,
+                                  IDeclaredModuleBuilder DeclaredModuleBuilder,
                                   ITrustPolicy policy,
                                   IModulesSourcesProvider sourcesProvider,
                                   ILogger<ModulesManager> logger) : IModulesManager
@@ -25,7 +25,7 @@ public sealed class ModulesManager(ICtxcWorkingFolder ctxcWorkingFolder,
 
     public Task<IEnumerable<string>> LoadableModules()
     {
-        IEnumerable<IModuleRestoreRequest> restoreRequests = modulesToRestoreProvider.ModulesToRestore();
+        IEnumerable<IDeclaredModule> restoreRequests = declaredModulesProvider.GetDeclaredModules();
         return Task.FromResult(restoreRequests.Select(r => r.PackageId.Id));
     }
 
@@ -39,7 +39,7 @@ public sealed class ModulesManager(ICtxcWorkingFolder ctxcWorkingFolder,
 
         IEnumerable<IConfigurationSchemasDiscoverer> configurationSchemasDiscoverers = serviceProvider.GetServices<IConfigurationSchemasDiscoverer>();
 
-        //List<IModuleRestoreRequest> restoreRequests = [];
+        //List<IDeclaredModule> restoreRequests = [];
         //foreach (KeyValuePair<string, string> pkg in toRestore)
         //{
         //    logger.LogInformation("Module {ModuleId} version {Version} is marked for restore", pkg, toRestore[pkg]);
@@ -53,12 +53,12 @@ public sealed class ModulesManager(ICtxcWorkingFolder ctxcWorkingFolder,
         //        }
         //    }
 
-        //    restoreRequests.Add(moduleRestoreRequestBuilder.InitNew().WithPackageId(pkg.Key).WithVersion(moduleRestoreVersion));
+        //    restoreRequests.Add(DeclaredModuleBuilder.InitNew().WithPackageId(pkg.Key).WithVersion(moduleRestoreVersion));
         //}
 
-        IEnumerable<IModuleRestoreRequest> restoreRequests = modulesToRestoreProvider.ModulesToRestore();
+        IEnumerable<IDeclaredModule> restoreRequests = declaredModulesProvider.GetDeclaredModules();
 
-        foreach (IModuleRestoreRequest req in restoreRequests)
+        foreach (IDeclaredModule req in restoreRequests)
         {
             try
             {

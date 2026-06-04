@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2015/06/nuspec.xsd">
+  <metadata>
+	<id>contextcompiler</id>
+	<version>0.1.0</version>
+	<packageSourceUrl>https://github.com/gbaudrit/context-compiler</packageSourceUrl>
+	<owners>Guillaume Baudrit</owners>
+	<title>ContextCompiler</title>
+	<authors>Guillaume Baudrit</authors>
+	<projectUrl>https://contextcompiler.io</projectUrl>
+	<licenseUrl>https://github.com/gbaudrit/context-compiler/blob/main/LICENSE</licenseUrl>
+	<projectSourceUrl>https://github.com/gbaudrit/context-compiler</projectSourceUrl>
+	<docsUrl>https://contextcompiler.io/docs</docsUrl>
+	<bugTrackerUrl>https://github.com/gbaudrit/context-compiler/issues</bugTrackerUrl>
+	<tags>context compiler cli ai agentic dotnet</tags>
+	<summary>ContextCompiler CLI</summary>
+	<description>ContextCompiler is a CLI-first tool for compiling context inputs into structured outputs, prompts, reports and artifacts.</description>
+	<releaseNotes>https://github.com/gbaudrit/context-compiler/releases</releaseNotes>
+	<requireLicenseAcceptance>false</requireLicenseAcceptance>
+  </metadata>
+  <files>
+	<file src="tools\**" target="tools" />
+  </files>
+</package>

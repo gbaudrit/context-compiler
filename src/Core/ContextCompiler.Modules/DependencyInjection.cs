@@ -11,7 +11,7 @@ public static class DependencyInjection
     public static IServiceCollection AddModules(this IServiceCollection services)
     {
         return services.AddTransient<IModuleMetadatasBuilder, ModuleMetadatasBuilder>()
-            .AddTransient<IModuleRestoreRequestBuilder, ModuleRestoreRequestBuilder>()
+            .AddTransient<IDeclaredModuleBuilder, DeclaredModuleBuilder>()
             .AddTransient<IModuleRestoreRequestResultBuilder, ModuleRestoreRequestResultBuilder>()
             .AddTransient<IModuleRestoreVersionBuilder, ModuleRestoreVersionBuilder>()
             .AddTransient<IModuleDependencyBuilder, ModuleDependencyBuilder>()
@@ -22,7 +22,8 @@ public static class DependencyInjection
             .AddTransient<IModuleRestoreVersionParser, ModuleRestoreVersionNpmLikeParser>()
             .AddTransient<ISourceBuilder, SourceBuilder>()
             .AddSingleton<IModulesManager, ModulesManager>()
-            .AddSingleton<IModulesToRestoreProvider, ModulesToRestoreProvider>()
+            .AddSingleton<IModuleInstallPlanner, ModuleInstallPlanner>()
+            .AddSingleton<IDeclaredModulesProvider, DeclaredModulesProvider>()
             .AddSingleton<IModulesSourcesProvider, FromConfigurationSourcesProvider>();
     }
 

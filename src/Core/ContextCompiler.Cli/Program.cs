@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Reflection;
 
 using ContextCompiler.Abstractions;
+using ContextCompiler.Abstractions.Cli;
 using ContextCompiler.Abstractions.Configuration;
 using ContextCompiler.Abstractions.DependencyInjection;
 using ContextCompiler.Abstractions.Ports;
@@ -16,13 +17,20 @@ using ContextCompiler.Core.Engine;
 using ContextCompiler.Infrastructure.Configuration;
 using ContextCompiler.Infrastructure.FileSystem;
 using ContextCompiler.Infrastructure.Hashing;
+using ContextCompiler.Cli.Mcp;
+using ContextCompiler.Cli.Skills;
+using ContextCompiler.Modules;
 using ContextCompiler.Modules.Abstractions.Loading;
+using ContextCompiler.Cli.Modules;
 using ContextCompiler.Modules.Loader;
+using ContextCompiler.Modules.NuGet;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+
+using CliCommandFactory = ContextCompiler.Cli.CliCommandFactory;
 
 
 
@@ -64,10 +72,14 @@ builder.Services
         .AddSingleton<ICtxcModulesRemoveHandler, CtxcModulesRemoveHandler>()
         .AddSingleton<ICtxcGraphExportHandler, CtxcGraphExportHandler>()
         .AddSingleton<ICtxcConfigFilesAddHandler, ConfigFilesAddHandler>()
-        .AddSingleton<IServeHandler, ServeHandler>()
         .AddCompileCoreServices()
         .AddCoreServices()
-        .AddModulesLoaderServices();
+        .AddModulesLoaderServices()
+        .AddModulesNuGetRestoreServices()
+        .AddModules()
+        .AddModulesCli()
+        .AddSkillsCli()
+        .AddMcpCli(args);
 
 GlobalCommandLineOptions globals = CliCommandFactory.ParseGlobals(args);
 
@@ -105,4 +117,13 @@ await modulesLoader.LoadFromAssemblies(contextCompilerBuilder, assemblies);
 using IHost host = builder.Build();
 
 RootCommand root = CliCommandFactory.Create(host.Services);
+
+// DI-driven aggregation: every ICliCommandContributor (modules, mcp, ...) attaches its
+// command tree to the unified ctxc CLI.
+foreach (ICliCommandContributor contributor in host.Services.GetServices<ICliCommandContributor>())
+{
+    root.AddCommand(contributor.Build(host.Services));
+}
+
 return await root.InvokeAsync(args);
+

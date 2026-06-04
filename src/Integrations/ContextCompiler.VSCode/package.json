@@ -128,7 +128,7 @@
         },
         "ctxc.modulesPath": {
           "type": "string",
-          "default": "ContextCompiler.Modules.Cli.exe",
+          "default": "ctxc.exe",
           "description": "Path to the ctxc modules CLI executable."
         },
         "ctxc.configPath": {

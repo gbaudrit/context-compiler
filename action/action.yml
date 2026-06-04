@@ -1,0 +1,55 @@
+name: ContextCompiler
+description: Run ContextCompiler in GitHub Actions.
+author: Guillaume Baudrit
+
+branding:
+  icon: box
+  color: blue
+
+inputs:
+  args:
+    description: Arguments passed to ctxc.
+    required: true
+    default: "--help"
+  version:
+    description: ContextCompiler version. Use "latest" or a tag like "v0.1.0".
+    required: false
+    default: "latest"
+
+runs:
+  using: composite
+  steps:
+    - name: Install ContextCompiler
+      shell: bash
+      run: |
+        set -euo pipefail
+        VERSION="${{ inputs.version }}"
+        INSTALL_DIR="$RUNNER_TEMP/ctxc"
+        mkdir -p "$INSTALL_DIR"
+
+        case "${{ runner.os }}" in
+          Linux) ASSET="ctxc-linux-x64.tar.gz" ;;
+          macOS) ASSET="ctxc-osx-x64.tar.gz" ;;
+          Windows) ASSET="ctxc-win-x64.zip" ;;
+          *) echo "Unsupported runner OS: ${{ runner.os }}" >&2; exit 1 ;;
+        esac
+
+        if [ "$VERSION" = "latest" ]; then
+          URL="https://github.com/gbaudrit/context-compiler/releases/latest/download/$ASSET"
+        else
+          URL="https://github.com/gbaudrit/context-compiler/releases/download/$VERSION/$ASSET"
+        fi
+
+        curl -fsSL "$URL" -o "$RUNNER_TEMP/$ASSET"
+
+        if [[ "$ASSET" == *.zip ]]; then
+          powershell -NoProfile -Command "Expand-Archive -Path '$RUNNER_TEMP/$ASSET' -DestinationPath '$INSTALL_DIR' -Force"
+        else
+          tar -xzf "$RUNNER_TEMP/$ASSET" -C "$INSTALL_DIR"
+        fi
+
+        echo "$INSTALL_DIR" >> "$GITHUB_PATH"
+
+    - name: Run ContextCompiler
+      shell: bash
+      run: ctxc ${{ inputs.args }}

@@ -1,0 +1,214 @@
+name: release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  packages: write
+
+env:
+  PROJECT_PATH: src/Core/ContextCompiler.Cli/ContextCompiler.Cli.csproj
+  APP_NAME: ctxc
+
+jobs:
+  build:
+    name: Build cross-platform binaries
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      numeric_version: ${{ steps.version.outputs.numeric_version }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Resolve version
+        id: version
+        shell: bash
+        run: |
+          tag="${{ github.ref_name }}"
+          if [[ "$tag" == v* ]]; then version="${tag#v}"; else version="0.1.0"; fi
+          numeric="${version%%[-+]*}"
+          echo "version=$version"   >> "$GITHUB_OUTPUT"
+          echo "numeric_version=$numeric" >> "$GITHUB_OUTPUT"
+          echo "CTX_VERSION=$version"          >> "$GITHUB_ENV"
+          echo "CTX_NUMERIC_VERSION=$numeric"  >> "$GITHUB_ENV"
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Restore
+        run: dotnet restore "$PROJECT_PATH"
+
+      - name: Publish all RIDs
+        shell: bash
+        run: |
+          mkdir -p artifacts
+          for rid in win-x64 linux-x64 osx-x64 osx-arm64; do
+            echo "::group::Publish $rid"
+            dotnet publish "$PROJECT_PATH" -c Release -r "$rid" --self-contained true \
+              /p:PublishSingleFile=true /p:PublishTrimmed=false \
+              /p:AssemblyVersion="$CTX_NUMERIC_VERSION" \
+              /p:FileVersion="$CTX_NUMERIC_VERSION" \
+              /p:InformationalVersion="$CTX_VERSION" \
+              -o "publish/$rid"
+            echo "::endgroup::"
+          done
+
+          if [ -f scripts/ctxc.cmd ]; then
+            cp scripts/ctxc.cmd publish/win-x64/ctxc.cmd
+          fi
+
+          (cd publish/win-x64 && zip -r "../../artifacts/ctxc-win-x64.zip" .)
+          tar -czf artifacts/ctxc-linux-x64.tar.gz  -C publish/linux-x64 .
+          tar -czf artifacts/ctxc-osx-x64.tar.gz    -C publish/osx-x64 .
+          tar -czf artifacts/ctxc-osx-arm64.tar.gz  -C publish/osx-arm64 .
+
+      - name: Upload archives
+        uses: actions/upload-artifact@v4
+        with:
+          name: archives
+          path: artifacts/
+          retention-days: 1
+
+      - name: Upload Windows publish output
+        uses: actions/upload-artifact@v4
+        with:
+          name: publish-win-x64
+          path: publish/win-x64/
+          retention-days: 1
+
+  installer:
+    name: Build Windows installer
+    runs-on: windows-latest
+    needs: build
+    env:
+      CTX_VERSION: ${{ needs.build.outputs.version }}
+      CTX_NUMERIC_VERSION: ${{ needs.build.outputs.numeric_version }}
+      SIGNING_CERTIFICATE_BASE64: ${{ secrets.SIGNING_CERTIFICATE_BASE64 }}
+      SIGNING_CERTIFICATE_PASSWORD: ${{ secrets.SIGNING_CERTIFICATE_PASSWORD }}
+
+    steps:
+      - name: Enable Git long paths
+        run: git config --system core.longpaths true
+
+      - name: Checkout (installer config only)
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            build/installer
+          sparse-checkout-cone-mode: false
+
+      - name: Download Windows publish output
+        uses: actions/download-artifact@v4
+        with:
+          name: publish-win-x64
+          path: publish/win-x64
+
+      - name: Install Inno Setup
+        shell: pwsh
+        run: choco install innosetup --yes --no-progress
+
+      - name: Build Inno Setup installer
+        shell: pwsh
+        run: |
+          & "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe" build/installer/ContextCompiler.iss
+
+      - name: Sign installer
+        if: env.SIGNING_CERTIFICATE_BASE64 != ''
+        shell: pwsh
+        run: |
+          $certPath = "$env:RUNNER_TEMP\codesign.pfx"
+          [IO.File]::WriteAllBytes($certPath, [Convert]::FromBase64String($env:SIGNING_CERTIFICATE_BASE64))
+          & signtool sign /f $certPath /p $env:SIGNING_CERTIFICATE_PASSWORD /tr http://timestamp.digicert.com /td sha256 /fd sha256 "artifacts/ContextCompiler-Setup-$env:CTX_VERSION.exe"
+
+      - name: Upload installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: installer
+          path: artifacts/ContextCompiler-Setup-*.exe
+          retention-days: 1
+
+  release:
+    name: Publish GitHub release
+    runs-on: ubuntu-latest
+    needs: [build, installer]
+    env:
+      CTX_VERSION: ${{ needs.build.outputs.version }}
+
+    steps:
+      - name: Download archives
+        uses: actions/download-artifact@v4
+        with:
+          name: archives
+          path: artifacts
+
+      - name: Download installer
+        uses: actions/download-artifact@v4
+        with:
+          name: installer
+          path: artifacts
+
+      - name: Generate checksums
+        shell: bash
+        run: |
+          cd artifacts
+          find . -maxdepth 1 -type f ! -name 'checksums.txt' -printf '%f\n' \
+            | sort \
+            | xargs -I{} sha256sum "{}" \
+            | awk '{ print tolower($1) "  " $2 }' > checksums.txt
+
+      - name: Upload release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: artifacts/*
+          generate_release_notes: true
+          prerelease: ${{ contains(github.ref_name, '-') }}
+
+  chocolatey:
+    name: Package Chocolatey
+    runs-on: windows-latest
+    needs: release
+    if: startsWith(github.ref, 'refs/tags/') && !contains(github.ref_name, '-')
+
+    steps:
+      - name: Enable Git long paths
+        run: git config --system core.longpaths true
+
+      - name: Checkout (chocolatey config only)
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            build/chocolatey
+          sparse-checkout-cone-mode: false
+
+      - name: Patch Chocolatey metadata
+        shell: pwsh
+        run: |
+          $version = "${{ github.ref_name }}".TrimStart("v")
+          $installerName = "ContextCompiler-Setup-$version.exe"
+          $checksums = Invoke-WebRequest "https://github.com/gbaudrit/context-compiler/releases/download/v$version/checksums.txt" | Select-Object -ExpandProperty Content
+          $installerHash = ($checksums -split "`n" | Where-Object { $_ -match [regex]::Escape($installerName) }).Split(" ")[0]
+          (Get-Content build/chocolatey/tools/chocolateyinstall.ps1) `
+            -replace "ContextCompiler-Setup-0\.1\.0\.exe", $installerName `
+            -replace "v0.1.0", "v$version" `
+            -replace "REPLACE_WITH_SHA256", $installerHash |
+            Set-Content build/chocolatey/tools/chocolateyinstall.ps1
+          (Get-Content build/chocolatey/contextcompiler.nuspec) `
+            -replace "<version>0.1.0</version>", "<version>$version</version>" |
+            Set-Content build/chocolatey/contextcompiler.nuspec
+
+      - name: Pack Chocolatey
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force artifacts | Out-Null
+          choco pack build/chocolatey/contextcompiler.nuspec --out artifacts
+
+      # Enable when ready.
+      # - name: Push Chocolatey
+      #   shell: pwsh
+      #   run: choco push artifacts/*.nupkg --source https://push.chocolatey.org/ --api-key "${{ secrets.CHOCO_API_KEY }}"

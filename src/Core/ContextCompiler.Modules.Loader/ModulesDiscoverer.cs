@@ -62,7 +62,7 @@ internal sealed class ModulesDiscoverer(IModuleAssemblyLoader moduleAssemblyLoad
 
             foreach (Assembly packAssembly in packAssemblies)
             {
-                ILoadModuleAssemblyResult packLoadResult = await moduleAssemblyLoader.LoadFromAssembly(packAssembly.Location, ct);
+                ILoadModuleAssemblyResult packLoadResult = await moduleAssemblyLoader.LoadFromAssembly(packAssembly, ct);
                 discoveredModuleTypes.AddRange(packLoadResult.Types);
 
                 await DiscoverPack(discoveredModuleTypes, packLoadResult, ct);
