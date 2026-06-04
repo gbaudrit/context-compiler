@@ -1,10 +1,10 @@
 using ContextCompiler.Abstractions;
 using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Abstractions.Output;
-using ContextCompiler.Abstractions.Pipelines;
+using ContextCompiler.Abstractions.Pipelines.Compile;
 using ContextCompiler.Abstractions.Storage;
 using ContextCompiler.Modules.Abstractions;
-
+using ContextCompiler.Modules.Abstractions.Pipelines.Compile;
 using ContextCompiler.Skills.Abstractions;
 using ContextCompiler.Skills.Abstractions.Configuration;
 
@@ -24,15 +24,15 @@ public sealed class SkillsArtifactEnrichmentModule(
     [FromKeyedServices(StoreKeys.Skills)] IStore skillsStore,
     IWorkingFolder workingFolder,
     IOutput output,
-    IServiceProvider services) : IGlobalPipelineModule
+    IServiceProvider services) : ICompilePipelineModule
 {
-    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta(
+    public ModuleMetadata Metadata => ICompilePipelineModule.Meta(
         "skills-artifact-enrichment",
-        GlobalPipelineModuleKinds.PrerequisitesEnrichment,
+        CompilePipelineModuleKinds.PrerequisitesEnrichment,
         priority: 1000
     );
 
-    public async Task<IResult<IGlobalPipelineRunResult>> Run(IGlobalPipelineRunContext context, CancellationToken cancellationToken)
+    public async Task<IResult<ICompilePipelineRunResult>> Run(ICompilePipelineRunContext context, CancellationToken cancellationToken)
     {
         logger.LogInformation("Scanning skills cache for artifact enrichment...");
 

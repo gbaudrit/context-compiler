@@ -1,10 +1,11 @@
 using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Abstractions.Configuration;
 using ContextCompiler.Abstractions.Output;
-using ContextCompiler.Abstractions.Pipelines;
+using ContextCompiler.Abstractions.Pipelines.Compile;
 using ContextCompiler.Abstractions.Storage;
 using ContextCompiler.Modules.Abstractions;
-using ContextCompiler.Modules.Abstractions.GlobalPipeline;
+using ContextCompiler.Modules.Abstractions.CompilePipeline;
+using ContextCompiler.Modules.Abstractions.Pipelines.Compile;
 using ContextCompiler.Output.Modules.Artifacts.Registry.Abstractions;
 using ContextCompiler.Output.Modules.Artifacts.Registry.Extensions;
 using ContextCompiler.Output.Modules.Artifacts.Registry.Models;
@@ -19,9 +20,9 @@ internal sealed class JsonIndexModule(IConfigProvider cfgProvider,
                                         ILogger<JsonIndexModule> logger) : IConfigurationModule
 {
 
-    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta($"artifacts.index.json", GlobalPipelineModuleKinds.ReportComposition, priority: 10000);
+    public ModuleMetadata Metadata => ICompilePipelineModule.Meta($"artifacts.index.json", CompilePipelineModuleKinds.ReportComposition, priority: 10000);
 
-    public async Task<IResult<IGlobalPipelineRunResult>> Run(IGlobalPipelineRunContext context, CancellationToken cancellationToken)
+    public async Task<IResult<ICompilePipelineRunResult>> Run(ICompilePipelineRunContext context, CancellationToken cancellationToken)
     {
         ArtifactsIndex index = new()
         {

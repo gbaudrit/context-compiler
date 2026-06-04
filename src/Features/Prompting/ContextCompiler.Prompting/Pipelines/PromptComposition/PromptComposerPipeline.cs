@@ -1,7 +1,9 @@
 using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Abstractions.Pipelines;
+using ContextCompiler.Abstractions.Pipelines.Compile;
 using ContextCompiler.Abstractions.Pipelines.Events;
 using ContextCompiler.Modules.Abstractions;
+using ContextCompiler.Modules.Abstractions.Pipelines.Compile;
 using ContextCompiler.Prompting.Abstractions;
 using ContextCompiler.Prompting.Abstractions.Pipelines.PromptComposition;
 
@@ -16,13 +18,13 @@ public sealed class PromptComposerPipeline(
     IModulesRegistry modules,
     IServiceProvider serviceProvider,
     IPromptComposerRunContextBuilder runContextBuilder,
-    IPipelineEventPublisher pipelineEventPublisher) : IGlobalPipelineModule, IPipeline
+    IPipelineEventPublisher pipelineEventPublisher) : ICompilePipelineModule, IPipeline
 {
-    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("pipelines.promptcomposer", GlobalPipelineModuleKinds.OutputComposition, priority: 10);
+    public ModuleMetadata Metadata => ICompilePipelineModule.Meta("pipelines.promptcomposer", CompilePipelineModuleKinds.OutputComposition, priority: 10);
 
     public string CurrentPhaseKey { get; private set; } = string.Empty;
 
-    public async Task<IResult<IGlobalPipelineRunResult>> Run(IGlobalPipelineRunContext context, CancellationToken cancellationToken)
+    public async Task<IResult<ICompilePipelineRunResult>> Run(ICompilePipelineRunContext context, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
 

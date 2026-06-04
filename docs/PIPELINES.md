@@ -3,7 +3,7 @@
 ## A) Global Pipeline
 
 Le **pipeline global** est la cinématique de référence.  
-Il exécute les modules par groupe de `Kind`, ordonnés selon `GlobalPipelineModuleKinds`, puis par `Priority` à l’intérieur d’un même groupe.
+Il exécute les modules par groupe de `Kind`, ordonnés selon `CompilePipelineModuleKinds`, puis par `Priority` à l’intérieur d’un même groupe.
 
 ### Stages (ordonnées)
 1. **Configuration**

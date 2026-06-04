@@ -6,15 +6,15 @@ using ContextCompiler.Abstractions.Compiled;
 using ContextCompiler.Abstractions.Output;
 using ContextCompiler.Abstractions.Pipelines;
 using ContextCompiler.Modules.Abstractions;
-using ContextCompiler.Modules.Abstractions.GlobalPipeline;
+using ContextCompiler.Modules.Abstractions.CompilePipeline;
 
 namespace ContextCompiler.Evidence.Modules.Graph.Dot;
 
 public sealed class DotGraphExporterModule(IOutput output, ICompiledContext compiledContext) : IOutputArtifactComposerModule
 {
-    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("evidence.graph.dot", GlobalPipelineModuleKinds.ReportComposition, priority: 10);
+    public ModuleMetadata Metadata => ICompilePipelineModule.Meta("evidence.graph.dot", CompilePipelineModuleKinds.ReportComposition, priority: 10);
 
-    public async Task<IResult<IGlobalPipelineRunResult>> Run(IGlobalPipelineRunContext context, CancellationToken cancellationToken)
+    public async Task<IResult<ICompilePipelineRunResult>> Run(ICompilePipelineRunContext context, CancellationToken cancellationToken)
     {
         IGraph graph = await compiledContext.Graph(cancellationToken);
         StringBuilder sb = new();

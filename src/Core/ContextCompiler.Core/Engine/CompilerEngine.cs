@@ -1,7 +1,7 @@
 using ContextCompiler.Abstractions.Configuration;
 using ContextCompiler.Abstractions.Models;
 using ContextCompiler.Abstractions.Output;
-using ContextCompiler.Abstractions.Pipelines;
+using ContextCompiler.Abstractions.Pipelines.Compile;
 using ContextCompiler.Abstractions.Ports;
 using ContextCompiler.Modules.Abstractions;
 
@@ -18,7 +18,7 @@ public sealed record CompileRequest(string InputPath, string OutputPath, string 
 
 public sealed class CompilerEngine(
     ILogger<CompilerEngine> logger,
-    IGlobalPipeline globalPipelineRunner,
+    ICompilePipeline compilePipelineRunner,
     IFileSystem fs,
     IHasher hasher,
     IModulesRegistry modules,
@@ -42,7 +42,7 @@ public sealed class CompilerEngine(
         //    };
         //}
 
-        await globalPipelineRunner.RunAsync(request.InputPath, request.OutputPath, request.Clean, output, ct);
+        await compilePipelineRunner.RunAsync(request.InputPath, request.OutputPath, request.Clean, output, ct);
 
         return 0;
     }

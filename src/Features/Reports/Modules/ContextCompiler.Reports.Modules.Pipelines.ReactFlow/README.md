@@ -95,7 +95,7 @@ Le module convertit les événements de pipeline en une structure JSON optimisé
   "pipelines": [
 	{
 	  "id": "pipeline-1",
-	  "name": "GlobalPipeline",
+	  "name": "CompilePipeline",
 	  "type": "global",
 	  "parentId": null,
 	  "stages": [

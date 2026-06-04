@@ -5,7 +5,7 @@ using ContextCompiler.Abstractions.Compiled;
 using ContextCompiler.Abstractions.Output;
 using ContextCompiler.Abstractions.Pipelines;
 using ContextCompiler.Modules.Abstractions;
-using ContextCompiler.Modules.Abstractions.GlobalPipeline;
+using ContextCompiler.Modules.Abstractions.CompilePipeline;
 
 namespace ContextCompiler.Evidence.Modules.Graph.Json;
 
@@ -13,14 +13,14 @@ public sealed class JsonGraphExporterModule(IOutput output, ICompiledContext com
 {
     private readonly JsonSerializerOptions jsonSerializerOptions = new() { WriteIndented = true };
 
-    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("evidence.graph.json", GlobalPipelineModuleKinds.ReportComposition, priority: 0);
+    public ModuleMetadata Metadata => ICompilePipelineModule.Meta("evidence.graph.json", CompilePipelineModuleKinds.ReportComposition, priority: 0);
 
     public string Export(object graphModel)
     {
         return JsonSerializer.Serialize(graphModel, jsonSerializerOptions);
     }
 
-    public async Task<IResult<IGlobalPipelineRunResult>> Run(IGlobalPipelineRunContext context, CancellationToken cancellationToken)
+    public async Task<IResult<ICompilePipelineRunResult>> Run(ICompilePipelineRunContext context, CancellationToken cancellationToken)
     {
         IGraph graph = await compiledContext.Graph(cancellationToken);
         output.AddArtifact(builder =>

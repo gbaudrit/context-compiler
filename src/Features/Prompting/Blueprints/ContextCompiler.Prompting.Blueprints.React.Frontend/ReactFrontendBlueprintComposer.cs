@@ -3,6 +3,7 @@ using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Prompting.Abstractions;
 using ContextCompiler.Prompting.Abstractions.Prompt;
 using ContextCompiler.Prompting.Abstractions.Pipelines.PromptComposition;
+using ContextCompiler.Modules.Abstractions.Pipelines.Compile;
 
 namespace ContextCompiler.Prompting.Blueprints.React.Frontend;
 
@@ -11,7 +12,7 @@ internal sealed class ReactFrontendBlueprintComposer(
     IBlueprintBuilder blueprintBuilder,
     IBlueprintStepBuilder stepBuilder) : IBlueprintComposerModule
 {
-    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("blueprints.react.frontend", GlobalPipelineModuleKinds.OutputComposition, priority: 10);
+    public ModuleMetadata Metadata => ICompilePipelineModule.Meta("blueprints.react.frontend", CompilePipelineModuleKinds.OutputComposition, priority: 10);
 
     public async Task<IResult<IPromptComposerRunResult>> Run(IPromptComposerRunContext context, CancellationToken cancellationToken)
     {

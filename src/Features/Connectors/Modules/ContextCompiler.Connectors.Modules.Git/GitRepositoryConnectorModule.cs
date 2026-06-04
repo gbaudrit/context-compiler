@@ -1,10 +1,11 @@
 using ContextCompiler.Abstractions;
 using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Abstractions.Compilation;
-using ContextCompiler.Abstractions.Pipelines;
+using ContextCompiler.Abstractions.Pipelines.Compile;
 using ContextCompiler.Connectors.Modules.Git.Configurations;
 using ContextCompiler.Modules.Abstractions;
-using ContextCompiler.Modules.Abstractions.GlobalPipeline;
+using ContextCompiler.Modules.Abstractions.CompilePipeline;
+using ContextCompiler.Modules.Abstractions.Pipelines.Compile;
 
 using Microsoft.Extensions.Logging;
 
@@ -21,9 +22,9 @@ public sealed class GitRepositoryConnectorModule(
 {
     private const string ModuleOptionKey = "connectors.git";
 
-    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("connectors.git", GlobalPipelineModuleKinds.Setup, priority: -100);
+    public ModuleMetadata Metadata => ICompilePipelineModule.Meta("connectors.git", CompilePipelineModuleKinds.Setup, priority: -100);
 
-    public async Task<IResult<IGlobalPipelineRunResult>> Run(IGlobalPipelineRunContext context, CancellationToken cancellationToken)
+    public async Task<IResult<ICompilePipelineRunResult>> Run(ICompilePipelineRunContext context, CancellationToken cancellationToken)
     {
         foreach (ISource source in sourcesProvider.GetByOptionKey(ModuleOptionKey))
         {

@@ -1,5 +1,6 @@
 using ContextCompiler.Abstractions.Pipelines.Events;
 using ContextCompiler.Modules.Abstractions;
+using ContextCompiler.Modules.Abstractions.Pipelines.Compile;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -21,7 +22,7 @@ public sealed class DependencyInjection : IDependencyInjection
         _ = services.AddSingleton<IPipelineEventHandler<PhaseFailed>>(sp =>
             sp.GetRequiredService<PipelineEventsCollector>());
 
-        services.TryAddEnumerable(ServiceDescriptor.Transient<IGlobalPipelineModule, EventsLoggerModule>());
+        services.TryAddEnumerable(ServiceDescriptor.Transient<ICompilePipelineModule, EventsLoggerModule>());
 
         return services;
     }

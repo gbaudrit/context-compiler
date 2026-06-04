@@ -83,7 +83,7 @@ La vue interactive affiche automatiquement les relations parent/enfant entre pip
 - **Toggle activable** : Checkbox "Show pipeline hierarchy links" pour activer/désactiver
 - **Exemple** : 
   ```
-  GlobalPipeline ==>|sub-pipeline| InputIngestionPipeline
+  CompilePipeline ==>|sub-pipeline| InputIngestionPipeline
   InputIngestionPipeline ==>|sub-pipeline| DataPartPipelineRunner
   ```
 
@@ -99,7 +99,7 @@ Affiche le PipelineId dans les labels des événements pour identifier d'où ils
 
 **Utilité** :
 - ✅ **Identifier les doublons** : Distinguer les événements qui semblent identiques
-- ✅ **Comprendre les sources** : Voir si un événement vient du GlobalPipeline ou d'un sous-pipeline
+- ✅ **Comprendre les sources** : Voir si un événement vient du CompilePipeline ou d'un sous-pipeline
 - ✅ **Debugging** : Tracer l'origine exacte des événements
 
 **Exemple** :
@@ -210,7 +210,7 @@ Solution :
 
 #### 4. Comprendre la structure des pipelines et sous-pipelines
 ```
-Objectif : Visualiser l'architecture complète (GlobalPipeline → InputIngestionPipeline → DataPartPipelineRunner)
+Objectif : Visualiser l'architecture complète (CompilePipeline → InputIngestionPipeline → DataPartPipelineRunner)
 Solution :
 1. Cocher "Group by Item" (par défaut)
 2. S'assurer que "Show pipeline hierarchy links" est coché

@@ -1,9 +1,10 @@
 using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Abstractions.Configuration;
 using ContextCompiler.Abstractions.Output;
-using ContextCompiler.Abstractions.Pipelines;
+using ContextCompiler.Abstractions.Pipelines.Compile;
 using ContextCompiler.Abstractions.Storage;
 using ContextCompiler.Modules.Abstractions;
+using ContextCompiler.Modules.Abstractions.Pipelines.Compile;
 using ContextCompiler.Modules.Abstractions.Prompts;
 using ContextCompiler.Prompting.Abstractions;
 using ContextCompiler.Prompting.Modules.Templates.Scriban.Extensions;
@@ -15,9 +16,9 @@ namespace ContextCompiler.Prompting.Modules.Templates.Scriban;
 
 internal sealed class ScribanPromptTemplateModule(IOutput output, IPrompt prompt, ITemplateProvider templateProvider, IConfigProvider ctxcConfigProvider) : IPromptRenderingModule
 {
-    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("prompt.templates.scriban", GlobalPipelineModuleKinds.ArtifactRendering, priority: 0);
+    public ModuleMetadata Metadata => ICompilePipelineModule.Meta("prompt.templates.scriban", CompilePipelineModuleKinds.ArtifactRendering, priority: 0);
 
-    public async Task<IResult<IGlobalPipelineRunResult>> Run(IGlobalPipelineRunContext context, CancellationToken ct)
+    public async Task<IResult<ICompilePipelineRunResult>> Run(ICompilePipelineRunContext context, CancellationToken ct)
     {
         foreach (string rendererName in ctxcConfigProvider.Current.Renderers)
         {

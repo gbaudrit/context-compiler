@@ -1,8 +1,9 @@
 using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Abstractions.Configuration;
-using ContextCompiler.Abstractions.Pipelines;
+using ContextCompiler.Abstractions.Pipelines.Compile;
 using ContextCompiler.Modules.Abstractions;
-using ContextCompiler.Modules.Abstractions.GlobalPipeline;
+using ContextCompiler.Modules.Abstractions.CompilePipeline;
+using ContextCompiler.Modules.Abstractions.Pipelines.Compile;
 using ContextCompiler.Prompting.Abstractions.Commands;
 using ContextCompiler.Prompting.Abstractions.Personas;
 using ContextCompiler.Prompting.Abstractions.Prompt;
@@ -20,9 +21,9 @@ public sealed class PythonDeveloperModule(IConfigProvider cfgProvider,
 {
     private const string PersonaId = "developer.python";
 
-    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta($"personas.{PersonaId}", GlobalPipelineModuleKinds.Setup, priority: 10);
+    public ModuleMetadata Metadata => ICompilePipelineModule.Meta($"personas.{PersonaId}", CompilePipelineModuleKinds.Setup, priority: 10);
 
-    public Task<IResult<IGlobalPipelineRunResult>> Run(IGlobalPipelineRunContext context, CancellationToken cancellationToken)
+    public Task<IResult<ICompilePipelineRunResult>> Run(ICompilePipelineRunContext context, CancellationToken cancellationToken)
     {
         commandsProvider.AddCommand(commandBuilder.InitNew()
                                     .WithName("write")

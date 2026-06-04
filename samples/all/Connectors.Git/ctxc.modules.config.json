@@ -30,15 +30,15 @@
       "blockedPackageIds": []
     },
     "packages": {
-      "ContextCompiler.Packs.Starter.Standard@locale": "0.1.0-alpha.1",
-      "ContextCompiler.Prompting@locale": "0.1.0-alpha.1",
-      "ContextCompiler.Prompting.Modules.Templates.Scriban@locale": "0.1.0-alpha.1",
-      "ContextCompiler.Connectors.Modules.Git@locale": "0.1.0-alpha.1",
-      "ContextCompiler.Skills.Modules.Providers.Anthropic@locale": "0.1.0-alpha.1",
-      "ContextCompiler.Skills.Modules.Artifacts.Enrichment@locale": "0.1.0-alpha.1",
-      "ContextCompiler.Reports.Modules.Pipelines.Mermaid@locale": "0.1.0-alpha.1",
-      "ContextCompiler.Reports.Modules.Pipelines.ReactFlow@locale": "0.1.0-alpha.1",
-      "ContextCompiler.DevTools.Modules.EventsLogger@locale": "0.1.0-alpha.1"
+      "ContextCompiler.Packs.Starter.Standard@locale": "0.2.0-alpha.1",
+      "ContextCompiler.Prompting@locale": "0.2.0-alpha.1",
+      "ContextCompiler.Prompting.Modules.Templates.Scriban@locale": "0.2.0-alpha.1",
+      "ContextCompiler.Connectors.Modules.Git@locale": "0.2.0-alpha.1",
+      "ContextCompiler.Skills.Modules.Providers.Anthropic@locale": "0.2.0-alpha.1",
+      "ContextCompiler.Skills.Modules.Artifacts.Enrichment@locale": "0.2.0-alpha.1",
+      "ContextCompiler.Reports.Modules.Pipelines.Mermaid@locale": "0.2.0-alpha.1",
+      "ContextCompiler.Reports.Modules.Pipelines.ReactFlow@locale": "0.2.0-alpha.1",
+      "ContextCompiler.DevTools.Modules.EventsLogger@locale": "0.2.0-alpha.1"
     }
   }
 }

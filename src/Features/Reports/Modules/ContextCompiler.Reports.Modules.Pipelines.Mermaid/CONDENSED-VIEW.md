@@ -56,7 +56,7 @@ HH:MM:SS | Xms  (ou message d'erreur si échec)
 
 **Avant** :
 ```
-GlobalPipeline ==>|sub-pipeline| InputIngestionPipeline
+CompilePipeline ==>|sub-pipeline| InputIngestionPipeline
 (lien générique entre pipelines)
 ```
 

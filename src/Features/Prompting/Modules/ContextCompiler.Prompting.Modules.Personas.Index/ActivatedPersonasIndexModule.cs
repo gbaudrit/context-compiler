@@ -4,25 +4,26 @@ using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Abstractions.Compiled;
 using ContextCompiler.Abstractions.Configuration;
 using ContextCompiler.Abstractions.Output;
-using ContextCompiler.Abstractions.Pipelines;
+using ContextCompiler.Abstractions.Pipelines.Compile;
 using ContextCompiler.Abstractions.Storage;
 using ContextCompiler.Modules.Abstractions;
+using ContextCompiler.Modules.Abstractions.Pipelines.Compile;
 using ContextCompiler.Prompting.Abstractions;
 
 namespace ContextCompiler.Prompting.Modules.Personas.Index;
 
-public sealed class ActivatedPersonasIndexModule(IPrompt prompt, IOutput output, ICompiledContext ir, IConfigProvider cfgProvider) : IGlobalPipelineModule
+public sealed class ActivatedPersonasIndexModule(IPrompt prompt, IOutput output, ICompiledContext ir, IConfigProvider cfgProvider) : ICompilePipelineModule
 {
     private readonly JsonSerializerOptions jsonSerializerOptions = new() { WriteIndented = true };
 
-    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("personas.index", GlobalPipelineModuleKinds.ReportComposition, priority: 0);
+    public ModuleMetadata Metadata => ICompilePipelineModule.Meta("personas.index", CompilePipelineModuleKinds.ReportComposition, priority: 0);
 
     public string Export(object graphModel)
     {
         return JsonSerializer.Serialize(graphModel, jsonSerializerOptions);
     }
 
-    public async Task<IResult<IGlobalPipelineRunResult>> Run(IGlobalPipelineRunContext context, CancellationToken cancellationToken)
+    public async Task<IResult<ICompilePipelineRunResult>> Run(ICompilePipelineRunContext context, CancellationToken cancellationToken)
     {
         output.AddArtifact(builder =>
         {

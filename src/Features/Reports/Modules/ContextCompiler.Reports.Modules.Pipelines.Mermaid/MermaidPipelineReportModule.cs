@@ -1,9 +1,10 @@
 using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Abstractions.Output;
-using ContextCompiler.Abstractions.Pipelines;
+using ContextCompiler.Abstractions.Pipelines.Compile;
 using ContextCompiler.Abstractions.Pipelines.Events;
 using ContextCompiler.Abstractions.Storage;
 using ContextCompiler.Modules.Abstractions;
+using ContextCompiler.Modules.Abstractions.Pipelines.Compile;
 
 using Microsoft.Extensions.Logging;
 
@@ -12,14 +13,14 @@ namespace ContextCompiler.Reports.Modules.Pipelines.Mermaid;
 internal sealed class MermaidPipelineReportModule(
     PipelineEventCollector eventCollector,
     IOutput output,
-    ILogger<MermaidPipelineReportModule> logger) : IGlobalPipelineModule
+    ILogger<MermaidPipelineReportModule> logger) : ICompilePipelineModule
 {
-    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta(
+    public ModuleMetadata Metadata => ICompilePipelineModule.Meta(
         "reports.pipelines.mermaid",
-        GlobalPipelineModuleKinds.ReportComposition,
+        CompilePipelineModuleKinds.ReportComposition,
         priority: 900);
 
-    public Task<IResult<IGlobalPipelineRunResult>> Run(IGlobalPipelineRunContext context, CancellationToken cancellationToken)
+    public Task<IResult<ICompilePipelineRunResult>> Run(ICompilePipelineRunContext context, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
 

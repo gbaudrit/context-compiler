@@ -2,25 +2,27 @@ using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Abstractions.Compiled;
 using ContextCompiler.Abstractions.Configuration;
 using ContextCompiler.Abstractions.Output;
-using ContextCompiler.Abstractions.Pipelines;
+using ContextCompiler.Abstractions.Pipelines.Compile;
 using ContextCompiler.Abstractions.Storage;
 using ContextCompiler.Abstractions.Views;
+using ContextCompiler.Core.Pipelines.Compile;
 using ContextCompiler.Modules.Abstractions;
+using ContextCompiler.Modules.Abstractions.Pipelines.Compile;
 
 using Microsoft.Extensions.Logging;
 
 namespace ContextCompiler.Core.Pipelines.View;
 
-public sealed class ViewsPipelineRunner(ILogger<GlobalPipeline> logger,
+public sealed class ViewsPipelineRunner(ILogger<CompilePipeline> logger,
                                         IOutput output,
                                         IConfigProvider ctxcConfig,
                                         IModulesRegistry modules,
-                                        ICompiledContext compiledContext) : IGlobalPipelineModule
+                                        ICompiledContext compiledContext) : ICompilePipelineModule
 {
 
-    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("views", GlobalPipelineModuleKinds.OutputProjection, priority: 10);
+    public ModuleMetadata Metadata => ICompilePipelineModule.Meta("views", CompilePipelineModuleKinds.OutputProjection, priority: 10);
 
-    public async Task<IResult<IGlobalPipelineRunResult>> Run(IGlobalPipelineRunContext context, CancellationToken cancellationToken)
+    public async Task<IResult<ICompilePipelineRunResult>> Run(ICompilePipelineRunContext context, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
@@ -37,7 +39,7 @@ public sealed class ViewsPipelineRunner(ILogger<GlobalPipeline> logger,
 
         //await Task.WhenAll(orderedModules.Select(async p =>
         //{
-        //    logger.LogInformation("Running global pipeline module: {ModuleName} (Kind: {ModuleKind}, Priority: {ModulePriority})",
+        //    logger.LogInformation("Running compile pipeline module: {ModuleName} (Kind: {ModuleKind}, Priority: {ModulePriority})",
         //        p.Metadata.Id, p.Metadata.Kind, p.Metadata.Priority);
         //    await p.Run(ct);
         //}));
@@ -56,7 +58,7 @@ public sealed class ViewsPipelineRunner(ILogger<GlobalPipeline> logger,
             await Task.WhenAll(group.OrderBy(x => x.Metadata.Priority).Select(async module =>
             {
                 logger.LogInformation(
-                    "Running global pipeline module: {ModuleName} (Priority: {ModulePriority})",
+                    "Running compile pipeline module: {ModuleName} (Priority: {ModulePriority})",
                     module.Metadata.Id,
                     module.Metadata.Priority);
 

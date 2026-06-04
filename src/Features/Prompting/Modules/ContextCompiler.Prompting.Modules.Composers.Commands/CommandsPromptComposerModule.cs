@@ -1,6 +1,7 @@
 using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Abstractions.Configuration;
 using ContextCompiler.Modules.Abstractions;
+using ContextCompiler.Modules.Abstractions.Pipelines.Compile;
 using ContextCompiler.Prompting.Abstractions;
 using ContextCompiler.Prompting.Abstractions.Commands;
 using ContextCompiler.Prompting.Abstractions.Pipelines.PromptComposition;
@@ -11,7 +12,7 @@ namespace ContextCompiler.Prompting.Modules.Composers.Commands;
 internal sealed class CommandsPromptComposer(IPrompt prompt, ICommandBuilder commandBuilder, IConfigProvider ctxcConfig, ICommandsProvider commandsProvider) : IPromptComposerModule
 {
 
-    public ModuleMetadata Metadata => IPromptComposerModule.Meta("builtin.prompt.composer.commands", GlobalPipelineModuleKinds.OutputComposition, priority: 10);
+    public ModuleMetadata Metadata => IPromptComposerModule.Meta("builtin.prompt.composer.commands", CompilePipelineModuleKinds.OutputComposition, priority: 10);
 
     public async Task<IResult<IPromptComposerRunResult>> Run(IPromptComposerRunContext context, CancellationToken cancellationToken)
     {

@@ -1,18 +1,19 @@
 using ContextCompiler.Abstractions.Common;
-using ContextCompiler.Abstractions.Pipelines;
+using ContextCompiler.Abstractions.Pipelines.Compile;
 using ContextCompiler.Modules.Abstractions;
-using ContextCompiler.Modules.Abstractions.GlobalPipeline;
+using ContextCompiler.Modules.Abstractions.CompilePipeline;
+using ContextCompiler.Modules.Abstractions.Pipelines.Compile;
 
 namespace ContextCompiler.Rag.Modules.LocalInMemory;
 
 public sealed class RagModule : IConfigurationModule
 {
-    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta(
+    public ModuleMetadata Metadata => ICompilePipelineModule.Meta(
         "rag",
-        GlobalPipelineModuleKinds.Setup,
+        CompilePipelineModuleKinds.Setup,
         priority: 100);
 
-    public Task<IResult<IGlobalPipelineRunResult>> Run(IGlobalPipelineRunContext context, CancellationToken cancellationToken)
+    public Task<IResult<ICompilePipelineRunResult>> Run(ICompilePipelineRunContext context, CancellationToken cancellationToken)
     {
         // TODO:
         // - lire la configuration RAG

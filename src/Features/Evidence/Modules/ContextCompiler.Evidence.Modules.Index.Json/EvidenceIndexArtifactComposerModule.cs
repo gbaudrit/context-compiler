@@ -5,7 +5,7 @@ using ContextCompiler.Abstractions.Compiled;
 using ContextCompiler.Abstractions.Output;
 using ContextCompiler.Abstractions.Pipelines;
 using ContextCompiler.Modules.Abstractions;
-using ContextCompiler.Modules.Abstractions.GlobalPipeline;
+using ContextCompiler.Modules.Abstractions.CompilePipeline;
 
 using Microsoft.Extensions.Logging;
 
@@ -13,11 +13,11 @@ namespace ContextCompiler.Evidence.Modules.Index.Json;
 
 public sealed class EvidenceIndexArtifactComposerModule(ILogger<EvidenceIndexArtifactComposerModule> logger, ICompiledContext compiledContext, IOutput output) : IOutputArtifactComposerModule
 {
-    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("evidence.index.json", GlobalPipelineModuleKinds.ReportComposition, priority: 10);
+    public ModuleMetadata Metadata => ICompilePipelineModule.Meta("evidence.index.json", CompilePipelineModuleKinds.ReportComposition, priority: 10);
 
     private static readonly JsonSerializerOptions s_jsonIndentedOptions = new() { WriteIndented = true };
 
-    public Task<IResult<IGlobalPipelineRunResult>> Run(IGlobalPipelineRunContext context, CancellationToken cancellationToken)
+    public Task<IResult<ICompilePipelineRunResult>> Run(ICompilePipelineRunContext context, CancellationToken cancellationToken)
     {
         int distinctEvidenceCount = compiledContext.Fragments.Select(f => f.Evidence.EvidenceKey).Distinct().Count();
         List<ITag> distinctsTags = [.. compiledContext.Fragments.SelectMany(f => f.Tags).Distinct()];

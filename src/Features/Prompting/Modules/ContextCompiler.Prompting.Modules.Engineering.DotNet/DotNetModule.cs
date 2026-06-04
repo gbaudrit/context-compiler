@@ -1,8 +1,9 @@
 using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Abstractions.Configuration;
-using ContextCompiler.Abstractions.Pipelines;
+using ContextCompiler.Abstractions.Pipelines.Compile;
 using ContextCompiler.Modules.Abstractions;
-using ContextCompiler.Modules.Abstractions.GlobalPipeline;
+using ContextCompiler.Modules.Abstractions.CompilePipeline;
+using ContextCompiler.Modules.Abstractions.Pipelines.Compile;
 using ContextCompiler.Prompting.Abstractions.Commands;
 using ContextCompiler.Prompting.Abstractions.Prompt;
 
@@ -15,9 +16,9 @@ public sealed class DotNetModule(IConfigProvider cfgProvider,
                                         ICommandBuilder commandBuilder,
                                         ILogger<DotNetModule> logger) : IConfigurationModule
 {
-    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("engineering.dotnet", GlobalPipelineModuleKinds.Setup, priority: 10);
+    public ModuleMetadata Metadata => ICompilePipelineModule.Meta("engineering.dotnet", CompilePipelineModuleKinds.Setup, priority: 10);
 
-    public Task<IResult<IGlobalPipelineRunResult>> Run(IGlobalPipelineRunContext context, CancellationToken cancellationToken)
+    public Task<IResult<ICompilePipelineRunResult>> Run(ICompilePipelineRunContext context, CancellationToken cancellationToken)
     {
         cfgProvider.Current.AddFile(["Directory.Packages.props", "**/*.csproj", "**/libman.json", "**/package.json"], [], [], ["concern:dependency", "concern:security"], null);
         cfgProvider.Current.AddFile(["**/appsettings*.json"], [], [], ["concern:config", "concern:security"], null);

@@ -19,9 +19,9 @@ The ContextCompiler uses a store-based architecture for managing resources. The 
 public sealed class SkillsArtifactEnrichmentModule(
 	[FromKeyedServices(StoreKeys.Skills)] IStore skillsStore,
 	// ... other dependencies
-) : IGlobalPipelineModule
+) : ICompilePipelineModule
 {
-	public Task<IResult<IGlobalPipelineRunResult>> Run(...)
+	public Task<IResult<ICompilePipelineRunResult>> Run(...)
 	{
 		// Create a resource in the Skills store
 		IStoreResource skillResource = skillsStore.GetResource($"{skillId}/{relativePath}");
@@ -156,7 +156,7 @@ public sealed class RagStore(
 // SkillsArtifactEnrichmentModule uses Skills store
 public sealed class SkillsArtifactEnrichmentModule(
 	[FromKeyedServices(StoreKeys.Skills)] IStore skillsStore
-) : IGlobalPipelineModule
+) : ICompilePipelineModule
 {
 	// Create resources dynamically
 	IStoreResource skillResource = skillsStore.GetResource($"{skillId}/{file}");
