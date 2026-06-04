@@ -34,7 +34,7 @@ La nouvelle vue interactive offre :
 - **Toggle activable/désactivable** : Afficher/masquer les liens de hiérarchie
 - **Utilisation de `ISubPipelineRunContext`** : Détection automatique des relations parent/enfant
 - **Flèches spéciales** : Liens parent→enfant affichés avec `==>|sub-pipeline|`
-- **Support multi-niveaux** : GlobalPipeline → InputIngestionPipeline → DataPartPipelineRunner
+- **Support multi-niveaux** : CompilePipeline → InputIngestionPipeline → DataPartPipelineRunner
 
 #### Diagramme généré dynamiquement
 - Le diagramme Mermaid est **recalculé** en temps réel selon les filtres et le mode de groupement
@@ -150,7 +150,7 @@ Le module génère également **deux rapports HTML statiques** :
 
 ### Exemple de hiérarchie
 ```
-GlobalPipeline ==>|sub-pipeline| InputIngestionPipeline
+CompilePipeline ==>|sub-pipeline| InputIngestionPipeline
 ```
 
 ## Utilisation des informations ModuleId et ItemId

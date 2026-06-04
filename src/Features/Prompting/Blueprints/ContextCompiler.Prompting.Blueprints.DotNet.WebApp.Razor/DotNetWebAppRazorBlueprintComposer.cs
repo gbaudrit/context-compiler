@@ -3,6 +3,7 @@ using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Prompting.Abstractions;
 using ContextCompiler.Prompting.Abstractions.Prompt;
 using ContextCompiler.Prompting.Abstractions.Pipelines.PromptComposition;
+using ContextCompiler.Modules.Abstractions.Pipelines.Compile;
 
 namespace ContextCompiler.Prompting.Blueprints.DotNet.WebApp.Razor;
 
@@ -17,7 +18,7 @@ internal sealed class DotNetWebAppRazorBlueprintComposer(
     IGlossaryTermBuilder glossaryBuilder,
     ICommandBuilder commandBuilder) : IBlueprintComposerModule
 {
-    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("blueprints.dotnet.webapp.razor", GlobalPipelineModuleKinds.OutputComposition, priority: 10);
+    public ModuleMetadata Metadata => ICompilePipelineModule.Meta("blueprints.dotnet.webapp.razor", CompilePipelineModuleKinds.OutputComposition, priority: 10);
 
     public async Task<IResult<IPromptComposerRunResult>> Run(IPromptComposerRunContext context, CancellationToken cancellationToken)
     {

@@ -40,7 +40,7 @@ if (e.RunContext is ISubPipelineRunContext subContext)
 - Checkbox pour activer/désactiver
 - Exemple :
   ```mermaid
-  GlobalPipeline ==>|sub-pipeline| InputIngestionPipeline
+  CompilePipeline ==>|sub-pipeline| InputIngestionPipeline
   InputIngestionPipeline ==>|sub-pipeline| DocumentProcessingPipeline
   ```
 

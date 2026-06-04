@@ -79,9 +79,9 @@ Output: <OutputRoot>/.agents/skills/{id}/{file}
 
 ```csharp
 // 1. Create McpToolsArtifactEnrichmentModule
-public class McpToolsArtifactEnrichmentModule : IGlobalPipelineModule
+public class McpToolsArtifactEnrichmentModule : ICompilePipelineModule
 {
-	public Task<IResult<IGlobalPipelineRunResult>> Run(...)
+	public Task<IResult<ICompilePipelineRunResult>> Run(...)
 	{
 		output.AddArtifact(builder => builder
 			.WithCategory(ArtifactCategory.Tool)

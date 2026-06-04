@@ -1,6 +1,6 @@
-namespace ContextCompiler.Modules.Abstractions;
+namespace ContextCompiler.Modules.Abstractions.Pipelines.Compile;
 
-public enum GlobalPipelineModuleKinds
+public enum CompilePipelineModuleKinds
 {
     Setup = 10000,
     InputDiscovery = 20000,

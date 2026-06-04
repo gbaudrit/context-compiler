@@ -4,6 +4,8 @@ using ContextCompiler.Core.Pipelines.InputIngestion;
 using ContextCompiler.Core.Pipelines.Events;
 
 using Microsoft.Extensions.DependencyInjection;
+using ContextCompiler.Core.Pipelines.Compile;
+using ContextCompiler.Abstractions.Pipelines.Compile;
 
 namespace ContextCompiler.Core.Pipelines
 {
@@ -13,11 +15,11 @@ namespace ContextCompiler.Core.Pipelines
         public static IServiceCollection AddPipelines(this IServiceCollection services)
         {
             // Register core services here
-            _ = services.AddSingleton<IGlobalPipeline, GlobalPipeline>()
+            _ = services.AddSingleton<ICompilePipeline, CompilePipeline>()
                 .AddTransient<IInputItemContextBuilder, InputItemContextBuilder>()
                 .AddTransient<IInputItemContextDataBuilder, InputItemContextDataBuilder>()
-                .AddTransient<IGlobalPipelineRunContextBuilder, GlobalPipelineRunContextBuilder>()
-                .AddTransient<IGlobalPipelineRunResultBuilder, GlobalPipelineRunResultBuilder>()
+                .AddTransient<ICompilePipelineRunContextBuilder, CompilePipelineRunContextBuilder>()
+                .AddTransient<ICompilePipelineRunResultBuilder, CompilePipelineRunResultBuilder>()
                 .AddInputIngestionPipeline()
                 .AddDataPartPipeline()
                 .AddPipelineEvents();

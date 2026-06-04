@@ -2,9 +2,10 @@ using ContextCompiler.Abstractions.DependencyInjection;
 using ContextCompiler.Abstractions.Files;
 using ContextCompiler.Abstractions.Output;
 using ContextCompiler.Modules.Abstractions;
-using ContextCompiler.Modules.Abstractions.GlobalPipeline;
+using ContextCompiler.Modules.Abstractions.CompilePipeline;
 using ContextCompiler.Modules.Abstractions.Loading;
 using ContextCompiler.Modules.Abstractions.MCP;
+using ContextCompiler.Modules.Abstractions.Pipelines.Compile;
 using ContextCompiler.Modules.Abstractions.Views;
 using ContextCompiler.Modules.Abstractions.Views.Renderers;
 using ContextCompiler.Skills.Abstractions;
@@ -44,9 +45,9 @@ public sealed class ModuleRegistryBuilder : IModuleRegistryBuilder
             {
                 _delayedFeatureDependencyInjections.Add((IDelayedFeatureDependencyInjection)Activator.CreateInstance(t)!);
             }
-            if (typeof(IGlobalPipelineModule).IsAssignableFrom(t))
+            if (typeof(ICompilePipelineModule).IsAssignableFrom(t))
             {
-                services.TryAddEnumerable(ServiceDescriptor.Transient(typeof(IGlobalPipelineModule), t));
+                services.TryAddEnumerable(ServiceDescriptor.Transient(typeof(ICompilePipelineModule), t));
             }
 
             if (typeof(IInputIngestionPipelineModule).IsAssignableFrom(t))

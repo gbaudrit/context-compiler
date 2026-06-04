@@ -3,7 +3,7 @@
 //using ContextCompiler.Abstractions.Personas;
 //using ContextCompiler.Abstractions.Prompt;
 //using ContextCompiler.Modules.Abstractions;
-//using ContextCompiler.Modules.Abstractions.GlobalPipeline;
+//using ContextCompiler.Modules.Abstractions.CompilePipeline;
 
 //using Microsoft.Extensions.Logging;
 
@@ -18,7 +18,7 @@
 //{
 //    private const string PersonaId = "analysts.business";
 
-//    public ModuleMetadata Metadata => IModule.Meta($"personas.{PersonaId}", GlobalPipelineModuleKinds.Configuration, priority: 10);
+//    public ModuleMetadata Metadata => IModule.Meta($"personas.{PersonaId}", CompilePipelineModuleKinds.Configuration, priority: 10);
 
 //    public Task Run(CancellationToken cancellationToken)
 //    {

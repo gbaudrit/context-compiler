@@ -128,7 +128,7 @@ public sealed class MyBlueprintModule(
 {
     public ModuleMetadata Metadata => IModule.Meta(
         "blueprints.my-blueprint", 
-        GlobalPipelineModuleKinds.Blueprint, 
+        CompilePipelineModuleKinds.Blueprint, 
         priority: 10);
 
     public Task<IBlueprint> BuildAsync(CancellationToken cancellationToken)

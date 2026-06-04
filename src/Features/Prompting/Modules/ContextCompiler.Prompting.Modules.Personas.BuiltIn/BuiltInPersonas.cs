@@ -5,7 +5,7 @@ namespace ContextCompiler.Prompting.Modules.Personas.BuiltIn;
 
 public sealed class DevArchitectPersona(IPersonaBuilder personaResultBuilder) : IPersonaModule
 {
-    public ModuleMetadata Metadata => IModule.Meta("personas.builtin.dev_architect", GlobalPipelineModuleKinds.Persona, priority: 10);
+    public ModuleMetadata Metadata => IModule.Meta("personas.builtin.dev_architect", CompilePipelineModuleKinds.Persona, priority: 10);
     public string PersonaId => "dev_architect";
 
     public Task<IPersona> BuildAsync(PersonaContext ctx, CancellationToken ct)
@@ -38,7 +38,7 @@ public sealed class DevArchitectPersona(IPersonaBuilder personaResultBuilder) : 
 
 public sealed class SecurityReviewerPersona(IPersonaBuilder personaResultBuilder) : IPersonaModule
 {
-    public ModuleMetadata Metadata => IModule.Meta("personas.builtin.security_reviewer", GlobalPipelineModuleKinds.Persona, priority: 10);
+    public ModuleMetadata Metadata => IModule.Meta("personas.builtin.security_reviewer", CompilePipelineModuleKinds.Persona, priority: 10);
     public string PersonaId => "security_reviewer";
 
     public Task<IPersona> BuildAsync(PersonaContext ctx, CancellationToken ct)
@@ -74,7 +74,7 @@ public sealed class SecurityReviewerPersona(IPersonaBuilder personaResultBuilder
 
 public sealed class DeepSecurityReviewerPersona(IPersonaBuilder personaResultBuilder) : IPersonaModule
 {
-    public ModuleMetadata Metadata => IModule.Meta("personas.builtin.deep_security_reviewer", GlobalPipelineModuleKinds.Persona, priority: 10);
+    public ModuleMetadata Metadata => IModule.Meta("personas.builtin.deep_security_reviewer", CompilePipelineModuleKinds.Persona, priority: 10);
     public string PersonaId => "deep_security_reviewer";
 
     public Task<IPersona> BuildAsync(PersonaContext ctx, CancellationToken ct)
@@ -104,7 +104,7 @@ public sealed class DeepSecurityReviewerPersona(IPersonaBuilder personaResultBui
 
 public sealed class BusinessAnalystPersona(IPersonaBuilder personaResultBuilder) : IPersonaModule
 {
-    public ModuleMetadata Metadata => IModule.Meta("personas.builtin.business_analyst", GlobalPipelineModuleKinds.Persona, priority: 10);
+    public ModuleMetadata Metadata => IModule.Meta("personas.builtin.business_analyst", CompilePipelineModuleKinds.Persona, priority: 10);
     public string PersonaId => "business_analyst";
 
     public Task<IPersona> BuildAsync(PersonaContext ctx, CancellationToken ct)
@@ -136,7 +136,7 @@ public sealed class BusinessAnalystPersona(IPersonaBuilder personaResultBuilder)
 
 public sealed class DevSeniorPersona(IPersonaBuilder personaResultBuilder) : IPersonaModule
 {
-    public ModuleMetadata Metadata => IModule.Meta("personas.builtin.dev_senior", GlobalPipelineModuleKinds.Persona, priority: 10);
+    public ModuleMetadata Metadata => IModule.Meta("personas.builtin.dev_senior", CompilePipelineModuleKinds.Persona, priority: 10);
     public string PersonaId => "dev_senior";
 
     public Task<IPersona> BuildAsync(PersonaContext ctx, CancellationToken ct)
@@ -178,7 +178,7 @@ public sealed class DevSeniorPersona(IPersonaBuilder personaResultBuilder) : IPe
 
 public sealed class DevBadPersona(IPersonaBuilder personaResultBuilder) : IPersonaModule
 {
-    public ModuleMetadata Metadata => IModule.Meta("personas.builtin.dev_bad", GlobalPipelineModuleKinds.Persona, priority: 10);
+    public ModuleMetadata Metadata => IModule.Meta("personas.builtin.dev_bad", CompilePipelineModuleKinds.Persona, priority: 10);
     public string PersonaId => "dev_bad";
 
     public Task<IPersona> BuildAsync(PersonaContext ctx, CancellationToken ct)

@@ -1,9 +1,10 @@
 using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Abstractions.Output;
-using ContextCompiler.Abstractions.Pipelines;
+using ContextCompiler.Abstractions.Pipelines.Compile;
 using ContextCompiler.Abstractions.Storage;
 using ContextCompiler.Modules.Abstractions;
-using ContextCompiler.Modules.Abstractions.GlobalPipeline;
+using ContextCompiler.Modules.Abstractions.CompilePipeline;
+using ContextCompiler.Modules.Abstractions.Pipelines.Compile;
 using ContextCompiler.Prompting.Abstractions;
 using ContextCompiler.Prompting.Modules.Commands.Registry.Abstractions;
 using ContextCompiler.Prompting.Modules.Commands.Registry.Models;
@@ -15,12 +16,12 @@ internal sealed class CommandIndexModule(
     IOutput output,
     ICommandsIndexSerializer commandsIndexSerializer) : IConfigurationModule
 {
-    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta(
+    public ModuleMetadata Metadata => ICompilePipelineModule.Meta(
         "commands.index.json",
-        GlobalPipelineModuleKinds.ReportComposition,
+        CompilePipelineModuleKinds.ReportComposition,
         priority: 10000);
 
-    public async Task<IResult<IGlobalPipelineRunResult>> Run(IGlobalPipelineRunContext context, CancellationToken cancellationToken)
+    public async Task<IResult<ICompilePipelineRunResult>> Run(ICompilePipelineRunContext context, CancellationToken cancellationToken)
     {
         // TODO:
         // - remplacer cette liste vide par la projection réelle des commandes

@@ -121,7 +121,7 @@ La persona doit être appliquée **dans le Global Pipeline**, dans la phase de f
 Recommandation :
 - Le template `FramingTemplatePlugin` doit accepter un bloc “persona framing”.
 
-### 4.2 Modification GlobalPipelineRunner
+### 4.2 Modification CompilePipelineRunner
 Ajouter :
 1) Charger config personas via provider (injecté via DI).
 2) Résoudre les `IPersonaPlugin` par `personaId` (active list).
@@ -234,7 +234,7 @@ Créer `docs/decisions/0008-persona-plugins-and-config.md` :
 - [ ] IPersonaPlugin + modèles ajoutés dans Abstractions
 - [ ] PluginRegistry + builder supportent Personas
 - [ ] Config provider supporte section `personas`
-- [ ] GlobalPipelineRunner applique personas + écrit artefacts
+- [ ] CompilePipelineRunner applique personas + écrit artefacts
 - [ ] BuiltIn personas (2 exemples)
 - [ ] CLI options (si choisi)
 - [ ] MSTest complet
@@ -246,7 +246,7 @@ Créer `docs/decisions/0008-persona-plugins-and-config.md` :
 
 > Implémente PersonaPlugin selon ce document.  
 > Respecte la config `personas` dans `ctxc.config.json`.  
-> Intègre au GlobalPipelineRunner avant écriture du prompt.  
+> Intègre au CompilePipelineRunner avant écriture du prompt.  
 > Ajoute 2 personas built-in (dev_architect, security_reviewer).  
 > Écris les tests MSTest, mets à jour docs et ajoute une MADR.  
 > Ne casse pas la compilation actuelle sans config.

@@ -56,7 +56,7 @@ internal sealed class BlueprintComposerModule(
 {
     public ModuleMetadata Metadata => IModule.Meta(
         "blueprints.mypattern", 
-        GlobalPipelineModuleKinds.PromptComposer, 
+        CompilePipelineModuleKinds.PromptComposer, 
         priority: 10);
 
     public Task Run(CancellationToken cancellationToken)

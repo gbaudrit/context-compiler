@@ -1,8 +1,8 @@
 using ContextCompiler.Abstractions.Output;
 
-namespace ContextCompiler.Abstractions.Pipelines
+namespace ContextCompiler.Abstractions.Pipelines.Compile
 {
-    public interface IGlobalPipeline : IPipeline
+    public interface ICompilePipeline : IPipeline
     {
         ValueTask RunAsync(string rootPath,
                            string outputPath,

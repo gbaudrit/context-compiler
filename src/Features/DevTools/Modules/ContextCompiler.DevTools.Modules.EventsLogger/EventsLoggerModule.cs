@@ -4,9 +4,11 @@ using System.Text;
 using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Abstractions.Output;
 using ContextCompiler.Abstractions.Pipelines;
+using ContextCompiler.Abstractions.Pipelines.Compile;
 using ContextCompiler.Abstractions.Pipelines.Events;
 using ContextCompiler.Abstractions.Storage;
 using ContextCompiler.Modules.Abstractions;
+using ContextCompiler.Modules.Abstractions.Pipelines.Compile;
 
 using Microsoft.Extensions.Logging;
 
@@ -15,14 +17,14 @@ namespace ContextCompiler.DevTools.Modules.EventsLogger;
 internal sealed class EventsLoggerModule(
     PipelineEventsCollector eventCollector,
     IOutput output,
-    ILogger<EventsLoggerModule> logger) : IGlobalPipelineModule
+    ILogger<EventsLoggerModule> logger) : ICompilePipelineModule
 {
-    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta(
+    public ModuleMetadata Metadata => ICompilePipelineModule.Meta(
         "devtools.events.logger",
-        GlobalPipelineModuleKinds.ReportComposition,
+        CompilePipelineModuleKinds.ReportComposition,
         priority: 1000);
 
-    public Task<IResult<IGlobalPipelineRunResult>> Run(IGlobalPipelineRunContext context, CancellationToken cancellationToken)
+    public Task<IResult<ICompilePipelineRunResult>> Run(ICompilePipelineRunContext context, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
 

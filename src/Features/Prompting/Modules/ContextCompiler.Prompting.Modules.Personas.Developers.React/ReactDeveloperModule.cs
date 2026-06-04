@@ -1,13 +1,14 @@
 using ContextCompiler.Abstractions.Configuration;
 using ContextCompiler.Modules.Abstractions;
-using ContextCompiler.Modules.Abstractions.GlobalPipeline;
+using ContextCompiler.Modules.Abstractions.CompilePipeline;
 using ContextCompiler.Abstractions.Common;
-using ContextCompiler.Abstractions.Pipelines;
 
 using Microsoft.Extensions.Logging;
 using ContextCompiler.Prompting.Abstractions.Personas;
 using ContextCompiler.Prompting.Abstractions.Commands;
 using ContextCompiler.Prompting.Abstractions.Prompt;
+using ContextCompiler.Abstractions.Pipelines.Compile;
+using ContextCompiler.Modules.Abstractions.Pipelines.Compile;
 
 namespace ContextCompiler.Prompting.Modules.Personas.Developers.React;
 
@@ -21,9 +22,9 @@ public sealed class ReactDeveloperModule(
 {
     private const string PersonaId = "developers.react";
 
-    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta($"personas.{PersonaId}", GlobalPipelineModuleKinds.Setup, priority: 10);
+    public ModuleMetadata Metadata => ICompilePipelineModule.Meta($"personas.{PersonaId}", CompilePipelineModuleKinds.Setup, priority: 10);
 
-    public Task<IResult<IGlobalPipelineRunResult>> Run(IGlobalPipelineRunContext context, CancellationToken cancellationToken)
+    public Task<IResult<ICompilePipelineRunResult>> Run(ICompilePipelineRunContext context, CancellationToken cancellationToken)
     {
         commandsProvider.AddCommand(commandBuilder.InitNew()
                                     .WithName("create-component")

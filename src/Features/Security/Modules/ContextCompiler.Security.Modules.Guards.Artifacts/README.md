@@ -69,7 +69,7 @@ When threats are detected in an artifact group (e.g., all files of a skill):
 
 ## Usage
 
-The module runs automatically during the `ArtifactValidation` phase of the `GlobalPipeline`. No manual invocation required.
+The module runs automatically during the `ArtifactValidation` phase of the `CompilePipeline`. No manual invocation required.
 
 Excluded artifacts will be skipped by `OutputArtifactsFilesWriterModule` during the `ArtifactPersistence` phase.
 

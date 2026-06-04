@@ -1,7 +1,8 @@
 using ContextCompiler.Abstractions.Common;
-using ContextCompiler.Abstractions.Pipelines;
+using ContextCompiler.Abstractions.Pipelines.Compile;
 using ContextCompiler.Abstractions.Sources;
 using ContextCompiler.Modules.Abstractions;
+using ContextCompiler.Modules.Abstractions.Pipelines.Compile;
 
 using Microsoft.Extensions.Logging;
 
@@ -9,11 +10,11 @@ namespace ContextCompiler.DevTools.Modules.SourcesConsole;
 
 public sealed class SourcesConsoleModule(
     ISourcesProvider sourcesProvider,
-    ILogger<SourcesConsoleModule> logger) : IGlobalPipelineModule
+    ILogger<SourcesConsoleModule> logger) : ICompilePipelineModule
 {
-    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("devtools.sources-console", GlobalPipelineModuleKinds.PostProcessing, priority: 1000);
+    public ModuleMetadata Metadata => ICompilePipelineModule.Meta("devtools.sources-console", CompilePipelineModuleKinds.PostProcessing, priority: 1000);
 
-    public Task<IResult<IGlobalPipelineRunResult>> Run(IGlobalPipelineRunContext context, CancellationToken cancellationToken)
+    public Task<IResult<ICompilePipelineRunResult>> Run(ICompilePipelineRunContext context, CancellationToken cancellationToken)
     {
         IReadOnlyList<ISource> sources = sourcesProvider.GetAll();
 

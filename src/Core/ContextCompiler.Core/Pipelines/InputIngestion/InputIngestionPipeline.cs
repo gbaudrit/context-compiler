@@ -16,6 +16,8 @@ using Microsoft.Extensions.FileSystemGlobbing;
 using Microsoft.Extensions.FileSystemGlobbing.Abstractions;
 using Microsoft.Extensions.Logging;
 using ContextCompiler.Abstractions.Compiled;
+using ContextCompiler.Abstractions.Pipelines.Compile;
+using ContextCompiler.Modules.Abstractions.Pipelines.Compile;
 
 namespace ContextCompiler.Core.Pipelines.InputIngestion;
 
@@ -42,14 +44,14 @@ public sealed class InputIngestionPipeline(
     IInputIngestionPipelineRunContextBuilder runContextBuilder,
     ISourcesProvider sourcesProvider,
     IServiceProvider serviceProvider,
-    IPipelineEventPublisher pipelineEventPublisher) : IGlobalPipelineModule, IPipeline
+    IPipelineEventPublisher pipelineEventPublisher) : ICompilePipelineModule, IPipeline
 {
 
-    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("pipelines.input-ingestion", GlobalPipelineModuleKinds.InputIngestion, priority: 10);
+    public ModuleMetadata Metadata => ICompilePipelineModule.Meta("pipelines.input-ingestion", CompilePipelineModuleKinds.InputIngestion, priority: 10);
 
     public string CurrentPhaseKey { get; private set; } = string.Empty;
 
-    public async Task<IResult<IGlobalPipelineRunResult>> Run(IGlobalPipelineRunContext context, CancellationToken cancellationToken)
+    public async Task<IResult<ICompilePipelineRunResult>> Run(ICompilePipelineRunContext context, CancellationToken cancellationToken)
     {
         InputIngestionContext inputIngestionContext = new() { RootPath = workingFolder.Path };
 

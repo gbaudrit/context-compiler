@@ -14,7 +14,7 @@ namespace ContextCompiler.Security.Modules.Guards.Artifacts;
 /// </summary>
 public sealed class ArtifactSecurityGuardModule(
     ILogger<ArtifactSecurityGuardModule> logger,
-    IOutput output) : IGlobalPipelineModule
+    IOutput output) : ICompilePipelineModule
 {
     private static readonly string[] DangerousPatterns =
     [
@@ -60,13 +60,13 @@ public sealed class ArtifactSecurityGuardModule(
         "microsoft.com"
     ];
 
-    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta(
+    public ModuleMetadata Metadata => ICompilePipelineModule.Meta(
         "security.guard.artifacts",
-        GlobalPipelineModuleKinds.ArtifactValidation,
+        CompilePipelineModuleKinds.ArtifactValidation,
         priority: 2000
     );
 
-    public Task<IResult<IGlobalPipelineRunResult>> Run(IGlobalPipelineRunContext context, CancellationToken cancellationToken)
+    public Task<IResult<ICompilePipelineRunResult>> Run(ICompilePipelineRunContext context, CancellationToken cancellationToken)
     {
         logger.LogInformation("Starting security scan of output artifacts...");
 

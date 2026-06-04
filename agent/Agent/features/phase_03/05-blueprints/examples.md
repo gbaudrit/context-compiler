@@ -23,7 +23,7 @@ internal sealed class BlueprintComposerModule(
 {
     public ModuleMetadata Metadata => IModule.Meta(
         "blueprints.example.minimal", 
-        GlobalPipelineModuleKinds.PromptComposer, 
+        CompilePipelineModuleKinds.PromptComposer, 
         priority: 10);
 
     public Task Run(CancellationToken cancellationToken)
@@ -113,7 +113,7 @@ internal sealed class BlueprintComposerModule(
 {
     public ModuleMetadata Metadata => IModule.Meta(
         "blueprints.example.complete", 
-        GlobalPipelineModuleKinds.PromptComposer, 
+        CompilePipelineModuleKinds.PromptComposer, 
         priority: 10);
 
     public Task Run(CancellationToken cancellationToken)

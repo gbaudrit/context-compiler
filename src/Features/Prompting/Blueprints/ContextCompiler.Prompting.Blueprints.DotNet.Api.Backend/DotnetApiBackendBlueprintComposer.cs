@@ -3,6 +3,7 @@ using ContextCompiler.Abstractions.Common;
 using ContextCompiler.Prompting.Abstractions;
 using ContextCompiler.Prompting.Abstractions.Prompt;
 using ContextCompiler.Prompting.Abstractions.Pipelines.PromptComposition;
+using ContextCompiler.Modules.Abstractions.Pipelines.Compile;
 
 namespace ContextCompiler.Prompting.Blueprints.DotNet.Api.Backend;
 
@@ -11,7 +12,7 @@ internal sealed class DotNetApiBackendBlueprintComposerModule(
     IBlueprintBuilder blueprintBuilder,
     IBlueprintStepBuilder stepBuilder) : IBlueprintComposerModule
 {
-    public ModuleMetadata Metadata => IGlobalPipelineModule.Meta("blueprints.dotnet.api.backend", GlobalPipelineModuleKinds.OutputComposition, priority: 10);
+    public ModuleMetadata Metadata => ICompilePipelineModule.Meta("blueprints.dotnet.api.backend", CompilePipelineModuleKinds.OutputComposition, priority: 10);
 
     public async Task<IResult<IPromptComposerRunResult>> Run(IPromptComposerRunContext context, CancellationToken cancellationToken)
     {

@@ -1,6 +1,6 @@
 using ContextCompiler.Abstractions.Pipelines;
 using ContextCompiler.Abstractions.Pipelines.InputIngestion;
-using ContextCompiler.Modules.Abstractions;
+using ContextCompiler.Modules.Abstractions.Pipelines.Compile;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -13,7 +13,7 @@ public static class DependencyInjection
     public static IServiceCollection AddInputIngestionPipeline(this IServiceCollection services)
     {
         // Register core services here
-        services.TryAddEnumerable(ServiceDescriptor.Transient<IGlobalPipelineModule, InputIngestionPipeline>());
+        services.TryAddEnumerable(ServiceDescriptor.Transient<ICompilePipelineModule, InputIngestionPipeline>());
 
         return services.AddTransient<IDataEnvelopeBuilder, DataEnvelopeBuilder>()
                        .AddTransient<IDataPartBuilder, DataPartBuilder>()

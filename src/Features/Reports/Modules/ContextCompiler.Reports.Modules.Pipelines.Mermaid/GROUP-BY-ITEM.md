@@ -3,7 +3,7 @@
 ## Problématique adressée
 
 Dans l'architecture de ContextCompiler :
-1. **GlobalPipeline** exécute l'orchestration globale
+1. **CompilePipeline** exécute l'orchestration globale
 2. **InputIngestionPipeline** s'exécute pour traiter les fichiers découverts
 3. **DataPartPipelineRunner** s'exécute pour chaque "part" d'un fichier
 
@@ -12,7 +12,7 @@ Le diagramme doit refléter cette structure **hiérarchique à 3 niveaux** et mo
 ## Structure obtenue avec "Group by Item"
 
 ```
-GlobalPipeline
+CompilePipeline
 ├── Phase Setup
 │   └── Événements
 └── Phase InputIngestion
@@ -56,7 +56,7 @@ Avec la checkbox "Show pipeline hierarchy links" cochée :
 
 ```mermaid
 graph TD
-    GlobalPipeline ==>|sub-pipeline| InputIngestionPipeline
+    CompilePipeline ==>|sub-pipeline| InputIngestionPipeline
     InputIngestionPipeline ==>|sub-pipeline| DataPartPipelineRunner
 ```
 
@@ -125,7 +125,7 @@ function generateDiagramGroupedByPhase() {
 {
   Name: "PhaseStarted",
   PipelineId: "InputIngestionPipeline",         // Via RunContext.Pipeline.Id
-  ParentPipelineId: "GlobalPipeline",            // Via ISubPipelineRunContext
+  ParentPipelineId: "CompilePipeline",            // Via ISubPipelineRunContext
   PhaseId: "Reading",
   ModuleId: "file-reader",
   ItemId: "src/File1.cs",                        // ← Clé du groupement

@@ -87,11 +87,11 @@ public record RestoreFinding(
 );
 ```
 
-## GlobalPipeline Phases
+## CompilePipeline Phases
 
-### Updated GlobalPipelineModuleKinds
+### Updated CompilePipelineModuleKinds
 ```csharp
-public enum GlobalPipelineModuleKinds
+public enum CompilePipelineModuleKinds
 {
 	Setup = 100000,
 	InputDiscovery = 200000,
@@ -130,15 +130,15 @@ public enum GuardStage
 **Responsibility**: Scan cached skills and register as artifacts
 
 ```csharp
-public sealed class SkillsArtifactEnrichmentModule : IGlobalPipelineModule
+public sealed class SkillsArtifactEnrichmentModule : ICompilePipelineModule
 {
-	public ModuleMetadata Metadata => IGlobalPipelineModule.Meta(
+	public ModuleMetadata Metadata => ICompilePipelineModule.Meta(
 		"skills-artifact-enrichment", 
-		GlobalPipelineModuleKinds.PrerequisitesEnrichment, 
+		CompilePipelineModuleKinds.PrerequisitesEnrichment, 
 		priority: 1000);
 
-	public Task<IResult<IGlobalPipelineRunResult>> Run(
-		IGlobalPipelineRunContext context, 
+	public Task<IResult<ICompilePipelineRunResult>> Run(
+		ICompilePipelineRunContext context, 
 		CancellationToken ct)
 	{
 		// 1. Get skills config
@@ -170,15 +170,15 @@ public sealed class SkillsArtifactEnrichmentModule : IGlobalPipelineModule
 **Responsibility**: Validate prerequisites (tools, versions)
 
 ```csharp
-public sealed class ArtifactPrerequisitesGuardModule : IGlobalPipelineModule
+public sealed class ArtifactPrerequisitesGuardModule : ICompilePipelineModule
 {
-	public ModuleMetadata Metadata => IGlobalPipelineModule.Meta(
+	public ModuleMetadata Metadata => ICompilePipelineModule.Meta(
 		"artifact-prerequisites-guard", 
-		GlobalPipelineModuleKinds.ArtifactValidation, 
+		CompilePipelineModuleKinds.ArtifactValidation, 
 		priority: 1000);
 
-	public Task<IResult<IGlobalPipelineRunResult>> Run(
-		IGlobalPipelineRunContext context, 
+	public Task<IResult<ICompilePipelineRunResult>> Run(
+		ICompilePipelineRunContext context, 
 		CancellationToken ct)
 	{
 		// 1. Filter artifacts where Category == Skill
@@ -211,15 +211,15 @@ public sealed class ArtifactPrerequisitesGuardModule : IGlobalPipelineModule
 **Responsibility**: Deep security scan
 
 ```csharp
-public sealed class ArtifactSecurityGuardModule : IGlobalPipelineModule
+public sealed class ArtifactSecurityGuardModule : ICompilePipelineModule
 {
-	public ModuleMetadata Metadata => IGlobalPipelineModule.Meta(
+	public ModuleMetadata Metadata => ICompilePipelineModule.Meta(
 		"artifact-security-guard", 
-		GlobalPipelineModuleKinds.ArtifactValidation, 
+		CompilePipelineModuleKinds.ArtifactValidation, 
 		priority: 2000);
 
-	public Task<IResult<IGlobalPipelineRunResult>> Run(
-		IGlobalPipelineRunContext context, 
+	public Task<IResult<ICompilePipelineRunResult>> Run(
+		ICompilePipelineRunContext context, 
 		CancellationToken ct)
 	{
 		// 1. Filter skill artifacts
@@ -248,15 +248,15 @@ public sealed class ArtifactSecurityGuardModule : IGlobalPipelineModule
 **Responsibility**: Deploy validated artifacts
 
 ```csharp
-public sealed class FilteredArtifactDeploymentModule : IGlobalPipelineModule
+public sealed class FilteredArtifactDeploymentModule : ICompilePipelineModule
 {
-	public ModuleMetadata Metadata => IGlobalPipelineModule.Meta(
+	public ModuleMetadata Metadata => ICompilePipelineModule.Meta(
 		"filtered-artifact-deployment", 
-		GlobalPipelineModuleKinds.ArtifactPersistence, 
+		CompilePipelineModuleKinds.ArtifactPersistence, 
 		priority: 1000);
 
-	public Task<IResult<IGlobalPipelineRunResult>> Run(
-		IGlobalPipelineRunContext context, 
+	public Task<IResult<ICompilePipelineRunResult>> Run(
+		ICompilePipelineRunContext context, 
 		CancellationToken ct)
 	{
 		// 1. Check for critical blocking findings
@@ -381,8 +381,8 @@ Generated: 2025-01-15 14:30:00 UTC
 
 ## Notes
 
-- Modules must implement `IGlobalPipelineModule` with correct signature: `Task<IResult<IGlobalPipelineRunResult>> Run(...)`
-- Use `IGlobalPipelineModule.Meta()` helper for metadata creation
+- Modules must implement `ICompilePipelineModule` with correct signature: `Task<IResult<ICompilePipelineRunResult>> Run(...)`
+- Use `ICompilePipelineModule.Meta()` helper for metadata creation
 - Return `context.Success()` or `context.Failure()` from Run method
 - IGuardian should be injected to add findings
 - Configuration is accessible via `ISkillsLoadConfigProvider.Current`

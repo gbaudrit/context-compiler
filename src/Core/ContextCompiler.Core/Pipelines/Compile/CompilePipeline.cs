@@ -1,26 +1,20 @@
 using ContextCompiler.Abstractions.Configuration;
 using ContextCompiler.Abstractions.Configuration.Sections;
 using ContextCompiler.Abstractions.Guards;
-using ContextCompiler.Abstractions.Models;
 using ContextCompiler.Abstractions.Output;
 using ContextCompiler.Abstractions.Pipelines;
-using ContextCompiler.Abstractions.Pipelines.InputIngestion;
+using ContextCompiler.Abstractions.Pipelines.Compile;
 using ContextCompiler.Abstractions.Pipelines.Events;
 using ContextCompiler.Abstractions.Ports;
 using ContextCompiler.Modules.Abstractions;
+using ContextCompiler.Modules.Abstractions.Pipelines.Compile;
 
 using Microsoft.Extensions.Logging;
 
-namespace ContextCompiler.Core.Pipelines;
+namespace ContextCompiler.Core.Pipelines.Compile;
 
-public sealed record GlobalCompileOutputs(
-    IReadOnlyDictionary<string, string> Artifacts,
-    GraphModel Graph,
-    IReadOnlyList<IPipelineFinding> Findings
-);
-
-public sealed class GlobalPipeline(
-    ILogger<GlobalPipeline> logger,
+public sealed class CompilePipeline(
+    ILogger<CompilePipeline> logger,
     IInputItemContextBuilder docCtxBuilder,
     IFileSystem fs,
     IHasher hasher,
@@ -28,8 +22,8 @@ public sealed class GlobalPipeline(
     IConfigProvider cfgProvider,
     IOutput output,
     IGuardian guardian,
-    IGlobalPipelineRunContextBuilder globalPipelineRunContextBuilder,
-    IPipelineEventPublisher pipelineEventPublisher) : IGlobalPipeline
+    ICompilePipelineRunContextBuilder compilePipelineRunContextBuilder,
+    IPipelineEventPublisher pipelineEventPublisher) : ICompilePipeline
 {
 
     public string CurrentPhaseKey { get; private set; } = string.Empty;
@@ -47,11 +41,11 @@ public sealed class GlobalPipeline(
 
         IRootConfigSection cfg = cfgProvider.Current;
 
-        IOrderedEnumerable<IGlobalPipelineModule> orderedModules = modules.GlobalPipelineModules.OrderBy(c => c.Metadata.Kind);
+        IOrderedEnumerable<ICompilePipelineModule> orderedModules = modules.CompilePipelineModules.OrderBy(c => c.Metadata.Kind);
 
-        logger.LogDebug("Will running global pipeline with {ModuleCount} modules in order :", orderedModules.Count());
+        logger.LogDebug("Will running compile pipeline with {ModuleCount} modules in order :", orderedModules.Count());
         int index = 1;
-        foreach (IGlobalPipelineModule module in orderedModules)
+        foreach (ICompilePipelineModule module in orderedModules)
         {
             logger.LogDebug("{Index}: {ModuleName} (Kind: {ModuleKind} ({ModuleKindValue}), Priority: {ModulePriority})",
                 index, module.Metadata.Id, module.Metadata.Kind, module.Metadata.Kind.ToString("D"), module.Metadata.Priority);
@@ -60,20 +54,20 @@ public sealed class GlobalPipeline(
 
         //await Task.WhenAll(orderedModules.Select(async p =>
         //{
-        //    logger.LogInformation("Running global pipeline module: {ModuleName} (Kind: {ModuleKind}, Priority: {ModulePriority})",
+        //    logger.LogInformation("Running compile pipeline module: {ModuleName} (Kind: {ModuleKind}, Priority: {ModulePriority})",
         //        p.Metadata.Id, p.Metadata.Kind, p.Metadata.Priority);
         //    await p.Run(ct);
         //}));
 
         // Exécution par groupe de Kind, chaque groupe en parallèle,
         // mais les groupes s'exécutent séquentiellement
-        IOrderedEnumerable<IGrouping<int, IGlobalPipelineModule>> groups = orderedModules
+        IOrderedEnumerable<IGrouping<int, ICompilePipelineModule>> groups = orderedModules
             .GroupBy(m => (int)m.Metadata.Kind)
             .OrderBy(g => g.Key);
 
-        foreach (IGrouping<int, IGlobalPipelineModule> group in groups)
+        foreach (IGrouping<int, ICompilePipelineModule> group in groups)
         {
-            logger.LogInformation("Running global pipeline group Kind={Kind} with {Count} modules",
+            logger.LogInformation("Running compile pipeline group Kind={Kind} with {Count} modules",
                 group.Key, group.Count());
 
             CurrentPhaseKey = group.First().Metadata.Kind.ToString();
@@ -81,12 +75,12 @@ public sealed class GlobalPipeline(
             await Task.WhenAll(group.OrderBy(x => x.Metadata.Priority).Select(async module =>
             {
                 logger.LogInformation(
-                    "Running global pipeline module: {ModuleName} (Kind: {ModuleKind}, Priority: {ModulePriority})",
+                    "Running compile pipeline module: {ModuleName} (Kind: {ModuleKind}, Priority: {ModulePriority})",
                     module.Metadata.Id,
                     module.Metadata.Kind,
                     module.Metadata.Priority);
 
-                IGlobalPipelineRunContext runContext = globalPipelineRunContextBuilder
+                ICompilePipelineRunContext runContext = compilePipelineRunContextBuilder
                     .InitNew()
                     .WithPipeline(this)
                     .WithPhaseKey(module.Metadata.Kind.ToString())

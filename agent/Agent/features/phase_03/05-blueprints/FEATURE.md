@@ -141,7 +141,7 @@ internal sealed class BlueprintComposerModule(
 {
     public ModuleMetadata Metadata => IModule.Meta(
         "blueprints.agile.userstory", 
-        GlobalPipelineModuleKinds.PromptComposer, 
+        CompilePipelineModuleKinds.PromptComposer, 
         priority: 10);
 
     public Task Run(CancellationToken cancellationToken)
@@ -328,7 +328,7 @@ Steps are **automatically numbered** using `{{ for.index + 1 }}` in template. Bl
 - Include objectives, constraints, and assumptions
 - Provide step-specific constraints when relevant
 - Package as NuGet for reusability
-- Register as `GlobalPipelineModuleKinds.PromptComposer` with appropriate priority
+- Register as `CompilePipelineModuleKinds.PromptComposer` with appropriate priority
 
 ### MUST NOT
 - Include general practices in Blueprints (use Personas)
@@ -398,7 +398,7 @@ No additional configuration required in `ctxc.config.json` — Blueprints auto-r
    {
        public ModuleMetadata Metadata => IModule.Meta(
            "blueprints.mypattern", 
-           GlobalPipelineModuleKinds.PromptComposer, 
+           CompilePipelineModuleKinds.PromptComposer, 
            priority: 10);
        
        public Task Run(CancellationToken cancellationToken)
