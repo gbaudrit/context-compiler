@@ -5,9 +5,19 @@ public interface ICtxcCompileHandler
     Task<int> HandleAsync(CtxcCompileCommandLine compileCommandLine);
 }
 
+public interface ICtxcAnalyzeHandler
+{
+    Task<int> HandleAsync(CtxcAnalyzeCommandLine commandLine);
+}
+
 public interface ICtxcPrepareHandler
 {
     Task<int> HandleAsync(CtxcPrepareCommandLine commandLine);
+}
+
+public interface ICtxcAutopilotHandler
+{
+    Task<int> HandleAsync(CtxcAutopilotCommandLine commandLine);
 }
 
 public interface ICtxcNewProjectHandler

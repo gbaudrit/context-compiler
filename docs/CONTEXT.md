@@ -1,7 +1,7 @@
 # Context Compiler — Source of Truth (Agent-Ultra)
 
 **Status:** authoritative  
-**Date:** 2025-12-26
+**Date:** 2026-06-08
 
 Context Compiler est un outil **pré-LLM**, déterministe, structuré comme un **compilateur**.  
 Il transforme un dossier de fichiers hétérogènes en un **contexte de raisonnement** gouverné, traçable, et optimisé pour l’usage LLM.
@@ -28,7 +28,10 @@ Il transforme un dossier de fichiers hétérogènes en un **contexte de raisonne
 3) **Preuve** : chaque fragment possède un EvidenceKey (EK) et EvidenceRevision (ER)  
 4) **Sécurité** : les guards sont évalués avant production et avant usage (preflight)  
 5) **Extensibilité** : tout comportement = module
-6) **Skills declaratifs** : les skills sont resolus par des providers modules, restaures en cache, puis materialises sous `.ctxc/compiled/.agents/skills` par un module d'enrichment provider-neutral apres guards (voir `docs/decisions/0010-skills-artifact-enrichment-module-location.md`)
+6) **Analyze avant Prepare** : `Analyze` detecte le projet, produit l'inventaire/classification, puis recommande les modules `prepare` a restaurer (voir `docs/decisions/0011-analyze-prepare-scoped-modules-and-version-overrides.md`)
+7) **Modules par scope** : les modules executables sont separes entre `modules.prepare.packages` et `modules.compile.packages`; `autopilot` enchaine `Analyze -> restore prepare -> Prepare -> restore compile -> Compile`
+8) **Configuration host unique** : les fichiers `ctxc*.json`, leurs `*.overrides.json`, l'environnement et les overrides CLI passent par `HostApplicationBuilder.Configuration`; la conf outil et la conf de traitement restent separees par fichiers/sections (voir `docs/decisions/0012-generic-json-config-overrides.md`)
+9) **Skills declaratifs** : les skills sont resolus par des providers modules, restaures en cache, puis materialises sous `.ctxc/compiled/.agents/skills` par un module d'enrichment provider-neutral apres guards (voir `docs/decisions/0010-skills-artifact-enrichment-module-location.md`)
 
 ---
 
@@ -44,6 +47,13 @@ Il transforme un dossier de fichiers hétérogènes en un **contexte de raisonne
 
 ## 4. Artefacts de sortie
 
+- `.ctxc/prepare/inventory.json` : inventaire produit par `Analyze`
+- `.ctxc/prepare/classification.json` : classification projet produite par `Analyze`
+- `.ctxc/prepare/analyze.plan.json` : plan de recommandations prepare/compile produit par `Analyze`
+- `.ctxc/prepare/prepare.plan.json` : plan Prepare apres execution des modules prepare
+- `.ctxc/ctxc.modules.config.json` : configuration modules schema v1, scopes `prepare` et `compile`
+- `.ctxc/ctxc.modules.versions.json` : overrides optionnels de versions modules par wildcard
+- `*.overrides.json` : surcharge auditable d'un fichier de configuration JSON sibling
 - `prompt.context.md` : contexte final prêt à l’emploi (framing + views)
 - `evidence.index.json` : mapping EK/ER → source → metadata
 - `evidence.graph.json` : graphe canonique
@@ -75,6 +85,10 @@ Il transforme un dossier de fichiers hétérogènes en un **contexte de raisonne
 - **Skill** : asset declaratif normalise par Context Compiler et consommable par un agent ou IDE
 - **Skill Provider** : module runtime qui resout, recupere et normalise des skills depuis une source externe ou interne
 - **Pipeline** : cha�ne d'ex�cution ordonn�e o� chaque �tape re�oit, transforme puis transmet des donn�es
+- **Analyze** : phase core legere qui detecte le projet et recommande les modules a restaurer
+- **Prepare** : phase qui execute les modules prepare restaures apres Analyze et produit la configuration de compilation
+- **Autopilot** : mode CLI qui execute la chaine complete Analyze/Prepare/Compile avec restores modules par scope
+- **Module scope** : groupe de packages executables restaure a un moment donne (`prepare`, `compile`, ou `all`)
 - **Blueprint** : solution orient�e use case qui combine packs, modules et pipeline pour produire un r�sultat final
 - **Fragment** : unité atomique d’information
 - **Compiled Context** : représentation interne canonique

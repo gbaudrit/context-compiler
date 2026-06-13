@@ -30,19 +30,21 @@ internal sealed class PackageDownloader(IOptions<ModulesConfig> configOptions,
         SourceRepository repo = Repository.Factory.GetCoreV3(source.Url);
 
         using SourceCacheContext cache = new();
+        NuGetVersion resolvedVersion = await ResolveRequestedVersionAsync(repo, req.PackageId.Id, req.Version, cache, ct);
+        string resolvedVersionString = resolvedVersion.ToNormalizedString();
 
         string mainPackagePath = await DownloadPackageWithDependenciesAsync(
             repo,
             source,
             req.PackageId.Id,
-            req.Version.Raw,
+            resolvedVersionString,
             req.PackageId.Checksum,
             installRootAbs,
             cache,
             force,
             ct);
 
-        return new PackageDownloadResult(mainPackagePath, _allDownloadedPackages);
+        return new PackageDownloadResult(mainPackagePath, resolvedVersionString, _allDownloadedPackages);
     }
 
     private async Task<string> DownloadPackageWithDependenciesAsync(
@@ -274,6 +276,122 @@ internal sealed class PackageDownloader(IOptions<ModulesConfig> configOptions,
     {
         FindPackageByIdResource resource = await repo.GetResourceAsync<FindPackageByIdResource>(ct);
         return await resource.GetAllVersionsAsync(packageId, cache, NullLogger.Instance, ct);
+    }
+
+    private static async Task<NuGetVersion> ResolveRequestedVersionAsync(
+        SourceRepository repo,
+        string packageId,
+        IModuleRestoreVersion requestedVersion,
+        SourceCacheContext cache,
+        CancellationToken ct)
+    {
+        if (IsExact(requestedVersion) && NuGetVersion.TryParse(requestedVersion.Raw, out NuGetVersion? exact))
+        {
+            return exact;
+        }
+
+        IEnumerable<NuGetVersion> allVersions = await GetAllVersionsAsync(repo, packageId, cache, ct);
+        List<NuGetVersion> matchingVersions =
+        [
+            .. allVersions
+                .Where(v => MatchesRequestedVersion(v, requestedVersion))
+                .OrderByDescending(v => v)
+        ];
+
+        NuGetVersion? bestStable = matchingVersions.FirstOrDefault(v => !v.IsPrerelease);
+        NuGetVersion? best = bestStable ?? matchingVersions.FirstOrDefault();
+        return best ?? throw new InvalidOperationException($"No version found for package {packageId} matching '{requestedVersion.Raw}'.");
+    }
+
+    private static bool IsExact(IModuleRestoreVersion version)
+    {
+        return version.MinBoundOperator == IModuleRestoreVersion.BoundOperator.Exactly
+            && version.MaxBoundOperator == IModuleRestoreVersion.BoundOperator.Exactly
+            && string.Equals(version.Min, version.Max, StringComparison.OrdinalIgnoreCase)
+            && !version.Raw.Contains('*', StringComparison.Ordinal)
+            && !version.Raw.Contains('x', StringComparison.OrdinalIgnoreCase)
+            && !string.Equals(version.Raw, "latest", StringComparison.OrdinalIgnoreCase);
+    }
+
+    private static bool MatchesRequestedVersion(NuGetVersion candidate, IModuleRestoreVersion requestedVersion)
+    {
+        return string.Equals(requestedVersion.Raw, "*", StringComparison.OrdinalIgnoreCase)
+            || string.Equals(requestedVersion.Raw, "latest", StringComparison.OrdinalIgnoreCase)
+            || (requestedVersion.Raw.Contains('*', StringComparison.Ordinal)
+            || requestedVersion.Raw.Contains('x', StringComparison.OrdinalIgnoreCase)
+            ? MatchesWildcardVersion(candidate, requestedVersion.Raw)
+            : MatchesLowerBound(candidate, requestedVersion) && MatchesUpperBound(candidate, requestedVersion));
+    }
+
+    private static bool MatchesWildcardVersion(NuGetVersion candidate, string pattern)
+    {
+        string normalizedPattern = pattern.Replace('x', '*').Replace('X', '*');
+        string[] parts = normalizedPattern.Split('*', StringSplitOptions.None);
+        string candidateVersion = candidate.ToNormalizedString();
+
+        int currentIndex = 0;
+        foreach (string part in parts)
+        {
+            if (part.Length == 0)
+            {
+                continue;
+            }
+
+            int index = candidateVersion.IndexOf(part, currentIndex, StringComparison.OrdinalIgnoreCase);
+            if (index < 0)
+            {
+                return false;
+            }
+
+            currentIndex = index + part.Length;
+        }
+
+        return normalizedPattern.StartsWith('*') || candidateVersion.StartsWith(parts.FirstOrDefault(p => p.Length > 0) ?? "", StringComparison.OrdinalIgnoreCase);
+    }
+
+    private static bool MatchesLowerBound(NuGetVersion candidate, IModuleRestoreVersion requestedVersion)
+    {
+        if (requestedVersion.MinBoundOperator == IModuleRestoreVersion.BoundOperator.Unbounded
+            || string.IsNullOrWhiteSpace(requestedVersion.Min))
+        {
+            return true;
+        }
+
+        NuGetVersion min = NuGetVersion.Parse(requestedVersion.Min);
+        int comparison = candidate.CompareTo(min);
+        return requestedVersion.MinBoundOperator switch
+        {
+            IModuleRestoreVersion.BoundOperator.Exactly => comparison == 0,
+            IModuleRestoreVersion.BoundOperator.GreaterThan => comparison > 0,
+            IModuleRestoreVersion.BoundOperator.GreaterThanOrEqual => comparison >= 0,
+            IModuleRestoreVersion.BoundOperator.LessThan => true,
+            IModuleRestoreVersion.BoundOperator.LessThanOrEqual => true,
+            IModuleRestoreVersion.BoundOperator.Unbounded => true,
+            _ => true,
+        };
+    }
+
+    private static bool MatchesUpperBound(NuGetVersion candidate, IModuleRestoreVersion requestedVersion)
+    {
+        if (requestedVersion.MaxBoundOperator == IModuleRestoreVersion.BoundOperator.Unbounded
+            || string.IsNullOrWhiteSpace(requestedVersion.Max)
+            || string.Equals(requestedVersion.Max, "*", StringComparison.Ordinal))
+        {
+            return true;
+        }
+
+        NuGetVersion max = NuGetVersion.Parse(requestedVersion.Max);
+        int comparison = candidate.CompareTo(max);
+        return requestedVersion.MaxBoundOperator switch
+        {
+            IModuleRestoreVersion.BoundOperator.Exactly => comparison == 0,
+            IModuleRestoreVersion.BoundOperator.GreaterThan => true,
+            IModuleRestoreVersion.BoundOperator.GreaterThanOrEqual => true,
+            IModuleRestoreVersion.BoundOperator.LessThan => comparison < 0,
+            IModuleRestoreVersion.BoundOperator.LessThanOrEqual => comparison <= 0,
+            IModuleRestoreVersion.BoundOperator.Unbounded => true,
+            _ => true,
+        };
     }
 
     private bool VerifyChecksum(string nupkgPath, string? expectedShaBase64)

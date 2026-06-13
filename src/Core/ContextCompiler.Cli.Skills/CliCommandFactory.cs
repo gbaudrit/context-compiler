@@ -27,7 +27,7 @@ public static class CliCommandFactory
         skillsRestore.SetHandler(async cfgFile =>
         {
             ISkillsRestoreHandler handler = sp.GetRequiredService<ISkillsRestoreHandler>();
-            Environment.ExitCode = await handler.HandleAsync(cfgFile);
+            Environment.ExitCode = await handler.HandleAsync(CancellationToken.None);
         }, configOpt);
 
         skills.AddCommand(skillsPlan);

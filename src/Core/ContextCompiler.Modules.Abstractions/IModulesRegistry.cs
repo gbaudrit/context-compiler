@@ -1,4 +1,5 @@
 using ContextCompiler.Modules.Abstractions.CompilePipeline;
+using ContextCompiler.Modules.Abstractions.Pipelines.Analyze;
 using ContextCompiler.Modules.Abstractions.Pipelines.Compile;
 using ContextCompiler.Modules.Abstractions.Pipelines.Prepare;
 using ContextCompiler.Modules.Abstractions.Prompts;
@@ -16,6 +17,7 @@ public interface IModulesRegistry
     IReadOnlyList<IGraphExporterModule> GraphExporters { get; }
     IReadOnlyList<IViewRendererModule> ViewRenderers { get; }
     IReadOnlyList<ICompilePipelineModule> CompilePipelineModules { get; }
+    IReadOnlyList<IAnalyzePipelineModule> AnalyzePipelineModules { get; }
     IReadOnlyList<IInputIngestionPipelineModule> InputIngestionPipelineModules { get; }
     IReadOnlyList<IDataPartPipelineModule> DataPartPipelineModules { get; }
     IReadOnlyList<IPreparePipelineModule> PreparePipelineModules { get; }

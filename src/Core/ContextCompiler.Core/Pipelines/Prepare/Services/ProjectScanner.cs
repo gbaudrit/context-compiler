@@ -77,6 +77,7 @@ internal sealed class ProjectScanner(
 
         HashSet<string> extensions = new([], StringComparer.OrdinalIgnoreCase);
         HashSet<string> directories = new([], StringComparer.OrdinalIgnoreCase);
+        HashSet<string> files = new([], StringComparer.OrdinalIgnoreCase);
         HashSet<string> technologies = new([], StringComparer.OrdinalIgnoreCase);
         int fileCount = 0;
 
@@ -109,12 +110,15 @@ internal sealed class ProjectScanner(
             {
                 _ = technologies.Add(fileName);
             }
+
+            _ = files.Add(Path.Combine(directoryRelative ?? "", fileName));
         }
 
         ProjectInventory inventory = new()
         {
             Extensions = [.. extensions.OrderBy(e => e, StringComparer.OrdinalIgnoreCase)],
             Directories = [.. directories.OrderBy(d => d, StringComparer.OrdinalIgnoreCase)],
+            Files = [.. files.OrderBy(d => d, StringComparer.OrdinalIgnoreCase)],
             Technologies = [.. technologies.OrderBy(t => t, StringComparer.OrdinalIgnoreCase)],
             FileCount = fileCount,
         };

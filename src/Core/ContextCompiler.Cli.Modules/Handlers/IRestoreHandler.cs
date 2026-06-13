@@ -2,5 +2,5 @@ namespace ContextCompiler.Cli.Modules.Handlers;
 
 public interface IRestoreHandler
 {
-    Task<int> HandleAsync(bool debug, string cfgFile, bool force, bool clean, IReadOnlyDictionary<string, string> runModules);
+    Task<int> HandleAsync(string cfgFile, bool force, bool clean, IReadOnlyDictionary<string, string> runModules, CancellationToken cancellationToken, string scope = "all");
 }

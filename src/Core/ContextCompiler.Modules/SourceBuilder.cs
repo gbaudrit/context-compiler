@@ -10,17 +10,20 @@ internal sealed class SourceBuilder : ISourceBuilder
         public required string Id { get; init; }
         public required string Provider { get; init; }
         public required Uri Url { get; init; }
+        public required bool ValidatePackagesSignature { get; init; }
     }
 
     private string _id = string.Empty;
     private string _provider = string.Empty;
     private Uri? _url;
+    private bool _validatePackagesSignature;
 
     public ISourceBuilder InitNew()
     {
         _id = string.Empty;
         _provider = string.Empty;
         _url = null;
+        _validatePackagesSignature = true;
         return this;
     }
 
@@ -42,6 +45,12 @@ internal sealed class SourceBuilder : ISourceBuilder
         return this;
     }
 
+    public ISourceBuilder WithValidatePackagesSignature(bool validatePackagesSignature)
+    {
+        _validatePackagesSignature = validatePackagesSignature;
+        return this;
+    }
+
     public IModuleSource Build()
     {
         return string.IsNullOrWhiteSpace(_id)
@@ -54,7 +63,8 @@ internal sealed class SourceBuilder : ISourceBuilder
             {
                 Id = _id,
                 Provider = _provider,
-                Url = _url
+                Url = _url,
+                ValidatePackagesSignature = _validatePackagesSignature
             };
     }
 

@@ -33,6 +33,32 @@ namespace ContextCompiler.Modules.Loader
                     return true;
                 }
 
+                if (string.Equals(version, "*", StringComparison.OrdinalIgnoreCase)
+                    || string.Equals(version, "latest", StringComparison.OrdinalIgnoreCase))
+                {
+                    moduleRestoreVersion = moduleRestoreVersionBuilder.InitNew()
+                                                                     .WithRaw(version)
+                                                                     .WithMin("0.0.0")
+                                                                     .WithMax("*")
+                                                                     .WithMinBoundOperator(IModuleRestoreVersion.BoundOperator.GreaterThanOrEqual)
+                                                                     .WithMaxBoundOperator(IModuleRestoreVersion.BoundOperator.Unbounded)
+                                                                     .Build();
+                    return true;
+                }
+
+                // Handle prefix wildcard patterns (e.g., "0.1.0-alpha.*")
+                if (version.Contains('*', StringComparison.Ordinal) || version.EndsWith(".x", StringComparison.OrdinalIgnoreCase))
+                {
+                    moduleRestoreVersion = moduleRestoreVersionBuilder.InitNew()
+                                                                     .WithRaw(version)
+                                                                     .WithMin("0.0.0")
+                                                                     .WithMax("*")
+                                                                     .WithMinBoundOperator(IModuleRestoreVersion.BoundOperator.GreaterThanOrEqual)
+                                                                     .WithMaxBoundOperator(IModuleRestoreVersion.BoundOperator.Unbounded)
+                                                                     .Build();
+                    return true;
+                }
+
                 // Handle tilde range (e.g., "~1.2.3" -> allows patch-level changes: >=1.2.3 <1.3.0)
                 Match tildeMatch = TildeRangeRegex().Match(version);
                 if (tildeMatch.Success)

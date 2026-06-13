@@ -9,18 +9,21 @@ namespace ContextCompiler.Modules
         {
             public required bool Success { get; init; }
             public required string RestoredPath { get; init; }
+            public required string ResolvedVersion { get; init; }
             public required IModuleMetadatas Metadatas { get; init; }
         }
 
 
         private bool _success;
         private string _restoredPath = string.Empty;
+        private string _resolvedVersion = string.Empty;
         private IModuleMetadatas? _metadatas;
 
         public IModuleRestoreRequestResultBuilder InitNew()
         {
             _success = false;
             _restoredPath = string.Empty;
+            _resolvedVersion = string.Empty;
             _metadatas = null;
             return this;
         }
@@ -29,6 +32,7 @@ namespace ContextCompiler.Modules
         {
             _success = result.Success;
             _restoredPath = result.RestoredPath;
+            _resolvedVersion = result.ResolvedVersion;
             _metadatas = result.Metadatas;
             return this;
         }
@@ -45,6 +49,12 @@ namespace ContextCompiler.Modules
             return this;
         }
 
+        public IModuleRestoreRequestResultBuilder WithResolvedVersion(string resolvedVersion)
+        {
+            _resolvedVersion = resolvedVersion;
+            return this;
+        }
+
         public IModuleRestoreRequestResultBuilder WithMetadatas(IModuleMetadatas metadatas)
         {
             _metadatas = metadatas;
@@ -57,6 +67,7 @@ namespace ContextCompiler.Modules
             {
                 Success = _success,
                 RestoredPath = _restoredPath,
+                ResolvedVersion = _resolvedVersion,
                 Metadatas = _metadatas ?? throw new InvalidOperationException("Metadatas must be set before building.")
             };
         }

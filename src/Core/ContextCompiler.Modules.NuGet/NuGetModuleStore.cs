@@ -1,7 +1,9 @@
+using ContextCompiler.Abstractions.Storage;
 using ContextCompiler.Modules.Abstractions;
 using ContextCompiler.Modules.Abstractions.Configuration;
 using ContextCompiler.Modules.Abstractions.Loading;
 
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -11,6 +13,7 @@ using NuGet.Packaging;
 namespace ContextCompiler.Modules.NuGet;
 
 public sealed class NuGetModuleStore(IOptions<ModulesConfig> cfgOptions,
+                                     [FromKeyedServices(StoreKeys.Root)] IStore rootStore,
                                      IModuleMetadatasBuilder moduleMetadatasBuilder,
                                      IModuleRestoreRequestResultBuilder resultBuilder,
                                      ITrustPolicy trustPolicy,
@@ -22,13 +25,14 @@ public sealed class NuGetModuleStore(IOptions<ModulesConfig> cfgOptions,
     private readonly ITrustPolicy _policy = trustPolicy;
     private ModulesConfig Cfg => cfgOptions.Value;
 
-    public async Task<IModuleRestoreRequestResult> RestoreAsync(IDeclaredModule req, bool force, CancellationToken ct)
+    public async Task<IModuleRestoreRequestResult> RestoreAsync(IDeclaredModule req, IModuleSource source, bool force, CancellationToken ct)
     {
-        ModuleSource source = Cfg.Sources.Single(s => string.Equals(s.Name, req.PackageId.Source.Id, StringComparison.OrdinalIgnoreCase));
-        _policy.ValidateSource(source);
+        ModuleSource normalizedSource = NormalizeSource(Cfg.Sources.Single(s =>
+            string.Equals(s.Name, source.Id, StringComparison.OrdinalIgnoreCase)));
+        _policy.ValidateSource(normalizedSource);
         _policy.ValidatePackageId(req.PackageId.Id);
 
-        string installRootAbs = Path.GetFullPath(Cfg.InstallRoot);
+        string installRootAbs = ResolveRootPath(Cfg.InstallRoot);
         _ = Directory.CreateDirectory(installRootAbs);
 
         if (Cfg.Offline || string.Equals(Cfg.Mode, "Offline", StringComparison.OrdinalIgnoreCase))
@@ -38,12 +42,12 @@ public sealed class NuGetModuleStore(IOptions<ModulesConfig> cfgOptions,
             return BuildRestoreResult(nupkgPath, req.PackageId.Id, req.Version.Raw, req.PackageId.Checksum, validateSignature: !Cfg.Offline, force);
         }
 
-        PackageDownloadResult downloadResult = await packageDownloader.DownloadPackageAsync(req, source, installRootAbs, force, ct);
+        PackageDownloadResult downloadResult = await packageDownloader.DownloadPackageAsync(req, normalizedSource, installRootAbs, force, ct);
 
         foreach (DownloadedPackageInfo depInfo in downloadResult.AllPackages)
         {
             if (force || !string.Equals(depInfo.PackageId, req.PackageId.Id, StringComparison.OrdinalIgnoreCase) ||
-                !string.Equals(depInfo.Version, req.Version.Raw, StringComparison.OrdinalIgnoreCase))
+                !string.Equals(depInfo.Version, downloadResult.ResolvedVersion, StringComparison.OrdinalIgnoreCase))
             {
                 logger.LogInformation("Extracting dependency {PackageId} {Version}", depInfo.PackageId, depInfo.Version);
                 NuGetPackageMetadata depMetadata = metadatasExtractor.ExtractMetadatas(depInfo.NupkgPath);
@@ -52,10 +56,23 @@ public sealed class NuGetModuleStore(IOptions<ModulesConfig> cfgOptions,
             }
         }
 
-        return BuildRestoreResult(downloadResult.MainPackagePath, req.PackageId.Id, req.Version.Raw, req.PackageId.Checksum, validateSignature: !Cfg.Offline, force);
+        return BuildRestoreResult(downloadResult.MainPackagePath, req.PackageId.Id, downloadResult.ResolvedVersion, req.PackageId.Checksum, validateSignature: source.ValidatePackagesSignature, force);
     }
 
-    private IModuleRestoreRequestResult BuildRestoreResult(string nupkgPath, string packageId, string version, string checksum, bool validateSignature, bool force)
+    private ModuleSource NormalizeSource(ModuleSource source)
+    {
+        return Uri.TryCreate(source.Url, UriKind.Absolute, out _)
+            ? source
+            : new ModuleSource
+            {
+                Name = source.Name,
+                Url = ResolveRootPath(source.Url),
+                Trusted = source.Trusted,
+                Provider = source.Provider,
+            };
+    }
+
+    private IModuleRestoreRequestResult BuildRestoreResult(string nupkgPath, string packageId, string resolvedVersion, string checksum, bool validateSignature, bool force)
     {
         NuGetPackageMetadata packageMetadata = metadatasExtractor.ExtractMetadatas(nupkgPath);
         (bool isSigned, string? note) = CheckSignedBestEffort(nupkgPath);
@@ -65,7 +82,7 @@ public sealed class NuGetModuleStore(IOptions<ModulesConfig> cfgOptions,
             _policy.ValidateSignature(isSigned, note);
         }
 
-        string extractedRoot = ExtractToImmutableCache(nupkgPath, packageId, version, checksum, force);
+        string extractedRoot = ExtractToImmutableCache(nupkgPath, packageId, resolvedVersion, checksum, force);
 
         IModuleMetadatas metadatas = moduleMetadatasBuilder
             .InitNew()
@@ -81,6 +98,7 @@ public sealed class NuGetModuleStore(IOptions<ModulesConfig> cfgOptions,
             .InitNew()
             .WithSuccess(true)
             .WithRestoredPath(extractedRoot)
+            .WithResolvedVersion(resolvedVersion)
             .WithMetadatas(metadatas)
             .Build();
     }
@@ -95,7 +113,7 @@ public sealed class NuGetModuleStore(IOptions<ModulesConfig> cfgOptions,
     private string ExtractToImmutableCache(string nupkgPath, string packageId, string version, string shaBase64, bool force)
     {
         string hashDir = shaBase64.Replace("/", "_").Replace("+", "-");
-        string packageDir = Path.Combine(Path.GetFullPath(Cfg.InstallRoot), packageId);
+        string packageDir = Path.Combine(ResolveRootPath(Cfg.InstallRoot), packageId);
         string dest = Path.Combine(packageDir, version, hashDir);
 
         if (!force && Directory.Exists(dest))
@@ -230,7 +248,14 @@ public sealed class NuGetModuleStore(IOptions<ModulesConfig> cfgOptions,
 
     private string? FindCachedNupkg(string packageId, string version)
     {
-        string p = Path.Combine(Path.GetFullPath(Cfg.InstallRoot), "_nupkg", packageId, version, $"{packageId}.{version}.nupkg");
+        string p = Path.Combine(ResolveRootPath(Cfg.InstallRoot), "_nupkg", packageId, version, $"{packageId}.{version}.nupkg");
         return File.Exists(p) ? p : null;
+    }
+
+    private string ResolveRootPath(string path)
+    {
+        return Path.IsPathRooted(path)
+            ? path
+            : rootStore.Container.GetResource(path).Uri.AbsolutePath;
     }
 }

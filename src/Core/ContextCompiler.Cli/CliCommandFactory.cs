@@ -96,6 +96,24 @@ public static class CliCommandFactory
         });
         root.AddCommand(compile);
 
+        // analyze
+        Command analyze = new("analyze", "Analyze a project and recommend prepare modules");
+        Option<string?> analyzeGoalOpt = new("--goal", description: "User intent (optional)");
+        Option<string?> analyzeDescriptionOpt = new("--description", description: "Free-form description (optional)");
+        analyze.AddOption(_inputOpt);
+        analyze.AddOption(analyzeGoalOpt);
+        analyze.AddOption(analyzeDescriptionOpt);
+        analyze.SetHandler(async context =>
+        {
+            string input = context.ParseResult.GetValueForOption(_inputOpt) ?? ".";
+            string? goal = context.ParseResult.GetValueForOption(analyzeGoalOpt);
+            string? description = context.ParseResult.GetValueForOption(analyzeDescriptionOpt);
+
+            ICtxcAnalyzeHandler handler = sp.GetRequiredService<ICtxcAnalyzeHandler>();
+            Environment.ExitCode = await handler.HandleAsync(new CtxcAnalyzeCommandLine(input, goal, description));
+        });
+        root.AddCommand(analyze);
+
         // prepare
         Command prepare = new("prepare", "Prepare a project: scan, classify, and generate ctxc configuration files (no file content is read or sent to any LLM)");
         Option<string?> prepareGoalOpt = new("--goal", description: "User intent (optional)");
@@ -115,6 +133,36 @@ public static class CliCommandFactory
             Environment.ExitCode = await handler.HandleAsync(prepareCommandLine);
         });
         root.AddCommand(prepare);
+
+        // autopilot
+        Command autopilot = new("autopilot", "Analyze, restore, prepare, restore, then compile");
+        Option<string> autopilotOutputOpt = new("--output");
+        Option<string?> autopilotContextOpt = new("--context");
+        Option<string?> autopilotGoalOpt = new("--goal", description: "User intent (optional)");
+        Option<string?> autopilotDescriptionOpt = new("--description", description: "Free-form description (optional)");
+        Option<bool> autopilotForceOpt = new("--force", () => false, "Force module restore");
+        autopilot.AddOption(_inputOpt);
+        autopilot.AddOption(autopilotOutputOpt);
+        autopilot.AddOption(autopilotContextOpt);
+        autopilot.AddOption(autopilotGoalOpt);
+        autopilot.AddOption(autopilotDescriptionOpt);
+        autopilot.AddOption(autopilotForceOpt);
+        autopilot.SetHandler(async context =>
+        {
+            string input = context.ParseResult.GetValueForOption(_inputOpt) ?? ".";
+            string name = context.ParseResult.GetValueForOption(autopilotContextOpt) ?? "";
+            string output = context.ParseResult.GetValueForOption(autopilotOutputOpt) ?? "";
+
+            ICtxcAutopilotHandler handler = sp.GetRequiredService<ICtxcAutopilotHandler>();
+            Environment.ExitCode = await handler.HandleAsync(new CtxcAutopilotCommandLine(
+                input,
+                output,
+                name,
+                context.ParseResult.GetValueForOption(autopilotGoalOpt),
+                context.ParseResult.GetValueForOption(autopilotDescriptionOpt),
+                context.ParseResult.GetValueForOption(autopilotForceOpt)));
+        });
+        root.AddCommand(autopilot);
 
         // new
         Command newCommand = new("new", "Create new project");

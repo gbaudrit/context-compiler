@@ -24,8 +24,7 @@ public static class DependencyInjection
             .AddTransient<IInventoryRenderer, InventoryRenderer>()
             .AddTransient<IPrepareReportRenderer, PrepareReportRenderer>();
 
-        services.TryAddEnumerable(ServiceDescriptor.Transient<IPreparePipelineModule, ProjectInventoryModule>());
-        services.TryAddEnumerable(ServiceDescriptor.Transient<IPreparePipelineModule, ProjectClassificationModule>());
+        services.TryAddEnumerable(ServiceDescriptor.Transient<IPreparePipelineModule, AnalyzeArtifactsHydrationModule>());
         services.TryAddEnumerable(ServiceDescriptor.Transient<IPreparePipelineModule, ConfigurationPlanningModule>());
         services.TryAddEnumerable(ServiceDescriptor.Transient<IPreparePipelineModule, InventoryRenderingModule>());
         services.TryAddEnumerable(ServiceDescriptor.Transient<IPreparePipelineModule, ConfigurationRenderingModule>());

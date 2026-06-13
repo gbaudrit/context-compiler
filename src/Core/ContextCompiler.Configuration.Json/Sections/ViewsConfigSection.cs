@@ -2,11 +2,14 @@ using System.Text.Json.Serialization;
 
 using ContextCompiler.Abstractions.Configuration.Sections;
 
+using Microsoft.Extensions.Configuration;
+
 namespace ContextCompiler.Configuration.Json.Sections;
 
 public sealed class ViewsConfigSection : IViewsConfigSection
 {
     [JsonPropertyName("inline")] public bool? Inline { get; set; }
+    [ConfigurationKeyName("views")]
     [JsonPropertyName("views")] public List<ViewConfigSection> ViewsValue { get; set; } = [];
 
     [JsonIgnore]

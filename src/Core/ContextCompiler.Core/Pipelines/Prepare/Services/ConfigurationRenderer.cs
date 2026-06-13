@@ -32,6 +32,7 @@ internal sealed class ConfigurationRenderer(
         await rootStore.Init();
 
         await RenderCtxcConfigAsync(plan, cancellationToken);
+        await RenderPreparePlanAsync(plan, cancellationToken);
         await RenderModulesConfigAsync(plan, cancellationToken);
         await RenderSkillsConfigAsync(plan, cancellationToken);
     }
@@ -60,33 +61,39 @@ internal sealed class ConfigurationRenderer(
 
     private async Task RenderModulesConfigAsync(PreparePlan plan, CancellationToken cancellationToken)
     {
-        Dictionary<string, string> packages = new([], StringComparer.OrdinalIgnoreCase);
+        Dictionary<string, string> compilePackages = new([], StringComparer.OrdinalIgnoreCase);
         foreach (string pipeline in plan.RecommendedPipelines)
         {
-            packages[pipeline] = "*";
+            compilePackages[pipeline] = "*";
         }
+
+        Dictionary<string, string> preparePackages = await ReadExistingPreparePackagesAsync(cancellationToken);
 
         ModulesEnvelope envelope = new()
         {
-            SchemaVersion = 2,
+            SchemaVersion = 1,
             Modules = new ModulesSection
             {
-                Mode = "Locked",
-                InstallRoot = ".ctxc/modules",
-                Offline = false,
-                LockFile = ".ctxc/ctxc.modules.lock.json",
-                RunModulesFile = ".ctxc/ctxc.modules.run.json",
-                QuarantineRoot = ".ctxc/quarantine",
-                ConfigurationModule = "ContextCompiler.Configuration.Json",
+                InstallRoot = "modules",
+                LockFile = "ctxc.modules.lock.json",
+                VersionOverridesFile = "ctxc.modules.versions.json",
+                RunModulesFile = "ctxc.modules.run.json",
                 Sources =
                 [
                     new ModuleSourceEntry
                     {
-                        Name = "nuget.org",
-                        Url = "https://api.nuget.org/v3/index.json",
+                        Name = "local",
+                        Url = "local-packages",
                         Trusted = true,
                         Provider = "nuget",
                     },
+                    new ModuleSourceEntry
+                    {
+                        Name = "default",
+                        Url = "https://api.nuget.org/v3/index.json",
+                        Trusted = true,
+                        Provider = "nuget",
+                    }
                 ],
                 Trust = new TrustSection
                 {
@@ -97,7 +104,14 @@ internal sealed class ConfigurationRenderer(
                     AllowedAuthors = [],
                     AllowedRepositoryPrefixes = [],
                 },
-                Packages = packages,
+                Prepare = new ModuleScopeSection
+                {
+                    Packages = preparePackages,
+                },
+                Compile = new ModuleScopeSection
+                {
+                    Packages = compilePackages,
+                },
             },
         };
 
@@ -105,12 +119,51 @@ internal sealed class ConfigurationRenderer(
         await WriteAsync("ctxc.modules.config.json", json, cancellationToken);
     }
 
+    private async Task RenderPreparePlanAsync(PreparePlan plan, CancellationToken cancellationToken)
+    {
+        PreparePlanEnvelope envelope = new()
+        {
+            SchemaVersion = 1,
+            RecommendedSkills = [.. plan.RecommendedSkills],
+            RecommendedPipelines = [.. plan.RecommendedPipelines],
+            IncludePatterns = [.. plan.IncludePatterns],
+            ExcludePatterns = [.. plan.ExcludePatterns],
+        };
+
+        string json = JsonSerializer.Serialize(envelope, EnvelopeJsonOptions);
+        await WriteAsync(Path.Combine("prepare", "prepare.plan.json"), json, cancellationToken);
+    }
+
+    private async Task<Dictionary<string, string>> ReadExistingPreparePackagesAsync(CancellationToken cancellationToken)
+    {
+        IStoreResource resource = rootStore.Container.GetResource("ctxc.modules.config.json");
+        if (!await resource.Exists())
+        {
+            return new Dictionary<string, string>([], StringComparer.OrdinalIgnoreCase);
+        }
+
+        try
+        {
+            ModulesEnvelope? existing = JsonSerializer.Deserialize<ModulesEnvelope>(
+                await resource.ReadAllText(cancellationToken),
+                EnvelopeJsonOptions);
+
+            return existing?.Modules.Prepare.Packages is null
+                ? new Dictionary<string, string>([], StringComparer.OrdinalIgnoreCase)
+                : new Dictionary<string, string>(existing.Modules.Prepare.Packages, StringComparer.OrdinalIgnoreCase);
+        }
+        catch
+        {
+            return new Dictionary<string, string>([], StringComparer.OrdinalIgnoreCase);
+        }
+    }
+
     private async Task RenderSkillsConfigAsync(PreparePlan plan, CancellationToken cancellationToken)
     {
         Dictionary<string, string> items = new([], StringComparer.OrdinalIgnoreCase);
         foreach (string skill in plan.RecommendedSkills)
         {
-            items[skill] = "*";
+            items[skill] = "latest";
         }
 
         SkillsEnvelope envelope = new()
@@ -144,15 +197,18 @@ internal sealed class ConfigurationRenderer(
 
     private sealed class ModulesSection
     {
-        [JsonPropertyName("mode")] public string Mode { get; set; } = "Locked";
-        [JsonPropertyName("installRoot")] public string InstallRoot { get; set; } = ".ctxc/modules";
-        [JsonPropertyName("offline")] public bool Offline { get; set; }
-        [JsonPropertyName("lockFile")] public string LockFile { get; set; } = ".ctxc/ctxc.modules.lock.json";
-        [JsonPropertyName("runModulesFile")] public string RunModulesFile { get; set; } = ".ctxc/ctxc.modules.run.json";
-        [JsonPropertyName("quarantineRoot")] public string QuarantineRoot { get; set; } = ".ctxc/quarantine";
-        [JsonPropertyName("configurationModule")] public string ConfigurationModule { get; set; } = "ContextCompiler.Configuration.Json";
+        [JsonPropertyName("installRoot")] public string InstallRoot { get; set; } = "modules";
+        [JsonPropertyName("lockFile")] public string LockFile { get; set; } = "ctxc.modules.lock.json";
+        [JsonPropertyName("versionOverridesFile")] public string VersionOverridesFile { get; set; } = "ctxc.modules.versions.json";
+        [JsonPropertyName("runModulesFile")] public string RunModulesFile { get; set; } = "ctxc.modules.run.json";
         [JsonPropertyName("sources")] public List<ModuleSourceEntry> Sources { get; set; } = [];
         [JsonPropertyName("trust")] public TrustSection Trust { get; set; } = new();
+        [JsonPropertyName("prepare")] public ModuleScopeSection Prepare { get; set; } = new();
+        [JsonPropertyName("compile")] public ModuleScopeSection Compile { get; set; } = new();
+    }
+
+    private sealed class ModuleScopeSection
+    {
         [JsonPropertyName("packages")] public Dictionary<string, string> Packages { get; set; } = [];
     }
 
@@ -187,5 +243,13 @@ internal sealed class ConfigurationRenderer(
         [JsonPropertyName("lockFile")] public string LockFile { get; set; } = ".ctxc/ctxc.skills.lock.json";
         [JsonPropertyName("items")] public Dictionary<string, string> Items { get; set; } = [];
     }
-}
 
+    private sealed class PreparePlanEnvelope
+    {
+        [JsonPropertyName("schemaVersion")] public int SchemaVersion { get; set; }
+        [JsonPropertyName("recommendedSkills")] public List<string> RecommendedSkills { get; set; } = [];
+        [JsonPropertyName("recommendedPipelines")] public List<string> RecommendedPipelines { get; set; } = [];
+        [JsonPropertyName("includePatterns")] public List<string> IncludePatterns { get; set; } = [];
+        [JsonPropertyName("excludePatterns")] public List<string> ExcludePatterns { get; set; } = [];
+    }
+}

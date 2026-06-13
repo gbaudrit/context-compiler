@@ -6,6 +6,7 @@ public interface IModuleRestoreRequestResultBuilder
     IModuleRestoreRequestResultBuilder InitNewFrom(IModuleRestoreRequestResult result);
     IModuleRestoreRequestResultBuilder WithSuccess(bool success);
     IModuleRestoreRequestResultBuilder WithRestoredPath(string restoredPath);
+    IModuleRestoreRequestResultBuilder WithResolvedVersion(string resolvedVersion);
     IModuleRestoreRequestResultBuilder WithMetadatas(IModuleMetadatas metadatas);
     IModuleRestoreRequestResult Build();
 }

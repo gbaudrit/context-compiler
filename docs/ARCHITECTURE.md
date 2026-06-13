@@ -1,50 +1,60 @@
 # Architecture (Agent-Ultra)
 
-## 1) Mod√®le compilateur
+## 1) Modele compilateur
 
-Entr√©e (dossier)
-‚Üí (A) Global Pipeline
-‚Üí (B) √©tape Documents
-‚Üí (C) Input Ingestion Pipeline (par input item)
-‚Üí (D) Compiled Context (canonique)
-‚Üí Artefacts
+Entree (dossier)
+-> (A) Analyze Pipeline
+-> (B) restore modules prepare
+-> (C) Prepare Pipeline
+-> (D) restore modules compile
+-> (E) Compile / Global Pipeline
+-> (F) Input Ingestion Pipeline (par input item)
+-> (G) Compiled Context (canonique)
+-> Artefacts
 
 ## 1.1) Building blocks
 
-- **Module** = une capacitÈ atomique branchÈe dans un pipeline
-- **Pack** = un regroupement cohÈrent de modules prÍts ‡ l'emploi
-- **Pipeline** = la cinÈmatique d'exÈcution et de transformation des donnÈes
-- **Blueprint** = un assemblage orientÈ use case de packs, modules et pipeline
+- **Module** = une capacite atomique branchee dans un pipeline
+- **Module scope** = ensemble de packages executables restaures a un moment donne (`prepare`, `compile`, `all`)
+- **Pack** = un regroupement coherent de modules prets a l'emploi
+- **Pipeline** = la cinematique d'execution et de transformation des donnees
+- **Analyze** = phase core legere de detection et recommandation de modules
+- **Prepare** = phase d'execution des modules prepare restaures apres Analyze
+- **Blueprint** = un assemblage oriente use case de packs, modules et pipeline
 
-En pratique, ContextCompiler assemble des modules en packs, exÈcute ces capacitÈs dans un pipeline dÈterministe, puis produit une solution exploitable via un blueprint.
-
+En pratique, ContextCompiler assemble des modules en packs, execute ces capacites dans un pipeline deterministe, puis produit une solution exploitable via un blueprint.
 
 ## 2) Couches
 
 ### Abstractions
-- Contrats purs : mod√®les, ports, interfaces modules
-- Aucune d√©pendance IO
-- Surface stable versionn√©e (PluginApiVersion)
+- Contrats purs : modeles, ports, interfaces modules
+- Aucune dependance IO
+- Surface stable versionnee (PluginApiVersion)
 
 ### Core
-- Pipeline global + pipeline input ingestion imbriqu√©
+- Analyze Pipeline
+- Prepare Pipeline
+- Compile / Global Pipeline + pipeline input ingestion imbrique
 - Compiled Context
 - Evidence system
 - Orchestration (deterministic ordering)
-- M√©canismes: sorting stable, budgets, aggregation
+- Mecanismes: sorting stable, budgets, aggregation
 
 ### Infrastructure
 - IFileSystem (PhysicalFileSystem)
 - IHasher (sha256 + simhash)
-- Module discovery/loading (Phase 1: assemblies; Phase 2: NuGet + ALC)
+- Module discovery/loading (NuGet + ALC)
+- Module restore, version resolution, scoped lock/load
 - Serialization / artifact writing
 
 ### Modules
+- Analyze modules (core only, lightweight detection)
+- Prepare modules (technology-specific project analysis before compile)
 - FileReaders (type fichier)
-- DataReaders (shape de donn√©es)
+- DataReaders (shape de donnees)
 - EngineeringModules (nettoyage, normalisation, enrichissement)
-- Transcoders (DataEnvelope ‚Üí fragments du contexte compilÈ)
-- Guards (s√©curit√©)
+- Transcoders (DataEnvelope -> fragments du contexte compile)
+- Guards (securite)
 - Views (projections)
 - Templates (framing)
 - GraphExporters (dot/mermaid/json)
@@ -55,17 +65,18 @@ En pratique, ContextCompiler assemble des modules en packs, exÈcute ces capacitÈ
 
 ## 3) Invariants architecturaux
 
-- Core ne doit pas conna√Ætre le filesystem concret
-- Modules stateless (pas d‚Äô√©tat global)
+- Core ne doit pas connaitre le filesystem concret
+- Modules stateless (pas d'etat global)
 - Tout ordering explicite (priority + stable sort)
-- Les guards ne doivent jamais √™tre ‚Äúsilencieux‚Äù
-- Outputs d√©terministes (snapshots testables)
+- `Analyze` doit recommander, pas embarquer l'analyse specialisee profonde
+- Les modules executables sont separes par scope `prepare` et `compile`
+- La source locale canonique est `@local`
+- Les guards ne doivent jamais etre silencieux
+- Outputs deterministes (snapshots testables)
 
 ## 4) Testing philosophy
 
 - Unit tests sur pipelines (mock IFileSystem/IPluginRegistry)
-- Golden tests sur outputs d‚Äôun dossier fixture
+- Golden tests sur outputs d'un dossier fixture
 - Snapshot tests sur JSON/MD
 - MSTest + Moq + FluentAssertions
-
-

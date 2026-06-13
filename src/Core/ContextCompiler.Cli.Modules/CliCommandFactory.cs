@@ -18,20 +18,21 @@ public static class CliCommandFactory
         Option<bool> cleanOpt = new("--clean", () => false, "Clean operation");
         Option<bool> devToolsOpt = new("--dev-tools", () => false, "Add Dev tools modules");
         Option<bool> debugOpt = new("--debug", () => false, "Enable debug");
+        Option<string> scopeOpt = new("--scope", () => "all", "Restore scope: prepare|compile|all");
 
-        Command restore = new("restore", "Restore modules from NuGet and generate/update lock file.") { configOpt, forceOpt, cleanOpt, devToolsOpt, debugOpt };
-        restore.SetHandler(async (debug, cfgFile, force, clean, devTools) =>
+        Command restore = new("restore", "Restore modules from NuGet and generate/update lock file.") { configOpt, forceOpt, cleanOpt, devToolsOpt, debugOpt, scopeOpt };
+        restore.SetHandler(async (cfgFile, force, clean, devTools, scope) =>
         {
             Handlers.IRestoreHandler handler = sp.GetRequiredService<Handlers.IRestoreHandler>();
 
             Dictionary<string, string> runModules = [];
             if (devTools)
             {
-                runModules["ContextCompiler.Modules.DevTools.SourcesConsole@locale"] = "0.1.0-alpha.1";
+                runModules["ContextCompiler.Modules.DevTools.SourcesConsole@local"] = "0.1.0-alpha.1";
             }
 
-            Environment.ExitCode = await handler.HandleAsync(debug, cfgFile, force, clean, runModules.AsReadOnly());
-        }, debugOpt, configOpt, forceOpt, cleanOpt, devToolsOpt);
+            Environment.ExitCode = await handler.HandleAsync(cfgFile, force, clean, runModules.AsReadOnly(), CancellationToken.None, scope);
+        }, configOpt, forceOpt, cleanOpt, devToolsOpt, scopeOpt);
 
         Command verify = new("verify", "Verify lock file and cached packages integrity (sha256).") { configOpt };
         verify.SetHandler(async cfgFile =>
@@ -88,4 +89,3 @@ public static class CliCommandFactory
         return modulesRoot;
     }
 }
-

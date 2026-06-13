@@ -1,5 +1,6 @@
 using ContextCompiler.Abstractions;
 using ContextCompiler.Abstractions.Configuration;
+using ContextCompiler.Abstractions.Storage;
 using ContextCompiler.Modules.Abstractions;
 using ContextCompiler.Modules.Abstractions.Configuration;
 using ContextCompiler.Modules.Abstractions.Loading;
@@ -13,6 +14,7 @@ public sealed class ModulesManager(ICtxcWorkingFolder ctxcWorkingFolder,
                                   IOptions<ModulesConfig> cfgOptions,
                                   IDeclaredModulesProvider declaredModulesProvider,
                                   IModulesLoader modulesLoader,
+                                  [FromKeyedServices(StoreKeys.Root)] IStore rootStore,
                                   IServiceProvider serviceProvider,
                                   IConfigurationSchemasAggregator configurationSchemasAggregator,
                                   ISchemaBuilder schemaBuilder,
@@ -35,7 +37,7 @@ public sealed class ModulesManager(ICtxcWorkingFolder ctxcWorkingFolder,
         List<string> moduleSchemaPaths = [];
         IEnumerable<string> mainSchemaPaths = [];
 
-        Dictionary<string, string> toRestore = Cfg.Packages;
+        Dictionary<string, string> toRestore = Cfg.GetPackagesForScope(Cfg.ActiveScope);
 
         IEnumerable<IConfigurationSchemasDiscoverer> configurationSchemasDiscoverers = serviceProvider.GetServices<IConfigurationSchemasDiscoverer>();
 
@@ -62,18 +64,44 @@ public sealed class ModulesManager(ICtxcWorkingFolder ctxcWorkingFolder,
         {
             try
             {
-                if (!sourcesProvider.Exists(req.PackageId.Source.Id))
+                IModuleRestoreRequestResult? restoreResult = null;
+                if (req.PackageId.Source.Id == ModuleSourceIds.All)
                 {
-                    throw new InvalidOperationException("Unknown source {req.Source.Id)}");
+                    foreach (IModuleSource source in sourcesProvider.GetAllOrdered())
+                    {
+                        IModulesStore? store = serviceProvider.GetKeyedService<IModulesStore>(source.Provider)
+                                               ?? throw new InvalidOperationException($"No module store found for provider {source.Provider}");
+                        try
+                        {
+                            restoreResult = await store.RestoreAsync(req, source, force, ct);
+                            if (restoreResult.Success)
+                            {
+                                break;
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            logger.LogWarning(ex, "Failed to restore module {ModuleId} from source {SourceId}", req.PackageId.Id, source.Id);
+
+                        }
+                    }
+                }
+                else
+                {
+                    if (!sourcesProvider.Exists(req.PackageId.Source.Id))
+                    {
+                        throw new InvalidOperationException("Unknown source {req.Source.Id)}");
+                    }
+
+                    IModuleSource source = sourcesProvider.GetById(req.PackageId.Source.Id);
+                    IModulesStore? store = serviceProvider.GetKeyedService<IModulesStore>(source.Provider)
+                                           ?? throw new InvalidOperationException($"No module store found for provider {source.Provider}");
+
+                    restoreResult = await store.RestoreAsync(req, source, force, ct);
                 }
 
-                IModuleSource source = sourcesProvider.GetById(req.PackageId.Source.Id);
-                IModulesStore? store = serviceProvider.GetKeyedService<IModulesStore>(source.Provider)
-                                       ?? throw new InvalidOperationException($"No module store found for provider {source.Provider}");
 
-                IModuleRestoreRequestResult restoreResult = await store.RestoreAsync(req, force, ct);
-
-                if (restoreResult.Success)
+                if (restoreResult != null && restoreResult.Success)
                 {
                     IEnumerable<string> currentModuleSchemaPaths = [];
                     foreach (IConfigurationSchemasDiscoverer discoverer in configurationSchemasDiscoverers)
@@ -98,13 +126,17 @@ public sealed class ModulesManager(ICtxcWorkingFolder ctxcWorkingFolder,
                         Id = req.PackageId.Id,
                         Version = new()
                         {
-                            Raw = req.Version.Raw,
-                            Min = req.Version.Min,
-                            Max = req.Version.Max,
-                            MinBoundOperator = Enum.Parse<ModuleLockFile.BoundOperator>(req.Version.MinBoundOperator.ToString()),
-                            MaxBoundOperator = Enum.Parse<ModuleLockFile.BoundOperator>(req.Version.MaxBoundOperator.ToString()),
+                            Raw = string.IsNullOrWhiteSpace(restoreResult.ResolvedVersion) ? req.Version.Raw : restoreResult.ResolvedVersion,
+                            Min = string.IsNullOrWhiteSpace(restoreResult.ResolvedVersion) ? req.Version.Min : restoreResult.ResolvedVersion,
+                            Max = string.IsNullOrWhiteSpace(restoreResult.ResolvedVersion) ? req.Version.Max : restoreResult.ResolvedVersion,
+                            MinBoundOperator = string.IsNullOrWhiteSpace(restoreResult.ResolvedVersion)
+                                ? Enum.Parse<ModuleLockFile.BoundOperator>(req.Version.MinBoundOperator.ToString())
+                                : ModuleLockFile.BoundOperator.Exactly,
+                            MaxBoundOperator = string.IsNullOrWhiteSpace(restoreResult.ResolvedVersion)
+                                ? Enum.Parse<ModuleLockFile.BoundOperator>(req.Version.MaxBoundOperator.ToString())
+                                : ModuleLockFile.BoundOperator.Exactly,
                         },
-                        Source = req.PackageId.Source.ToString() ?? "",
+                        Source = req.PackageId.Source.Id,
                         Checksum = restoreResult.Metadatas.Checksum,
                         Files = restoreResult.Metadatas.Files.ToList() ?? [],
                         Dependencies = restoreResult.Metadatas.Dependencies.Select(x => x.ToDependencyInfo()).ToList() ?? [],
@@ -116,7 +148,7 @@ public sealed class ModulesManager(ICtxcWorkingFolder ctxcWorkingFolder,
             {
                 try
                 {
-                    string cached = Path.Combine(Path.GetFullPath(Cfg.InstallRoot), "_nupkg", req.PackageId.Id, req.Version.ToString() ?? "", $"{req.PackageId.Id}.{req.Version}.nupkg");
+                    string cached = Path.Combine(ResolveRootPath(Cfg.InstallRoot), "_nupkg", req.PackageId.Id, req.Version.ToString() ?? "", $"{req.PackageId.Id}.{req.Version}.nupkg");
                     if (File.Exists(cached))
                     {
                         _ = Quarantine.MoveToQuarantine(Cfg.QuarantineRoot, req.PackageId.Id, req.Version.ToString() ?? "", cached, ex.ToString());
@@ -157,7 +189,7 @@ public sealed class ModulesManager(ICtxcWorkingFolder ctxcWorkingFolder,
 
     public IEnumerable<(string id, string version, string shaDir)> ListInstalled()
     {
-        string root = Path.GetFullPath(Cfg.InstallRoot);
+        string root = ResolveRootPath(Cfg.InstallRoot);
         if (!Directory.Exists(root))
         {
             yield break;
@@ -183,14 +215,14 @@ public sealed class ModulesManager(ICtxcWorkingFolder ctxcWorkingFolder,
     }
     public void PurgeCache(bool keepLockfilePinned = true)
     {
-        string installRoot = Path.GetFullPath(Cfg.InstallRoot);
+        string installRoot = ResolveRootPath(Cfg.InstallRoot);
         if (!Directory.Exists(installRoot))
         {
             return;
         }
 
         HashSet<(string id, string ver, string sha)> keep = [];
-        if (keepLockfilePinned && File.Exists(Path.GetFullPath(Cfg.LockFile)))
+        if (keepLockfilePinned && File.Exists(ResolveRootPath(Cfg.LockFile)))
         {
             ModuleLockFile lf = modulesLoader.LoadLockFile();
             foreach (ModuleLockFile.LockedModule p in lf.Packages)
@@ -222,5 +254,12 @@ public sealed class ModulesManager(ICtxcWorkingFolder ctxcWorkingFolder,
                 }
             }
         }
+    }
+
+    private string ResolveRootPath(string path)
+    {
+        return Path.IsPathRooted(path)
+            ? path
+            : rootStore.Container.GetResource(path).Uri.AbsolutePath;
     }
 }

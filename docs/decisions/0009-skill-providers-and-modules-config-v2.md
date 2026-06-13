@@ -2,7 +2,9 @@
 
 ## Status
 
-Accepted
+Partially superseded by `0011-analyze-prepare-scoped-modules-and-version-overrides.md`.
+
+The skill provider decision remains accepted. The executable modules config shape described here is superseded by modules schema v1 with `prepare` and `compile` scopes.
 
 ## Context
 

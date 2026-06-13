@@ -1,3 +1,4 @@
+﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
 VisualStudioVersion = 18.0.11205.157
@@ -278,6 +279,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.Cli.Skills", "src\Core\ContextCompiler.Cli.Skills\ContextCompiler.Cli.Skills.csproj", "{CA0594DB-A76C-E96D-CEAA-0C3405CE934C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Skills", "Skills", "{DE9F74D2-F56D-400C-A9A1-66330F5513D0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Prepare", "Prepare", "{2B332A0B-3275-F960-9521-CC82025A5E65}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{3C05BE75-138C-5095-1427-D642EFE047F8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContextCompiler.Prepare.Modules.DotNet", "src\Features\Prepare\Modules\ContextCompiler.Prepare.Modules.DotNet\ContextCompiler.Prepare.Modules.DotNet.csproj", "{279E525E-622F-4116-A472-3623C8669B6E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -1695,6 +1702,24 @@ Global
 		{CA0594DB-A76C-E96D-CEAA-0C3405CE934C}.Release|x64.Build.0 = Release|Any CPU
 		{CA0594DB-A76C-E96D-CEAA-0C3405CE934C}.Release|x86.ActiveCfg = Release|Any CPU
 		{CA0594DB-A76C-E96D-CEAA-0C3405CE934C}.Release|x86.Build.0 = Release|Any CPU
+		{279E525E-622F-4116-A472-3623C8669B6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{279E525E-622F-4116-A472-3623C8669B6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{279E525E-622F-4116-A472-3623C8669B6E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{279E525E-622F-4116-A472-3623C8669B6E}.Debug|x64.Build.0 = Debug|Any CPU
+		{279E525E-622F-4116-A472-3623C8669B6E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{279E525E-622F-4116-A472-3623C8669B6E}.Debug|x86.Build.0 = Debug|Any CPU
+		{279E525E-622F-4116-A472-3623C8669B6E}.DebugLocal|Any CPU.ActiveCfg = DebugLocal|Any CPU
+		{279E525E-622F-4116-A472-3623C8669B6E}.DebugLocal|Any CPU.Build.0 = DebugLocal|Any CPU
+		{279E525E-622F-4116-A472-3623C8669B6E}.DebugLocal|x64.ActiveCfg = DebugLocal|Any CPU
+		{279E525E-622F-4116-A472-3623C8669B6E}.DebugLocal|x64.Build.0 = DebugLocal|Any CPU
+		{279E525E-622F-4116-A472-3623C8669B6E}.DebugLocal|x86.ActiveCfg = DebugLocal|Any CPU
+		{279E525E-622F-4116-A472-3623C8669B6E}.DebugLocal|x86.Build.0 = DebugLocal|Any CPU
+		{279E525E-622F-4116-A472-3623C8669B6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{279E525E-622F-4116-A472-3623C8669B6E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{279E525E-622F-4116-A472-3623C8669B6E}.Release|x64.ActiveCfg = Release|Any CPU
+		{279E525E-622F-4116-A472-3623C8669B6E}.Release|x64.Build.0 = Release|Any CPU
+		{279E525E-622F-4116-A472-3623C8669B6E}.Release|x86.ActiveCfg = Release|Any CPU
+		{279E525E-622F-4116-A472-3623C8669B6E}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1817,6 +1842,9 @@ Global
 		{6C4D788B-BCAE-469E-ABC5-6B5C2927AE28} = {BFABA3C1-DD8E-4680-B339-1F57874720D2}
 		{CA0594DB-A76C-E96D-CEAA-0C3405CE934C} = {DE9F74D2-F56D-400C-A9A1-66330F5513D0}
 		{DE9F74D2-F56D-400C-A9A1-66330F5513D0} = {BFABA3C1-DD8E-4680-B339-1F57874720D2}
+		{2B332A0B-3275-F960-9521-CC82025A5E65} = {E81CAA0A-8D6A-E3B6-28B3-AB416E1657A7}
+		{3C05BE75-138C-5095-1427-D642EFE047F8} = {2B332A0B-3275-F960-9521-CC82025A5E65}
+		{279E525E-622F-4116-A472-3623C8669B6E} = {3C05BE75-138C-5095-1427-D642EFE047F8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E59B7756-7651-4176-ABF1-8E66BF843C28}

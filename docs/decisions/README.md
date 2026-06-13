@@ -13,3 +13,5 @@ Index:
 - 0008 Views, Personas, Hypotheses
 - 0009 Skill providers and modules config v2
 - 0010 Skills artifact enrichment module location
+- 0011 Analyze pipeline, scoped modules config, and version overrides
+- 0012 Generic JSON config overrides

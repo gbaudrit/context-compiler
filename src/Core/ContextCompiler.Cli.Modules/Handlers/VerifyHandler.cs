@@ -1,6 +1,8 @@
+using ContextCompiler.Abstractions.Storage;
 using ContextCompiler.Modules.Abstractions.Configuration;
 using ContextCompiler.Modules.Abstractions.Loading;
 
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -10,10 +12,11 @@ internal sealed class VerifyHandler(
     IModulesLoader moduleLoader,
     IOptions<ModulesConfig> cfgOptions,
     IIntegrityChecker integrityChecker,
+    [FromKeyedServices(StoreKeys.Modules)] IStore modulesStore,
     ILogger<VerifyHandler> logger
 ) : IVerifyHandler
 {
-    public Task<int> HandleAsync(string cfgFile)
+    public async Task<int> HandleAsync(string cfgFile)
     {
         try
         {
@@ -23,20 +26,14 @@ internal sealed class VerifyHandler(
 
             foreach (ModuleLockFile.LockedModule p in lf.Packages)
             {
-                string nupkg = Path.Combine(
-                    Path.GetFullPath(cfgOptions.Value.InstallRoot),
-                    "_nupkg",
-                    p.Id,
-                    p.Version.Raw,
-                    $"{p.Id}.{p.Version}.nupkg"
-                );
+                IStoreResource nupkg = modulesStore.Container.GetResource($"_nupkg/{p.Id}/{p.Version.Raw}/{p.Id}.{p.Version}.nupkg");
 
-                if (!File.Exists(nupkg))
+                if (!await nupkg.Exists())
                 {
                     throw new InvalidOperationException($"Missing cached nupkg: {nupkg}");
                 }
 
-                string sha = integrityChecker.ComputeSha256Base64(nupkg);
+                string sha = integrityChecker.ComputeSha256Base64(nupkg.Uri.AbsolutePath);
                 if (!string.Equals(sha, p.Checksum, StringComparison.Ordinal))
                 {
                     throw new InvalidOperationException($"SHA mismatch for {p.Id} {p.Version}");
@@ -44,12 +41,12 @@ internal sealed class VerifyHandler(
             }
 
             Console.WriteLine("OK");
-            return Task.FromResult(0);
+            return 0;
         }
         catch (Exception ex)
         {
             logger.LogError(ex, "Internal error");
-            return Task.FromResult(1);
+            return 1;
         }
     }
 }

@@ -8,5 +8,6 @@ namespace ContextCompiler.Modules.Abstractions
         ISourceBuilder WithId(string id);
         ISourceBuilder WithProvider(string provider);
         ISourceBuilder WithUrl(Uri url);
+        ISourceBuilder WithValidatePackagesSignature(bool validateSignature);
     }
 }

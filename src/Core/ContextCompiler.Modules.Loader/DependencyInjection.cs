@@ -1,4 +1,3 @@
-using ContextCompiler.Abstractions;
 using ContextCompiler.Modules.Abstractions.Configuration;
 using ContextCompiler.Modules.Abstractions.Loading;
 using ContextCompiler.Skills.Abstractions.Configuration;
@@ -11,10 +10,6 @@ namespace ContextCompiler.Modules.Loader;
 
 public static class DependencyInjection
 {
-    private const string ModulesConfigFileName = "ctxc.modules.config.json";
-    private const string SkillsConfigFileName = "ctxc.skills.config.json";
-    private const string HiddenDirectory = ".ctxc";
-
     // Section names used inside the config files (schemaVersion 2 layout).
     private const string ModulesSectionName = "modules";
     private const string SkillsSectionName = "skills";
@@ -26,8 +21,15 @@ public static class DependencyInjection
         _ = services.AddSingleton<IConfigureOptions<ModulesConfig>>(sp =>
             new ConfigureOptions<ModulesConfig>(opts =>
                 BindSectionOrRoot(
-                    BuildFileConfiguration(sp, ModulesConfigFileName),
+                    sp.GetRequiredService<IConfiguration>(),
                     ModulesSectionName,
+                    opts)));
+
+        _ = services.AddSingleton<IConfigureOptions<ModuleVersionOverridesConfig>>(sp =>
+            new ConfigureOptions<ModuleVersionOverridesConfig>(opts =>
+                BindSectionOrRoot(
+                    sp.GetRequiredService<IConfiguration>(),
+                    sectionName: "moduleVersions",
                     opts)));
 
         _ = services.AddSingleton<IConfigureOptions<SkillsConfig>>(sp =>
@@ -36,13 +38,13 @@ public static class DependencyInjection
                 // First apply the skills section from the modules file (if any), then let
                 // a dedicated skills file override it.
                 BindSectionOrRoot(
-                    BuildFileConfiguration(sp, ModulesConfigFileName),
+                    sp.GetRequiredService<IConfiguration>(),
                     SkillsSectionName,
                     opts,
                     bindRootFallback: false);
 
                 BindSectionOrRoot(
-                    BuildFileConfiguration(sp, SkillsConfigFileName),
+                    sp.GetRequiredService<IConfiguration>(),
                     SkillsSectionName,
                     opts);
             }));
@@ -54,20 +56,6 @@ public static class DependencyInjection
             .AddSingleton<IModuleRegistryBuilder, ModuleRegistryBuilder>()
             .AddSingleton<IDependenciesChecker, DependenciesChecker>()
             .AddTransient<IIntegrityChecker, IntegrityChecker>();
-    }
-
-    private static IConfiguration BuildFileConfiguration(IServiceProvider sp, string fileName)
-    {
-        IWorkingFolder workingFolder = sp.GetRequiredService<IWorkingFolder>();
-        string basePath = workingFolder.Path;
-
-        return new ConfigurationBuilder()
-            .SetBasePath(basePath)
-            // Fallback (lower priority): hidden .ctxc directory
-            .AddJsonFile(Path.Combine(HiddenDirectory, fileName), optional: true, reloadOnChange: true)
-            // Override (higher priority): file at the workspace root
-            .AddJsonFile(fileName, optional: true, reloadOnChange: true)
-            .Build();
     }
 
     private static void BindSectionOrRoot<T>(

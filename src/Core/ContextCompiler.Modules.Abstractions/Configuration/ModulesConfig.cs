@@ -2,15 +2,62 @@ namespace ContextCompiler.Modules.Abstractions.Configuration;
 
 public class ModulesConfig : IModulesLoadConfig
 {
+    public const string ScopePrepare = "prepare";
+    public const string ScopeCompile = "compile";
+    public const string ScopeAll = "all";
+
+    public string ActiveScope { get; set; } = ScopeAll;
     public string Mode { get; set; } = "Locked";
-    public string InstallRoot { get; set; } = ".ctxc/modules";
+    public string InstallRoot { get; set; } = "modules";
     public bool Offline { get; set; }
-    public string LockFile { get; set; } = ".ctxc/ctxc.modules.lock.json";
-    public string RunModulesFile { get; set; } = ".ctxc/ctxc.modules.run.json";
-    public string QuarantineRoot { get; set; } = ".ctxc/quarantine";
+    public string LockFile { get; set; } = "ctxc.modules.lock.json";
+    public string RunModulesFile { get; set; } = "ctxc.modules.run.json";
+    public string QuarantineRoot { get; set; } = "quarantine";
     public string ConfigurationModule { get; set; } = "ContextCompiler.Configuration.Json";
     public List<ModuleSource> Sources { get; set; } = [];
     public TrustConfig Trust { get; set; } = new();
+    public Dictionary<string, string> Packages { get; set; } = [];
+    public ModuleScopeConfig Prepare { get; set; } = new();
+    public ModuleScopeConfig Compile { get; set; } = new();
+
+    public Dictionary<string, string> GetPackagesForScope(string? scope)
+    {
+#pragma warning disable IDE0028, IDE0090
+        Dictionary<string, string> scoped = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+#pragma warning restore IDE0028, IDE0090
+        string normalized = string.IsNullOrWhiteSpace(scope) ? ScopeAll : scope;
+
+        if (string.Equals(normalized, ScopePrepare, StringComparison.OrdinalIgnoreCase)
+            || string.Equals(normalized, ScopeAll, StringComparison.OrdinalIgnoreCase))
+        {
+            AddRange(scoped, Prepare.Packages);
+        }
+
+        if (string.Equals(normalized, ScopeCompile, StringComparison.OrdinalIgnoreCase)
+            || string.Equals(normalized, ScopeAll, StringComparison.OrdinalIgnoreCase))
+        {
+            AddRange(scoped, Compile.Packages);
+        }
+
+        if (string.Equals(normalized, ScopeAll, StringComparison.OrdinalIgnoreCase))
+        {
+            AddRange(scoped, Packages);
+        }
+
+        return scoped;
+    }
+
+    private static void AddRange(Dictionary<string, string> target, IReadOnlyDictionary<string, string> source)
+    {
+        foreach (KeyValuePair<string, string> entry in source)
+        {
+            target[entry.Key] = entry.Value;
+        }
+    }
+}
+
+public sealed class ModuleScopeConfig
+{
     public Dictionary<string, string> Packages { get; set; } = [];
 }
 
@@ -20,6 +67,13 @@ public sealed class ModuleSource
     public string Url { get; set; } = default!;
     public bool Trusted { get; set; }
     public string Provider { get; set; } = "nuget";
+    public bool ValidatePackagesSignature { get; set; } = true;
+}
+
+public sealed class ModuleVersionOverridesConfig
+{
+    public int SchemaVersion { get; set; } = 1;
+    public Dictionary<string, string> Overrides { get; set; } = [];
 }
 
 

@@ -3,6 +3,8 @@ using System.Text.Json.Serialization;
 using ContextCompiler.Abstractions.Configuration;
 using ContextCompiler.Abstractions.Configuration.Sections;
 
+using Microsoft.Extensions.Configuration;
+
 namespace ContextCompiler.Configuration.Json.Sections;
 
 public sealed class ContextConfigSection : IContextConfigSection
@@ -14,12 +16,14 @@ public sealed class ContextConfigSection : IContextConfigSection
     [JsonPropertyName("audiences")] public Dictionary<string, string>? Audiences { get; set; }
     [JsonPropertyName("objectives")] public List<string>? Objectives { get; set; }
     [JsonPropertyName("assumptions")] public List<string>? Assumptions { get; set; }
+    [ConfigurationKeyName("constraints")]
     [JsonPropertyName("constraints")] public ConstraintsInfo? ConstraintsValue { get; set; }
 
     [JsonIgnore]
     public IConstraintsInfo? Constraints => ConstraintsValue;
 
     [JsonPropertyName("glossary")] public Dictionary<string, string>? Glossary { get; set; }
+    [ConfigurationKeyName("outputContract")]
     [JsonPropertyName("outputContract")] public OutputContract? OutputContractValue { get; set; }
 
     [JsonIgnore]

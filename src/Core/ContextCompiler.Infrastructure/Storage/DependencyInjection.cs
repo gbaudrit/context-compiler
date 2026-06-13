@@ -33,6 +33,7 @@ namespace ContextCompiler.Infrastructure.Storage
                     .TryAddDefaultStore(StoreKeys.Diagnostics)
                     .TryAddDefaultStore(StoreKeys.Externals)
                     .TryAddDefaultStore(StoreKeys.Temp)
+                    .TryAddDefaultStore(StoreKeys.Prepare)
                     .TryAddDefaultStore(StoreKeys.Agents, StoreKeys.Output)
                     .TryAddDefaultStore(StoreKeys.Skills, StoreKeys.Agents)
                     .TryAddSingleton<IStoreResourceBuilder, StoreResourceBuilder>();

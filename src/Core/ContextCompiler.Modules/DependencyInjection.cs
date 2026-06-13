@@ -21,6 +21,7 @@ public static class DependencyInjection
             .AddTransient<IModuleRestorePackageIdParser, ModuleRestorePackageIdDefaultParser>()
             .AddTransient<IModuleRestoreVersionParser, ModuleRestoreVersionNpmLikeParser>()
             .AddTransient<ISourceBuilder, SourceBuilder>()
+            .AddSingleton<IModuleVersionOverrideResolver, ModuleVersionOverrideResolver>()
             .AddSingleton<IModulesManager, ModulesManager>()
             .AddSingleton<IModuleInstallPlanner, ModuleInstallPlanner>()
             .AddSingleton<IDeclaredModulesProvider, DeclaredModulesProvider>()

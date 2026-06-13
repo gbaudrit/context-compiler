@@ -2,25 +2,31 @@ using System.Text.Json.Serialization;
 
 using ContextCompiler.Abstractions.Configuration.Sections;
 
+using Microsoft.Extensions.Configuration;
+
 namespace ContextCompiler.Configuration.Json.Sections;
 
 public sealed class RootConfigSection : IRootConfigSection
 {
     [JsonPropertyName("$schema")] public string Schema => "https://raw.githubusercontent.com/gbaudrit/context-compiler/refs/heads/main/schemas/v0.0.1/ctxc.config.schema.json";
+    [ConfigurationKeyName("context")]
     [JsonPropertyName("context")] public ContextConfigSection ContextValue { get; set; } = new ContextConfigSection();
 
     [JsonIgnore]
     public IContextConfigSection Context => ContextValue;
 
+    [ConfigurationKeyName("personas")]
     [JsonPropertyName("personas")] public PersonasConfigSection? PersonasValue { get; set; } = new PersonasConfigSection();
     [JsonIgnore]
     public IPersonasConfigSection? Personas => PersonasValue;
 
+    [ConfigurationKeyName("files")]
     [JsonPropertyName("files")] public List<SourceConfigSection> FilesValue { get; set; } = [];
 
     [JsonIgnore]
     public IEnumerable<ISourceConfigSection> Sources => FilesValue;
 
+    [ConfigurationKeyName("views")]
     [JsonPropertyName("views")] public ViewsConfigSection ViewsValue { get; set; } = new ViewsConfigSection();
 
     [JsonIgnore]

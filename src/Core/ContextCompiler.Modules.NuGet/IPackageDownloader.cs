@@ -8,6 +8,6 @@ public interface IPackageDownloader
     Task<PackageDownloadResult> DownloadPackageAsync(IDeclaredModule req, ModuleSource source, string installRootAbs, bool force, CancellationToken ct);
 }
 
-public record PackageDownloadResult(string MainPackagePath, List<DownloadedPackageInfo> AllPackages);
+public record PackageDownloadResult(string MainPackagePath, string ResolvedVersion, List<DownloadedPackageInfo> AllPackages);
 
 public record DownloadedPackageInfo(string PackageId, string Version, string NupkgPath);

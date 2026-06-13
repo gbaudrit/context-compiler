@@ -14,4 +14,5 @@ public static class StoreKeys
     public const string Temp = "temp";
     public const string Agents = ".agents";
     public const string Skills = "skills";
+    public const string Prepare = "prepare";
 }

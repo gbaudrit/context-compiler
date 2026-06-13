@@ -1,3 +1,4 @@
+using ContextCompiler.Abstractions.Storage;
 using ContextCompiler.Modules.Abstractions;
 using ContextCompiler.Modules.Abstractions.Configuration;
 
@@ -9,6 +10,8 @@ namespace ContextCompiler.Modules
 {
     internal sealed class DeclaredModulesProvider(IOptions<ModulesConfig> cfgOptions,
                                             IDeclaredModuleBuilder DeclaredModuleBuilder,
+                                            IModuleVersionOverrideResolver versionOverrideResolver,
+                                            [FromKeyedServices(StoreKeys.Modules)] IStore modulesStore,
                                             IServiceProvider serviceProvider,
                                             ILogger<DeclaredModulesProvider> logger) : IDeclaredModulesProvider
     {
@@ -18,7 +21,7 @@ namespace ContextCompiler.Modules
         {
             IList<IDeclaredModule> moduleRestoreRequests = [];
 
-            foreach (KeyValuePair<string, string> pkg in Cfg.Packages)
+            foreach (KeyValuePair<string, string> pkg in Cfg.GetPackagesForScope(Cfg.ActiveScope))
             {
                 if (string.IsNullOrWhiteSpace(pkg.Key))
                 {
@@ -29,20 +32,9 @@ namespace ContextCompiler.Modules
                     throw new InvalidOperationException($"Version for package {pkg.Key} cannot be null or whitespace.");
                 }
 
-                logger.LogInformation("Module {ModuleId} version {Version} is marked for restore", pkg.Key, pkg.Value);
-
                 IModuleRestoreVersion? version = null;
                 IModuleRestoreId? packageId = null;
-                IEnumerable<IModuleRestoreVersionParser> versionParsers = serviceProvider.GetServices<IModuleRestoreVersionParser>();
                 IEnumerable<IModuleRestorePackageIdParser> packageIdParsers = serviceProvider.GetServices<IModuleRestorePackageIdParser>();
-                foreach (IModuleRestoreVersionParser parser in versionParsers)
-                {
-                    if (parser.TryParse(pkg.Value, out version))
-                    {
-                        break;
-                    }
-                }
-
                 foreach (IModuleRestorePackageIdParser parser in packageIdParsers)
                 {
                     if (parser.TryParse(pkg.Key, out packageId))
@@ -56,9 +48,26 @@ namespace ContextCompiler.Modules
                     throw new InvalidOperationException($"Unable to parse package ID from package ID '{pkg.Key}'.");
                 }
 
+                string effectiveVersion = versionOverrideResolver.ResolveVersion(
+                    pkg.Key,
+                    packageId.Id,
+                    packageId.Source.Id,
+                    pkg.Value);
+
+                logger.LogInformation("Module {ModuleId}@{SourceId} version {Version} is marked for restore", packageId.Id, packageId.Source.Id, effectiveVersion);
+
+                IEnumerable<IModuleRestoreVersionParser> versionParsers = serviceProvider.GetServices<IModuleRestoreVersionParser>();
+                foreach (IModuleRestoreVersionParser parser in versionParsers)
+                {
+                    if (parser.TryParse(effectiveVersion, out version))
+                    {
+                        break;
+                    }
+                }
+
                 if (version == null)
                 {
-                    throw new InvalidOperationException($"Unable to parse version '{pkg.Value}' for package '{pkg.Key}'.");
+                    throw new InvalidOperationException($"Unable to parse version '{effectiveVersion}' for package '{pkg.Key}'.");
                 }
 
 

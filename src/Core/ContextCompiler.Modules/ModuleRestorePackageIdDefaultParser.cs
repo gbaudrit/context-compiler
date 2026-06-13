@@ -9,7 +9,7 @@ internal sealed class ModuleRestorePackageIdDefaultParser(IModuleRestoreIdBuilde
     public bool TryParse(string packageId, [NotNullWhen(true)] out IModuleRestoreId? moduleRestoreId)
     {
         string id = packageId;
-        string sourceId = "default";
+        string sourceId = ModuleSourceIds.All;
         if (packageId.Contains('@'))
         {
             id = packageId.Split('@').First();

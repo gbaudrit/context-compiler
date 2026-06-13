@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "prepareModules": [
+    {
+      "packageId": "ContextCompiler.Prepare.Modules.DotNet",
+      "version": "*",
+      "technologies": [ "dotnet" ],
+      "extensions": [ ".csproj", ".sln" ],
+      "files": [
+        "global.json",
+        "Directory.Build.props",
+        "Directory.Packages.props"
+      ]
+    }
+  ]
+}

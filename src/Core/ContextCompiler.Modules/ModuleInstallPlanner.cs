@@ -14,7 +14,7 @@ internal sealed class ModuleInstallPlanner(IOptions<ModulesConfig> configOptions
         Dictionary<string, MutableItem> items = new(StringComparer.OrdinalIgnoreCase);
 #pragma warning restore IDE0028
 
-        foreach (KeyValuePair<string, string> entry in config.Packages)
+        foreach (KeyValuePair<string, string> entry in config.GetPackagesForScope(config.ActiveScope))
         {
             AddOrMerge(items, entry.Key, entry.Value, ModuleInstallPlanSource.Configuration, "config");
         }
