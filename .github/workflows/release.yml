@@ -69,14 +69,14 @@ jobs:
           tar -czf artifacts/ctxc-osx-arm64.tar.gz  -C publish/osx-arm64 .
 
       - name: Upload archives
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: archives
           path: artifacts/
           retention-days: 1
 
       - name: Upload Windows publish output
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: publish-win-x64
           path: publish/win-x64/
@@ -127,7 +127,7 @@ jobs:
           & signtool sign /f $certPath /p $env:SIGNING_CERTIFICATE_PASSWORD /tr http://timestamp.digicert.com /td sha256 /fd sha256 "artifacts/ContextCompiler-Setup-$env:CTX_VERSION.exe"
 
       - name: Upload installer
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: installer
           path: artifacts/ContextCompiler-Setup-*.exe
