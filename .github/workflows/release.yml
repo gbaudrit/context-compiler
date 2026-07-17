@@ -104,7 +104,7 @@ jobs:
           sparse-checkout-cone-mode: false
 
       - name: Download Windows publish output
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: publish-win-x64
           path: publish/win-x64
@@ -142,13 +142,13 @@ jobs:
 
     steps:
       - name: Download archives
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: archives
           path: artifacts
 
       - name: Download installer
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: installer
           path: artifacts
